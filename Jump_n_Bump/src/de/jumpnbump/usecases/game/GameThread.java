@@ -11,16 +11,19 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 	private static final MyLog LOGGER = Logger.getLogger(GameThread.class);
 	private final Drawer drawer;
 	private SurfaceHolder holder;
+	private GameThreadState state;
 
 	private boolean running;
 	private boolean isDrawingPossible;
 	private final WorldController worldController;
 
-	public GameThread(Drawer drawer, WorldController worldController) {
+	public GameThread(Drawer drawer, WorldController worldController,
+			GameThreadState gameThreadState) {
 		this.drawer = drawer;
 		this.worldController = worldController;
 		this.running = true;
 		this.isDrawingPossible = false;
+		this.state = gameThreadState;
 	}
 
 	@Override
@@ -46,7 +49,18 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 	}
 
 	private void nextWorldStep() {
+		long currentTime = System.currentTimeMillis();
+		this.state.setLastRun(currentTime);
+		if (isLastResetOneSecondAgo(currentTime)) {
+			this.state.resetFps(currentTime);
+		}
+		this.state.increaseFps();
 		this.worldController.nextStep();
+	}
+
+	private boolean isLastResetOneSecondAgo(long currentTime) {
+		return System.currentTimeMillis() - this.state.getLastFpsReset() > 1000;
+
 	}
 
 	private void drawGame() {

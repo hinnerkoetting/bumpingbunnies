@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
@@ -28,17 +29,18 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
 
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
 		World world = new World();
-		Drawer drawer = new Drawer(world);
+		GameThreadState threadState = new GameThreadState();
+		Drawer drawer = new Drawer(world, threadState);
 		this.movementService = new MovementService(world,
 				contentView.getWidth(), contentView.getHeight());
 		this.gameThread = new GameThread(drawer, new WorldController(world,
-				this.movementService));
+				this.movementService), threadState);
 		contentView.setGameThread(this.gameThread);
 		contentView.setOnTouchListener(new OnTouchListener() {
 
