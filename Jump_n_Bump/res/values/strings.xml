@@ -4,5 +4,11 @@
     <string name="app_name">Jump\'n\'Bump</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="connect">Verbinden</string>
+    <string name="find_devices">Geräte finden</string>
+    <string name="make_visible">Hosten</string>
 
 </resources>
