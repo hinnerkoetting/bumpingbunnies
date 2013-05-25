@@ -29,13 +29,17 @@ public class PlayerMovement {
 	}
 
 	private void executeOneStep() {
-		this.movedPlayer.calculateNextSpeed();
 		if (!this.collision.willCollideVertical(this.movedPlayer)) {
 			this.movedPlayer.moveNextStepY();
+		} else {
+			LOGGER.debug("Collision Vertical");
 		}
 		if (!this.collision.willCollideHorizontal(this.movedPlayer)) {
 			this.movedPlayer.moveNextStepX();
+		} else {
+			LOGGER.debug("Collision horizontal");
 		}
+		this.movedPlayer.calculateNextSpeed();
 	}
 
 	private void computeGravity(long delta) {

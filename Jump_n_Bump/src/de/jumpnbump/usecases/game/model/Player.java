@@ -14,16 +14,24 @@ public class Player implements GameObject {
 	private double accelerationX;
 	private double accelerationY;
 
+	private Player simulatedObject;
 	private Paint paint;
 	private PlayerRect rect;
+	private int id;
 
-	public Player() {
+	public Player(int id) {
 		this.rect = new PlayerRect();
 		this.paint = new Paint();
 		this.paint.setColor(ModelConstants.PLAYER_COLOR);
 		this.centerX = 0.1;
 		this.centerY = 0.5;
+		this.id = id;
 		calculateRect();
+	}
+
+	public Player(Player simulatedObject, int id) {
+		this(id);
+		this.simulatedObject = simulatedObject;
 	}
 
 	private void calculateRect() {
@@ -145,5 +153,28 @@ public class Player implements GameObject {
 	@Override
 	public Paint getColor() {
 		return this.paint;
+	}
+
+	@Override
+	public GameObject simulateNextStepX() {
+		this.simulatedObject.centerX = this.centerX;
+
+		this.simulatedObject.movementX = this.movementX;
+		this.simulatedObject.moveNextStepX();
+		return this.simulatedObject;
+	}
+
+	@Override
+	public GameObject simulateNextStepY() {
+		this.simulatedObject.centerY = this.centerY;
+
+		this.simulatedObject.movementY = this.movementY;
+		this.simulatedObject.moveNextStepY();
+		return this.simulatedObject;
+	}
+
+	@Override
+	public int id() {
+		return this.id;
 	}
 }

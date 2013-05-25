@@ -12,17 +12,23 @@ public class AndroidLog implements de.jumpnbump.logger.MyLog {
 
 	@Override
 	public void info(String log, Object... params) {
-		Log.i(this.tag, String.format(log, params));
+		if (Level.INFO.isBiggerEqualThan(Logger.globalLogLevel)) {
+			Log.i(this.tag, String.format(log, params));
+		}
 	}
 
 	@Override
 	public void debug(String log, Object... params) {
-		Log.d(this.tag, String.format(log, params));
+		if (Level.DEBUG.isBiggerEqualThan(Logger.globalLogLevel)) {
+			Log.d(this.tag, String.format(log, params));
+		}
 	}
 
 	@Override
 	public void verbose(String log, Object... params) {
-		Log.v(this.tag, String.format(log, params));
+		if (Level.VERBOSE.isBiggerEqualThan(Logger.globalLogLevel)) {
+			Log.v(this.tag, String.format(log, params));
+		}
 	}
 
 }

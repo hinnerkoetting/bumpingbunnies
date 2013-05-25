@@ -4,6 +4,8 @@ import android.graphics.Paint;
 
 public interface GameObject {
 
+	int id();
+
 	double maxX();
 
 	double maxY();
@@ -19,6 +21,10 @@ public interface GameObject {
 	void moveNextStepX();
 
 	void moveNextStepY();
+
+	GameObject simulateNextStepX();
+
+	GameObject simulateNextStepY();
 
 	void calculateNextSpeed();
 

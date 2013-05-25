@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import de.jumpnbump.R;
+import de.jumpnbump.logger.Level;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
@@ -35,6 +36,7 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Logger.setGlobalLogLevel(Level.DEBUG);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
 
