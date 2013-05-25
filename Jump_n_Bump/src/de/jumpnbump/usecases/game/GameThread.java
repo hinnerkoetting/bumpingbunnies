@@ -37,25 +37,31 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 
 	private void internalRun() throws InterruptedException {
 		LOGGER.info("start game thread");
+		this.state.setLastRun(System.currentTimeMillis());
 		while (true) {
 			if (this.running && this.isDrawingPossible) {
 				nextWorldStep();
 				drawGame();
-				sleep(1);
 			} else {
 				sleep(100);
 			}
 		}
 	}
 
-	private void nextWorldStep() {
+	private void nextWorldStep() throws InterruptedException {
 		long currentTime = System.currentTimeMillis();
-		this.state.setLastRun(currentTime);
-		if (isLastResetOneSecondAgo(currentTime)) {
-			this.state.resetFps(currentTime);
+		long delta = currentTime - this.state.getLastRun();
+		if (delta > 10) {
+			LOGGER.debug("Delta %d", delta);
+			this.state.setLastRun(currentTime);
+			if (isLastResetOneSecondAgo(currentTime)) {
+				this.state.resetFps(currentTime);
+			}
+			this.worldController.nextStep(delta);
+		} else {
+			sleep(1);
 		}
 		this.state.increaseFps();
-		this.worldController.nextStep();
 	}
 
 	private boolean isLastResetOneSecondAgo(long currentTime) {

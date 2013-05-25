@@ -8,17 +8,20 @@ public class WorldController {
 	private World world;
 	private TouchService movementService;
 	private PlayerMovement playerMovement;
+	private final PlayerMovement player2Movement;
 
 	public WorldController(World world, TouchService movementService,
-			PlayerMovement playerMovement) {
+			PlayerMovement playerMovement, PlayerMovement player2Movement) {
 		this.world = world;
 		this.movementService = movementService;
 		this.playerMovement = playerMovement;
+		this.player2Movement = player2Movement;
 	}
 
-	public void nextStep() {
+	public void nextStep(long delta) {
 		this.movementService.executeUserInput();
-		this.playerMovement.nextStep();
+		this.playerMovement.nextStep(delta);
+		this.player2Movement.nextStep(delta);
 	}
 
 }

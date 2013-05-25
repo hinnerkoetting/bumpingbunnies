@@ -1,25 +1,27 @@
 package de.jumpnbump.usecases.game.model;
 
-import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public interface GameObject {
 
-	void draw(Canvas canvas);
+	double maxX();
 
-	int maxX();
+	double maxY();
 
-	int maxY();
+	double minX();
 
-	int minX();
+	double minY();
 
-	int minY();
+	double movementX();
 
-	float movementX();
-
-	float movementY();
+	double movementY();
 
 	void moveNextStepX();
 
 	void moveNextStepY();
+
+	void calculateNextSpeed();
+
+	Paint getColor();
 
 }

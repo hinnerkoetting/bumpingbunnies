@@ -46,16 +46,17 @@ public class GameActivity extends Activity {
 
 		CollisionDetection collisionDetection = CollisionDetectionFactory
 				.create(world, contentView);
-		PlayerMovement playerMovent = PlayerMovementFactory.create(world,
+		PlayerMovement playerMovent = PlayerMovementFactory.create(
 				world.getPlayer1(), collisionDetection);
+		PlayerMovement player2Movement = PlayerMovementFactory.create(
+				world.getPlayer2(), collisionDetection);
 		this.touchService = TouchServiceFactory.create(world, playerMovent,
 				contentView);
 		WorldController worldController = new WorldController(world,
-				this.touchService, playerMovent);
+				this.touchService, playerMovent, player2Movement);
 		this.gameThread = GameThreadFactory.create(drawer, worldController,
 				threadState);
-		new GameThread(drawer, new WorldController(world, this.touchService,
-				playerMovent), threadState);
+
 		contentView.setGameThread(this.gameThread);
 		contentView.setOnTouchListener(new OnTouchListener() {
 
@@ -64,12 +65,12 @@ public class GameActivity extends Activity {
 				return GameActivity.this.onTouchEvent(event);
 			}
 		});
+		this.gameThread.start();
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		LOGGER.debug("touch");
-		GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 		this.touchService.onMotionEvent(event);
 		return true;
 	}
@@ -79,7 +80,7 @@ public class GameActivity extends Activity {
 		super.onResume();
 
 		this.gameThread.setRunning(true);
-		this.gameThread.start();
+
 	}
 
 	@Override

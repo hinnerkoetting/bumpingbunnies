@@ -23,7 +23,6 @@ public class AndroidLog implements de.jumpnbump.logger.MyLog {
 	@Override
 	public void verbose(String log, Object... params) {
 		Log.v(this.tag, String.format(log, params));
-
 	}
 
 }

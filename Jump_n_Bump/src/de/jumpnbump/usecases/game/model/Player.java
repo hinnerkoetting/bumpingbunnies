@@ -1,97 +1,114 @@
 package de.jumpnbump.usecases.game.model;
 
-import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 
 public class Player implements GameObject {
 
 	private static final MyLog LOGGER = Logger.getLogger(Player.class);
-	private int centerX;
-	private int centerY;
-	private float movementX;
-	private float movementY;
+	private double centerX;
+	private double centerY;
+	private double movementX;
+	private double movementY;
+	private double accelerationX;
+	private double accelerationY;
 
-	private Rect drawRect;
 	private Paint paint;
+	private PlayerRect rect;
 
 	public Player() {
-		this.drawRect = new Rect();
+		this.rect = new PlayerRect();
 		this.paint = new Paint();
 		this.paint.setColor(ModelConstants.PLAYER_COLOR);
-		this.centerX = 200;
-		this.centerY = 200;
+		this.centerX = 0.1;
+		this.centerY = 0.5;
 		calculateRect();
 	}
 
 	private void calculateRect() {
-		this.drawRect.left = this.centerX - ModelConstants.PLAYER_WIDTH / 2;
-		this.drawRect.right = this.centerX + ModelConstants.PLAYER_WIDTH / 2;
-		this.drawRect.top = this.centerY - ModelConstants.PLAYER_HEIGHT / 2;
-		this.drawRect.bottom = this.centerY + ModelConstants.PLAYER_HEIGHT / 2;
+		this.rect.setMinX(this.centerX - ModelConstants.PLAYER_WIDTH / 2);
+		this.rect.setMaxX(this.centerX + ModelConstants.PLAYER_WIDTH / 2);
+		this.rect.setMinY(this.centerY - ModelConstants.PLAYER_HEIGHT / 2);
+		this.rect.setMaxY(this.centerY + ModelConstants.PLAYER_HEIGHT / 2);
+		LOGGER.verbose("Position MinX: %f - MaxX: %f - MinY: %f - MaxY: %f ",
+				this.rect.getMinX(), this.rect.getMaxX(), this.rect.getMinY(),
+				this.rect.getMaxY());
 	}
 
-	public int getCenterX() {
+	public double getCenterX() {
 		return this.centerX;
 	}
 
-	public void setCenterX(int centerX) {
+	public void setCenterX(double centerX) {
 		this.centerX = centerX;
 		calculateRect();
-		LOGGER.debug("%s %d", "set", centerX);
+		LOGGER.debug("%s %f", "set", centerX);
 	}
 
-	public int getCenterY() {
+	public double getCenterY() {
 		return this.centerY;
 	}
 
-	public void setCenterY(int centerY) {
+	public void setCenterY(double centerY) {
 		this.centerY = centerY;
 		calculateRect();
 	}
 
-	public void setMovementX(float movementX) {
+	public void setMovementX(double movementX) {
 		this.movementX = movementX;
 	}
 
-	public void increaseYMovement(float delta) {
+	public void increaseYMovement(double delta) {
 		this.movementY += delta;
 	}
 
-	public void increaseY(float movement) {
+	public void increaseY(double movement) {
 		this.centerY += movement;
 	}
 
-	public void setMovementY(float movementY) {
+	public void setMovementY(double movementY) {
 		this.movementY = movementY;
 	}
 
-	@Override
-	public void draw(Canvas canvas) {
-		LOGGER.debug("%s %d", "Draw", this.centerX);
-		canvas.drawRect(this.drawRect, this.paint);
+	public double getAccelerationX() {
+		return this.accelerationX;
+	}
+
+	public void setAccelerationX(double accelerationX) {
+		this.accelerationX = accelerationX;
+	}
+
+	public double getAccelerationY() {
+		return this.accelerationY;
+	}
+
+	public void setAccelerationY(double accelerationY) {
+		this.accelerationY = accelerationY;
+	}
+
+	public void increaseAccelerationY(double delta) {
+		this.accelerationY += delta;
 	}
 
 	@Override
-	public int maxX() {
-		return this.drawRect.right;
+	public double maxX() {
+		return this.rect.getMaxX();
 	}
 
 	@Override
-	public int maxY() {
-		return this.drawRect.bottom;
+	public double maxY() {
+		return this.rect.getMaxY();
 	}
 
 	@Override
-	public int minX() {
-		return this.drawRect.left;
+	public double minX() {
+		return this.rect.getMinX();
 	}
 
 	@Override
-	public int minY() {
-		return this.drawRect.top;
+	public double minY() {
+		return this.rect.getMinY();
 	}
 
 	@Override
@@ -107,12 +124,26 @@ public class Player implements GameObject {
 	}
 
 	@Override
-	public float movementX() {
+	public void calculateNextSpeed() {
+		this.movementY += this.accelerationY;
+	}
+
+	@Override
+	public double movementX() {
 		return this.movementX;
 	}
 
 	@Override
-	public float movementY() {
+	public double movementY() {
 		return this.movementY;
+	}
+
+	public void setColor(int color) {
+		this.paint.setColor(color);
+	}
+
+	@Override
+	public Paint getColor() {
+		return this.paint;
 	}
 }

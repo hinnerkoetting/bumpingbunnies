@@ -14,11 +14,21 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 	}
 
 	public boolean willCollideVertical(GameObject gameobject) {
-		boolean willCollideTop = collidesWithTopScreen(gameobject)
-				&& gameobject.movementY() < 0;
+		boolean willCollideTop = willCollideTop(gameobject);
+		boolean willCollideBottom = willCollideBottom(gameobject);
+		return willCollideBottom || willCollideTop;
+	}
+
+	public boolean willCollideBottom(GameObject gameobject) {
 		boolean willCollideBottom = collidesWithBottomScreen(gameobject)
 				&& gameobject.movementY() > 0;
-		return willCollideBottom || willCollideTop;
+		return willCollideBottom;
+	}
+
+	public boolean willCollideTop(GameObject gameobject) {
+		boolean willCollideTop = collidesWithTopScreen(gameobject)
+				&& gameobject.movementY() < 0;
+		return willCollideTop;
 	}
 
 	public boolean willCollideHorizontal(GameObject gameobject) {
@@ -49,12 +59,12 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 		return false;
 	}
 
-	private boolean collidesWithBottomScreen(GameObject gameobject) {
-		return gameobject.maxY() >= this.gameHeight;
+	public boolean collidesWithBottomScreen(GameObject gameobject) {
+		return gameobject.maxY() >= 1;
 	}
 
-	private boolean collidesWithRightScreen(GameObject gameobject) {
-		return gameobject.maxX() >= this.gameWidth;
+	public boolean collidesWithRightScreen(GameObject gameobject) {
+		return gameobject.maxX() >= 1;
 	}
 
 	private boolean collidesWithTopScreen(GameObject gameobject) {

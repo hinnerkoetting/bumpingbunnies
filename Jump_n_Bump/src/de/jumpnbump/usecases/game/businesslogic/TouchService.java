@@ -61,13 +61,19 @@ public class TouchService implements GameScreenSizeChangeListener {
 	private void moveLeftOrRight(int movement, Player player1) {
 		if (isClickLeftToPlayer(player1)) {
 			this.playerMovement.tryMoveLeft();
-		} else {
+		} else if (isClickRightToPlayer(player1)) {
 			this.playerMovement.tryMoveRight();
+		} else {
+			this.playerMovement.removeMovement();
 		}
 	}
 
+	private boolean isClickRightToPlayer(Player player1) {
+		return this.lastEvent.getX() > player1.maxX() * this.windowWidth;
+	}
+
 	private boolean isClickLeftToPlayer(Player player) {
-		return this.lastEvent.getX() < player.getCenterX();
+		return this.lastEvent.getX() < player.minX() * this.windowWidth;
 	}
 
 	private void moveUpOrDown(int movement, Player player1) {
