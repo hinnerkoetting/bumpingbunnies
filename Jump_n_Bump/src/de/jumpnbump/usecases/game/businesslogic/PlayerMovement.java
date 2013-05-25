@@ -76,4 +76,8 @@ public class PlayerMovement {
 		this.movingUp = false;
 	}
 
+	public Player getPlayer() {
+		return this.movedPlayer;
+	}
+
 }

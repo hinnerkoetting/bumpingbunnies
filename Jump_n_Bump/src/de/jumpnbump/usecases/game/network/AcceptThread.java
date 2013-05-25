@@ -59,7 +59,7 @@ public class AcceptThread extends Thread {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
 		application.setSocket(socket);
-		ActivityLauncher.launchGame(this.activity);
+		ActivityLauncher.launchGame(this.activity, 0);
 		LOGGER.info("Connection accepeted");
 	}
 

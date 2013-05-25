@@ -10,6 +10,7 @@ import de.jumpnbump.R;
 import de.jumpnbump.logger.Level;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovement;
 import de.jumpnbump.usecases.game.businesslogic.TouchService;
@@ -52,8 +53,15 @@ public class GameActivity extends Activity {
 				world.getPlayer1(), collisionDetection);
 		PlayerMovement player2Movement = PlayerMovementFactory.create(
 				world.getPlayer2(), collisionDetection);
-		this.touchService = TouchServiceFactory.create(world, playerMovent,
-				contentView);
+		int playerId = getIntent().getExtras().getInt(
+				ActivityLauncher.PLAYER_ID_CONSTANT);
+		if (playerId == 0) {
+			this.touchService = TouchServiceFactory.create(world, playerMovent,
+					contentView);
+		} else {
+			this.touchService = TouchServiceFactory.create(world,
+					player2Movement, contentView);
+		}
 		WorldController worldController = new WorldController(world,
 				this.touchService, playerMovent, player2Movement);
 		this.gameThread = GameThreadFactory.create(drawer, worldController,

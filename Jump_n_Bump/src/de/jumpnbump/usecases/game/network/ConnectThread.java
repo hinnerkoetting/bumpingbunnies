@@ -65,8 +65,8 @@ public class ConnectThread extends Thread {
 	private void manageConnectedSocket(BluetoothSocket mmSocket2) {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
-		application.setSocket(mmSocket2);
-		ActivityLauncher.launchGame(this.activity);
+		application.setSocket(this.mmSocket);
+		ActivityLauncher.launchGame(this.activity, 1);
 		LOGGER.info("Connection accepted");
 	}
 
