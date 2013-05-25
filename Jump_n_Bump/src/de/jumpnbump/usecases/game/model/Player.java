@@ -55,4 +55,24 @@ public class Player implements GameObject {
 		LOGGER.debug("%s %d", "Draw", this.centerX);
 		canvas.drawRect(this.drawRect, this.paint);
 	}
+
+	@Override
+	public int maxX() {
+		return this.drawRect.right;
+	}
+
+	@Override
+	public int maxY() {
+		return this.drawRect.bottom;
+	}
+
+	@Override
+	public int minX() {
+		return this.drawRect.left;
+	}
+
+	@Override
+	public int minY() {
+		return this.drawRect.top;
+	}
 }

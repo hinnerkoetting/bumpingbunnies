@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.services;
+package de.jumpnbump.usecases.game.businesslogic;
 
 import android.view.MotionEvent;
 import de.jumpnbump.logger.Logger;
@@ -6,16 +6,18 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
-public class MovementService {
+public class TouchService implements GameScreenSizeChangeListener {
 
-	private static final MyLog LOGGER = Logger.getLogger(MovementService.class);
+	private static final MyLog LOGGER = Logger.getLogger(TouchService.class);
 	private World world;
 	private MotionEvent lastEvent;
 	private int windowWidth;
 	private int windowHeight;
+	private PlayerMovement playerMovement;
 
-	public MovementService(World world, int windowWidth, int windowHeight) {
+	public TouchService(World world, PlayerMovement playerMovement) {
 		this.world = world;
+		this.playerMovement = playerMovement;
 	}
 
 	public void onMotionEvent(MotionEvent motionEvent) {
@@ -47,17 +49,17 @@ public class MovementService {
 
 	private void moveLeftOrRight(int movement, Player player1) {
 		if (isClickOnLeftHalf()) {
-			player1.setCenterX(player1.getCenterX() - movement);
+			this.playerMovement.tryMoveLeft();
 		} else {
-			player1.setCenterX(player1.getCenterX() + movement);
+			this.playerMovement.tryMoveRight();
 		}
 	}
 
 	private void moveUpOrDown(int movement, Player player1) {
 		if (clickOnUpperHalf()) {
-			player1.setCenterY(player1.getCenterY() - movement);
+			this.playerMovement.tryMoveUp();
 		} else {
-			player1.setCenterY(player1.getCenterY() + movement);
+			this.playerMovement.tryMoveDown();
 		}
 	}
 
@@ -69,12 +71,10 @@ public class MovementService {
 		return getRelativeX() < 0.5f;
 	}
 
-	public void setWindowWidth(int windowWidth) {
-		this.windowWidth = windowWidth;
-	}
-
-	public void setWindowHeight(int windowHeight) {
-		this.windowHeight = windowHeight;
+	@Override
+	public void setNewSize(int width, int height) {
+		this.windowHeight = height;
+		this.windowWidth = width;
 	}
 
 }

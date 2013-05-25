@@ -1,14 +1,14 @@
 package de.jumpnbump.usecases.game;
 
+import de.jumpnbump.usecases.game.businesslogic.TouchService;
 import de.jumpnbump.usecases.game.model.World;
-import de.jumpnbump.usecases.game.services.MovementService;
 
 public class WorldController {
 
 	private World world;
-	private MovementService movementService;
+	private TouchService movementService;
 
-	public WorldController(World world, MovementService movementService) {
+	public WorldController(World world, TouchService movementService) {
 		this.world = world;
 		this.movementService = movementService;
 	}

@@ -1,10 +1,16 @@
 package de.jumpnbump.usecases.game;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
+import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
 
 public class GameView extends SurfaceView {
+
+	private List<GameScreenSizeChangeListener> sizeListeners = new LinkedList<GameScreenSizeChangeListener>();;
 
 	public GameView(Context context) {
 		super(context);
@@ -22,4 +28,15 @@ public class GameView extends SurfaceView {
 		getHolder().addCallback(gameThread);
 	}
 
+	public void addOnSizeListener(GameScreenSizeChangeListener listener) {
+		this.sizeListeners.add(listener);
+	}
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		for (GameScreenSizeChangeListener l : this.sizeListeners) {
+			l.setNewSize(w, h);
+		}
+		super.onSizeChanged(w, h, oldw, oldh);
+	}
 }

@@ -5,4 +5,12 @@ import android.graphics.Canvas;
 public interface GameObject {
 
 	void draw(Canvas canvas);
+
+	int maxX();
+
+	int maxY();
+
+	int minX();
+
+	int minY();
 }

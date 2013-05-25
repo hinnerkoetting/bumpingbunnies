@@ -9,9 +9,10 @@ import android.view.Window;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.businesslogic.TouchService;
+import de.jumpnbump.usecases.game.factories.TouchServiceFactory;
 import de.jumpnbump.usecases.game.graphics.Drawer;
 import de.jumpnbump.usecases.game.model.World;
-import de.jumpnbump.usecases.game.services.MovementService;
 import de.jumpnbump.util.SystemUiHider;
 
 /**
@@ -24,7 +25,7 @@ public class GameActivity extends Activity {
 	private static final MyLog LOGGER = Logger.getLogger(GameActivity.class);
 
 	private GameThread gameThread;
-	private MovementService movementService;
+	private TouchService touchService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,10 @@ public class GameActivity extends Activity {
 		World world = new World();
 		GameThreadState threadState = new GameThreadState();
 		Drawer drawer = new Drawer(world, threadState);
-		this.movementService = new MovementService(world,
-				contentView.getWidth(), contentView.getHeight());
+
+		this.touchService = TouchServiceFactory.create(world, contentView);
 		this.gameThread = new GameThread(drawer, new WorldController(world,
-				this.movementService), threadState);
+				this.touchService), threadState);
 		contentView.setGameThread(this.gameThread);
 		contentView.setOnTouchListener(new OnTouchListener() {
 
@@ -55,9 +56,7 @@ public class GameActivity extends Activity {
 	public boolean onTouchEvent(MotionEvent event) {
 		LOGGER.debug("touch");
 		GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
-		this.movementService.setWindowHeight(contentView.getHeight());
-		this.movementService.setWindowWidth(contentView.getWidth());
-		this.movementService.onMotionEvent(event);
+		this.touchService.onMotionEvent(event);
 		return true;
 	}
 
