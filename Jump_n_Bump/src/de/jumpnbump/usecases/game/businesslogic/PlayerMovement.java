@@ -18,7 +18,7 @@ public class PlayerMovement {
 	}
 
 	public void nextStep(long delta) {
-		computeGravity(delta);
+		computeGravity();
 		movePlayerNextStep(delta);
 	}
 
@@ -42,20 +42,11 @@ public class PlayerMovement {
 		this.movedPlayer.calculateNextSpeed();
 	}
 
-	private void computeGravity(long delta) {
-		if (this.collision.objectStandsOnGround(this.movedPlayer)) {
-			LOGGER.debug("Standing on ground");
-			if (this.movedPlayer.movementY() > 0) {
-				this.movedPlayer.setMovementY(0);
-				this.movedPlayer.setAccelerationY(0);
-			}
+	private void computeGravity() {
+		if (this.movingUp) {
+			this.movedPlayer.setAccelerationY(+0.000005f);
 		} else {
-			LOGGER.debug("In the air");
-			if (this.movingUp) {
-				this.movedPlayer.setAccelerationY(+0.000005f);
-			} else {
-				this.movedPlayer.setAccelerationY(+0.00001f);
-			}
+			this.movedPlayer.setAccelerationY(+0.00001f);
 		}
 	}
 
