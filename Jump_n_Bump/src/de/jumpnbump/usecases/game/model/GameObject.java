@@ -13,4 +13,13 @@ public interface GameObject {
 	int minX();
 
 	int minY();
+
+	float movementX();
+
+	float movementY();
+
+	void moveNextStepX();
+
+	void moveNextStepY();
+
 }

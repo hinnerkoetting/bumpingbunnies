@@ -1,10 +1,13 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
+import de.jumpnbump.logger.Logger;
+import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
 public class PlayerMovement {
 
+	private static final MyLog LOGGER = Logger.getLogger(PlayerMovement.class);
 	private static final int MOVEMENT = 10;
 	private final World world;
 	private final Player movedPlayer;
@@ -18,50 +21,52 @@ public class PlayerMovement {
 	}
 
 	public void nextStep() {
+		computeGravity();
+		movePlayerNextStep();
+	}
 
+	private void movePlayerNextStep() {
+		if (!this.collision.willCollideVertical(this.movedPlayer)) {
+			this.movedPlayer.moveNextStepY();
+		}
+		if (!this.collision.willCollideHorizontal(this.movedPlayer)) {
+			this.movedPlayer.moveNextStepX();
+		}
+	}
+
+	private void computeGravity() {
+		if (this.collision.objectStandsOnGround(this.movedPlayer)) {
+			LOGGER.debug("Standing on ground");
+			if (this.movedPlayer.movementY() > 0) {
+				this.movedPlayer.setMovementY(0);
+			}
+		} else {
+			LOGGER.debug("In the air");
+			this.movedPlayer.increaseYMovement(0.5f);
+		}
 	}
 
 	public void tryMoveRight() {
-		doMoveRight();
-		if (this.collision.coolidesWithAnything(this.movedPlayer)) {
-			doMoveLeft();
-		}
-	}
-
-	private void doMoveRight() {
-		this.movedPlayer.setCenterX(this.movedPlayer.getCenterX() + MOVEMENT);
+		this.movedPlayer.setMovementX(MOVEMENT);
 	}
 
 	public void tryMoveLeft() {
-		doMoveLeft();
-		if (this.collision.coolidesWithAnything(this.movedPlayer)) {
-			tryMoveRight();
-		}
-	}
-
-	private void doMoveLeft() {
-		this.movedPlayer.setCenterX(this.movedPlayer.getCenterX() - MOVEMENT);
+		this.movedPlayer.setMovementX(-MOVEMENT);
 	}
 
 	public void tryMoveUp() {
-		doMoveUp();
-		if (this.collision.coolidesWithAnything(this.movedPlayer)) {
-			doMoveDown();
+		if (this.collision.objectStandsOnGround(this.movedPlayer)) {
+			this.movedPlayer.increaseYMovement(-20);
+		} else {
+			this.movedPlayer.increaseYMovement(-0.25f);
 		}
-	}
-
-	private void doMoveUp() {
-		this.movedPlayer.setCenterY(this.movedPlayer.getCenterY() - MOVEMENT);
 	}
 
 	public void tryMoveDown() {
-		doMoveDown();
-		if (this.collision.coolidesWithAnything(this.movedPlayer)) {
-			doMoveUp();
-		}
 	}
 
-	private void doMoveDown() {
-		this.movedPlayer.setCenterY(this.movedPlayer.getCenterY() + MOVEMENT);
+	public void removeMovement() {
+		this.movedPlayer.setMovementX(0);
 	}
+
 }

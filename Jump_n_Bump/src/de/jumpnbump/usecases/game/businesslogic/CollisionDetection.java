@@ -13,20 +13,65 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 		this.world = world;
 	}
 
+	public boolean willCollideVertical(GameObject gameobject) {
+		boolean willCollideTop = collidesWithTopScreen(gameobject)
+				&& gameobject.movementY() < 0;
+		boolean willCollideBottom = collidesWithBottomScreen(gameobject)
+				&& gameobject.movementY() > 0;
+		return willCollideBottom || willCollideTop;
+	}
+
+	public boolean willCollideHorizontal(GameObject gameobject) {
+		boolean willCollideLeft = collidedWithLeftScreen(gameobject)
+				&& gameobject.movementX() < 0;
+		boolean willCollideRight = collidesWithRightScreen(gameobject)
+				&& gameobject.movementX() > 0;
+		return willCollideLeft || willCollideRight;
+	}
+
+	public boolean collidesVertical(GameObject gameobject) {
+		return collidesWithBottomScreen(gameobject)
+				|| collidesWithTopScreen(gameobject);
+	}
+
+	public boolean collidesHorizontal(GameObject gameobject) {
+		return collidedWithLeftScreen(gameobject)
+				|| collidesWithRightScreen(gameobject);
+	}
+
 	public boolean coolidesWithAnything(GameObject gameobject) {
-		if (gameobject.minX() <= 0 || gameobject.minY() <= 0) {
+		if (collidesHorizontal(gameobject)) {
 			return true;
 		}
-		if (gameobject.maxX() >= this.gameWidth
-				|| gameobject.maxY() >= this.gameHeight) {
+		if (collidesVertical(gameobject)) {
 			return true;
 		}
 		return false;
+	}
+
+	private boolean collidesWithBottomScreen(GameObject gameobject) {
+		return gameobject.maxY() >= this.gameHeight;
+	}
+
+	private boolean collidesWithRightScreen(GameObject gameobject) {
+		return gameobject.maxX() >= this.gameWidth;
+	}
+
+	private boolean collidesWithTopScreen(GameObject gameobject) {
+		return gameobject.minY() <= 0;
+	}
+
+	private boolean collidedWithLeftScreen(GameObject gameobject) {
+		return gameobject.minX() <= 0;
 	}
 
 	@Override
 	public void setNewSize(int width, int height) {
 		this.gameWidth = width;
 		this.gameHeight = height;
+	}
+
+	public boolean objectStandsOnGround(GameObject gameobject) {
+		return collidesWithBottomScreen(gameobject);
 	}
 }

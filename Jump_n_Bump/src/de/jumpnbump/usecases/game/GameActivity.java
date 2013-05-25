@@ -9,7 +9,12 @@ import android.view.Window;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
+import de.jumpnbump.usecases.game.businesslogic.PlayerMovement;
 import de.jumpnbump.usecases.game.businesslogic.TouchService;
+import de.jumpnbump.usecases.game.factories.CollisionDetectionFactory;
+import de.jumpnbump.usecases.game.factories.GameThreadFactory;
+import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.factories.TouchServiceFactory;
 import de.jumpnbump.usecases.game.graphics.Drawer;
 import de.jumpnbump.usecases.game.model.World;
@@ -39,9 +44,18 @@ public class GameActivity extends Activity {
 		GameThreadState threadState = new GameThreadState();
 		Drawer drawer = new Drawer(world, threadState);
 
-		this.touchService = TouchServiceFactory.create(world, contentView);
-		this.gameThread = new GameThread(drawer, new WorldController(world,
-				this.touchService), threadState);
+		CollisionDetection collisionDetection = CollisionDetectionFactory
+				.create(world, contentView);
+		PlayerMovement playerMovent = PlayerMovementFactory.create(world,
+				world.getPlayer1(), collisionDetection);
+		this.touchService = TouchServiceFactory.create(world, playerMovent,
+				contentView);
+		WorldController worldController = new WorldController(world,
+				this.touchService, playerMovent);
+		this.gameThread = GameThreadFactory.create(drawer, worldController,
+				threadState);
+		new GameThread(drawer, new WorldController(world, this.touchService,
+				playerMovent), threadState);
 		contentView.setGameThread(this.gameThread);
 		contentView.setOnTouchListener(new OnTouchListener() {
 

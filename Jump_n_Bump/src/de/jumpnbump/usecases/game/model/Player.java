@@ -11,6 +11,8 @@ public class Player implements GameObject {
 	private static final MyLog LOGGER = Logger.getLogger(Player.class);
 	private int centerX;
 	private int centerY;
+	private float movementX;
+	private float movementY;
 
 	private Rect drawRect;
 	private Paint paint;
@@ -50,6 +52,22 @@ public class Player implements GameObject {
 		calculateRect();
 	}
 
+	public void setMovementX(float movementX) {
+		this.movementX = movementX;
+	}
+
+	public void increaseYMovement(float delta) {
+		this.movementY += delta;
+	}
+
+	public void increaseY(float movement) {
+		this.centerY += movement;
+	}
+
+	public void setMovementY(float movementY) {
+		this.movementY = movementY;
+	}
+
 	@Override
 	public void draw(Canvas canvas) {
 		LOGGER.debug("%s %d", "Draw", this.centerX);
@@ -74,5 +92,27 @@ public class Player implements GameObject {
 	@Override
 	public int minY() {
 		return this.drawRect.top;
+	}
+
+	@Override
+	public void moveNextStepX() {
+		this.centerX += this.movementX;
+		calculateRect();
+	}
+
+	@Override
+	public void moveNextStepY() {
+		this.centerY += this.movementY;
+		calculateRect();
+	}
+
+	@Override
+	public float movementX() {
+		return this.movementX;
+	}
+
+	@Override
+	public float movementY() {
+		return this.movementY;
 	}
 }

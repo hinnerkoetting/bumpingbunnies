@@ -34,10 +34,21 @@ public class TouchService implements GameScreenSizeChangeListener {
 
 	public void executeUserInput() {
 		if (this.lastEvent != null) {
-			if (this.lastEvent.getAction() != MotionEvent.ACTION_UP) {
-				executePlayerMovement();
-			}
+			executeLastExistingEvent();
 		}
+	}
+
+	private void executeLastExistingEvent() {
+		if (this.lastEvent.getAction() != MotionEvent.ACTION_UP) {
+			executePlayerMovement();
+		} else {
+			removePlayerMovement();
+		}
+	}
+
+	private void removePlayerMovement() {
+		this.playerMovement.removeMovement();
+
 	}
 
 	private void executePlayerMovement() {
@@ -48,11 +59,15 @@ public class TouchService implements GameScreenSizeChangeListener {
 	}
 
 	private void moveLeftOrRight(int movement, Player player1) {
-		if (isClickOnLeftHalf()) {
+		if (isClickLeftToPlayer(player1)) {
 			this.playerMovement.tryMoveLeft();
 		} else {
 			this.playerMovement.tryMoveRight();
 		}
+	}
+
+	private boolean isClickLeftToPlayer(Player player) {
+		return this.lastEvent.getX() < player.getCenterX();
 	}
 
 	private void moveUpOrDown(int movement, Player player1) {
