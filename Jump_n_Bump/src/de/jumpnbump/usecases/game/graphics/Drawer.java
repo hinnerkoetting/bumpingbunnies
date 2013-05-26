@@ -1,38 +1,26 @@
 package de.jumpnbump.usecases.game.graphics;
 
+import java.util.List;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.game.GameThreadState;
-import de.jumpnbump.usecases.game.model.World;
 
 public class Drawer {
 
 	private static final MyLog LOGGER = Logger.getLogger(Drawer.class);
-	private final World world;
-	private final GameThreadState threadState;
-	private RectDrawer player1;
-	private RectDrawer player2;
-	private ScoreDrawer player1Score;
-	private ScoreDrawer player2Score;
+	private List<Drawable> allDrawables;
 
-	public Drawer(World world, GameThreadState threadState) {
-		this.world = world;
-		this.threadState = threadState;
-		this.player1 = new RectDrawer(world.getPlayer1());
-		this.player2 = new RectDrawer(world.getPlayer2());
-		this.player1Score = new ScoreDrawer(world.getPlayer1(), 0.05, 0.1);
-		this.player2Score = new ScoreDrawer(world.getPlayer2(), 0.95, 0.1);
+	public Drawer(DrawablesFactory drawFactory) {
+		this.allDrawables = drawFactory.createAllDrawables();
 	}
 
 	public void draw(Canvas canvas) {
 		LOGGER.verbose("drawing...");
 		canvas.drawColor(Color.WHITE);
-		this.threadState.drawFps(canvas);
-		this.player1.draw(canvas);
-		this.player2.draw(canvas);
-		this.player1Score.draw(canvas);
-		this.player2Score.draw(canvas);
+		for (Drawable d : this.allDrawables) {
+			d.draw(canvas);
+		}
 	}
 }

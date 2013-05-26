@@ -1,22 +1,11 @@
 package de.jumpnbump.usecases.game;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-
 public class GameThreadState {
 
 	private long lastRun;
 	private int fpsCounter;
 	private int lastFpsCount;
 	private long lastFpsReset;
-	private Paint paint;
-
-	public GameThreadState() {
-		this.paint = new Paint();
-		this.paint.setColor(Color.BLACK);
-		this.paint.setTextSize(30);
-	}
 
 	public long getLastRun() {
 		return this.lastRun;
@@ -48,8 +37,7 @@ public class GameThreadState {
 		this.fpsCounter++;
 	}
 
-	public void drawFps(Canvas canvas) {
-		canvas.drawText(String.format("FPS: %d", this.lastFpsCount), 100, 100,
-				this.paint);
+	public int getLastFpsCount() {
+		return this.lastFpsCount;
 	}
 }

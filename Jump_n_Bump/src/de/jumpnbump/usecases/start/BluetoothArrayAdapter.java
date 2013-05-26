@@ -1,7 +1,5 @@
 package de.jumpnbump.usecases.start;
 
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.view.MotionEvent;
@@ -11,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.jumpnbump.usecases.game.network.ConnectThread;
 
 public class BluetoothArrayAdapter extends ArrayAdapter<BluetoothDevice> {
 
-	private Activity activity;
+	private StartActivity activity;
 
-	public BluetoothArrayAdapter(Context context, Activity activity) {
+	public BluetoothArrayAdapter(Context context, StartActivity activity) {
 		super(context, -1);
 		this.activity = activity;
 	}
@@ -46,9 +43,8 @@ public class BluetoothArrayAdapter extends ArrayAdapter<BluetoothDevice> {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			new ConnectThread(this.device,
-					BluetoothAdapter.getDefaultAdapter(),
-					BluetoothArrayAdapter.this.activity).start();
+			BluetoothArrayAdapter.this.activity
+					.startConnectToServer(this.device);
 			return true;
 		}
 

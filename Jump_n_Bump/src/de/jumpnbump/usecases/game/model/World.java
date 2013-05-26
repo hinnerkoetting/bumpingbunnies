@@ -23,7 +23,6 @@ public class World {
 		this.allObjects.add(this.player2);
 		this.allPlayer.add(this.player1);
 		this.allPlayer.add(this.player2);
-
 	}
 
 	public Player getPlayer1() {

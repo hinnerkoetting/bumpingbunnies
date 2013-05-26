@@ -109,4 +109,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 		this.isDrawingPossible = false;
 	}
 
+	public void onDestroy() {
+		this.worldController.destroy();
+	}
 }

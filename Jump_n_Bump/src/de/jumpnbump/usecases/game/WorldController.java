@@ -1,33 +1,65 @@
 package de.jumpnbump.usecases.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import de.jumpnbump.usecases.game.businesslogic.MovementService;
-import de.jumpnbump.usecases.game.businesslogic.PlayerMovement;
+import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
+import de.jumpnbump.usecases.game.businesslogic.InputService;
+import de.jumpnbump.usecases.game.model.Player;
+import de.jumpnbump.usecases.game.model.PlayerState;
 
 public class WorldController {
-	private List<MovementService> movementServices;
-	private PlayerMovement playerMovement;
-	private final PlayerMovement player2Movement;
+	private List<InputService> inputServices;
+	private List<GamePlayerController> playermovements;
 
-	public WorldController(PlayerMovement playerMovement,
-			PlayerMovement player2Movement) {
-		this.playerMovement = playerMovement;
-		this.player2Movement = player2Movement;
-		this.movementServices = new ArrayList<MovementService>();
+	public WorldController(List<GamePlayerController> playermovements,
+			List<InputService> movementServices) {
+		this.playermovements = playermovements;
+		this.inputServices = movementServices;
 	}
 
-	public void addMovementService(MovementService movementService) {
-		this.movementServices.add(movementService);
+	public void addMovementService(InputService movementService) {
+		this.inputServices.add(movementService);
 	}
 
 	public void nextStep(long delta) {
-		for (MovementService movementService : this.movementServices) {
+		for (InputService movementService : this.inputServices) {
 			movementService.executeUserInput();
 		}
-		this.playerMovement.nextStep(delta);
-		this.player2Movement.nextStep(delta);
+		for (GamePlayerController movement : this.playermovements) {
+			movement.nextStep(delta);
+		}
+		checkForJumpedPlayers();
 	}
 
+	private void checkForJumpedPlayers() {
+		for (GamePlayerController movement : this.playermovements) {
+			Player playerUnder = movement.isOnTopOfOtherPlayer();
+			if (playerUnder != null) {
+				Player playerOnTop = movement.getPlayer();
+				PlayerState state = playerOnTop.getState();
+				state.setScore(state.getScore() + 1);
+				resetPosition(playerUnder, playerOnTop);
+			}
+		}
+	}
+
+	private void resetPosition(Player playerUnder, Player playerOver) {
+		PlayerState state = playerUnder.getState();
+		if (state.getCenterX() > 0.75) {
+			state.setCenterX(0.1);
+		} else {
+			state.setCenterX(state.getCenterX() + 0.2);
+		}
+		state.setCenterY(0.5);
+
+		PlayerState state2 = playerOver.getState();
+		state2.setMovementY(-0.001);
+	}
+
+	public void destroy() {
+		for (InputService is : this.inputServices) {
+			is.destroy();
+		}
+		this.inputServices.clear();
+	}
 }

@@ -2,7 +2,6 @@ package de.jumpnbump.usecases.game.network;
 
 import java.io.IOException;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -10,6 +9,7 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
+import de.jumpnbump.usecases.start.StartActivity;
 
 public class ConnectThread extends Thread {
 
@@ -17,10 +17,10 @@ public class ConnectThread extends Thread {
 	private final BluetoothSocket mmSocket;
 	private final BluetoothDevice mmDevice;
 	private final BluetoothAdapter mBluetoothAdapter;
-	private final Activity activity;
+	private final StartActivity activity;
 
 	public ConnectThread(BluetoothDevice device,
-			BluetoothAdapter mBluetoothAdapter, Activity activity) {
+			BluetoothAdapter mBluetoothAdapter, StartActivity activity) {
 		this.mBluetoothAdapter = mBluetoothAdapter;
 		this.activity = activity;
 		// Use a temporary object that is later assigned to mmSocket,
@@ -43,7 +43,6 @@ public class ConnectThread extends Thread {
 	public void run() {
 		LOGGER.info("Start Client Thread");
 		// Cancel discovery because it will slow down the connection
-		this.mBluetoothAdapter.cancelDiscovery();
 
 		try {
 			// Connect the device through the socket. This will block
@@ -54,6 +53,7 @@ public class ConnectThread extends Thread {
 			try {
 				this.mmSocket.close();
 			} catch (IOException closeException) {
+				this.activity.connectionNotSuccesful();
 			}
 			return;
 		}

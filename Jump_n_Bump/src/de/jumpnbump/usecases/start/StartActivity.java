@@ -18,6 +18,7 @@ import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.network.AcceptThread;
+import de.jumpnbump.usecases.game.network.ConnectThread;
 
 public class StartActivity extends Activity {
 
@@ -25,6 +26,8 @@ public class StartActivity extends Activity {
 	private final int REQUEST_BT_ENABLE = 1000;
 	private BluetoothArrayAdapter listAdapter;
 	private BroadcastReceiver mReceiver;
+	private AcceptThread acceptThread;
+	private ConnectThread connectThread;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,9 @@ public class StartActivity extends Activity {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
 				.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
-			Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_LONG);
+			Toast makeText = Toast.makeText(this, "Bluetooth not supported",
+					Toast.LENGTH_LONG);
+			makeText.show();
 		} else {
 			if (!mBluetoothAdapter.isEnabled()) {
 				Intent enableBtIntent = new Intent(
@@ -120,7 +125,10 @@ public class StartActivity extends Activity {
 		discoverableIntent.putExtra(
 				BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 		startActivity(discoverableIntent);
-		new AcceptThread(BluetoothAdapter.getDefaultAdapter(), this).start();
+		closeOpenBtConnections();
+		this.acceptThread = new AcceptThread(
+				BluetoothAdapter.getDefaultAdapter(), this);
+		this.acceptThread.start();
 	}
 
 	@Override
@@ -129,6 +137,31 @@ public class StartActivity extends Activity {
 		if (this.mReceiver != null) {
 			unregisterReceiver(this.mReceiver);
 		}
+		closeOpenBtConnections();
+	}
+
+	private void closeOpenBtConnections() {
+
+		BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+		if (this.acceptThread != null) {
+			this.acceptThread.cancel();
+		}
+		if (this.connectThread != null) {
+			this.connectThread.cancel();
+		}
+	}
+
+	public void startConnectToServer(BluetoothDevice device) {
+		closeOpenBtConnections();
+		this.connectThread = new ConnectThread(device,
+				BluetoothAdapter.getDefaultAdapter(), this);
+		this.connectThread.start();
+	}
+
+	public void connectionNotSuccesful() {
+		Toast toast = Toast.makeText(getBaseContext(), "Could not connection",
+				Toast.LENGTH_LONG);
+		toast.show();
 	}
 
 }

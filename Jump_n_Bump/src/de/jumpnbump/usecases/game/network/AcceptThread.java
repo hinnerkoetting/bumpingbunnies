@@ -50,6 +50,10 @@ public class AcceptThread extends Thread {
 					break;
 				}
 			} catch (IOException e) {
+				try {
+					this.mmServerSocket.close();
+				} catch (Exception e2) {
+				}
 				throw new RuntimeException(e);
 			}
 		}

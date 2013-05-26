@@ -4,25 +4,20 @@ import android.view.MotionEvent;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.Player;
-import de.jumpnbump.usecases.game.model.World;
-import de.jumpnbump.usecases.game.network.GameNetworkSendThread;
+import de.jumpnbump.usecases.game.network.StateSender;
 
-public class TouchService implements GameScreenSizeChangeListener,
-		MovementService {
+public class TouchService implements GameScreenSizeChangeListener, InputService {
 
 	private static final MyLog LOGGER = Logger.getLogger(TouchService.class);
-	private World world;
 	private MotionEvent lastEvent;
 	private int windowWidth;
 	private int windowHeight;
-	private PlayerMovement playerMovement;
-	private GameNetworkSendThread networkThread;
+	private GamePlayerController playerMovement;
+	private StateSender sender;
 
-	public TouchService(World world, PlayerMovement playerMovement,
-			GameNetworkSendThread networkThread) {
-		this.world = world;
+	public TouchService(GamePlayerController playerMovement, StateSender sender) {
 		this.playerMovement = playerMovement;
-		this.networkThread = networkThread;
+		this.sender = sender;
 	}
 
 	public void onMotionEvent(MotionEvent motionEvent) {
@@ -42,8 +37,7 @@ public class TouchService implements GameScreenSizeChangeListener,
 		if (this.lastEvent != null) {
 			executeLastExistingEvent();
 		}
-		this.networkThread.sendPlayerCoordinates(this.playerMovement
-				.getPlayer());
+		this.sender.sendPlayerCoordinates(this.playerMovement.getPlayer());
 	}
 
 	private void executeLastExistingEvent() {
@@ -104,6 +98,11 @@ public class TouchService implements GameScreenSizeChangeListener,
 	public void setNewSize(int width, int height) {
 		this.windowHeight = height;
 		this.windowWidth = width;
+	}
+
+	@Override
+	public void destroy() {
+		this.sender.cancel();
 	}
 
 }

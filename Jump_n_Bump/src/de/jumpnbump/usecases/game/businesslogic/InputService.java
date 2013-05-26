@@ -1,6 +1,8 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
-public interface MovementService {
+public interface InputService {
 
 	void executeUserInput();
+
+	void destroy();
 }

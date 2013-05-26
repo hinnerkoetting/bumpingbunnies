@@ -1,30 +1,31 @@
 package de.jumpnbump.usecases.game;
 
+import java.util.Arrays;
+import java.util.List;
+
 import android.app.Activity;
+import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import de.jumpnbump.R;
-import de.jumpnbump.logger.Level;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
-import de.jumpnbump.usecases.game.businesslogic.MovementService;
-import de.jumpnbump.usecases.game.businesslogic.NetworkMovementService;
-import de.jumpnbump.usecases.game.businesslogic.PlayerMovement;
+import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
+import de.jumpnbump.usecases.game.businesslogic.InputService;
 import de.jumpnbump.usecases.game.businesslogic.TouchService;
 import de.jumpnbump.usecases.game.factories.CollisionDetectionFactory;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
+import de.jumpnbump.usecases.game.factories.InputServiceFactory;
 import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.factories.TouchServiceFactory;
-import de.jumpnbump.usecases.game.graphics.Drawer;
+import de.jumpnbump.usecases.game.factories.WorldFactory;
 import de.jumpnbump.usecases.game.model.World;
-import de.jumpnbump.usecases.game.network.GameNetworkReceiveThread;
-import de.jumpnbump.usecases.game.network.GameNetworkSendThread;
 import de.jumpnbump.util.SystemUiHider;
 
 /**
@@ -42,22 +43,33 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Logger.setGlobalLogLevel(Level.DEBUG);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
 
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
-		World world = new World();
-		GameThreadState threadState = new GameThreadState();
-		Drawer drawer = new Drawer(world, threadState);
+		contentView.setOnTouchListener(new OnTouchListener() {
 
-		MyApplication application = (MyApplication) getApplication();
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return GameActivity.this.onTouchEvent(event);
+			}
+		});
+		initGame();
+		contentView.setGameThread(this.gameThread);
+	}
+
+	private void initGame() {
+		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
+		World world = WorldFactory.create();
+		GameThreadState threadState = new GameThreadState();
+
 		CollisionDetection collisionDetection = CollisionDetectionFactory
 				.create(world, contentView);
-		PlayerMovement playerMovent = PlayerMovementFactory.create(
+
+		GamePlayerController playerMovement = PlayerMovementFactory.create(
 				world.getPlayer1(), collisionDetection);
-		PlayerMovement player2Movement = PlayerMovementFactory.create(
+		GamePlayerController player2Movement = PlayerMovementFactory.create(
 				world.getPlayer2(), collisionDetection);
 		int playerId;
 
@@ -67,49 +79,39 @@ public class GameActivity extends Activity {
 		} else {
 			playerId = 0;
 		}
-		GameNetworkReceiveThread networkThread;
-		GameNetworkSendThread sendthread = new GameNetworkSendThread(
-				application.getSocket());
-		MovementService networkMovementService;
+
+		InputService networkMovementService;
 
 		if (playerId == 0) {
-			networkThread = new GameNetworkReceiveThread(
-					application.getSocket());
-			sendthread = new GameNetworkSendThread(application.getSocket());
-			this.touchService = TouchServiceFactory.create(world, playerMovent,
-					contentView, sendthread);
-			// networkMovementService = new DummyMovementService();
-			networkMovementService = new NetworkMovementService(networkThread,
+
+			initTouchService(world, playerMovement, contentView);
+			networkMovementService = InputServiceFactory.create(getSocket(),
 					world.getPlayer2());
 		} else {
-			networkThread = new GameNetworkReceiveThread(
-					application.getSocket());
-			sendthread = new GameNetworkSendThread(application.getSocket());
-			this.touchService = TouchServiceFactory.create(world,
-					player2Movement, contentView, sendthread);
-			networkMovementService = new NetworkMovementService(networkThread,
+			initTouchService(world, player2Movement, contentView);
+			networkMovementService = InputServiceFactory.create(getSocket(),
 					world.getPlayer1());
-			// networkMovementService = new DummyMovementService();
 		}
+		List<GamePlayerController> playerMovements = Arrays.asList(
+				playerMovement, player2Movement);
+		List<InputService> inputServices = Arrays.asList(
+				networkMovementService, this.touchService);
+		this.gameThread = GameThreadFactory.create(world, threadState,
+				playerMovements, inputServices);
 
-		WorldController worldController = new WorldController(playerMovent,
-				player2Movement);
-		worldController.addMovementService(networkMovementService);
-		worldController.addMovementService(this.touchService);
-		this.gameThread = GameThreadFactory.create(drawer, worldController,
-				threadState);
-
-		contentView.setGameThread(this.gameThread);
-		contentView.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return GameActivity.this.onTouchEvent(event);
-			}
-		});
 		this.gameThread.start();
-		networkThread.start();
-		sendthread.start();
+
+	}
+
+	private void initTouchService(World world,
+			GamePlayerController playerMovement, GameView contentView) {
+		this.touchService = TouchServiceFactory.create(playerMovement,
+				contentView, getSocket());
+	}
+
+	private BluetoothSocket getSocket() {
+		MyApplication application = (MyApplication) getApplication();
+		return application.getSocket();
 	}
 
 	@Override
@@ -131,5 +133,11 @@ public class GameActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		this.gameThread.setRunning(false);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		this.gameThread.onDestroy();
 	}
 }

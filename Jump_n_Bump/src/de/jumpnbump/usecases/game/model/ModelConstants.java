@@ -1,10 +1,10 @@
 package de.jumpnbump.usecases.game.model;
 
-import android.graphics.Color;
-
 public interface ModelConstants {
 
-	double PLAYER_WIDTH = 0.1;
-	double PLAYER_HEIGHT = 0.1;
-	int PLAYER_COLOR = Color.BLUE;
+	double PLAYER_WIDTH = 0.05;
+	double PLAYER_HEIGHT = 0.05;
+	double PLAYER_GRAVITY = 0.00001;
+	double PLAYER_GRAVITY_WHILE_JUMPING = +0.000005;
+	double PLAYER_JUMP_SPEET = -0.0015;
 }
