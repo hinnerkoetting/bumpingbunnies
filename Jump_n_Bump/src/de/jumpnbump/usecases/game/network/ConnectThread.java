@@ -32,7 +32,7 @@ public class ConnectThread extends Thread {
 		try {
 			// MY_UUID is the app's UUID string, also used by the server code
 			tmp = device
-					.createRfcommSocketToServiceRecord(NetworkConstants.MY_UUID);
+					.createInsecureRfcommSocketToServiceRecord(NetworkConstants.MY_UUID);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -43,17 +43,17 @@ public class ConnectThread extends Thread {
 	public void run() {
 		LOGGER.info("Start Client Thread");
 		// Cancel discovery because it will slow down the connection
-
+		this.mBluetoothAdapter.cancelDiscovery();
 		try {
 			// Connect the device through the socket. This will block
 			// until it succeeds or throws an exception
 			this.mmSocket.connect();
 		} catch (IOException connectException) {
+			this.activity.connectionNotSuccesful();
 			// Unable to connect; close the socket and get out
 			try {
 				this.mmSocket.close();
 			} catch (IOException closeException) {
-				this.activity.connectionNotSuccesful();
 			}
 			return;
 		}

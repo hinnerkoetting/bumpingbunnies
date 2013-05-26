@@ -7,7 +7,8 @@ import de.jumpnbump.usecases.game.model.Player;
 
 public class GamePlayerController {
 
-	private static final MyLog LOGGER = Logger.getLogger(GamePlayerController.class);
+	private static final MyLog LOGGER = Logger
+			.getLogger(GamePlayerController.class);
 	private static final double MOVEMENT = 0.001f;
 	private final Player movedPlayer;
 	private final CollisionDetection collision;
@@ -33,11 +34,13 @@ public class GamePlayerController {
 		if (!this.collision.willCollideVertical(this.movedPlayer)) {
 			this.movedPlayer.moveNextStepY();
 		} else {
+			this.movedPlayer.setMovementY(0);
 			LOGGER.debug("Collision Vertical");
 		}
 		if (!this.collision.willCollideHorizontal(this.movedPlayer)) {
 			this.movedPlayer.moveNextStepX();
 		} else {
+			this.movedPlayer.setMovementX(0);
 			LOGGER.debug("Collision horizontal");
 		}
 		this.movedPlayer.calculateNextSpeed();

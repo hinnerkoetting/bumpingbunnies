@@ -101,7 +101,8 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 				}
 			}
 		}
-		return objectToBeChecked.minY() <= 0;
+		return false; // allows to jump out of top
+		// return objectToBeChecked.minY() <= 0;
 	}
 
 	private boolean collidedWithLeft(GameObject gameobject) {

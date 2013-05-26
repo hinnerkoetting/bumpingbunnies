@@ -37,8 +37,8 @@ public class DrawablesFactory {
 	}
 
 	private List<Drawable> createAllScores() {
-		double currentX = 0.1;
-		double y = 0.1;
+		double currentX = 0.3;
+		double y = 0.05;
 		List<Drawable> scores = new LinkedList<Drawable>();
 		for (Player p : this.world.getAllPlayer()) {
 			scores.add(new ScoreDrawer(p, currentX, y));

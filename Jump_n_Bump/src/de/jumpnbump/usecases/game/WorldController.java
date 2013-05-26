@@ -60,6 +60,5 @@ public class WorldController {
 		for (InputService is : this.inputServices) {
 			is.destroy();
 		}
-		this.inputServices.clear();
 	}
 }

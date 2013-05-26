@@ -5,17 +5,16 @@ import android.graphics.Color;
 public class Wall implements GameObject, ModelConstants {
 
 	private final int id;
-	private final double centerX;
-	private final double centerY;
+	private final double minX;
+	private final double minY;
 	private int color;
 	private double width;
 	private double height;
 
-	public Wall(int id, double centerX, double centerY, double width,
-			double height) {
+	public Wall(int id, double minX, double minY, double width, double height) {
 		this.id = id;
-		this.centerX = centerX;
-		this.centerY = centerY;
+		this.minX = minX;
+		this.minY = minY;
 		this.width = width;
 		this.height = height;
 		this.color = Color.GRAY;
@@ -28,22 +27,22 @@ public class Wall implements GameObject, ModelConstants {
 
 	@Override
 	public double maxX() {
-		return this.centerX + this.width / 2;
+		return this.minX + this.width;
 	}
 
 	@Override
 	public double maxY() {
-		return this.centerY + this.height / 2;
+		return this.minY + this.height;
 	}
 
 	@Override
 	public double minX() {
-		return this.centerX - this.width / 2;
+		return this.minX;
 	}
 
 	@Override
 	public double minY() {
-		return this.centerY - this.height / 2;
+		return this.minY;
 	}
 
 	@Override

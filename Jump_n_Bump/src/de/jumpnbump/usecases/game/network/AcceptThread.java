@@ -25,7 +25,7 @@ public class AcceptThread extends Thread {
 		BluetoothServerSocket tmp = null;
 		try {
 			// MY_UUID is the app's UUID string, also used by the client code
-			tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(
+			tmp = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(
 					NetworkConstants.NAME, NetworkConstants.MY_UUID);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -50,11 +50,7 @@ public class AcceptThread extends Thread {
 					break;
 				}
 			} catch (IOException e) {
-				try {
-					this.mmServerSocket.close();
-				} catch (Exception e2) {
-				}
-				throw new RuntimeException(e);
+				break;
 			}
 		}
 	}

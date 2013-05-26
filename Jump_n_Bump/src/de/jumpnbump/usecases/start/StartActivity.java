@@ -152,16 +152,23 @@ public class StartActivity extends Activity {
 	}
 
 	public void startConnectToServer(BluetoothDevice device) {
-		closeOpenBtConnections();
+		// closeOpenBtConnections();
 		this.connectThread = new ConnectThread(device,
 				BluetoothAdapter.getDefaultAdapter(), this);
 		this.connectThread.start();
 	}
 
 	public void connectionNotSuccesful() {
-		Toast toast = Toast.makeText(getBaseContext(), "Could not connection",
-				Toast.LENGTH_LONG);
-		toast.show();
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				Toast toast = Toast.makeText(getBaseContext(),
+						"Exception during connect?", Toast.LENGTH_LONG);
+				toast.show();
+			}
+		});
+
 	}
 
 }

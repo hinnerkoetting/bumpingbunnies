@@ -27,13 +27,23 @@ public class WorldObjectsFactory {
 
 	public Collection<Wall> createAllWalls() {
 		List<Wall> allWalls = new LinkedList<Wall>();
-		allWalls.add(WallFactory.createWall(0, 0.1, 0.5,
+		allWalls.add(WallFactory.createWall(0.1, 0.15, 0.5,
 				ModelConstants.WALL_HEIGHT));
-		allWalls.add(WallFactory.createWall(0.5, 0.3, 0.5,
+
+		allWalls.add(WallFactory.createWall(0.0, 0.3, 0.2,
 				ModelConstants.WALL_HEIGHT));
-		allWalls.add(WallFactory.createWall(0.5, 0.5, 0.25,
+
+		allWalls.add(WallFactory.createWall(0.70, 0.35, 0.15,
 				ModelConstants.WALL_HEIGHT));
+		allWalls.add(WallFactory.createWall(0.3, 0.45, 0.25,
+				ModelConstants.WALL_HEIGHT));
+
+		allWalls.add(WallFactory.createWall(0.5, 0.6, 0.25,
+				ModelConstants.WALL_HEIGHT));
+
 		allWalls.add(WallFactory.createWall(0.75, 0.8, 0.25,
+				ModelConstants.WALL_HEIGHT));
+		allWalls.add(WallFactory.createWall(0.25, 0.8, 0.25,
 				ModelConstants.WALL_HEIGHT));
 
 		return allWalls;
