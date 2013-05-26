@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.game.model;
 
-import android.graphics.Paint;
 
 public interface GameObject {
 
@@ -28,6 +27,6 @@ public interface GameObject {
 
 	void calculateNextSpeed();
 
-	Paint getColor();
+	int getColor();
 
 }

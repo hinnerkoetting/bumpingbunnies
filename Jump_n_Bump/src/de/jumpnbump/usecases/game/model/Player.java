@@ -1,30 +1,21 @@
 package de.jumpnbump.usecases.game.model;
 
-import android.graphics.Paint;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 
 public class Player implements GameObject {
 
 	private static final MyLog LOGGER = Logger.getLogger(Player.class);
-	private double centerX;
-	private double centerY;
-	private double movementX;
-	private double movementY;
-	private double accelerationX;
-	private double accelerationY;
+	private PlayerState state;
 
 	private Player simulatedObject;
-	private Paint paint;
+
 	private PlayerRect rect;
 	private int id;
 
 	public Player(int id) {
 		this.rect = new PlayerRect();
-		this.paint = new Paint();
-		this.paint.setColor(ModelConstants.PLAYER_COLOR);
-		this.centerX = 0.1;
-		this.centerY = 0.5;
+		this.state = new PlayerState();
 		this.id = id;
 		calculateRect();
 	}
@@ -35,68 +26,62 @@ public class Player implements GameObject {
 	}
 
 	private void calculateRect() {
-		this.rect.setMinX(this.centerX - ModelConstants.PLAYER_WIDTH / 2);
-		this.rect.setMaxX(this.centerX + ModelConstants.PLAYER_WIDTH / 2);
-		this.rect.setMinY(this.centerY - ModelConstants.PLAYER_HEIGHT / 2);
-		this.rect.setMaxY(this.centerY + ModelConstants.PLAYER_HEIGHT / 2);
+		double centerX = this.state.getCenterX();
+		double centerY = this.state.getCenterY();
+		this.rect.setMinX(centerX - ModelConstants.PLAYER_WIDTH / 2);
+		this.rect.setMaxX(centerX + ModelConstants.PLAYER_WIDTH / 2);
+		this.rect.setMinY(centerY - ModelConstants.PLAYER_HEIGHT / 2);
+		this.rect.setMaxY(centerY + ModelConstants.PLAYER_HEIGHT / 2);
 		LOGGER.verbose("Position MinX: %f - MaxX: %f - MinY: %f - MaxY: %f ",
 				this.rect.getMinX(), this.rect.getMaxX(), this.rect.getMinY(),
 				this.rect.getMaxY());
 	}
 
 	public double getCenterX() {
-		return this.centerX;
+		return this.state.getCenterX();
 	}
 
 	public void setCenterX(double centerX) {
-		this.centerX = centerX;
+		this.state.setCenterX(centerX);
 		calculateRect();
 		LOGGER.debug("%s %f", "set", centerX);
 	}
 
 	public double getCenterY() {
-		return this.centerY;
+		return this.state.getCenterY();
 	}
 
 	public void setCenterY(double centerY) {
-		this.centerY = centerY;
+		this.state.setCenterY(centerY);
 		calculateRect();
 	}
 
 	public void setMovementX(double movementX) {
-		this.movementX = movementX;
+		this.state.setMovementX(movementX);
 	}
 
 	public void increaseYMovement(double delta) {
-		this.movementY += delta;
-	}
-
-	public void increaseY(double movement) {
-		this.centerY += movement;
+		this.state.setMovementY(this.state.getMovementY() + delta);
 	}
 
 	public void setMovementY(double movementY) {
-		this.movementY = movementY;
+		this.state.setMovementY(movementY);
 	}
 
 	public double getAccelerationX() {
-		return this.accelerationX;
+		return this.state.getAccelerationX();
 	}
 
 	public void setAccelerationX(double accelerationX) {
-		this.accelerationX = accelerationX;
+		this.state.setAccelerationX(accelerationX);
 	}
 
 	public double getAccelerationY() {
-		return this.accelerationY;
+		return this.state.getAccelerationY();
 	}
 
 	public void setAccelerationY(double accelerationY) {
-		this.accelerationY = accelerationY;
-	}
-
-	public void increaseAccelerationY(double delta) {
-		this.accelerationY += delta;
+		this.state.setAccelerationY(accelerationY);
 	}
 
 	@Override
@@ -121,54 +106,50 @@ public class Player implements GameObject {
 
 	@Override
 	public void moveNextStepX() {
-		this.centerX += this.movementX;
+		this.state.setCenterX(this.state.getCenterX()
+				+ this.state.getMovementX());
 		calculateRect();
 	}
 
 	@Override
 	public void moveNextStepY() {
-		this.centerY += this.movementY;
+		this.state.setCenterY(this.state.getCenterY()
+				+ this.state.getMovementY());
 		calculateRect();
 	}
 
 	@Override
 	public void calculateNextSpeed() {
-		this.movementY += this.accelerationY;
+		this.state.setMovementY(this.state.getMovementY()
+				+ this.state.getAccelerationY());
+		this.state.setMovementX(this.state.getMovementX()
+				+ this.state.getAccelerationX());
 	}
 
 	@Override
 	public double movementX() {
-		return this.movementX;
+		return this.state.getMovementX();
 	}
 
 	@Override
 	public double movementY() {
-		return this.movementY;
-	}
-
-	public void setColor(int color) {
-		this.paint.setColor(color);
-	}
-
-	@Override
-	public Paint getColor() {
-		return this.paint;
+		return this.state.getMovementY();
 	}
 
 	@Override
 	public GameObject simulateNextStepX() {
-		this.simulatedObject.centerX = this.centerX;
+		this.simulatedObject.setCenterX(this.state.getCenterX());
 
-		this.simulatedObject.movementX = this.movementX;
+		this.simulatedObject.setMovementX(this.state.getMovementX());
 		this.simulatedObject.moveNextStepX();
 		return this.simulatedObject;
 	}
 
 	@Override
 	public GameObject simulateNextStepY() {
-		this.simulatedObject.centerY = this.centerY;
+		this.simulatedObject.setCenterY(this.state.getCenterY());
 
-		this.simulatedObject.movementY = this.movementY;
+		this.simulatedObject.setMovementY(this.state.getMovementY());
 		this.simulatedObject.moveNextStepY();
 		return this.simulatedObject;
 	}
@@ -176,5 +157,14 @@ public class Player implements GameObject {
 	@Override
 	public int id() {
 		return this.id;
+	}
+
+	public PlayerState getState() {
+		return this.state;
+	}
+
+	@Override
+	public int getColor() {
+		return this.state.getColor();
 	}
 }

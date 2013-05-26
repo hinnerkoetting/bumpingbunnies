@@ -14,12 +14,16 @@ public class Drawer {
 	private final GameThreadState threadState;
 	private RectDrawer player1;
 	private RectDrawer player2;
+	private ScoreDrawer player1Score;
+	private ScoreDrawer player2Score;
 
 	public Drawer(World world, GameThreadState threadState) {
 		this.world = world;
 		this.threadState = threadState;
 		this.player1 = new RectDrawer(world.getPlayer1());
 		this.player2 = new RectDrawer(world.getPlayer2());
+		this.player1Score = new ScoreDrawer(world.getPlayer1(), 0.05, 0.1);
+		this.player2Score = new ScoreDrawer(world.getPlayer2(), 0.95, 0.1);
 	}
 
 	public void draw(Canvas canvas) {
@@ -28,5 +32,7 @@ public class Drawer {
 		this.threadState.drawFps(canvas);
 		this.player1.draw(canvas);
 		this.player2.draw(canvas);
+		this.player1Score.draw(canvas);
+		this.player2Score.draw(canvas);
 	}
 }

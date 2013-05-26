@@ -5,8 +5,10 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
+import de.jumpnbump.usecases.game.network.GameNetworkSendThread;
 
-public class TouchService implements GameScreenSizeChangeListener {
+public class TouchService implements GameScreenSizeChangeListener,
+		MovementService {
 
 	private static final MyLog LOGGER = Logger.getLogger(TouchService.class);
 	private World world;
@@ -14,10 +16,13 @@ public class TouchService implements GameScreenSizeChangeListener {
 	private int windowWidth;
 	private int windowHeight;
 	private PlayerMovement playerMovement;
+	private GameNetworkSendThread networkThread;
 
-	public TouchService(World world, PlayerMovement playerMovement) {
+	public TouchService(World world, PlayerMovement playerMovement,
+			GameNetworkSendThread networkThread) {
 		this.world = world;
 		this.playerMovement = playerMovement;
+		this.networkThread = networkThread;
 	}
 
 	public void onMotionEvent(MotionEvent motionEvent) {
@@ -32,10 +37,13 @@ public class TouchService implements GameScreenSizeChangeListener {
 		return this.lastEvent.getY() / this.windowHeight;
 	}
 
+	@Override
 	public void executeUserInput() {
 		if (this.lastEvent != null) {
 			executeLastExistingEvent();
 		}
+		this.networkThread.sendPlayerCoordinates(this.playerMovement
+				.getPlayer());
 	}
 
 	private void executeLastExistingEvent() {

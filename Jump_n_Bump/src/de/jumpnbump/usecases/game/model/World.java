@@ -11,14 +11,19 @@ public class World {
 	private Player player2;
 
 	private List<GameObject> allObjects;
+	private List<Player> allPlayer;
 
 	public World() {
 		super();
 		this.player1 = PlayerFactory.createPlayer1();
 		this.player2 = PlayerFactory.createPlayer2();
 		this.allObjects = new ArrayList<GameObject>(2);
+		this.allPlayer = new ArrayList<Player>(2);
 		this.allObjects.add(this.player1);
 		this.allObjects.add(this.player2);
+		this.allPlayer.add(this.player1);
+		this.allPlayer.add(this.player2);
+
 	}
 
 	public Player getPlayer1() {
@@ -31,5 +36,9 @@ public class World {
 
 	public List<GameObject> getAllObjects() {
 		return this.allObjects;
+	}
+
+	public List<Player> getAllPlayer() {
+		return this.allPlayer;
 	}
 }

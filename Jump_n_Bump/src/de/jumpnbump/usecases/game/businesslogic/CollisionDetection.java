@@ -1,8 +1,11 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
+import java.util.List;
+
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.GameObject;
+import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
 public class CollisionDetection implements GameScreenSizeChangeListener {
@@ -36,7 +39,6 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 	public boolean willCollideHorizontal(GameObject gameobject) {
 		boolean willCollideLeft = willCollideLeft(gameobject);
 		boolean willCollideRight = willCollideRight(gameobject);
-		LOGGER.info("left " + willCollideLeft + " - right " + willCollideRight);
 		return willCollideLeft || willCollideRight;
 	}
 
@@ -122,5 +124,15 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 
 	public boolean objectStandsOnGround(GameObject gameobject) {
 		return collidesWithBottom(gameobject.simulateNextStepY());
+	}
+
+	public Player playerStandsOnOtherPlayer(Player player) {
+		List<Player> allPlayers = this.world.getAllPlayer();
+		for (Player p : allPlayers) {
+			if (SingleCollisionDetection.collidesObjectOnBottom(player, p)) {
+				return player;
+			}
+		}
+		return null;
 	}
 }

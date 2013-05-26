@@ -11,7 +11,10 @@ import de.jumpnbump.logger.Level;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
+import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
+import de.jumpnbump.usecases.game.businesslogic.MovementService;
+import de.jumpnbump.usecases.game.businesslogic.NetworkMovementService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovement;
 import de.jumpnbump.usecases.game.businesslogic.TouchService;
 import de.jumpnbump.usecases.game.factories.CollisionDetectionFactory;
@@ -20,6 +23,8 @@ import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.factories.TouchServiceFactory;
 import de.jumpnbump.usecases.game.graphics.Drawer;
 import de.jumpnbump.usecases.game.model.World;
+import de.jumpnbump.usecases.game.network.GameNetworkReceiveThread;
+import de.jumpnbump.usecases.game.network.GameNetworkSendThread;
 import de.jumpnbump.util.SystemUiHider;
 
 /**
@@ -47,23 +52,50 @@ public class GameActivity extends Activity {
 		GameThreadState threadState = new GameThreadState();
 		Drawer drawer = new Drawer(world, threadState);
 
+		MyApplication application = (MyApplication) getApplication();
 		CollisionDetection collisionDetection = CollisionDetectionFactory
 				.create(world, contentView);
 		PlayerMovement playerMovent = PlayerMovementFactory.create(
 				world.getPlayer1(), collisionDetection);
 		PlayerMovement player2Movement = PlayerMovementFactory.create(
 				world.getPlayer2(), collisionDetection);
-		int playerId = getIntent().getExtras().getInt(
-				ActivityLauncher.PLAYER_ID_CONSTANT);
-		if (playerId == 0) {
-			this.touchService = TouchServiceFactory.create(world, playerMovent,
-					contentView);
+		int playerId;
+
+		if (getIntent().getExtras() != null) {
+			playerId = getIntent().getExtras().getInt(
+					ActivityLauncher.PLAYER_ID_CONSTANT);
 		} else {
-			this.touchService = TouchServiceFactory.create(world,
-					player2Movement, contentView);
+			playerId = 0;
 		}
-		WorldController worldController = new WorldController(world,
-				this.touchService, playerMovent, player2Movement);
+		GameNetworkReceiveThread networkThread;
+		GameNetworkSendThread sendthread = new GameNetworkSendThread(
+				application.getSocket());
+		MovementService networkMovementService;
+
+		if (playerId == 0) {
+			networkThread = new GameNetworkReceiveThread(
+					application.getSocket());
+			sendthread = new GameNetworkSendThread(application.getSocket());
+			this.touchService = TouchServiceFactory.create(world, playerMovent,
+					contentView, sendthread);
+			// networkMovementService = new DummyMovementService();
+			networkMovementService = new NetworkMovementService(networkThread,
+					world.getPlayer2());
+		} else {
+			networkThread = new GameNetworkReceiveThread(
+					application.getSocket());
+			sendthread = new GameNetworkSendThread(application.getSocket());
+			this.touchService = TouchServiceFactory.create(world,
+					player2Movement, contentView, sendthread);
+			networkMovementService = new NetworkMovementService(networkThread,
+					world.getPlayer1());
+			// networkMovementService = new DummyMovementService();
+		}
+
+		WorldController worldController = new WorldController(playerMovent,
+				player2Movement);
+		worldController.addMovementService(networkMovementService);
+		worldController.addMovementService(this.touchService);
 		this.gameThread = GameThreadFactory.create(drawer, worldController,
 				threadState);
 
@@ -76,6 +108,8 @@ public class GameActivity extends Activity {
 			}
 		});
 		this.gameThread.start();
+		networkThread.start();
+		sendthread.start();
 	}
 
 	@Override

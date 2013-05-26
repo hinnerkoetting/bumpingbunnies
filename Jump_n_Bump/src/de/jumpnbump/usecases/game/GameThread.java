@@ -52,8 +52,11 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 		long currentTime = System.currentTimeMillis();
 		long delta = currentTime - this.state.getLastRun();
 		if (delta > 10) {
-			LOGGER.debug("Delta %d", delta);
 			this.state.setLastRun(currentTime);
+			if (delta > 1000) {
+				return;
+			}
+			LOGGER.debug("Delta %d", delta);
 			if (isLastResetOneSecondAgo(currentTime)) {
 				this.state.resetFps(currentTime);
 			}
@@ -72,11 +75,15 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 	private void drawGame() {
 		Canvas lockCanvas = this.holder.lockCanvas();
 		try {
-			synchronized (this.holder) {
-				this.drawer.draw(lockCanvas);
+			if (lockCanvas != null) {
+				synchronized (this.holder) {
+					this.drawer.draw(lockCanvas);
+				}
 			}
 		} finally {
-			this.holder.unlockCanvasAndPost(lockCanvas);
+			if (lockCanvas != null) {
+				this.holder.unlockCanvasAndPost(lockCanvas);
+			}
 		}
 	}
 
