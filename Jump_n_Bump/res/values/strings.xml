@@ -10,5 +10,6 @@
     <string name="connect">Verbinden</string>
     <string name="find_devices">Geräte finden</string>
     <string name="make_visible">Hosten</string>
+    <string name="app_name_solo">Jump\'n\'Bump Solo</string>
 
 </resources>

@@ -58,6 +58,7 @@ public class Player implements GameObject {
 
 	public void setMovementX(double movementX) {
 		this.state.setMovementX(movementX);
+		LOGGER.verbose("setting movement x %f", this.state.getMovementX());
 	}
 
 	public void increaseYMovement(double delta) {
@@ -108,6 +109,9 @@ public class Player implements GameObject {
 	public void moveNextStepX() {
 		this.state.setCenterX(this.state.getCenterX()
 				+ this.state.getMovementX());
+		if (this.state.getMovementX() > 0) {
+			LOGGER.debug("moving x %f", this.state.getMovementX());
+		}
 		calculateRect();
 	}
 
@@ -139,16 +143,18 @@ public class Player implements GameObject {
 	@Override
 	public GameObject simulateNextStepX() {
 		this.simulatedObject.setCenterX(this.state.getCenterX());
-
 		this.simulatedObject.setMovementX(this.state.getMovementX());
+		this.simulatedObject.setCenterY(this.state.getCenterY());
+		this.simulatedObject.setMovementY(this.state.getMovementY());
 		this.simulatedObject.moveNextStepX();
 		return this.simulatedObject;
 	}
 
 	@Override
 	public GameObject simulateNextStepY() {
+		this.simulatedObject.setCenterX(this.state.getCenterX());
+		this.simulatedObject.setMovementX(this.state.getMovementX());
 		this.simulatedObject.setCenterY(this.state.getCenterY());
-
 		this.simulatedObject.setMovementY(this.state.getMovementY());
 		this.simulatedObject.moveNextStepY();
 		return this.simulatedObject;

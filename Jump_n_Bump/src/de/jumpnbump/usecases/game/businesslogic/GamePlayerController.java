@@ -56,6 +56,7 @@ public class GamePlayerController {
 	}
 
 	public void tryMoveRight() {
+		LOGGER.debug("moving right");
 		this.movedPlayer.setMovementX(MOVEMENT);
 	}
 
@@ -79,6 +80,7 @@ public class GamePlayerController {
 	public void removeMovement() {
 		this.movedPlayer.setMovementX(0);
 		this.movingUp = false;
+		LOGGER.debug("removing movement");
 	}
 
 	public Player getPlayer() {
