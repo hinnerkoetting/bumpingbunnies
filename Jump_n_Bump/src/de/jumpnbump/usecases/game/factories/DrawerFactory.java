@@ -10,6 +10,7 @@ public class DrawerFactory {
 	public static Drawer create(World world, GameThreadState threadState) {
 		DrawablesFactory drawFactory = new DrawablesFactory(world, threadState);
 		Drawer drawer = new Drawer(drawFactory);
+		drawer.buildAllDrawables();
 		return drawer;
 	}
 }

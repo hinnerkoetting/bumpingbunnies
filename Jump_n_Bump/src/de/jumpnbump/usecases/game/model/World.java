@@ -3,34 +3,41 @@ package de.jumpnbump.usecases.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.jumpnbump.usecases.game.factories.PlayerFactory;
+import de.jumpnbump.logger.Logger;
+import de.jumpnbump.logger.MyLog;
 
 public class World {
 
-	private Player player1;
-	private Player player2;
-
+	private static final MyLog LOGGER = Logger.getLogger(World.class);
 	private List<GameObject> allObjects;
 	private List<Player> allPlayer;
+	private WorldObjectsFactory factory;
 
-	public World() {
+	public World(WorldObjectsFactory factory) {
 		super();
-		this.player1 = PlayerFactory.createPlayer1();
-		this.player2 = PlayerFactory.createPlayer2();
-		this.allObjects = new ArrayList<GameObject>(2);
+		this.factory = factory;
 		this.allPlayer = new ArrayList<Player>(2);
-		this.allObjects.add(this.player1);
-		this.allObjects.add(this.player2);
-		this.allPlayer.add(this.player1);
-		this.allPlayer.add(this.player2);
+		this.allObjects = factory.createAllObjects();
 	}
 
+	public void buildWorld() {
+		this.allObjects.clear();
+		this.allPlayer.clear();
+		this.allObjects.addAll(this.factory.createAllObjects());
+		this.allPlayer.addAll(this.factory.createAllPlayers());
+		this.allObjects.addAll(this.allPlayer);
+		LOGGER.info("Added %d objects and %d players", this.allObjects.size(),
+				this.allPlayer.size());
+	}
+
+	@Deprecated
 	public Player getPlayer1() {
-		return this.player1;
+		return this.allPlayer.get(0);
 	}
 
+	@Deprecated
 	public Player getPlayer2() {
-		return this.player2;
+		return this.allPlayer.get(1);
 	}
 
 	public List<GameObject> getAllObjects() {

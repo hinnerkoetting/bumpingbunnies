@@ -25,7 +25,7 @@ public class Player implements GameObject {
 		this.simulatedObject = simulatedObject;
 	}
 
-	private void calculateRect() {
+	public void calculateRect() {
 		double centerX = this.state.getCenterX();
 		double centerY = this.state.getCenterY();
 		this.rect.setMinX(centerX - ModelConstants.PLAYER_WIDTH / 2);
