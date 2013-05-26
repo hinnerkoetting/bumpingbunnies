@@ -2,6 +2,8 @@ package de.jumpnbump.usecases.game.model;
 
 public interface ModelConstants {
 
+	double WALL_WIDTH = 0.025;
+	double WALL_HEIGHT = 0.025;
 	double PLAYER_WIDTH = 0.05;
 	double PLAYER_HEIGHT = 0.05;
 	double PLAYER_GRAVITY = 0.00001;

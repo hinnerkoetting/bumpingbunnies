@@ -6,10 +6,8 @@ import de.jumpnbump.usecases.game.model.PlayerState;
 
 public class PlayerFactory {
 
-	private static int GLOBAL_COUNT = 0;
-
 	public static Player createPlayer1() {
-		int id = GLOBAL_COUNT++;
+		int id = IdCounter.getNextId();
 		Player p = new Player(new Player(id), id);
 		PlayerState state = p.getState();
 		state.setCenterX(0.2);
@@ -19,7 +17,7 @@ public class PlayerFactory {
 	}
 
 	public static Player createPlayer2() {
-		int id = GLOBAL_COUNT++;
+		int id = IdCounter.getNextId();
 		Player p = new Player(new Player(id), id);
 		PlayerState state = p.getState();
 		state.setCenterX(0.8);

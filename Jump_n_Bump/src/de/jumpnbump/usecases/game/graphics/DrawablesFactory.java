@@ -1,10 +1,12 @@
 package de.jumpnbump.usecases.game.graphics;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import de.jumpnbump.usecases.game.GameThreadState;
 import de.jumpnbump.usecases.game.model.Player;
+import de.jumpnbump.usecases.game.model.Wall;
 import de.jumpnbump.usecases.game.model.World;
 
 public class DrawablesFactory {
@@ -22,7 +24,16 @@ public class DrawablesFactory {
 		allDrawables.addAll(createAllScores());
 		allDrawables.addAll(createAllPlayers());
 		allDrawables.add(createFps());
+		allDrawables.addAll(createWalls());
 		return allDrawables;
+	}
+
+	private Collection<? extends Drawable> createWalls() {
+		List<RectDrawer> allWalls = new LinkedList<RectDrawer>();
+		for (Wall w : this.world.getAllWalls()) {
+			allWalls.add(new RectDrawer(w));
+		}
+		return allWalls;
 	}
 
 	private List<Drawable> createAllScores() {
