@@ -48,7 +48,7 @@ public class ConnectThread extends Thread {
 			// until it succeeds or throws an exception
 			this.mmSocket.connect();
 		} catch (IOException connectException) {
-			this.activity.connectionNotSuccesful();
+			this.activity.connectionNotSuccesful(connectException.getMessage());
 			LOGGER.warn("Exception during connect to server "
 					+ connectException.getMessage());
 			// Unable to connect; close the socket and get out

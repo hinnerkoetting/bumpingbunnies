@@ -17,12 +17,9 @@
     <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         layout="@layout/gamepad" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/gamepad"
-        android:id="@+id/gamepad_cb"/>
+    <include layout="@layout/input_type" />
 
 </LinearLayout>

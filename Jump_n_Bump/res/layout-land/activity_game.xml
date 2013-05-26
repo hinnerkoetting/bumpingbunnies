@@ -14,15 +14,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/gamepad" />
+        android:layout_gravity="bottom"
+        android:orientation="vertical" >
 
-    <CheckBox
-        android:id="@+id/gamepad_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/gamepad" />
+        <include
+            android:layout_gravity="right"
+            layout="@layout/input_type" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            layout="@layout/gamepad"
+            android:gravity="bottom" />
+    </LinearLayout>
 
 </LinearLayout>

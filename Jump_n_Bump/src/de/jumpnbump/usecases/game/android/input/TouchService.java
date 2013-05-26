@@ -1,110 +1,41 @@
 package de.jumpnbump.usecases.game.android.input;
 
-import android.view.MotionEvent;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
-import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.network.StateSender;
 
-public class TouchService implements GameScreenSizeChangeListener, InputService {
+public class TouchService extends LeftRightTouchService implements
+		GameScreenSizeChangeListener, InputService {
 
 	private static final MyLog LOGGER = Logger.getLogger(TouchService.class);
-	private MotionEvent lastEvent;
-	private int windowWidth;
-	private int windowHeight;
-	private GamePlayerController playerMovement;
-	private StateSender sender;
 
 	public TouchService(GamePlayerController playerMovement, StateSender sender) {
-		this.playerMovement = playerMovement;
-		this.sender = sender;
-	}
-
-	public void onMotionEvent(MotionEvent motionEvent) {
-		this.lastEvent = motionEvent;
-	}
-
-	private float getRelativeX() {
-		return this.lastEvent.getX() / this.windowWidth;
+		super(playerMovement, sender);
 	}
 
 	private float getRelativeY() {
-		return this.lastEvent.getY() / this.windowHeight;
+		return this.getLastEvent().getY() / this.getWindowHeight();
 	}
 
 	@Override
-	public void executeUserInput() {
-		if (this.lastEvent != null) {
-			executeLastExistingEvent();
-		}
-		this.sender.sendPlayerCoordinates(this.playerMovement.getPlayer());
-	}
-
-	private void executeLastExistingEvent() {
-		if (this.lastEvent.getAction() != MotionEvent.ACTION_UP) {
-			executePlayerMovement();
-		} else {
-			removePlayerMovement();
-		}
-	}
-
-	private void removePlayerMovement() {
-		this.playerMovement.removeMovement();
-
-	}
-
-	private void executePlayerMovement() {
+	protected void executePlayerMovement() {
+		super.executePlayerMovement();
 		int movement = 10;
-		moveLeftOrRight(movement);
 		moveUpOrDown(movement);
-	}
-
-	private void moveLeftOrRight(int movement) {
-		Player player = this.playerMovement.getPlayer();
-		if (isClickLeftToPlayer(player)) {
-			this.playerMovement.tryMoveLeft();
-		} else if (isClickRightToPlayer(player)) {
-			this.playerMovement.tryMoveRight();
-		} else {
-			this.playerMovement.removeMovement();
-		}
-	}
-
-	private boolean isClickRightToPlayer(Player player) {
-		return this.lastEvent.getX() > player.maxX() * this.windowWidth;
-	}
-
-	private boolean isClickLeftToPlayer(Player player) {
-		return this.lastEvent.getX() < player.minX() * this.windowWidth;
 	}
 
 	private void moveUpOrDown(int movement) {
 		if (clickOnUpperHalf()) {
-			this.playerMovement.tryMoveUp();
+			this.getPlayerMovement().tryMoveUp();
 		} else {
-			this.playerMovement.tryMoveDown();
+			this.getPlayerMovement().tryMoveDown();
 		}
 	}
 
 	private boolean clickOnUpperHalf() {
 		return getRelativeY() < 0.5f;
-	}
-
-	private boolean isClickOnLeftHalf() {
-		return getRelativeX() < 0.5f;
-	}
-
-	@Override
-	public void setNewSize(int width, int height) {
-		this.windowHeight = height;
-		this.windowWidth = width;
-	}
-
-	@Override
-	public void destroy() {
-		this.sender.cancel();
 	}
 
 }

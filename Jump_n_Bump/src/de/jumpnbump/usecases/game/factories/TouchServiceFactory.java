@@ -22,7 +22,8 @@ public class TouchServiceFactory {
 	public static TouchService createBluetoothSendingTouchService(
 			GamePlayerController playerMovent, GameView gameView,
 			BluetoothSocket socket) {
-		GameNetworkSendThread sendthread = new GameNetworkSendThread(socket);
+		GameNetworkSendThread sendthread = new GameNetworkSendThread(socket,
+				gameView.getContext());
 		TouchService touchService = new TouchService(playerMovent, sendthread);
 		gameView.addOnSizeListener(touchService);
 		sendthread.start();

@@ -10,9 +10,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.RadioButton;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
@@ -21,6 +21,7 @@ import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.android.input.GamepadInputService;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.android.input.TouchService;
+import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
@@ -28,7 +29,6 @@ import de.jumpnbump.usecases.game.factories.CollisionDetectionFactory;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
 import de.jumpnbump.usecases.game.factories.InputServiceFactory;
 import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
-import de.jumpnbump.usecases.game.factories.TouchServiceFactory;
 import de.jumpnbump.usecases.game.factories.UserInputFactory;
 import de.jumpnbump.usecases.game.factories.WorldFactory;
 import de.jumpnbump.usecases.game.model.GameThreadState;
@@ -45,6 +45,7 @@ public class GameActivity extends Activity {
 	private static final MyLog LOGGER = Logger.getLogger(GameActivity.class);
 	private static final boolean GAMEPAD_IS_ACTIVE = true;
 	private GameThread gameThread;
+	private TouchWithJumpService touchWithJumpService;
 	private TouchService touchService;
 	private GamepadInputService gamepadService;
 	private InputService networkMovementService;
@@ -69,6 +70,7 @@ public class GameActivity extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				GameActivity.this.touchService.onMotionEvent(event);
+				GameActivity.this.touchWithJumpService.onMotionEvent(event);
 				return true;
 			}
 		});
@@ -83,8 +85,17 @@ public class GameActivity extends Activity {
 				return true;
 			}
 		};
+		OnTouchListener upTouchListener = new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				GameActivity.this.gamepadService.onButtonTouch(v, event);
+				GameActivity.this.touchWithJumpService.onButtonTouchUp(event);
+				return true;
+			}
+		};
 		findViewById(R.id.button_down).setOnTouchListener(touchListener);
-		findViewById(R.id.button_up).setOnTouchListener(touchListener);
+		findViewById(R.id.button_up).setOnTouchListener(upTouchListener);
 		findViewById(R.id.button_right).setOnTouchListener(touchListener);
 		findViewById(R.id.button_left).setOnTouchListener(touchListener);
 
@@ -113,16 +124,18 @@ public class GameActivity extends Activity {
 
 		if (playerId == 0) {
 			this.gamepadService = UserInputFactory.createGamepad(
-					playerMovement, getSocket());
+					playerMovement, getSocket(), this);
 			initTouchService(world, playerMovement, contentView);
+			initTouchWithJumpService(world, playerMovement, contentView);
 			this.networkMovementService = InputServiceFactory.create(
-					getSocket(), world.getPlayer2());
+					getSocket(), world.getPlayer2(), this);
 		} else {
 			this.gamepadService = UserInputFactory.createGamepad(
-					player2Movement, getSocket());
+					player2Movement, getSocket(), this);
 			initTouchService(world, player2Movement, contentView);
+			initTouchWithJumpService(world, player2Movement, contentView);
 			this.networkMovementService = InputServiceFactory.create(
-					getSocket(), world.getPlayer1());
+					getSocket(), world.getPlayer1(), this);
 		}
 		List<GamePlayerController> playerMovements = Arrays.asList(
 				playerMovement, player2Movement);
@@ -131,40 +144,60 @@ public class GameActivity extends Activity {
 				playerMovements, createInputServices());
 
 		this.gameThread.start();
-		initGamepadCbListener();
+		initInputTypeListener();
 
 	}
 
-	private void initGamepadCbListener() {
-		CheckBox cb = (CheckBox) findViewById(R.id.gamepad_cb);
-		cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	private void initInputTypeListener() {
+		CompoundButton cb1 = (CompoundButton) findViewById(R.id.gamepad_cb);
+		CompoundButton cb2 = (CompoundButton) findViewById(R.id.touch_cb);
+		CompoundButton cb3 = (CompoundButton) findViewById(R.id.touch_with_jump_cb);
+		OnCheckedChangeListener listener = new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				onClickGamepadCB();
+				onClickInputTypeCb();
 			}
-		});
+		};
+		cb1.setOnCheckedChangeListener(listener);
+		cb2.setOnCheckedChangeListener(listener);
+		cb3.setOnCheckedChangeListener(listener);
 	}
 
 	private void initTouchService(World world,
 			GamePlayerController playerMovement, GameView contentView) {
-		this.touchService = TouchServiceFactory.create(playerMovement,
-				contentView, getSocket());
+		this.touchService = UserInputFactory.createTouch(playerMovement,
+				getSocket(), contentView);
+	}
+
+	private void initTouchWithJumpService(World world,
+			GamePlayerController playerMovement, GameView contentView) {
+		this.touchWithJumpService = UserInputFactory.createTouchWithJump(
+				playerMovement, getSocket(), contentView);
 	}
 
 	private List<InputService> createInputServices() {
-		CheckBox cb = (CheckBox) findViewById(R.id.gamepad_cb);
-		if (cb.isChecked()) {
+		RadioButton cbGamepad = (RadioButton) findViewById(R.id.gamepad_cb);
+		RadioButton cbTouch = (RadioButton) findViewById(R.id.touch_cb);
+		RadioButton cbTouchJump = (RadioButton) findViewById(R.id.touch_with_jump_cb);
+		if (cbGamepad.isChecked()) {
 			return createInputServicesGamepad();
-		} else {
+		} else if (cbTouch.isChecked()) {
 			return createInputServicesTouch();
+		} else if (cbTouchJump.isChecked()) {
+			return createInputServicesTouchWithJump();
 		}
+		throw new RuntimeException("Unknown input type");
+	}
+
+	private List<InputService> createInputServicesTouchWithJump() {
+		return Arrays.asList(this.networkMovementService,
+				this.touchWithJumpService);
 	}
 
 	private List<InputService> createInputServicesTouch() {
 		return Arrays.asList(this.networkMovementService, this.touchService);
-
 	}
 
 	private List<InputService> createInputServicesGamepad() {
@@ -203,7 +236,7 @@ public class GameActivity extends Activity {
 		this.gameThread.onDestroy();
 	}
 
-	public void onClickGamepadCB() {
+	public void onClickInputTypeCb() {
 		this.gameThread.switchInputServices(createInputServices());
 	}
 }

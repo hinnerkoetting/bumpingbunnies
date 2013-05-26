@@ -1,10 +1,11 @@
 package de.jumpnbump.usecases.game.network;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 
 import com.google.gson.Gson;
 
@@ -20,11 +21,14 @@ public class GameNetworkSendThread extends Thread implements StateSender {
 	private Writer writer;
 	private String nextMessage = null;
 	private boolean canceled;
+	private final Context context;
 
-	public GameNetworkSendThread(BluetoothSocket socket) {
+	public GameNetworkSendThread(BluetoothSocket socket, Context context) {
+		this.context = context;
 		this.gson = new Gson();
 		try {
-			this.writer = new PrintWriter(socket.getOutputStream());
+			this.writer = new OutputStreamWriter(socket.getOutputStream(),
+					NetworkConstants.ENCODING);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -66,6 +70,7 @@ public class GameNetworkSendThread extends Thread implements StateSender {
 		this.nextMessage = this.gson.toJson(player.getState());
 	}
 
+	@Override
 	public void cancel() {
 		this.canceled = true;
 	}

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.network.AcceptThread;
 import de.jumpnbump.usecases.game.network.ConnectThread;
@@ -154,18 +155,22 @@ public class StartActivity extends Activity {
 
 	}
 
-	public void connectionNotSuccesful() {
+	public void connectionNotSuccesful(final String message) {
 		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
 				Toast toast = Toast.makeText(getBaseContext(),
-						"Exception during connect. Game may still work.",
-						Toast.LENGTH_SHORT);
+						"Exception during connect. Game may still work. "
+								+ message, Toast.LENGTH_SHORT);
 				toast.show();
 			}
 		});
 
+	}
+
+	public void onClickSingleplayer(View v) {
+		ActivityLauncher.launchGame(this, 0);
 	}
 
 }
