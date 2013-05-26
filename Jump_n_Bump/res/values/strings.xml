@@ -15,9 +15,9 @@
     <string name="arrow_down">\u2193</string>
     <string name="arrow_left">\u2190</string>
     <string name="arrow_right">\u2192</string>
-    <string name="gamepad">Gamepad anschalten</string>
+    <string name="gamepad">Gamepad</string>
     <string name="touch">Touch</string>
-    <string name="touch_with_jump">Touch mit Jump-Button</string>
+    <string name="touch_with_jump">Touch+Up</string>
     <string name="singleplayer">Singleplayer</string>
 
 </resources>
