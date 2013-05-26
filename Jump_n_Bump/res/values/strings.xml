@@ -11,5 +11,10 @@
     <string name="find_devices">Geräte finden</string>
     <string name="make_visible">Hosten</string>
     <string name="app_name_solo">Jump\'n\'Bump Solo</string>
+    <string name="arrow_up">\u2191</string>
+    <string name="arrow_down">\u2193</string>
+    <string name="arrow_left">\u2190</string>
+    <string name="arrow_right">\u2192</string>
+    <string name="gamepad">Gamepad anschalten</string>
 
 </resources>

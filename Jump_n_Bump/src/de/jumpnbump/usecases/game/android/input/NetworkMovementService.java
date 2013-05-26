@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.businesslogic;
+package de.jumpnbump.usecases.game.android.input;
 
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;

@@ -1,8 +1,8 @@
 package de.jumpnbump.usecases.game.factories;
 
-import de.jumpnbump.usecases.game.GameThreadState;
 import de.jumpnbump.usecases.game.graphics.DrawablesFactory;
 import de.jumpnbump.usecases.game.graphics.Drawer;
+import de.jumpnbump.usecases.game.model.GameThreadState;
 import de.jumpnbump.usecases.game.model.World;
 
 public class DrawerFactory {

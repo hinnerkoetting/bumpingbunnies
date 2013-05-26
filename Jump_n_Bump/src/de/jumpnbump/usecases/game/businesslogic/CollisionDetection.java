@@ -39,7 +39,7 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 	public boolean willCollideHorizontal(GameObject gameobject) {
 		boolean willCollideLeft = willCollideLeft(gameobject);
 		boolean willCollideRight = willCollideRight(gameobject);
-		LOGGER.info("Collides Left %b right %b", willCollideLeft,
+		LOGGER.debug("Collides Left %b right %b", willCollideLeft,
 				willCollideRight);
 		return willCollideLeft || willCollideRight;
 	}

@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game;
+package de.jumpnbump.usecases.game.model;
 
 public class GameThreadState {
 

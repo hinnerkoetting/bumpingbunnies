@@ -3,7 +3,7 @@ package de.jumpnbump.usecases.game.graphics;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import de.jumpnbump.usecases.game.GameThreadState;
+import de.jumpnbump.usecases.game.model.GameThreadState;
 
 public class FpsDrawer implements Drawable {
 

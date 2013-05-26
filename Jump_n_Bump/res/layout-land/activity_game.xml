@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0099cc"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingLeft="@dimen/game_padding_left_right"
     android:paddingRight="@dimen/game_padding_left_right" >
 
@@ -20,9 +20,9 @@
         layout="@layout/gamepad" />
 
     <CheckBox
+        android:id="@+id/gamepad_cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/gamepad"
-        android:id="@+id/gamepad_cb"/>
+        android:text="@string/gamepad" />
 
 </LinearLayout>

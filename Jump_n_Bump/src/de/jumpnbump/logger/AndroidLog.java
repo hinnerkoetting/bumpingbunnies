@@ -31,4 +31,11 @@ public class AndroidLog implements de.jumpnbump.logger.MyLog {
 		}
 	}
 
+	@Override
+	public void warn(String log, Object... params) {
+		if (Level.WARN.isBiggerEqualThan(Logger.globalLogLevel)) {
+			Log.w(this.tag, String.format(log, params));
+		}
+
+	}
 }

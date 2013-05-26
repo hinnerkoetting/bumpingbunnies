@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game;
+package de.jumpnbump.usecases.game.android;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,6 +7,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
+import de.jumpnbump.usecases.game.businesslogic.GameThread;
 
 public class GameView extends SurfaceView {
 

@@ -37,6 +37,11 @@ public class NetworkReceiveThread extends Thread {
 			try {
 				handleMessageReading();
 			} catch (Exception e) {
+				synchronized (this) {
+					if (this.canceled) {
+						return;
+					}
+				}
 				throw new RuntimeException(e);
 			}
 		}
@@ -62,7 +67,7 @@ public class NetworkReceiveThread extends Thread {
 		return this.latestPlayerCoordinates;
 	}
 
-	public void cancel() {
+	public synchronized void cancel() {
 		this.canceled = true;
 	}
 }

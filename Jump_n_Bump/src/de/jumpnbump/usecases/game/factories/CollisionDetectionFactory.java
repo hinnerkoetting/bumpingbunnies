@@ -1,6 +1,6 @@
 package de.jumpnbump.usecases.game.factories;
 
-import de.jumpnbump.usecases.game.GameView;
+import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
 import de.jumpnbump.usecases.game.model.World;
 

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.network.AcceptThread;
 import de.jumpnbump.usecases.game.network.ConnectThread;
 
@@ -28,6 +29,7 @@ public class StartActivity extends Activity {
 	private BroadcastReceiver mReceiver;
 	private AcceptThread acceptThread;
 	private ConnectThread connectThread;
+	private BluetoothAdapter mBluetoothAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class StartActivity extends Activity {
 		ListView list = (ListView) findViewById(R.id.start_bt_list);
 		this.listAdapter = new BluetoothArrayAdapter(getBaseContext(), this);
 		list.setAdapter(this.listAdapter);
+		this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 	}
 
 	@Override
@@ -46,14 +49,12 @@ public class StartActivity extends Activity {
 	}
 
 	public void onClickConnect(View v) {
-		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
-				.getDefaultAdapter();
-		if (mBluetoothAdapter == null) {
+		if (this.mBluetoothAdapter == null) {
 			Toast makeText = Toast.makeText(this, "Bluetooth not supported",
 					Toast.LENGTH_LONG);
 			makeText.show();
 		} else {
-			if (!mBluetoothAdapter.isEnabled()) {
+			if (!this.mBluetoothAdapter.isEnabled()) {
 				Intent enableBtIntent = new Intent(
 						BluetoothAdapter.ACTION_REQUEST_ENABLE);
 				startActivityForResult(enableBtIntent, this.REQUEST_BT_ENABLE);
@@ -126,8 +127,7 @@ public class StartActivity extends Activity {
 				BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 		startActivity(discoverableIntent);
 		closeOpenBtConnections();
-		this.acceptThread = new AcceptThread(
-				BluetoothAdapter.getDefaultAdapter(), this);
+		this.acceptThread = new AcceptThread(this.mBluetoothAdapter, this);
 		this.acceptThread.start();
 	}
 
@@ -141,21 +141,17 @@ public class StartActivity extends Activity {
 	}
 
 	private void closeOpenBtConnections() {
-
-		BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-		if (this.acceptThread != null) {
-			this.acceptThread.cancel();
-		}
-		if (this.connectThread != null) {
-			this.connectThread.cancel();
-		}
+		this.mBluetoothAdapter.cancelDiscovery();
+		MyApplication application = (MyApplication) getApplication();
+		application.closeExistingSocket();
 	}
 
 	public void startConnectToServer(BluetoothDevice device) {
-		// closeOpenBtConnections();
-		this.connectThread = new ConnectThread(device,
-				BluetoothAdapter.getDefaultAdapter(), this);
+		closeOpenBtConnections();
+		this.connectThread = new ConnectThread(device, this.mBluetoothAdapter,
+				this);
 		this.connectThread.start();
+
 	}
 
 	public void connectionNotSuccesful() {
@@ -164,7 +160,8 @@ public class StartActivity extends Activity {
 			@Override
 			public void run() {
 				Toast toast = Toast.makeText(getBaseContext(),
-						"Exception during connect?", Toast.LENGTH_LONG);
+						"Exception during connect. Game may still work.",
+						Toast.LENGTH_SHORT);
 				toast.show();
 			}
 		});

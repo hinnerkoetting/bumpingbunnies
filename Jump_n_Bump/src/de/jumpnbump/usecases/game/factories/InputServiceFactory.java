@@ -3,9 +3,9 @@ package de.jumpnbump.usecases.game.factories;
 import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.android.input.NetworkMovementService;
 import de.jumpnbump.usecases.game.businesslogic.DummyMovementService;
-import de.jumpnbump.usecases.game.businesslogic.InputService;
-import de.jumpnbump.usecases.game.businesslogic.NetworkMovementService;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.network.NetworkReceiveThread;
 

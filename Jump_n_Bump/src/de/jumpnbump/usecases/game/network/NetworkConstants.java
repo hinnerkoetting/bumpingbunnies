@@ -2,9 +2,14 @@ package de.jumpnbump.usecases.game.network;
 
 import java.util.UUID;
 
+import android.os.Build;
+
 public class NetworkConstants {
 
+	static int sdk = Integer.parseInt(Build.VERSION.SDK);
+
 	public static final UUID MY_UUID = UUID
-			.fromString("53c0d1d0-c54f-11e2-8b8b-0800200c9a66");
+			.fromString((sdk <= 8 || sdk >= 11) ? "04c6093b-0000-1000-8000-00805f9b34fb"
+					: "00001101-0000-1000-8000-00805F9B34FB");
 	public static final String NAME = "JUMPNBUMP";
 }

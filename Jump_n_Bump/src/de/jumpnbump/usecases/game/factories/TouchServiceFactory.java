@@ -1,9 +1,9 @@
 package de.jumpnbump.usecases.game.factories;
 
 import android.bluetooth.BluetoothSocket;
-import de.jumpnbump.usecases.game.GameView;
+import de.jumpnbump.usecases.game.android.GameView;
+import de.jumpnbump.usecases.game.android.input.TouchService;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
-import de.jumpnbump.usecases.game.businesslogic.TouchService;
 import de.jumpnbump.usecases.game.network.DummyStateSender;
 import de.jumpnbump.usecases.game.network.GameNetworkSendThread;
 

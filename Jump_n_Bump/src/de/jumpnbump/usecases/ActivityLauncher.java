@@ -2,7 +2,7 @@ package de.jumpnbump.usecases;
 
 import android.app.Activity;
 import android.content.Intent;
-import de.jumpnbump.usecases.game.GameActivity;
+import de.jumpnbump.usecases.game.android.GameActivity;
 
 public class ActivityLauncher {
 

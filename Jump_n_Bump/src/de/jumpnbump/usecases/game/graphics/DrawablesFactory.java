@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.jumpnbump.usecases.game.GameThreadState;
+import de.jumpnbump.usecases.game.model.GameThreadState;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.Wall;
 import de.jumpnbump.usecases.game.model.World;

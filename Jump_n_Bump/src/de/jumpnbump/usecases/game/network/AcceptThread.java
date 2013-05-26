@@ -25,7 +25,7 @@ public class AcceptThread extends Thread {
 		BluetoothServerSocket tmp = null;
 		try {
 			// MY_UUID is the app's UUID string, also used by the client code
-			tmp = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(
+			tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(
 					NetworkConstants.NAME, NetworkConstants.MY_UUID);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -46,11 +46,11 @@ public class AcceptThread extends Thread {
 				if (socket != null) {
 					// Do work to manage the connection (in a separate thread)
 					manageConnectedSocket(socket);
-					this.mmServerSocket.close();
+					// this.mmServerSocket.close();
 					break;
 				}
 			} catch (IOException e) {
-				break;
+				throw new RuntimeException(e);
 			}
 		}
 	}
@@ -63,11 +63,4 @@ public class AcceptThread extends Thread {
 		LOGGER.info("Connection accepeted");
 	}
 
-	/** Will cancel the listening socket, and cause the thread to finish */
-	public void cancel() {
-		try {
-			this.mmServerSocket.close();
-		} catch (IOException e) {
-		}
-	}
 }

@@ -1,10 +1,14 @@
-package de.jumpnbump.usecases.game;
+package de.jumpnbump.usecases.game.businesslogic;
+
+import java.util.List;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.graphics.Drawer;
+import de.jumpnbump.usecases.game.model.GameThreadState;
 
 public class GameThread extends Thread implements SurfaceHolder.Callback {
 
@@ -111,5 +115,10 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 
 	public void onDestroy() {
 		this.worldController.destroy();
+	}
+
+	public void switchInputServices(List<InputService> createInputServices) {
+		this.worldController.switchInputServices(createInputServices);
+
 	}
 }

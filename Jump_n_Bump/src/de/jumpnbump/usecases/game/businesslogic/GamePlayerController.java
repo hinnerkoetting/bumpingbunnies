@@ -5,11 +5,11 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 
-public class GamePlayerController {
+public class GamePlayerController implements ModelConstants {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(GamePlayerController.class);
-	private static final double MOVEMENT = 0.001f;
+
 	private final Player movedPlayer;
 	private final CollisionDetection collision;
 	private boolean movingUp;
@@ -56,12 +56,19 @@ public class GamePlayerController {
 	}
 
 	public void tryMoveRight() {
-		LOGGER.debug("moving right");
 		this.movedPlayer.setMovementX(MOVEMENT);
 	}
 
 	public void tryMoveLeft() {
 		this.movedPlayer.setMovementX(-MOVEMENT);
+	}
+
+	public void removeHorizontalMovement() {
+		this.movedPlayer.setMovementX(0);
+	}
+
+	public void removeVerticalMovement() {
+		this.movingUp = false;
 	}
 
 	public void tryMoveUp() {

@@ -2,12 +2,12 @@ package de.jumpnbump.usecases.game.factories;
 
 import java.util.List;
 
-import de.jumpnbump.usecases.game.GameThread;
-import de.jumpnbump.usecases.game.GameThreadState;
-import de.jumpnbump.usecases.game.WorldController;
-import de.jumpnbump.usecases.game.businesslogic.InputService;
+import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.businesslogic.GameThread;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
+import de.jumpnbump.usecases.game.businesslogic.WorldController;
 import de.jumpnbump.usecases.game.graphics.Drawer;
+import de.jumpnbump.usecases.game.model.GameThreadState;
 import de.jumpnbump.usecases.game.model.World;
 
 public class GameThreadFactory {

@@ -1,9 +1,8 @@
-package de.jumpnbump.usecases.game;
+package de.jumpnbump.usecases.game.businesslogic;
 
 import java.util.List;
 
-import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
-import de.jumpnbump.usecases.game.businesslogic.InputService;
+import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
 
@@ -60,5 +59,12 @@ public class WorldController {
 		for (InputService is : this.inputServices) {
 			is.destroy();
 		}
+	}
+
+	public void switchInputServices(List<InputService> createInputServices) {
+		for (InputService is : this.inputServices) {
+			is.destroy();
+		}
+		this.inputServices = createInputServices;
 	}
 }

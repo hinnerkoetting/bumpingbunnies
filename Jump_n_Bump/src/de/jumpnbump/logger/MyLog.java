@@ -7,4 +7,6 @@ public interface MyLog {
 	void debug(String log, Object... params);
 
 	void verbose(String log, Object... params);
+
+	void warn(String string, Object... params);
 }
