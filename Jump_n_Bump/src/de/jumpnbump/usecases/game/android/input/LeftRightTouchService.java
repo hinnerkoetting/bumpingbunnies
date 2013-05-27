@@ -3,8 +3,8 @@ package de.jumpnbump.usecases.game.android.input;
 import android.view.MotionEvent;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
+import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.model.Player;
 
@@ -16,10 +16,10 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 	private MotionEvent lastEvent;
 	private int windowWidth;
 	private int windowHeight;
-	private GamePlayerController playerMovement;
+	private PlayerMovementController playerMovement;
 	private StateSender sender;
 
-	public LeftRightTouchService(GamePlayerController playerMovement,
+	public LeftRightTouchService(PlayerMovementController playerMovement,
 			StateSender sender) {
 		this.playerMovement = playerMovement;
 		this.sender = sender;
@@ -33,8 +33,13 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 	public void executeUserInput() {
 		if (this.lastEvent != null) {
 			executeLastExistingEvent();
+			removeLastEvent();
 		}
 		this.sender.sendPlayerCoordinates(this.playerMovement.getPlayer());
+	}
+
+	private void removeLastEvent() {
+		this.lastEvent = null;
 	}
 
 	private void executeLastExistingEvent() {
@@ -105,7 +110,7 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 		return this.windowHeight;
 	}
 
-	public GamePlayerController getPlayerMovement() {
+	public PlayerMovementController getPlayerMovement() {
 		return this.playerMovement;
 	}
 

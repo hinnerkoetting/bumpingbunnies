@@ -133,7 +133,7 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 		GameObject nextStep = player.simulateNextStepY();
 		List<Player> allPlayers = this.world.getAllPlayer();
 		for (Player p : allPlayers) {
-			if (SingleCollisionDetection.collidesObjectOnTop(nextStep, p)) {
+			if (SingleCollisionDetection.collidesCircaObjectOnTop(nextStep, p)) {
 				return p;
 			}
 		}

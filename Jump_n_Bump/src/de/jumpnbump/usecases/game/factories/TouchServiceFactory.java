@@ -3,14 +3,14 @@ package de.jumpnbump.usecases.game.factories;
 import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.input.TouchService;
-import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
+import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.communication.DummyStateSender;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.communication.factories.StateSenderFactory;
 
 public class TouchServiceFactory {
 
-	public static TouchService create(GamePlayerController playerMovent,
+	public static TouchService create(PlayerMovementController playerMovent,
 			GameView gameView, BluetoothSocket socket) {
 		if (socket != null) {
 			return createBluetoothSendingTouchService(playerMovent, gameView,
@@ -21,7 +21,7 @@ public class TouchServiceFactory {
 	}
 
 	public static TouchService createBluetoothSendingTouchService(
-			GamePlayerController playerMovent, GameView gameView,
+			PlayerMovementController playerMovent, GameView gameView,
 			BluetoothSocket socket) {
 
 		StateSender sender = StateSenderFactory.createNetworkSender(socket);
@@ -31,7 +31,7 @@ public class TouchServiceFactory {
 	}
 
 	public static TouchService createNoSendingTouchService(
-			GamePlayerController playerMovent, GameView gameView) {
+			PlayerMovementController playerMovent, GameView gameView) {
 		DummyStateSender dummysender = new DummyStateSender();
 		TouchService touchService = new TouchService(playerMovent, dummysender);
 		gameView.addOnSizeListener(touchService);

@@ -2,7 +2,7 @@ package de.jumpnbump.usecases.game.factories;
 
 import de.jumpnbump.usecases.game.android.input.AiInputService;
 import de.jumpnbump.usecases.game.android.input.InputService;
-import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
+import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
@@ -11,9 +11,10 @@ public class DummyInputServiceFactory extends AbstractInputServiceFactory {
 
 	@Override
 	public InputService create(InformationSupplier reicerThread,
-			GamePlayerController movementController, World world) {
+			PlayerMovementController movementController, World world) {
 		Player otherPlayer = findOtherPlayer(movementController.getPlayer(),
 				world);
+		// return new DummyInputService();
 		return new AiInputService(otherPlayer, movementController);
 	}
 

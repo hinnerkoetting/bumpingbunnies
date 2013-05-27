@@ -8,9 +8,9 @@ import de.jumpnbump.usecases.game.model.PlayerState;
 
 public class WorldController {
 	private List<InputService> inputServices;
-	private List<GamePlayerController> playermovements;
+	private List<PlayerMovementController> playermovements;
 
-	public WorldController(List<GamePlayerController> playermovements,
+	public WorldController(List<PlayerMovementController> playermovements,
 			List<InputService> movementServices) {
 		this.playermovements = playermovements;
 		this.inputServices = movementServices;
@@ -24,14 +24,14 @@ public class WorldController {
 		for (InputService movementService : this.inputServices) {
 			movementService.executeUserInput();
 		}
-		for (GamePlayerController movement : this.playermovements) {
+		for (PlayerMovementController movement : this.playermovements) {
 			movement.nextStep(delta);
 		}
 		checkForJumpedPlayers();
 	}
 
 	private void checkForJumpedPlayers() {
-		for (GamePlayerController movement : this.playermovements) {
+		for (PlayerMovementController movement : this.playermovements) {
 			Player playerUnder = movement.isOnTopOfOtherPlayer();
 			if (playerUnder != null) {
 				Player playerOnTop = movement.getPlayer();

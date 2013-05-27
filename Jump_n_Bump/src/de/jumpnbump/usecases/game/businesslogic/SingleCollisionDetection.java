@@ -20,11 +20,36 @@ public class SingleCollisionDetection {
 		return false;
 	}
 
+	public static boolean collidesCircaObjectOnTop(
+			GameObject objectToBeChecked, GameObject otherObject) {
+		if (otherObject.id() != objectToBeChecked.id()) {
+			if (checkCircaBottomCollisionWithOtherObject(otherObject,
+					objectToBeChecked)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static boolean collidesObjectOnTop(GameObject objectToBeChecked,
 			GameObject otherObject) {
 		if (otherObject.id() != objectToBeChecked.id()) {
 			if (checkBottomCollisionWithOtherObject(otherObject,
 					objectToBeChecked)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean checkCircaBottomCollisionWithOtherObject(
+			GameObject objectToBeChecked, GameObject otherObject) {
+		if (isAtCircaSomeHeightAsOtherObject(objectToBeChecked, otherObject)) {
+			if (objectToBeChecked.maxX() <= otherObject.minX()) {
+				return false;
+			} else if (objectToBeChecked.minX() >= otherObject.maxX()) {
+				return false;
+			} else {
 				return true;
 			}
 		}
@@ -43,6 +68,12 @@ public class SingleCollisionDetection {
 			}
 		}
 		return false;
+	}
+
+	private static boolean isAtCircaSomeHeightAsOtherObject(
+			GameObject objectToBeChecked, GameObject otherObject) {
+		return objectToBeChecked.maxY() > otherObject.minY() + 0.005
+				&& objectToBeChecked.minY() < otherObject.maxY() + 0.005;
 	}
 
 	private static boolean isAtSomeHeightAsOtherObject(

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,8 +24,8 @@ import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.android.input.TouchService;
 import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
-import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
+import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.factories.AbstractFactorySingleton;
 import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactory;
@@ -68,6 +69,12 @@ public class GameActivity extends Activity {
 		initGame();
 		contentView.setGameThread(this.gameThread);
 		registerGamepadTouchEvents();
+		registerAnalog();
+	}
+
+	private void registerAnalog() {
+		// ImageView findViewById = findViewById(R.id.analog);
+
 	}
 
 	private void registerScreenTouchListener(final GameView contentView) {
@@ -115,10 +122,10 @@ public class GameActivity extends Activity {
 		CollisionDetection collisionDetection = CollisionDetectionFactory
 				.create(world, contentView);
 
-		GamePlayerController playerMovement = PlayerMovementFactory.create(
+		PlayerMovementController playerMovement = PlayerMovementFactory.create(
 				world.getPlayer1(), collisionDetection);
-		GamePlayerController player2Movement = PlayerMovementFactory.create(
-				world.getPlayer2(), collisionDetection);
+		PlayerMovementController player2Movement = PlayerMovementFactory
+				.create(world.getPlayer2(), collisionDetection);
 		int playerId;
 
 		if (getIntent().getExtras() != null) {
@@ -150,7 +157,7 @@ public class GameActivity extends Activity {
 			this.networkMovementService = inputServiceFactory.create(
 					informationSupplier, playerMovement, world);
 		}
-		List<GamePlayerController> playerMovements = Arrays.asList(
+		List<PlayerMovementController> playerMovements = Arrays.asList(
 				playerMovement, player2Movement);
 
 		this.gameThread = GameThreadFactory.create(world, threadState,
@@ -179,13 +186,13 @@ public class GameActivity extends Activity {
 	}
 
 	private void initTouchService(World world,
-			GamePlayerController playerMovement, GameView contentView) {
+			PlayerMovementController playerMovement, GameView contentView) {
 		this.touchService = UserInputFactory.createTouch(playerMovement,
 				getSocket(), contentView);
 	}
 
 	private void initTouchWithJumpService(World world,
-			GamePlayerController playerMovement, GameView contentView) {
+			PlayerMovementController playerMovement, GameView contentView) {
 		this.touchWithJumpService = UserInputFactory.createTouchWithJump(
 				playerMovement, getSocket(), contentView);
 	}
@@ -201,7 +208,8 @@ public class GameActivity extends Activity {
 		} else if (cbTouchJump.isChecked()) {
 			return createInputServicesTouchWithJump();
 		}
-		throw new RuntimeException("Unknown input type");
+		LOGGER.warn("Unknown user type");
+		return new ArrayList<InputService>();
 	}
 
 	private List<InputService> createInputServicesTouchWithJump() {
@@ -220,13 +228,6 @@ public class GameActivity extends Activity {
 	private BluetoothSocket getSocket() {
 		MyApplication application = (MyApplication) getApplication();
 		return application.getSocket();
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		LOGGER.debug("touch");
-
-		return true;
 	}
 
 	@Override

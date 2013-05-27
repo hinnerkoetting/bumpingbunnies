@@ -3,7 +3,7 @@ package de.jumpnbump.usecases.game.android.input;
 import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.R;
-import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
+import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.communication.StateSender;
 
 public class GamepadInputService implements InputService {
@@ -13,10 +13,10 @@ public class GamepadInputService implements InputService {
 	private boolean upIsPressed;
 	private boolean downIsPressed;
 
-	private GamePlayerController playerMovement;
+	private PlayerMovementController playerMovement;
 	private StateSender sender;
 
-	public GamepadInputService(GamePlayerController playerMovement,
+	public GamepadInputService(PlayerMovementController playerMovement,
 			StateSender stateSender) {
 		this.playerMovement = playerMovement;
 		this.sender = stateSender;

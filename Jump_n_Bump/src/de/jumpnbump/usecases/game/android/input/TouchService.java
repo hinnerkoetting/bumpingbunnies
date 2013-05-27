@@ -2,7 +2,7 @@ package de.jumpnbump.usecases.game.android.input;
 
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
+import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
 import de.jumpnbump.usecases.game.communication.StateSender;
 
@@ -11,7 +11,7 @@ public class TouchService extends LeftRightTouchService implements
 
 	private static final MyLog LOGGER = Logger.getLogger(TouchService.class);
 
-	public TouchService(GamePlayerController playerMovement, StateSender sender) {
+	public TouchService(PlayerMovementController playerMovement, StateSender sender) {
 		super(playerMovement, sender);
 	}
 

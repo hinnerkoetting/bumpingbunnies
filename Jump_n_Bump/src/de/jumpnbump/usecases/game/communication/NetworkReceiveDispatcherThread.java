@@ -33,17 +33,17 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 		while (!this.canceled) {
 			try {
 				oneRun();
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+			} catch (IOException e) {
+				LOGGER.warn("IOException");
+				break;
 			}
 		}
 	}
 
 	private void oneRun() throws IOException {
 		String input = this.reader.readLine();
-		// JsonWrapper wrapper = convertToObject(input);
-		PlayerState state = this.gson.fromJson(input, PlayerState.class);
-		dispatchPlayerState(state);
+		JsonWrapper wrapper = convertToObject(input);
+		dispatchMessage(wrapper);
 	}
 
 	private void dispatchMessage(JsonWrapper wrapper) {
