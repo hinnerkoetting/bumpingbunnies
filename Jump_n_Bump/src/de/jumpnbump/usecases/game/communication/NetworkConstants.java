@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.network;
+package de.jumpnbump.usecases.game.communication;
 
 import java.util.UUID;
 

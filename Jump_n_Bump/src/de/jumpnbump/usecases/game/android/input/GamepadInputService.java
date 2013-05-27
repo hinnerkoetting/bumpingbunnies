@@ -4,7 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
-import de.jumpnbump.usecases.game.network.StateSender;
+import de.jumpnbump.usecases.game.communication.StateSender;
 
 public class GamepadInputService implements InputService {
 

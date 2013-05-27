@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.network;
+package de.jumpnbump.usecases.game.communication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class NetworkReceiveThread extends Thread {
 	public NetworkReceiveThread(BluetoothSocket socket, Context context) {
 		this.context = context;
 		this.gson = new Gson();
-		this.latestPlayerCoordinates = new PlayerState();
+		this.latestPlayerCoordinates = new PlayerState(-1);
 		try {
 			this.reader = new BufferedReader(new InputStreamReader(
 					socket.getInputStream(), NetworkConstants.ENCODING));

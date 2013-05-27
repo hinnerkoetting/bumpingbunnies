@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import android.app.Application;
 import android.bluetooth.BluetoothSocket;
-import android.widget.Toast;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 
@@ -25,8 +24,6 @@ public class MyApplication extends Application {
 	public void closeExistingSocket() {
 		try {
 			if (this.socket != null) {
-				Toast.makeText(getBaseContext(), "closing BT connection",
-						Toast.LENGTH_SHORT).show();
 				LOGGER.info("close connection");
 				this.socket.close();
 			}

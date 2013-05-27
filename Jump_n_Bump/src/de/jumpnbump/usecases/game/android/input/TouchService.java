@@ -4,7 +4,7 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
-import de.jumpnbump.usecases.game.network.StateSender;
+import de.jumpnbump.usecases.game.communication.StateSender;
 
 public class TouchService extends LeftRightTouchService implements
 		GameScreenSizeChangeListener, InputService {

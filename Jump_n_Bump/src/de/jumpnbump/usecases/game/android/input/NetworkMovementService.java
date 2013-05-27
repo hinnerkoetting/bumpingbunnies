@@ -1,8 +1,8 @@
 package de.jumpnbump.usecases.game.android.input;
 
+import de.jumpnbump.usecases.game.communication.NetworkReceiveThread;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
-import de.jumpnbump.usecases.game.network.NetworkReceiveThread;
 
 public class NetworkMovementService implements InputService {
 

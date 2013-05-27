@@ -2,7 +2,7 @@ package de.jumpnbump.usecases.game.android.input;
 
 import android.view.MotionEvent;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
-import de.jumpnbump.usecases.game.network.StateSender;
+import de.jumpnbump.usecases.game.communication.StateSender;
 
 public class TouchWithJumpService extends LeftRightTouchService {
 

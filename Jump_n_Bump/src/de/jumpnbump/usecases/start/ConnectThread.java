@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.network;
+package de.jumpnbump.usecases.start;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
-import de.jumpnbump.usecases.start.StartActivity;
+import de.jumpnbump.usecases.game.communication.NetworkConstants;
 
 public class ConnectThread extends Thread {
 

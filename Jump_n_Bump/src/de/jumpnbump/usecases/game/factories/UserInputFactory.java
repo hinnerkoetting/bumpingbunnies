@@ -7,8 +7,9 @@ import de.jumpnbump.usecases.game.android.input.GamepadInputService;
 import de.jumpnbump.usecases.game.android.input.TouchService;
 import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
-import de.jumpnbump.usecases.game.network.DummyStateSender;
-import de.jumpnbump.usecases.game.network.GameNetworkSendThread;
+import de.jumpnbump.usecases.game.communication.DummyStateSender;
+import de.jumpnbump.usecases.game.communication.StateSender;
+import de.jumpnbump.usecases.game.communication.factories.StateSenderFactory;
 
 public class UserInputFactory {
 
@@ -22,11 +23,8 @@ public class UserInputFactory {
 			GameView view) {
 		TouchWithJumpService touchService;
 		if (socket != null) {
-			GameNetworkSendThread gameNetworkSendThread = new GameNetworkSendThread(
-					socket, view.getContext());
-			touchService = new TouchWithJumpService(playerMovement,
-					gameNetworkSendThread);
-			gameNetworkSendThread.start();
+			StateSender sender = StateSenderFactory.createNetworkSender(socket);
+			touchService = new TouchWithJumpService(playerMovement, sender);
 		} else {
 			touchService = new TouchWithJumpService(playerMovement,
 					new DummyStateSender());
@@ -54,12 +52,9 @@ public class UserInputFactory {
 	private static GamepadInputService createGamepadServiceWithBluetoothSending(
 			GamePlayerController playerMovement, BluetoothSocket socket,
 			Context context) {
-		GameNetworkSendThread sendthread = new GameNetworkSendThread(socket,
-				context);
+		StateSender sender = StateSenderFactory.createNetworkSender(socket);
 		GamepadInputService inputservice = new GamepadInputService(
-				playerMovement, sendthread);
-		sendthread.start();
+				playerMovement, sender);
 		return inputservice;
 	}
-
 }

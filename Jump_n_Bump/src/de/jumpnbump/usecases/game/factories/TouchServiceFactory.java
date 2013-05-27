@@ -4,8 +4,9 @@ import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.input.TouchService;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
-import de.jumpnbump.usecases.game.network.DummyStateSender;
-import de.jumpnbump.usecases.game.network.GameNetworkSendThread;
+import de.jumpnbump.usecases.game.communication.DummyStateSender;
+import de.jumpnbump.usecases.game.communication.StateSender;
+import de.jumpnbump.usecases.game.communication.factories.StateSenderFactory;
 
 public class TouchServiceFactory {
 
@@ -22,11 +23,10 @@ public class TouchServiceFactory {
 	public static TouchService createBluetoothSendingTouchService(
 			GamePlayerController playerMovent, GameView gameView,
 			BluetoothSocket socket) {
-		GameNetworkSendThread sendthread = new GameNetworkSendThread(socket,
-				gameView.getContext());
-		TouchService touchService = new TouchService(playerMovent, sendthread);
+
+		StateSender sender = StateSenderFactory.createNetworkSender(socket);
+		TouchService touchService = new TouchService(playerMovent, sender);
 		gameView.addOnSizeListener(touchService);
-		sendthread.start();
 		return touchService;
 	}
 

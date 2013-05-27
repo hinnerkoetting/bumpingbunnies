@@ -25,9 +25,11 @@ import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
 import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
+import de.jumpnbump.usecases.game.communication.InformationSupplier;
+import de.jumpnbump.usecases.game.factories.AbstractFactorySingleton;
+import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactory;
 import de.jumpnbump.usecases.game.factories.CollisionDetectionFactory;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
-import de.jumpnbump.usecases.game.factories.InputServiceFactory;
 import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.factories.UserInputFactory;
 import de.jumpnbump.usecases.game.factories.WorldFactory;
@@ -55,7 +57,11 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
-
+		if (getSocket() != null) {
+			AbstractFactorySingleton.initNetwork();
+		} else {
+			AbstractFactorySingleton.initSinglePlayer();
+		}
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
 		registerScreenTouchListener(contentView);
@@ -121,21 +127,28 @@ public class GameActivity extends Activity {
 		} else {
 			playerId = 0;
 		}
+		AbstractFactorySingleton singleton = AbstractFactorySingleton
+				.getSingleton();
+		AbstractInputServiceFactory inputServiceFactory = singleton
+				.getInputServiceFactory();
+		InformationSupplier informationSupplier = singleton
+				.createInformationSupplier(getSocket());
 
 		if (playerId == 0) {
 			this.gamepadService = UserInputFactory.createGamepad(
 					playerMovement, getSocket(), this);
 			initTouchService(world, playerMovement, contentView);
 			initTouchWithJumpService(world, playerMovement, contentView);
-			this.networkMovementService = InputServiceFactory.create(
-					getSocket(), world.getPlayer2(), this);
+
+			this.networkMovementService = inputServiceFactory.create(
+					informationSupplier, world.getPlayer2());
 		} else {
 			this.gamepadService = UserInputFactory.createGamepad(
 					player2Movement, getSocket(), this);
 			initTouchService(world, player2Movement, contentView);
 			initTouchWithJumpService(world, player2Movement, contentView);
-			this.networkMovementService = InputServiceFactory.create(
-					getSocket(), world.getPlayer1(), this);
+			this.networkMovementService = inputServiceFactory.create(
+					informationSupplier, world.getPlayer1());
 		}
 		List<GamePlayerController> playerMovements = Arrays.asList(
 				playerMovement, player2Movement);

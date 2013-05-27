@@ -19,8 +19,6 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
-import de.jumpnbump.usecases.game.network.AcceptThread;
-import de.jumpnbump.usecases.game.network.ConnectThread;
 
 public class StartActivity extends Activity {
 

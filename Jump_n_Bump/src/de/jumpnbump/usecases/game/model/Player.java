@@ -11,12 +11,10 @@ public class Player implements GameObject {
 	private Player simulatedObject;
 
 	private PlayerRect rect;
-	private int id;
 
 	public Player(int id) {
 		this.rect = new PlayerRect();
-		this.state = new PlayerState();
-		this.id = id;
+		this.state = new PlayerState(id);
 		calculateRect();
 	}
 
@@ -162,7 +160,7 @@ public class Player implements GameObject {
 
 	@Override
 	public int id() {
-		return this.id;
+		return this.state.getId();
 	}
 
 	public PlayerState getState() {
@@ -173,4 +171,5 @@ public class Player implements GameObject {
 	public int getColor() {
 		return this.state.getColor();
 	}
+
 }

@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.game.model;
 
-
 public interface GameObject {
 
 	int id();

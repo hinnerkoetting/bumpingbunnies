@@ -1,6 +1,6 @@
 package de.jumpnbump.usecases.game.model;
 
-public class PlayerState {
+public class PlayerState implements GameObjectState<PlayerState> {
 
 	private double centerX;
 	private double centerY;
@@ -10,6 +10,11 @@ public class PlayerState {
 	private double accelerationY;
 	private int score;
 	private int color;
+	private int id;
+
+	public PlayerState(int id) {
+		this.id = id;
+	}
 
 	public double getCenterX() {
 		return this.centerX;
@@ -75,13 +80,24 @@ public class PlayerState {
 		this.color = color;
 	}
 
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Override
-	public String toString() {
-		return "PlayerState [centerX=" + this.centerX + ", centerY="
-				+ this.centerY + ", movementX=" + this.movementX
-				+ ", movementY=" + this.movementY + ", accelerationX="
-				+ this.accelerationX + ", accelerationY=" + this.accelerationY
-				+ "]";
+	public void copyContentTo(PlayerState other) {
+		other.accelerationX = this.accelerationX;
+		other.accelerationY = this.accelerationY;
+		other.centerX = this.centerX;
+		other.centerY = this.centerY;
+		other.color = this.color;
+		other.movementX = this.movementX;
+		other.movementY = this.movementY;
+		other.score = this.score;
 	}
 
 }
