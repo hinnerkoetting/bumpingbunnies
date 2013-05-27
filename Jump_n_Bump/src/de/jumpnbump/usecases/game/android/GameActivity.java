@@ -141,14 +141,14 @@ public class GameActivity extends Activity {
 			initTouchWithJumpService(world, playerMovement, contentView);
 
 			this.networkMovementService = inputServiceFactory.create(
-					informationSupplier, world.getPlayer2());
+					informationSupplier, player2Movement, world);
 		} else {
 			this.gamepadService = UserInputFactory.createGamepad(
 					player2Movement, getSocket(), this);
 			initTouchService(world, player2Movement, contentView);
 			initTouchWithJumpService(world, player2Movement, contentView);
 			this.networkMovementService = inputServiceFactory.create(
-					informationSupplier, world.getPlayer1());
+					informationSupplier, playerMovement, world);
 		}
 		List<GamePlayerController> playerMovements = Arrays.asList(
 				playerMovement, player2Movement);

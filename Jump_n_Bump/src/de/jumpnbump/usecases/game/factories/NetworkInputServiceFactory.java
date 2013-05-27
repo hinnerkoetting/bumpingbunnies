@@ -3,8 +3,9 @@ package de.jumpnbump.usecases.game.factories;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.businesslogic.GamePlayerController;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
-import de.jumpnbump.usecases.game.model.Player;
+import de.jumpnbump.usecases.game.model.World;
 
 public class NetworkInputServiceFactory extends AbstractInputServiceFactory {
 
@@ -12,9 +13,11 @@ public class NetworkInputServiceFactory extends AbstractInputServiceFactory {
 			.getLogger(NetworkInputServiceFactory.class);
 
 	@Override
-	public InputService create(InformationSupplier reicerThread, Player player) {
+	public InputService create(InformationSupplier reicerThread,
+			GamePlayerController movementController, World world) {
 		LOGGER.info("Creating Bluetooth Input Service");
-		return createBluetoothInputService(reicerThread, player);
+		return createBluetoothInputService(reicerThread,
+				movementController.getPlayer());
 	}
 
 }

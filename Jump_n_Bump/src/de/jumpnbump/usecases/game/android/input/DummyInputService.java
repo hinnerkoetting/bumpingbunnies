@@ -1,6 +1,5 @@
-package de.jumpnbump.usecases.game.businesslogic;
+package de.jumpnbump.usecases.game.android.input;
 
-import de.jumpnbump.usecases.game.android.input.InputService;
 
 public class DummyInputService implements InputService {
 
