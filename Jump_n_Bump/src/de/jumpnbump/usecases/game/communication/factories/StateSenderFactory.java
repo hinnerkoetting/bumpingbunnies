@@ -1,15 +1,15 @@
 package de.jumpnbump.usecases.game.communication.factories;
 
 import de.jumpnbump.usecases.game.communication.GameNetworkSender;
-import de.jumpnbump.usecases.game.communication.NetworkSendQueueThread;
+import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.model.Player;
 
 public class StateSenderFactory extends AbstractStateSenderFactory {
 
-	private final NetworkSendQueueThread networkThread;
+	private final RemoteSender networkThread;
 
-	public StateSenderFactory(NetworkSendQueueThread networkThread) {
+	public StateSenderFactory(RemoteSender networkThread) {
 		this.networkThread = networkThread;
 	}
 

@@ -20,6 +20,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 	private boolean running;
 	private boolean isDrawingPossible;
 	private final WorldController worldController;
+	private boolean canceled;
 
 	public GameThread(Drawer drawer, WorldController worldController,
 			GameThreadState gameThreadState) {
@@ -42,7 +43,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 	private void internalRun() throws InterruptedException {
 		LOGGER.info("start game thread");
 		this.state.setLastRun(System.currentTimeMillis());
-		while (true) {
+		while (!this.canceled) {
 			if (this.running && this.isDrawingPossible) {
 				nextWorldStep();
 				drawGame();
@@ -113,7 +114,8 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 		this.isDrawingPossible = false;
 	}
 
-	public void onDestroy() {
+	public void cancel() {
+		this.canceled = true;
 		this.worldController.destroy();
 	}
 

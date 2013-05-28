@@ -8,8 +8,10 @@ import android.bluetooth.BluetoothSocket;
 
 import com.google.gson.Gson;
 
+import de.jumpnbump.usecases.game.communication.DummyRemoteSender;
 import de.jumpnbump.usecases.game.communication.NetworkConstants;
 import de.jumpnbump.usecases.game.communication.NetworkSendQueueThread;
+import de.jumpnbump.usecases.game.communication.RemoteSender;
 
 public class NetworkSendQueueThreadFactory {
 
@@ -24,5 +26,9 @@ public class NetworkSendQueueThreadFactory {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static RemoteSender createDummyRemoteSender() {
+		return new DummyRemoteSender();
 	}
 }

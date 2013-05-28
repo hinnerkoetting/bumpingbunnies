@@ -24,7 +24,7 @@ import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.android.input.TouchService;
 import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
-import de.jumpnbump.usecases.game.communication.NetworkSendQueueThread;
+import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactorySingleton;
@@ -47,6 +47,7 @@ public class GameActivity extends Activity {
 	private TouchService touchService;
 	private GamepadInputService gamepadService;
 	private InputService networkMovementService;
+	private RemoteSender networkThread;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +55,14 @@ public class GameActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
 		if (getSocket() != null) {
-			NetworkSendQueueThread networkThread = NetworkSendQueueThreadFactory
+			this.networkThread = NetworkSendQueueThreadFactory
 					.create(getSocket());
 			AbstractInputServiceFactorySingleton.initNetwork(getSocket(),
-					networkThread);
+					this.networkThread);
 		} else {
 			AbstractInputServiceFactorySingleton.initSinglePlayer();
+			this.networkThread = NetworkSendQueueThreadFactory
+					.createDummyRemoteSender();
 		}
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
@@ -211,7 +214,8 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		this.gameThread.onDestroy();
+		this.gameThread.cancel();
+		this.networkThread.cancel();
 	}
 
 	public void onClickInputTypeCb() {

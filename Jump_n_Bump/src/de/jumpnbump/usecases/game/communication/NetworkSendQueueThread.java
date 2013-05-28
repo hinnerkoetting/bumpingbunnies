@@ -12,7 +12,7 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.communication.objects.JsonWrapper;
 import de.jumpnbump.usecases.game.model.Player;
 
-public class NetworkSendQueueThread extends Thread {
+public class NetworkSendQueueThread extends Thread implements RemoteSender {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(NetworkSendQueueThread.class);

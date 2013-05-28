@@ -5,9 +5,9 @@ import de.jumpnbump.usecases.game.model.Player;
 public class GameNetworkSender implements StateSender {
 
 	private final Player player;
-	private final NetworkSendQueueThread networkThread;
+	private final RemoteSender networkThread;
 
-	public GameNetworkSender(Player player, NetworkSendQueueThread networkThread) {
+	public GameNetworkSender(Player player, RemoteSender networkThread) {
 		this.player = player;
 		this.networkThread = networkThread;
 	}

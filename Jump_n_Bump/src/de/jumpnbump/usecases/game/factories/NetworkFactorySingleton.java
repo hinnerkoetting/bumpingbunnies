@@ -2,7 +2,7 @@ package de.jumpnbump.usecases.game.factories;
 
 import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
-import de.jumpnbump.usecases.game.communication.NetworkSendQueueThread;
+import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.jumpnbump.usecases.game.communication.factories.StateSenderFactory;
@@ -10,11 +10,11 @@ import de.jumpnbump.usecases.game.communication.factories.StateSenderFactory;
 public class NetworkFactorySingleton extends
 		AbstractInputServiceFactorySingleton {
 
-	private final NetworkSendQueueThread networkThread;
+	private final RemoteSender networkThread;
 	private final BluetoothSocket socket;
 
 	public NetworkFactorySingleton(BluetoothSocket socket,
-			NetworkSendQueueThread networkThread) {
+			RemoteSender networkThread) {
 		this.socket = socket;
 		this.networkThread = networkThread;
 	}

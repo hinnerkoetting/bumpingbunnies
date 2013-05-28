@@ -2,7 +2,7 @@ package de.jumpnbump.usecases.game.factories;
 
 import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
-import de.jumpnbump.usecases.game.communication.NetworkSendQueueThread;
+import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 
 public abstract class AbstractInputServiceFactorySingleton {
@@ -10,7 +10,7 @@ public abstract class AbstractInputServiceFactorySingleton {
 	private static AbstractInputServiceFactorySingleton singleton;
 
 	public static void initNetwork(BluetoothSocket socket,
-			NetworkSendQueueThread networkSenderThread) {
+			RemoteSender networkSenderThread) {
 		singleton = new NetworkFactorySingleton(socket, networkSenderThread);
 	}
 
