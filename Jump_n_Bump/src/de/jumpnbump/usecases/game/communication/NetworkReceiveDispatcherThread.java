@@ -55,6 +55,11 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 	private synchronized void dispatchPlayerState(PlayerState playerState) {
 		NetworkListener networkListener = this.listeners.get(playerState
 				.getId());
+		if (networkListener == null) {
+			throw new IllegalStateException(
+					"No Listener registered for player with id "
+							+ playerState.getId());
+		}
 		networkListener.newMessage(playerState);
 	}
 
@@ -69,6 +74,7 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 
 	@Override
 	public void addObserver(int id, NetworkListener listener) {
+		LOGGER.debug("Restering listener with id %d", id);
 		this.listeners.put(id, listener);
 	}
 

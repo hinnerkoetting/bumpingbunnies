@@ -5,7 +5,6 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
-import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.model.Player;
 
 public class LeftRightTouchService implements GameScreenSizeChangeListener,
@@ -17,12 +16,9 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 	private int windowWidth;
 	private int windowHeight;
 	private PlayerMovementController playerMovement;
-	private StateSender sender;
 
-	public LeftRightTouchService(PlayerMovementController playerMovement,
-			StateSender sender) {
+	public LeftRightTouchService(PlayerMovementController playerMovement) {
 		this.playerMovement = playerMovement;
-		this.sender = sender;
 	}
 
 	public void onMotionEvent(MotionEvent motionEvent) {
@@ -35,7 +31,6 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 			executeLastExistingEvent();
 			removeLastEvent();
 		}
-		this.sender.sendPlayerCoordinates(this.playerMovement.getPlayer());
 	}
 
 	private void removeLastEvent() {
@@ -95,7 +90,6 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 
 	@Override
 	public void destroy() {
-		this.sender.cancel();
 	}
 
 	public MotionEvent getLastEvent() {

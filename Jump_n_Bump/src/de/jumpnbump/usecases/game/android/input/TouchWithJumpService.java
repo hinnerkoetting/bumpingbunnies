@@ -2,15 +2,13 @@ package de.jumpnbump.usecases.game.android.input;
 
 import android.view.MotionEvent;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
-import de.jumpnbump.usecases.game.communication.StateSender;
 
 public class TouchWithJumpService extends LeftRightTouchService {
 
 	private boolean upIsPressed;
 
-	public TouchWithJumpService(PlayerMovementController playerMovement,
-			StateSender sender) {
-		super(playerMovement, sender);
+	public TouchWithJumpService(PlayerMovementController playerMovement) {
+		super(playerMovement);
 	}
 
 	@Override

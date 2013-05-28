@@ -12,7 +12,7 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.communication.objects.JsonWrapper;
 import de.jumpnbump.usecases.game.model.Player;
 
-public class NetworkSendQueueThread extends Thread implements StateSender {
+public class NetworkSendQueueThread extends Thread {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(NetworkSendQueueThread.class);
@@ -58,14 +58,12 @@ public class NetworkSendQueueThread extends Thread implements StateSender {
 		this.writer.flush();
 	}
 
-	@Override
 	public synchronized void sendPlayerCoordinates(Player player) {
 		JsonWrapper wrapper = new JsonWrapper(player.id(), player.getState());
 		String data = this.gson.toJson(wrapper);
 		this.messageQueue.add(data);
 	}
 
-	@Override
 	public void cancel() {
 		this.canceled = true;
 	}

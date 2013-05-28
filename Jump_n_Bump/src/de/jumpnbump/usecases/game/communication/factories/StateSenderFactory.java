@@ -1,46 +1,20 @@
 package de.jumpnbump.usecases.game.communication.factories;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
-import android.bluetooth.BluetoothSocket;
-
-import com.google.gson.Gson;
-
-import de.jumpnbump.usecases.game.communication.NetworkConstants;
+import de.jumpnbump.usecases.game.communication.GameNetworkSender;
 import de.jumpnbump.usecases.game.communication.NetworkSendQueueThread;
 import de.jumpnbump.usecases.game.communication.StateSender;
+import de.jumpnbump.usecases.game.model.Player;
 
-public class StateSenderFactory {
+public class StateSenderFactory extends AbstractStateSenderFactory {
 
-	// todo rework?
-	private static StateSender senderSingleton;
+	private final NetworkSendQueueThread networkThread;
 
-	public static StateSender createNetworkSender(BluetoothSocket socket) {
-		if (senderSingleton == null) {
-			senderSingleton = create(socket);
-		}
-		return senderSingleton;
-		// GameNetworkSendThread thread = new GameNetworkSendThread(socket);
-		// thread.start();
-		// return thread;
-		// if (senderSingleton == null) {
-		// senderSingleton = create(socket);
-		// }
-		// return senderSingleton;
+	public StateSenderFactory(NetworkSendQueueThread networkThread) {
+		this.networkThread = networkThread;
 	}
 
-	private static StateSender create(BluetoothSocket socket) {
-		try {
-			Writer writer = new OutputStreamWriter(socket.getOutputStream(),
-					NetworkConstants.ENCODING);
-			NetworkSendQueueThread thread = new NetworkSendQueueThread(writer,
-					new Gson());
-			thread.start();
-			return thread;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	@Override
+	public StateSender create(Player player) {
+		return new GameNetworkSender(player, this.networkThread);
 	}
 }

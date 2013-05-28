@@ -4,7 +4,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
-import de.jumpnbump.usecases.game.communication.StateSender;
 
 public class GamepadInputService implements InputService {
 
@@ -14,19 +13,15 @@ public class GamepadInputService implements InputService {
 	private boolean downIsPressed;
 
 	private PlayerMovementController playerMovement;
-	private StateSender sender;
 
-	public GamepadInputService(PlayerMovementController playerMovement,
-			StateSender stateSender) {
+	public GamepadInputService(PlayerMovementController playerMovement) {
 		this.playerMovement = playerMovement;
-		this.sender = stateSender;
 	}
 
 	@Override
 	public void executeUserInput() {
 		handleHorizontalMovement();
 		handleVerticalMovement();
-		this.sender.sendPlayerCoordinates(this.playerMovement.getPlayer());
 	}
 
 	private void handleVerticalMovement() {
