@@ -7,6 +7,7 @@ import android.content.Intent;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
+import de.jumpnbump.usecases.game.android.GameStartParameter;
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.PlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
@@ -61,8 +62,9 @@ public class PlayerConfigFactory {
 
 	private static int findTabletPlayerId(Intent intent) {
 		if (intent.getExtras() != null) {
-			return intent.getExtras().getInt(
-					ActivityLauncher.PLAYER_ID_CONSTANT);
+			GameStartParameter parameter = intent.getExtras().getParcelable(
+					ActivityLauncher.GAMEPARAMETER);
+			return parameter.getPlayerId();
 		} else {
 			return 0;
 		}

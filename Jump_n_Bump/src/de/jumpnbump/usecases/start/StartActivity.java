@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,6 +20,8 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
+import de.jumpnbump.usecases.game.configuration.Configuration;
+import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
 public class StartActivity extends Activity {
 
@@ -42,8 +45,8 @@ public class StartActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.start, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.game, menu);
 		return true;
 	}
 
@@ -168,7 +171,9 @@ public class StartActivity extends Activity {
 	}
 
 	public void onClickSingleplayer(View v) {
-		ActivityLauncher.launchGame(this, 0);
+		ActivityLauncher.launchGame(this, GameParameterFactory
+				.createSingleplayerParameter(new Configuration(
+						InputConfiguration.TOUCH)));
 	}
 
 }

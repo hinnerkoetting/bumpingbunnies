@@ -20,5 +20,6 @@
     <string name="touch">Touch</string>
     <string name="touch_with_jump">Touch+Up</string>
     <string name="singleplayer">Singleplayer</string>
+    <string name="input">Eingabe</string>
 
 </resources>

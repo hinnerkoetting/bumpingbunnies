@@ -17,7 +17,7 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:onClick="onClickConnect"
         android:text="@string/connect" />
 
@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:onClick="onClickDiscovery"
         android:text="@string/find_devices" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,5 +37,10 @@
         android:id="@+id/start_bt_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_start" />
 
 </LinearLayout>

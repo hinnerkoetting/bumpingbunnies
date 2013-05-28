@@ -221,4 +221,5 @@ public class GameActivity extends Activity {
 	public void onClickInputTypeCb() {
 		this.gameThread.switchInputServices(createInputServices());
 	}
+
 }

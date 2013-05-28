@@ -10,6 +10,8 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.communication.NetworkConstants;
+import de.jumpnbump.usecases.game.configuration.Configuration;
+import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
 public class ConnectThread extends Thread {
 
@@ -68,8 +70,9 @@ public class ConnectThread extends Thread {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
 		application.setSocket(this.mmSocket);
-		ActivityLauncher.launchGame(this.activity, 1);
+		ActivityLauncher.launchGame(this.activity,
+				GameParameterFactory.createParameter(1, new Configuration(
+						InputConfiguration.TOUCH)));
 		LOGGER.info("Connection accepted");
 	}
-
 }

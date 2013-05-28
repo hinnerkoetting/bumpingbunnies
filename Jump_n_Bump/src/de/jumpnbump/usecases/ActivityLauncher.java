@@ -3,14 +3,16 @@ package de.jumpnbump.usecases;
 import android.app.Activity;
 import android.content.Intent;
 import de.jumpnbump.usecases.game.android.GameActivity;
+import de.jumpnbump.usecases.game.android.GameStartParameter;
 
 public class ActivityLauncher {
 
-	public static final String PLAYER_ID_CONSTANT = "PLAYER_ID";
+	public static final String GAMEPARAMETER = "PARAMETER";
+	public static final int SINGPLE_PLAYER_ID = 0;
 
-	public static void launchGame(Activity origin, int playerId) {
+	public static void launchGame(Activity origin, GameStartParameter parameter) {
 		Intent intent = new Intent(origin, GameActivity.class);
-		intent.putExtra(PLAYER_ID_CONSTANT, playerId);
+		intent.putExtra(GAMEPARAMETER, parameter);
 		origin.startActivity(intent);
 	}
 }

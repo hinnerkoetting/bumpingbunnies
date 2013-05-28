@@ -11,6 +11,8 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.communication.NetworkConstants;
+import de.jumpnbump.usecases.game.configuration.Configuration;
+import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
 public class AcceptThread extends Thread {
 	private final BluetoothServerSocket mmServerSocket;
@@ -62,8 +64,9 @@ public class AcceptThread extends Thread {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
 		application.setSocket(socket);
-		ActivityLauncher.launchGame(this.activity, 0);
+		ActivityLauncher.launchGame(this.activity,
+				GameParameterFactory.createParameter(0, new Configuration(
+						InputConfiguration.TOUCH)));
 		LOGGER.info("Connection accepeted");
 	}
-
 }
