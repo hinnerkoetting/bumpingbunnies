@@ -20,6 +20,7 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 	private final BufferedReader reader;
 	private final Gson gson;
 	private SparseArray<NetworkListener> listeners;
+	private NetworkListener singleListener;
 	private boolean canceled;
 
 	public NetworkReceiveDispatcherThread(BufferedReader reader, Gson gson) {

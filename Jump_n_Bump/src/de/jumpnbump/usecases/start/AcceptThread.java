@@ -47,8 +47,10 @@ public class AcceptThread extends Thread {
 				if (socket != null) {
 					// Do work to manage the connection (in a separate thread)
 					manageConnectedSocket(socket);
-					// this.mmServerSocket.close();
+					this.mmServerSocket.close();
 					break;
+				} else {
+					LOGGER.info("Socket == null ???");
 				}
 			} catch (IOException e) {
 				throw new RuntimeException(e);

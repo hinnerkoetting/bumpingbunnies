@@ -57,7 +57,6 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public void tryMoveRight() {
-		LOGGER.info("trying to move right");
 		this.movedPlayer.setMovementX(MOVEMENT);
 	}
 

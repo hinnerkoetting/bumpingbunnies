@@ -7,8 +7,7 @@ public class GameNetworkSender implements StateSender {
 	private final Player player;
 	private final NetworkSendQueueThread networkThread;
 
-	public GameNetworkSender(Player player,
-			NetworkSendQueueThread networkThread) {
+	public GameNetworkSender(Player player, NetworkSendQueueThread networkThread) {
 		this.player = player;
 		this.networkThread = networkThread;
 	}

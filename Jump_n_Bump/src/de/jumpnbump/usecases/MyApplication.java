@@ -26,6 +26,7 @@ public class MyApplication extends Application {
 			if (this.socket != null) {
 				LOGGER.info("close connection");
 				this.socket.close();
+				this.socket = null;
 			}
 		} catch (IOException e) {
 			LOGGER.warn("Exception during connection close");
