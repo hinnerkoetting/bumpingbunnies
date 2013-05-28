@@ -121,11 +121,7 @@ public class GameActivity extends Activity {
 				.getSingleton();
 		PlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
 				contentView);
-		this.gamepadService = config.createGamepadService();
-		this.touchWithJumpService = config.createTouchWithJumpService();
-		this.touchService = config.createTouchService();
-		this.networkMovementService = config
-				.createNetworkInputService(singleton);
+		initInputServices(singleton, config);
 
 		AbstractStateSenderFactory stateSenderFactory = singleton
 				.createStateSenderFactory();
@@ -137,6 +133,15 @@ public class GameActivity extends Activity {
 
 		this.gameThread.start();
 		initInputTypeListener();
+	}
+
+	private void initInputServices(
+			AbstractInputServiceFactorySingleton singleton, PlayerConfig config) {
+		this.gamepadService = config.createGamepadService();
+		this.touchWithJumpService = config.createTouchWithJumpService();
+		this.touchService = config.createTouchService();
+		this.networkMovementService = config
+				.createNetworkInputService(singleton);
 	}
 
 	private void initInputTypeListener() {
