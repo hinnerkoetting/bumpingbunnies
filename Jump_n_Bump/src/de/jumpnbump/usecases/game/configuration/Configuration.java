@@ -17,15 +17,18 @@ public class Configuration implements Parcelable {
 		}
 	};
 
-	private InputConfiguration inputConfiguration;
+	private final InputConfiguration inputConfiguration;
+	private final AiModus aiModus;
 
 	public Configuration(Parcel source) {
 		this.inputConfiguration = InputConfiguration.valueOf(source
 				.readString());
+		this.aiModus = AiModus.valueOf(source.readString());
 	}
 
-	public Configuration(InputConfiguration inputConfiguration) {
+	public Configuration(InputConfiguration inputConfiguration, AiModus aiModus) {
 		this.inputConfiguration = inputConfiguration;
+		this.aiModus = aiModus;
 	}
 
 	@Override
@@ -37,13 +40,10 @@ public class Configuration implements Parcelable {
 		return this.inputConfiguration;
 	}
 
-	public void setInputConfiguration(InputConfiguration inputConfiguration) {
-		this.inputConfiguration = inputConfiguration;
-	}
-
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.inputConfiguration.toString());
+		dest.writeString(this.aiModus.toString());
 	}
 
 }

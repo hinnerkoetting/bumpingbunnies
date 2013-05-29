@@ -21,6 +21,9 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
+import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
+import de.jumpnbump.usecases.game.configuration.AiModus;
+import de.jumpnbump.usecases.game.configuration.AiModusGenerator;
 import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 import de.jumpnbump.usecases.game.configuration.InputConfigurationGenerator;
@@ -195,21 +198,39 @@ public class StartActivity extends Activity {
 	}
 
 	public void onClickSingleplayer(View v) {
-		InputConfiguration selectedInput = findSelectedInputConfiguration();
-		ActivityLauncher.launchGame(this, GameParameterFactory
-				.createSingleplayerParameter(new Configuration(selectedInput)));
+		Configuration configuration = createConfiguration();
+		GameStartParameter parameter = GameParameterFactory
+				.createSingleplayerParameter(configuration);
+
+		launchGame(parameter);
 	}
 
 	public void startGame(int playerId) {
+		Configuration configuration = createConfiguration();
+		GameStartParameter parameter = GameParameterFactory.createParameter(
+				playerId, configuration);
+		launchGame(parameter);
+	}
+
+	private Configuration createConfiguration() {
 		InputConfiguration selectedInput = findSelectedInputConfiguration();
-		ActivityLauncher.launchGame(this, GameParameterFactory.createParameter(
-				playerId, new Configuration(selectedInput)));
+		AiModus aiModus = findSelectedAiMode();
+		return new Configuration(selectedInput, aiModus);
+	}
+
+	private void launchGame(GameStartParameter parameter) {
+		ActivityLauncher.launchGame(this, parameter);
 	}
 
 	private InputConfiguration findSelectedInputConfiguration() {
 		RadioGroup inputGroup = (RadioGroup) findViewById(R.id.start_input_group);
 		return InputConfigurationGenerator
 				.createInputConfigurationFromRadioGroup(inputGroup);
+	}
+
+	private AiModus findSelectedAiMode() {
+		RadioGroup radioGroup = (RadioGroup) findViewById(R.id.start_ai_group);
+		return AiModusGenerator.createFromRadioGroup(radioGroup);
 	}
 
 }

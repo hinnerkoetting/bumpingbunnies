@@ -9,38 +9,30 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".StartActivity" >
 
-    <Button
+    <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onClickSingleplayer"
-        android:text="@string/singleplayer" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickConnect"
-        android:text="@string/connect" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickDiscovery"
-        android:text="@string/find_devices" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickMakeVisible"
-        android:text="@string/make_visible" />
+        layout="@layout/start_buttons" />
 
     <ListView
         android:id="@+id/start_bt_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <include
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        layout="@layout/menu_input_type" />
+        android:orientation="horizontal" >
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/menu_input_type" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/menu_ai_type" />
+    </LinearLayout>
 
 </LinearLayout>
