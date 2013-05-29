@@ -18,6 +18,10 @@ import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.android.input.dispatcher.InputDispatcher;
+import de.jumpnbump.usecases.game.android.input.dispatcher.KeyboardDispatcher;
+import de.jumpnbump.usecases.game.android.input.dispatcher.TouchInputDispatcher;
+import de.jumpnbump.usecases.game.android.input.dispatcher.TouchWithJumpInputDispatcher;
 import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
 import de.jumpnbump.usecases.game.android.input.touch.TouchService;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
@@ -27,7 +31,7 @@ import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
-import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactorySingleton;
+import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
 import de.jumpnbump.usecases.game.factories.WorldFactory;
 import de.jumpnbump.usecases.game.model.GameThreadState;
@@ -50,6 +54,10 @@ public class GameActivity extends Activity {
 	private RemoteSender networkThread;
 	private GameStartParameter parameter;
 
+	private InputDispatcher<?> inputTouchDispatcher;
+	private InputDispatcher<?> inputTouchUpDispatcher;
+	private InputDispatcher<?> keyboardDispatcher;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,21 +73,15 @@ public class GameActivity extends Activity {
 		initGame();
 		contentView.setGameThread(this.gameThread);
 		registerGamepadTouchEvents();
-		registerAnalog();
 	}
 
 	private void initInputFactory() {
 		if (getSocket() != null) {
-			AbstractInputServiceFactorySingleton.initNetwork(getSocket(),
+			AbstractOtherPlayersFactorySingleton.initNetwork(getSocket(),
 					this.networkThread);
 		} else {
-			AbstractInputServiceFactorySingleton.initSinglePlayer();
+			AbstractOtherPlayersFactorySingleton.initSinglePlayer();
 		}
-	}
-
-	private void registerAnalog() {
-		// ImageView findViewById = findViewById(R.id.analog);
-
 	}
 
 	private void registerScreenTouchListener(final GameView contentView) {
@@ -87,8 +89,9 @@ public class GameActivity extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				GameActivity.this.touchService.onMotionEvent(event);
-				GameActivity.this.touchWithJumpService.onMotionEvent(event);
+				GameActivity.this.inputTouchDispatcher.dispatchGameTouch(event);
+				GameActivity.this.inputTouchUpDispatcher
+						.dispatchGameTouch(event);
 				return true;
 			}
 		});
@@ -99,6 +102,8 @@ public class GameActivity extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
+				GameActivity.this.keyboardDispatcher
+						.dispatchViewTouch(v, event);
 				GameActivity.this.gamepadService.onButtonTouch(v, event);
 				return true;
 			}
@@ -108,7 +113,8 @@ public class GameActivity extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				GameActivity.this.gamepadService.onButtonTouch(v, event);
-				GameActivity.this.touchWithJumpService.onButtonTouchUp(event);
+				GameActivity.this.inputTouchUpDispatcher.dispatchViewTouch(
+						v, event);
 				return true;
 			}
 		};
@@ -124,7 +130,7 @@ public class GameActivity extends Activity {
 		World world = WorldFactory.create();
 		GameThreadState threadState = new GameThreadState();
 
-		AbstractInputServiceFactorySingleton singleton = AbstractInputServiceFactorySingleton
+		AbstractOtherPlayersFactorySingleton singleton = AbstractOtherPlayersFactorySingleton
 				.getSingleton();
 		PlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
 				contentView);
@@ -142,12 +148,16 @@ public class GameActivity extends Activity {
 	}
 
 	private void initInputServices(
-			AbstractInputServiceFactorySingleton singleton, PlayerConfig config) {
+			AbstractOtherPlayersFactorySingleton singleton, PlayerConfig config) {
 		this.gamepadService = config.createGamepadService();
 		this.touchWithJumpService = config.createTouchWithJumpService();
 		this.touchService = config.createTouchService();
 		this.networkMovementService = config
 				.createNetworkInputService(singleton);
+		this.inputTouchDispatcher = new TouchInputDispatcher(this.touchService);
+		this.inputTouchUpDispatcher = new TouchWithJumpInputDispatcher(
+				this.touchWithJumpService);
+		this.keyboardDispatcher = new KeyboardDispatcher(this.gamepadService);
 	}
 
 	private List<InputService> createInputServices() {

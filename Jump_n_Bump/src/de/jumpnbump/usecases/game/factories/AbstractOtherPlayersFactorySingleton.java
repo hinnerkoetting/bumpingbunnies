@@ -5,9 +5,9 @@ import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 
-public abstract class AbstractInputServiceFactorySingleton {
+public abstract class AbstractOtherPlayersFactorySingleton {
 
-	private static AbstractInputServiceFactorySingleton singleton;
+	private static AbstractOtherPlayersFactorySingleton singleton;
 
 	public static void initNetwork(BluetoothSocket socket,
 			RemoteSender networkSenderThread) {
@@ -18,7 +18,7 @@ public abstract class AbstractInputServiceFactorySingleton {
 		singleton = new SingleplayerFactorySingleton();
 	}
 
-	public static AbstractInputServiceFactorySingleton getSingleton() {
+	public static AbstractOtherPlayersFactorySingleton getSingleton() {
 		if (singleton == null) {
 			throw new IllegalArgumentException("Init first");
 		}

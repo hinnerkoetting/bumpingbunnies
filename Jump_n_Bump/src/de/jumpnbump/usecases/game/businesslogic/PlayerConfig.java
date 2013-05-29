@@ -12,7 +12,7 @@ import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactory;
-import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactorySingleton;
+import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
 import de.jumpnbump.usecases.game.factories.UserInputFactory;
 import de.jumpnbump.usecases.game.model.World;
 
@@ -64,7 +64,7 @@ public class PlayerConfig {
 	}
 
 	public InputService createNetworkInputService(
-			AbstractInputServiceFactorySingleton factory) {
+			AbstractOtherPlayersFactorySingleton factory) {
 		InformationSupplier informationSupplier = factory
 				.createInformationSupplier();
 		AbstractInputServiceFactory inputServiceFactory = factory

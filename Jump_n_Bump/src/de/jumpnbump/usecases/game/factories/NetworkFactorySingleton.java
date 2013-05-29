@@ -9,7 +9,7 @@ import de.jumpnbump.usecases.game.communication.factories.NetworkSendQueueThread
 import de.jumpnbump.usecases.game.communication.factories.StateSenderFactory;
 
 public class NetworkFactorySingleton extends
-		AbstractInputServiceFactorySingleton {
+		AbstractOtherPlayersFactorySingleton {
 
 	private final RemoteSender networkThread;
 	private final BluetoothSocket socket;

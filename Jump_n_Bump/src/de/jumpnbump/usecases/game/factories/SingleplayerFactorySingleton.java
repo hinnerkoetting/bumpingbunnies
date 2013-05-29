@@ -8,7 +8,7 @@ import de.jumpnbump.usecases.game.communication.factories.DummyStateSenderFactor
 import de.jumpnbump.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 
 public class SingleplayerFactorySingleton extends
-		AbstractInputServiceFactorySingleton {
+		AbstractOtherPlayersFactorySingleton {
 
 	@Override
 	public AbstractInputServiceFactory getInputServiceFactory() {
