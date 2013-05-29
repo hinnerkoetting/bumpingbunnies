@@ -53,16 +53,8 @@ public class StartActivity extends Activity {
 	}
 
 	public void onClickConnect(View v) {
-		if (this.mBluetoothAdapter == null) {
-			Toast makeText = Toast.makeText(this, "Bluetooth not supported",
-					Toast.LENGTH_LONG);
-			makeText.show();
-		} else {
-			if (!this.mBluetoothAdapter.isEnabled()) {
-				Intent enableBtIntent = new Intent(
-						BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				startActivityForResult(enableBtIntent, this.REQUEST_BT_ENABLE);
-			}
+		boolean bluetoothWorking = checkBluetoothSettings();
+		if (bluetoothWorking) {
 			connectToDevice();
 		}
 	}
@@ -88,7 +80,30 @@ public class StartActivity extends Activity {
 		}
 	}
 
+	private boolean checkBluetoothSettings() {
+		if (this.mBluetoothAdapter == null) {
+			Toast makeText = Toast.makeText(this, "Bluetooth not supported",
+					Toast.LENGTH_LONG);
+			makeText.show();
+			return false;
+		} else {
+			if (!this.mBluetoothAdapter.isEnabled()) {
+				Intent enableBtIntent = new Intent(
+						BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				startActivityForResult(enableBtIntent, this.REQUEST_BT_ENABLE);
+			}
+			return true;
+		}
+	}
+
 	public void onClickDiscovery(View v) {
+		boolean bluetoothWorking = checkBluetoothSettings();
+		if (bluetoothWorking) {
+			discoverDevices();
+		}
+	}
+
+	private void discoverDevices() {
 		this.mReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -125,6 +140,13 @@ public class StartActivity extends Activity {
 	}
 
 	public void onClickMakeVisible(View v) {
+		boolean bluetoothWorking = checkBluetoothSettings();
+		if (bluetoothWorking) {
+			startHostThread();
+		}
+	}
+
+	private void startHostThread() {
 		Intent discoverableIntent = new Intent(
 				BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 		discoverableIntent.putExtra(
