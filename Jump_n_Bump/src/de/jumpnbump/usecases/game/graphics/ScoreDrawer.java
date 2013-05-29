@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.game.graphics;
 
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
@@ -23,12 +22,9 @@ public class ScoreDrawer implements Drawable {
 	}
 
 	@Override
-	public void draw(Canvas canvas) {
+	public void draw(CanvasDelegate canvas) {
 		PlayerState state = this.player.getState();
-		int width = canvas.getWidth();
-		int height = canvas.getHeight();
-		canvas.drawText(Integer.toString(state.getScore()),
-				(int) (this.scoreX * width), (int) (this.scoreY * height),
-				this.paint);
+		canvas.drawText(Integer.toString(state.getScore()), this.scoreX,
+				this.scoreY, this.paint);
 	}
 }

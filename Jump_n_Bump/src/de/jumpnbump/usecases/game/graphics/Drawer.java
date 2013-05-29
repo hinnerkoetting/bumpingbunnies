@@ -14,6 +14,7 @@ public class Drawer {
 	private static final MyLog LOGGER = Logger.getLogger(Drawer.class);
 	private List<Drawable> allDrawables;
 	private DrawablesFactory factory;
+	private CanvasDelegate canvasDelegate;
 
 	private Paint linePaint = new Paint();
 
@@ -21,6 +22,7 @@ public class Drawer {
 		this.factory = drawFactory;
 		this.allDrawables = new LinkedList<Drawable>();
 		this.linePaint.setColor(Color.BLACK);
+		this.canvasDelegate = new CanvasDelegate();
 	}
 
 	public void buildAllDrawables() {
@@ -31,12 +33,12 @@ public class Drawer {
 
 	public void draw(Canvas canvas) {
 		LOGGER.verbose("drawing...");
-		canvas.drawColor(Color.WHITE);
-		int width = canvas.getWidth();
-		int height = canvas.getHeight();
-		canvas.drawLine(0, height * 0.5f, width, height * 0.5f, this.linePaint);
+		this.canvasDelegate.updateDelegate(canvas);
+
+		this.canvasDelegate.drawColor(Color.WHITE);
+		this.canvasDelegate.drawLine(0, 0.5f, 1, 0.5f, this.linePaint);
 		for (Drawable d : this.allDrawables) {
-			d.draw(canvas);
+			d.draw(this.canvasDelegate);
 		}
 	}
 }
