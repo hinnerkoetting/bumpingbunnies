@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.android.input.analog.AnalogInputService;
 import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
 import de.jumpnbump.usecases.game.android.input.multiTouch.MultiTouchInputService;
 import de.jumpnbump.usecases.game.android.input.pointer.PointerInputService;
@@ -71,6 +72,10 @@ public class PlayerConfigFactory {
 	public RememberPointerInputService createRememberPointerInputService() {
 		return UserInputFactory.createRememberPointer(
 				this.tabletControlledPlayer, this.gameView);
+	}
+
+	public AnalogInputService createAnalogInputService() {
+		return UserInputFactory.createAnalog(this.tabletControlledPlayer);
 	}
 
 	public List<PlayerMovementController> getAllPlayerMovementControllers() {

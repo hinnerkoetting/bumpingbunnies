@@ -38,7 +38,7 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 
 			Wall nextTarget = findNextTarget();
 			LOGGER.info("Next Target %s ", nextTarget.toString());
-			this.state.setNextTarget(nextTarget);
+			this.state.setNextTarget(nextTarget, getMovedPlayer());
 		}
 		chaseNextTarget();
 		checkTargetReached();
@@ -47,7 +47,7 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 	private void checkTargetReached() {
 		if (touchesPlayerThisHorizontalPosition(this.state.nextTargetCenterX())) {
 			Player player = getMovedPlayer();
-			if (this.state.nextTargetCenterY() - player.maxY() < 0.05) {
+			if (Math.abs(this.state.nextTargetCenterY() - player.maxY()) < 0.1) {
 				this.state.removeNextTarget();
 				LOGGER.info("Removing next target");
 			}

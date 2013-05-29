@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.configuration;
 
+import de.jumpnbump.usecases.game.android.input.analog.AnalogInputFactory;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.factory.KeyboardInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.factory.MultiTouchJumpServicesFactory;
@@ -15,7 +16,7 @@ public enum InputConfiguration {
 			KeyboardInputServicesFactory.class), MULTI_TOUCH(
 			MultiTouchJumpServicesFactory.class), POINTER(
 			PointerInputServiceFactory.class), REMEMBER_POINTER(
-			RememberPointerInputFactory.class);
+			RememberPointerInputFactory.class), ANALOG(AnalogInputFactory.class);
 
 	private Class<? extends AbstractPlayerInputServicesFactory<?>> factoryClass;
 

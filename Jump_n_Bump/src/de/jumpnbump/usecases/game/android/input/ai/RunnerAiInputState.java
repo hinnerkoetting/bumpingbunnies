@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import de.jumpnbump.usecases.game.model.Coordinate;
+import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.Wall;
 
 public class RunnerAiInputState {
@@ -14,8 +15,14 @@ public class RunnerAiInputState {
 		this.coordinates = new LinkedList<Coordinate>();
 	}
 
-	public void setNextTarget(Wall w) {
-		this.coordinates.add(new Coordinate(w.maxX(), w.centerY()));
+	public void setNextTarget(Wall w, Player p) {
+		if (p.getCenterX() > w.maxX()) {
+			this.coordinates.add(new Coordinate(w.maxX() - 0.01,
+					w.centerY() + 0.1));
+		} else {
+			this.coordinates.add(new Coordinate(w.minX() + 0.01,
+					w.centerY() + 0.1));
+		}
 		this.coordinates.add(new Coordinate(w.centerX(), w.centerY()));
 	}
 

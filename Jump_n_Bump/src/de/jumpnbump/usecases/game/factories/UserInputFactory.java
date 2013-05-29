@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.game.factories;
 
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.input.PathFinder.PathFinderFactory;
+import de.jumpnbump.usecases.game.android.input.analog.AnalogInputService;
 import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
 import de.jumpnbump.usecases.game.android.input.multiTouch.MultiTouchInputService;
 import de.jumpnbump.usecases.game.android.input.pointer.PointerInputService;
@@ -50,6 +51,12 @@ public class UserInputFactory {
 				playerMovement,
 				PathFinderFactory.createPathFinder(playerMovement.getPlayer()));
 		view.addOnSizeListener(touchService);
+		return touchService;
+	}
+
+	public static AnalogInputService createAnalog(
+			PlayerMovementController playerMovement) {
+		AnalogInputService touchService = new AnalogInputService(playerMovement);
 		return touchService;
 	}
 
