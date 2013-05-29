@@ -10,26 +10,26 @@ import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.factories.CollisionDetectionFactory;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
-public class PlayerConfigFactory {
+public class PlayerConfigFactoryFactory {
 
 	private static final MyLog LOGGER = Logger
-			.getLogger(PlayerConfigFactory.class);
+			.getLogger(PlayerConfigFactoryFactory.class);
 
-	public static PlayerConfig create(Intent intent, World world,
+	public static PlayerConfigFactory create(Intent intent, World world,
 			GameView gameView) {
 		CollisionDetection collision = CollisionDetectionFactory.create(world,
 				gameView);
 		int myPlayerId = findTabletPlayerId(intent);
 		Player myPlayer = findMyPlayer(myPlayerId, world);
-		PlayerConfig config = new PlayerConfig(createMovementController(
-				myPlayer, collision), findOtherPlayers(myPlayerId, world,
-				collision), gameView, world);
+		PlayerConfigFactory config = new PlayerConfigFactory(
+				createMovementController(myPlayer, collision),
+				findOtherPlayers(myPlayerId, world, collision), gameView, world);
 		return config;
 	}
 

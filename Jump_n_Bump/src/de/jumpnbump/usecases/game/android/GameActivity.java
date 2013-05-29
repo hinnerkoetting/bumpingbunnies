@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.game.android;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,18 +15,13 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
-import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactoryFactory;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.android.input.dispatcher.InputDispatcher;
-import de.jumpnbump.usecases.game.android.input.dispatcher.KeyboardDispatcher;
-import de.jumpnbump.usecases.game.android.input.dispatcher.TouchInputDispatcher;
-import de.jumpnbump.usecases.game.android.input.dispatcher.TouchWithJumpInputDispatcher;
-import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
-import de.jumpnbump.usecases.game.android.input.touch.TouchService;
-import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
+import de.jumpnbump.usecases.game.android.input.factory.AbstractInputServicesFactory;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
@@ -47,16 +41,13 @@ import de.jumpnbump.util.SystemUiHider;
 public class GameActivity extends Activity {
 	private static final MyLog LOGGER = Logger.getLogger(GameActivity.class);
 	private GameThread gameThread;
-	private TouchWithJumpService touchWithJumpService;
-	private TouchService touchService;
-	private GamepadInputService gamepadService;
+	private InputService touchService;
+
 	private InputService networkMovementService;
 	private RemoteSender networkThread;
 	private GameStartParameter parameter;
 
 	private InputDispatcher<?> inputTouchDispatcher;
-	private InputDispatcher<?> inputTouchUpDispatcher;
-	private InputDispatcher<?> keyboardDispatcher;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +81,6 @@ public class GameActivity extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				GameActivity.this.inputTouchDispatcher.dispatchGameTouch(event);
-				GameActivity.this.inputTouchUpDispatcher
-						.dispatchGameTouch(event);
 				return true;
 			}
 		});
@@ -102,9 +91,8 @@ public class GameActivity extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				GameActivity.this.keyboardDispatcher
-						.dispatchViewTouch(v, event);
-				GameActivity.this.gamepadService.onButtonTouch(v, event);
+				GameActivity.this.inputTouchDispatcher.dispatchViewTouch(v,
+						event);
 				return true;
 			}
 		};
@@ -112,9 +100,8 @@ public class GameActivity extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				GameActivity.this.gamepadService.onButtonTouch(v, event);
-				GameActivity.this.inputTouchUpDispatcher.dispatchViewTouch(
-						v, event);
+				GameActivity.this.inputTouchDispatcher.dispatchViewTouch(v,
+						event);
 				return true;
 			}
 		};
@@ -132,8 +119,8 @@ public class GameActivity extends Activity {
 
 		AbstractOtherPlayersFactorySingleton singleton = AbstractOtherPlayersFactorySingleton
 				.getSingleton();
-		PlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
-				contentView);
+		PlayerConfigFactory config = PlayerConfigFactoryFactory.create(
+				getIntent(), world, contentView);
 		initInputServices(singleton, config);
 
 		AbstractStateSenderFactory stateSenderFactory = singleton
@@ -148,47 +135,30 @@ public class GameActivity extends Activity {
 	}
 
 	private void initInputServices(
-			AbstractOtherPlayersFactorySingleton singleton, PlayerConfig config) {
-		this.gamepadService = config.createGamepadService();
-		this.touchWithJumpService = config.createTouchWithJumpService();
-		this.touchService = config.createTouchService();
+			AbstractOtherPlayersFactorySingleton singleton,
+			PlayerConfigFactory config) {
+		AbstractInputServicesFactory.init(this.parameter.getConfiguration()
+				.getInputConfiguration());
+		AbstractInputServicesFactory singleton2 = AbstractInputServicesFactory
+				.getSingleton();
+
+		this.touchService = singleton2.createInputService(config);
 		this.networkMovementService = config
 				.createNetworkInputService(singleton);
-		this.inputTouchDispatcher = new TouchInputDispatcher(this.touchService);
-		this.inputTouchUpDispatcher = new TouchWithJumpInputDispatcher(
-				this.touchWithJumpService);
-		this.keyboardDispatcher = new KeyboardDispatcher(this.gamepadService);
+		this.inputTouchDispatcher = singleton2
+				.createInputDispatcher(this.touchService);
 	}
 
 	private List<InputService> createInputServices() {
 		InputConfiguration inputConfiguration = this.parameter
 				.getConfiguration().getInputConfiguration();
 		LOGGER.info("Selected Input is " + inputConfiguration.toString());
-		switch (inputConfiguration) {
-		case KEYBOARD:
-			return createInputServicesGamepad();
-		case TOUCH:
-			return createInputServicesTouch();
-		case TOUCH_WITH_UP:
-			return createInputServicesTouchWithJump();
-		default:
-			LOGGER.warn("Unknown user type");
-			return new ArrayList<InputService>();
-		}
+		return createInputServicesTouch();
 
-	}
-
-	private List<InputService> createInputServicesTouchWithJump() {
-		return Arrays.asList(this.networkMovementService,
-				this.touchWithJumpService);
 	}
 
 	private List<InputService> createInputServicesTouch() {
 		return Arrays.asList(this.networkMovementService, this.touchService);
-	}
-
-	private List<InputService> createInputServicesGamepad() {
-		return Arrays.asList(this.networkMovementService, this.gamepadService);
 	}
 
 	private BluetoothSocket getSocket() {
