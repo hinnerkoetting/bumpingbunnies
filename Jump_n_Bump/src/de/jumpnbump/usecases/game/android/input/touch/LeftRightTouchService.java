@@ -59,6 +59,14 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 		moveLeftOrRight(movement);
 	}
 
+	protected double relativePointerPositionX(MotionEvent motionEvent) {
+		return motionEvent.getX() / this.windowWidth;
+	}
+
+	protected double relativePointerPositionY(MotionEvent motionEvent) {
+		return motionEvent.getY() / this.windowHeight;
+	}
+
 	protected void moveLeftOrRight(int movement) {
 		Player player = this.playerMovement.getPlayer();
 		if (isClickLeftToPlayer(player)) {

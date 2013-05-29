@@ -3,6 +3,7 @@ package de.jumpnbump.usecases.game.factories;
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
 import de.jumpnbump.usecases.game.android.input.multiTouch.MultiTouchInputService;
+import de.jumpnbump.usecases.game.android.input.pointer.PointerInputService;
 import de.jumpnbump.usecases.game.android.input.touch.TouchService;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
@@ -27,6 +28,14 @@ public class UserInputFactory {
 	public static MultiTouchInputService createMultiTouch(
 			PlayerMovementController playerMovement, GameView view) {
 		MultiTouchInputService touchService = new MultiTouchInputService(
+				playerMovement);
+		view.addOnSizeListener(touchService);
+		return touchService;
+	}
+
+	public static PointerInputService createPointer(
+			PlayerMovementController playerMovement, GameView view) {
+		PointerInputService touchService = new PointerInputService(
 				playerMovement);
 		view.addOnSizeListener(touchService);
 		return touchService;

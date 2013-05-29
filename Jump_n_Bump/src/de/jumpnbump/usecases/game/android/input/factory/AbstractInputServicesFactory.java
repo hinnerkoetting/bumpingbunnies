@@ -2,17 +2,24 @@ package de.jumpnbump.usecases.game.android.input.factory;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.jumpnbump.logger.Logger;
+import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.android.input.pointer.PointerInputServiceFactory;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
 public abstract class AbstractInputServicesFactory<S extends InputService> {
 
+	private static final MyLog LOGGER = Logger
+			.getLogger(AbstractInputServicesFactory.class);
 	private static AbstractInputServicesFactory<? extends InputService> factorySingleton;
 
 	public static void init(InputConfiguration inputConfiguration) {
 		factorySingleton = create(inputConfiguration);
+		LOGGER.info("factory is of type %s", factorySingleton.getClass()
+				.getSimpleName());
 	}
 
 	private static AbstractInputServicesFactory<? extends InputService> create(
@@ -26,7 +33,10 @@ public abstract class AbstractInputServicesFactory<S extends InputService> {
 			return new TouchJumpInputServicesFactory();
 		case MULTI_TOUCH:
 			return new MultiTouchJumpServicesFactory();
+		case POINTER:
+			return new PointerInputServiceFactory();
 		}
+
 		throw new IllegalArgumentException("Unknown Inputtype");
 	}
 

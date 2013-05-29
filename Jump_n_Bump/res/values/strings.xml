@@ -22,5 +22,6 @@
     <string name="singleplayer">Singleplayer</string>
     <string name="input">Eingabe</string>
     <string name="multi_touch">Multi-Touch</string>
+    <string name="pointer">Pointer</string>
 
 </resources>

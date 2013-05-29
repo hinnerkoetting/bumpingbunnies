@@ -17,6 +17,8 @@ public class MultiTouchInputService extends LeftRightTouchService {
 		super.executePlayerMovement();
 		if (this.shouldBeJumping) {
 			getPlayerMovement().tryMoveUp();
+		} else {
+			getPlayerMovement().tryMoveDown();
 		}
 	}
 

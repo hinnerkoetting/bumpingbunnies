@@ -13,8 +13,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
@@ -23,6 +23,7 @@ import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
+import de.jumpnbump.usecases.game.configuration.InputConfigurationGenerator;
 
 public class StartActivity extends Activity {
 
@@ -184,20 +185,9 @@ public class StartActivity extends Activity {
 	}
 
 	private InputConfiguration findSelectedInputConfiguration() {
-		CompoundButton keyboard = (CompoundButton) findViewById(R.id.start_button_keyboard);
-		CompoundButton touch = (CompoundButton) findViewById(R.id.start_button_touch);
-		CompoundButton touchJump = (CompoundButton) findViewById(R.id.start_button_touch_jump);
-		CompoundButton multiTouchJump = (CompoundButton) findViewById(R.id.start_button_multi_touch);
-		if (keyboard.isChecked()) {
-			return InputConfiguration.KEYBOARD;
-		} else if (touch.isChecked()) {
-			return InputConfiguration.TOUCH;
-		} else if (touchJump.isChecked()) {
-			return InputConfiguration.TOUCH_WITH_UP;
-		} else if (multiTouchJump.isChecked()) {
-			return InputConfiguration.MULTI_TOUCH;
-		}
-		throw new IllegalArgumentException("Unknown Input-Type");
+		RadioGroup inputGroup = (RadioGroup) findViewById(R.id.start_input_group);
+		return InputConfigurationGenerator
+				.createInputConfigurationFromRadioGroup(inputGroup);
 	}
 
 }
