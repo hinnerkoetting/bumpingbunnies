@@ -9,6 +9,7 @@ import de.jumpnbump.usecases.game.android.input.pointer.PointerInputService;
 import de.jumpnbump.usecases.game.android.input.rememberPointer.RememberPointerInputService;
 import de.jumpnbump.usecases.game.android.input.touch.TouchService;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
+import de.jumpnbump.usecases.game.android.input.touchFling.TouchFlingService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class UserInputFactory {
@@ -58,6 +59,13 @@ public class UserInputFactory {
 			PlayerMovementController playerMovement) {
 		AnalogInputService touchService = new AnalogInputService(playerMovement);
 		return touchService;
+	}
+
+	public static TouchFlingService createTouchFling(
+			PlayerMovementController playerMovement, GameView view) {
+		TouchFlingService service = new TouchFlingService(playerMovement);
+		view.addOnSizeListener(service);
+		return service;
 	}
 
 	public static GamepadInputService createGamepad(

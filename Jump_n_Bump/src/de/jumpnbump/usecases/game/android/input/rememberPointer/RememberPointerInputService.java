@@ -2,12 +2,13 @@ package de.jumpnbump.usecases.game.android.input.rememberPointer;
 
 import android.view.MotionEvent;
 import de.jumpnbump.usecases.game.android.input.AbstractControlledMovement;
+import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.android.input.PathFinder.PathFinder;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class RememberPointerInputService extends AbstractControlledMovement
-		implements GameScreenSizeChangeListener {
+		implements GameScreenSizeChangeListener, AbstractTouchService {
 
 	private int gameWidth;
 	private int gameHeight;
@@ -76,12 +77,6 @@ public class RememberPointerInputService extends AbstractControlledMovement
 		}
 	}
 
-	public void onTouch(MotionEvent motionEvent) {
-		double x = motionEvent.getX() / this.gameWidth;
-		double y = motionEvent.getY() / this.gameHeight;
-		this.state.setNewWaypoint(x, y);
-	}
-
 	@Override
 	public void destroy() {
 	}
@@ -90,6 +85,13 @@ public class RememberPointerInputService extends AbstractControlledMovement
 	public void setNewSize(int width, int height) {
 		this.gameWidth = width;
 		this.gameHeight = height;
+	}
+
+	@Override
+	public void onMotionEvent(MotionEvent motionEvent) {
+		double x = motionEvent.getX() / this.gameWidth;
+		double y = motionEvent.getY() / this.gameHeight;
+		this.state.setNewWaypoint(x, y);
 	}
 
 }

@@ -2,23 +2,24 @@ package de.jumpnbump.usecases.game.android.input.rememberPointer;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
+import de.jumpnbump.usecases.game.android.input.touch.TouchInputDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 
 public class RememberPointerInputFactory extends
-		AbstractPlayerInputServicesFactory<RememberPointerInputService> {
+		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public RememberPointerInputService createInputService(
-			PlayerConfigFactory config) {
+	public AbstractTouchService createInputService(PlayerConfigFactory config) {
 		return config.createRememberPointerInputService();
 	}
 
 	@Override
 	public InputDispatcher<?> createInputDispatcher(
-			RememberPointerInputService inputService) {
-		return new RememberPointerInputDispatcher(inputService);
+			AbstractTouchService inputService) {
+		return new TouchInputDispatcher(inputService);
 	}
 
 	@Override

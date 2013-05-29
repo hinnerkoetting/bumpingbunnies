@@ -44,6 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/multi_touch" />
+        
+        <RadioButton
+            android:id="@+id/start_button_fling_touch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fling_touch" />
 
         <RadioButton
             android:id="@+id/start_button_pointer"

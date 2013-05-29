@@ -1,24 +1,25 @@
-package de.jumpnbump.usecases.game.android.input.factory;
+package de.jumpnbump.usecases.game.android.input.multiTouch;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
-import de.jumpnbump.usecases.game.android.input.multiTouch.MultiTouchInputDispatcher;
-import de.jumpnbump.usecases.game.android.input.multiTouch.MultiTouchInputService;
+import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
+import de.jumpnbump.usecases.game.android.input.touch.TouchInputDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 
 public class MultiTouchJumpServicesFactory extends
-		AbstractPlayerInputServicesFactory<MultiTouchInputService> {
+		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public MultiTouchInputService createInputService(PlayerConfigFactory config) {
+	public AbstractTouchService createInputService(PlayerConfigFactory config) {
 		return config.createMultiTouchService();
 	}
 
 	@Override
 	public InputDispatcher<?> createInputDispatcher(
-			MultiTouchInputService inputService) {
-		return new MultiTouchInputDispatcher(inputService);
+			AbstractTouchService inputService) {
+		return new TouchInputDispatcher(inputService);
 	}
 
 	@Override

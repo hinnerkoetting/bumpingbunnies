@@ -12,6 +12,7 @@ import de.jumpnbump.usecases.game.android.input.pointer.PointerInputService;
 import de.jumpnbump.usecases.game.android.input.rememberPointer.RememberPointerInputService;
 import de.jumpnbump.usecases.game.android.input.touch.TouchService;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
+import de.jumpnbump.usecases.game.android.input.touchFling.TouchFlingService;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
@@ -76,6 +77,11 @@ public class PlayerConfigFactory {
 
 	public AnalogInputService createAnalogInputService() {
 		return UserInputFactory.createAnalog(this.tabletControlledPlayer);
+	}
+
+	public TouchFlingService createTouchFlingService() {
+		return UserInputFactory.createTouchFling(this.tabletControlledPlayer,
+				this.gameView);
 	}
 
 	public List<PlayerMovementController> getAllPlayerMovementControllers() {

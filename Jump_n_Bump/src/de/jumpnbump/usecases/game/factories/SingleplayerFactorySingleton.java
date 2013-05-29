@@ -28,7 +28,8 @@ public class SingleplayerFactorySingleton extends
 	}
 
 	@Override
-	public AbstractStateSenderFactory createStateSenderFactory() {
+	public AbstractStateSenderFactory createStateSenderFactory(
+			RemoteSender sender) {
 		return new DummyStateSenderFactory();
 	}
 

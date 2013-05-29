@@ -57,7 +57,6 @@ public class GameActivity extends Activity {
 		setContentView(R.layout.activity_game);
 		this.parameter = (GameStartParameter) getIntent().getExtras().get(
 				ActivityLauncher.GAMEPARAMETER);
-		initInputFactory();
 
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
@@ -68,8 +67,7 @@ public class GameActivity extends Activity {
 
 	private void initInputFactory() {
 		if (getSocket() != null) {
-			AbstractOtherPlayersFactorySingleton.initNetwork(getSocket(),
-					this.networkThread);
+			AbstractOtherPlayersFactorySingleton.initNetwork(getSocket());
 		} else {
 			AbstractOtherPlayersFactorySingleton
 					.initSinglePlayer(this.parameter.getConfiguration()
@@ -93,15 +91,16 @@ public class GameActivity extends Activity {
 		World world = WorldFactory.create();
 		GameThreadState threadState = new GameThreadState();
 
+		initInputFactory();
 		AbstractOtherPlayersFactorySingleton singleton = AbstractOtherPlayersFactorySingleton
 				.getSingleton();
 		PlayerConfigFactory config = PlayerConfigFactoryFactory.create(
 				getIntent(), world, contentView);
 		initInputServices(singleton, config);
 
-		AbstractStateSenderFactory stateSenderFactory = singleton
-				.createStateSenderFactory();
 		this.networkThread = singleton.createSender();
+		AbstractStateSenderFactory stateSenderFactory = singleton
+				.createStateSenderFactory(this.networkThread);
 		this.gameThread = GameThreadFactory.create(world, threadState,
 				config.getAllPlayerMovementControllers(),
 				createInputServices(),

@@ -10,9 +10,8 @@ public abstract class AbstractOtherPlayersFactorySingleton {
 
 	private static AbstractOtherPlayersFactorySingleton singleton;
 
-	public static void initNetwork(BluetoothSocket socket,
-			RemoteSender networkSenderThread) {
-		singleton = new NetworkFactorySingleton(socket, networkSenderThread);
+	public static void initNetwork(BluetoothSocket socket) {
+		singleton = new NetworkFactorySingleton(socket);
 	}
 
 	public static void initSinglePlayer(AiModus aiModus) {
@@ -30,7 +29,8 @@ public abstract class AbstractOtherPlayersFactorySingleton {
 
 	public abstract InformationSupplier createInformationSupplier();
 
-	public abstract AbstractStateSenderFactory createStateSenderFactory();
+	public abstract AbstractStateSenderFactory createStateSenderFactory(
+			RemoteSender sender);
 
 	public abstract RemoteSender createSender();
 

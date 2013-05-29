@@ -28,5 +28,6 @@
     <string name="ai_off">Aus</string>
     <string name="ai_normal">Normal</string>
     <string name="ai_runner">Läufer</string>
+    <string name="fling_touch">Touch+Fling</string>
 
 </resources>

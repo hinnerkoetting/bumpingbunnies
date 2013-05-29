@@ -11,13 +11,10 @@ import de.jumpnbump.usecases.game.communication.factories.StateSenderFactory;
 public class NetworkFactorySingleton extends
 		AbstractOtherPlayersFactorySingleton {
 
-	private final RemoteSender networkThread;
 	private final BluetoothSocket socket;
 
-	public NetworkFactorySingleton(BluetoothSocket socket,
-			RemoteSender networkThread) {
+	public NetworkFactorySingleton(BluetoothSocket socket) {
 		this.socket = socket;
-		this.networkThread = networkThread;
 	}
 
 	@Override
@@ -31,8 +28,9 @@ public class NetworkFactorySingleton extends
 	}
 
 	@Override
-	public AbstractStateSenderFactory createStateSenderFactory() {
-		return new StateSenderFactory(this.networkThread);
+	public AbstractStateSenderFactory createStateSenderFactory(
+			RemoteSender sender) {
+		return new StateSenderFactory(sender);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.android.input.pointer;
+package de.jumpnbump.usecases.game.android.input.touchFling;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,12 +8,12 @@ import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServi
 import de.jumpnbump.usecases.game.android.input.touch.TouchInputDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 
-public class PointerInputServiceFactory extends
+public class TouchFlingFactory extends
 		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
 	public AbstractTouchService createInputService(PlayerConfigFactory config) {
-		return config.createPointerInputService();
+		return config.createTouchFlingService();
 	}
 
 	@Override
@@ -25,6 +25,7 @@ public class PointerInputServiceFactory extends
 	@Override
 	public void insertGameControllerViews(ViewGroup rootView,
 			LayoutInflater inflater, InputDispatcher<?> inputDispatcher) {
+
 	}
 
 }
