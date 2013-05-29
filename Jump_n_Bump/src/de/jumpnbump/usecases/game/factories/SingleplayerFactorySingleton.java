@@ -6,13 +6,20 @@ import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.communication.factories.DummyStateSenderFactory;
 import de.jumpnbump.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
+import de.jumpnbump.usecases.game.configuration.AiModus;
 
 public class SingleplayerFactorySingleton extends
 		AbstractOtherPlayersFactorySingleton {
 
+	private final AiModus aiModus;
+
+	public SingleplayerFactorySingleton(AiModus aiModus) {
+		this.aiModus = aiModus;
+	}
+
 	@Override
 	public AbstractInputServiceFactory getInputServiceFactory() {
-		return new DummyInputServiceFactory();
+		return this.aiModus.createAiModeFactoryClass();
 	}
 
 	@Override

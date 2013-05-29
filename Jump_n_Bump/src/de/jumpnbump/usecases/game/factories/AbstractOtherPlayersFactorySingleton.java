@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
+import de.jumpnbump.usecases.game.configuration.AiModus;
 
 public abstract class AbstractOtherPlayersFactorySingleton {
 
@@ -14,8 +15,8 @@ public abstract class AbstractOtherPlayersFactorySingleton {
 		singleton = new NetworkFactorySingleton(socket, networkSenderThread);
 	}
 
-	public static void initSinglePlayer() {
-		singleton = new SingleplayerFactorySingleton();
+	public static void initSinglePlayer(AiModus aiModus) {
+		singleton = new SingleplayerFactorySingleton(aiModus);
 	}
 
 	public static AbstractOtherPlayersFactorySingleton getSingleton() {

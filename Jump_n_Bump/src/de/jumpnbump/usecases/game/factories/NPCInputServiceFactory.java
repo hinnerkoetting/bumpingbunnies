@@ -7,7 +7,7 @@ import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
-public class DummyInputServiceFactory extends AbstractInputServiceFactory {
+public class NPCInputServiceFactory extends AbstractInputServiceFactory {
 
 	@Override
 	public InputService create(InformationSupplier reicerThread,

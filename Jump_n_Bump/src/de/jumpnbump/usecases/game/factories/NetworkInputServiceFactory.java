@@ -16,8 +16,8 @@ public class NetworkInputServiceFactory extends AbstractInputServiceFactory {
 	public InputService create(InformationSupplier reicerThread,
 			PlayerMovementController movementController, World world) {
 		LOGGER.info("Creating Bluetooth Input Service");
-		return createBluetoothInputService(reicerThread,
-				movementController.getPlayer());
+		return BluetoothInputServiceFactory.createBluetoothInputService(
+				reicerThread, movementController.getPlayer());
 	}
 
 }

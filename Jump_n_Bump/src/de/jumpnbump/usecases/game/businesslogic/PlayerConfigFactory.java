@@ -81,7 +81,7 @@ public class PlayerConfigFactory {
 		return list;
 	}
 
-	public InputService createNetworkInputService(
+	public InputService createOtherInputService(
 			AbstractOtherPlayersFactorySingleton factory) {
 		InformationSupplier informationSupplier = factory
 				.createInformationSupplier();

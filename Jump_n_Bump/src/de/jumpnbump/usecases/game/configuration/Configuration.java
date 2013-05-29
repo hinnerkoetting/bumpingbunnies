@@ -40,6 +40,10 @@ public class Configuration implements Parcelable {
 		return this.inputConfiguration;
 	}
 
+	public AiModus getAiModus() {
+		return this.aiModus;
+	}
+
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.inputConfiguration.toString());

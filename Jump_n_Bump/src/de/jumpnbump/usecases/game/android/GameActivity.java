@@ -71,7 +71,9 @@ public class GameActivity extends Activity {
 			AbstractOtherPlayersFactorySingleton.initNetwork(getSocket(),
 					this.networkThread);
 		} else {
-			AbstractOtherPlayersFactorySingleton.initSinglePlayer();
+			AbstractOtherPlayersFactorySingleton
+					.initSinglePlayer(this.parameter.getConfiguration()
+							.getAiModus());
 		}
 	}
 
@@ -111,16 +113,15 @@ public class GameActivity extends Activity {
 	private void initInputServices(
 			AbstractOtherPlayersFactorySingleton singleton,
 			PlayerConfigFactory config) {
-		AbstractPlayerInputServicesFactory.init(this.parameter.getConfiguration()
-				.getInputConfiguration());
+		AbstractPlayerInputServicesFactory.init(this.parameter
+				.getConfiguration().getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
 				.getSingleton();
 
 		this.touchService = myPlayerFactory.createInputService(config);
 		this.inputDispatcher = myPlayerFactory
 				.createInputDispatcher(this.touchService);
-		this.networkMovementService = config
-				.createNetworkInputService(singleton);
+		this.networkMovementService = config.createOtherInputService(singleton);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),
 				this.inputDispatcher);
