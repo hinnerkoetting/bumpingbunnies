@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.jumpnbump.R;
-import de.jumpnbump.usecases.game.android.input.dispatcher.InputDispatcher;
-import de.jumpnbump.usecases.game.android.input.dispatcher.TouchWithJumpInputDispatcher;
+import de.jumpnbump.usecases.game.android.input.InputDispatcher;
+import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpInputDispatcher;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 
@@ -34,7 +34,7 @@ public class TouchJumpInputServicesFactory extends
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				inputDispatcher.dispatchViewTouch(v, event);
+				inputDispatcher.dispatchControlViewTouch(v, event);
 				return true;
 			}
 		};

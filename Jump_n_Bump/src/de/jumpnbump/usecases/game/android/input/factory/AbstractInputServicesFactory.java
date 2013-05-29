@@ -2,8 +2,8 @@ package de.jumpnbump.usecases.game.android.input.factory;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.InputService;
-import de.jumpnbump.usecases.game.android.input.dispatcher.InputDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
@@ -24,6 +24,8 @@ public abstract class AbstractInputServicesFactory<S extends InputService> {
 			return new TouchInputServicesFactory();
 		case TOUCH_WITH_UP:
 			return new TouchJumpInputServicesFactory();
+		case MULTI_TOUCH:
+			return new MultiTouchJumpServicesFactory();
 		}
 		throw new IllegalArgumentException("Unknown Inputtype");
 	}

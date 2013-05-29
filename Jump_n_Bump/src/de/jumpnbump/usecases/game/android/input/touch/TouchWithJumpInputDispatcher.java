@@ -1,9 +1,9 @@
-package de.jumpnbump.usecases.game.android.input.dispatcher;
+package de.jumpnbump.usecases.game.android.input.touch;
 
 import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.R;
-import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
+import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 
 public class TouchWithJumpInputDispatcher extends
 		InputDispatcher<TouchWithJumpService> {
@@ -18,7 +18,7 @@ public class TouchWithJumpInputDispatcher extends
 	}
 
 	@Override
-	public void dispatchViewTouch(View v, MotionEvent motion) {
+	public void dispatchControlViewTouch(View v, MotionEvent motion) {
 		if (v.getId() == R.id.button_up) {
 			getInputService().onButtonTouchUp(motion);
 		}

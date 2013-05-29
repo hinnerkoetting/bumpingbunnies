@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.jumpnbump.R;
-import de.jumpnbump.usecases.game.android.input.dispatcher.InputDispatcher;
-import de.jumpnbump.usecases.game.android.input.dispatcher.KeyboardDispatcher;
+import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
+import de.jumpnbump.usecases.game.android.input.gamepad.KeyboardDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 
 public class KeyboardInputServicesFactory extends
@@ -38,7 +38,7 @@ public class KeyboardInputServicesFactory extends
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				inputDispatcher.dispatchViewTouch(v, event);
+				inputDispatcher.dispatchControlViewTouch(v, event);
 				return true;
 			}
 		};
@@ -46,7 +46,7 @@ public class KeyboardInputServicesFactory extends
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				inputDispatcher.dispatchViewTouch(v, event);
+				inputDispatcher.dispatchControlViewTouch(v, event);
 				return true;
 			}
 		};

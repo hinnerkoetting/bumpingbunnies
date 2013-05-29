@@ -2,8 +2,8 @@ package de.jumpnbump.usecases.game.android.input.factory;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import de.jumpnbump.usecases.game.android.input.dispatcher.InputDispatcher;
-import de.jumpnbump.usecases.game.android.input.dispatcher.TouchInputDispatcher;
+import de.jumpnbump.usecases.game.android.input.InputDispatcher;
+import de.jumpnbump.usecases.game.android.input.touch.TouchInputDispatcher;
 import de.jumpnbump.usecases.game.android.input.touch.TouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 

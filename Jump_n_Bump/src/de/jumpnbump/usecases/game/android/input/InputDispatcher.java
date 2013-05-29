@@ -1,8 +1,7 @@
-package de.jumpnbump.usecases.game.android.input.dispatcher;
+package de.jumpnbump.usecases.game.android.input;
 
 import android.view.MotionEvent;
 import android.view.View;
-import de.jumpnbump.usecases.game.android.input.InputService;
 
 /**
  * Dispatches user input from screen to right input service
@@ -22,5 +21,5 @@ public abstract class InputDispatcher<S extends InputService> {
 
 	public abstract void dispatchGameTouch(MotionEvent motion);
 
-	public abstract void dispatchViewTouch(View v, MotionEvent motion);
+	public abstract void dispatchControlViewTouch(View v, MotionEvent motion);
 }

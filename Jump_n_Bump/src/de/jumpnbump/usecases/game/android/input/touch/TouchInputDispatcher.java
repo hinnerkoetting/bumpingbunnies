@@ -1,8 +1,8 @@
-package de.jumpnbump.usecases.game.android.input.dispatcher;
+package de.jumpnbump.usecases.game.android.input.touch;
 
 import android.view.MotionEvent;
 import android.view.View;
-import de.jumpnbump.usecases.game.android.input.touch.TouchService;
+import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 
 public class TouchInputDispatcher extends InputDispatcher<TouchService> {
 
@@ -17,7 +17,7 @@ public class TouchInputDispatcher extends InputDispatcher<TouchService> {
 	}
 
 	@Override
-	public void dispatchViewTouch(View v, MotionEvent motion) {
+	public void dispatchControlViewTouch(View v, MotionEvent motion) {
 	}
 
 }

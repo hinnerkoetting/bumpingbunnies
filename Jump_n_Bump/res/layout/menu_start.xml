@@ -14,21 +14,29 @@
         android:layout_height="wrap_content" >
 
         <RadioButton
+            android:id="@+id/start_button_touch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/touch"
-            android:id="@+id/start_button_touch" />
+            android:text="@string/touch" />
+
         <RadioButton
+            android:id="@+id/start_button_touch_jump"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/touch_with_jump"
-            android:id="@+id/start_button_touch_jump" />
+            android:text="@string/touch_with_jump" />
+
         <RadioButton
+            android:id="@+id/start_button_keyboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/keyboard"
             android:checked="true"
-            android:id="@+id/start_button_keyboard" />
+            android:text="@string/keyboard" />
+
+        <RadioButton
+            android:id="@+id/start_button_multi_touch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/multi_touch" />
     </RadioGroup>
 
 </LinearLayout>

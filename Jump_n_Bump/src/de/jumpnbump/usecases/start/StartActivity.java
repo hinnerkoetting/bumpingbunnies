@@ -187,12 +187,15 @@ public class StartActivity extends Activity {
 		CompoundButton keyboard = (CompoundButton) findViewById(R.id.start_button_keyboard);
 		CompoundButton touch = (CompoundButton) findViewById(R.id.start_button_touch);
 		CompoundButton touchJump = (CompoundButton) findViewById(R.id.start_button_touch_jump);
+		CompoundButton multiTouchJump = (CompoundButton) findViewById(R.id.start_button_multi_touch);
 		if (keyboard.isChecked()) {
 			return InputConfiguration.KEYBOARD;
 		} else if (touch.isChecked()) {
 			return InputConfiguration.TOUCH;
 		} else if (touchJump.isChecked()) {
 			return InputConfiguration.TOUCH_WITH_UP;
+		} else if (multiTouchJump.isChecked()) {
+			return InputConfiguration.MULTI_TOUCH;
 		}
 		throw new IllegalArgumentException("Unknown Input-Type");
 	}
