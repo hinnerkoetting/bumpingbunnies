@@ -1,13 +1,13 @@
-package de.jumpnbump.usecases.game.android;
+package de.jumpnbump.usecases.game.businesslogic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.jumpnbump.usecases.game.android.input.GamepadInputService;
+import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.input.InputService;
-import de.jumpnbump.usecases.game.android.input.TouchService;
-import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
-import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
+import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
+import de.jumpnbump.usecases.game.android.input.touch.TouchService;
+import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;

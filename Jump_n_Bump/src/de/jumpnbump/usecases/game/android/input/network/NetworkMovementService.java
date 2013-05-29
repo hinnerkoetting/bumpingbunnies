@@ -1,5 +1,6 @@
-package de.jumpnbump.usecases.game.android.input;
+package de.jumpnbump.usecases.game.android.input.network;
 
+import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.communication.NetworkReceiveThread;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;

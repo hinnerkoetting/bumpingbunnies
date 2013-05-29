@@ -3,7 +3,7 @@ package de.jumpnbump.usecases;
 import android.app.Activity;
 import android.content.Intent;
 import de.jumpnbump.usecases.game.android.GameActivity;
-import de.jumpnbump.usecases.game.android.GameStartParameter;
+import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 
 public class ActivityLauncher {
 

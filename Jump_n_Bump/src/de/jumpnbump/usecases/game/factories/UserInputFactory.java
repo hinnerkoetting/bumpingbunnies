@@ -1,9 +1,9 @@
 package de.jumpnbump.usecases.game.factories;
 
 import de.jumpnbump.usecases.game.android.GameView;
-import de.jumpnbump.usecases.game.android.input.GamepadInputService;
-import de.jumpnbump.usecases.game.android.input.TouchService;
-import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
+import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
+import de.jumpnbump.usecases.game.android.input.touch.TouchService;
+import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class UserInputFactory {

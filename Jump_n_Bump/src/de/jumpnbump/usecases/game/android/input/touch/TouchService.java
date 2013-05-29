@@ -1,7 +1,8 @@
-package de.jumpnbump.usecases.game.android.input;
+package de.jumpnbump.usecases.game.android.input.touch;
 
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 

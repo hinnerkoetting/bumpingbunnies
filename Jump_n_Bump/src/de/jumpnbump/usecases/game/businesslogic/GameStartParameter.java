@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.android;
+package de.jumpnbump.usecases.game.businesslogic;
 
 import android.os.Parcel;
 import android.os.Parcelable;

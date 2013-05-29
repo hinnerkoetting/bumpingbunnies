@@ -11,19 +11,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactory;
-import de.jumpnbump.usecases.game.android.input.GamepadInputService;
 import de.jumpnbump.usecases.game.android.input.InputService;
-import de.jumpnbump.usecases.game.android.input.TouchService;
-import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
+import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
+import de.jumpnbump.usecases.game.android.input.touch.TouchService;
+import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
+import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
@@ -139,7 +139,6 @@ public class GameActivity extends Activity {
 				config.createStateSender(stateSenderFactory));
 
 		this.gameThread.start();
-		initInputTypeListener();
 	}
 
 	private void initInputServices(
@@ -149,23 +148,6 @@ public class GameActivity extends Activity {
 		this.touchService = config.createTouchService();
 		this.networkMovementService = config
 				.createNetworkInputService(singleton);
-	}
-
-	private void initInputTypeListener() {
-		CompoundButton cb1 = (CompoundButton) findViewById(R.id.gamepad_cb);
-		CompoundButton cb2 = (CompoundButton) findViewById(R.id.touch_cb);
-		CompoundButton cb3 = (CompoundButton) findViewById(R.id.touch_with_jump_cb);
-		OnCheckedChangeListener listener = new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				onClickInputTypeCb();
-			}
-		};
-		cb1.setOnCheckedChangeListener(listener);
-		cb2.setOnCheckedChangeListener(listener);
-		cb3.setOnCheckedChangeListener(listener);
 	}
 
 	private List<InputService> createInputServices() {

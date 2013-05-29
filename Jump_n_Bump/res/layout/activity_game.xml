@@ -20,6 +20,5 @@
         android:layout_gravity="right"
         layout="@layout/gamepad" />
 
-    <include layout="@layout/input_type" />
 
 </LinearLayout>

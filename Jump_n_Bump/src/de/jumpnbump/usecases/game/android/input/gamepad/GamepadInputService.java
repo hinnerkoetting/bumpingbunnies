@@ -1,8 +1,9 @@
-package de.jumpnbump.usecases.game.android.input;
+package de.jumpnbump.usecases.game.android.input.gamepad;
 
 import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.R;
+import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class GamepadInputService implements InputService {

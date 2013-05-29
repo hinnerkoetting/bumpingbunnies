@@ -1,7 +1,7 @@
 package de.jumpnbump.usecases.start;
 
 import de.jumpnbump.usecases.ActivityLauncher;
-import de.jumpnbump.usecases.game.android.GameStartParameter;
+import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.configuration.Configuration;
 
 public class GameParameterFactory {
