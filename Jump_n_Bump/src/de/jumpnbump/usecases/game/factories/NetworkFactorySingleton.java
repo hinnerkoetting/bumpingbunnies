@@ -5,6 +5,7 @@ import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
+import de.jumpnbump.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.jumpnbump.usecases.game.communication.factories.StateSenderFactory;
 
 public class NetworkFactorySingleton extends
@@ -32,5 +33,10 @@ public class NetworkFactorySingleton extends
 	@Override
 	public AbstractStateSenderFactory createStateSenderFactory() {
 		return new StateSenderFactory(this.networkThread);
+	}
+
+	@Override
+	public RemoteSender createSender() {
+		return NetworkSendQueueThreadFactory.create(this.socket);
 	}
 }

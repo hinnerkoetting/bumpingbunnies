@@ -31,4 +31,6 @@ public abstract class AbstractInputServiceFactorySingleton {
 
 	public abstract AbstractStateSenderFactory createStateSenderFactory();
 
+	public abstract RemoteSender createSender();
+
 }

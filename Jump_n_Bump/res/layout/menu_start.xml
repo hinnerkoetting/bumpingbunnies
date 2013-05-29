@@ -16,15 +16,19 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/touch" />
+            android:text="@string/touch"
+            android:id="@+id/start_button_touch" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/touch_with_jump" />
+            android:text="@string/touch_with_jump"
+            android:id="@+id/start_button_touch_jump" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/keyboard" />
+            android:text="@string/keyboard"
+            android:checked="true"
+            android:id="@+id/start_button_keyboard" />
     </RadioGroup>
 
 </LinearLayout>

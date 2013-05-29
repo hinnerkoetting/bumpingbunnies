@@ -12,8 +12,8 @@ public class TouchWithJumpService extends LeftRightTouchService {
 	}
 
 	@Override
-	protected void executePlayerMovement() {
-		super.executePlayerMovement();
+	public void executeUserInput() {
+		super.executeUserInput();
 		if (this.upIsPressed) {
 			getPlayerMovement().tryMoveUp();
 		} else {

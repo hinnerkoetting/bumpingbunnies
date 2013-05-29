@@ -13,10 +13,10 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.RadioButton;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.android.input.GamepadInputService;
@@ -26,7 +26,7 @@ import de.jumpnbump.usecases.game.android.input.TouchWithJumpService;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
-import de.jumpnbump.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
+import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactorySingleton;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
 import de.jumpnbump.usecases.game.factories.WorldFactory;
@@ -48,22 +48,17 @@ public class GameActivity extends Activity {
 	private GamepadInputService gamepadService;
 	private InputService networkMovementService;
 	private RemoteSender networkThread;
+	private GameStartParameter parameter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
-		if (getSocket() != null) {
-			this.networkThread = NetworkSendQueueThreadFactory
-					.create(getSocket());
-			AbstractInputServiceFactorySingleton.initNetwork(getSocket(),
-					this.networkThread);
-		} else {
-			AbstractInputServiceFactorySingleton.initSinglePlayer();
-			this.networkThread = NetworkSendQueueThreadFactory
-					.createDummyRemoteSender();
-		}
+		this.parameter = (GameStartParameter) getIntent().getExtras().get(
+				ActivityLauncher.GAMEPARAMETER);
+		initInputFactory();
+
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
 		registerScreenTouchListener(contentView);
@@ -71,6 +66,15 @@ public class GameActivity extends Activity {
 		contentView.setGameThread(this.gameThread);
 		registerGamepadTouchEvents();
 		registerAnalog();
+	}
+
+	private void initInputFactory() {
+		if (getSocket() != null) {
+			AbstractInputServiceFactorySingleton.initNetwork(getSocket(),
+					this.networkThread);
+		} else {
+			AbstractInputServiceFactorySingleton.initSinglePlayer();
+		}
 	}
 
 	private void registerAnalog() {
@@ -128,7 +132,7 @@ public class GameActivity extends Activity {
 
 		AbstractStateSenderFactory stateSenderFactory = singleton
 				.createStateSenderFactory();
-
+		this.networkThread = singleton.createSender();
 		this.gameThread = GameThreadFactory.create(world, threadState,
 				config.getAllPlayerMovementControllers(),
 				createInputServices(),
@@ -165,18 +169,21 @@ public class GameActivity extends Activity {
 	}
 
 	private List<InputService> createInputServices() {
-		RadioButton cbGamepad = (RadioButton) findViewById(R.id.gamepad_cb);
-		RadioButton cbTouch = (RadioButton) findViewById(R.id.touch_cb);
-		RadioButton cbTouchJump = (RadioButton) findViewById(R.id.touch_with_jump_cb);
-		if (cbGamepad.isChecked()) {
+		InputConfiguration inputConfiguration = this.parameter
+				.getConfiguration().getInputConfiguration();
+		LOGGER.info("Selected Input is " + inputConfiguration.toString());
+		switch (inputConfiguration) {
+		case KEYBOARD:
 			return createInputServicesGamepad();
-		} else if (cbTouch.isChecked()) {
+		case TOUCH:
 			return createInputServicesTouch();
-		} else if (cbTouchJump.isChecked()) {
+		case TOUCH_WITH_UP:
 			return createInputServicesTouchWithJump();
+		default:
+			LOGGER.warn("Unknown user type");
+			return new ArrayList<InputService>();
 		}
-		LOGGER.warn("Unknown user type");
-		return new ArrayList<InputService>();
+
 	}
 
 	private List<InputService> createInputServicesTouchWithJump() {

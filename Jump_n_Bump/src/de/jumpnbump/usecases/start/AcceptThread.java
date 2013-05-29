@@ -2,26 +2,23 @@ package de.jumpnbump.usecases.start;
 
 import java.io.IOException;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.communication.NetworkConstants;
-import de.jumpnbump.usecases.game.configuration.Configuration;
-import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
 public class AcceptThread extends Thread {
 	private final BluetoothServerSocket mmServerSocket;
 
 	private static final MyLog LOGGER = Logger.getLogger(AcceptThread.class);
 
-	private final Activity activity;
+	private final StartActivity activity;
 
-	public AcceptThread(BluetoothAdapter mBluetoothAdapter, Activity activity) {
+	public AcceptThread(BluetoothAdapter mBluetoothAdapter,
+			StartActivity activity) {
 		this.activity = activity;
 		// Use a temporary object that is later assigned to mmServerSocket,
 		// because mmServerSocket is final
@@ -64,9 +61,7 @@ public class AcceptThread extends Thread {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
 		application.setSocket(socket);
-		ActivityLauncher.launchGame(this.activity,
-				GameParameterFactory.createParameter(0, new Configuration(
-						InputConfiguration.TOUCH)));
+		this.activity.startGame(0);
 		LOGGER.info("Connection accepeted");
 	}
 }

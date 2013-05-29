@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.jumpnbump.R;
@@ -171,9 +172,29 @@ public class StartActivity extends Activity {
 	}
 
 	public void onClickSingleplayer(View v) {
+		InputConfiguration selectedInput = findSelectedInputConfiguration();
 		ActivityLauncher.launchGame(this, GameParameterFactory
-				.createSingleplayerParameter(new Configuration(
-						InputConfiguration.TOUCH)));
+				.createSingleplayerParameter(new Configuration(selectedInput)));
+	}
+
+	public void startGame(int playerId) {
+		InputConfiguration selectedInput = findSelectedInputConfiguration();
+		ActivityLauncher.launchGame(this, GameParameterFactory.createParameter(
+				playerId, new Configuration(selectedInput)));
+	}
+
+	private InputConfiguration findSelectedInputConfiguration() {
+		CompoundButton keyboard = (CompoundButton) findViewById(R.id.start_button_keyboard);
+		CompoundButton touch = (CompoundButton) findViewById(R.id.start_button_touch);
+		CompoundButton touchJump = (CompoundButton) findViewById(R.id.start_button_touch_jump);
+		if (keyboard.isChecked()) {
+			return InputConfiguration.KEYBOARD;
+		} else if (touch.isChecked()) {
+			return InputConfiguration.TOUCH;
+		} else if (touchJump.isChecked()) {
+			return InputConfiguration.TOUCH_WITH_UP;
+		}
+		throw new IllegalArgumentException("Unknown Input-Type");
 	}
 
 }

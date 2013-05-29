@@ -7,23 +7,18 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.communication.NetworkConstants;
-import de.jumpnbump.usecases.game.configuration.Configuration;
-import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
 public class ConnectThread extends Thread {
 
 	private static final MyLog LOGGER = Logger.getLogger(ConnectThread.class);
 	private final BluetoothSocket mmSocket;
 	private final BluetoothDevice mmDevice;
-	private final BluetoothAdapter mBluetoothAdapter;
 	private final StartActivity activity;
 
 	public ConnectThread(BluetoothDevice device,
 			BluetoothAdapter mBluetoothAdapter, StartActivity activity) {
-		this.mBluetoothAdapter = mBluetoothAdapter;
 		this.activity = activity;
 		// Use a temporary object that is later assigned to mmSocket,
 		// because mmSocket is final
@@ -70,9 +65,8 @@ public class ConnectThread extends Thread {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
 		application.setSocket(this.mmSocket);
-		ActivityLauncher.launchGame(this.activity,
-				GameParameterFactory.createParameter(1, new Configuration(
-						InputConfiguration.TOUCH)));
+
+		this.activity.startGame(1);
 		LOGGER.info("Connection accepted");
 	}
 }
