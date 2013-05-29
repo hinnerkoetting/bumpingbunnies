@@ -1,12 +1,10 @@
 package de.jumpnbump.usecases.game.android.input.multiTouch;
 
 import android.view.MotionEvent;
-import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.android.input.touch.LeftRightTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
-public class MultiTouchInputService extends LeftRightTouchService implements
-		AbstractTouchService {
+public class MultiTouchInputService extends LeftRightTouchService {
 
 	private boolean shouldBeJumping;
 

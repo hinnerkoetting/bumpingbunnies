@@ -3,24 +3,21 @@ package de.jumpnbump.usecases.game.android.input.touch;
 import android.view.MotionEvent;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.game.android.input.AbstractControlledMovement;
-import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
+import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.model.Player;
 
-public class LeftRightTouchService extends AbstractControlledMovement implements
-		GameScreenSizeChangeListener {
+public class LeftRightTouchService extends AbstractTouchService {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(LeftRightTouchService.class);
 	private MotionEvent lastEvent;
-	private int windowWidth;
-	private int windowHeight;
 
 	public LeftRightTouchService(PlayerMovementController playerMovement) {
 		super(playerMovement);
 	}
 
+	@Override
 	public void onMotionEvent(MotionEvent motionEvent) {
 		this.lastEvent = motionEvent;
 	}
@@ -54,11 +51,11 @@ public class LeftRightTouchService extends AbstractControlledMovement implements
 	}
 
 	protected double relativePointerPositionX(MotionEvent motionEvent) {
-		return motionEvent.getX() / this.windowWidth;
+		return translateToGameXCoordinate(motionEvent);
 	}
 
 	protected double relativePointerPositionY(MotionEvent motionEvent) {
-		return motionEvent.getY() / this.windowHeight;
+		return translateToGameYCoordinate(motionEvent);
 	}
 
 	protected void moveLeftOrRight(int movement) {
@@ -74,22 +71,16 @@ public class LeftRightTouchService extends AbstractControlledMovement implements
 	}
 
 	private boolean isClickRightToPlayer(Player player) {
-		return this.lastEvent.getX() > player.maxX() * this.windowWidth;
+		return translateToGameXCoordinate(this.lastEvent) > 0.5;
 	}
 
 	private boolean isClickLeftToPlayer(Player player) {
 		try {
-			return this.lastEvent.getX() < player.minX() * this.windowWidth;
+			return translateToGameXCoordinate(this.lastEvent) < 0.5;
 		} catch (IllegalArgumentException e) {
 			LOGGER.warn("Exception during calling getX " + e.getMessage());
 			return false;
 		}
-	}
-
-	@Override
-	public void setNewSize(int width, int height) {
-		this.windowHeight = height;
-		this.windowWidth = width;
 	}
 
 	@Override
@@ -98,14 +89,6 @@ public class LeftRightTouchService extends AbstractControlledMovement implements
 
 	public MotionEvent getLastEvent() {
 		return this.lastEvent;
-	}
-
-	public int getWindowWidth() {
-		return this.windowWidth;
-	}
-
-	public int getWindowHeight() {
-		return this.windowHeight;
 	}
 
 }

@@ -1,15 +1,13 @@
 package de.jumpnbump.usecases.game.android.input.touchFling;
 
 import android.view.MotionEvent;
-import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.android.input.touch.LeftRightTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
-public class TouchFlingService extends LeftRightTouchService implements
-		AbstractTouchService {
+public class TouchFlingService extends LeftRightTouchService {
 
-	private float lastTouchedHeight;
-	private float lastTouchedWidht;
+	private double lastTouchedHeight;
+	private double lastTouchedWidht;
 
 	public TouchFlingService(PlayerMovementController playerMovement) {
 		super(playerMovement);
@@ -30,22 +28,23 @@ public class TouchFlingService extends LeftRightTouchService implements
 		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 			return false;
 		}
-		double diffY = this.lastTouchedHeight - motionEvent.getY();
-		double diffX = Math.abs(motionEvent.getX() - this.lastTouchedWidht);
+		double diffY = this.lastTouchedHeight
+				- translateToGameYCoordinate(motionEvent);
+		double diffX = Math.abs(translateToGameXCoordinate(motionEvent)
+				- this.lastTouchedWidht);
 		return diffY > 0 && diffY * 2 > diffX;
 	}
 
 	private void rememberLastTouch(MotionEvent motionEvent) {
 		if (motionEvent.getAction() != MotionEvent.ACTION_UP) {
-			this.lastTouchedHeight = motionEvent.getY();
-			this.lastTouchedWidht = motionEvent.getX();
+			this.lastTouchedHeight = translateToGameYCoordinate(motionEvent);
+			this.lastTouchedWidht = translateToGameXCoordinate(motionEvent);
 		}
 	}
 
 	@Override
 	public void setNewSize(int width, int height) {
 		super.setNewSize(width, height);
-		this.lastTouchedHeight = height;
 	}
 
 	@Override

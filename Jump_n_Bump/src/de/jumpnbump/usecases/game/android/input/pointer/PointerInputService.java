@@ -1,14 +1,12 @@
 package de.jumpnbump.usecases.game.android.input.pointer;
 
 import android.view.MotionEvent;
-import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.android.input.PathFinder.PathFinder;
 import de.jumpnbump.usecases.game.android.input.touch.LeftRightTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.model.Player;
 
-public class PointerInputService extends LeftRightTouchService implements
-		AbstractTouchService {
+public class PointerInputService extends LeftRightTouchService {
 
 	private static final double MAX_DISTANCE_TO_JUMP = 0.2;
 	private final PathFinder pathFinder;

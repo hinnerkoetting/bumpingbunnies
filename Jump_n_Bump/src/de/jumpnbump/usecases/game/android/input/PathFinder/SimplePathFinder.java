@@ -1,10 +1,14 @@
 package de.jumpnbump.usecases.game.android.input.PathFinder;
 
+import de.jumpnbump.logger.Logger;
+import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
 
 public class SimplePathFinder implements PathFinder {
 
+	private static final MyLog LOGGER = Logger
+			.getLogger(SimplePathFinder.class);
 	private Player player;
 
 	public SimplePathFinder(Player player) {
@@ -20,7 +24,8 @@ public class SimplePathFinder implements PathFinder {
 
 		double absDiffY = Math.abs(diffY);
 		boolean pointerIsOverPlayer = diffY < 0;
-		boolean isYDifferenceBiggerThanXDifference = absDiffY > diffX;
+		LOGGER.info(diffY + "");
+		boolean isYDifferenceBiggerThanXDifference = true;// absDiffY > diffX;
 		return pointerIsOverPlayer && isYDifferenceBiggerThanXDifference;
 	}
 }
