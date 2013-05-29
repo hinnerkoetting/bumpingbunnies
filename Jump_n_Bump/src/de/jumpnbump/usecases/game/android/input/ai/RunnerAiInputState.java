@@ -1,35 +1,44 @@
 package de.jumpnbump.usecases.game.android.input.ai;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
+import de.jumpnbump.usecases.game.model.Coordinate;
 import de.jumpnbump.usecases.game.model.Wall;
 
 public class RunnerAiInputState {
 
-	private Wall nextGameObject;
+	private Queue<Coordinate> coordinates;
 
-	public void setNextTarget(Wall w) {
-		this.nextGameObject = w;
+	public RunnerAiInputState() {
+		this.coordinates = new LinkedList<Coordinate>();
 	}
 
-	public Wall getNextTarget() {
-		if (this.nextGameObject == null) {
+	public void setNextTarget(Wall w) {
+		this.coordinates.add(new Coordinate(w.maxX(), w.centerY()));
+		this.coordinates.add(new Coordinate(w.centerX(), w.centerY()));
+	}
+
+	public Coordinate getNextTarget() {
+		if (this.coordinates.isEmpty()) {
 			throw new IllegalArgumentException("No target specified");
 		}
-		return this.nextGameObject;
+		return this.coordinates.peek();
 	}
 
 	public void removeNextTarget() {
-		this.nextGameObject = null;
+		this.coordinates.poll();
 	}
 
 	public boolean hasTarget() {
-		return this.nextGameObject != null;
+		return !this.coordinates.isEmpty();
 	}
 
 	public double nextTargetCenterX() {
-		return (this.nextGameObject.maxX() + this.nextGameObject.minX()) / 2;
+		return this.coordinates.peek().getX();
 	}
 
 	public double nextTargetCenterY() {
-		return (this.nextGameObject.maxY() + this.nextGameObject.minY()) / 2;
+		return this.coordinates.peek().getY();
 	}
 }

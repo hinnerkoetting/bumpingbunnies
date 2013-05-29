@@ -20,8 +20,8 @@ public class PlayerFactory {
 		int id = 1;
 		Player p = new Player(new Player(id), id);
 		PlayerState state = p.getState();
-		state.setCenterX(0.8);
-		state.setCenterY(0.99);
+		state.setCenterX(0.9);
+		state.setCenterY(0.1);
 		state.setColor(Color.BLUE);
 		return p;
 	}

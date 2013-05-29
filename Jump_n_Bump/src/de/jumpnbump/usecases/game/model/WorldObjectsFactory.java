@@ -38,7 +38,7 @@ public class WorldObjectsFactory {
 		allWalls.add(WallFactory.createWall(0.3, 0.45, 0.25,
 				ModelConstants.WALL_HEIGHT));
 
-		allWalls.add(WallFactory.createWall(0.5, 0.6, 0.25,
+		allWalls.add(WallFactory.createWall(0.45, 0.6, 0.25,
 				ModelConstants.WALL_HEIGHT));
 
 		allWalls.add(WallFactory.createWall(0.75, 0.8, 0.25,

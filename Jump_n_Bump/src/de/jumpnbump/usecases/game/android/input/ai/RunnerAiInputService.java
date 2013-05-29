@@ -64,7 +64,7 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 		List<Wall> allWalls = this.world.getAllWalls();
 		Wall lowestWall = null;
 		for (Wall w : allWalls) {
-			if (w.minY() < getMovedPlayer().minY()) {
+			if (w.minY() > getMovedPlayer().minY()) {
 				if (lowestWall != null) {
 					if (w.minY() < lowestWall.minY()) {
 						lowestWall = w;
@@ -103,11 +103,33 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 		} else if (this.state.nextTargetCenterX() > player.getCenterX()) {
 			playerMovement.tryMoveRight();
 		}
+		if (isCurrentlyJumping()) {
+			if (isStandingOnGround()) {
+				conditionallyJump();
+			} else {
+				moveUp();
+			}
+		} else {
+			conditionallyJump();
+		}
+
+	}
+
+	private boolean isStandingOnGround() {
+		return getPlayerMovement().isStandingOnGround();
+
+	}
+
+	private boolean isCurrentlyJumping() {
+		return getPlayerMovement().isJumping();
+	}
+
+	private void conditionallyJump() {
 		if (this.pathFinder.canBeReachedByJumping(
 				this.state.nextTargetCenterX(), this.state.nextTargetCenterY())) {
-			playerMovement.tryMoveUp();
+			moveUp();
 		} else {
-			playerMovement.tryMoveDown();
+			moveDown();
 		}
 
 	}

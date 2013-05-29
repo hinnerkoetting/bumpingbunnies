@@ -198,7 +198,7 @@ public class AiInputService implements InputService {
 	}
 
 	private boolean isOtherPlayerOverMe() {
-		return this.player.getCenterY() > this.otherPlayer.getCenterY() - 0.1;
+		return this.player.getCenterY() < this.otherPlayer.getCenterY() + 0.1;
 	}
 
 	@Override

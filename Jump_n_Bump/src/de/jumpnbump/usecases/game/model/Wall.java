@@ -88,4 +88,14 @@ public class Wall implements GameObject, ModelConstants {
 				+ this.width + ", height=" + this.height + "]";
 	}
 
+	@Override
+	public double centerX() {
+		return this.minX + this.width / 2;
+	}
+
+	@Override
+	public double centerY() {
+		return this.minY + this.height / 2;
+	}
+
 }

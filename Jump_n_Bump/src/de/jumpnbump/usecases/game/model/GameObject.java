@@ -12,6 +12,10 @@ public interface GameObject {
 
 	double minY();
 
+	double centerX();
+
+	double centerY();
+
 	double movementX();
 
 	double movementY();

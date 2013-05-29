@@ -172,4 +172,14 @@ public class Player implements GameObject {
 		return this.state.getColor();
 	}
 
+	@Override
+	public double centerX() {
+		return this.state.getCenterX();
+	}
+
+	@Override
+	public double centerY() {
+		return this.state.getCenterY();
+	}
+
 }

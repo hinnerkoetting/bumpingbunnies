@@ -19,8 +19,8 @@ public class SimplePathFinder implements PathFinder {
 		double diffX = Math.abs(state.getCenterX() - x);
 
 		double absDiffY = Math.abs(diffY);
-		boolean pointerIsOverPlayer = diffY > 0;
-		return pointerIsOverPlayer && absDiffY > diffX;
+		boolean pointerIsOverPlayer = diffY < 0;
+		boolean isYDifferenceBiggerThanXDifference = absDiffY > diffX;
+		return pointerIsOverPlayer && isYDifferenceBiggerThanXDifference;
 	}
-
 }

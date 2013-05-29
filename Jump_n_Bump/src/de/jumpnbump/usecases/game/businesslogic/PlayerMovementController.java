@@ -99,4 +99,12 @@ public class PlayerMovementController implements ModelConstants {
 		return this.collision.playerStandOnTopOfOtherPlayer(this.movedPlayer);
 	}
 
+	public boolean isJumping() {
+		return this.movingUp;
+	}
+
+	public boolean isStandingOnGround() {
+		return this.collision.objectStandsOnGround(this.movedPlayer);
+	}
+
 }
