@@ -72,8 +72,8 @@ public class SingleCollisionDetection {
 
 	private static boolean isAtCircaSomeHeightAsOtherObject(
 			GameObject objectToBeChecked, GameObject otherObject) {
-		return objectToBeChecked.maxY() > otherObject.minY() + 0.005
-				&& objectToBeChecked.minY() < otherObject.maxY() + 0.005;
+		return objectToBeChecked.maxY() > otherObject.minY() - 0.005
+				&& objectToBeChecked.minY() < otherObject.maxY() - 0.005;
 	}
 
 	private static boolean isAtSomeHeightAsOtherObject(

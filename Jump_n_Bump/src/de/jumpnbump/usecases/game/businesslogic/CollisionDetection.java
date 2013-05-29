@@ -25,13 +25,13 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 	}
 
 	public boolean willCollideBottom(GameObject gameobject) {
-		boolean willCollideBottom = gameobject.movementY() > 0
+		boolean willCollideBottom = gameobject.movementY() < 0
 				&& collidesWithBottom(gameobject.simulateNextStepY());
 		return willCollideBottom;
 	}
 
 	public boolean willCollideTop(GameObject gameobject) {
-		boolean willCollideTop = gameobject.movementY() < 0
+		boolean willCollideTop = gameobject.movementY() > 0
 				&& collidesWithTop(gameobject.simulateNextStepY());
 		return willCollideTop;
 	}
@@ -79,7 +79,7 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 				return true;
 			}
 		}
-		return objectToBeChecked.maxY() >= 1;
+		return objectToBeChecked.minY() <= 0;
 	}
 
 	public boolean collidesWithRight(GameObject gameobject) {

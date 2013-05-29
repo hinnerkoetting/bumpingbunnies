@@ -21,21 +21,26 @@ public class CanvasDelegate {
 
 	public void drawLine(double startX, double startY, double stopX,
 			double stopY, Paint paint) {
-		this.canvas.drawLine((float) (startX * this.width),
-				(float) (startY * this.height), (float) (stopX * this.width),
-				(float) (stopY * this.width), paint);
+		this.canvas.drawLine(transformX(startX), transformY(startY),
+				transformX(stopX), transformY(stopY), paint);
 	}
 
 	public void drawText(String text, double x, double y, Paint paint) {
-		this.canvas.drawText(text, (float) (x * this.width),
-				(float) (y * this.height), paint);
+		this.canvas.drawText(text, transformX(x), transformY(y), paint);
 	}
 
 	public void drawRect(double left, double top, double right, double bottom,
 			Paint paint) {
-		this.canvas.drawRect((float) (left * this.width),
-				(float) (top * this.height), (float) (right * this.width),
-				(float) (bottom * this.height), paint);
+		this.canvas.drawRect(transformX(left), transformY(top),
+				transformX(right), transformY(bottom), paint);
+	}
+
+	private float transformX(double x) {
+		return (float) (x * this.width);
+	}
+
+	private float transformY(double y) {
+		return (float) ((1 - y) * this.height);
 	}
 
 }
