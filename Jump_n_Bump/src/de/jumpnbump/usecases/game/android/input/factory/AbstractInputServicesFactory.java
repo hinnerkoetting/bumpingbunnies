@@ -7,13 +7,13 @@ import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
 public abstract class AbstractInputServicesFactory<S extends InputService> {
 
-	private static AbstractInputServicesFactory<?> factorySingleton;
+	private static AbstractInputServicesFactory<? extends InputService> factorySingleton;
 
 	public static void init(InputConfiguration inputConfiguration) {
 		factorySingleton = create(inputConfiguration);
 	}
 
-	private static AbstractInputServicesFactory<?> create(
+	private static AbstractInputServicesFactory<? extends InputService> create(
 			InputConfiguration inputConfiguration) {
 		switch (inputConfiguration) {
 		case KEYBOARD:
@@ -26,11 +26,11 @@ public abstract class AbstractInputServicesFactory<S extends InputService> {
 		throw new IllegalArgumentException("Unknown Inputtype");
 	}
 
-	public static AbstractInputServicesFactory<?> getSingleton() {
+	public static <S extends InputService> AbstractInputServicesFactory<S> getSingleton() {
 		if (factorySingleton == null) {
 			throw new IllegalArgumentException("Singleton not intialized");
 		}
-		return factorySingleton;
+		return (AbstractInputServicesFactory<S>) factorySingleton;
 	}
 
 	public abstract S createInputService(PlayerConfigFactory config);

@@ -139,14 +139,14 @@ public class GameActivity extends Activity {
 			PlayerConfigFactory config) {
 		AbstractInputServicesFactory.init(this.parameter.getConfiguration()
 				.getInputConfiguration());
-		AbstractInputServicesFactory singleton2 = AbstractInputServicesFactory
+		AbstractInputServicesFactory<InputService> myPlayerFactory = AbstractInputServicesFactory
 				.getSingleton();
 
-		this.touchService = singleton2.createInputService(config);
+		this.touchService = myPlayerFactory.createInputService(config);
+		this.inputTouchDispatcher = myPlayerFactory
+				.createInputDispatcher(this.touchService);
 		this.networkMovementService = config
 				.createNetworkInputService(singleton);
-		this.inputTouchDispatcher = singleton2
-				.createInputDispatcher(this.touchService);
 	}
 
 	private List<InputService> createInputServices() {
