@@ -56,4 +56,5 @@ public class World {
 	public List<Wall> getAllWalls() {
 		return this.allWalls;
 	}
+
 }

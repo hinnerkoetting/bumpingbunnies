@@ -100,4 +100,13 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		other.score = this.score;
 	}
 
+	@Override
+	public String toString() {
+		return "PlayerState [centerX=" + this.centerX + ", centerY="
+				+ this.centerY + ", movementX=" + this.movementX
+				+ ", movementY=" + this.movementY + ", accelerationX="
+				+ this.accelerationX + ", accelerationY=" + this.accelerationY
+				+ "]";
+	}
+
 }

@@ -27,5 +27,6 @@
     <string name="ai">KI</string>
     <string name="ai_off">Aus</string>
     <string name="ai_normal">Normal</string>
+    <string name="ai_runner">Läufer</string>
 
 </resources>

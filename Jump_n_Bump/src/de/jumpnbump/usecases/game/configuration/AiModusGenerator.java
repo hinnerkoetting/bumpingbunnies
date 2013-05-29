@@ -21,6 +21,8 @@ public class AiModusGenerator {
 			return AiModus.OFF;
 		case R.id.start_ai_normal:
 			return AiModus.NORMAL;
+		case R.id.start_ai_runner:
+			return AiModus.RUNNER;
 		default:
 			throw new IllegalArgumentException("Unknown inputtype");
 		}

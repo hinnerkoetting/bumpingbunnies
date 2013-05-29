@@ -1,12 +1,14 @@
 package de.jumpnbump.usecases.game.configuration;
 
-import de.jumpnbump.usecases.game.android.input.ai.NoAiInputFactory;
-import de.jumpnbump.usecases.game.android.input.ai.NormalAiInputFactory;
 import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactory;
+import de.jumpnbump.usecases.game.factories.ai.NoAiInputFactory;
+import de.jumpnbump.usecases.game.factories.ai.NormalAiInputFactory;
+import de.jumpnbump.usecases.game.factories.ai.RunnerAiInputFactory;
 
 public enum AiModus {
 
-	OFF(NoAiInputFactory.class), NORMAL(NormalAiInputFactory.class);
+	OFF(NoAiInputFactory.class), NORMAL(NormalAiInputFactory.class), RUNNER(
+			RunnerAiInputFactory.class);
 
 	private Class<? extends AbstractInputServiceFactory> factoryClass;
 

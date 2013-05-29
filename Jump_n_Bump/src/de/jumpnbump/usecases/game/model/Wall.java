@@ -82,4 +82,10 @@ public class Wall implements GameObject, ModelConstants {
 		return this.color;
 	}
 
+	@Override
+	public String toString() {
+		return "Wall [minX=" + this.minX + ", minY=" + this.minY + ", width="
+				+ this.width + ", height=" + this.height + "]";
+	}
+
 }
