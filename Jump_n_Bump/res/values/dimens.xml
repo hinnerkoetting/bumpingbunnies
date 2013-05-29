@@ -9,4 +9,5 @@
     <dimen name="button_text_size">20dp</dimen>
     <dimen name="button_margin">5dp</dimen>
 
+    <dimen name="only_one_button_padding">50dp</dimen>
 </resources>

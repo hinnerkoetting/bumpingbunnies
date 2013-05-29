@@ -1,7 +1,11 @@
 package de.jumpnbump.usecases.game.android.input.factory;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.android.input.dispatcher.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.dispatcher.TouchWithJumpInputDispatcher;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
@@ -23,7 +27,17 @@ public class TouchJumpInputServicesFactory extends
 
 	@Override
 	public void insertGameControllerViews(ViewGroup rootView,
-			LayoutInflater inflater, InputDispatcher<?> inputDispatcher) {
-	}
+			LayoutInflater inflater, final InputDispatcher<?> inputDispatcher) {
+		View view = inflater.inflate(R.layout.input_up, rootView, true);
+		View upButton = view.findViewById(R.id.button_up);
+		OnTouchListener touchListener = new OnTouchListener() {
 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				inputDispatcher.dispatchViewTouch(v, event);
+				return true;
+			}
+		};
+		upButton.setOnTouchListener(touchListener);
+	}
 }

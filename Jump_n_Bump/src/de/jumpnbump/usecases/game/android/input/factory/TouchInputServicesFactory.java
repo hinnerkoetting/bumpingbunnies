@@ -23,7 +23,6 @@ public class TouchInputServicesFactory extends
 	@Override
 	public void insertGameControllerViews(ViewGroup rootView,
 			LayoutInflater inflater, InputDispatcher<?> inputDispatcher) {
-		// TODO Auto-generated method stub
 
 	}
 
