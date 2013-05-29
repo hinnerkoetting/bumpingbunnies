@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
@@ -47,7 +48,7 @@ public class GameActivity extends Activity {
 	private RemoteSender networkThread;
 	private GameStartParameter parameter;
 
-	private InputDispatcher<?> inputTouchDispatcher;
+	private InputDispatcher<?> inputDispatcher;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,6 @@ public class GameActivity extends Activity {
 		registerScreenTouchListener(contentView);
 		initGame();
 		contentView.setGameThread(this.gameThread);
-		registerGamepadTouchEvents();
 	}
 
 	private void initInputFactory() {
@@ -80,36 +80,10 @@ public class GameActivity extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				GameActivity.this.inputTouchDispatcher.dispatchGameTouch(event);
+				GameActivity.this.inputDispatcher.dispatchGameTouch(event);
 				return true;
 			}
 		});
-	}
-
-	private void registerGamepadTouchEvents() {
-		OnTouchListener touchListener = new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				GameActivity.this.inputTouchDispatcher.dispatchViewTouch(v,
-						event);
-				return true;
-			}
-		};
-		OnTouchListener upTouchListener = new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				GameActivity.this.inputTouchDispatcher.dispatchViewTouch(v,
-						event);
-				return true;
-			}
-		};
-		findViewById(R.id.button_down).setOnTouchListener(touchListener);
-		findViewById(R.id.button_up).setOnTouchListener(upTouchListener);
-		findViewById(R.id.button_right).setOnTouchListener(touchListener);
-		findViewById(R.id.button_left).setOnTouchListener(touchListener);
-
 	}
 
 	private void initGame() {
@@ -143,10 +117,13 @@ public class GameActivity extends Activity {
 				.getSingleton();
 
 		this.touchService = myPlayerFactory.createInputService(config);
-		this.inputTouchDispatcher = myPlayerFactory
+		this.inputDispatcher = myPlayerFactory
 				.createInputDispatcher(this.touchService);
 		this.networkMovementService = config
 				.createNetworkInputService(singleton);
+		myPlayerFactory.insertGameControllerViews(
+				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),
+				this.inputDispatcher);
 	}
 
 	private List<InputService> createInputServices() {

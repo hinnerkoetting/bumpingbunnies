@@ -1,5 +1,7 @@
 package de.jumpnbump.usecases.game.android.input.factory;
 
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.android.input.dispatcher.InputDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
@@ -36,4 +38,16 @@ public abstract class AbstractInputServicesFactory<S extends InputService> {
 	public abstract S createInputService(PlayerConfigFactory config);
 
 	public abstract InputDispatcher<?> createInputDispatcher(S inputService);
+
+	/**
+	 * Created View Controls for this type of Input. The child class is
+	 * responsible to register all input view to the dispatcher. You do not have
+	 * to worry about game view.
+	 * 
+	 * @param rootView
+	 * @param inflater
+	 * @param inputDispatcher
+	 */
+	public abstract void insertGameControllerViews(ViewGroup rootView,
+			LayoutInflater inflater, InputDispatcher<?> inputDispatcher);
 }

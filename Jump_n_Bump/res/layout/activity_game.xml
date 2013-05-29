@@ -5,7 +5,8 @@
     android:background="#0099cc"
     android:orientation="vertical"
     android:paddingLeft="@dimen/game_padding_left_right"
-    android:paddingRight="@dimen/game_padding_left_right" >
+    android:paddingRight="@dimen/game_padding_left_right"
+    android:id="@+id/game_root" >
 
     <!-- width and height may be overwritten programmatically to achieve squared size -->
 
@@ -14,11 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include
+    <!-- <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         layout="@layout/gamepad" />
-
+ -->
 
 </LinearLayout>
