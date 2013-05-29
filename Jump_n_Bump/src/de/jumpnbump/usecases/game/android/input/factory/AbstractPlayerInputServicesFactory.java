@@ -6,15 +6,14 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.InputService;
-import de.jumpnbump.usecases.game.android.input.pointer.PointerInputServiceFactory;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
-public abstract class AbstractInputServicesFactory<S extends InputService> {
+public abstract class AbstractPlayerInputServicesFactory<S extends InputService> {
 
 	private static final MyLog LOGGER = Logger
-			.getLogger(AbstractInputServicesFactory.class);
-	private static AbstractInputServicesFactory<? extends InputService> factorySingleton;
+			.getLogger(AbstractPlayerInputServicesFactory.class);
+	private static AbstractPlayerInputServicesFactory<? extends InputService> factorySingleton;
 
 	public static void init(InputConfiguration inputConfiguration) {
 		factorySingleton = create(inputConfiguration);
@@ -22,29 +21,16 @@ public abstract class AbstractInputServicesFactory<S extends InputService> {
 				.getSimpleName());
 	}
 
-	private static AbstractInputServicesFactory<? extends InputService> create(
+	private static AbstractPlayerInputServicesFactory<? extends InputService> create(
 			InputConfiguration inputConfiguration) {
-		switch (inputConfiguration) {
-		case KEYBOARD:
-			return new KeyboardInputServicesFactory();
-		case TOUCH:
-			return new TouchInputServicesFactory();
-		case TOUCH_WITH_UP:
-			return new TouchJumpInputServicesFactory();
-		case MULTI_TOUCH:
-			return new MultiTouchJumpServicesFactory();
-		case POINTER:
-			return new PointerInputServiceFactory();
-		}
-
-		throw new IllegalArgumentException("Unknown Inputtype");
+		return inputConfiguration.createInputconfigurationClass();
 	}
 
-	public static <S extends InputService> AbstractInputServicesFactory<S> getSingleton() {
+	public static <S extends InputService> AbstractPlayerInputServicesFactory<S> getSingleton() {
 		if (factorySingleton == null) {
 			throw new IllegalArgumentException("Singleton not intialized");
 		}
-		return (AbstractInputServicesFactory<S>) factorySingleton;
+		return (AbstractPlayerInputServicesFactory<S>) factorySingleton;
 	}
 
 	public abstract S createInputService(PlayerConfigFactory config);

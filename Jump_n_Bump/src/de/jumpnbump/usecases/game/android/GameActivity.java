@@ -19,7 +19,7 @@ import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactoryFactory;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.InputService;
-import de.jumpnbump.usecases.game.android.input.factory.AbstractInputServicesFactory;
+import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
@@ -111,9 +111,9 @@ public class GameActivity extends Activity {
 	private void initInputServices(
 			AbstractOtherPlayersFactorySingleton singleton,
 			PlayerConfigFactory config) {
-		AbstractInputServicesFactory.init(this.parameter.getConfiguration()
+		AbstractPlayerInputServicesFactory.init(this.parameter.getConfiguration()
 				.getInputConfiguration());
-		AbstractInputServicesFactory<InputService> myPlayerFactory = AbstractInputServicesFactory
+		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
 				.getSingleton();
 
 		this.touchService = myPlayerFactory.createInputService(config);

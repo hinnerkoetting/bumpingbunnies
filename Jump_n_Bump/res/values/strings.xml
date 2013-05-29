@@ -23,5 +23,6 @@
     <string name="input">Eingabe</string>
     <string name="multi_touch">Multi-Touch</string>
     <string name="pointer">Pointer</string>
+    <string name="smart_pointer">Smart Pointer</string>
 
 </resources>

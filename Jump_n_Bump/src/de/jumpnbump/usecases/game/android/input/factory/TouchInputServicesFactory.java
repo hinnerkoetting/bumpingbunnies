@@ -8,7 +8,7 @@ import de.jumpnbump.usecases.game.android.input.touch.TouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 
 public class TouchInputServicesFactory extends
-		AbstractInputServicesFactory<TouchService> {
+		AbstractPlayerInputServicesFactory<TouchService> {
 
 	@Override
 	public TouchService createInputService(PlayerConfigFactory config) {

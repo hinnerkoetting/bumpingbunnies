@@ -29,6 +29,8 @@ public class InputConfigurationGenerator {
 			return InputConfiguration.MULTI_TOUCH;
 		case R.id.start_button_pointer:
 			return InputConfiguration.POINTER;
+		case R.id.start_button_remember_pointer:
+			return InputConfiguration.REMEMBER_POINTER;
 		default:
 			throw new IllegalArgumentException("Unknown inputtype");
 		}

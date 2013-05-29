@@ -44,6 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pointer" />
+        
+        <RadioButton
+            android:id="@+id/start_button_remember_pointer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/smart_pointer" />
     </RadioGroup>
 
 </LinearLayout>

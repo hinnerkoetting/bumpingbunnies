@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases.game.android.input.pointer;
 
 import android.view.MotionEvent;
+import de.jumpnbump.usecases.game.android.input.PathFinder.PathFinder;
 import de.jumpnbump.usecases.game.android.input.touch.LeftRightTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.model.Player;
@@ -8,10 +9,13 @@ import de.jumpnbump.usecases.game.model.Player;
 public class PointerInputService extends LeftRightTouchService {
 
 	private static final double MAX_DISTANCE_TO_JUMP = 0.2;
+	private final PathFinder pathFinder;
 	private boolean moveUp;
 
-	public PointerInputService(PlayerMovementController playerMovement) {
+	public PointerInputService(PlayerMovementController playerMovement,
+			PathFinder pathFinder) {
 		super(playerMovement);
+		this.pathFinder = pathFinder;
 	}
 
 	@Override
@@ -49,15 +53,9 @@ public class PointerInputService extends LeftRightTouchService {
 	}
 
 	private boolean canBeReachedByJumping(MotionEvent motionEvent) {
-		Player state = getPlayerMovement().getPlayer();
-		double relativeClickPositionX = relativePointerPositionX(motionEvent);
-		double diffY = calculateDiffY(state, motionEvent);
-		double diffX = Math.abs(state.getCenterX() - relativeClickPositionX);
-
-		double absDiffY = Math.abs(diffY);
-		boolean pointerIsOverPlayer = diffY > 0;
-		return pointerIsOverPlayer && absDiffY > diffX;
-		// return Math.abs( < MAX_DISTANCE_TO_JUMP;
+		return this.pathFinder.canBeReachedByJumping(
+				relativePointerPositionX(motionEvent),
+				relativePointerPositionY(motionEvent));
 	}
 
 	private double calculateDiffY(Player player, MotionEvent motionEvent) {

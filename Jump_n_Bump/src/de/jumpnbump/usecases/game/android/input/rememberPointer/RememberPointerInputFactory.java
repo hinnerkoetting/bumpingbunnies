@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.android.input.pointer;
+package de.jumpnbump.usecases.game.android.input.rememberPointer;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -6,18 +6,19 @@ import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 
-public class PointerInputServiceFactory extends
-		AbstractPlayerInputServicesFactory<PointerInputService> {
+public class RememberPointerInputFactory extends
+		AbstractPlayerInputServicesFactory<RememberPointerInputService> {
 
 	@Override
-	public PointerInputService createInputService(PlayerConfigFactory config) {
-		return config.createPointerInputService();
+	public RememberPointerInputService createInputService(
+			PlayerConfigFactory config) {
+		return config.createRememberPointerInputService();
 	}
 
 	@Override
 	public InputDispatcher<?> createInputDispatcher(
-			PointerInputService inputService) {
-		return new PointerInputDispatcher(inputService);
+			RememberPointerInputService inputService) {
+		return new RememberPointerInputDispatcher(inputService);
 	}
 
 	@Override

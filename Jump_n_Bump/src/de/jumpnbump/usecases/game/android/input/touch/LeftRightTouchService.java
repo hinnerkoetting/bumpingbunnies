@@ -3,23 +3,22 @@ package de.jumpnbump.usecases.game.android.input.touch;
 import android.view.MotionEvent;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.android.input.AbstractControlledMovement;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.model.Player;
 
-public class LeftRightTouchService implements GameScreenSizeChangeListener,
-		InputService {
+public class LeftRightTouchService extends AbstractControlledMovement implements
+		GameScreenSizeChangeListener {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(LeftRightTouchService.class);
 	private MotionEvent lastEvent;
 	private int windowWidth;
 	private int windowHeight;
-	private PlayerMovementController playerMovement;
 
 	public LeftRightTouchService(PlayerMovementController playerMovement) {
-		this.playerMovement = playerMovement;
+		super(playerMovement);
 	}
 
 	public void onMotionEvent(MotionEvent motionEvent) {
@@ -46,11 +45,6 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 		}
 	}
 
-	private void removePlayerMovement() {
-		this.playerMovement.removeMovement();
-
-	}
-
 	/**
 	 * Is overriden
 	 */
@@ -68,13 +62,14 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 	}
 
 	protected void moveLeftOrRight(int movement) {
-		Player player = this.playerMovement.getPlayer();
+		Player player = getMovedPlayer();
+		PlayerMovementController playerMovement = getPlayerMovement();
 		if (isClickLeftToPlayer(player)) {
-			this.playerMovement.tryMoveLeft();
+			playerMovement.tryMoveLeft();
 		} else if (isClickRightToPlayer(player)) {
-			this.playerMovement.tryMoveRight();
+			playerMovement.tryMoveRight();
 		} else {
-			this.playerMovement.removeMovement();
+			playerMovement.removeMovement();
 		}
 	}
 
@@ -111,10 +106,6 @@ public class LeftRightTouchService implements GameScreenSizeChangeListener,
 
 	public int getWindowHeight() {
 		return this.windowHeight;
-	}
-
-	public PlayerMovementController getPlayerMovement() {
-		return this.playerMovement;
 	}
 
 }

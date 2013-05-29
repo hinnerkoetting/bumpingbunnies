@@ -12,7 +12,7 @@ import de.jumpnbump.usecases.game.android.input.gamepad.KeyboardDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 
 public class KeyboardInputServicesFactory extends
-		AbstractInputServicesFactory<GamepadInputService> {
+		AbstractPlayerInputServicesFactory<GamepadInputService> {
 
 	@Override
 	public GamepadInputService createInputService(PlayerConfigFactory config) {
