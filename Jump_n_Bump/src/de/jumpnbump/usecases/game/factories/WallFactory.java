@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.factories;
 
+import de.jumpnbump.usecases.game.model.IcyWall;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Wall;
 
@@ -15,6 +16,12 @@ public class WallFactory {
 	public static Wall createWall(int x, int y, int maxX, int maxY) {
 		int id = IdCounter.getNextId();
 		Wall wall = new Wall(id, x, y, maxX, maxY);
+		return wall;
+	}
+
+	public static Wall createIceWall(int x, int y, int maxX, int maxY) {
+		int id = IdCounter.getNextId();
+		Wall wall = new IcyWall(id, x, y, maxX, maxY);
 		return wall;
 	}
 }
