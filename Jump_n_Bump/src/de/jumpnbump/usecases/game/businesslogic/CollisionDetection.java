@@ -1,122 +1,21 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
-import java.util.List;
-
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.ObjectProvider;
 import de.jumpnbump.usecases.game.model.GameObject;
 import de.jumpnbump.usecases.game.model.Player;
-import de.jumpnbump.usecases.game.model.World;
 
 public class CollisionDetection implements GameScreenSizeChangeListener {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(CollisionDetection.class);
-	private final World world;
 	private int gameWidth;
 	private int gameHeight;
+	private final ObjectProvider world;
 
-	public CollisionDetection(World world) {
+	public CollisionDetection(ObjectProvider world) {
 		this.world = world;
-	}
-
-	public boolean willCollideVertical(GameObject gameobject) {
-		return willCollideTop(gameobject) || willCollideBottom(gameobject);
-	}
-
-	public boolean willCollideBottom(GameObject gameobject) {
-		boolean willCollideBottom = gameobject.movementY() < 0
-				&& collidesWithBottom(gameobject.simulateNextStepY());
-		return willCollideBottom;
-	}
-
-	public boolean willCollideTop(GameObject gameobject) {
-		boolean willCollideTop = gameobject.movementY() > 0
-				&& collidesWithTop(gameobject.simulateNextStepY());
-		return willCollideTop;
-	}
-
-	public boolean willCollideHorizontal(GameObject gameobject) {
-		boolean willCollideLeft = willCollideLeft(gameobject);
-		boolean willCollideRight = willCollideRight(gameobject);
-		LOGGER.debug("Collides Left %b right %b", willCollideLeft,
-				willCollideRight);
-		return willCollideLeft || willCollideRight;
-	}
-
-	private boolean willCollideRight(GameObject gameobject) {
-		return collidesWithRight(gameobject.simulateNextStepX())
-				&& gameobject.movementX() > 0;
-	}
-
-	private boolean willCollideLeft(GameObject gameobject) {
-		return collidedWithLeft(gameobject.simulateNextStepX())
-				&& gameobject.movementX() < 0;
-	}
-
-	public boolean collidesVertical(GameObject gameobject) {
-		return collidesWithBottom(gameobject) || collidesWithTop(gameobject);
-	}
-
-	public boolean collidesHorizontal(GameObject gameobject) {
-		return collidedWithLeft(gameobject) || collidesWithRight(gameobject);
-	}
-
-	public boolean coolidesWithAnything(GameObject gameobject) {
-		if (collidesHorizontal(gameobject)) {
-			return true;
-		}
-		if (collidesVertical(gameobject)) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean collidesWithBottom(GameObject objectToBeChecked) {
-		for (GameObject otherObject : this.world.getAllObjects()) {
-			if (SingleCollisionDetection.collidesObjectOnBottom(
-					objectToBeChecked, otherObject)) {
-				return true;
-			}
-		}
-		return objectToBeChecked.minY() <= 0;
-	}
-
-	public boolean collidesWithRight(GameObject gameobject) {
-		for (GameObject otherObject : this.world.getAllObjects()) {
-			if (otherObject.id() != gameobject.id()) {
-				if (SingleCollisionDetection.collidesObjectOnRight(gameobject,
-						otherObject)) {
-					return true;
-				}
-			}
-		}
-		return gameobject.maxX() >= 1;
-	}
-
-	public boolean collidesWithTop(GameObject objectToBeChecked) {
-		for (GameObject otherObject : this.world.getAllObjects()) {
-			if (otherObject.id() != objectToBeChecked.id()) {
-				if (SingleCollisionDetection.collidesObjectOnTop(otherObject,
-						objectToBeChecked)) {
-					return true;
-				}
-			}
-		}
-		return false; // allows to jump out of top
-		// return objectToBeChecked.minY() <= 0;
-	}
-
-	public boolean collidedWithLeft(GameObject gameobject) {
-		for (GameObject otherObject : this.world.getAllObjects()) {
-			if (otherObject.id() != gameobject.id()) {
-				if (SingleCollisionDetection.collidesObjectOnLeft(gameobject,
-						otherObject)) {
-					return true;
-				}
-			}
-		}
-		return gameobject.minX() <= 0;
 	}
 
 	@Override
@@ -126,14 +25,24 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 	}
 
 	public boolean objectStandsOnGround(GameObject gameobject) {
-		return collidesWithBottom(gameobject.simulateNextStepY());
+		for (GameObject otherObject : this.world.getAllObjects()) {
+			if (standsOn(gameobject, otherObject)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public Player playerStandOnTopOfOtherPlayer(Player player) {
-		GameObject nextStep = player.simulateNextStepY();
-		List<Player> allPlayers = this.world.getAllPlayer();
-		for (Player p : allPlayers) {
-			if (SingleCollisionDetection.collidesCircaObjectOnTop(nextStep, p)) {
+	private boolean standsOn(GameObject upperObject, GameObject lowerObject) {
+		if (upperObject.minY() == lowerObject.maxY()) {
+			return collides(upperObject, lowerObject);
+		}
+		return false;
+	}
+
+	public Player playerStandsOnOtherPlayer(Player player) {
+		for (Player p : this.world.getAllPlayer()) {
+			if (standsOn(player, p)) {
 				return p;
 			}
 		}
@@ -154,6 +63,16 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 
 	public boolean collidesWithTop(GameObject player, GameObject object) {
 		return SingleCollisionDetection.collidesObjectOnTop(player, object);
+	}
+
+	public boolean isOverOrUnderObject(GameObject gameObject, GameObject other) {
+		return gameObject.minY() >= other.maxY()
+				|| gameObject.maxY() <= other.minY();
+	}
+
+	public boolean isLeftOrRightToObject(GameObject gameObject, GameObject other) {
+		return gameObject.minX() >= other.maxX()
+				|| gameObject.maxX() <= other.minX();
 	}
 
 	public boolean collides(GameObject gameObject, GameObject other) {

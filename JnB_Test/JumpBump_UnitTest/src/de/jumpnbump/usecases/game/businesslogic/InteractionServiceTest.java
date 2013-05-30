@@ -27,14 +27,9 @@ public class InteractionServiceTest {
 	private GameObject otherGameObject;
 
 	@Test
-	public void interaction_givenNoCollision_NothingShouldHappen() {
-		// ???
-	}
-
-	@Test
 	public void interaction_givenPlayerCollidesWithWallOnRight_playerShouldHave0MovementX() {
 		Player player = givenPlayerAt00WithMovement(1);
-		givenPlayerStandsDirectoyBeforeWall(player);
+		givenPlayerStandsDirectlyBeforeWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(
 				"Player Movement x must be 0 after it ran into a wall on the right",
@@ -90,6 +85,60 @@ public class InteractionServiceTest {
 		assertEquals(distanceToWall, player.movementY(), 0.001);
 	}
 
+	@Test
+	public void interaction_givenPlayerMovingRightIntoWall_shouldHaveNoAccelerationAfterwards() {
+		Player player = givenPlayerAt00WithMovement(1);
+		player.setAccelerationX(1);
+		givenPlayerStandsDirectlyBeforeWall(player);
+		whenPlayerInteractsWithWorld(player);
+		assertEquals(0, player.getAccelerationX(), 0.001);
+	}
+
+	@Test
+	public void interaction_givenPlayerMovingLeftIntoWall_shouldHaveNoAccelerationAfterwards() {
+		Player player = givenPlayerAt00WithMovement(-1);
+		player.setAccelerationX(-1);
+		givenPlayerStandsDirectlyBeforeWall(player);
+		whenPlayerInteractsWithWorld(player);
+		assertEquals(0, player.getAccelerationX(), 0.001);
+	}
+
+	@Test
+	public void interaction_givenPlayerMovingTopIntoWall_shouldHaveNoAccelerationAfterwards() {
+		Player player = givenPlayerAt00WithYMovement(1);
+		player.setAccelerationY(1);
+		givenPlayerStandsDirectlyBeforeWall(player);
+		whenPlayerInteractsWithWorld(player);
+		assertEquals(0, player.getAccelerationY(), 0.001);
+	}
+
+	@Test
+	public void interaction_givenPlayerMovingDownIntoWall_shouldHaveNoAccelerationAfterwards() {
+		Player player = givenPlayerAt00WithYMovement(-1);
+		player.setAccelerationY(-1);
+		givenPlayerStandsDirectlyBeforeWall(player);
+		whenPlayerInteractsWithWorld(player);
+		assertEquals(0, player.getAccelerationY(), 0.001);
+	}
+
+	@Test
+	public void interaction_playerStandingOnTopOfWall_shouldHaveNoAccelerationAndMovementDown() {
+		Player player = givenPlayerAt00WithYMovement(-1);
+		player.setAccelerationY(-1);
+		givenPlayerStandsOnWall(player);
+		whenPlayerInteractsWithWorld(player);
+		assertEquals(0, player.movementY(), 0.001);
+		assertEquals(0, player.getAccelerationY(), 0.001);
+	}
+
+	private void givenPlayerStandsOnWall(Player player) {
+		when(
+				this.collisionDetection.collides(any(GameObject.class),
+						any(GameObject.class))).thenReturn(true);
+		when(this.otherGameObject.maxY()).thenReturn(player.minY());
+		when(this.otherGameObject.minY()).thenReturn(player.minY() - 1);
+	}
+
 	private void givenCollidingWallAt(double x, double y) {
 		when(
 				this.collisionDetection.collides(any(GameObject.class),
@@ -116,7 +165,7 @@ public class InteractionServiceTest {
 		this.interactionService.interactWith(player, this.objectProvider);
 	}
 
-	private void givenPlayerStandsDirectoyBeforeWall(Player player) {
+	private void givenPlayerStandsDirectlyBeforeWall(Player player) {
 		when(
 				this.collisionDetection.collides(any(GameObject.class),
 						any(GameObject.class))).thenReturn(true);

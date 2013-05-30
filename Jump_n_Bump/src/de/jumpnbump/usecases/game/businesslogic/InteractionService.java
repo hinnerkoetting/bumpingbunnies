@@ -16,14 +16,14 @@ public class InteractionService {
 		GameObject nextStep = player.simulateNextStep();
 		for (GameObject object : world.getAllObjects()) {
 			if (object.id() != player.id()) {
-				interactWith(player, nextStep, object);
+				interactWith(nextStep, player, object);
 			}
 		}
 	}
 
-	private void interactWith(Player player, GameObject nextStep,
+	private void interactWith(GameObject nextStep, Player player,
 			GameObject object) {
-		if (this.collisionDetection.collides(player, object)) {
+		if (this.collisionDetection.collides(nextStep, object)) {
 			reducePlayerTooMaxSpeedToNotCollide(player, object);
 		}
 	}
@@ -34,23 +34,33 @@ public class InteractionService {
 		reduceYSpeed(player, object);
 	}
 
-	private void reduceYSpeed(Player player, GameObject object) {
-		if (player.movementY() > 0) {
-			double diffY = object.minY() - player.maxY();
-			player.setMovementY(diffY);
-		} else if (player.movementY() < 0) {
-			double diffY = object.maxY() - player.minY();
-			player.setMovementY(diffY);
+	private void reduceXSpeed(Player player, GameObject object) {
+		GameObject nextStepX = player.simulateNextStepX();
+		if (!this.collisionDetection.isOverOrUnderObject(nextStepX, object)) {
+			if (player.movementX() > 0) {
+				double diffX = object.minX() - player.maxX();
+				player.setMovementX(diffX);
+				player.setAccelerationX(0);
+			} else if (player.movementX() < 0) {
+				double diffX = object.maxX() - player.minX();
+				player.setMovementX(diffX);
+				player.setAccelerationX(0);
+			}
 		}
 	}
 
-	private void reduceXSpeed(Player player, GameObject object) {
-		if (player.movementX() > 0) {
-			double diffX = object.minX() - player.maxX();
-			player.setMovementX(diffX);
-		} else if (player.movementX() < 0) {
-			double diffX = object.maxX() - player.minX();
-			player.setMovementX(diffX);
+	private void reduceYSpeed(Player player, GameObject object) {
+		GameObject nextStepY = player.simulateNextStepY();
+		if (!this.collisionDetection.isLeftOrRightToObject(nextStepY, object)) {
+			if (player.movementY() > 0) {
+				double diffY = object.minY() - player.maxY();
+				player.setMovementY(diffY);
+				player.setAccelerationY(0);
+			} else if (player.movementY() < 0) {
+				double diffY = object.maxY() - player.minY();
+				player.setMovementY(diffY);
+				player.setAccelerationY(0);
+			}
 		}
 	}
 

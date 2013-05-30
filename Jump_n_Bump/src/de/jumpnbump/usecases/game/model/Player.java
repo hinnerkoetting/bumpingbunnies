@@ -161,8 +161,7 @@ public class Player implements GameObject {
 		this.simulatedObject.setMovementX(this.state.getMovementX());
 		this.simulatedObject.setCenterY(this.state.getCenterY());
 		this.simulatedObject.setMovementY(this.state.getMovementY());
-		this.simulatedObject.moveNextStepY();
-		this.simulatedObject.moveNextStepX();
+		this.simulatedObject.moveNextStep();
 		return this.simulatedObject;
 	}
 

@@ -13,17 +13,17 @@ public class PlayerMovementController implements ModelConstants {
 
 	private final Player movedPlayer;
 	private boolean movingUp;
-	private InteractionService interActionService;
-
+	private final InteractionService interActionService;
+	private final CollisionDetection collisionDetection;
 	private final World world;
 
-	// private final CollisionDetection collision;
-
 	public PlayerMovementController(Player movedPlayer, World world,
-			InteractionService interActionService) {
+			InteractionService interActionService,
+			CollisionDetection collisionDetection) {
 		this.movedPlayer = movedPlayer;
 		this.world = world;
 		this.interActionService = interActionService;
+		this.collisionDetection = collisionDetection;
 	}
 
 	public void nextStep(long delta) {
@@ -69,12 +69,12 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public void tryMoveUp() {
-		// if (this.collision.objectStandsOnGround(this.movedPlayer)) {
-		// this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED);
-		// this.movedPlayer.setAccelerationY(0);
-		// } else {
-		// this.movingUp = true;
-		// }
+		if (isStandingOnGround()) {
+			this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED);
+			this.movedPlayer.setAccelerationY(0);
+		} else {
+			this.movingUp = true;
+		}
 	}
 
 	public void tryMoveDown() {
@@ -92,9 +92,8 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public Player isOnTopOfOtherPlayer() {
-		return null;
-		// return
-		// this.collision.playerStandOnTopOfOtherPlayer(this.movedPlayer);
+		return this.collisionDetection
+				.playerStandsOnOtherPlayer(this.movedPlayer);
 	}
 
 	public boolean isJumping() {
@@ -102,8 +101,7 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public boolean isStandingOnGround() {
-		return false;
-		// return this.collision.objectStandsOnGround(this.movedPlayer);
+		return this.collisionDetection.objectStandsOnGround(this.movedPlayer);
 	}
 
 }

@@ -13,6 +13,7 @@ public class PlayerFactory {
 		state.setCenterX(0.2);
 		state.setCenterY(0.90);
 		state.setColor(Color.RED);
+		p.calculateRect();
 		return p;
 	}
 
@@ -23,6 +24,7 @@ public class PlayerFactory {
 		state.setCenterX(0.9);
 		state.setCenterY(0.99);
 		state.setColor(Color.BLUE);
+		p.calculateRect();
 		return p;
 	}
 

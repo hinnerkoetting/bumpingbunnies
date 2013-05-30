@@ -23,6 +23,12 @@ public class Wall implements GameObject, ModelConstants {
 		this.maxX = maxX;
 		this.maxY = maxY;
 		this.color = color;
+		if (minX >= maxX) {
+			throw new IllegalArgumentException("minX must be smaller than maxX");
+		}
+		if (minY >= maxY) {
+			throw new IllegalArgumentException("minY must be smaller than maxY");
+		}
 	}
 
 	@Override
