@@ -7,8 +7,8 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.AbstractControlledMovement;
 import de.jumpnbump.usecases.game.android.input.PathFinder.PathFinder;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
+import de.jumpnbump.usecases.game.model.FixedWorldObject;
 import de.jumpnbump.usecases.game.model.Player;
-import de.jumpnbump.usecases.game.model.Wall;
 import de.jumpnbump.usecases.game.model.World;
 
 /**
@@ -41,7 +41,7 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 		if (!this.state.hasTarget()) {
 			LOGGER.info("finding new target");
 
-			Wall nextTarget = findNextTarget();
+			FixedWorldObject nextTarget = findNextTarget();
 			LOGGER.info("Next Target %s ", nextTarget.toString());
 			this.state.setNextTarget(nextTarget, getMovedPlayer());
 		}
@@ -59,16 +59,16 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 		}
 	}
 
-	private Wall findNextTarget() {
+	private FixedWorldObject findNextTarget() {
 		return findLowestTargetAboveMe();
 	}
 
-	private Wall findLowestTargetAboveMe() {
+	private FixedWorldObject findLowestTargetAboveMe() {
 		LOGGER.info("Playerposition is %s", getMovedPlayer().getState()
 				.toString());
-		List<Wall> allWalls = this.world.getAllWalls();
-		Wall lowestWall = null;
-		for (Wall w : allWalls) {
+		List<FixedWorldObject> allWalls = this.world.getAllWalls();
+		FixedWorldObject lowestWall = null;
+		for (FixedWorldObject w : allWalls) {
 			if (w.minY() > getMovedPlayer().minY()) {
 				if (lowestWall != null) {
 					if (w.minY() < lowestWall.minY()) {
@@ -89,10 +89,10 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 		}
 	}
 
-	private Wall findLowestTarget() {
-		List<Wall> allWalls = this.world.getAllWalls();
-		Wall lowestWall = allWalls.get(0);
-		for (Wall w : allWalls) {
+	private FixedWorldObject findLowestTarget() {
+		List<FixedWorldObject> allWalls = this.world.getAllWalls();
+		FixedWorldObject lowestWall = allWalls.get(0);
+		for (FixedWorldObject w : allWalls) {
 			if (w.minY() < lowestWall.minY()) {
 				lowestWall = w;
 			}

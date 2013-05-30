@@ -18,6 +18,7 @@ public class InteractionService {
 
 	public void interactWith(Player player, ObjectProvider world) {
 		GameObject nextStep = player.simulateNextStep();
+		// next step is updated in interactWith if player collides with objects
 		for (GameObject object : world.getAllObjects()) {
 			if (object.id() != player.id()) {
 				interactWith(nextStep, player, object);
@@ -29,6 +30,12 @@ public class InteractionService {
 			GameObject object) {
 		if (this.collisionDetection.collides(nextStep, object)) {
 			reducePlayerTooMaxSpeedToNotCollide(player, object);
+
+			GameObject updatedNextStep = player.simulateNextStep();
+			if (this.collisionDetection.isExactlyUnderObject(updatedNextStep,
+					object)) {
+				object.interactWithPlayerOnTop(player);
+			}
 		}
 	}
 

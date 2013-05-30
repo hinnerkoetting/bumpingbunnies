@@ -4,9 +4,7 @@ import java.util.List;
 
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.communication.StateSender;
-import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
-import de.jumpnbump.usecases.game.model.PlayerState;
 
 public class WorldController {
 	private List<InputService> inputServices;
@@ -41,25 +39,9 @@ public class WorldController {
 		for (PlayerMovementController movement : this.playermovements) {
 			Player playerUnder = movement.isOnTopOfOtherPlayer();
 			if (playerUnder != null) {
-				Player playerOnTop = movement.getPlayer();
-				PlayerState state = playerOnTop.getState();
-				state.setScore(state.getScore() + 1);
-				resetPosition(playerUnder, playerOnTop);
+
 			}
 		}
-	}
-
-	private void resetPosition(Player playerUnder, Player playerOver) {
-		PlayerState state = playerUnder.getState();
-		if (state.getCenterX() > 0.75 * ModelConstants.MAX_VALUE) {
-			state.setCenterX((int) (0.2 * ModelConstants.MAX_VALUE));
-		} else {
-			state.setCenterX((int) (0.8 * ModelConstants.MAX_VALUE));
-		}
-		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
-
-		PlayerState state2 = playerOver.getState();
-		state2.setMovementY((int) (0.5 * ModelConstants.PLAYER_JUMP_SPEED));
 	}
 
 	public void destroy() {

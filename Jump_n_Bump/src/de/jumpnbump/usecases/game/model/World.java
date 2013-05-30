@@ -13,7 +13,7 @@ public class World implements ObjectProvider {
 
 	private static final MyLog LOGGER = Logger.getLogger(World.class);
 	private List<GameObject> allObjects;
-	private List<Wall> allWalls;
+	private List<FixedWorldObject> allWalls;
 	private List<Player> allPlayer;
 	private WorldObjectsBuilder factory;
 
@@ -21,7 +21,7 @@ public class World implements ObjectProvider {
 		super();
 		this.factory = factory;
 		this.allPlayer = new ArrayList<Player>(2);
-		this.allWalls = new LinkedList<Wall>();
+		this.allWalls = new LinkedList<FixedWorldObject>();
 		this.allObjects = new LinkedList<GameObject>();
 	}
 
@@ -46,15 +46,17 @@ public class World implements ObjectProvider {
 		return this.allPlayer.get(1);
 	}
 
+	@Override
 	public List<GameObject> getAllObjects() {
 		return this.allObjects;
 	}
 
+	@Override
 	public List<Player> getAllPlayer() {
 		return this.allPlayer;
 	}
 
-	public List<Wall> getAllWalls() {
+	public List<FixedWorldObject> getAllWalls() {
 		return this.allWalls;
 	}
 

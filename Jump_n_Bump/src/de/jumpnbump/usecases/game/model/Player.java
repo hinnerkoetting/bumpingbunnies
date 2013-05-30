@@ -142,13 +142,16 @@ public class Player implements GameObject {
 		return this.state.getMovementY();
 	}
 
+	/**
+	 * Careful: each new simulation will overwrite previous results
+	 */
 	public GameObject simulateNextStep() {
 		resetSimulatedObject();
 		this.simulatedObject.moveNextStep();
 		return this.simulatedObject;
 	}
 
-	private void resetSimulatedObject() {
+	public void resetSimulatedObject() {
 		this.simulatedObject.setCenterX(this.state.getCenterX());
 		this.simulatedObject.setMovementX(this.state.getMovementX());
 		this.simulatedObject.setCenterY(this.state.getCenterY());
@@ -180,14 +183,28 @@ public class Player implements GameObject {
 	}
 
 	@Override
-	public void setColor(int color) {
-		this.state.setColor(color);
-
+	public int accelerationOnThisGround() {
+		return 0;
 	}
 
 	@Override
-	public int accelerationOnThisGround() {
-		return 0;
+	public void interactWithPlayerOnTop(Player p) {
+		PlayerState state = p.getState();
+		state.setScore(state.getScore() + 1);
+		resetPosition(this, p);
+	}
+
+	private void resetPosition(Player playerUnder, Player playerOver) {
+		PlayerState state = playerUnder.getState();
+		if (state.getCenterX() > 0.75 * ModelConstants.MAX_VALUE) {
+			state.setCenterX((int) (0.2 * ModelConstants.MAX_VALUE));
+		} else {
+			state.setCenterX((int) (0.8 * ModelConstants.MAX_VALUE));
+		}
+		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
+
+		PlayerState state2 = playerOver.getState();
+		state2.setMovementY((int) (0.5 * ModelConstants.PLAYER_JUMP_SPEED));
 	}
 
 }

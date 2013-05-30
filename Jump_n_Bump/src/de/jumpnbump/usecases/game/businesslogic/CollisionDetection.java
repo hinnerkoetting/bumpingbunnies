@@ -74,6 +74,10 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 		return SingleCollisionDetection.collidesObjectOnTop(player, object);
 	}
 
+	public boolean isExactlyUnderObject(GameObject gameObject, GameObject other) {
+		return gameObject.minY() == other.maxY();
+	}
+
 	public boolean isOverOrUnderObject(GameObject gameObject, GameObject other) {
 		return gameObject.minY() >= other.maxY()
 				|| gameObject.maxY() <= other.minY();

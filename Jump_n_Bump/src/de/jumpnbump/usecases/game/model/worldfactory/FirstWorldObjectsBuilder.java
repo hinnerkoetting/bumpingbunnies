@@ -6,9 +6,9 @@ import java.util.List;
 
 import de.jumpnbump.usecases.game.factories.PlayerFactory;
 import de.jumpnbump.usecases.game.factories.WallFactory;
+import de.jumpnbump.usecases.game.model.FixedWorldObject;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
-import de.jumpnbump.usecases.game.model.Wall;
 
 public class FirstWorldObjectsBuilder implements WorldObjectsBuilder {
 
@@ -25,8 +25,8 @@ public class FirstWorldObjectsBuilder implements WorldObjectsBuilder {
 	}
 
 	@Override
-	public Collection<Wall> createAllWalls() {
-		List<Wall> allWalls = new LinkedList<Wall>();
+	public Collection<FixedWorldObject> createAllWalls() {
+		List<FixedWorldObject> allWalls = new LinkedList<FixedWorldObject>();
 		allWalls.add(WallFactory.createWall(
 				(int) (0.1 * ModelConstants.MAX_VALUE),
 				(int) (0.15 * ModelConstants.MAX_VALUE),

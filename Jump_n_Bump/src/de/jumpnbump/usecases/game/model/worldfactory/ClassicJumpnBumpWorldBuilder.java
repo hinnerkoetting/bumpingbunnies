@@ -7,6 +7,8 @@ import java.util.List;
 
 import de.jumpnbump.usecases.game.factories.PlayerFactory;
 import de.jumpnbump.usecases.game.factories.WallFactory;
+import de.jumpnbump.usecases.game.model.FixedWorldObject;
+import de.jumpnbump.usecases.game.model.Jumper;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.Wall;
@@ -26,8 +28,8 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 	}
 
 	@Override
-	public Collection<Wall> createAllWalls() {
-		Collection<Wall> allWalls = new ArrayList<Wall>();
+	public Collection<FixedWorldObject> createAllWalls() {
+		Collection<FixedWorldObject> allWalls = new ArrayList<FixedWorldObject>();
 		addLeftWall(allWalls);
 		addRightWall(allWalls);
 		addLowestRow(allWalls);
@@ -43,17 +45,19 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 		return allWalls;
 	}
 
-	private void addLeftWall(Collection<Wall> allWalls) {
+	private void addLeftWall(Collection<FixedWorldObject> allWalls) {
 		allWalls.add(convenienceBuildWall(0, 10, 5, 80));
 	}
 
-	private void addRightWall(Collection<Wall> allWalls) {
+	private void addRightWall(Collection<FixedWorldObject> allWalls) {
 		allWalls.add(convenienceBuildWall(105, 0, 110, 65));
 	}
 
-	private void addLowestRow(Collection<Wall> allWalls) {
+	private void addLowestRow(Collection<FixedWorldObject> allWalls) {
 		allWalls.add(convenienceBuildWall(5, 10, 10, 15));
-		allWalls.add(convenienceBuildWall(40, 0, 50, 10));
+		allWalls.add(convenienceBuildJumper(40, 0, 45, 10));
+		// allWalls.add(convenienceBuildWall(40, 0, 50, 10));
+		allWalls.add(convenienceBuildWall(45, 0, 50, 10));
 		allWalls.add(convenienceBuildWall(50, 0, 75, 5));
 		allWalls.add(convenienceBuildWall(75, 0, 80, 10));
 		allWalls.add(convenienceBuildIcyWall(80, 0, 95, 10));
@@ -61,7 +65,7 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(100, 0, 105, 15));
 	}
 
-	private void addSecondRow(Collection<Wall> allWalls) {
+	private void addSecondRow(Collection<FixedWorldObject> allWalls) {
 		allWalls.add(convenienceBuildWall(10, 20, 30, 25));
 		allWalls.add(convenienceBuildIcyWall(50, 20, 55, 25));
 		allWalls.add(convenienceBuildWall(55, 20, 95, 25));
@@ -71,7 +75,7 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(65, 30, 70, 35));
 	}
 
-	private void addThirdRow(Collection<Wall> allWalls) {
+	private void addThirdRow(Collection<FixedWorldObject> allWalls) {
 		allWalls.add(convenienceBuildWall(5, 35, 15, 40));
 		allWalls.add(convenienceBuildWall(25, 35, 40, 40));
 		allWalls.add(convenienceBuildWall(70, 45, 90, 50));
@@ -79,7 +83,7 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(100, 40, 105, 45));
 	}
 
-	private void addFourthRow(Collection<Wall> allWalls) {
+	private void addFourthRow(Collection<FixedWorldObject> allWalls) {
 		allWalls.add(convenienceBuildWall(5, 55, 10, 60));
 		allWalls.add(convenienceBuildWall(5, 50, 15, 55));
 
@@ -90,7 +94,7 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(60, 70, 65, 75));
 	}
 
-	private void addFifthRow(Collection<Wall> allWalls) {
+	private void addFifthRow(Collection<FixedWorldObject> allWalls) {
 		allWalls.add(convenienceBuildWall(5, 75, 15, 100));
 		allWalls.add(convenienceBuildWall(20, 65, 40, 70));
 		allWalls.add(convenienceBuildWall(85, 70, 95, 75));
@@ -111,6 +115,14 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 
 	private Wall convenienceBuildIcyWall(int x, int y, int maxX, int maxY) {
 		return WallFactory.createIceWall(
+				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
+						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
+						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
+						* ModelConstants.MAX_VALUE / 80.0));
+	}
+
+	private Jumper convenienceBuildJumper(int x, int y, int maxX, int maxY) {
+		return WallFactory.createJumper(
 				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
 						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
 						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
