@@ -4,21 +4,21 @@ public interface GameObject {
 
 	int id();
 
-	double maxX();
+	int maxX();
 
-	double maxY();
+	int maxY();
 
-	double minX();
+	int minX();
 
-	double minY();
+	int minY();
 
-	double centerX();
+	int centerX();
 
-	double centerY();
+	int centerY();
 
-	double movementX();
+	int movementX();
 
-	double movementY();
+	int movementY();
 
 	void moveNextStepX();
 

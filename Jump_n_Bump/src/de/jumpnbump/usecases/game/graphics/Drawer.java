@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 
@@ -16,12 +15,9 @@ public class Drawer {
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;
 
-	private Paint linePaint = new Paint();
-
 	public Drawer(DrawablesFactory drawFactory) {
 		this.factory = drawFactory;
 		this.allDrawables = new LinkedList<Drawable>();
-		this.linePaint.setColor(Color.BLACK);
 		this.canvasDelegate = new CanvasDelegate();
 	}
 
@@ -36,7 +32,6 @@ public class Drawer {
 		this.canvasDelegate.updateDelegate(canvas);
 
 		this.canvasDelegate.drawColor(Color.WHITE);
-		this.canvasDelegate.drawLine(0, 0.5f, 1, 0.5f, this.linePaint);
 		for (Drawable d : this.allDrawables) {
 			d.draw(this.canvasDelegate);
 		}

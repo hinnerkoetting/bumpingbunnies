@@ -3,21 +3,22 @@ package de.jumpnbump.usecases.game.graphics;
 import android.graphics.Color;
 import android.graphics.Paint;
 import de.jumpnbump.usecases.game.model.GameThreadState;
+import de.jumpnbump.usecases.game.model.ModelConstants;
 
 public class FpsDrawer implements Drawable {
 
 	private final GameThreadState state;
 	private Paint paint;
-	private double x;
-	private double y;
+	private int x;
+	private int y;
 
 	public FpsDrawer(GameThreadState state) {
 		this.state = state;
 		this.paint = new Paint();
 		this.paint.setColor(Color.BLACK);
 		this.paint.setTextSize(30);
-		this.x = 0.5;
-		this.y = 0.95;
+		this.x = (int) (0.5 * ModelConstants.MAX_VALUE);
+		this.y = (int) (0.95 * ModelConstants.MAX_VALUE);
 	}
 
 	@Override

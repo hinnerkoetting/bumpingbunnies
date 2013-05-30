@@ -2,40 +2,40 @@ package de.jumpnbump.usecases.game.model;
 
 public class PlayerRect {
 
-	private double minX;
-	private double maxX;
-	private double minY;
-	private double maxY;
+	private int minX;
+	private int maxX;
+	private int minY;
+	private int maxY;
 
-	public double getMinX() {
+	public int getMinX() {
 		return this.minX;
 	}
 
-	public void setMinX(double minX) {
+	public void setMinX(int minX) {
 		this.minX = minX;
 	}
 
-	public double getMaxX() {
+	public int getMaxX() {
 		return this.maxX;
 	}
 
-	public void setMaxX(double maxX) {
+	public void setMaxX(int maxX) {
 		this.maxX = maxX;
 	}
 
-	public double getMinY() {
+	public int getMinY() {
 		return this.minY;
 	}
 
-	public void setMinY(double minY) {
+	public void setMinY(int minY) {
 		this.minY = minY;
 	}
 
-	public double getMaxY() {
+	public int getMaxY() {
 		return this.maxY;
 	}
 
-	public void setMaxY(double maxY) {
+	public void setMaxY(int maxY) {
 		this.maxY = maxY;
 	}
 

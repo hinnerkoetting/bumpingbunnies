@@ -5,18 +5,17 @@ import android.graphics.Color;
 public class Wall implements GameObject, ModelConstants {
 
 	private final int id;
-	private final double minX;
-	private final double minY;
+	private final int minX;
+	private final int minY;
 	private int color;
-	private double maxX;
-	private double maxY;
+	private int maxX;
+	private int maxY;
 
-	public Wall(int id, double minX, double minY, double maxX, double maxY) {
+	public Wall(int id, int minX, int minY, int maxX, int maxY) {
 		this(id, minX, minY, maxX, maxY, Color.GRAY);
 	}
 
-	public Wall(int id, double minX, double minY, double maxX, double maxY,
-			int color) {
+	public Wall(int id, int minX, int minY, int maxX, int maxY, int color) {
 		this.id = id;
 		this.minX = minX;
 		this.minY = minY;
@@ -37,32 +36,32 @@ public class Wall implements GameObject, ModelConstants {
 	}
 
 	@Override
-	public double maxX() {
+	public int maxX() {
 		return this.maxX;
 	}
 
 	@Override
-	public double maxY() {
+	public int maxY() {
 		return this.maxY;
 	}
 
 	@Override
-	public double minX() {
+	public int minX() {
 		return this.minX;
 	}
 
 	@Override
-	public double minY() {
+	public int minY() {
 		return this.minY;
 	}
 
 	@Override
-	public double movementX() {
+	public int movementX() {
 		return 0;
 	}
 
 	@Override
-	public double movementY() {
+	public int movementY() {
 		return 0;
 	}
 
@@ -94,12 +93,12 @@ public class Wall implements GameObject, ModelConstants {
 	}
 
 	@Override
-	public double centerX() {
+	public int centerX() {
 		return (this.minX + this.maxX) / 2;
 	}
 
 	@Override
-	public double centerY() {
+	public int centerY() {
 		return (this.minY + this.maxY) / 2;
 	}
 

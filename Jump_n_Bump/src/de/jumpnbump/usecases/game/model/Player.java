@@ -24,8 +24,8 @@ public class Player implements GameObject {
 	}
 
 	public void calculateRect() {
-		double centerX = this.state.getCenterX();
-		double centerY = this.state.getCenterY();
+		int centerX = this.state.getCenterX();
+		int centerY = this.state.getCenterY();
 		this.rect.setMinX(centerX - ModelConstants.PLAYER_WIDTH / 2);
 		this.rect.setMaxX(centerX + ModelConstants.PLAYER_WIDTH / 2);
 		this.rect.setMinY(centerY - ModelConstants.PLAYER_HEIGHT / 2);
@@ -35,11 +35,11 @@ public class Player implements GameObject {
 				this.rect.getMaxY());
 	}
 
-	public double getCenterX() {
+	public int getCenterX() {
 		return this.state.getCenterX();
 	}
 
-	public void setCenterX(double centerX) {
+	public void setCenterX(int centerX) {
 		this.state.setCenterX(centerX);
 		calculateRect();
 		LOGGER.debug("%s %f", "set", centerX);
@@ -49,21 +49,21 @@ public class Player implements GameObject {
 		return this.state.getCenterY();
 	}
 
-	public void setCenterY(double centerY) {
+	public void setCenterY(int centerY) {
 		this.state.setCenterY(centerY);
 		calculateRect();
 	}
 
-	public void setMovementX(double movementX) {
+	public void setMovementX(int movementX) {
 		this.state.setMovementX(movementX);
 		LOGGER.verbose("setting movement x %f", this.state.getMovementX());
 	}
 
-	public void increaseYMovement(double delta) {
+	public void increaseYMovement(int delta) {
 		this.state.setMovementY(this.state.getMovementY() + delta);
 	}
 
-	public void setMovementY(double movementY) {
+	public void setMovementY(int movementY) {
 		this.state.setMovementY(movementY);
 	}
 
@@ -71,7 +71,7 @@ public class Player implements GameObject {
 		return this.state.getAccelerationX();
 	}
 
-	public void setAccelerationX(double accelerationX) {
+	public void setAccelerationX(int accelerationX) {
 		this.state.setAccelerationX(accelerationX);
 	}
 
@@ -79,27 +79,27 @@ public class Player implements GameObject {
 		return this.state.getAccelerationY();
 	}
 
-	public void setAccelerationY(double accelerationY) {
+	public void setAccelerationY(int accelerationY) {
 		this.state.setAccelerationY(accelerationY);
 	}
 
 	@Override
-	public double maxX() {
+	public int maxX() {
 		return this.rect.getMaxX();
 	}
 
 	@Override
-	public double maxY() {
+	public int maxY() {
 		return this.rect.getMaxY();
 	}
 
 	@Override
-	public double minX() {
+	public int minX() {
 		return this.rect.getMinX();
 	}
 
 	@Override
-	public double minY() {
+	public int minY() {
 		return this.rect.getMinY();
 	}
 
@@ -137,12 +137,12 @@ public class Player implements GameObject {
 	}
 
 	@Override
-	public double movementX() {
+	public int movementX() {
 		return this.state.getMovementX();
 	}
 
 	@Override
-	public double movementY() {
+	public int movementY() {
 		return this.state.getMovementY();
 	}
 
@@ -188,12 +188,12 @@ public class Player implements GameObject {
 	}
 
 	@Override
-	public double centerX() {
+	public int centerX() {
 		return this.state.getCenterX();
 	}
 
 	@Override
-	public double centerY() {
+	public int centerY() {
 		return this.state.getCenterY();
 	}
 

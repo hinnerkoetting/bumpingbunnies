@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.communication.StateSender;
+import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
 
@@ -50,15 +51,15 @@ public class WorldController {
 
 	private void resetPosition(Player playerUnder, Player playerOver) {
 		PlayerState state = playerUnder.getState();
-		if (state.getCenterX() > 0.75) {
-			state.setCenterX(0.2);
+		if (state.getCenterX() > 0.75 * ModelConstants.MAX_VALUE) {
+			state.setCenterX((int) (0.2 * ModelConstants.MAX_VALUE));
 		} else {
-			state.setCenterX(state.getCenterX() + 0.2);
+			state.setCenterX((int) ((state.getCenterX() + 0.2) * ModelConstants.MAX_VALUE));
 		}
-		state.setCenterY(0.99);
+		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
 
 		PlayerState state2 = playerOver.getState();
-		state2.setMovementY(-0.001);
+		state2.setMovementY((int) (-0.001 * ModelConstants.MAX_VALUE));
 	}
 
 	public void destroy() {

@@ -39,47 +39,47 @@ public class CollisionDetectionTest {
 
 	@Test
 	public void collides_givenOverlappingHorizontalRight_shouldReturnTrue() {
-		GameObject square1 = createObject(0, 0, 1, 1);
+		GameObject square1 = createObject(0, 0, 2, 1);
 
-		GameObject square2 = createObject(0.5, 0, 1, 1);
+		GameObject square2 = createObject(1, 0, 2, 1);
 		assertTrue(this.detection.collides(square1, square2));
 	}
 
 	@Test
 	public void collides_givenOverlappingHorizontalLeft_shouldReturnTrue() {
-		GameObject square1 = createObject(0.5, 0, 1, 1);
+		GameObject square1 = createObject(1, 0, 2, 1);
 
-		GameObject square2 = createObject(0, 0, 1, 1);
+		GameObject square2 = createObject(0, 0, 2, 1);
 		assertTrue(this.detection.collides(square1, square2));
 	}
 
 	@Test
 	public void collides_givenOverlappingVerticalTop_shouldReturnTrue() {
-		GameObject square1 = createObject(0.0, 0, 1, 1);
+		GameObject square1 = createObject(0, 0, 1, 1);
 
-		GameObject square2 = createObject(0, 0.5, 1, 1);
+		GameObject square2 = createObject(0, 1, 1, 2);
 		assertTrue(this.detection.collides(square1, square2));
 	}
 
 	@Test
 	public void collides_givenOverlappingVerticalBottom_shouldReturnTrue() {
-		GameObject square1 = createObject(0.0, 0.5, 1, 1);
+		GameObject square1 = createObject(0, 1, 1, 2);
 
-		GameObject square2 = createObject(0, 0.0, 1, 1);
+		GameObject square2 = createObject(0, 0, 1, 2);
 		assertTrue(this.detection.collides(square1, square2));
 	}
 
 	@Test
 	public void collides_givenJustNotTouchingObjects_shouldreturnFalse() {
-		GameObject square1 = createObject(0.0, 0.0, 1, 1);
+		GameObject square1 = createObject(0, 0, 1, 1);
 
-		GameObject square2 = createObject(1.0001, 1.00001, 2, 2);
+		GameObject square2 = createObject(2, 2, 3, 3);
 		assertFalse(this.detection.collides(square1, square2));
 	}
 
 	@Test
 	public void collides_givenTouchingObjectsHorizontal_shouldreturnTrue() {
-		GameObject square1 = createObject(0.0, 0.0, 1, 1);
+		GameObject square1 = createObject(0, 0, 1, 1);
 
 		GameObject square2 = createObject(1, 0, 2, 2);
 		assertTrue(this.detection.collides(square1, square2));
@@ -87,7 +87,7 @@ public class CollisionDetectionTest {
 
 	@Test
 	public void collides_givenTouchingObjectsVertical_shouldreturnTrue() {
-		GameObject square1 = createObject(0.0, 0.0, 1, 1);
+		GameObject square1 = createObject(0, 0, 1, 1);
 
 		GameObject square2 = createObject(0, 1, 2, 2);
 		assertTrue(this.detection.collides(square1, square2));
@@ -95,7 +95,7 @@ public class CollisionDetectionTest {
 
 	@Test
 	public void collides_givenTouchingObjectsVerticalAndHorizontal_shouldreturnTrue() {
-		GameObject square1 = createObject(0.0, 0.0, 1, 1);
+		GameObject square1 = createObject(0, 0, 1, 1);
 
 		GameObject square2 = createObject(1, 1, 2, 2);
 		assertTrue(this.detection.collides(square1, square2));
@@ -103,7 +103,7 @@ public class CollisionDetectionTest {
 
 	@Test
 	public void collides_givenTwoObjectsAtSameHeightButFarWidth_shouldreturnFalse() {
-		GameObject square1 = createObject(0.0, 0.0, 1, 1);
+		GameObject square1 = createObject(0, 0, 1, 1);
 
 		GameObject square2 = createObject(2, 0, 3, 1);
 		assertFalse(this.detection.collides(square1, square2));
@@ -111,7 +111,7 @@ public class CollisionDetectionTest {
 
 	@Test
 	public void standsOnGround_givenObjectInAir_shouldReturnFalse() {
-		GameObject square1 = createObject(0.0, 2.0, 1, 3);
+		GameObject square1 = createObject(0, 2, 1, 3);
 
 		GameObject square2 = createObject(0, 0, 1, 1);
 		when(this.world.getAllObjects()).thenReturn(Arrays.asList(square2));
@@ -120,14 +120,14 @@ public class CollisionDetectionTest {
 
 	@Test
 	public void standsOnGround_givenObjectInOnOther_shouldReturnTrue() {
-		GameObject square1 = createObject(0.0, 1, 1, 2);
+		GameObject square1 = createObject(0, 1, 1, 2);
 
 		GameObject square2 = createObject(0, 0, 1, 1);
 		when(this.world.getAllObjects()).thenReturn(Arrays.asList(square2));
 		assertTrue(this.detection.objectStandsOnGround(square1));
 	}
 
-	private GameObject createObject(double x, double y, double maxX, double maxY) {
+	private GameObject createObject(int x, int y, int maxX, int maxY) {
 		return WallFactory.createWall(x, y, maxX, maxY);
 	}
 

@@ -7,11 +7,11 @@ import de.jumpnbump.usecases.game.model.PlayerState;
 public class ScoreDrawer implements Drawable {
 
 	private Player player;
-	private double scoreX;
-	private double scoreY;
+	private int scoreX;
+	private int scoreY;
 	private Paint paint;
 
-	public ScoreDrawer(Player player, double scoreX, double scoreY) {
+	public ScoreDrawer(Player player, int scoreX, int scoreY) {
 		super();
 		this.player = player;
 		this.scoreX = scoreX;

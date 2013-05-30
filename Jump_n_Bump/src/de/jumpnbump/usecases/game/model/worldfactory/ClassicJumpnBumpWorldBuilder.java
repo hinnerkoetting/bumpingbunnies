@@ -7,6 +7,7 @@ import java.util.List;
 
 import de.jumpnbump.usecases.game.factories.PlayerFactory;
 import de.jumpnbump.usecases.game.factories.WallFactory;
+import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.Wall;
 
@@ -95,8 +96,10 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 	 * jjumpn bump
 	 */
 	private Wall convenienceBuildWall(int x, int y, int maxX, int maxY) {
-		return WallFactory.createWall(x / 110.0, y / 80.0, maxX / 110.0,
-				maxY / 80.0);
+		return WallFactory.createWall(x * ModelConstants.MAX_VALUE / 110, y
+				* ModelConstants.MAX_VALUE / 80, maxX
+				* ModelConstants.MAX_VALUE / 110, maxY
+				* ModelConstants.MAX_VALUE / 80);
 	}
 
 }

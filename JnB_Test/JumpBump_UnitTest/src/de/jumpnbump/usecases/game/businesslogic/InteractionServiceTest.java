@@ -46,49 +46,49 @@ public class InteractionServiceTest {
 
 	@Test
 	public void interaction_givenPlayerMovingRightRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
-		Player player = givenPlayerAt00WithMovement(1);
-		double wallXPosition = 0.5;
+		Player player = givenPlayerAt00WithMovement(2);
+		int wallXPosition = player.maxX() + 1;
 		givenCollidingWallAt(wallXPosition, 0);
 		whenPlayerInteractsWithWorld(player);
-		double distanceToWall = wallXPosition - player.maxX();
-		assertEquals(distanceToWall, player.movementX(), 0.001);
+		int distanceToWall = wallXPosition - player.maxX();
+		assertEquals(distanceToWall, player.movementX());
 	}
 
 	@Test
 	public void interaction_givenPlayerMovingLeftRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
-		Player player = givenPlayerAt00WithMovement(-1);
-		double wallXPosition = -0.5;
+		Player player = givenPlayerAt00WithMovement(-2);
+		int wallXPosition = -1;
 		givenCollidingWallAt(wallXPosition, 0);
 		whenPlayerInteractsWithWorld(player);
-		double distanceToWall = wallXPosition - player.minX();
-		assertEquals(distanceToWall, player.movementX(), 0.001);
+		int distanceToWall = wallXPosition - player.minX();
+		assertEquals(distanceToWall, player.movementX());
 
 	}
 
 	@Test
 	public void interaction_givenPlayerMovingUpRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
-		Player player = givenPlayerAt00WithYMovement(1);
-		double wallYPosition = 0.5;
+		Player player = givenPlayerAt00WithYMovement(2);
+		int wallYPosition = player.maxY() + 1;
 		givenCollidingWallAt(0, wallYPosition);
 		whenPlayerInteractsWithWorld(player);
-		double distanceToWall = wallYPosition - player.maxY();
-		assertEquals(distanceToWall, player.movementY(), 0.001);
+		int distanceToWall = wallYPosition - player.maxY();
+		assertEquals(distanceToWall, player.movementY());
 	}
 
 	@Test
 	public void interaction_givenPlayerMovingDownRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
-		Player player = givenPlayerAt00WithYMovement(-1);
-		double wallYPosition = -0.5;
+		Player player = givenPlayerAt00WithYMovement(-2);
+		int wallYPosition = player.minY() - 1;
 		givenCollidingWallAt(0, wallYPosition);
 		whenPlayerInteractsWithWorld(player);
-		double distanceToWall = wallYPosition - player.minY();
-		assertEquals(distanceToWall, player.movementY(), 0.001);
+		int distanceToWall = wallYPosition - player.minY();
+		assertEquals(distanceToWall, player.movementY());
 	}
 
 	@Test
 	public void interaction_givenPlayerMovingRightIntoWall_shouldHaveNoAccelerationAfterwards() {
 		Player player = givenPlayerAt00WithMovement(1);
-		player.setAccelerationX(1);
+		player.setAccelerationX(player.maxX() + 1);
 		givenPlayerStandsDirectlyBeforeWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(0, player.getAccelerationX(), 0.001);
@@ -124,10 +124,10 @@ public class InteractionServiceTest {
 	@Test
 	public void interaction_playerStandingOnTopOfWall_shouldHaveNoAccelerationAndMovementDown() {
 		Player player = givenPlayerAt00WithYMovement(-1);
-		player.setAccelerationY(-1);
+		player.setAccelerationY(player.minY());
 		givenPlayerStandsOnWall(player);
 		whenPlayerInteractsWithWorld(player);
-		assertEquals(0, player.movementY(), 0.001);
+		assertEquals(0, player.movementY());
 		assertEquals(0, player.getAccelerationY(), 0.001);
 	}
 
@@ -137,25 +137,37 @@ public class InteractionServiceTest {
 						any(GameObject.class))).thenReturn(true);
 		when(this.otherGameObject.maxY()).thenReturn(player.minY());
 		when(this.otherGameObject.minY()).thenReturn(player.minY() - 1);
+		when(
+				this.collisionDetection.isOverOrUnderObject(
+						any(GameObject.class), any(GameObject.class)))
+				.thenReturn(true);
 	}
 
-	private void givenCollidingWallAt(double x, double y) {
+	private void givenCollidingWallAt(int x, int y) {
 		when(
 				this.collisionDetection.collides(any(GameObject.class),
 						any(GameObject.class))).thenReturn(true);
+		when(
+				this.collisionDetection.isLeftOrRightToObject(
+						any(GameObject.class), any(GameObject.class)))
+				.thenReturn(true);
+		when(
+				this.collisionDetection.isOverOrUnderObject(
+						any(GameObject.class), any(GameObject.class)))
+				.thenReturn(true);
 		when(this.otherGameObject.maxX()).thenReturn(x);
 		when(this.otherGameObject.minX()).thenReturn(x);
 		when(this.otherGameObject.minY()).thenReturn(y);
 		when(this.otherGameObject.maxY()).thenReturn(y);
 	}
 
-	private Player givenPlayerAt00WithYMovement(double movementY) {
+	private Player givenPlayerAt00WithYMovement(int movementY) {
 		Player player = PlayerFactory.createPlayerAtPosition(0, 0);
 		player.setMovementY(movementY);
 		return player;
 	}
 
-	private Player givenPlayerAt00WithMovement(double movementX) {
+	private Player givenPlayerAt00WithMovement(int movementX) {
 		Player player = PlayerFactory.createPlayerAtPosition(0, 0);
 		player.setMovementX(movementX);
 		return player;
@@ -169,6 +181,14 @@ public class InteractionServiceTest {
 		when(
 				this.collisionDetection.collides(any(GameObject.class),
 						any(GameObject.class))).thenReturn(true);
+		when(
+				this.collisionDetection.isLeftOrRightToObject(
+						any(GameObject.class), any(GameObject.class)))
+				.thenReturn(true);
+		when(
+				this.collisionDetection.isOverOrUnderObject(
+						any(GameObject.class), any(GameObject.class)))
+				.thenReturn(true);
 		when(this.otherGameObject.maxX()).thenReturn(player.minX());
 		when(this.otherGameObject.minX()).thenReturn(player.maxX());
 		when(this.otherGameObject.maxY()).thenReturn(player.minY());

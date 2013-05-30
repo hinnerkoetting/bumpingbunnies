@@ -2,12 +2,12 @@ package de.jumpnbump.usecases.game.model;
 
 public class PlayerState implements GameObjectState<PlayerState> {
 
-	private double centerX;
-	private double centerY;
-	private double movementX;
-	private double movementY;
-	private double accelerationX;
-	private double accelerationY;
+	private int centerX;
+	private int centerY;
+	private int movementX;
+	private int movementY;
+	private int accelerationX;
+	private int accelerationY;
 	private int score;
 	private int color;
 	private int id;
@@ -16,51 +16,51 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.id = id;
 	}
 
-	public double getCenterX() {
+	public int getCenterX() {
 		return this.centerX;
 	}
 
-	public void setCenterX(double centerX) {
+	public void setCenterX(int centerX) {
 		this.centerX = centerX;
 	}
 
-	public double getCenterY() {
+	public int getCenterY() {
 		return this.centerY;
 	}
 
-	public void setCenterY(double centerY) {
+	public void setCenterY(int centerY) {
 		this.centerY = centerY;
 	}
 
-	public double getMovementX() {
+	public int getMovementX() {
 		return this.movementX;
 	}
 
-	public void setMovementX(double movementX) {
+	public void setMovementX(int movementX) {
 		this.movementX = movementX;
 	}
 
-	public double getMovementY() {
+	public int getMovementY() {
 		return this.movementY;
 	}
 
-	public void setMovementY(double movementY) {
+	public void setMovementY(int movementY) {
 		this.movementY = movementY;
 	}
 
-	public double getAccelerationX() {
+	public int getAccelerationX() {
 		return this.accelerationX;
 	}
 
-	public void setAccelerationX(double accelerationX) {
+	public void setAccelerationX(int accelerationX) {
 		this.accelerationX = accelerationX;
 	}
 
-	public double getAccelerationY() {
+	public int getAccelerationY() {
 		return this.accelerationY;
 	}
 
-	public void setAccelerationY(double accelerationY) {
+	public void setAccelerationY(int accelerationY) {
 		this.accelerationY = accelerationY;
 	}
 

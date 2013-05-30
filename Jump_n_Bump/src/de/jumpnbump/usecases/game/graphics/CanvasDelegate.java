@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.game.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import de.jumpnbump.usecases.game.model.ModelConstants;
 
 public class CanvasDelegate {
 
@@ -19,28 +20,28 @@ public class CanvasDelegate {
 		this.canvas.drawColor(color);
 	}
 
-	public void drawLine(double startX, double startY, double stopX,
-			double stopY, Paint paint) {
+	public void drawLine(int startX, int startY, int stopX, int stopY,
+			Paint paint) {
 		this.canvas.drawLine(transformX(startX), transformY(startY),
 				transformX(stopX), transformY(stopY), paint);
 	}
 
-	public void drawText(String text, double x, double y, Paint paint) {
+	public void drawText(String text, int x, int y, Paint paint) {
 		this.canvas.drawText(text, transformX(x), transformY(y), paint);
 	}
 
-	public void drawRect(double left, double top, double right, double bottom,
-			Paint paint) {
+	public void drawRect(int left, int top, int right, int bottom, Paint paint) {
 		this.canvas.drawRect(transformX(left), transformY(top),
 				transformX(right), transformY(bottom), paint);
 	}
 
-	private float transformX(double x) {
-		return (float) (x * this.width);
+	private float transformX(int x) {
+		return (float) (x * this.width) / ModelConstants.MAX_VALUE;
 	}
 
-	private float transformY(double y) {
-		return (float) ((1 - y) * this.height);
+	private float transformY(int y) {
+		return (float) ((ModelConstants.MAX_VALUE - y) * this.height)
+				/ ModelConstants.MAX_VALUE;
 	}
 
 }

@@ -5,7 +5,11 @@ public class Logger {
 	static Level globalLogLevel = Level.INFO;
 
 	public static MyLog getLogger(Class<?> cl) {
-		return new AndroidLog(cl);
+		if (cl.getResource("/res") != null) {
+			return new DummyLogger();
+		} else {
+			return new AndroidLog(cl);
+		}
 	}
 
 	public static void setGlobalLogLevel(Level level) {

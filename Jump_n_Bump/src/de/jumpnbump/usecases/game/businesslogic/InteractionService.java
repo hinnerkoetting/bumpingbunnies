@@ -49,17 +49,17 @@ public class InteractionService {
 					object.toString());
 			if (player.movementX() > 0) {
 
-				double diffX = object.minX() - player.maxX();
+				int diffX = object.minX() - player.maxX();
 
 				object.setColor(Color.RED);
 				LOGGER.info(String.format(
-						"Reduces X speed %f -- %f -- %f -- %f", object.minX(),
+						"Reduces X speed %d -- %d -- %d -- %d", object.minX(),
 						player.maxX(), diffX, player.movementX()));
 				player.setMovementX(diffX);
 				player.setAccelerationX(0);
 			} else if (player.movementX() < 0) {
-				double diffX = object.maxX() - player.minX();
-				LOGGER.info(String.format("Reduces X speed %f - %f", diffX,
+				int diffX = object.maxX() - player.minX();
+				LOGGER.info(String.format("Reduces X speed %d - %d", diffX,
 						player.movementX()));
 				object.setColor(Color.CYAN);
 				player.setMovementX(diffX);
@@ -69,14 +69,13 @@ public class InteractionService {
 	}
 
 	private void reduceYSpeed(Player player, GameObject object) {
-		GameObject nextStepY = player.simulateNextStepY();
-		if (!this.collisionDetection.isLeftOrRightToObject(nextStepY, object)) {
+		if (this.collisionDetection.isOverOrUnderObject(player, object)) {
 			if (player.movementY() > 0) {
-				double diffY = object.minY() - player.maxY();
+				int diffY = object.minY() - player.maxY();
 				player.setMovementY(diffY);
 				player.setAccelerationY(0);
 			} else if (player.movementY() < 0) {
-				double diffY = object.maxY() - player.minY();
+				int diffY = object.maxY() - player.minY();
 				player.setMovementY(diffY);
 				player.setAccelerationY(0);
 			}
