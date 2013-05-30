@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
-import android.graphics.Color;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.ObjectProvider;
@@ -39,45 +38,34 @@ public class InteractionService {
 		reduceYSpeed(player, object);
 	}
 
-	private boolean used = false;
-
 	private void reduceXSpeed(Player player, GameObject object) {
 		if (this.collisionDetection.isLeftOrRightToObject(player, object)) {
-			this.used = true;
-			LOGGER.info("PlayerState %s", player.getState());
-			LOGGER.info("colliding with object %d %s", object.id(),
-					object.toString());
-			if (player.movementX() > 0) {
-
-				int diffX = object.minX() - player.maxX();
-
-				object.setColor(Color.RED);
-				LOGGER.info(String.format(
-						"Reduces X speed %d -- %d -- %d -- %d", object.minX(),
-						player.maxX(), diffX, player.movementX()));
-				player.setMovementX(diffX);
-				player.setAccelerationX(0);
-			} else if (player.movementX() < 0) {
-				int diffX = object.maxX() - player.minX();
-				LOGGER.info(String.format("Reduces X speed %d - %d", diffX,
-						player.movementX()));
-				object.setColor(Color.CYAN);
-				player.setMovementX(diffX);
-				player.setAccelerationX(0);
+			if (!this.collisionDetection.isOverOrUnderObject(player, object)) {
+				if (player.movementX() > 0) {
+					int diffX = object.minX() - player.maxX();
+					player.setMovementX(diffX);
+					player.setAccelerationX(0);
+				} else if (player.movementX() < 0) {
+					int diffX = object.maxX() - player.minX();
+					player.setMovementX(diffX);
+					player.setAccelerationX(0);
+				}
 			}
 		}
 	}
 
 	private void reduceYSpeed(Player player, GameObject object) {
 		if (this.collisionDetection.isOverOrUnderObject(player, object)) {
-			if (player.movementY() > 0) {
-				int diffY = object.minY() - player.maxY();
-				player.setMovementY(diffY);
-				player.setAccelerationY(0);
-			} else if (player.movementY() < 0) {
-				int diffY = object.maxY() - player.minY();
-				player.setMovementY(diffY);
-				player.setAccelerationY(0);
+			if (!this.collisionDetection.isLeftOrRightToObject(player, object)) {
+				if (player.movementY() > 0) {
+					int diffY = object.minY() - player.maxY();
+					player.setMovementY(diffY);
+					player.setAccelerationY(0);
+				} else if (player.movementY() < 0) {
+					int diffY = object.maxY() - player.minY();
+					player.setMovementY(diffY);
+					player.setAccelerationY(0);
+				}
 			}
 		}
 	}

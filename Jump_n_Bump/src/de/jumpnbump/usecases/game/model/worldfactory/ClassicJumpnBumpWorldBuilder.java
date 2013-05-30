@@ -35,6 +35,7 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 		addThirdRow(allWalls);
 		addFourthRow(allWalls);
 		addFifthRow(allWalls);
+		allWalls.addAll(BuildBorderAroundWorldHelper.build());
 		// allWalls.add(WallFactory.createWall(0, 0.2, 0.4, 0.1));
 		// allWalls.add(WallFactory.createWall(0.4, 0.2, 0.3, 0.05));
 		// allWalls.add(WallFactory.createWall(0.7, 0.2, 0.2, 0.05));
@@ -85,7 +86,7 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 	}
 
 	private void addFifthRow(Collection<Wall> allWalls) {
-		allWalls.add(convenienceBuildWall(5, 75, 15, 80));
+		allWalls.add(convenienceBuildWall(5, 75, 15, 100));
 		allWalls.add(convenienceBuildWall(20, 65, 40, 70));
 		allWalls.add(convenienceBuildWall(85, 70, 95, 75));
 		allWalls.add(convenienceBuildWall(100, 60, 105, 65));
@@ -96,10 +97,11 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 	 * jjumpn bump
 	 */
 	private Wall convenienceBuildWall(int x, int y, int maxX, int maxY) {
-		return WallFactory.createWall(x * ModelConstants.MAX_VALUE / 110, y
-				* ModelConstants.MAX_VALUE / 80, maxX
-				* ModelConstants.MAX_VALUE / 110, maxY
-				* ModelConstants.MAX_VALUE / 80);
+		return WallFactory.createWall(
+				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
+						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
+						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
+						* ModelConstants.MAX_VALUE / 80.0));
 	}
 
 }
