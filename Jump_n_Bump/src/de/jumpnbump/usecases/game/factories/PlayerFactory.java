@@ -25,4 +25,11 @@ public class PlayerFactory {
 		state.setColor(Color.BLUE);
 		return p;
 	}
+
+	public static Player createPlayerAtPosition(double x, double y) {
+		Player p = new Player(new Player(-1), -1);
+		p.setCenterX(x);
+		p.setCenterY(y);
+		return p;
+	}
 }

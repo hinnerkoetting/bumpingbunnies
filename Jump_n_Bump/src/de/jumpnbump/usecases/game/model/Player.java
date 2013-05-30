@@ -103,6 +103,14 @@ public class Player implements GameObject {
 		return this.rect.getMinY();
 	}
 
+	public void moveNextStep() {
+		this.state.setCenterX(this.state.getCenterX()
+				+ this.state.getMovementX());
+		this.state.setCenterY(this.state.getCenterY()
+				+ this.state.getMovementY());
+		calculateRect();
+	}
+
 	@Override
 	public void moveNextStepX() {
 		this.state.setCenterX(this.state.getCenterX()

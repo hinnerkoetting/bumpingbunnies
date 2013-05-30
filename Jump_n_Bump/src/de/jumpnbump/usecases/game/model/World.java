@@ -6,9 +6,10 @@ import java.util.List;
 
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.ObjectProvider;
 import de.jumpnbump.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
-public class World {
+public class World implements ObjectProvider {
 
 	private static final MyLog LOGGER = Logger.getLogger(World.class);
 	private List<GameObject> allObjects;

@@ -39,20 +39,7 @@ public class PlayerMovementController implements ModelConstants {
 
 	private void executeOneStep() {
 		this.interActionService.interactWith(this.movedPlayer, this.world);
-		// if (!this.collision.willCollideVertical(this.movedPlayer)) {
-		// this.movedPlayer.moveNextStepY();
-		// } else {
-		// this.movedPlayer.setMovementY(0);
-		// LOGGER.debug("Collision Vertical");
-		// }
-		// if (!this.collision.willCollideHorizontal(this.movedPlayer)) {
-		// this.movedPlayer.moveNextStepX();
-		// } else {
-		// this.movedPlayer.setMovementX(0);
-		// LOGGER.debug("Collision horizontal");
-		// }
-		this.movedPlayer.moveNextStepY();
-		this.movedPlayer.moveNextStepX();
+		this.movedPlayer.moveNextStep();
 		this.movedPlayer.calculateNextSpeed();
 	}
 
