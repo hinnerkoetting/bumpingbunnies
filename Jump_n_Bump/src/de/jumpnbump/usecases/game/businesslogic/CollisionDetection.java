@@ -70,9 +70,10 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 				|| gameObject.maxY() <= other.minY();
 	}
 
-	public boolean isLeftOrRightToObject(GameObject gameObject, GameObject other) {
-		return gameObject.minX() >= other.maxX()
-				|| gameObject.maxX() <= other.minX();
+	public boolean isLeftOrRightToObject(GameObject targetObject,
+			GameObject other) {
+		return targetObject.minX() >= other.maxX()
+				|| targetObject.maxX() <= other.minX();
 	}
 
 	public boolean collides(GameObject gameObject, GameObject other) {

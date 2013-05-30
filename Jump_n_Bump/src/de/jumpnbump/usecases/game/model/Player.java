@@ -148,31 +148,29 @@ public class Player implements GameObject {
 
 	@Override
 	public GameObject simulateNextStepX() {
-		this.simulatedObject.setCenterX(this.state.getCenterX());
-		this.simulatedObject.setMovementX(this.state.getMovementX());
-		this.simulatedObject.setCenterY(this.state.getCenterY());
-		this.simulatedObject.setMovementY(this.state.getMovementY());
+		resetSimulatedObject();
 		this.simulatedObject.moveNextStepX();
 		return this.simulatedObject;
 	}
 
 	public GameObject simulateNextStep() {
-		this.simulatedObject.setCenterX(this.state.getCenterX());
-		this.simulatedObject.setMovementX(this.state.getMovementX());
-		this.simulatedObject.setCenterY(this.state.getCenterY());
-		this.simulatedObject.setMovementY(this.state.getMovementY());
+		resetSimulatedObject();
 		this.simulatedObject.moveNextStep();
 		return this.simulatedObject;
 	}
 
 	@Override
 	public GameObject simulateNextStepY() {
+		resetSimulatedObject();
+		this.simulatedObject.moveNextStepY();
+		return this.simulatedObject;
+	}
+
+	private void resetSimulatedObject() {
 		this.simulatedObject.setCenterX(this.state.getCenterX());
 		this.simulatedObject.setMovementX(this.state.getMovementX());
 		this.simulatedObject.setCenterY(this.state.getCenterY());
 		this.simulatedObject.setMovementY(this.state.getMovementY());
-		this.simulatedObject.moveNextStepY();
-		return this.simulatedObject;
 	}
 
 	@Override
@@ -197,6 +195,12 @@ public class Player implements GameObject {
 	@Override
 	public double centerY() {
 		return this.state.getCenterY();
+	}
+
+	@Override
+	public void setColor(int color) {
+		this.state.setColor(color);
+
 	}
 
 }

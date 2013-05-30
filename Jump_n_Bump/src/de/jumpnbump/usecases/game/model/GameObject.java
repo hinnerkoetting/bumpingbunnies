@@ -32,4 +32,6 @@ public interface GameObject {
 
 	int getColor();
 
+	public void setColor(int color);
+
 }

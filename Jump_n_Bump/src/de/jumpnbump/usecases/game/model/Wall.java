@@ -103,4 +103,16 @@ public class Wall implements GameObject, ModelConstants {
 		return (this.minY + this.maxY) / 2;
 	}
 
+	@Override
+	public String toString() {
+		return "Wall [id=" + this.id + ", minX=" + this.minX + ", minY="
+				+ this.minY + ", color=" + this.color + ", maxX=" + this.maxX
+				+ ", maxY=" + this.maxY + "]";
+	}
+
+	@Override
+	public void setColor(int color) {
+		this.color = color;
+	}
+
 }
