@@ -62,7 +62,9 @@ public class TouchPressInputService extends AbstractTouchService {
 		}
 	}
 
-	private void reset() {
+	@Override
+	public void reset() {
+		super.reset();
 		this.moveRight = false;
 		this.moveLeft = false;
 		this.moveUp = false;

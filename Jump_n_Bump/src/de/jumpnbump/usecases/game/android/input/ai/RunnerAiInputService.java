@@ -33,6 +33,11 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 
 	@Override
 	public void executeUserInput() {
+		decideAboutNextMovement();
+		executeRememberedMovement();
+	}
+
+	protected void decideAboutNextMovement() {
 		if (!this.state.hasTarget()) {
 			LOGGER.info("finding new target");
 
@@ -96,12 +101,11 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 	}
 
 	private void chaseNextTarget() {
-		PlayerMovementController playerMovement = getPlayerMovement();
-		Player player = playerMovement.getPlayer();
+		Player player = this.getMovedPlayer();
 		if (this.state.nextTargetCenterX() < player.getCenterX()) {
-			playerMovement.tryMoveLeft();
+			rememberMoveLeft();
 		} else if (this.state.nextTargetCenterX() > player.getCenterX()) {
-			playerMovement.tryMoveRight();
+			rememberMoveRight();
 		}
 		if (isCurrentlyJumping()) {
 			if (isStandingOnGround()) {
