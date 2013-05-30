@@ -48,11 +48,12 @@ public abstract class AbstractTouchService extends AbstractControlledMovement
 
 	public boolean isTouchRightToPlayer(MotionEvent motionEvent) {
 		double touchX = translateToGameXCoordinate(motionEvent);
-		return touchX > getMovedPlayer().centerX();
+		return touchX > getMovedPlayer().maxX();
 	}
 
 	public boolean isTouchLeftToPlayer(MotionEvent motionEvent) {
-		return !isTouchRightToPlayer(motionEvent);
+		double touchX = translateToGameXCoordinate(motionEvent);
+		return touchX < getMovedPlayer().minX();
 	}
 
 	public boolean clickOnUpperHalf(MotionEvent motionEvent) {
