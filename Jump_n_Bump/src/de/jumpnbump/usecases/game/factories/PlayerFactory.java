@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases.game.factories;
 
 import android.graphics.Color;
+import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
 
@@ -10,8 +11,8 @@ public class PlayerFactory {
 		int id = 0;
 		Player p = new Player(new Player(id), id);
 		PlayerState state = p.getState();
-		state.setCenterX(200000);
-		state.setCenterY(900000);
+		state.setCenterX((int) (0.2 * ModelConstants.MAX_VALUE));
+		state.setCenterY((int) (0.9 * ModelConstants.MAX_VALUE));
 		state.setColor(Color.RED);
 		p.calculateRect();
 		return p;
@@ -21,8 +22,8 @@ public class PlayerFactory {
 		int id = 1;
 		Player p = new Player(new Player(id), id);
 		PlayerState state = p.getState();
-		state.setCenterX(900000);
-		state.setCenterY(990000);
+		state.setCenterX((int) (0.9 * ModelConstants.MAX_VALUE));
+		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
 		state.setColor(Color.BLUE);
 		p.calculateRect();
 		return p;

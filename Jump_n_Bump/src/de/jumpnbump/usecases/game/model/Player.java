@@ -115,8 +115,21 @@ public class Player implements GameObject {
 	public void calculateNextSpeed() {
 		this.state.setMovementY(this.state.getMovementY()
 				+ this.state.getAccelerationY());
-		this.state.setMovementX(this.state.getMovementX()
-				+ this.state.getAccelerationX());
+
+		int newMovementSpeedX = calculateNewMovementSpeedX();
+		this.state.setMovementX(newMovementSpeedX);
+	}
+
+	private int calculateNewMovementSpeedX() {
+		int newMovementSpeedX = this.state.getMovementX()
+				+ this.state.getAccelerationX();
+		if (newMovementSpeedX > ModelConstants.MOVEMENT) {
+			return ModelConstants.MOVEMENT;
+		} else if (newMovementSpeedX < -ModelConstants.MOVEMENT) {
+			return -ModelConstants.MOVEMENT;
+		} else {
+			return newMovementSpeedX;
+		}
 	}
 
 	@Override
@@ -170,6 +183,11 @@ public class Player implements GameObject {
 	public void setColor(int color) {
 		this.state.setColor(color);
 
+	}
+
+	@Override
+	public int accelerationOnThisGround() {
+		return 0;
 	}
 
 }

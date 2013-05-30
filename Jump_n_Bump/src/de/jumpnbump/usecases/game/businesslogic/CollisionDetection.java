@@ -40,7 +40,16 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 		return false;
 	}
 
-	public Player playerStandsOnOtherPlayer(Player player) {
+	public GameObject findObjectThisPlayerIsStandingOn(Player player) {
+		for (GameObject go : this.world.getAllObjects()) {
+			if (standsOn(player, go)) {
+				return go;
+			}
+		}
+		return null;
+	}
+
+	public Player findPlayerThisPlayerIsStandingOn(Player player) {
 		for (Player p : this.world.getAllPlayer()) {
 			if (standsOn(player, p)) {
 				return p;

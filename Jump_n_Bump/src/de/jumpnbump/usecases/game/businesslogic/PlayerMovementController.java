@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.game.businesslogic;
 
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.model.GameObject;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
@@ -16,6 +17,7 @@ public class PlayerMovementController implements ModelConstants {
 	private final InteractionService interActionService;
 	private final CollisionDetection collisionDetection;
 	private final World world;
+	boolean tryingToRemoveHorizontalMovement;
 
 	public PlayerMovementController(Player movedPlayer, World world,
 			InteractionService interActionService,
@@ -50,18 +52,38 @@ public class PlayerMovementController implements ModelConstants {
 		} else {
 			this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY);
 		}
+		if (this.tryingToRemoveHorizontalMovement) {
+			this.movedPlayer.setAccelerationX((int) -Math
+					.signum(this.movedPlayer.movementX())
+					* ModelConstants.ACCELERATION_X_WALL);
+		}
 	}
 
 	public void tryMoveRight() {
-		this.movedPlayer.setMovementX(MOVEMENT);
+		this.tryingToRemoveHorizontalMovement = false;
+		this.movedPlayer.setAccelerationX(+findAccelerationForObject());
+		// this.movedPlayer.setMovementX(MOVEMENT);
+	}
+
+	private int findAccelerationForObject() {
+		GameObject go = this.collisionDetection
+				.findObjectThisPlayerIsStandingOn(this.movedPlayer);
+		if (go == null) {
+			return ModelConstants.ACCELERATION_X_AIR;
+		} else {
+			return go.accelerationOnThisGround();
+		}
 	}
 
 	public void tryMoveLeft() {
-		this.movedPlayer.setMovementX(-MOVEMENT);
+		this.tryingToRemoveHorizontalMovement = false;
+		this.movedPlayer.setAccelerationX(-findAccelerationForObject());
+		// this.movedPlayer.setMovementX(-MOVEMENT);
 	}
 
 	public void removeHorizontalMovement() {
-		this.movedPlayer.setMovementX(0);
+		this.tryingToRemoveHorizontalMovement = true;
+		this.movedPlayer.setAccelerationX(0);
 	}
 
 	public void removeVerticalMovement() {
@@ -82,7 +104,7 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public void removeMovement() {
-		this.movedPlayer.setMovementX(0);
+		removeHorizontalMovement();
 		this.movingUp = false;
 		LOGGER.debug("removing movement");
 	}
@@ -93,7 +115,7 @@ public class PlayerMovementController implements ModelConstants {
 
 	public Player isOnTopOfOtherPlayer() {
 		return this.collisionDetection
-				.playerStandsOnOtherPlayer(this.movedPlayer);
+				.findPlayerThisPlayerIsStandingOn(this.movedPlayer);
 	}
 
 	public boolean isJumping() {

@@ -35,13 +35,18 @@ public class CanvasDelegate {
 				transformX(right), transformY(bottom), paint);
 	}
 
-	private float transformX(int x) {
-		return (float) (x * this.width) / ModelConstants.MAX_VALUE;
+	/**
+	 * Using double as parameter to avoid buffer overflow
+	 */
+	private float transformX(double x) {
+		return (float) ((x * this.width) / ModelConstants.MAX_VALUE);
 	}
 
-	private float transformY(int y) {
-		return (float) ((ModelConstants.MAX_VALUE - y) * this.height)
-				/ ModelConstants.MAX_VALUE;
+	/**
+	 * Using double as parameter to avoid buffer overflow
+	 */
+	private float transformY(double y) {
+		return (float) (((ModelConstants.MAX_VALUE - y) * this.height) / ModelConstants.MAX_VALUE);
 	}
 
 }

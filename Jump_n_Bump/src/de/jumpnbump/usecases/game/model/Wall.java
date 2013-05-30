@@ -96,4 +96,9 @@ public class Wall implements GameObject, ModelConstants {
 		this.color = color;
 	}
 
+	@Override
+	public int accelerationOnThisGround() {
+		return ModelConstants.ACCELERATION_X_WALL;
+	}
+
 }

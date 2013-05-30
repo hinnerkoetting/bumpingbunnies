@@ -65,10 +65,6 @@ public abstract class AbstractControlledMovement implements InputService {
 		return this.playerMovement.getPlayer();
 	}
 
-	protected void removePlayerMovement() {
-		this.playerMovement.removeMovement();
-	}
-
 	protected void moveUp() {
 		this.playerMovement.tryMoveUp();
 	}

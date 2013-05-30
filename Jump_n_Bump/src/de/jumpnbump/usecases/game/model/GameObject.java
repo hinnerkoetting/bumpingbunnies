@@ -22,6 +22,8 @@ public interface GameObject {
 
 	void calculateNextSpeed();
 
+	int accelerationOnThisGround();
+
 	int getColor();
 
 	public void setColor(int color);
