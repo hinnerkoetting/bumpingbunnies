@@ -55,4 +55,8 @@ public abstract class AbstractTouchService extends AbstractControlledMovement
 		return !isTouchRightToPlayer(motionEvent);
 	}
 
+	public boolean clickOnUpperHalf(MotionEvent motionEvent) {
+		return translateToGameYCoordinate(motionEvent) > 0.5;
+	}
+
 }

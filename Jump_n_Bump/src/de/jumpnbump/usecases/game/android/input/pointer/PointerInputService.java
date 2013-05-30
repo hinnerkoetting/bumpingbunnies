@@ -10,7 +10,6 @@ public class PointerInputService extends LeftRightTouchService {
 
 	private static final double MAX_DISTANCE_TO_JUMP = 0.2;
 	private final PathFinder pathFinder;
-	private boolean moveUp;
 
 	public PointerInputService(PlayerMovementController playerMovement,
 			PathFinder pathFinder) {
@@ -19,22 +18,16 @@ public class PointerInputService extends LeftRightTouchService {
 	}
 
 	@Override
-	public void executeUserInput() {
-		super.executeUserInput();
-		if (this.moveUp) {
-			getPlayerMovement().tryMoveUp();
-		} else {
-			getPlayerMovement().tryMoveDown();
-		}
-	}
-
-	@Override
 	public void onMotionEvent(MotionEvent motionEvent) {
 		super.onMotionEvent(motionEvent);
 		if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-			this.moveUp = false;
+			rememberMoveDown();
 		} else {
-			this.moveUp = shouldBeReachedByJumping(motionEvent);
+			if (shouldBeReachedByJumping(motionEvent)) {
+				rememberMoveUp();
+			} else {
+				rememberMoveDown();
+			}
 		}
 	}
 
@@ -47,7 +40,7 @@ public class PointerInputService extends LeftRightTouchService {
 	}
 
 	private boolean isTooCloseToJump(MotionEvent motionEvent) {
-		Player player = getPlayerMovement().getPlayer();
+		Player player = getMovedPlayer();
 		double diffY = calculateDiffY(player, motionEvent);
 		return Math.abs(diffY) < 0.1;
 	}

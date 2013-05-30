@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.touch;
 
+import android.view.MotionEvent;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputService;
@@ -14,22 +15,13 @@ public class TouchService extends LeftRightTouchService implements InputService 
 	}
 
 	@Override
-	protected void executePlayerMovement() {
-		super.executePlayerMovement();
-		int movement = 10;
-		moveUpOrDown(movement);
-	}
-
-	private void moveUpOrDown(int movement) {
-		if (clickOnUpperHalf()) {
-			this.getPlayerMovement().tryMoveUp();
+	public void onMotionEvent(MotionEvent motionEvent) {
+		super.onMotionEvent(motionEvent);
+		if (clickOnUpperHalf(motionEvent)) {
+			rememberMoveUp();
 		} else {
-			this.getPlayerMovement().tryMoveDown();
+			rememberMoveDown();
 		}
-	}
-
-	private boolean clickOnUpperHalf() {
-		return translateToGameYCoordinate(getLastEvent()) > 0.5;
 	}
 
 }

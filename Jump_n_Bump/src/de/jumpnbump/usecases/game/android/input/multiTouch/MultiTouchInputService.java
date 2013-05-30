@@ -6,20 +6,8 @@ import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class MultiTouchInputService extends LeftRightTouchService {
 
-	private boolean shouldBeJumping;
-
 	public MultiTouchInputService(PlayerMovementController playerMovement) {
 		super(playerMovement);
-	}
-
-	@Override
-	protected void executePlayerMovement() {
-		super.executePlayerMovement();
-		if (this.shouldBeJumping) {
-			getPlayerMovement().tryMoveUp();
-		} else {
-			getPlayerMovement().tryMoveDown();
-		}
 	}
 
 	@Override
@@ -33,11 +21,11 @@ public class MultiTouchInputService extends LeftRightTouchService {
 	}
 
 	public void onMultiTouch(MotionEvent motionEvent) {
-		this.shouldBeJumping = true;
+		rememberMoveUp();
 	}
 
 	public void onMultiTouchRemoved(MotionEvent motionEvent) {
-		this.shouldBeJumping = false;
+		rememberMoveDown();
 	}
 
 }
