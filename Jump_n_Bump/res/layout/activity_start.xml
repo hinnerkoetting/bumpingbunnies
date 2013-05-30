@@ -33,10 +33,21 @@
                 android:layout_height="wrap_content"
                 layout="@layout/menu_input_type" />
 
-            <include
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                layout="@layout/menu_ai_type" />
+                android:orientation="vertical" >
+
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/menu_ai_type" />
+
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" 
+                    layout="@layout/menu_world" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

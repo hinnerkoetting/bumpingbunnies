@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/world" />
+
+    <RadioGroup
+        android:id="@+id/start_world_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+		<RadioButton
+            android:id="@+id/start_world_simple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/world_simple" />
+		<RadioButton
+            android:id="@+id/start_world_first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/world_first" />
+		<RadioButton
+            android:id="@+id/start_world_classic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/world_classic" />
+    </RadioGroup>
+
+</LinearLayout>

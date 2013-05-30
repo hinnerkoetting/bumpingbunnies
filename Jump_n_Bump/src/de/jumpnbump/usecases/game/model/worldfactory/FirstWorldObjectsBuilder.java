@@ -31,43 +31,43 @@ public class FirstWorldObjectsBuilder implements WorldObjectsBuilder {
 				(int) (0.1 * ModelConstants.MAX_VALUE),
 				(int) (0.15 * ModelConstants.MAX_VALUE),
 				(int) (0.5 * ModelConstants.MAX_VALUE),
-				(ModelConstants.WALL_HEIGHT * ModelConstants.MAX_VALUE)));
+				(int) (0.20 * ModelConstants.MAX_VALUE)));
 
 		allWalls.add(WallFactory.createWall(
 				(int) (0.0 * ModelConstants.MAX_VALUE),
 				(int) (0.3 * ModelConstants.MAX_VALUE),
 				(int) (0.2 * ModelConstants.MAX_VALUE),
-				(ModelConstants.WALL_HEIGHT * ModelConstants.MAX_VALUE)));
+				(int) (0.35 * ModelConstants.MAX_VALUE)));
 
 		allWalls.add(WallFactory.createWall(
 				(int) (0.70 * ModelConstants.MAX_VALUE),
 				(int) (0.35 * ModelConstants.MAX_VALUE),
-				(int) (0.15 * ModelConstants.MAX_VALUE),
-				(ModelConstants.WALL_HEIGHT)));
-		allWalls.add(WallFactory.createWall(
+				(int) (0.85 * ModelConstants.MAX_VALUE),
+				(int) (0.40 * ModelConstants.MAX_VALUE)));
+		allWalls.add(WallFactory.createIceWall(
 				(int) (0.3 * ModelConstants.MAX_VALUE),
-				(int) (0.45 * ModelConstants.MAX_VALUE),
-				(int) (0.25 * ModelConstants.MAX_VALUE),
-				(ModelConstants.WALL_HEIGHT)));
+				(int) (0.40 * ModelConstants.MAX_VALUE),
+				(int) (0.55 * ModelConstants.MAX_VALUE),
+				(int) (0.45 * ModelConstants.MAX_VALUE)));
 
-		allWalls.add(WallFactory.createWall(
+		allWalls.add(WallFactory.createIceWall(
 				(int) (0.45 * ModelConstants.MAX_VALUE),
 				(int) (0.6 * ModelConstants.MAX_VALUE),
-				(int) (0.25 * ModelConstants.MAX_VALUE),
-				(ModelConstants.WALL_HEIGHT)));
+				(int) (0.70 * ModelConstants.MAX_VALUE),
+				(int) (0.65 * ModelConstants.MAX_VALUE)));
 
 		allWalls.add(WallFactory.createWall(
 				(int) (0.75 * ModelConstants.MAX_VALUE),
 				(int) (0.8 * ModelConstants.MAX_VALUE),
-				(int) (0.25 * ModelConstants.MAX_VALUE),
-				(ModelConstants.WALL_HEIGHT)));
+				(1 * ModelConstants.MAX_VALUE),
+				(int) (0.85 * ModelConstants.MAX_VALUE)));
 		allWalls.add(WallFactory.createWall(
 				(int) (0.25 * ModelConstants.MAX_VALUE),
 				(int) (0.8 * ModelConstants.MAX_VALUE),
-				(int) (0.25 * ModelConstants.MAX_VALUE),
-				(ModelConstants.WALL_HEIGHT)));
+				(int) (0.50 * ModelConstants.MAX_VALUE),
+				(int) (0.85 * ModelConstants.MAX_VALUE)));
 
+		allWalls.addAll(BuildBorderAroundWorldHelper.build());
 		return allWalls;
 	}
-
 }

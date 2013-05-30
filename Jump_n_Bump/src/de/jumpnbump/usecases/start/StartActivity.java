@@ -27,6 +27,8 @@ import de.jumpnbump.usecases.game.configuration.AiModusGenerator;
 import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 import de.jumpnbump.usecases.game.configuration.InputConfigurationGenerator;
+import de.jumpnbump.usecases.game.configuration.WorldConfiguration;
+import de.jumpnbump.usecases.game.configuration.WorldConfigurationGenerator;
 
 public class StartActivity extends Activity {
 
@@ -215,7 +217,8 @@ public class StartActivity extends Activity {
 	private Configuration createConfiguration() {
 		InputConfiguration selectedInput = findSelectedInputConfiguration();
 		AiModus aiModus = findSelectedAiMode();
-		return new Configuration(selectedInput, aiModus);
+		WorldConfiguration world = findSelectedWorld();
+		return new Configuration(selectedInput, aiModus, world);
 	}
 
 	private void launchGame(GameStartParameter parameter) {
@@ -231,6 +234,12 @@ public class StartActivity extends Activity {
 	private AiModus findSelectedAiMode() {
 		RadioGroup radioGroup = (RadioGroup) findViewById(R.id.start_ai_group);
 		return AiModusGenerator.createFromRadioGroup(radioGroup);
+	}
+
+	private WorldConfiguration findSelectedWorld() {
+		RadioGroup radioGroup = (RadioGroup) findViewById(R.id.start_world_group);
+		return WorldConfigurationGenerator
+				.createWorldConfigurationFromRadioGroup(radioGroup);
 	}
 
 }

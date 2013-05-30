@@ -14,5 +14,6 @@ public interface ModelConstants {
 
 	int ACCELERATION_X_WALL = 40;
 	int ACCELERATION_X_AIR = 10;
-	int ACCELERATION_X_ICE = 20;
+	int ACCELERATION_X_ICE = 5;
+
 }

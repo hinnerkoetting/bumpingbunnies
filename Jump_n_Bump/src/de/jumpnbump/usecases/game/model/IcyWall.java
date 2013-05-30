@@ -6,4 +6,9 @@ public class IcyWall extends Wall {
 		super(id, minX, minY, maxX, maxY, 0xff8888ff);
 	}
 
+	@Override
+	public int accelerationOnThisGround() {
+		return ModelConstants.ACCELERATION_X_ICE;
+	}
+
 }

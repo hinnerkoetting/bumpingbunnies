@@ -31,5 +31,9 @@
     <string name="fling_touch">Touch+Fling</string>
     <string name="touch_press">Touch+Hold</string>
     <string name="touch_release">Touch+Release</string>
+    <string name="world">Welt</string>
+    <string name="world_simple">Einfach</string>
+    <string name="world_first">Demo</string>
+    <string name="world_classic">Classic</string>
 
 </resources>

@@ -10,7 +10,7 @@ import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.Wall;
 
-public class OneWallObjectsBuilder implements WorldObjectsBuilder {
+public class SimpleObjectsBuilder implements WorldObjectsBuilder {
 	@Override
 	public List<Player> createAllPlayers() {
 		List<Player> allPlayers = new LinkedList<Player>();

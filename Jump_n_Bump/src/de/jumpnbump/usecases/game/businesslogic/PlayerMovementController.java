@@ -53,9 +53,20 @@ public class PlayerMovementController implements ModelConstants {
 			this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY);
 		}
 		if (this.tryingToRemoveHorizontalMovement) {
-			this.movedPlayer.setAccelerationX((int) -Math
-					.signum(this.movedPlayer.movementX())
-					* ModelConstants.ACCELERATION_X_WALL);
+			tryToSteerAgainstMovement();
+		}
+	}
+
+	private void tryToSteerAgainstMovement() {
+		int breakAcceleration = (int) -Math
+				.signum(this.movedPlayer.movementX())
+				* findAccelerationForObject();
+		if (Math.abs(this.movedPlayer.movementX()) <= Math
+				.abs(breakAcceleration)) {
+			this.movedPlayer.setMovementX(0);
+			this.movedPlayer.setAccelerationX(0);
+		} else {
+			this.movedPlayer.setAccelerationX(breakAcceleration);
 		}
 	}
 
@@ -69,9 +80,13 @@ public class PlayerMovementController implements ModelConstants {
 		GameObject go = this.collisionDetection
 				.findObjectThisPlayerIsStandingOn(this.movedPlayer);
 		if (go == null) {
+			LOGGER.info("Acceleration air %d",
+					ModelConstants.ACCELERATION_X_AIR);
 			return ModelConstants.ACCELERATION_X_AIR;
 		} else {
-			return go.accelerationOnThisGround();
+			int ac = go.accelerationOnThisGround();
+			LOGGER.info("Acceleration %d", ac);
+			return ac;
 		}
 	}
 
