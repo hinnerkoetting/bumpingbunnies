@@ -12,12 +12,17 @@ public class Wall implements GameObject, ModelConstants {
 	private double maxY;
 
 	public Wall(int id, double minX, double minY, double maxX, double maxY) {
+		this(id, minX, minY, maxX, maxY, Color.GRAY);
+	}
+
+	public Wall(int id, double minX, double minY, double maxX, double maxY,
+			int color) {
 		this.id = id;
 		this.minX = minX;
 		this.minY = minY;
 		this.maxX = maxX;
 		this.maxY = maxY;
-		this.color = Color.GRAY;
+		this.color = color;
 	}
 
 	@Override

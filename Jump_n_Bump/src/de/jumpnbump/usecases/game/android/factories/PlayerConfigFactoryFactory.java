@@ -8,11 +8,10 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.game.android.GameView;
-import de.jumpnbump.usecases.game.businesslogic.CollisionDetection;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
-import de.jumpnbump.usecases.game.factories.CollisionDetectionFactory;
+import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
@@ -23,30 +22,28 @@ public class PlayerConfigFactoryFactory {
 
 	public static PlayerConfigFactory create(Intent intent, World world,
 			GameView gameView) {
-		CollisionDetection collision = CollisionDetectionFactory.create(world,
-				gameView);
 		int myPlayerId = findTabletPlayerId(intent);
 		Player myPlayer = findMyPlayer(myPlayerId, world);
 		PlayerConfigFactory config = new PlayerConfigFactory(
-				createMovementController(myPlayer, collision),
-				findOtherPlayers(myPlayerId, world, collision), gameView, world);
+				createMovementController(myPlayer, world), findOtherPlayers(
+						myPlayerId, world), gameView, world);
 		return config;
 	}
 
 	private static List<PlayerMovementController> findOtherPlayers(
-			int myPlayerId, World world, CollisionDetection collisionDetection) {
+			int myPlayerId, World world) {
 		List<PlayerMovementController> list = new LinkedList<PlayerMovementController>();
 		for (Player p : world.getAllPlayer()) {
 			if (p.id() != myPlayerId) {
-				list.add(createMovementController(p, collisionDetection));
+				list.add(createMovementController(p, world));
 			}
 		}
 		return list;
 	}
 
 	private static PlayerMovementController createMovementController(Player p,
-			CollisionDetection collisionDetection) {
-		return new PlayerMovementController(p, collisionDetection);
+			World world) {
+		return PlayerMovementFactory.create(p, world);
 	}
 
 	private static Player findMyPlayer(int myPlayerId, World world) {

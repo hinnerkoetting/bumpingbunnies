@@ -148,6 +148,16 @@ public class Player implements GameObject {
 		return this.simulatedObject;
 	}
 
+	public GameObject simulateNextStep() {
+		this.simulatedObject.setCenterX(this.state.getCenterX());
+		this.simulatedObject.setMovementX(this.state.getMovementX());
+		this.simulatedObject.setCenterY(this.state.getCenterY());
+		this.simulatedObject.setMovementY(this.state.getMovementY());
+		this.simulatedObject.moveNextStepY();
+		this.simulatedObject.moveNextStepX();
+		return this.simulatedObject;
+	}
+
 	@Override
 	public GameObject simulateNextStepY() {
 		this.simulatedObject.setCenterX(this.state.getCenterX());

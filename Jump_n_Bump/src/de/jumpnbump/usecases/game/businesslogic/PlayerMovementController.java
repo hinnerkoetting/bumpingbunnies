@@ -4,6 +4,7 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
+import de.jumpnbump.usecases.game.model.World;
 
 public class PlayerMovementController implements ModelConstants {
 
@@ -11,13 +12,18 @@ public class PlayerMovementController implements ModelConstants {
 			.getLogger(PlayerMovementController.class);
 
 	private final Player movedPlayer;
-	private final CollisionDetection collision;
 	private boolean movingUp;
+	private InteractionService interActionService;
 
-	public PlayerMovementController(Player movedPlayer,
-			CollisionDetection collision) {
+	private final World world;
+
+	// private final CollisionDetection collision;
+
+	public PlayerMovementController(Player movedPlayer, World world,
+			InteractionService interActionService) {
 		this.movedPlayer = movedPlayer;
-		this.collision = collision;
+		this.world = world;
+		this.interActionService = interActionService;
 	}
 
 	public void nextStep(long delta) {
@@ -32,18 +38,21 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	private void executeOneStep() {
-		if (!this.collision.willCollideVertical(this.movedPlayer)) {
-			this.movedPlayer.moveNextStepY();
-		} else {
-			this.movedPlayer.setMovementY(0);
-			LOGGER.debug("Collision Vertical");
-		}
-		if (!this.collision.willCollideHorizontal(this.movedPlayer)) {
-			this.movedPlayer.moveNextStepX();
-		} else {
-			this.movedPlayer.setMovementX(0);
-			LOGGER.debug("Collision horizontal");
-		}
+		this.interActionService.interactWith(this.movedPlayer, this.world);
+		// if (!this.collision.willCollideVertical(this.movedPlayer)) {
+		// this.movedPlayer.moveNextStepY();
+		// } else {
+		// this.movedPlayer.setMovementY(0);
+		// LOGGER.debug("Collision Vertical");
+		// }
+		// if (!this.collision.willCollideHorizontal(this.movedPlayer)) {
+		// this.movedPlayer.moveNextStepX();
+		// } else {
+		// this.movedPlayer.setMovementX(0);
+		// LOGGER.debug("Collision horizontal");
+		// }
+		this.movedPlayer.moveNextStepY();
+		this.movedPlayer.moveNextStepX();
 		this.movedPlayer.calculateNextSpeed();
 	}
 
@@ -73,12 +82,12 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public void tryMoveUp() {
-		if (this.collision.objectStandsOnGround(this.movedPlayer)) {
-			this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEET);
-			this.movedPlayer.setAccelerationY(0);
-		} else {
-			this.movingUp = true;
-		}
+		// if (this.collision.objectStandsOnGround(this.movedPlayer)) {
+		// this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED);
+		// this.movedPlayer.setAccelerationY(0);
+		// } else {
+		// this.movingUp = true;
+		// }
 	}
 
 	public void tryMoveDown() {
@@ -96,7 +105,9 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public Player isOnTopOfOtherPlayer() {
-		return this.collision.playerStandOnTopOfOtherPlayer(this.movedPlayer);
+		return null;
+		// return
+		// this.collision.playerStandOnTopOfOtherPlayer(this.movedPlayer);
 	}
 
 	public boolean isJumping() {
@@ -104,7 +115,8 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public boolean isStandingOnGround() {
-		return this.collision.objectStandsOnGround(this.movedPlayer);
+		return false;
+		// return this.collision.objectStandsOnGround(this.movedPlayer);
 	}
 
 }

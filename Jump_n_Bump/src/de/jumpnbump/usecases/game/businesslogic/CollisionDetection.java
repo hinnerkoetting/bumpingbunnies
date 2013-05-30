@@ -94,7 +94,7 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 		return gameobject.maxX() >= 1;
 	}
 
-	private boolean collidesWithTop(GameObject objectToBeChecked) {
+	public boolean collidesWithTop(GameObject objectToBeChecked) {
 		for (GameObject otherObject : this.world.getAllObjects()) {
 			if (otherObject.id() != objectToBeChecked.id()) {
 				if (SingleCollisionDetection.collidesObjectOnTop(otherObject,
@@ -107,7 +107,7 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 		// return objectToBeChecked.minY() <= 0;
 	}
 
-	private boolean collidedWithLeft(GameObject gameobject) {
+	public boolean collidedWithLeft(GameObject gameobject) {
 		for (GameObject otherObject : this.world.getAllObjects()) {
 			if (otherObject.id() != gameobject.id()) {
 				if (SingleCollisionDetection.collidesObjectOnLeft(gameobject,
@@ -138,5 +138,37 @@ public class CollisionDetection implements GameScreenSizeChangeListener {
 			}
 		}
 		return null;
+	}
+
+	public boolean collidesWithRight(GameObject player, GameObject object) {
+		return SingleCollisionDetection.collidesObjectOnRight(player, object);
+	}
+
+	public boolean collidesWithLeft(GameObject player, GameObject object) {
+		return SingleCollisionDetection.collidesObjectOnLeft(player, object);
+	}
+
+	public boolean collidesWithBottom(GameObject player, GameObject object) {
+		return SingleCollisionDetection.collidesObjectOnBottom(player, object);
+	}
+
+	public boolean collidesWithTop(GameObject player, GameObject object) {
+		return SingleCollisionDetection.collidesObjectOnTop(player, object);
+	}
+
+	public boolean collides(GameObject gameObject, GameObject other) {
+		if (gameObject.maxX() < other.minX()) {
+			return false;
+		}
+		if (gameObject.minX() > other.maxX()) {
+			return false;
+		}
+		if (gameObject.maxY() < other.minY()) {
+			return false;
+		}
+		if (gameObject.minY() > other.maxY()) {
+			return false;
+		}
+		return true;
 	}
 }
