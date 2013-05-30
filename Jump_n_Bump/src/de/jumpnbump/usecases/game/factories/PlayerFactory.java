@@ -7,6 +7,22 @@ import de.jumpnbump.usecases.game.model.PlayerState;
 
 public class PlayerFactory {
 
+	public static Player createPlayer(int i) {
+		switch (i) {
+		case 0:
+			return createPlayer1();
+		case 1:
+			return createPlayer2();
+		case 2:
+			return createPlayer3();
+		case 3:
+			return createPlayer4();
+		default:
+			throw new IllegalArgumentException("Too many players");
+		}
+
+	}
+
 	public static Player createPlayer1() {
 		int id = 0;
 		Player p = new Player(new Player(id), id);
@@ -22,9 +38,31 @@ public class PlayerFactory {
 		int id = 1;
 		Player p = new Player(new Player(id), id);
 		PlayerState state = p.getState();
-		state.setCenterX((int) (0.9 * ModelConstants.MAX_VALUE));
+		state.setCenterX((int) (0.4 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
 		state.setColor(Color.BLUE);
+		p.calculateRect();
+		return p;
+	}
+
+	public static Player createPlayer3() {
+		int id = 2;
+		Player p = new Player(new Player(id), id);
+		PlayerState state = p.getState();
+		state.setCenterX((int) (0.9 * ModelConstants.MAX_VALUE));
+		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
+		state.setColor(Color.MAGENTA);
+		p.calculateRect();
+		return p;
+	}
+
+	public static Player createPlayer4() {
+		int id = 3;
+		Player p = new Player(new Player(id), id);
+		PlayerState state = p.getState();
+		state.setCenterX((int) (0.6 * ModelConstants.MAX_VALUE));
+		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
+		state.setColor(Color.GREEN);
 		p.calculateRect();
 		return p;
 	}

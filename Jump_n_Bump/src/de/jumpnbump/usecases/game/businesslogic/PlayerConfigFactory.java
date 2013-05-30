@@ -92,14 +92,20 @@ public class PlayerConfigFactory {
 		return list;
 	}
 
-	public InputService createOtherInputService(
+	public List<InputService> createOtherInputService(
 			AbstractOtherPlayersFactorySingleton factory) {
 		InformationSupplier informationSupplier = factory
 				.createInformationSupplier();
 		AbstractInputServiceFactory inputServiceFactory = factory
 				.getInputServiceFactory();
-		return inputServiceFactory.create(informationSupplier,
-				this.notControlledPlayers.get(0), this.world);
+
+		List<InputService> inputServices = new ArrayList<InputService>(
+				this.notControlledPlayers.size());
+		for (PlayerMovementController movement : this.notControlledPlayers) {
+			inputServices.add(inputServiceFactory.create(informationSupplier,
+					movement, this.world));
+		}
+		return inputServices;
 	}
 
 	public PlayerMovementController getTabletControlledPlayer() {

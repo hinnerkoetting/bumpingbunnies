@@ -13,14 +13,11 @@ import de.jumpnbump.usecases.game.model.Player;
 public class FirstWorldObjectsBuilder implements WorldObjectsBuilder {
 
 	@Override
-	public List<Player> createAllPlayers() {
+	public List<Player> createAllPlayers(int number) {
 		List<Player> allPlayers = new LinkedList<Player>();
-		Player p1 = PlayerFactory.createPlayer1();
-		allPlayers.add(p1);
-
-		Player p2 = PlayerFactory.createPlayer2();
-
-		allPlayers.add(p2);
+		for (int i = 0; i < number; i++) {
+			allPlayers.add(PlayerFactory.createPlayer(i));
+		}
 		return allPlayers;
 	}
 

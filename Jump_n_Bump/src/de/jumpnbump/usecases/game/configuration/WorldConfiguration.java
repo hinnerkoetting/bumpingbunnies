@@ -23,4 +23,5 @@ public enum WorldConfiguration {
 			throw new RuntimeException(e);
 		}
 	}
+
 }

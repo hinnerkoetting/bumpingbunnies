@@ -25,10 +25,10 @@ public class World implements ObjectProvider {
 		this.allObjects = new LinkedList<GameObject>();
 	}
 
-	public void buildWorld() {
+	public void buildWorld(int numberPlayer) {
 		this.allObjects.clear();
 		this.allPlayer.clear();
-		this.allPlayer.addAll(this.factory.createAllPlayers());
+		this.allPlayer.addAll(this.factory.createAllPlayers(numberPlayer));
 		this.allWalls.addAll(this.factory.createAllWalls());
 		this.allObjects.addAll(this.allPlayer);
 		this.allObjects.addAll(this.allWalls);

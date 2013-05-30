@@ -1,16 +1,16 @@
 package de.jumpnbump.usecases.game.factories;
 
-import de.jumpnbump.usecases.game.configuration.WorldConfiguration;
+import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.game.model.World;
 import de.jumpnbump.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
 public class WorldFactory {
 
-	public static World create(WorldConfiguration configuration) {
-		WorldObjectsBuilder factory = configuration
+	public static World create(Configuration configuration) {
+		WorldObjectsBuilder factory = configuration.getWorldConfiguration()
 				.createInputconfigurationClass();
 		World world = new World(factory);
-		world.buildWorld();
+		world.buildWorld(configuration.getNumberPlayer());
 		return world;
 	}
 }

@@ -8,7 +8,7 @@ import de.jumpnbump.usecases.game.model.Player;
 
 public interface WorldObjectsBuilder {
 
-	abstract List<Player> createAllPlayers();
+	abstract List<Player> createAllPlayers(int number);
 
 	abstract Collection<FixedWorldObject> createAllWalls();
 

@@ -1,6 +1,6 @@
 package de.jumpnbump.usecases.game.android;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -44,7 +44,7 @@ public class GameActivity extends Activity {
 	private GameThread gameThread;
 	private InputService touchService;
 
-	private InputService networkMovementService;
+	private List<InputService> networkMovementService;
 	private RemoteSender networkThread;
 	private GameStartParameter parameter;
 
@@ -88,8 +88,7 @@ public class GameActivity extends Activity {
 
 	private void initGame() {
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
-		World world = WorldFactory.create(this.parameter.getConfiguration()
-				.getWorldConfiguration());
+		World world = WorldFactory.create(this.parameter.getConfiguration());
 		GameThreadState threadState = new GameThreadState();
 
 		initInputFactory();
@@ -136,7 +135,10 @@ public class GameActivity extends Activity {
 	}
 
 	private List<InputService> createInputServicesTouch() {
-		return Arrays.asList(this.networkMovementService, this.touchService);
+		List<InputService> inputServes = new ArrayList<InputService>();
+		inputServes.addAll(this.networkMovementService);
+		inputServes.add(this.touchService);
+		return inputServes;
 	}
 
 	private BluetoothSocket getSocket() {

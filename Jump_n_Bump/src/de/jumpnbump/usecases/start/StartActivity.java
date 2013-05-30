@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
@@ -218,7 +219,8 @@ public class StartActivity extends Activity {
 		InputConfiguration selectedInput = findSelectedInputConfiguration();
 		AiModus aiModus = findSelectedAiMode();
 		WorldConfiguration world = findSelectedWorld();
-		return new Configuration(selectedInput, aiModus, world);
+		return new Configuration(selectedInput, aiModus, world,
+				getNumberOfPlayers());
 	}
 
 	private void launchGame(GameStartParameter parameter) {
@@ -240,6 +242,19 @@ public class StartActivity extends Activity {
 		RadioGroup radioGroup = (RadioGroup) findViewById(R.id.start_world_group);
 		return WorldConfigurationGenerator
 				.createWorldConfigurationFromRadioGroup(radioGroup);
+	}
+
+	private int getNumberOfPlayers() {
+		TextView numberPlayers = (TextView) findViewById(R.id.number_player);
+		try {
+			int i = Integer.parseInt(numberPlayers.getText().toString());
+			if (i < 0 || i > 4) {
+				return 2;
+			}
+			return i;
+		} catch (Exception e) {
+			return 2;
+		}
 	}
 
 }

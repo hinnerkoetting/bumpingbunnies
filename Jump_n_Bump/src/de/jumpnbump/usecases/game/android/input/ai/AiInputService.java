@@ -7,12 +7,13 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.model.Player;
+import de.jumpnbump.usecases.game.model.World;
 
 public class AiInputService implements InputService {
 
 	private static MyLog LOGGER = Logger.getLogger(AiInputService.class);
 
-	private final Player otherPlayer;
+	private Player otherPlayer;
 	private final Player player;
 	private final PlayerMovementController playerMovement;
 	private boolean rememberMoveLeft;
@@ -22,10 +23,11 @@ public class AiInputService implements InputService {
 	private int nextdurationOfMovement = 0;
 	private Random random;
 
-	public AiInputService(Player otherPlayer,
-			PlayerMovementController playerMovement) {
-		this.otherPlayer = otherPlayer;
+	private final World world;
+
+	public AiInputService(PlayerMovementController playerMovement, World world) {
 		this.playerMovement = playerMovement;
+		this.world = world;
 		this.player = playerMovement.getPlayer();
 		this.random = new Random(System.currentTimeMillis());
 		LOGGER.info("initialising ai for player %d", this.player.id());
@@ -33,6 +35,7 @@ public class AiInputService implements InputService {
 
 	@Override
 	public void executeUserInput() {
+		this.otherPlayer = findNearestOtherPlayer();
 		this.counter++;
 		if (this.counter < this.nextdurationOfMovement) {
 			moveRememberedMovement();
@@ -40,6 +43,30 @@ public class AiInputService implements InputService {
 			reset();
 			moveNormalMovement();
 		}
+	}
+
+	private Player findNearestOtherPlayer() {
+		double nearest = Double.MAX_VALUE;
+		Player nearestPlayer = null;
+		for (Player p : this.world.getAllPlayer()) {
+			if (p.id() != this.player.id()) {
+				double distance = distance(p, this.player);
+				if (distance < nearest) {
+					nearest = distance;
+					nearestPlayer = p;
+				}
+			}
+		}
+		if (nearestPlayer != null) {
+			return nearestPlayer;
+		}
+		LOGGER.warn("No nearest player found");
+		return this.player;
+	}
+
+	private double distance(Player p1, Player p2) {
+		return Math.pow(p1.centerX() - p2.centerX(), 2)
+				+ Math.pow(p1.centerY() - p2.centerY(), 2);
 	}
 
 	private void reset() {

@@ -45,8 +45,16 @@
 
                 <include
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" 
+                    android:layout_height="wrap_content"
                     layout="@layout/menu_world" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/player"
+                    android:inputType="number"
+                    android:text="@string/default_player"
+                    android:id="@+id/number_player" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
