@@ -9,8 +9,6 @@ import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 public class RememberPointerInputService extends AbstractTouchService implements
 		GameScreenSizeChangeListener {
 
-	private int gameWidth;
-	private int gameHeight;
 	private PathFinder pathFinder;
 	private RememberPointerState state;
 
@@ -78,12 +76,6 @@ public class RememberPointerInputService extends AbstractTouchService implements
 
 	@Override
 	public void destroy() {
-	}
-
-	@Override
-	public void setNewSize(int width, int height) {
-		this.gameWidth = width;
-		this.gameHeight = height;
 	}
 
 	@Override

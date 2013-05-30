@@ -102,4 +102,12 @@ public class PlayerConfigFactory {
 				this.notControlledPlayers.get(0), this.world);
 	}
 
+	public PlayerMovementController getTabletControlledPlayer() {
+		return this.tabletControlledPlayer;
+	}
+
+	public GameView getGameView() {
+		return this.gameView;
+	}
+
 }

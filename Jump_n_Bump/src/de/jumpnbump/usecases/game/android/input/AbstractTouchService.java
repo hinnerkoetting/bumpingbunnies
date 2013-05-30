@@ -45,4 +45,14 @@ public abstract class AbstractTouchService extends AbstractControlledMovement
 		}
 		return this.windowHeight;
 	}
+
+	public boolean isTouchRightToPlayer(MotionEvent motionEvent) {
+		double touchX = translateToGameXCoordinate(motionEvent);
+		return touchX > getMovedPlayer().centerX();
+	}
+
+	public boolean isTouchLeftToPlayer(MotionEvent motionEvent) {
+		return !isTouchRightToPlayer(motionEvent);
+	}
+
 }

@@ -9,6 +9,7 @@ import de.jumpnbump.usecases.game.android.input.multiTouch.MultiTouchJumpService
 import de.jumpnbump.usecases.game.android.input.pointer.PointerInputServiceFactory;
 import de.jumpnbump.usecases.game.android.input.rememberPointer.RememberPointerInputFactory;
 import de.jumpnbump.usecases.game.android.input.touchFling.TouchFlingFactory;
+import de.jumpnbump.usecases.game.android.input.touchPress.TouchPressInputFactory;
 
 public enum InputConfiguration {
 
@@ -18,7 +19,7 @@ public enum InputConfiguration {
 			MultiTouchJumpServicesFactory.class), POINTER(
 			PointerInputServiceFactory.class), REMEMBER_POINTER(
 			RememberPointerInputFactory.class), ANALOG(AnalogInputFactory.class), TOUCH_FLING(
-			TouchFlingFactory.class);
+			TouchFlingFactory.class), TOUCH_PRESS(TouchPressInputFactory.class);
 
 	private Class<? extends AbstractPlayerInputServicesFactory<?>> factoryClass;
 
