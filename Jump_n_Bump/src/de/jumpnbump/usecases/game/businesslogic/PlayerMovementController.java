@@ -73,19 +73,18 @@ public class PlayerMovementController implements ModelConstants {
 	public void tryMoveRight() {
 		this.tryingToRemoveHorizontalMovement = false;
 		this.movedPlayer.setAccelerationX(+findAccelerationForObject());
-		// this.movedPlayer.setMovementX(MOVEMENT);
 	}
 
 	private int findAccelerationForObject() {
 		GameObject go = this.collisionDetection
 				.findObjectThisPlayerIsStandingOn(this.movedPlayer);
 		if (go == null) {
-			LOGGER.info("Acceleration air %d",
+			LOGGER.verbose("Acceleration air %d",
 					ModelConstants.ACCELERATION_X_AIR);
 			return ModelConstants.ACCELERATION_X_AIR;
 		} else {
 			int ac = go.accelerationOnThisGround();
-			LOGGER.info("Acceleration %d", ac);
+			LOGGER.verbose("Acceleration %d", ac);
 			return ac;
 		}
 	}
