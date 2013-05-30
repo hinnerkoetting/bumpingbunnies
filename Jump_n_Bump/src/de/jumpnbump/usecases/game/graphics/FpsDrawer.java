@@ -16,8 +16,8 @@ public class FpsDrawer implements Drawable {
 		this.paint = new Paint();
 		this.paint.setColor(Color.BLACK);
 		this.paint.setTextSize(30);
-		this.x = 0.05;
-		this.y = 0.05;
+		this.x = 0.5;
+		this.y = 0.95;
 	}
 
 	@Override

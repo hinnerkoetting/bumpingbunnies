@@ -8,15 +8,15 @@ public class Wall implements GameObject, ModelConstants {
 	private final double minX;
 	private final double minY;
 	private int color;
-	private double width;
-	private double height;
+	private double maxX;
+	private double maxY;
 
-	public Wall(int id, double minX, double minY, double width, double height) {
+	public Wall(int id, double minX, double minY, double maxX, double maxY) {
 		this.id = id;
 		this.minX = minX;
 		this.minY = minY;
-		this.width = width;
-		this.height = height;
+		this.maxX = maxX;
+		this.maxY = maxY;
 		this.color = Color.GRAY;
 	}
 
@@ -27,12 +27,12 @@ public class Wall implements GameObject, ModelConstants {
 
 	@Override
 	public double maxX() {
-		return this.minX + this.width;
+		return this.maxX;
 	}
 
 	@Override
 	public double maxY() {
-		return this.minY + this.height;
+		return this.maxY;
 	}
 
 	@Override
@@ -83,19 +83,13 @@ public class Wall implements GameObject, ModelConstants {
 	}
 
 	@Override
-	public String toString() {
-		return "Wall [minX=" + this.minX + ", minY=" + this.minY + ", width="
-				+ this.width + ", height=" + this.height + "]";
-	}
-
-	@Override
 	public double centerX() {
-		return this.minX + this.width / 2;
+		return (this.minX + this.maxX) / 2;
 	}
 
 	@Override
 	public double centerY() {
-		return this.minY + this.height / 2;
+		return (this.minY + this.maxY) / 2;
 	}
 
 }

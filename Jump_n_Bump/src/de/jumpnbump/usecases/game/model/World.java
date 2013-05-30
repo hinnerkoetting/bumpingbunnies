@@ -6,6 +6,7 @@ import java.util.List;
 
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
 public class World {
 
@@ -13,20 +14,19 @@ public class World {
 	private List<GameObject> allObjects;
 	private List<Wall> allWalls;
 	private List<Player> allPlayer;
-	private WorldObjectsFactory factory;
+	private WorldObjectsBuilder factory;
 
-	public World(WorldObjectsFactory factory) {
+	public World(WorldObjectsBuilder factory) {
 		super();
 		this.factory = factory;
 		this.allPlayer = new ArrayList<Player>(2);
-		this.allObjects = factory.createAllObjects();
 		this.allWalls = new LinkedList<Wall>();
+		this.allObjects = new LinkedList<GameObject>();
 	}
 
 	public void buildWorld() {
 		this.allObjects.clear();
 		this.allPlayer.clear();
-		this.allObjects.addAll(this.factory.createAllObjects());
 		this.allPlayer.addAll(this.factory.createAllPlayers());
 		this.allWalls.addAll(this.factory.createAllWalls());
 		this.allObjects.addAll(this.allPlayer);

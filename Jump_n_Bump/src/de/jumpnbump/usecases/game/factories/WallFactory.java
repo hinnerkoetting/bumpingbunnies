@@ -12,10 +12,9 @@ public class WallFactory {
 		return wall;
 	}
 
-	public static Wall createWall(double x, double y, double width,
-			double height) {
+	public static Wall createWall(double x, double y, double maxX, double maxY) {
 		int id = IdCounter.getNextId();
-		Wall wall = new Wall(id, x, y, width, height);
+		Wall wall = new Wall(id, x, y, maxX, maxY);
 		return wall;
 	}
 }

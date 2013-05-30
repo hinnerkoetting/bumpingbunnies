@@ -51,11 +51,11 @@ public class WorldController {
 	private void resetPosition(Player playerUnder, Player playerOver) {
 		PlayerState state = playerUnder.getState();
 		if (state.getCenterX() > 0.75) {
-			state.setCenterX(0.1);
+			state.setCenterX(0.2);
 		} else {
 			state.setCenterX(state.getCenterX() + 0.2);
 		}
-		state.setCenterY(0.5);
+		state.setCenterY(0.99);
 
 		PlayerState state2 = playerOver.getState();
 		state2.setMovementY(-0.001);

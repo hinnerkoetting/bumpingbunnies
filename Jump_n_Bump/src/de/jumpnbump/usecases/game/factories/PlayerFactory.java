@@ -21,7 +21,7 @@ public class PlayerFactory {
 		Player p = new Player(new Player(id), id);
 		PlayerState state = p.getState();
 		state.setCenterX(0.9);
-		state.setCenterY(0.1);
+		state.setCenterY(0.99);
 		state.setColor(Color.BLUE);
 		return p;
 	}
