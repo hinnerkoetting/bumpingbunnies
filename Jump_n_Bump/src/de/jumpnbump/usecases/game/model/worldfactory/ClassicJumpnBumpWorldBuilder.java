@@ -55,15 +55,20 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(5, 10, 10, 15));
 		allWalls.add(convenienceBuildWall(40, 0, 50, 10));
 		allWalls.add(convenienceBuildWall(50, 0, 75, 5));
-		allWalls.add(convenienceBuildWall(75, 0, 100, 10));
+		allWalls.add(convenienceBuildWall(75, 0, 80, 10));
+		allWalls.add(convenienceBuildIcyWall(80, 0, 95, 10));
+		allWalls.add(convenienceBuildWall(95, 0, 100, 10));
 		allWalls.add(convenienceBuildWall(100, 0, 105, 15));
 	}
 
 	private void addSecondRow(Collection<Wall> allWalls) {
 		allWalls.add(convenienceBuildWall(10, 20, 30, 25));
-		allWalls.add(convenienceBuildWall(50, 20, 95, 25));
-		allWalls.add(convenienceBuildWall(55, 25, 75, 30));
-		allWalls.add(convenienceBuildWall(60, 30, 70, 35));
+		allWalls.add(convenienceBuildIcyWall(50, 20, 55, 25));
+		allWalls.add(convenienceBuildWall(55, 20, 95, 25));
+		allWalls.add(convenienceBuildIcyWall(55, 25, 60, 30));
+		allWalls.add(convenienceBuildWall(60, 25, 75, 30));
+		allWalls.add(convenienceBuildIcyWall(60, 30, 65, 35));
+		allWalls.add(convenienceBuildWall(65, 30, 70, 35));
 	}
 
 	private void addThirdRow(Collection<Wall> allWalls) {
@@ -98,6 +103,14 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 	 */
 	private Wall convenienceBuildWall(int x, int y, int maxX, int maxY) {
 		return WallFactory.createWall(
+				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
+						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
+						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
+						* ModelConstants.MAX_VALUE / 80.0));
+	}
+
+	private Wall convenienceBuildIcyWall(int x, int y, int maxX, int maxY) {
+		return WallFactory.createIceWall(
 				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
 						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
 						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
