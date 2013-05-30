@@ -41,6 +41,7 @@ public abstract class AbstractControlledMovement implements InputService {
 		this.moveUp = false;
 		this.moveLeft = false;
 		this.moveRight = false;
+		this.playerMovement.removeMovement();
 	}
 
 	protected void executeRememberedMovement() {
@@ -85,6 +86,8 @@ public abstract class AbstractControlledMovement implements InputService {
 	}
 
 	protected void removeHorizontalMovement() {
+		this.moveLeft = false;
+		this.moveRight = false;
 		this.playerMovement.removeHorizontalMovement();
 	}
 

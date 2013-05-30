@@ -17,20 +17,16 @@ public class LeftRightTouchService extends AbstractTouchService {
 
 	@Override
 	public void onMotionEvent(MotionEvent motionEvent) {
-		executeLastExistingEvent(motionEvent);
-	}
-
-	@Override
-	public void executeUserInput() {
-		executeRememberedMovement();
-	}
-
-	private void executeLastExistingEvent(MotionEvent motionEvent) {
 		if (motionEvent.getAction() != MotionEvent.ACTION_UP) {
 			moveLeftOrRight(motionEvent);
 		} else {
 			reset();
 		}
+	}
+
+	@Override
+	public void executeUserInput() {
+		executeRememberedMovement();
 	}
 
 	protected double relativePointerPositionX(MotionEvent motionEvent) {

@@ -1,74 +1,67 @@
 package de.jumpnbump.usecases.game.android.input.touchPress;
 
 import android.view.MotionEvent;
+import de.jumpnbump.logger.Logger;
+import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class TouchPressInputService extends AbstractTouchService {
 
-	private boolean moveRight;
-	private boolean moveLeft;
-	private boolean moveUp;
+	private static final MyLog LOGGER = Logger
+			.getLogger(TouchPressInputService.class);
+
 	private long timeOfActionDown;
+	private double targetX;
 
 	public TouchPressInputService(PlayerMovementController playerMovement) {
 		super(playerMovement);
 	}
 
 	@Override
-	public void executeUserInput() {
-		if (this.moveRight) {
-			moveRight();
-		}
-		if (this.moveLeft) {
-			moveLeft();
-		}
-		if (this.moveUp) {
-			moveUp();
-		}
+	public void destroy() {
 	}
 
 	@Override
-	public void destroy() {
-
+	public void executeUserInput() {
+		decideMoveLeftRight();
+		executeRememberedMovement();
 	}
 
 	@Override
 	public void onMotionEvent(MotionEvent motionEvent) {
 		if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-			reset();
+			rememberMoveDown();
 		} else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 			handleMotionDown(motionEvent);
 		} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-			handleMotionPress();
+			handleMotionPress(motionEvent);
 		}
 	}
 
-	private void handleMotionPress() {
+	private void handleMotionPress(MotionEvent motionEvent) {
 		if (System.currentTimeMillis() - this.timeOfActionDown > 100) {
-			this.moveUp = true;
-
+			rememberMoveUp();
 		}
+		this.targetX = translateToGameXCoordinate(motionEvent);
 	}
 
 	private void handleMotionDown(MotionEvent motionEvent) {
-		this.moveUp = false;
+		rememberMoveDown();
 		this.timeOfActionDown = System.currentTimeMillis();
-		if (isTouchRightToPlayer(motionEvent)) {
-			this.moveRight = true;
-		}
-		if (isTouchLeftToPlayer(motionEvent)) {
-			this.moveLeft = true;
-		}
+		this.targetX = translateToGameXCoordinate(motionEvent);
 	}
 
-	@Override
-	public void reset() {
-		super.reset();
-		this.moveRight = false;
-		this.moveLeft = false;
-		this.moveUp = false;
-		this.timeOfActionDown = System.currentTimeMillis();
+	private void decideMoveLeftRight() {
+		LOGGER.verbose("target x: %f - player x %f", this.targetX,
+				getMovedPlayer().centerX());
+		if (this.targetX > getMovedPlayer().maxX()) {
+			rememberMoveRight();
+		} else if (this.targetX < getMovedPlayer().minX()) {
+			rememberMoveLeft();
+		} else {
+			removeHorizontalMovement();
+		}
 	}
 
 }
