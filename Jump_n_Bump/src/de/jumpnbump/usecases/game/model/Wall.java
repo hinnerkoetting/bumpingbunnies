@@ -66,24 +66,6 @@ public class Wall implements GameObject, ModelConstants {
 	}
 
 	@Override
-	public void moveNextStepX() {
-	}
-
-	@Override
-	public void moveNextStepY() {
-	}
-
-	@Override
-	public GameObject simulateNextStepX() {
-		return this;
-	}
-
-	@Override
-	public GameObject simulateNextStepY() {
-		return this;
-	}
-
-	@Override
 	public void calculateNextSpeed() {
 	}
 

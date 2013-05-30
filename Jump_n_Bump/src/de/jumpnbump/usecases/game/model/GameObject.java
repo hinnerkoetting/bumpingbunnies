@@ -20,14 +20,6 @@ public interface GameObject {
 
 	int movementY();
 
-	void moveNextStepX();
-
-	void moveNextStepY();
-
-	GameObject simulateNextStepX();
-
-	GameObject simulateNextStepY();
-
 	void calculateNextSpeed();
 
 	int getColor();

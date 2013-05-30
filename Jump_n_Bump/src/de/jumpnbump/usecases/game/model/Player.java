@@ -112,23 +112,6 @@ public class Player implements GameObject {
 	}
 
 	@Override
-	public void moveNextStepX() {
-		this.state.setCenterX(this.state.getCenterX()
-				+ this.state.getMovementX());
-		if (this.state.getMovementX() > 0) {
-			LOGGER.debug("moving x %f", this.state.getMovementX());
-		}
-		calculateRect();
-	}
-
-	@Override
-	public void moveNextStepY() {
-		this.state.setCenterY(this.state.getCenterY()
-				+ this.state.getMovementY());
-		calculateRect();
-	}
-
-	@Override
 	public void calculateNextSpeed() {
 		this.state.setMovementY(this.state.getMovementY()
 				+ this.state.getAccelerationY());
@@ -146,23 +129,9 @@ public class Player implements GameObject {
 		return this.state.getMovementY();
 	}
 
-	@Override
-	public GameObject simulateNextStepX() {
-		resetSimulatedObject();
-		this.simulatedObject.moveNextStepX();
-		return this.simulatedObject;
-	}
-
 	public GameObject simulateNextStep() {
 		resetSimulatedObject();
 		this.simulatedObject.moveNextStep();
-		return this.simulatedObject;
-	}
-
-	@Override
-	public GameObject simulateNextStepY() {
-		resetSimulatedObject();
-		this.simulatedObject.moveNextStepY();
 		return this.simulatedObject;
 	}
 

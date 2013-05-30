@@ -3,6 +3,7 @@ package de.jumpnbump.usecases.game.android.input;
 import android.view.MotionEvent;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
+import de.jumpnbump.usecases.game.model.ModelConstants;
 
 public abstract class AbstractTouchService extends AbstractControlledMovement
 		implements GameScreenSizeChangeListener {
@@ -22,12 +23,12 @@ public abstract class AbstractTouchService extends AbstractControlledMovement
 
 	public abstract void onMotionEvent(MotionEvent motionEvent);
 
-	protected double translateToGameXCoordinate(MotionEvent motionEvent) {
-		return motionEvent.getX() / getWindowWidth();
+	protected int translateToGameXCoordinate(MotionEvent motionEvent) {
+		return (int) (motionEvent.getX() / getWindowWidth() * ModelConstants.MAX_VALUE);
 	}
 
-	protected double translateToGameYCoordinate(MotionEvent motionEvent) {
-		return 1 - motionEvent.getY() / getWindowHeight();
+	protected int translateToGameYCoordinate(MotionEvent motionEvent) {
+		return (int) ((1 - motionEvent.getY() / getWindowHeight()) * ModelConstants.MAX_VALUE);
 	}
 
 	public int getWindowWidth() {
@@ -57,7 +58,7 @@ public abstract class AbstractTouchService extends AbstractControlledMovement
 	}
 
 	public boolean clickOnUpperHalf(MotionEvent motionEvent) {
-		return translateToGameYCoordinate(motionEvent) > 0.5;
+		return translateToGameYCoordinate(motionEvent) > 0.5 * ModelConstants.MAX_VALUE;
 	}
 
 }
