@@ -8,7 +8,6 @@ import de.jumpnbump.usecases.game.model.Player;
 
 public class PointerInputService extends LeftRightTouchService {
 
-	private static final double MAX_DISTANCE_TO_JUMP = 0.2;
 	private final PathFinder pathFinder;
 
 	public PointerInputService(PlayerMovementController playerMovement,

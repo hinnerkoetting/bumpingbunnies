@@ -29,6 +29,7 @@
     <string name="ai_normal">Normal</string>
     <string name="ai_runner">Läufer</string>
     <string name="fling_touch">Touch+Fling</string>
-    <string name="touch_press">Touch+Halten</string>
+    <string name="touch_press">Touch+Hold</string>
+    <string name="touch_release">Touch+Release</string>
 
 </resources>

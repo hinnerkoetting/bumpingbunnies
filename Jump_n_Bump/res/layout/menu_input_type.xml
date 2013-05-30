@@ -68,6 +68,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/touch_press" />
+        
+        <RadioButton
+            android:id="@+id/start_button_touch_release"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/touch_release" />
     </RadioGroup>
 
 </LinearLayout>

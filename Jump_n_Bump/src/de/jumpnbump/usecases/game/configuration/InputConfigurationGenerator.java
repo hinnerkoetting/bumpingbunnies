@@ -37,6 +37,8 @@ public class InputConfigurationGenerator {
 			return InputConfiguration.TOUCH_FLING;
 		case R.id.start_button_touch_press:
 			return InputConfiguration.TOUCH_PRESS;
+		case R.id.start_button_touch_release:
+			return InputConfiguration.TOUCH_RELEASE;
 		default:
 			throw new IllegalArgumentException("Unknown inputtype");
 		}
