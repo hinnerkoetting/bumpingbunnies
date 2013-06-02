@@ -10,7 +10,7 @@
 
     <!-- width and height may be overwritten programmatically to achieve squared size -->
 
-    <de.jumpnbump.usecases.game.android.SquaredGameView
+    <de.jumpnbump.usecases.game.android.GameView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

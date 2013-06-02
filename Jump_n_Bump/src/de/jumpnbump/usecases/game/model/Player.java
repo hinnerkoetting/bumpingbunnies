@@ -45,7 +45,7 @@ public class Player implements GameObject {
 		LOGGER.debug("%s %f", "set", centerX);
 	}
 
-	public double getCenterY() {
+	public int getCenterY() {
 		return this.state.getCenterY();
 	}
 

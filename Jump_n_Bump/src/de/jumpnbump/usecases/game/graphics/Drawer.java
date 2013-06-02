@@ -15,10 +15,10 @@ public class Drawer {
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;
 
-	public Drawer(DrawablesFactory drawFactory) {
+	public Drawer(DrawablesFactory drawFactory, CanvasDelegate canvasDeleta) {
 		this.factory = drawFactory;
 		this.allDrawables = new LinkedList<Drawable>();
-		this.canvasDelegate = new CanvasDelegate();
+		this.canvasDelegate = canvasDeleta;
 	}
 
 	public void buildAllDrawables() {

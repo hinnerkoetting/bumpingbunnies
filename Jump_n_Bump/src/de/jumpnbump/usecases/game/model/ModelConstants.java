@@ -10,7 +10,7 @@ public interface ModelConstants {
 	int PLAYER_GRAVITY = (int) (-0.00001 * MAX_VALUE);
 	int PLAYER_GRAVITY_WHILE_JUMPING = (int) (-0.000004 * MAX_VALUE);
 	int PLAYER_JUMP_SPEED = (int) (+0.00150 * MAX_VALUE);
-	int PLAYER_JUMP_SPEED_JUMPER = (int) (+0.00250 * MAX_VALUE);
+	int PLAYER_JUMP_SPEED_JUMPER = (int) (+0.00200 * MAX_VALUE);
 	int MOVEMENT = (int) (0.00040f * MAX_VALUE);
 
 	int ACCELERATION_X_WALL = 40;
