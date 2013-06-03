@@ -12,8 +12,6 @@ import de.jumpnbump.usecases.game.model.Player;
 public class PlayerDrawerFactory {
 
 	public static PlayerDrawer create(Player player, Resources resources) {
-		Bitmap bitmap = BitmapFactory.decodeResource(resources,
-				R.drawable.v4_pink_4steps);
 		Animation rightAnimation = createAnimation(resources);
 		Animation leftAnimation = createLeftAnimation(resources);
 		return new PlayerDrawer(player, rightAnimation, leftAnimation);

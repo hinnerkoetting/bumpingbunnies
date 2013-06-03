@@ -6,22 +6,14 @@ import de.jumpnbump.usecases.game.ObjectProvider;
 import de.jumpnbump.usecases.game.model.GameObject;
 import de.jumpnbump.usecases.game.model.Player;
 
-public class CollisionDetection implements GameScreenSizeChangeListener {
+public class CollisionDetection {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(CollisionDetection.class);
-	private int gameWidth;
-	private int gameHeight;
 	private final ObjectProvider world;
 
 	public CollisionDetection(ObjectProvider world) {
 		this.world = world;
-	}
-
-	@Override
-	public void setNewSize(int width, int height) {
-		this.gameWidth = width;
-		this.gameHeight = height;
 	}
 
 	public boolean objectStandsOnGround(GameObject gameobject) {

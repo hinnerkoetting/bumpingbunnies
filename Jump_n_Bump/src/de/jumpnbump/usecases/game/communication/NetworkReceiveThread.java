@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 
 import com.google.gson.Gson;
 
@@ -20,10 +19,8 @@ public class NetworkReceiveThread extends Thread {
 	private BufferedReader reader;
 	private PlayerState latestPlayerCoordinates;
 	private boolean canceled;
-	private final Context context;
 
-	public NetworkReceiveThread(BluetoothSocket socket, Context context) {
-		this.context = context;
+	public NetworkReceiveThread(BluetoothSocket socket) {
 		this.gson = new Gson();
 		this.latestPlayerCoordinates = new PlayerState(-1);
 		try {

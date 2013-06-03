@@ -47,10 +47,6 @@ public class LeftRightTouchService extends AbstractTouchService {
 		}
 	}
 
-	private void moveLeftOrRightAbsolutePosition() {
-
-	}
-
 	@Override
 	public void destroy() {
 	}

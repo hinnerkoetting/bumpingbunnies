@@ -166,46 +166,9 @@ public class AiInputService implements InputService {
 		}
 	}
 
-	private boolean isFarOverOtherPlayer() {
-		return this.player.getCenterY() < this.otherPlayer.getCenterY() - 0.3;
-	}
-
-	private boolean isFarUnderOtherPlayer() {
-		return this.otherPlayer.getCenterY() < this.player.getCenterY() - 0.3;
-	}
-
 	private boolean isAtSimilarWidth() {
 		return Math.abs(this.player.getCenterX()
 				- this.otherPlayer.getCenterX()) < 0.025;
-	}
-
-	private boolean moveLeft() {
-		boolean otherPlayerIsOverMe = false;
-		// isOtherPlayerOverMe();
-		// if (otherPlayerIsOverMe) {
-		// if (isFarUnderOtherPlayer()) {
-		// if (atLeftBorderAndOtherPlayerClose()) {
-		// return false;
-		// }
-		// if (atRightBorderAndOtherPlayerClose()) {
-		// return true;
-		// }
-		// }
-		// }
-
-		boolean leftToOtherPlayer = isLeftToOtherPlayer();
-		boolean rightToOtherPlayer = !leftToOtherPlayer;
-		boolean otherPlayerIsUnderMe = !otherPlayerIsOverMe;
-		if (leftToOtherPlayer && otherPlayerIsOverMe) {
-			return false;
-		} else if (leftToOtherPlayer && otherPlayerIsUnderMe) {
-			return false;
-		} else if (rightToOtherPlayer && otherPlayerIsUnderMe) {
-			return true;
-		} else {
-			return true;
-		}
-
 	}
 
 	private boolean isLeftToOtherPlayer() {

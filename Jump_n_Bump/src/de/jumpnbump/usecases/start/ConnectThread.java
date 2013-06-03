@@ -14,7 +14,6 @@ public class ConnectThread extends Thread {
 
 	private static final MyLog LOGGER = Logger.getLogger(ConnectThread.class);
 	private final BluetoothSocket mmSocket;
-	private final BluetoothDevice mmDevice;
 	private final StartActivity activity;
 
 	public ConnectThread(BluetoothDevice device,
@@ -23,7 +22,6 @@ public class ConnectThread extends Thread {
 		// Use a temporary object that is later assigned to mmSocket,
 		// because mmSocket is final
 		BluetoothSocket tmp = null;
-		this.mmDevice = device;
 
 		// Get a BluetoothSocket to connect with the given BluetoothDevice
 		try {
