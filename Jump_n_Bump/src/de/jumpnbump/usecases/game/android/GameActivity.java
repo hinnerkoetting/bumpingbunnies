@@ -104,7 +104,7 @@ public class GameActivity extends Activity {
 		this.gameThread = GameThreadFactory.create(world, threadState,
 				config.getAllPlayerMovementControllers(),
 				createInputServices(),
-				config.createStateSender(stateSenderFactory));
+				config.createStateSender(stateSenderFactory), getResources());
 
 		this.gameThread.start();
 	}

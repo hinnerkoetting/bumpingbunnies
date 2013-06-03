@@ -20,4 +20,8 @@ public class RectDrawer implements Drawable {
 		canvas.drawRect(this.object.minX(), this.object.maxY(),
 				this.object.maxX(), this.object.minY(), this.paint);
 	}
+
+	@Override
+	public void updateGraphics(CanvasDelegate canvas) {
+	}
 }

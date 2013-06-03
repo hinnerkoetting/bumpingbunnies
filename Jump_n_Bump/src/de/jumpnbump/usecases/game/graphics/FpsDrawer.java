@@ -28,4 +28,8 @@ public class FpsDrawer implements Drawable {
 				this.paint);
 
 	}
+
+	@Override
+	public void updateGraphics(CanvasDelegate canvas) {
+	}
 }

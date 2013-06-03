@@ -27,4 +27,8 @@ public class ScoreDrawer implements Drawable {
 		canvas.drawText(Integer.toString(state.getScore()), this.scoreX,
 				this.scoreY, this.paint);
 	}
+
+	@Override
+	public void updateGraphics(CanvasDelegate canvas) {
+	}
 }

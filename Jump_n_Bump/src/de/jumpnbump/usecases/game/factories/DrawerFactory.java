@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.factories;
 
+import android.content.res.Resources;
 import de.jumpnbump.usecases.game.graphics.CanvasAroundPlayerDelegate;
 import de.jumpnbump.usecases.game.graphics.DrawablesFactory;
 import de.jumpnbump.usecases.game.graphics.Drawer;
@@ -9,8 +10,10 @@ import de.jumpnbump.usecases.game.model.World;
 
 public class DrawerFactory {
 
-	public static Drawer create(World world, GameThreadState threadState) {
-		DrawablesFactory drawFactory = new DrawablesFactory(world, threadState);
+	public static Drawer create(World world, GameThreadState threadState,
+			Resources resources) {
+		DrawablesFactory drawFactory = new DrawablesFactory(world, threadState,
+				resources);
 		CanvasAroundPlayerDelegate canvasDelegate = new CanvasAroundPlayerDelegate(
 				world.getPlayer1());
 		canvasDelegate.setZoom((ModelConstants.MAX_VALUE / 2500));

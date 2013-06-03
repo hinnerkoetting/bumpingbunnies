@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.res.Resources;
 import de.jumpnbump.usecases.game.model.FixedWorldObject;
 import de.jumpnbump.usecases.game.model.GameThreadState;
 import de.jumpnbump.usecases.game.model.ModelConstants;
@@ -14,10 +15,13 @@ public class DrawablesFactory {
 
 	private final World world;
 	private final GameThreadState threadState;
+	private final Resources resources;
 
-	public DrawablesFactory(World world, GameThreadState threadState) {
+	public DrawablesFactory(World world, GameThreadState threadState,
+			Resources resources) {
 		this.world = world;
 		this.threadState = threadState;
+		this.resources = resources;
 	}
 
 	public List<Drawable> createAllDrawables() {
@@ -51,7 +55,11 @@ public class DrawablesFactory {
 	private List<Drawable> createAllPlayers() {
 		List<Drawable> players = new LinkedList<Drawable>();
 		for (Player p : this.world.getAllPlayer()) {
-			players.add(new RectDrawer(p));
+			if (p.id() == 0) {
+				players.add(PlayerDrawerFactory.create(p, this.resources));
+			} else {
+				players.add(new RectDrawer(p));
+			}
 		}
 		return players;
 	}

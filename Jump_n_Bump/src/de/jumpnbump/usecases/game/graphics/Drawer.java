@@ -14,6 +14,7 @@ public class Drawer {
 	private List<Drawable> allDrawables;
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;
+	private boolean wasUpdated;
 
 	public Drawer(DrawablesFactory drawFactory, CanvasDelegate canvasDeleta) {
 		this.factory = drawFactory;
@@ -29,11 +30,21 @@ public class Drawer {
 
 	public void draw(Canvas canvas) {
 		LOGGER.verbose("drawing...");
+		update();
 		this.canvasDelegate.updateDelegate(canvas);
 
 		this.canvasDelegate.drawColor(Color.WHITE);
 		for (Drawable d : this.allDrawables) {
 			d.draw(this.canvasDelegate);
+		}
+	}
+
+	private void update() {
+		if (!this.wasUpdated) {
+			for (Drawable d : this.allDrawables) {
+				d.updateGraphics(this.canvasDelegate);
+				this.wasUpdated = true;
+			}
 		}
 	}
 }
