@@ -9,13 +9,13 @@ import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpInputDispatcher;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 
 public class TouchJumpInputServicesFactory extends
 		AbstractPlayerInputServicesFactory<TouchWithJumpService> {
 
 	@Override
-	public TouchWithJumpService createInputService(PlayerConfigFactory config) {
+	public TouchWithJumpService createInputService(PlayerConfig config) {
 		TouchWithJumpService touchService = new TouchWithJumpService(
 				config.getTabletControlledPlayerMovement());
 		config.getGameView().addOnSizeListener(touchService);

@@ -6,13 +6,13 @@ import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.touch.TouchInputDispatcher;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 
 public class TouchFlingFactory extends
 		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public AbstractTouchService createInputService(PlayerConfigFactory config) {
+	public AbstractTouchService createInputService(PlayerConfig config) {
 		TouchFlingService service = new TouchFlingService(
 				config.getTabletControlledPlayerMovement());
 		config.getGameView().addOnSizeListener(service);

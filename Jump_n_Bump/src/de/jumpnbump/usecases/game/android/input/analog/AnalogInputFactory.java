@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 
 public class AnalogInputFactory extends
 		AbstractPlayerInputServicesFactory<AnalogInputService> {
 
 	@Override
-	public AnalogInputService createInputService(PlayerConfigFactory config) {
+	public AnalogInputService createInputService(PlayerConfig config) {
 		AnalogInputService touchService = new AnalogInputService(
 				config.getTabletControlledPlayerMovement());
 		return touchService;

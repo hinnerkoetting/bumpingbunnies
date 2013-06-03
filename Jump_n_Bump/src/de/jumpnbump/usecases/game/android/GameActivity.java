@@ -16,13 +16,13 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.MyApplication;
-import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactoryFactory;
+import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
@@ -95,7 +95,7 @@ public class GameActivity extends Activity {
 		initInputFactory();
 		AbstractOtherPlayersFactorySingleton singleton = AbstractOtherPlayersFactorySingleton
 				.getSingleton();
-		PlayerConfigFactory config = PlayerConfigFactoryFactory.create(
+		PlayerConfig config = PlayerConfigFactory.create(
 				getIntent(), world, contentView);
 		initInputServices(singleton, config);
 
@@ -113,7 +113,7 @@ public class GameActivity extends Activity {
 
 	private void initInputServices(
 			AbstractOtherPlayersFactorySingleton singleton,
-			PlayerConfigFactory config) {
+			PlayerConfig config) {
 		AbstractPlayerInputServicesFactory.init(this.parameter
 				.getConfiguration().getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory

@@ -5,7 +5,7 @@ import java.util.List;
 import android.content.res.Resources;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.businesslogic.WorldController;
 import de.jumpnbump.usecases.game.communication.StateSender;
@@ -19,7 +19,7 @@ public class GameThreadFactory {
 			GameThreadState gameThreadState,
 			List<PlayerMovementController> playermovements,
 			List<InputService> movementServices, List<StateSender> stateSender,
-			Resources resources, PlayerConfigFactory playerConfig) {
+			Resources resources, PlayerConfig playerConfig) {
 		Drawer drawer = DrawerFactory.create(world, gameThreadState, resources,
 				playerConfig);
 		WorldController worldController = new WorldController(playermovements,

@@ -13,14 +13,14 @@ import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
-public class PlayerConfigFactory {
+public class PlayerConfig {
 
 	private final PlayerMovementController tabletControlledPlayer;
 	private final List<PlayerMovementController> notControlledPlayers;
 	private final GameView gameView;
 	private final World world;
 
-	public PlayerConfigFactory(PlayerMovementController tabletControlledPlayer,
+	public PlayerConfig(PlayerMovementController tabletControlledPlayer,
 			List<PlayerMovementController> notControlledPlayers,
 			GameView gameView, World world) {
 		this.tabletControlledPlayer = tabletControlledPlayer;

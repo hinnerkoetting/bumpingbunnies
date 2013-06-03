@@ -6,7 +6,7 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.InputService;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 
 public abstract class AbstractPlayerInputServicesFactory<S extends InputService> {
@@ -33,7 +33,7 @@ public abstract class AbstractPlayerInputServicesFactory<S extends InputService>
 		return (AbstractPlayerInputServicesFactory<S>) factorySingleton;
 	}
 
-	public abstract S createInputService(PlayerConfigFactory config);
+	public abstract S createInputService(PlayerConfig config);
 
 	public abstract InputDispatcher<?> createInputDispatcher(S inputService);
 

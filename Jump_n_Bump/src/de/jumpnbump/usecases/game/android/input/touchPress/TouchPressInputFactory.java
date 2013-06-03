@@ -5,13 +5,13 @@ import android.view.ViewGroup;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.touch.TouchInputDispatcher;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 
 public class TouchPressInputFactory extends
 		AbstractPlayerInputServicesFactory<TouchPressInputService> {
 
 	@Override
-	public TouchPressInputService createInputService(PlayerConfigFactory config) {
+	public TouchPressInputService createInputService(PlayerConfig config) {
 		TouchPressInputService service = new TouchPressInputService(
 				config.getTabletControlledPlayerMovement());
 		config.getGameView().addOnSizeListener(service);

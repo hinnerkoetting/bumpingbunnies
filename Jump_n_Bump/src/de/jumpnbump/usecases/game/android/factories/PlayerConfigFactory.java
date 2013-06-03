@@ -9,22 +9,22 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfigFactory;
+import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
-public class PlayerConfigFactoryFactory {
+public class PlayerConfigFactory {
 
 	private static final MyLog LOGGER = Logger
-			.getLogger(PlayerConfigFactoryFactory.class);
+			.getLogger(PlayerConfigFactory.class);
 
-	public static PlayerConfigFactory create(Intent intent, World world,
+	public static PlayerConfig create(Intent intent, World world,
 			GameView gameView) {
 		int myPlayerId = findTabletPlayerId(intent);
 		Player myPlayer = findMyPlayer(myPlayerId, world);
-		PlayerConfigFactory config = new PlayerConfigFactory(
+		PlayerConfig config = new PlayerConfig(
 				createMovementController(myPlayer, world), findOtherPlayers(
 						myPlayerId, world), gameView, world);
 		return config;
