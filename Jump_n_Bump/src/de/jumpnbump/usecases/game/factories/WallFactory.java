@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.factories;
 
+import android.media.MediaPlayer;
 import de.jumpnbump.usecases.game.model.IcyWall;
 import de.jumpnbump.usecases.game.model.Jumper;
 import de.jumpnbump.usecases.game.model.ModelConstants;
@@ -26,9 +27,10 @@ public class WallFactory {
 		return wall;
 	}
 
-	public static Jumper createJumper(int x, int y, int maxX, int maxY) {
+	public static Jumper createJumper(int x, int y, int maxX, int maxY,
+			MediaPlayer mediaPlayer) {
 		int id = IdCounter.getNextId();
-		Jumper jumper = new Jumper(id, x, y, maxX, maxY);
+		Jumper jumper = new Jumper(id, x, y, maxX, maxY, mediaPlayer);
 		return jumper;
 	}
 }

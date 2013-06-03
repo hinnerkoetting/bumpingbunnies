@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.ObjectProvider;
@@ -16,10 +17,12 @@ public class World implements ObjectProvider {
 	private List<FixedWorldObject> allWalls;
 	private List<Player> allPlayer;
 	private WorldObjectsBuilder factory;
+	private final Context context;
 
-	public World(WorldObjectsBuilder factory) {
+	public World(WorldObjectsBuilder factory, Context context) {
 		super();
 		this.factory = factory;
+		this.context = context;
 		this.allPlayer = new ArrayList<Player>(2);
 		this.allWalls = new LinkedList<FixedWorldObject>();
 		this.allObjects = new LinkedList<GameObject>();
@@ -29,7 +32,7 @@ public class World implements ObjectProvider {
 		this.allObjects.clear();
 		this.allPlayer.clear();
 		this.allPlayer.addAll(this.factory.createAllPlayers(numberPlayer));
-		this.allWalls.addAll(this.factory.createAllWalls());
+		this.allWalls.addAll(this.factory.createAllWalls(this.context));
 		this.allObjects.addAll(this.allPlayer);
 		this.allObjects.addAll(this.allWalls);
 		LOGGER.info("Added %d objects and %d players", this.allObjects.size(),

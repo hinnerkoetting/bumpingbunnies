@@ -53,7 +53,9 @@ public class PlayerMovementController implements ModelConstants {
 			this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY);
 		}
 		if (this.tryingToRemoveHorizontalMovement) {
-			tryToSteerAgainstMovement();
+			if (this.movedPlayer.movementX() != 0) {
+				tryToSteerAgainstMovement();
+			}
 		}
 	}
 

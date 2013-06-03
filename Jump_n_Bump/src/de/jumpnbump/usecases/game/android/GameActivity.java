@@ -88,7 +88,8 @@ public class GameActivity extends Activity {
 
 	private void initGame() {
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
-		World world = WorldFactory.create(this.parameter.getConfiguration());
+		World world = WorldFactory.create(this.parameter.getConfiguration(),
+				this);
 		GameThreadState threadState = new GameThreadState();
 
 		initInputFactory();

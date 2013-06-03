@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
+import android.media.MediaPlayer;
+import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.factories.PlayerFactory;
 import de.jumpnbump.usecases.game.factories.WallFactory;
 import de.jumpnbump.usecases.game.model.FixedWorldObject;
@@ -25,11 +28,11 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 	}
 
 	@Override
-	public Collection<FixedWorldObject> createAllWalls() {
+	public Collection<FixedWorldObject> createAllWalls(Context context) {
 		Collection<FixedWorldObject> allWalls = new ArrayList<FixedWorldObject>();
 		addLeftWall(allWalls);
 		addRightWall(allWalls);
-		addLowestRow(allWalls);
+		addLowestRow(allWalls, context);
 		addSecondRow(allWalls);
 		addThirdRow(allWalls);
 		addFourthRow(allWalls);
@@ -50,9 +53,11 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(105, 0, 110, 65));
 	}
 
-	private void addLowestRow(Collection<FixedWorldObject> allWalls) {
+	private void addLowestRow(Collection<FixedWorldObject> allWalls,
+			Context context) {
 		allWalls.add(convenienceBuildWall(5, 10, 10, 15));
-		allWalls.add(convenienceBuildJumper(40, 0, 45, 10));
+		MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.boing_test);
+		allWalls.add(convenienceBuildJumper(40, 0, 45, 10, mediaPlayer));
 		// allWalls.add(convenienceBuildWall(40, 0, 50, 10));
 		allWalls.add(convenienceBuildWall(45, 0, 50, 10));
 		allWalls.add(convenienceBuildWall(50, 0, 75, 5));
@@ -118,12 +123,13 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 						* ModelConstants.MAX_VALUE / 80.0));
 	}
 
-	private Jumper convenienceBuildJumper(int x, int y, int maxX, int maxY) {
+	private Jumper convenienceBuildJumper(int x, int y, int maxX, int maxY,
+			MediaPlayer mediaPlayer) {
 		return WallFactory.createJumper(
 				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
 						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
 						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
-						* ModelConstants.MAX_VALUE / 80.0));
+						* ModelConstants.MAX_VALUE / 80.0), mediaPlayer);
 	}
 
 }

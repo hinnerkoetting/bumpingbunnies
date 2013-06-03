@@ -7,12 +7,14 @@ public class PlayerDrawer implements Drawable {
 	private final Player player;
 	private Animation runningAnimation;
 	private Animation runningLeftAnimation;
+	private Animation lastRunningAnimation;
 
 	public PlayerDrawer(Player player, Animation runningAnimation,
 			Animation runningLeftAnimation) {
 		this.player = player;
 		this.runningAnimation = runningAnimation;
 		this.runningLeftAnimation = runningLeftAnimation;
+		this.lastRunningAnimation = runningAnimation;
 	}
 
 	@Override
@@ -20,8 +22,14 @@ public class PlayerDrawer implements Drawable {
 		if (this.player.movementX() > 0) {
 			this.runningAnimation.draw(canvas, this.player.minX(),
 					this.player.maxY(), null);
-		} else {
+			this.lastRunningAnimation = this.runningAnimation;
+		} else if (this.player.movementX() < 0) {
 			this.runningLeftAnimation.draw(canvas, this.player.minX(),
+					this.player.maxY(), null);
+			this.lastRunningAnimation = this.runningLeftAnimation;
+		} else {
+
+			this.lastRunningAnimation.draw(canvas, this.player.minX(),
 					this.player.maxY(), null);
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import de.jumpnbump.usecases.game.factories.PlayerFactory;
 import de.jumpnbump.usecases.game.factories.WallFactory;
 import de.jumpnbump.usecases.game.model.FixedWorldObject;
@@ -21,7 +22,7 @@ public class SimpleObjectsBuilder implements WorldObjectsBuilder {
 	}
 
 	@Override
-	public Collection<FixedWorldObject> createAllWalls() {
+	public Collection<FixedWorldObject> createAllWalls(Context context) {
 		List<FixedWorldObject> allWalls = new LinkedList<FixedWorldObject>();
 		allWalls.add(WallFactory.createWall(0,
 				(int) (0.25 * ModelConstants.MAX_VALUE),
