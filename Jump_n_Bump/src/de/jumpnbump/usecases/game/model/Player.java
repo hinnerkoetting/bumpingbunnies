@@ -67,7 +67,7 @@ public class Player implements GameObject {
 		this.state.setMovementY(movementY);
 	}
 
-	public double getAccelerationX() {
+	public int getAccelerationX() {
 		return this.state.getAccelerationX();
 	}
 
@@ -75,7 +75,7 @@ public class Player implements GameObject {
 		this.state.setAccelerationX(accelerationX);
 	}
 
-	public double getAccelerationY() {
+	public int getAccelerationY() {
 		return this.state.getAccelerationY();
 	}
 

@@ -29,7 +29,6 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public void nextStep(long delta) {
-		computeGravity();
 		movePlayerNextStep(delta);
 	}
 
@@ -40,6 +39,7 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	private void executeOneStep() {
+		computeGravity();
 		this.interActionService.interactWith(this.movedPlayer, this.world);
 		this.movedPlayer.moveNextStep();
 		this.movedPlayer.calculateNextSpeed();
