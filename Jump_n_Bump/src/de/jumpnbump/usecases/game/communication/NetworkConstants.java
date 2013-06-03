@@ -6,7 +6,7 @@ import android.os.Build;
 
 public class NetworkConstants {
 
-	static int sdk = Integer.parseInt(Build.VERSION.SDK);
+	static int sdk = Build.VERSION.SDK_INT;
 
 	public static final UUID MY_UUID = UUID
 			.fromString((sdk <= 8 || sdk >= 11) ? "04c6093b-0000-1000-8000-00805f9b34fb"

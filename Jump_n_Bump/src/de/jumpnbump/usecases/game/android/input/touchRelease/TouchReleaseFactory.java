@@ -14,7 +14,7 @@ public class TouchReleaseFactory extends
 	public TouchReleaseInputService createInputService(
 			PlayerConfigFactory config) {
 		TouchReleaseInputService service = new TouchReleaseInputService(
-				config.getTabletControlledPlayer());
+				config.getTabletControlledPlayerMovement());
 		config.getGameView().addOnSizeListener(service);
 		return service;
 	}

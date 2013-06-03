@@ -16,7 +16,10 @@ public class TouchJumpInputServicesFactory extends
 
 	@Override
 	public TouchWithJumpService createInputService(PlayerConfigFactory config) {
-		return config.createTouchWithJumpService();
+		TouchWithJumpService touchService = new TouchWithJumpService(
+				config.getTabletControlledPlayerMovement());
+		config.getGameView().addOnSizeListener(touchService);
+		return touchService;
 	}
 
 	@Override

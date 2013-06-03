@@ -16,7 +16,8 @@ public class KeyboardInputServicesFactory extends
 
 	@Override
 	public GamepadInputService createInputService(PlayerConfigFactory config) {
-		return config.createGamepadService();
+		return new GamepadInputService(
+				config.getTabletControlledPlayerMovement());
 	}
 
 	@Override

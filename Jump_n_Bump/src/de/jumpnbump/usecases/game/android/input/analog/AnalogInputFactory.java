@@ -15,7 +15,9 @@ public class AnalogInputFactory extends
 
 	@Override
 	public AnalogInputService createInputService(PlayerConfigFactory config) {
-		return config.createAnalogInputService();
+		AnalogInputService touchService = new AnalogInputService(
+				config.getTabletControlledPlayerMovement());
+		return touchService;
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class TouchPressInputFactory extends
 	@Override
 	public TouchPressInputService createInputService(PlayerConfigFactory config) {
 		TouchPressInputService service = new TouchPressInputService(
-				config.getTabletControlledPlayer());
+				config.getTabletControlledPlayerMovement());
 		config.getGameView().addOnSizeListener(service);
 		return service;
 	}

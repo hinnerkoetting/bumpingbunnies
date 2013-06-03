@@ -13,7 +13,10 @@ public class TouchFlingFactory extends
 
 	@Override
 	public AbstractTouchService createInputService(PlayerConfigFactory config) {
-		return config.createTouchFlingService();
+		TouchFlingService service = new TouchFlingService(
+				config.getTabletControlledPlayerMovement());
+		config.getGameView().addOnSizeListener(service);
+		return service;
 	}
 
 	@Override

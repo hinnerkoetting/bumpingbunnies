@@ -5,20 +5,12 @@ import java.util.List;
 
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.input.InputService;
-import de.jumpnbump.usecases.game.android.input.analog.AnalogInputService;
-import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
-import de.jumpnbump.usecases.game.android.input.multiTouch.MultiTouchInputService;
-import de.jumpnbump.usecases.game.android.input.pointer.PointerInputService;
-import de.jumpnbump.usecases.game.android.input.rememberPointer.RememberPointerInputService;
-import de.jumpnbump.usecases.game.android.input.touch.TouchService;
-import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
-import de.jumpnbump.usecases.game.android.input.touchFling.TouchFlingService;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactory;
 import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
-import de.jumpnbump.usecases.game.factories.UserInputFactory;
+import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
 public class PlayerConfigFactory {
@@ -46,44 +38,6 @@ public class PlayerConfigFactory {
 		return stateSender;
 	}
 
-	public TouchService createTouchService() {
-		return UserInputFactory.createTouch(this.tabletControlledPlayer,
-				this.gameView);
-	}
-
-	public TouchWithJumpService createTouchWithJumpService() {
-		return UserInputFactory.createTouchWithJump(
-				this.tabletControlledPlayer, this.gameView);
-	}
-
-	public GamepadInputService createGamepadService() {
-		return UserInputFactory.createGamepad(this.tabletControlledPlayer);
-	}
-
-	public MultiTouchInputService createMultiTouchService() {
-		return UserInputFactory.createMultiTouch(this.tabletControlledPlayer,
-				this.gameView);
-	}
-
-	public PointerInputService createPointerInputService() {
-		return UserInputFactory.createPointer(this.tabletControlledPlayer,
-				this.gameView);
-	}
-
-	public RememberPointerInputService createRememberPointerInputService() {
-		return UserInputFactory.createRememberPointer(
-				this.tabletControlledPlayer, this.gameView);
-	}
-
-	public AnalogInputService createAnalogInputService() {
-		return UserInputFactory.createAnalog(this.tabletControlledPlayer);
-	}
-
-	public TouchFlingService createTouchFlingService() {
-		return UserInputFactory.createTouchFling(this.tabletControlledPlayer,
-				this.gameView);
-	}
-
 	public List<PlayerMovementController> getAllPlayerMovementControllers() {
 		List<PlayerMovementController> list = new ArrayList<PlayerMovementController>(
 				this.notControlledPlayers.size() + 1);
@@ -108,7 +62,11 @@ public class PlayerConfigFactory {
 		return inputServices;
 	}
 
-	public PlayerMovementController getTabletControlledPlayer() {
+	public Player getTabletControlledPlayer() {
+		return this.tabletControlledPlayer.getPlayer();
+	}
+
+	public PlayerMovementController getTabletControlledPlayerMovement() {
 		return this.tabletControlledPlayer;
 	}
 
