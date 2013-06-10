@@ -12,19 +12,19 @@ import de.jumpnbump.usecases.game.model.Player;
 public class PlayerDrawerFactory {
 
 	public static PlayerDrawer create(Player player, Resources resources) {
-		Animation rightAnimation = createAnimation(resources);
-		Animation leftAnimation = createLeftAnimation(resources);
-		return new PlayerDrawer(player, rightAnimation, leftAnimation);
-	}
-
-	private static Animation createLeftAnimation(Resources resources) {
-		List<Bitmap> bitmaps = createListOfAllBitmaps(resources);
-		return new LeftMirroredAnimation(bitmaps, 20);
+		AnimationWithMirror animation = AnimationWithMirrorFactory.create(
+				createListOfTestBitmap(resources), 20);
+		return new PlayerDrawer(player, animation);
 	}
 
 	private static Animation createAnimation(Resources resources) {
 		List<Bitmap> bitmaps = createListOfAllBitmaps(resources);
 		return new NormalAnimation(bitmaps, 20);
+	}
+
+	private static List<Bitmap> createListOfTestBitmap(Resources resources) {
+		return Arrays.asList(loadBitmap(resources,
+				R.drawable.frame_000001_000001));
 	}
 
 	private static List<Bitmap> createListOfAllBitmaps(Resources resources) {

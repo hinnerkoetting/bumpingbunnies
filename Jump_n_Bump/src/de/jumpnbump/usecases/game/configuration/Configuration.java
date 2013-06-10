@@ -21,6 +21,7 @@ public class Configuration implements Parcelable {
 	private final AiModus aiModus;
 	private final WorldConfiguration worldConfiguration;
 	private final int numberPlayers;
+	private final int zoom;
 
 	public Configuration(Parcel source) {
 		this.inputConfiguration = InputConfiguration.valueOf(source
@@ -29,15 +30,17 @@ public class Configuration implements Parcelable {
 		this.worldConfiguration = WorldConfiguration.valueOf(source
 				.readString());
 		this.numberPlayers = source.readInt();
+		this.zoom = source.readInt();
 	}
 
 	public Configuration(InputConfiguration inputConfiguration,
 			AiModus aiModus, WorldConfiguration worldConfiguration,
-			int numberPlayer) {
+			int numberPlayer, int zoom) {
 		this.inputConfiguration = inputConfiguration;
 		this.aiModus = aiModus;
 		this.worldConfiguration = worldConfiguration;
 		this.numberPlayers = numberPlayer;
+		this.zoom = zoom;
 	}
 
 	@Override
@@ -59,6 +62,7 @@ public class Configuration implements Parcelable {
 		dest.writeString(this.aiModus.toString());
 		dest.writeString(this.worldConfiguration.toString());
 		dest.writeInt(this.numberPlayers);
+		dest.writeInt(this.zoom);
 	}
 
 	public WorldConfiguration getWorldConfiguration() {
@@ -68,4 +72,9 @@ public class Configuration implements Parcelable {
 	public int getNumberPlayer() {
 		return this.numberPlayers;
 	}
+
+	public int getZoom() {
+		return this.zoom;
+	}
+
 }

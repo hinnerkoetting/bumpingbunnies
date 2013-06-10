@@ -95,8 +95,8 @@ public class GameActivity extends Activity {
 		initInputFactory();
 		AbstractOtherPlayersFactorySingleton singleton = AbstractOtherPlayersFactorySingleton
 				.getSingleton();
-		PlayerConfig config = PlayerConfigFactory.create(
-				getIntent(), world, contentView);
+		PlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
+				contentView);
 		initInputServices(singleton, config);
 
 		this.networkThread = singleton.createSender();
@@ -106,14 +106,13 @@ public class GameActivity extends Activity {
 				config.getAllPlayerMovementControllers(),
 				createInputServices(),
 				config.createStateSender(stateSenderFactory), getResources(),
-				config);
+				config, this.parameter.getConfiguration());
 
 		this.gameThread.start();
 	}
 
 	private void initInputServices(
-			AbstractOtherPlayersFactorySingleton singleton,
-			PlayerConfig config) {
+			AbstractOtherPlayersFactorySingleton singleton, PlayerConfig config) {
 		AbstractPlayerInputServicesFactory.init(this.parameter
 				.getConfiguration().getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory

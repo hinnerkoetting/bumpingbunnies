@@ -1,37 +1,31 @@
 package de.jumpnbump.usecases.game.graphics;
 
+import android.graphics.Paint;
 import de.jumpnbump.usecases.game.model.Player;
 
 public class PlayerDrawer implements Drawable {
 
 	private final Player player;
-	private Animation runningAnimation;
-	private Animation runningLeftAnimation;
-	private Animation lastRunningAnimation;
+	private AnimationWithMirror runningAnimation;
+	private Paint paint;
 
-	public PlayerDrawer(Player player, Animation runningAnimation,
-			Animation runningLeftAnimation) {
+	public PlayerDrawer(Player player, AnimationWithMirror runningAnimation) {
 		this.player = player;
 		this.runningAnimation = runningAnimation;
-		this.runningLeftAnimation = runningLeftAnimation;
-		this.lastRunningAnimation = runningAnimation;
+		this.paint = new Paint();
+		this.paint.setAlpha(125);
 	}
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
-		if (this.player.movementX() > 0) {
-			this.runningAnimation.draw(canvas, this.player.minX(),
-					this.player.maxY(), null);
-			this.lastRunningAnimation = this.runningAnimation;
-		} else if (this.player.movementX() < 0) {
-			this.runningLeftAnimation.draw(canvas, this.player.minX(),
-					this.player.maxY(), null);
-			this.lastRunningAnimation = this.runningLeftAnimation;
-		} else {
-
-			this.lastRunningAnimation.draw(canvas, this.player.minX(),
-					this.player.maxY(), null);
+		this.paint.setColor(this.player.getColor());
+		if (this.player.movementX() != 0) {
+			this.runningAnimation.drawMirrored(this.player.movementX() < 0);
 		}
+		canvas.drawRect(this.player.minX(), this.player.maxY(),
+				this.player.maxX(), this.player.minY(), this.paint);
+		this.runningAnimation.draw(canvas, this.player.minX(),
+				this.player.maxY(), this.paint);
 	}
 
 	@Override
@@ -41,8 +35,6 @@ public class PlayerDrawer implements Drawable {
 		int height = (int) (canvas.transformX(this.player.maxX()) - canvas
 				.transformX(this.player.minX()));
 		this.runningAnimation.updateGraphics(canvas, width, height);
-		this.runningLeftAnimation.updateGraphics(canvas, width, height);
-
 	}
 
 }

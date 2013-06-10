@@ -220,7 +220,7 @@ public class StartActivity extends Activity {
 		AiModus aiModus = findSelectedAiMode();
 		WorldConfiguration world = findSelectedWorld();
 		return new Configuration(selectedInput, aiModus, world,
-				getNumberOfPlayers());
+				getNumberOfPlayers(), getZoom());
 	}
 
 	private void launchGame(GameStartParameter parameter) {
@@ -255,6 +255,11 @@ public class StartActivity extends Activity {
 		} catch (Exception e) {
 			return 2;
 		}
+	}
+
+	private int getZoom() {
+		TextView zoom = (TextView) findViewById(R.id.zoom);
+		return Integer.parseInt(zoom.getText().toString());
 	}
 
 }
