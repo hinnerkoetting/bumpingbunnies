@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.jumpnbump.usecases.game.android.GameView;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.StateSender;
@@ -19,14 +20,17 @@ public class PlayerConfig {
 	private final List<PlayerMovementController> notControlledPlayers;
 	private final GameView gameView;
 	private final World world;
+	private final CoordinatesCalculation coordinateCalculations;
 
 	public PlayerConfig(PlayerMovementController tabletControlledPlayer,
 			List<PlayerMovementController> notControlledPlayers,
-			GameView gameView, World world) {
+			GameView gameView, World world,
+			CoordinatesCalculation coordinateCalculations) {
 		this.tabletControlledPlayer = tabletControlledPlayer;
 		this.notControlledPlayers = notControlledPlayers;
 		this.gameView = gameView;
 		this.world = world;
+		this.coordinateCalculations = coordinateCalculations;
 	}
 
 	public List<StateSender> createStateSender(
@@ -68,6 +72,10 @@ public class PlayerConfig {
 
 	public PlayerMovementController getTabletControlledPlayerMovement() {
 		return this.tabletControlledPlayer;
+	}
+
+	public CoordinatesCalculation getCoordinateCalculations() {
+		return this.coordinateCalculations;
 	}
 
 	public GameView getGameView() {

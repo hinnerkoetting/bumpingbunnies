@@ -14,7 +14,8 @@ public class MultiTouchJumpServicesFactory extends
 	@Override
 	public AbstractTouchService createInputService(PlayerConfig config) {
 		MultiTouchInputService touchService = new MultiTouchInputService(
-				config.getTabletControlledPlayerMovement());
+				config.getTabletControlledPlayerMovement(),
+				config.getCoordinateCalculations());
 		config.getGameView().addOnSizeListener(touchService);
 		return touchService;
 	}

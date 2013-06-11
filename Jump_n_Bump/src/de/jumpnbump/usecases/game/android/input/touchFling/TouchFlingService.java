@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases.game.android.input.touchFling;
 
 import android.view.MotionEvent;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.touch.LeftRightTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
@@ -9,8 +10,9 @@ public class TouchFlingService extends LeftRightTouchService {
 	private double lastTouchedHeight;
 	private double lastTouchedWidht;
 
-	public TouchFlingService(PlayerMovementController playerMovement) {
-		super(playerMovement);
+	public TouchFlingService(PlayerMovementController playerMovement,
+			CoordinatesCalculation coordinateCalculations) {
+		super(playerMovement, coordinateCalculations);
 	}
 
 	@Override

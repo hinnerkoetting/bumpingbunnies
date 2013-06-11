@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.calculation;
 
+import android.view.MotionEvent;
 import de.jumpnbump.usecases.game.model.Player;
 
 public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
@@ -13,37 +14,48 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 		this.targetPlayer = player;
 	}
 
+	@Override
 	public void updateCanvas(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
 
+	@Override
 	public void setZoom(int zoom) {
 		this.zoom = zoom;
 	}
 
 	@Override
 	public int getGameCoordinateX(float touchX) {
-		return (this.targetPlayer.getCenterX() / this.zoom - this.width / 2);
+		return (int) (this.zoom * touchX + (this.targetPlayer.getCenterX() - this.width
+				/ 2 * this.zoom));
 	}
 
 	@Override
 	public int getGameCoordinateY(float touchY) {
-		return (this.targetPlayer.getCenterY() / this.zoom - this.height / 2);
+		return (int) (-(touchY - this.height / 2) * this.zoom + this.targetPlayer
+				.getCenterY());
 	}
 
 	@Override
 	public float getScreenCoordinateX(int gameX) {
-		float res = (this.width / 2 + (float) ((gameX - this.targetPlayer
-				.getCenterX()) / this.zoom));
+		float res = this.width
+				/ 2
+				+ (float) ((gameX - this.targetPlayer.getCenterX()) / this.zoom);
 		return res;
 	}
 
 	@Override
 	public float getScreenCoordinateY(int gameY) {
-		float res = (this.height / 2 - (((+gameY - this.targetPlayer
-				.getCenterY())) / this.zoom));
+		float res = this.height / 2
+				- (((+gameY - this.targetPlayer.getCenterY())) / this.zoom);
 		return res;
+	}
+
+	@Override
+	public boolean isClickOnUpperHalf(MotionEvent motionEvent) {
+		return getGameCoordinateY(motionEvent.getY()) > this.targetPlayer
+				.getCenterY();
 	}
 
 }

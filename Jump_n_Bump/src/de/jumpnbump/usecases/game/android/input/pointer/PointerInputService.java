@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases.game.android.input.pointer;
 
 import android.view.MotionEvent;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.PathFinder.PathFinder;
 import de.jumpnbump.usecases.game.android.input.touch.LeftRightTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
@@ -11,8 +12,8 @@ public class PointerInputService extends LeftRightTouchService {
 	private final PathFinder pathFinder;
 
 	public PointerInputService(PlayerMovementController playerMovement,
-			PathFinder pathFinder) {
-		super(playerMovement);
+			PathFinder pathFinder, CoordinatesCalculation calculations) {
+		super(playerMovement, calculations);
 		this.pathFinder = pathFinder;
 	}
 

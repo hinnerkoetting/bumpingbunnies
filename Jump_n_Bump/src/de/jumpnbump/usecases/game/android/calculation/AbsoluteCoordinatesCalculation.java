@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.calculation;
 
+import android.view.MotionEvent;
 import de.jumpnbump.usecases.game.graphics.GameToAndroidTransformation;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 
@@ -32,6 +33,19 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 	@Override
 	public float getScreenCoordinateY(int gameY) {
 		return GameToAndroidTransformation.transformY(gameY, this.height);
+	}
+
+	@Override
+	public void updateCanvas(int width, int height) {
+	}
+
+	@Override
+	public void setZoom(int zoom) {
+	}
+
+	@Override
+	public boolean isClickOnUpperHalf(MotionEvent motionEvent) {
+		return motionEvent.getY() > 0.5 * this.height;
 	}
 
 }

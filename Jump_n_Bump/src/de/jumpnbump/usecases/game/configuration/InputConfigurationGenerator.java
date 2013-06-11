@@ -33,8 +33,8 @@ public class InputConfigurationGenerator {
 			return InputConfiguration.REMEMBER_POINTER;
 		case R.id.start_button_analog:
 			return InputConfiguration.ANALOG;
-		case R.id.start_button_fling_touch:
-			return InputConfiguration.TOUCH_FLING;
+			// case R.id.start_button_fling_touch:
+			// return InputConfiguration.TOUCH_FLING;
 		case R.id.start_button_touch_press:
 			return InputConfiguration.TOUCH_PRESS;
 		case R.id.start_button_touch_release:

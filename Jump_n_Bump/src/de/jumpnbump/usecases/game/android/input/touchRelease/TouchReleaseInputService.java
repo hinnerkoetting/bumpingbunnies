@@ -1,13 +1,15 @@
 package de.jumpnbump.usecases.game.android.input.touchRelease;
 
 import android.view.MotionEvent;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class TouchReleaseInputService extends AbstractTouchService {
 
-	public TouchReleaseInputService(PlayerMovementController playerMovement) {
-		super(playerMovement);
+	public TouchReleaseInputService(PlayerMovementController playerMovement,
+			CoordinatesCalculation coordinateCalculations) {
+		super(playerMovement, coordinateCalculations);
 	}
 
 	@Override

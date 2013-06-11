@@ -3,6 +3,7 @@ package de.jumpnbump.usecases.game.android.input.touchPress;
 import android.view.MotionEvent;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
@@ -14,8 +15,9 @@ public class TouchPressInputService extends AbstractTouchService {
 	private long timeOfActionDown;
 	private double targetX;
 
-	public TouchPressInputService(PlayerMovementController playerMovement) {
-		super(playerMovement);
+	public TouchPressInputService(PlayerMovementController playerMovement,
+			CoordinatesCalculation coordinateCalculations) {
+		super(playerMovement, coordinateCalculations);
 	}
 
 	@Override

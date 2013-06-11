@@ -96,6 +96,7 @@ public class GameActivity extends Activity {
 		initInputFactory();
 		AbstractOtherPlayersFactorySingleton singleton = AbstractOtherPlayersFactorySingleton
 				.getSingleton();
+
 		PlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
 				contentView);
 		initInputServices(singleton, config);
@@ -107,7 +108,8 @@ public class GameActivity extends Activity {
 				config.getAllPlayerMovementControllers(),
 				createInputServices(),
 				config.createStateSender(stateSenderFactory), getResources(),
-				config, this.parameter.getConfiguration());
+				config, this.parameter.getConfiguration(),
+				config.getCoordinateCalculations());
 
 		this.gameThread.start();
 	}

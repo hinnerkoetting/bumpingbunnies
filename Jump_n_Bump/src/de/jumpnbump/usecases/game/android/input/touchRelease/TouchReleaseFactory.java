@@ -11,10 +11,10 @@ public class TouchReleaseFactory extends
 		AbstractPlayerInputServicesFactory<TouchReleaseInputService> {
 
 	@Override
-	public TouchReleaseInputService createInputService(
-			PlayerConfig config) {
+	public TouchReleaseInputService createInputService(PlayerConfig config) {
 		TouchReleaseInputService service = new TouchReleaseInputService(
-				config.getTabletControlledPlayerMovement());
+				config.getTabletControlledPlayerMovement(),
+				config.getCoordinateCalculations());
 		config.getGameView().addOnSizeListener(service);
 		return service;
 	}

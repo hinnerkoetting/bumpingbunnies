@@ -1,13 +1,15 @@
 package de.jumpnbump.usecases.game.android.input.multiTouch;
 
 import android.view.MotionEvent;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.touch.LeftRightTouchService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class MultiTouchInputService extends LeftRightTouchService {
 
-	public MultiTouchInputService(PlayerMovementController playerMovement) {
-		super(playerMovement);
+	public MultiTouchInputService(PlayerMovementController playerMovement,
+			CoordinatesCalculation coordinateCalculations) {
+		super(playerMovement, coordinateCalculations);
 	}
 
 	@Override

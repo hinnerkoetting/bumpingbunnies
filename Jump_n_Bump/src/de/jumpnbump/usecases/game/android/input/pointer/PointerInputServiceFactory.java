@@ -19,7 +19,8 @@ public class PointerInputServiceFactory extends
 				.getTabletControlledPlayerMovement();
 		PointerInputService touchService = new PointerInputService(
 				playerMovement,
-				PathFinderFactory.createPathFinder(playerMovement.getPlayer()));
+				PathFinderFactory.createPathFinder(playerMovement.getPlayer()),
+				config.getCoordinateCalculations());
 		config.getGameView().addOnSizeListener(touchService);
 		return touchService;
 	}

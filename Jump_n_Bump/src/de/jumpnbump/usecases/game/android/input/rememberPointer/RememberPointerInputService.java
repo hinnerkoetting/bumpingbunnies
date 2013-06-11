@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases.game.android.input.rememberPointer;
 
 import android.view.MotionEvent;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
 import de.jumpnbump.usecases.game.android.input.PathFinder.PathFinder;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
@@ -13,8 +14,8 @@ public class RememberPointerInputService extends AbstractTouchService implements
 	private RememberPointerState state;
 
 	public RememberPointerInputService(PlayerMovementController playerMovement,
-			PathFinder pathFinder) {
-		super(playerMovement);
+			PathFinder pathFinder, CoordinatesCalculation coordinateCalculations) {
+		super(playerMovement, coordinateCalculations);
 		this.pathFinder = pathFinder;
 		this.state = new RememberPointerState();
 	}

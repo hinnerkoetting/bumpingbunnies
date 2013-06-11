@@ -21,7 +21,8 @@ public class RememberPointerInputFactory extends
 				tabletControlledPlayerMovement,
 				PathFinderFactory
 						.createPathFinder(tabletControlledPlayerMovement
-								.getPlayer()));
+								.getPlayer()),
+				config.getCoordinateCalculations());
 		config.getGameView().addOnSizeListener(touchService);
 		return touchService;
 	}

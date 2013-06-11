@@ -8,6 +8,8 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.game.android.GameView;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
+import de.jumpnbump.usecases.game.android.calculation.RelativeCoordinatesCalculation;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
@@ -24,10 +26,16 @@ public class PlayerConfigFactory {
 			GameView gameView) {
 		int myPlayerId = findTabletPlayerId(intent);
 		Player myPlayer = findMyPlayer(myPlayerId, world);
-		PlayerConfig config = new PlayerConfig(
-				createMovementController(myPlayer, world), findOtherPlayers(
-						myPlayerId, world), gameView, world);
+		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
+		PlayerConfig config = new PlayerConfig(createMovementController(
+				myPlayer, world), findOtherPlayers(myPlayerId, world),
+				gameView, world, calculations);
 		return config;
+	}
+
+	private static CoordinatesCalculation createCoordinateCalculations(
+			Player myPlayer) {
+		return new RelativeCoordinatesCalculation(myPlayer);
 	}
 
 	private static List<PlayerMovementController> findOtherPlayers(

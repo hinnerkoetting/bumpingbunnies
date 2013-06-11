@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import de.jumpnbump.usecases.game.android.calculation.RelativeCoordinatesCalculation;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.model.Player;
 
 public class CanvasAroundPlayerDelegateTest {
@@ -24,7 +24,7 @@ public class CanvasAroundPlayerDelegateTest {
 	@Mock
 	private Paint paint;
 	@Mock
-	private RelativeCoordinatesCalculation calculations;
+	private CoordinatesCalculation calculations;
 
 	@Test
 	public void drawTextAtGame0x0_givenPlayerIsAtPosition0x0_shouldBeDrawnAtCenterOfScreen() {

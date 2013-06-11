@@ -1,18 +1,21 @@
 package de.jumpnbump.usecases.game.android.input;
 
 import android.view.MotionEvent;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.businesslogic.GameScreenSizeChangeListener;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
-import de.jumpnbump.usecases.game.model.ModelConstants;
 
 public abstract class AbstractTouchService extends AbstractControlledMovement
 		implements GameScreenSizeChangeListener {
 
 	private int windowWidth;
 	private int windowHeight;
+	private final CoordinatesCalculation calculations;
 
-	public AbstractTouchService(PlayerMovementController playerMovement) {
+	public AbstractTouchService(PlayerMovementController playerMovement,
+			CoordinatesCalculation calculations) {
 		super(playerMovement);
+		this.calculations = calculations;
 	}
 
 	@Override
@@ -24,11 +27,13 @@ public abstract class AbstractTouchService extends AbstractControlledMovement
 	public abstract void onMotionEvent(MotionEvent motionEvent);
 
 	protected int translateToGameXCoordinate(MotionEvent motionEvent) {
-		return (int) (motionEvent.getX() / getWindowWidth() * ModelConstants.MAX_VALUE);
+		return this.calculations.getGameCoordinateX(motionEvent.getX());
+		// (int) (motionEvent.getX() / getWindowWidth() *
+		// ModelConstants.MAX_VALUE);
 	}
 
 	protected int translateToGameYCoordinate(MotionEvent motionEvent) {
-		return (int) ((1 - motionEvent.getY() / getWindowHeight()) * ModelConstants.MAX_VALUE);
+		return this.calculations.getGameCoordinateY(motionEvent.getY());
 	}
 
 	public int getWindowWidth() {
@@ -48,18 +53,19 @@ public abstract class AbstractTouchService extends AbstractControlledMovement
 	}
 
 	public boolean isTouchRightToPlayer(MotionEvent motionEvent) {
-		double touchX = translateToGameXCoordinate(motionEvent);
-		return touchX > getMovedPlayer().maxX();
+		return getMovedPlayer().getCenterX()
+				- translateToGameXCoordinate(motionEvent) < 0;
 	}
 
 	public boolean isTouchLeftToPlayer(MotionEvent motionEvent) {
-		return motionEvent.getX() / this.windowWidth < 0.5;
+		return getMovedPlayer().getCenterX()
+				- translateToGameXCoordinate(motionEvent) > 0;
 		// double touchX = translateToGameXCoordinate(motionEvent);
 		// return touchX < getMovedPlayer().minX();
 	}
 
 	public boolean clickOnUpperHalf(MotionEvent motionEvent) {
-		return translateToGameYCoordinate(motionEvent) > 0.5 * ModelConstants.MAX_VALUE;
+		return this.calculations.isClickOnUpperHalf(motionEvent);
 	}
 
 }

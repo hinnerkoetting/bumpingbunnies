@@ -1,7 +1,7 @@
 package de.jumpnbump.usecases.game.factories;
 
 import android.content.res.Resources;
-import de.jumpnbump.usecases.game.android.calculation.RelativeCoordinatesCalculation;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.game.graphics.CanvasDelegateImpl;
@@ -15,11 +15,10 @@ public class DrawerFactory {
 
 	public static Drawer create(World world, GameThreadState threadState,
 			Resources resources, PlayerConfig playerConfig,
-			Configuration configuration) {
+			Configuration configuration, CoordinatesCalculation calculations) {
 		DrawablesFactory drawFactory = new DrawablesFactory(world, threadState,
 				resources);
-		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(
-				playerConfig.getTabletControlledPlayer());
+
 		CanvasDelegateImpl canvasDelegate = new CanvasDelegateImpl(calculations);
 		calculations.setZoom((ModelConstants.MAX_VALUE / 7500 * configuration
 				.getZoom()));

@@ -3,14 +3,14 @@ package de.jumpnbump.usecases.game.graphics;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import de.jumpnbump.usecases.game.android.calculation.RelativeCoordinatesCalculation;
+import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 
 public final class CanvasDelegateImpl implements CanvasDelegate {
 
 	private Canvas canvas;
-	private final RelativeCoordinatesCalculation calculations;
+	private final CoordinatesCalculation calculations;
 
-	public CanvasDelegateImpl(RelativeCoordinatesCalculation calculations) {
+	public CanvasDelegateImpl(CoordinatesCalculation calculations) {
 		this.calculations = calculations;
 	}
 
