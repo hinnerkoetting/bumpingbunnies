@@ -7,7 +7,6 @@ import java.util.List;
 import android.content.res.Resources;
 import de.jumpnbump.usecases.game.model.FixedWorldObject;
 import de.jumpnbump.usecases.game.model.GameThreadState;
-import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
@@ -26,10 +25,10 @@ public class DrawablesFactory {
 
 	public List<Drawable> createAllDrawables() {
 		List<Drawable> allDrawables = new LinkedList<Drawable>();
-		allDrawables.addAll(createAllScores());
 		allDrawables.addAll(createAllPlayers());
-		allDrawables.add(createFps());
 		allDrawables.addAll(createWalls());
+		allDrawables.addAll(createAllScores());
+		allDrawables.add(createFps());
 		return allDrawables;
 	}
 
@@ -42,12 +41,12 @@ public class DrawablesFactory {
 	}
 
 	private List<Drawable> createAllScores() {
-		int currentX = (int) (0.3 * ModelConstants.MAX_VALUE);
-		int y = (int) (0.95 * ModelConstants.MAX_VALUE);
+		double currentX = 0.2;
+		double y = 0.05;
 		List<Drawable> scores = new LinkedList<Drawable>();
 		for (Player p : this.world.getAllPlayer()) {
 			scores.add(new ScoreDrawer(p, currentX, y));
-			currentX += 0.1 * ModelConstants.MAX_VALUE;
+			currentX += 0.2;
 		}
 		return scores;
 	}

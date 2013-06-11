@@ -5,10 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 
-public final class CanvasDelegateImpl implements CanvasDelegate {
+public class CanvasDelegateImpl implements CanvasDelegate {
 
 	private Canvas canvas;
 	private final CoordinatesCalculation calculations;
+	private int width;
+	private int heigth;
 
 	public CanvasDelegateImpl(CoordinatesCalculation calculations) {
 		this.calculations = calculations;
@@ -18,6 +20,8 @@ public final class CanvasDelegateImpl implements CanvasDelegate {
 	public void updateDelegate(Canvas canvas) {
 		this.canvas = canvas;
 		this.calculations.updateCanvas(canvas.getWidth(), canvas.getHeight());
+		this.heigth = canvas.getHeight();
+		this.width = canvas.getWidth();
 	}
 
 	@Override
@@ -63,6 +67,22 @@ public final class CanvasDelegateImpl implements CanvasDelegate {
 	@Override
 	public float transformY(int y) {
 		return this.calculations.getScreenCoordinateY(y);
+	}
+
+	@Override
+	public void drawTextRelativeToScreen(String text, double x, double y,
+			Paint paint) {
+		this.canvas.drawText(text, (int) (x * this.width),
+				(int) (y * this.heigth), paint);
+
+	}
+
+	@Override
+	public void drawRectRelativeToScreen(double left, double top, double right,
+			double bottom, Paint paint) {
+		this.canvas.drawRect((float) (left * this.width),
+				(float) (top * this.heigth), (float) (right * this.width),
+				(float) (bottom * this.heigth), paint);
 	}
 
 }

@@ -2,8 +2,6 @@ package de.jumpnbump.usecases.game.model;
 
 public interface GameObject {
 
-	int id();
-
 	int maxX();
 
 	int maxY();
@@ -11,6 +9,10 @@ public interface GameObject {
 	int minX();
 
 	int minY();
+
+	int getColor();
+
+	int id();
 
 	int centerX();
 
@@ -23,8 +25,6 @@ public interface GameObject {
 	void calculateNextSpeed();
 
 	int accelerationOnThisGround();
-
-	int getColor();
 
 	void interactWithPlayerOnTop(Player p);
 

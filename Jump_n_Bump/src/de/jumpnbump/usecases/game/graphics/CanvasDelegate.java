@@ -6,21 +6,25 @@ import android.graphics.Paint;
 
 public interface CanvasDelegate {
 
-	abstract void updateDelegate(Canvas canvas);
+	void updateDelegate(Canvas canvas);
 
-	abstract void drawColor(int color);
+	void drawColor(int color);
 
-	abstract void drawLine(int startX, int startY, int stopX, int stopY,
-			Paint paint);
+	void drawLine(int startX, int startY, int stopX, int stopY, Paint paint);
 
-	abstract void drawText(String text, int x, int y, Paint paint);
+	void drawText(String text, int x, int y, Paint paint);
 
-	abstract void drawRect(int left, int top, int right, int bottom, Paint paint);
+	void drawTextRelativeToScreen(String text, double x, double y, Paint paint);
+
+	void drawRect(int left, int top, int right, int bottom, Paint paint);
+
+	void drawRectRelativeToScreen(double left, double top, double right,
+			double bottom, Paint paint);
 
 	void drawImage(Bitmap bitmap, int left, int top, Paint paint);
 
-	public abstract float transformY(int y);
+	float transformY(int y);
 
-	public abstract float transformX(int x);
+	float transformX(int x);
 
 }

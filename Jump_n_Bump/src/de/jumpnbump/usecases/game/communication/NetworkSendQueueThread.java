@@ -2,8 +2,8 @@ package de.jumpnbump.usecases.game.communication;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import com.google.gson.Gson;
 
@@ -20,12 +20,12 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	private final Writer writer;
 	private boolean canceled;
 
-	private Queue<String> messageQueue;
+	private BlockingQueue<String> messageQueue;
 
 	public NetworkSendQueueThread(Writer writer, Gson gson) {
 		this.writer = writer;
 		this.gson = gson;
-		this.messageQueue = new LinkedList<String>();
+		this.messageQueue = new LinkedBlockingQueue<String>();
 	}
 
 	@Override
@@ -40,15 +40,11 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	}
 
 	private void oneRun() throws InterruptedException, IOException {
-		if (this.messageQueue.isEmpty()) {
-			sleep(1);
-		} else {
-			sendNextMessage();
-		}
+		sendNextMessage();
 	}
 
-	private void sendNextMessage() throws IOException {
-		String poll = this.messageQueue.poll();
+	private void sendNextMessage() throws IOException, InterruptedException {
+		String poll = this.messageQueue.take();
 		sendOneMessage(poll);
 	}
 
@@ -58,12 +54,14 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 		this.writer.flush();
 	}
 
+	@Override
 	public synchronized void sendPlayerCoordinates(Player player) {
 		JsonWrapper wrapper = new JsonWrapper(player.id(), player.getState());
 		String data = this.gson.toJson(wrapper);
 		this.messageQueue.add(data);
 	}
 
+	@Override
 	public void cancel() {
 		this.canceled = true;
 	}

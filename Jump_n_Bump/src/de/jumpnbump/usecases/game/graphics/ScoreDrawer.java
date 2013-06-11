@@ -7,11 +7,11 @@ import de.jumpnbump.usecases.game.model.PlayerState;
 public class ScoreDrawer implements Drawable {
 
 	private Player player;
-	private int scoreX;
-	private int scoreY;
+	private double scoreX;
+	private double scoreY;
 	private Paint paint;
 
-	public ScoreDrawer(Player player, int scoreX, int scoreY) {
+	public ScoreDrawer(Player player, double scoreX, double scoreY) {
 		super();
 		this.player = player;
 		this.scoreX = scoreX;
@@ -24,8 +24,8 @@ public class ScoreDrawer implements Drawable {
 	@Override
 	public void draw(CanvasDelegate canvas) {
 		PlayerState state = this.player.getState();
-		canvas.drawText(Integer.toString(state.getScore()), this.scoreX,
-				this.scoreY, this.paint);
+		canvas.drawTextRelativeToScreen(Integer.toString(state.getScore()),
+				this.scoreX, this.scoreY, this.paint);
 	}
 
 	@Override
