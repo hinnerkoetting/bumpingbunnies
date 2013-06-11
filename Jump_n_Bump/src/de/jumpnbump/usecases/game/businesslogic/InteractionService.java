@@ -35,6 +35,11 @@ public class InteractionService {
 			if (this.collisionDetection.isExactlyUnderObject(updatedNextStep,
 					object)) {
 				object.interactWithPlayerOnTop(player);
+			} else if (this.collisionDetection.isExactlyOverObject(
+					updatedNextStep, object)) {
+				if (object instanceof Player) {
+					player.interactWithPlayerOnTop((Player) object);
+				}
 			}
 		}
 	}

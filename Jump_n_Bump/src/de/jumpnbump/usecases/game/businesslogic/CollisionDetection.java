@@ -96,4 +96,8 @@ public class CollisionDetection {
 		}
 		return true;
 	}
+
+	public boolean isExactlyOverObject(GameObject gameObject, GameObject other) {
+		return gameObject.maxY() == other.minY();
+	}
 }
