@@ -34,7 +34,7 @@ public abstract class AbstractTouchService extends AbstractControlledMovement
 	public int getWindowWidth() {
 		if (this.windowHeight == 0) {
 			throw new IllegalStateException(
-					"Widht not initialized. Forgot to register this as Listener to game screen");
+					"Width not initialized. Forgot to register this as Listener to game screen");
 		}
 		return this.windowWidth;
 	}

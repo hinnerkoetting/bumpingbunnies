@@ -175,14 +175,22 @@ public class GameActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		GameActivity.this.inputDispatcher.dispatchOnKeyDown(keyCode, event);
-		return true;
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			return super.onKeyDown(keyCode, event);
+		} else {
+			GameActivity.this.inputDispatcher.dispatchOnKeyDown(keyCode, event);
+			return true;
+		}
 	}
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		GameActivity.this.inputDispatcher.dispatchOnKeyUp(keyCode, event);
-		return true;
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			return super.onKeyUp(keyCode, event);
+		} else {
+			GameActivity.this.inputDispatcher.dispatchOnKeyUp(keyCode, event);
+			return true;
+		}
 	}
 
 }

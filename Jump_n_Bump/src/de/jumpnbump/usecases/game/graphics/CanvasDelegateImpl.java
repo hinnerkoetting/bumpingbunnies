@@ -3,19 +3,21 @@ package de.jumpnbump.usecases.game.graphics;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import de.jumpnbump.usecases.game.android.calculation.RelativeCoordinatesCalculation;
 
-public abstract class AbstractCanvasDelegate implements CanvasDelegate {
+public final class CanvasDelegateImpl implements CanvasDelegate {
 
 	private Canvas canvas;
-	private int width;
-	private int height;
+	private final RelativeCoordinatesCalculation calculations;
+
+	public CanvasDelegateImpl(RelativeCoordinatesCalculation calculations) {
+		this.calculations = calculations;
+	}
 
 	@Override
 	public void updateDelegate(Canvas canvas) {
 		this.canvas = canvas;
-		this.width = this.canvas.getWidth();
-		this.height = this.canvas.getHeight();
-
+		this.calculations.updateCanvas(canvas.getWidth(), canvas.getHeight());
 	}
 
 	@Override
@@ -47,11 +49,20 @@ public abstract class AbstractCanvasDelegate implements CanvasDelegate {
 				.drawBitmap(bitmap, transformX(left), transformY(top), paint);
 	}
 
-	protected int getWidth() {
-		return this.width;
+	/**
+	 * Using double as parameter to avoid buffer overflow
+	 */
+	@Override
+	public float transformX(int x) {
+		return this.calculations.getScreenCoordinateX(x);
 	}
 
-	protected int getHeight() {
-		return this.height;
+	/**
+	 * Using double as parameter to avoid buffer overflow
+	 */
+	@Override
+	public float transformY(int y) {
+		return this.calculations.getScreenCoordinateY(y);
 	}
+
 }

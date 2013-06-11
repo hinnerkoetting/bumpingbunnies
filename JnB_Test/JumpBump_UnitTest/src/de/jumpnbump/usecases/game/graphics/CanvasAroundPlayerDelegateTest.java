@@ -12,16 +12,19 @@ import org.mockito.MockitoAnnotations;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import de.jumpnbump.usecases.game.android.calculation.RelativeCoordinatesCalculation;
 import de.jumpnbump.usecases.game.model.Player;
 
 public class CanvasAroundPlayerDelegateTest {
 
-	private CanvasAroundPlayerDelegate canvasDelegate;
+	private CanvasDelegateImpl canvasDelegate;
 	private Player player;
 	@Mock
 	private Canvas canvas;
 	@Mock
 	private Paint paint;
+	@Mock
+	private RelativeCoordinatesCalculation calculations;
 
 	@Test
 	public void drawTextAtGame0x0_givenPlayerIsAtPosition0x0_shouldBeDrawnAtCenterOfScreen() {
@@ -64,15 +67,15 @@ public class CanvasAroundPlayerDelegateTest {
 	@Test
 	public void drawTextAtGame0x0_givenPlayerIsAtPosition250x250AndZoomIsHalf_shouldBeDrawnAtBottomLeftOfScreen() {
 		givenPlayerAtPosition(250, 250);
-		givenZoom(0.5f);
+		givenZoom(2);
 		this.canvasDelegate.drawText("test", 0, 0, this.paint);
 		verify(this.canvas).drawText(eq("test"),
 				AdditionalMatchers.eq(0, 0.05f),
-				AdditionalMatchers.eq(1000, 0.05f), eq(this.paint));
+				AdditionalMatchers.eq(125, 0.05f), eq(this.paint));
 	}
 
-	private void givenZoom(float zoom) {
-		this.canvasDelegate.setZoom(zoom);
+	private void givenZoom(int zoom) {
+		this.calculations.setZoom(zoom);
 	}
 
 	private void givenPlayerAtPosition(int x, int y) {
@@ -84,7 +87,7 @@ public class CanvasAroundPlayerDelegateTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.player = new Player(-1);
-		this.canvasDelegate = new CanvasAroundPlayerDelegate(this.player);
+		this.canvasDelegate = new CanvasDelegateImpl(this.calculations);
 		init1000x1000Canvas();
 		this.canvasDelegate.updateDelegate(this.canvas);
 	}

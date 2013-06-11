@@ -284,6 +284,7 @@ public class StartActivity extends Activity {
 				updateNumberPlayer();
 			}
 		});
+		numberPlayers.setProgress(1);
 		updateNumberPlayer();
 	}
 
@@ -310,11 +311,12 @@ public class StartActivity extends Activity {
 				updateZoom();
 			}
 		});
+		zoom.setProgress(4);
 		updateZoom();
 	}
 
 	private void updateZoom() {
-		TextView view = (TextView) findViewById(R.id.settings_number_player_number);
+		TextView view = (TextView) findViewById(R.id.settings_zoom_number);
 		view.setText(Integer.toString(getZoom()));
 	}
 }

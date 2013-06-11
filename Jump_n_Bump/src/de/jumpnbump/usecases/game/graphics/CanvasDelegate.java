@@ -19,8 +19,8 @@ public interface CanvasDelegate {
 
 	void drawImage(Bitmap bitmap, int left, int top, Paint paint);
 
-	public abstract float transformY(double y);
+	public abstract float transformY(int y);
 
-	public abstract float transformX(double x);
+	public abstract float transformX(int x);
 
 }
