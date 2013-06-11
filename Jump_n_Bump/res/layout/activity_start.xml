@@ -48,21 +48,7 @@
                     android:layout_height="wrap_content"
                     layout="@layout/menu_world" />
 
-                <EditText
-                    android:id="@+id/number_player"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/player"
-                    android:inputType="number"
-                    android:text="@string/default_player" />
-
-                <EditText
-                    android:id="@+id/zoom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/zoom"
-                    android:inputType="number"
-                    android:text="@string/default_zoom" />
+                <include layout="@layout/other_settings" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

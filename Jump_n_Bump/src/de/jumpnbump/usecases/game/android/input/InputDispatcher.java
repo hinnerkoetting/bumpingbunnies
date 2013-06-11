@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input;
 
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,4 +23,8 @@ public abstract class InputDispatcher<S extends InputService> {
 	public abstract void dispatchGameTouch(MotionEvent motion);
 
 	public abstract void dispatchControlViewTouch(View v, MotionEvent motion);
+
+	public abstract void dispatchOnKeyDown(int keyCode, KeyEvent event);
+
+	public abstract void dispatchOnKeyUp(int keyCode, KeyEvent event);
 }

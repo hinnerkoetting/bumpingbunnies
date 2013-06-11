@@ -18,13 +18,11 @@
             android:id="@+id/start_button_touch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:text="@string/touch" />
 
         <RadioButton
             android:id="@+id/start_button_touch_jump"
             android:layout_width="wrap_content"
-            android:enabled="false"
             android:layout_height="wrap_content"
             android:text="@string/touch_with_jump" />
 
@@ -32,13 +30,11 @@
             android:id="@+id/start_button_keyboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:text="@string/keyboard" />
-        
+
         <RadioButton
             android:id="@+id/start_button_analog"
             android:layout_width="wrap_content"
-            android:enabled="false"
             android:layout_height="wrap_content"
             android:text="@string/analog" />
 
@@ -46,13 +42,12 @@
             android:id="@+id/start_button_multi_touch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:checked="true"
+            android:checked="true"
             android:text="@string/multi_touch" />
-        
+
         <RadioButton
             android:id="@+id/start_button_fling_touch"
             android:layout_width="wrap_content"
-            android:enabled="false"
             android:layout_height="wrap_content"
             android:text="@string/fling_touch" />
 
@@ -67,18 +62,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/smart_pointer" />
-        
+
         <RadioButton
             android:id="@+id/start_button_touch_press"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/touch_press" />
-        
+
         <RadioButton
             android:id="@+id/start_button_touch_release"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/touch_release" />
+
+        <RadioButton
+            android:id="@+id/start_button_hardware_keyboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hardware_keyboard" />
     </RadioGroup>
 
 </LinearLayout>

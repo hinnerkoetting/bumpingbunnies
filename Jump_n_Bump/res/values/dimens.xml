@@ -10,5 +10,7 @@
     <dimen name="button_margin">5dp</dimen>
     <dimen name="analog_input_size">200dp</dimen>
 
-    <dimen name="only_one_button_padding">50dp</dimen>
+    <dimen name="only_one_button_padding">30dp</dimen>
+    <dimen name="slider_width">150dp</dimen>
+    <dimen name="settings_label_width">50dp</dimen>
 </resources>

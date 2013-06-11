@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.jumpnbump.R;
@@ -49,6 +51,8 @@ public class StartActivity extends Activity {
 		this.listAdapter = new BluetoothArrayAdapter(getBaseContext(), this);
 		list.setAdapter(this.listAdapter);
 		this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		initZoomSetting();
+		initNumberPlayerSettings();
 	}
 
 	@Override
@@ -245,21 +249,72 @@ public class StartActivity extends Activity {
 	}
 
 	private int getNumberOfPlayers() {
-		TextView numberPlayers = (TextView) findViewById(R.id.number_player);
+		SeekBar numberPlayers = (SeekBar) findViewById(R.id.number_player);
 		try {
-			int i = Integer.parseInt(numberPlayers.getText().toString());
-			if (i < 0 || i > 4) {
-				return 2;
-			}
-			return i;
+			return numberPlayers.getProgress() + 1;
 		} catch (Exception e) {
 			return 2;
 		}
 	}
 
 	private int getZoom() {
-		TextView zoom = (TextView) findViewById(R.id.zoom);
-		return Integer.parseInt(zoom.getText().toString());
+		SeekBar zoom = (SeekBar) findViewById(R.id.zoom);
+		return zoom.getProgress() + 1;
 	}
 
+	private void initSettingsViews() {
+		initNumberPlayerSettings();
+	}
+
+	private void initNumberPlayerSettings() {
+		SeekBar numberPlayers = (SeekBar) findViewById(R.id.number_player);
+		numberPlayers.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				updateNumberPlayer();
+			}
+		});
+		updateNumberPlayer();
+	}
+
+	private void updateNumberPlayer() {
+		TextView view = (TextView) findViewById(R.id.settings_number_player_number);
+		view.setText(Integer.toString(getNumberOfPlayers()));
+	}
+
+	private void initZoomSetting() {
+		SeekBar zoom = (SeekBar) findViewById(R.id.zoom);
+		zoom.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				updateZoom();
+			}
+		});
+		updateZoom();
+	}
+
+	private void updateZoom() {
+		TextView view = (TextView) findViewById(R.id.settings_number_player_number);
+		view.setText(Integer.toString(getZoom()));
+	}
 }

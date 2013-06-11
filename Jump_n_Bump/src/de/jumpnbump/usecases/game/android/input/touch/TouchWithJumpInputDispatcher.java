@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.touch;
 
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.R;
@@ -22,6 +23,14 @@ public class TouchWithJumpInputDispatcher extends
 		if (v.getId() == R.id.button_up) {
 			getInputService().onButtonTouchUp(motion);
 		}
+	}
+
+	@Override
+	public void dispatchOnKeyDown(int keyCode, KeyEvent event) {
+	}
+
+	@Override
+	public void dispatchOnKeyUp(int keyCode, KeyEvent event) {
 	}
 
 }

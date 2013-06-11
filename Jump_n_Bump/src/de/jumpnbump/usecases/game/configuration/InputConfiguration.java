@@ -5,6 +5,7 @@ import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServi
 import de.jumpnbump.usecases.game.android.input.factory.KeyboardInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.factory.TouchInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.factory.TouchJumpInputServicesFactory;
+import de.jumpnbump.usecases.game.android.input.hardwareKeyboard.HardwareKeyboardFactory;
 import de.jumpnbump.usecases.game.android.input.multiTouch.MultiTouchJumpServicesFactory;
 import de.jumpnbump.usecases.game.android.input.pointer.PointerInputServiceFactory;
 import de.jumpnbump.usecases.game.android.input.rememberPointer.RememberPointerInputFactory;
@@ -21,7 +22,8 @@ public enum InputConfiguration {
 			PointerInputServiceFactory.class), REMEMBER_POINTER(
 			RememberPointerInputFactory.class), ANALOG(AnalogInputFactory.class), TOUCH_FLING(
 			TouchFlingFactory.class), TOUCH_PRESS(TouchPressInputFactory.class), TOUCH_RELEASE(
-			TouchReleaseFactory.class);
+			TouchReleaseFactory.class), HARDWARE_KEYBOARD(
+			HardwareKeyboardFactory.class);
 
 	private Class<? extends AbstractPlayerInputServicesFactory<?>> factoryClass;
 

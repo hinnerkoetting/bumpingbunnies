@@ -39,5 +39,7 @@
     <string name="default_player">2</string>
     <string name="zoom">Zoom</string>
     <string name="default_zoom">5</string>
+    <string name="hardware_keyboard">Hardware-Keyboard</string>
+    <string name="number_player">Spieler</string>
 
 </resources>

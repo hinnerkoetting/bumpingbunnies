@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -170,6 +171,18 @@ public class GameActivity extends Activity {
 
 	public void onClickInputTypeCb() {
 		this.gameThread.switchInputServices(createInputServices());
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		GameActivity.this.inputDispatcher.dispatchOnKeyDown(keyCode, event);
+		return true;
+	}
+
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		GameActivity.this.inputDispatcher.dispatchOnKeyUp(keyCode, event);
+		return true;
 	}
 
 }

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.analog;
 
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
@@ -52,6 +53,16 @@ public class AnalogInputDispatcher extends InputDispatcher<AnalogInputService> {
 	private boolean isTouchInLowerHalf(View v, MotionEvent motion) {
 		float y = motion.getY();
 		return y / v.getHeight() > 0.5;
+	}
+
+	@Override
+	public void dispatchOnKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void dispatchOnKeyUp(int keyCode, KeyEvent event) {
 	}
 
 }
