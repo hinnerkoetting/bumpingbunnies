@@ -13,7 +13,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -23,7 +26,6 @@ import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
-import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.configuration.AiModus;
 import de.jumpnbump.usecases.game.configuration.AiModusGenerator;
@@ -32,16 +34,18 @@ import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 import de.jumpnbump.usecases.game.configuration.InputConfigurationGenerator;
 import de.jumpnbump.usecases.game.configuration.WorldConfiguration;
 import de.jumpnbump.usecases.game.configuration.WorldConfigurationGenerator;
+import de.jumpnbump.usecases.start.communication.BluetoothCommunicationFactory;
+import de.jumpnbump.usecases.start.communication.DummyCommunication;
+import de.jumpnbump.usecases.start.communication.RemoteCommunication;
 
 public class StartActivity extends Activity {
 
 	private static final MyLog LOGGER = Logger.getLogger(StartActivity.class);
-	private final int REQUEST_BT_ENABLE = 1000;
+	public final static int REQUEST_BT_ENABLE = 1000;
 	private BluetoothArrayAdapter listAdapter;
 	private BroadcastReceiver mReceiver;
-	private AcceptThread acceptThread;
-	private ConnectThread connectThread;
-	private BluetoothAdapter mBluetoothAdapter;
+
+	private RemoteCommunication remoteCommunication;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +53,42 @@ public class StartActivity extends Activity {
 		setContentView(R.layout.activity_start);
 		ListView list = (ListView) findViewById(R.id.start_bt_list);
 		this.listAdapter = new BluetoothArrayAdapter(getBaseContext(), this);
+		this.remoteCommunication = new DummyCommunication();
 		list.setAdapter(this.listAdapter);
-		this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		initZoomSetting();
 		initNumberPlayerSettings();
+		initRemoteCbListeners();
+	}
+
+	private void initRemoteCbListeners() {
+		RadioButton btButton = (RadioButton) findViewById(R.id.start_remote_bt);
+		btButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				switchToBluetooth();
+			}
+		});
+		RadioButton wlanButton = (RadioButton) findViewById(R.id.start_remote_wlan);
+		wlanButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				switchToWlan();
+			}
+		});
+		btButton.setChecked(true);
+	}
+
+	private void switchToBluetooth() {
+		this.remoteCommunication = BluetoothCommunicationFactory.create(
+				BluetoothAdapter.getDefaultAdapter(), this);
+	}
+
+	private void switchToWlan() {
+		LOGGER.warn("TODO: implement");
 	}
 
 	@Override
@@ -71,7 +107,7 @@ public class StartActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == this.REQUEST_BT_ENABLE) {
+		if (requestCode == StartActivity.REQUEST_BT_ENABLE) {
 			if (resultCode == RESULT_OK) {
 				connectToDevice();
 			}
@@ -91,19 +127,7 @@ public class StartActivity extends Activity {
 	}
 
 	private boolean checkBluetoothSettings() {
-		if (this.mBluetoothAdapter == null) {
-			Toast makeText = Toast.makeText(this, "Bluetooth not supported",
-					Toast.LENGTH_LONG);
-			makeText.show();
-			return false;
-		} else {
-			if (!this.mBluetoothAdapter.isEnabled()) {
-				Intent enableBtIntent = new Intent(
-						BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				startActivityForResult(enableBtIntent, this.REQUEST_BT_ENABLE);
-			}
-			return true;
-		}
+		return this.remoteCommunication.activate();
 	}
 
 	public void onClickDiscovery(View v) {
@@ -157,14 +181,7 @@ public class StartActivity extends Activity {
 	}
 
 	private void startHostThread() {
-		Intent discoverableIntent = new Intent(
-				BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-		discoverableIntent.putExtra(
-				BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-		startActivity(discoverableIntent);
-		closeOpenBtConnections();
-		this.acceptThread = new AcceptThread(this.mBluetoothAdapter, this);
-		this.acceptThread.start();
+		this.remoteCommunication.startServer();
 	}
 
 	@Override
@@ -173,21 +190,12 @@ public class StartActivity extends Activity {
 		if (this.mReceiver != null) {
 			unregisterReceiver(this.mReceiver);
 		}
-		closeOpenBtConnections();
-	}
-
-	private void closeOpenBtConnections() {
-		this.mBluetoothAdapter.cancelDiscovery();
-		MyApplication application = (MyApplication) getApplication();
-		application.closeExistingSocket();
+		this.remoteCommunication.closeOpenConnections();
 	}
 
 	public void startConnectToServer(BluetoothDevice device) {
-		closeOpenBtConnections();
-		this.connectThread = new ConnectThread(device, this.mBluetoothAdapter,
-				this);
-		this.connectThread.start();
-
+		this.remoteCommunication.closeOpenConnections();
+		this.remoteCommunication.conntectToServer(device);
 	}
 
 	public void connectionNotSuccesful(final String message) {
@@ -260,10 +268,6 @@ public class StartActivity extends Activity {
 	private int getZoom() {
 		SeekBar zoom = (SeekBar) findViewById(R.id.zoom);
 		return zoom.getProgress() + 1;
-	}
-
-	private void initSettingsViews() {
-		initNumberPlayerSettings();
 	}
 
 	private void initNumberPlayerSettings() {

@@ -27,7 +27,13 @@ public class CollisionDetection {
 
 	private boolean standsOn(GameObject upperObject, GameObject lowerObject) {
 		if (upperObject.minY() == lowerObject.maxY()) {
-			return collides(upperObject, lowerObject);
+			if (upperObject.maxX() <= lowerObject.minX()) {
+				return false;
+			}
+			if (upperObject.minX() >= lowerObject.maxX()) {
+				return false;
+			}
+			return true;
 		}
 		return false;
 	}
@@ -82,16 +88,16 @@ public class CollisionDetection {
 	}
 
 	public boolean collides(GameObject gameObject, GameObject other) {
-		if (gameObject.maxX() < other.minX()) {
+		if (gameObject.maxX() <= other.minX()) {
 			return false;
 		}
-		if (gameObject.minX() > other.maxX()) {
+		if (gameObject.minX() >= other.maxX()) {
 			return false;
 		}
-		if (gameObject.maxY() < other.minY()) {
+		if (gameObject.maxY() <= other.minY()) {
 			return false;
 		}
-		if (gameObject.minY() > other.maxY()) {
+		if (gameObject.minY() >= other.maxY()) {
 			return false;
 		}
 		return true;

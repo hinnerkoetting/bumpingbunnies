@@ -104,10 +104,8 @@ public class Player implements GameObject {
 	}
 
 	public void moveNextStep() {
-		this.state.setCenterX(this.state.getCenterX()
-				+ this.state.getMovementX());
-		this.state.setCenterY(this.state.getCenterY()
-				+ this.state.getMovementY());
+		moveNextStepX();
+		moveNextStepY();
 		calculateRect();
 	}
 
@@ -207,4 +205,27 @@ public class Player implements GameObject {
 		state2.setMovementY((int) (0.5 * ModelConstants.PLAYER_JUMP_SPEED));
 	}
 
+	public GameObject simulateNextStepX() {
+		resetSimulatedObject();
+		this.simulatedObject.moveNextStepX();
+		this.simulatedObject.calculateRect();
+		return this.simulatedObject;
+	}
+
+	public GameObject simulateNextStepY() {
+		resetSimulatedObject();
+		this.simulatedObject.moveNextStepY();
+		this.simulatedObject.calculateRect();
+		return this.simulatedObject;
+	}
+
+	private void moveNextStepX() {
+		this.state.setCenterX(this.state.getCenterX()
+				+ this.state.getMovementX());
+	}
+
+	private void moveNextStepY() {
+		this.state.setCenterY(this.state.getCenterY()
+				+ this.state.getMovementY());
+	}
 }
