@@ -36,8 +36,9 @@
             android:id="@+id/start_button_distributed_keyboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/distributed_keyboard" />
-        
+
         <RadioButton
             android:id="@+id/start_button_analog"
             android:layout_width="wrap_content"
@@ -48,9 +49,7 @@
             android:id="@+id/start_button_multi_touch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="@string/multi_touch" />
-
 
         <RadioButton
             android:id="@+id/start_button_pointer"
