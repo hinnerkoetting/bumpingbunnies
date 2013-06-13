@@ -9,14 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.jumpnbump.usecases.networkRoom.ManagesConnectionsToServer;
 
 public class BluetoothArrayAdapter extends ArrayAdapter<BluetoothDevice> {
 
-	private StartActivity activity;
+	private ManagesConnectionsToServer callback;
 
-	public BluetoothArrayAdapter(Context context, StartActivity activity) {
+	public BluetoothArrayAdapter(Context context,
+			ManagesConnectionsToServer callback) {
 		super(context, -1);
-		this.activity = activity;
+		this.callback = callback;
 	}
 
 	@Override
@@ -43,7 +45,7 @@ public class BluetoothArrayAdapter extends ArrayAdapter<BluetoothDevice> {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			BluetoothArrayAdapter.this.activity
+			BluetoothArrayAdapter.this.callback
 					.startConnectToServer(this.device);
 			return true;
 		}

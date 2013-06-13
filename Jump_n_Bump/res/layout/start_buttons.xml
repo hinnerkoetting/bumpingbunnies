@@ -12,46 +12,12 @@
             android:layout_height="wrap_content"
             android:onClick="onClickSingleplayer"
             android:text="@string/singleplayer" />
-
+        
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClickMakeVisible"
-            android:text="@string/make_visible" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bluetooth"
-                android:id="@+id/start_remote_bt" />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/wlan"
-                android:id="@+id/start_remote_wlan" />
-        </RadioGroup>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickConnect"
-            android:text="@string/connect" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickDiscovery"
-            android:text="@string/find_devices" />
+            android:onClick="onClickMultiplayer"
+            android:text="@string/multiplayer" />
     </LinearLayout>
 
 </merge>
