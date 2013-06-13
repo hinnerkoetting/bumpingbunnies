@@ -38,8 +38,7 @@ public class TouchJumpInputServicesFactory extends
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				inputDispatcher.dispatchControlViewTouch(v, event);
-				return true;
+				return inputDispatcher.dispatchControlViewTouch(v, event);
 			}
 		};
 		upButton.setOnTouchListener(touchListener);

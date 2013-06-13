@@ -3,7 +3,6 @@
     android:id="@+id/game_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
     android:orientation="vertical"
     android:paddingLeft="@dimen/game_padding_left_right"
     android:paddingRight="@dimen/game_padding_left_right" >

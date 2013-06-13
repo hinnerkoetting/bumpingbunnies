@@ -3,10 +3,9 @@ package de.jumpnbump.usecases.game.android.input.gamepad;
 import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.R;
-import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
-public class GamepadInputService implements InputService {
+public class GamepadInputService implements KeyboardInputService {
 
 	private boolean leftIsPressed;
 	private boolean rightIsPressed;
@@ -54,7 +53,8 @@ public class GamepadInputService implements InputService {
 	public void destroy() {
 	}
 
-	public void onButtonTouch(View v, MotionEvent event) {
+	@Override
+	public boolean onButtonTouch(View v, MotionEvent event) {
 		boolean isPressed = event.getAction() != MotionEvent.ACTION_UP;
 		switch (v.getId()) {
 		case R.id.button_down:
@@ -69,7 +69,9 @@ public class GamepadInputService implements InputService {
 		case R.id.button_right:
 			this.rightIsPressed = isPressed;
 			break;
-
+		default:
+			return false;
 		}
+		return true;
 	}
 }

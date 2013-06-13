@@ -12,27 +12,28 @@ public class AnalogInputDispatcher extends InputDispatcher<AnalogInputService> {
 	}
 
 	@Override
-	public void dispatchGameTouch(MotionEvent motion) {
+	public boolean dispatchGameTouch(MotionEvent motion) {
+		return false;
 	}
 
 	@Override
-	public void dispatchControlViewTouch(View v, MotionEvent motion) {
+	public boolean dispatchControlViewTouch(View v, MotionEvent motion) {
 		if (motion.getAction() == MotionEvent.ACTION_UP) {
 			getInputService().reset();
 		} else {
 			if (isTouchInUpperHalf(v, motion)) {
 				getInputService().onTouchUpperHalf();
-			}
-			if (isTouchInLowerHalf(v, motion)) {
+			} else if (isTouchInLowerHalf(v, motion)) {
 				getInputService().onTouchLowerHalf();
-			}
-			if (isTouchInRightHalf(v, motion)) {
+			} else if (isTouchInRightHalf(v, motion)) {
 				getInputService().onTouchRightHalf();
-			}
-			if (isTouchInLeftHalf(v, motion)) {
+			} else if (isTouchInLeftHalf(v, motion)) {
 				getInputService().onTouchLeftHalf();
+			} else {
+				return false;
 			}
 		}
+		return true;
 	}
 
 	private boolean isTouchInUpperHalf(View v, MotionEvent motion) {

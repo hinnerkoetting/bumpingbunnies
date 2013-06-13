@@ -14,15 +14,18 @@ public class TouchWithJumpInputDispatcher extends
 	}
 
 	@Override
-	public void dispatchGameTouch(MotionEvent motion) {
+	public boolean dispatchGameTouch(MotionEvent motion) {
 		getInputService().onMotionEvent(motion);
+		return false;
 	}
 
 	@Override
-	public void dispatchControlViewTouch(View v, MotionEvent motion) {
+	public boolean dispatchControlViewTouch(View v, MotionEvent motion) {
 		if (v.getId() == R.id.button_up) {
 			getInputService().onButtonTouchUp(motion);
+			return true;
 		}
+		return false;
 	}
 
 	@Override

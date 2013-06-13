@@ -20,11 +20,15 @@ public abstract class InputDispatcher<S extends InputService> {
 		return this.inputService;
 	}
 
-	public abstract void dispatchGameTouch(MotionEvent motion);
+	public abstract boolean dispatchGameTouch(MotionEvent motion);
 
-	public abstract void dispatchControlViewTouch(View v, MotionEvent motion);
+	public boolean dispatchControlViewTouch(View v, MotionEvent motion) {
+		return false;
+	}
 
-	public abstract void dispatchOnKeyDown(int keyCode, KeyEvent event);
+	public void dispatchOnKeyDown(int keyCode, KeyEvent event) {
+	}
 
-	public abstract void dispatchOnKeyUp(int keyCode, KeyEvent event);
+	public void dispatchOnKeyUp(int keyCode, KeyEvent event) {
+	}
 }

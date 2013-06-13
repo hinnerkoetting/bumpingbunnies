@@ -5,19 +5,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 
-public class KeyboardDispatcher extends InputDispatcher<GamepadInputService> {
+public class KeyboardDispatcher extends InputDispatcher<KeyboardInputService> {
 
-	public KeyboardDispatcher(GamepadInputService service) {
+	public KeyboardDispatcher(KeyboardInputService service) {
 		super(service);
 	}
 
 	@Override
-	public void dispatchGameTouch(MotionEvent motion) {
+	public boolean dispatchGameTouch(MotionEvent motion) {
+		return false;
 	}
 
 	@Override
-	public void dispatchControlViewTouch(View v, MotionEvent motion) {
-		getInputService().onButtonTouch(v, motion);
+	public boolean dispatchControlViewTouch(View v, MotionEvent motion) {
+		return getInputService().onButtonTouch(v, motion);
 	}
 
 	@Override

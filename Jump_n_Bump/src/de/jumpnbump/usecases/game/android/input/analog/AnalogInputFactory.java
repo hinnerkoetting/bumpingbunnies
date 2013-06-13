@@ -29,7 +29,7 @@ public class AnalogInputFactory extends
 	@Override
 	public void insertGameControllerViews(ViewGroup rootView,
 			LayoutInflater inflater, final InputDispatcher<?> inputDispatcher) {
-		View controlView = inflater.inflate(R.layout.analog_control, rootView,
+		View controlView = inflater.inflate(R.layout.input_analog_control, rootView,
 				true);
 		View analogInput = controlView.findViewById(R.id.analog_input);
 		analogInput.setOnTouchListener(new OnTouchListener() {

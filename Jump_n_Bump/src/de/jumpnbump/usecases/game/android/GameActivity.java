@@ -81,8 +81,8 @@ public class GameActivity extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				GameActivity.this.inputDispatcher.dispatchGameTouch(event);
-				return true;
+				return GameActivity.this.inputDispatcher
+						.dispatchGameTouch(event);
 			}
 		});
 	}

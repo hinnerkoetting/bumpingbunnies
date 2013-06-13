@@ -41,6 +41,8 @@ public class InputConfigurationGenerator {
 			return InputConfiguration.TOUCH_RELEASE;
 		case R.id.start_button_hardware_keyboard:
 			return InputConfiguration.HARDWARE_KEYBOARD;
+		case R.id.start_button_distributed_keyboard:
+			return InputConfiguration.DISTRIBUTED_KEYBOARD;
 		default:
 			throw new IllegalArgumentException("Unknown inputtype");
 		}

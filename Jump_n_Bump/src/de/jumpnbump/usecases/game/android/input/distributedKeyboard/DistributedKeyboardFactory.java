@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.game.android.input.factory;
+package de.jumpnbump.usecases.game.android.input.distributedKeyboard;
 
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -7,29 +7,30 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
-import de.jumpnbump.usecases.game.android.input.gamepad.GamepadInputService;
+import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.gamepad.KeyboardDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 
-public class KeyboardInputServicesFactory extends
-		AbstractPlayerInputServicesFactory<GamepadInputService> {
+public class DistributedKeyboardFactory extends
+		AbstractPlayerInputServicesFactory<DistributedInputService> {
 
 	@Override
-	public GamepadInputService createInputService(PlayerConfig config) {
-		return new GamepadInputService(
+	public DistributedInputService createInputService(PlayerConfig config) {
+		return new DistributedInputService(
 				config.getTabletControlledPlayerMovement());
 	}
 
 	@Override
 	public InputDispatcher<?> createInputDispatcher(
-			GamepadInputService inputService) {
+			DistributedInputService inputService) {
 		return new KeyboardDispatcher(inputService);
 	}
 
 	@Override
 	public void insertGameControllerViews(ViewGroup rootView,
 			LayoutInflater inflater, InputDispatcher<?> inputDispatcher) {
-		View v = inflater.inflate(R.layout.gamepad, rootView, true);
+		View v = inflater.inflate(R.layout.input_distributed_keyboard,
+				rootView, true);
 		registerTouchEvents(v, inputDispatcher);
 	}
 
@@ -39,23 +40,16 @@ public class KeyboardInputServicesFactory extends
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				inputDispatcher.dispatchControlViewTouch(v, event);
-				return true;
-			}
-		};
-		OnTouchListener upTouchListener = new OnTouchListener() {
+				return inputDispatcher.dispatchControlViewTouch(v, event);
 
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				inputDispatcher.dispatchControlViewTouch(v, event);
-				return true;
 			}
 		};
 
-		v.findViewById(R.id.button_down).setOnTouchListener(touchListener);
-		v.findViewById(R.id.button_up).setOnTouchListener(upTouchListener);
-		v.findViewById(R.id.button_right).setOnTouchListener(touchListener);
+		v.findViewById(R.id.button_up).setOnTouchListener(touchListener);
 		v.findViewById(R.id.button_left).setOnTouchListener(touchListener);
+		v.findViewById(R.id.button_right).setOnTouchListener(touchListener);
+		v.findViewById(R.id.input_distributed_left_right).setOnTouchListener(
+				touchListener);
 
 	}
 

@@ -2,7 +2,6 @@ package de.jumpnbump.usecases.game.android.input.hardwareKeyboard;
 
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 
 public class HardwareKeyboardInputDispatcher extends
@@ -13,11 +12,8 @@ public class HardwareKeyboardInputDispatcher extends
 	}
 
 	@Override
-	public void dispatchGameTouch(MotionEvent motion) {
-	}
-
-	@Override
-	public void dispatchControlViewTouch(View v, MotionEvent motion) {
+	public boolean dispatchGameTouch(MotionEvent motion) {
+		return false;
 	}
 
 	public void onKeyUp(int keyCode, KeyEvent event) {

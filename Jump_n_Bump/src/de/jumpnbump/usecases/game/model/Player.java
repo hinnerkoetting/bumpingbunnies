@@ -42,7 +42,7 @@ public class Player implements GameObject {
 	public void setCenterX(int centerX) {
 		this.state.setCenterX(centerX);
 		calculateRect();
-		LOGGER.debug("%s %f", "set", centerX);
+		LOGGER.debug("%s %d", "set", centerX);
 	}
 
 	public int getCenterY() {
