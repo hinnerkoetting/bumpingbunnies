@@ -23,6 +23,7 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 	private boolean canceled;
 
 	public NetworkReceiveDispatcherThread(BufferedReader reader, Gson gson) {
+		super("Network receive thread");
 		this.reader = reader;
 		this.gson = gson;
 		this.listeners = new SparseArray<NetworkListener>();

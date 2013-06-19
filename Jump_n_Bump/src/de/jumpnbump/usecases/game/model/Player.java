@@ -11,11 +11,17 @@ public class Player implements GameObject {
 	private Player simulatedObject;
 
 	private PlayerRect rect;
+	private int halfWidth;
+	private int halfHeight;
+	private int id;
 
 	public Player(int id) {
 		this.rect = new PlayerRect();
 		this.state = new PlayerState(id);
+		this.id = id;
 		calculateRect();
+		this.halfHeight = ModelConstants.PLAYER_HEIGHT / 2;
+		this.halfWidth = ModelConstants.PLAYER_WIDTH / 2;
 	}
 
 	public Player(Player simulatedObject, int id) {
@@ -26,13 +32,10 @@ public class Player implements GameObject {
 	public void calculateRect() {
 		int centerX = this.state.getCenterX();
 		int centerY = this.state.getCenterY();
-		this.rect.setMinX(centerX - ModelConstants.PLAYER_WIDTH / 2);
-		this.rect.setMaxX(centerX + ModelConstants.PLAYER_WIDTH / 2);
-		this.rect.setMinY(centerY - ModelConstants.PLAYER_HEIGHT / 2);
-		this.rect.setMaxY(centerY + ModelConstants.PLAYER_HEIGHT / 2);
-		LOGGER.verbose("Position MinX: %f - MaxX: %f - MinY: %f - MaxY: %f ",
-				this.rect.getMinX(), this.rect.getMaxX(), this.rect.getMinY(),
-				this.rect.getMaxY());
+		this.rect.setMinX(centerX - this.halfWidth);
+		this.rect.setMaxX(centerX + this.halfWidth);
+		this.rect.setMinY(centerY - this.halfHeight);
+		this.rect.setMaxY(centerY + this.halfHeight);
 	}
 
 	public int getCenterX() {
@@ -158,7 +161,7 @@ public class Player implements GameObject {
 
 	@Override
 	public int id() {
-		return this.state.getId();
+		return this.id;
 	}
 
 	public PlayerState getState() {

@@ -25,6 +25,7 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 
 	public AcceptThreadImpl(BluetoothAdapter mBluetoothAdapter,
 			Activity activity, GameStarter gameStarter) {
+		super("Host thread");
 		this.activity = activity;
 		this.gameStarter = gameStarter;
 		// Use a temporary object that is later assigned to mmServerSocket,

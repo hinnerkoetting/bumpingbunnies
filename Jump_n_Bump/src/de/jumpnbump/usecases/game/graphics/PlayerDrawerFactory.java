@@ -6,14 +6,22 @@ import java.util.List;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.model.Player;
 
 public class PlayerDrawerFactory {
 
 	public static PlayerDrawer create(Player player, Resources resources) {
-		AnimationWithMirror animation = AnimationWithMirrorFactory.create(
-				createListOfTestBitmap(resources), 20);
+
+		AnimationWithMirror animation;
+		if (player.id() == 0) {
+			animation = AnimationWithMirrorFactory.create(
+					createListOfTestBitmap(resources), 20);
+		} else {
+			animation = AnimationWithMirrorFactory.create(
+					createListOfTestBitmap2(resources), 20);
+		}
 		return new PlayerDrawer(player, animation);
 	}
 
@@ -23,8 +31,19 @@ public class PlayerDrawerFactory {
 	}
 
 	private static List<Bitmap> createListOfTestBitmap(Resources resources) {
-		return Arrays.asList(loadBitmap(resources,
-				R.drawable.frame_000001_000001));
+
+		Bitmap bitmap = loadBitmap(resources, R.drawable.path3898);
+		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
+				bitmap, Color.RED);
+		return Arrays.asList(convertedColor);
+	}
+
+	private static List<Bitmap> createListOfTestBitmap2(Resources resources) {
+
+		Bitmap bitmap = loadBitmap(resources, R.drawable.rect69);
+		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
+				bitmap, Color.BLUE);
+		return Arrays.asList(convertedColor);
 	}
 
 	private static List<Bitmap> createListOfAllBitmaps(Resources resources) {

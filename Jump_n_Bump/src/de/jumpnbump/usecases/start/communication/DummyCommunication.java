@@ -13,7 +13,7 @@ public class DummyCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void conntectToServer(BluetoothDevice device) {
+	public void connectToServer(BluetoothDevice device) {
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.gamepad;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +15,8 @@ public class KeyboardInputServicesFactory extends
 		AbstractPlayerInputServicesFactory<GamepadInputService> {
 
 	@Override
-	public GamepadInputService createInputService(PlayerConfig config) {
+	public GamepadInputService createInputService(PlayerConfig config,
+			Context context) {
 		return new GamepadInputService(
 				config.getTabletControlledPlayerMovement());
 	}

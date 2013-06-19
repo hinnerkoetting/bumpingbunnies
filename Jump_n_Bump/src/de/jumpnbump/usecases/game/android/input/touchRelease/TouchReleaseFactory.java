@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.touchRelease;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
@@ -11,7 +12,8 @@ public class TouchReleaseFactory extends
 		AbstractPlayerInputServicesFactory<TouchReleaseInputService> {
 
 	@Override
-	public TouchReleaseInputService createInputService(PlayerConfig config) {
+	public TouchReleaseInputService createInputService(PlayerConfig config,
+			Context context) {
 		TouchReleaseInputService service = new TouchReleaseInputService(
 				config.getTabletControlledPlayerMovement(),
 				config.getCoordinateCalculations());

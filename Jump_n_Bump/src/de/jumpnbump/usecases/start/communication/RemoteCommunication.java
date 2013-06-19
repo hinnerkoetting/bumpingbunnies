@@ -8,7 +8,7 @@ public interface RemoteCommunication {
 
 	void closeOpenConnections();
 
-	void conntectToServer(BluetoothDevice device);
+	void connectToServer(BluetoothDevice device);
 
 	boolean activate();
 }

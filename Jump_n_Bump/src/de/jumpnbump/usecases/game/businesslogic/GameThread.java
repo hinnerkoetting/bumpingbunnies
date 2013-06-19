@@ -24,6 +24,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 
 	public GameThread(Drawer drawer, WorldController worldController,
 			GameThreadState gameThreadState) {
+		super("Main Game Thread");
 		this.drawer = drawer;
 		this.worldController = worldController;
 		this.running = true;

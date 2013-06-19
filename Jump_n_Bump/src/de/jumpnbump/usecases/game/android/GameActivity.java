@@ -121,7 +121,7 @@ public class GameActivity extends Activity {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
 				.getSingleton();
 
-		this.touchService = myPlayerFactory.createInputService(config);
+		this.touchService = myPlayerFactory.createInputService(config, this);
 		this.inputDispatcher = myPlayerFactory
 				.createInputDispatcher(this.touchService);
 		this.networkMovementService = config.createOtherInputService(singleton);

@@ -22,8 +22,8 @@ public class PlayerDrawer implements Drawable {
 		if (this.player.movementX() != 0) {
 			this.runningAnimation.drawMirrored(this.player.movementX() < 0);
 		}
-		canvas.drawRect(this.player.minX(), this.player.maxY(),
-				this.player.maxX(), this.player.minY(), this.paint);
+		// canvas.drawRect(this.player.minX(), this.player.maxY(),
+		// this.player.maxX(), this.player.minY(), this.paint);
 		this.runningAnimation.draw(canvas, this.player.minX(),
 				this.player.maxY(), this.paint);
 	}
@@ -32,8 +32,8 @@ public class PlayerDrawer implements Drawable {
 	public void updateGraphics(CanvasDelegate canvas) {
 		int width = (int) (canvas.transformX(this.player.maxX()) - canvas
 				.transformX(this.player.minX()));
-		int height = (int) (canvas.transformX(this.player.maxX()) - canvas
-				.transformX(this.player.minX()));
+		int height = (int) (canvas.transformX(this.player.maxY()) - canvas
+				.transformX(this.player.minY()));
 		this.runningAnimation.updateGraphics(canvas, width, height);
 	}
 

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.rememberPointer;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
@@ -14,7 +15,8 @@ public class RememberPointerInputFactory extends
 		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public AbstractTouchService createInputService(PlayerConfig config) {
+	public AbstractTouchService createInputService(PlayerConfig config,
+			Context context) {
 		PlayerMovementController tabletControlledPlayerMovement = config
 				.getTabletControlledPlayerMovement();
 		RememberPointerInputService touchService = new RememberPointerInputService(

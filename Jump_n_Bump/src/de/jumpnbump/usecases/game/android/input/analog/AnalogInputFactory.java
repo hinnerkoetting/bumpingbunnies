@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.analog;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +15,8 @@ public class AnalogInputFactory extends
 		AbstractPlayerInputServicesFactory<AnalogInputService> {
 
 	@Override
-	public AnalogInputService createInputService(PlayerConfig config) {
+	public AnalogInputService createInputService(PlayerConfig config,
+			Context context) {
 		AnalogInputService touchService = new AnalogInputService(
 				config.getTabletControlledPlayerMovement());
 		return touchService;
@@ -29,8 +31,8 @@ public class AnalogInputFactory extends
 	@Override
 	public void insertGameControllerViews(ViewGroup rootView,
 			LayoutInflater inflater, final InputDispatcher<?> inputDispatcher) {
-		View controlView = inflater.inflate(R.layout.input_analog_control, rootView,
-				true);
+		View controlView = inflater.inflate(R.layout.input_analog_control,
+				rootView, true);
 		View analogInput = controlView.findViewById(R.id.analog_input);
 		analogInput.setOnTouchListener(new OnTouchListener() {
 

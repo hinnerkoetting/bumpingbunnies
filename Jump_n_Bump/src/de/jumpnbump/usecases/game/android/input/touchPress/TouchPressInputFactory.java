@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.touchPress;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
@@ -11,7 +12,8 @@ public class TouchPressInputFactory extends
 		AbstractPlayerInputServicesFactory<TouchPressInputService> {
 
 	@Override
-	public TouchPressInputService createInputService(PlayerConfig config) {
+	public TouchPressInputService createInputService(PlayerConfig config,
+			Context context) {
 		TouchPressInputService service = new TouchPressInputService(
 				config.getTabletControlledPlayerMovement(),
 				config.getCoordinateCalculations());

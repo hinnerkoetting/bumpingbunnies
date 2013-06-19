@@ -1,5 +1,7 @@
 package de.jumpnbump.usecases.game.android.input.distributedKeyboard;
 
+import android.content.Context;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -7,6 +9,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
+import de.jumpnbump.usecases.game.android.input.VibrateOnceService;
+import de.jumpnbump.usecases.game.android.input.VibratorService;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.gamepad.KeyboardDispatcher;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
@@ -15,9 +19,18 @@ public class DistributedKeyboardFactory extends
 		AbstractPlayerInputServicesFactory<DistributedInputService> {
 
 	@Override
-	public DistributedInputService createInputService(PlayerConfig config) {
+	public DistributedInputService createInputService(PlayerConfig config,
+			Context context) {
+
+		VibratorService vibrator = createvibratorService(context);
 		return new DistributedInputService(
-				config.getTabletControlledPlayerMovement());
+				config.getTabletControlledPlayerMovement(), vibrator);
+	}
+
+	private VibratorService createvibratorService(Context context) {
+		Vibrator systemService = (Vibrator) context
+				.getSystemService(Context.VIBRATOR_SERVICE);
+		return new VibrateOnceService(systemService);
 	}
 
 	@Override

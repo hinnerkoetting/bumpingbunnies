@@ -98,7 +98,37 @@ public class RoomActivity extends Activity implements
 	}
 
 	private void discoverDevices() {
-		this.mReceiver = new BroadcastReceiver() {
+		this.mReceiver = createBroadCastReceiver();
+		registerReceiver();
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+				.getDefaultAdapter();
+		boolean result = mBluetoothAdapter.startDiscovery();
+		if (!result) {
+			Toast t = Toast.makeText(this, "Could not start discovery",
+					Toast.LENGTH_LONG);
+			t.show();
+		}
+	}
+
+	private void registerReceiver() {
+		this.listAdapter.clear();
+		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+		IntentFilter filterStop = new IntentFilter(
+				BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+		IntentFilter filterStart = new IntentFilter(
+				BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+		try {
+			unregisterReceiver(this.mReceiver);
+		} catch (IllegalArgumentException e) {
+			LOGGER.info("Receiver not registered... continue");
+		}
+		registerReceiver(this.mReceiver, filterStop);
+		registerReceiver(this.mReceiver, filter);
+		registerReceiver(this.mReceiver, filterStart);
+	}
+
+	private BroadcastReceiver createBroadCastReceiver() {
+		return new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				LOGGER.info("Receive Bluettooth result");
@@ -114,24 +144,6 @@ public class RoomActivity extends Activity implements
 				}
 			}
 		};
-		this.listAdapter.clear();
-		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-		IntentFilter filterStop = new IntentFilter(
-				BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		IntentFilter filterStart = new IntentFilter(
-				BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-		unregisterReceiver(this.mReceiver);
-		registerReceiver(this.mReceiver, filterStop);
-		registerReceiver(this.mReceiver, filter);
-		registerReceiver(this.mReceiver, filterStart);
-		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
-				.getDefaultAdapter();
-		boolean result = mBluetoothAdapter.startDiscovery();
-		if (!result) {
-			Toast t = Toast.makeText(this, "Could not start discovery",
-					Toast.LENGTH_LONG);
-			t.show();
-		}
 	}
 
 	@Override
@@ -146,7 +158,7 @@ public class RoomActivity extends Activity implements
 	@Override
 	public void startConnectToServer(BluetoothDevice device) {
 		this.remoteCommunication.closeOpenConnections();
-		this.remoteCommunication.conntectToServer(device);
+		this.remoteCommunication.connectToServer(device);
 	}
 
 	public void onClickMakeVisible(View v) {

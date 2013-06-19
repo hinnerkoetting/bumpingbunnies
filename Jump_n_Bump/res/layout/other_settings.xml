@@ -40,7 +40,7 @@
             android:id="@+id/zoom"
             android:layout_width="@dimen/slider_width"
             android:layout_height="wrap_content"
-            android:max="49" />
+            android:max="19" />
 
         <TextView
             android:textIsSelectable="false"

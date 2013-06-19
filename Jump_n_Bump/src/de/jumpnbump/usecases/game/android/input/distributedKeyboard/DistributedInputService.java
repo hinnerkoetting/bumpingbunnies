@@ -6,6 +6,7 @@ import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.android.input.VibratorService;
 import de.jumpnbump.usecases.game.android.input.gamepad.KeyboardInputService;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
@@ -19,15 +20,18 @@ public class DistributedInputService implements InputService,
 	private boolean upIsPressed;
 
 	private PlayerMovementController playerMovement;
+	private final VibratorService vibrator;
 
-	public DistributedInputService(PlayerMovementController playerMovement) {
+	public DistributedInputService(PlayerMovementController playerMovement,
+			VibratorService vibrator) {
 		this.playerMovement = playerMovement;
+		this.vibrator = vibrator;
 	}
 
 	@Override
 	public void executeUserInput() {
-		handleHorizontalMovement();
-		handleVerticalMovement();
+		// handleHorizontalMovement();
+		// handleVerticalMovement();
 	}
 
 	private void handleVerticalMovement() {
@@ -63,7 +67,7 @@ public class DistributedInputService implements InputService,
 			handleLeftRightMovement(v, event, isPressed);
 			break;
 		case R.id.button_up:
-			this.upIsPressed = isPressed;
+			moveUp(isPressed);
 			break;
 		case R.id.button_left:
 			handleLeftRightMovement((View) v.getParent(), event, isPressed);
@@ -77,14 +81,34 @@ public class DistributedInputService implements InputService,
 		return true;
 	}
 
+	private void moveUp(boolean move) {
+		if (move) {
+			this.playerMovement.tryMoveUp();
+			this.vibrator.vibrate(R.id.button_up);
+		} else {
+			this.playerMovement.tryMoveDown();
+			this.vibrator.releaseVibrate(R.id.button_up);
+		}
+	}
+
 	private void handleLeftRightMovement(View groupView, MotionEvent event,
 			boolean isPressed) {
 		if (isOnrightHalf(groupView, event)) {
-			this.rightIsPressed = isPressed;
-			this.leftIsPressed = false;
+			if (isPressed) {
+				this.playerMovement.tryMoveRight();
+				this.vibrator.vibrate(R.id.button_right);
+			} else {
+				this.playerMovement.removeHorizontalMovement();
+				this.vibrator.releaseVibrate(R.id.button_right);
+			}
 		} else {
-			this.leftIsPressed = isPressed;
-			this.rightIsPressed = false;
+			if (isPressed) {
+				this.playerMovement.tryMoveLeft();
+				this.vibrator.vibrate(R.id.button_left);
+			} else {
+				this.playerMovement.removeHorizontalMovement();
+				this.vibrator.releaseVibrate(R.id.button_left);
+			}
 		}
 	}
 

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.factory;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,7 +16,8 @@ public class TouchJumpInputServicesFactory extends
 		AbstractPlayerInputServicesFactory<TouchWithJumpService> {
 
 	@Override
-	public TouchWithJumpService createInputService(PlayerConfig config) {
+	public TouchWithJumpService createInputService(PlayerConfig config,
+			Context context) {
 		TouchWithJumpService touchService = new TouchWithJumpService(
 				config.getTabletControlledPlayerMovement(),
 				config.getCoordinateCalculations());

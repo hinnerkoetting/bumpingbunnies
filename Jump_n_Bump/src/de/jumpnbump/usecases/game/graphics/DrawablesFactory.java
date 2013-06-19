@@ -54,11 +54,7 @@ public class DrawablesFactory {
 	private List<Drawable> createAllPlayers() {
 		List<Drawable> players = new LinkedList<Drawable>();
 		for (Player p : this.world.getAllPlayer()) {
-			if (p.id() == 0) {
-				players.add(PlayerDrawerFactory.create(p, this.resources));
-			} else {
-				players.add(new RectDrawer(p));
-			}
+			players.add(PlayerDrawerFactory.create(p, this.resources));
 		}
 		return players;
 	}

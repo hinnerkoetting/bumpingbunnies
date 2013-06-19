@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.hardwareKeyboard;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
@@ -10,7 +11,8 @@ public class HardwareKeyboardFactory extends
 		AbstractPlayerInputServicesFactory<HardwareKeyboardInputService> {
 
 	@Override
-	public HardwareKeyboardInputService createInputService(PlayerConfig config) {
+	public HardwareKeyboardInputService createInputService(PlayerConfig config,
+			Context context) {
 		return new HardwareKeyboardInputService(
 				config.getTabletControlledPlayerMovement());
 	}

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.factory;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.jumpnbump.logger.Logger;
@@ -33,7 +34,7 @@ public abstract class AbstractPlayerInputServicesFactory<S extends InputService>
 		return (AbstractPlayerInputServicesFactory<S>) factorySingleton;
 	}
 
-	public abstract S createInputService(PlayerConfig config);
+	public abstract S createInputService(PlayerConfig config, Context context);
 
 	public abstract InputDispatcher<?> createInputDispatcher(S inputService);
 

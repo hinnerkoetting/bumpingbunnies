@@ -20,6 +20,7 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 
 	public ConnectThreadImpl(BluetoothDevice device,
 			BluetoothAdapter mBluetoothAdapter, RoomActivity activity) {
+		super("Connect to Server thread");
 		this.activity = activity;
 		// Use a temporary object that is later assigned to mmSocket,
 		// because mmSocket is final
@@ -40,6 +41,11 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 	public void run() {
 		LOGGER.info("Start Client Thread");
 		// Cancel discovery because it will slow down the connection
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		try {
 			// Connect the device through the socket. This will block
 			// until it succeeds or throws an exception

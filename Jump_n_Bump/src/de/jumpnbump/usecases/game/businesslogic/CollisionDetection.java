@@ -88,19 +88,10 @@ public class CollisionDetection {
 	}
 
 	public boolean collides(GameObject gameObject, GameObject other) {
-		if (gameObject.maxX() <= other.minX()) {
-			return false;
-		}
-		if (gameObject.minX() >= other.maxX()) {
-			return false;
-		}
-		if (gameObject.maxY() <= other.minY()) {
-			return false;
-		}
-		if (gameObject.minY() >= other.maxY()) {
-			return false;
-		}
-		return true;
+		return (!(gameObject.maxX() <= other.minX()
+				|| gameObject.minX() >= other.maxX()
+				|| gameObject.maxY() <= other.minY() || gameObject.minY() >= other
+				.maxY()));
 	}
 
 	public boolean isExactlyOverObject(GameObject gameObject, GameObject other) {

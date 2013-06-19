@@ -23,6 +23,7 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	private BlockingQueue<String> messageQueue;
 
 	public NetworkSendQueueThread(Writer writer, Gson gson) {
+		super("Network send thread");
 		this.writer = writer;
 		this.gson = gson;
 		this.messageQueue = new LinkedBlockingQueue<String>();

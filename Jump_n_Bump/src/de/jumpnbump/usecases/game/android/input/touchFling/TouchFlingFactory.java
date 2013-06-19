@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.android.input.touchFling;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.jumpnbump.usecases.game.android.input.AbstractTouchService;
@@ -12,7 +13,8 @@ public class TouchFlingFactory extends
 		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public AbstractTouchService createInputService(PlayerConfig config) {
+	public AbstractTouchService createInputService(PlayerConfig config,
+			Context context) {
 		TouchFlingService service = new TouchFlingService(
 				config.getTabletControlledPlayerMovement(),
 				config.getCoordinateCalculations());

@@ -53,7 +53,7 @@ public class BluetoothCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void conntectToServer(BluetoothDevice device) {
+	public void connectToServer(BluetoothDevice device) {
 		this.connectThread = new ConnectThreadImpl(device,
 				this.mBluetoothAdapter, this.origin);
 		this.connectThread.start();
