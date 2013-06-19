@@ -6,11 +6,14 @@ import java.util.List;
 import android.content.Context;
 import de.jumpnbump.usecases.game.model.FixedWorldObject;
 import de.jumpnbump.usecases.game.model.Player;
+import de.jumpnbump.usecases.game.model.SpawnPoint;
 
 public interface WorldObjectsBuilder {
 
-	abstract List<Player> createAllPlayers(int number);
+	List<Player> createAllPlayers(int number);
 
-	abstract Collection<FixedWorldObject> createAllWalls(Context context);
+	Collection<FixedWorldObject> createAllWalls(Context context);
+
+	List<SpawnPoint> createSpawnPoints();
 
 }

@@ -190,9 +190,9 @@ public class Player implements GameObject {
 
 	@Override
 	public void interactWithPlayerOnTop(Player p) {
-		PlayerState state = p.getState();
-		state.setScore(state.getScore() + 1);
-		resetPosition(this, p);
+		// PlayerState state = p.getState();
+		// state.setScore(state.getScore() + 1);
+		// resetPosition(this, p);
 	}
 
 	private void resetPosition(Player playerUnder, Player playerOver) {

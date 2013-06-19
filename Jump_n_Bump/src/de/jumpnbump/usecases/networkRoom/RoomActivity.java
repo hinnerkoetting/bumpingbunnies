@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
@@ -37,6 +38,7 @@ public class RoomActivity extends Activity implements
 	private BroadcastReceiver mReceiver;
 
 	private RemoteCommunication remoteCommunication;
+	private ArrayAdapter<String> playersAA;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,14 @@ public class RoomActivity extends Activity implements
 		this.remoteCommunication = new DummyCommunication();
 		list.setAdapter(this.listAdapter);
 		initRemoteCbListeners();
+		initRoom();
+	}
+
+	private void initRoom() {
+		ListView players = (ListView) findViewById(R.id.room_players);
+		this.playersAA = new ArrayAdapter<String>(this,
+				R.layout.room_player_entry);
+		players.setAdapter(this.playersAA);
 	}
 
 	private void switchToBluetooth() {
@@ -159,6 +169,7 @@ public class RoomActivity extends Activity implements
 	public void startConnectToServer(BluetoothDevice device) {
 		this.remoteCommunication.closeOpenConnections();
 		this.remoteCommunication.connectToServer(device);
+		enableButtons(false);
 	}
 
 	public void onClickMakeVisible(View v) {
@@ -170,6 +181,14 @@ public class RoomActivity extends Activity implements
 
 	private void startHostThread() {
 		this.remoteCommunication.startServer();
+		enableButtons(false);
+		createNewRoom();
+	}
+
+	private void enableButtons(boolean enable) {
+		findViewById(R.id.room_host).setEnabled(enable);
+		findViewById(R.id.room_find).setEnabled(enable);
+		findViewById(R.id.room_connect).setEnabled(enable);
 	}
 
 	private void initRemoteCbListeners() {
@@ -215,5 +234,10 @@ public class RoomActivity extends Activity implements
 			}
 		});
 
+	}
+
+	public void createNewRoom() {
+		this.playersAA.add("You");
+		this.playersAA.notifyDataSetChanged();
 	}
 }

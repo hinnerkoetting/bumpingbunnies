@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases.game.model.worldfactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,7 @@ import de.jumpnbump.usecases.game.model.FixedWorldObject;
 import de.jumpnbump.usecases.game.model.Jumper;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
+import de.jumpnbump.usecases.game.model.SpawnPoint;
 import de.jumpnbump.usecases.game.model.Wall;
 
 public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
@@ -130,6 +132,23 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
 						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
 						* ModelConstants.MAX_VALUE / 80.0), mediaPlayer);
+	}
+
+	@Override
+	public List<SpawnPoint> createSpawnPoints() {
+		return Arrays.asList(convenicenceCreateSpawnPoint(10, 45),
+				convenicenceCreateSpawnPoint(80, 35),
+				convenicenceCreateSpawnPoint(20, 80),
+				convenicenceCreateSpawnPoint(60, 80),
+				convenicenceCreateSpawnPoint(80, 15),
+				convenicenceCreateSpawnPoint(15, 20),
+				convenicenceCreateSpawnPoint(70, 40),
+				convenicenceCreateSpawnPoint(90, 80));
+	}
+
+	private SpawnPoint convenicenceCreateSpawnPoint(int x, int y) {
+		return new SpawnPoint((int) (x * ModelConstants.MAX_VALUE / 110.0),
+				(int) (y * ModelConstants.MAX_VALUE / 80.0));
 	}
 
 }

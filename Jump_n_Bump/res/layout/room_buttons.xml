@@ -6,7 +6,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClickMakeVisible"
-        android:text="@string/make_visible" />
+        android:text="@string/make_visible"
+        android:id="@+id/room_host" />
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -34,13 +35,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickConnect"
-            android:text="@string/connect" />
+            android:text="@string/connect"
+            android:id="@+id/room_connect" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickDiscovery"
-            android:text="@string/find_devices" />
+            android:text="@string/find_devices"
+            android:id="@+id/room_find" />
     </LinearLayout>
 
 </merge>

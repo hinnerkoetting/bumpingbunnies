@@ -16,6 +16,7 @@ public class World implements ObjectProvider {
 	private List<GameObject> allObjects;
 	private List<FixedWorldObject> allWalls;
 	private List<Player> allPlayer;
+	private List<SpawnPoint> spawnPoints;
 	private WorldObjectsBuilder factory;
 	private final Context context;
 
@@ -35,6 +36,7 @@ public class World implements ObjectProvider {
 		this.allWalls.addAll(this.factory.createAllWalls(this.context));
 		this.allObjects.addAll(this.allPlayer);
 		this.allObjects.addAll(this.allWalls);
+		this.spawnPoints = this.factory.createSpawnPoints();
 		LOGGER.info("Added %d objects and %d players", this.allObjects.size(),
 				this.allPlayer.size());
 	}
@@ -61,6 +63,10 @@ public class World implements ObjectProvider {
 
 	public List<FixedWorldObject> getAllWalls() {
 		return this.allWalls;
+	}
+
+	public List<SpawnPoint> getSpawnPoints() {
+		return this.spawnPoints;
 	}
 
 }

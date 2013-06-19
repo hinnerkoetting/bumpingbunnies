@@ -6,8 +6,10 @@ import android.content.res.Resources;
 import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
+import de.jumpnbump.usecases.game.businesslogic.ListSpawnPointGenerator;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
+import de.jumpnbump.usecases.game.businesslogic.SpawnPointGenerator;
 import de.jumpnbump.usecases.game.businesslogic.WorldController;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.configuration.Configuration;
@@ -25,8 +27,10 @@ public class GameThreadFactory {
 			Configuration configuration, CoordinatesCalculation calculations) {
 		Drawer drawer = DrawerFactory.create(world, gameThreadState, resources,
 				playerConfig, configuration, calculations);
+		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
+				world.getSpawnPoints());
 		WorldController worldController = new WorldController(playermovements,
-				movementServices, stateSender);
+				movementServices, stateSender, spawnPointGenerator);
 		return new GameThread(drawer, worldController, gameThreadState);
 	}
 }

@@ -157,4 +157,5 @@ public class StartActivity extends Activity {
 	public void onClickMultiplayer(View v) {
 		ActivityLauncher.startRoom(this, createConfiguration());
 	}
+
 }
