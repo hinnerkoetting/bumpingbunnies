@@ -99,7 +99,7 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 	}
 
 	private void addFifthRow(Collection<FixedWorldObject> allWalls) {
-		allWalls.add(convenienceBuildWall(5, 75, 15, 100));
+		allWalls.add(convenienceBuildWall(5, 75, 15, 80));
 		allWalls.add(convenienceBuildWall(20, 65, 40, 70));
 		allWalls.add(convenienceBuildWall(85, 70, 95, 75));
 		allWalls.add(convenienceBuildWall(100, 60, 105, 65));

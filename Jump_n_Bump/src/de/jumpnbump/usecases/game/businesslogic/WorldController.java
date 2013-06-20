@@ -33,11 +33,12 @@ public class WorldController {
 		}
 		for (PlayerMovementController movement : this.playermovements) {
 			movement.nextStep(delta);
+			checkForJumpedPlayers();
 		}
 		for (StateSender ss : this.stateSender) {
 			ss.sendPlayerCoordinates();
 		}
-		checkForJumpedPlayers();
+
 	}
 
 	private void checkForJumpedPlayers() {
