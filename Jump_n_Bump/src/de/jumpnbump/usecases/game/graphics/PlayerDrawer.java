@@ -34,7 +34,12 @@ public class PlayerDrawer implements Drawable {
 				.transformX(this.player.minX()));
 		int height = (int) (canvas.transformX(this.player.maxY()) - canvas
 				.transformX(this.player.minY()));
-		this.runningAnimation.updateGraphics(canvas, width, height);
+		int min = findNewHeightAndWidth(width, height);
+		this.runningAnimation.updateGraphics(canvas, min, min);
+	}
+
+	private int findNewHeightAndWidth(int width, int height) {
+		return width < height ? height : width;
 	}
 
 }

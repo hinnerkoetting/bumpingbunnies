@@ -32,7 +32,7 @@ public class PlayerDrawerFactory {
 
 	private static List<Bitmap> createListOfTestBitmap(Resources resources) {
 
-		Bitmap bitmap = loadBitmap(resources, R.drawable.path3898);
+		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v4);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
 				bitmap, Color.RED);
 		return Arrays.asList(convertedColor);
@@ -40,7 +40,7 @@ public class PlayerDrawerFactory {
 
 	private static List<Bitmap> createListOfTestBitmap2(Resources resources) {
 
-		Bitmap bitmap = loadBitmap(resources, R.drawable.rect69);
+		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v4);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
 				bitmap, Color.BLUE);
 		return Arrays.asList(convertedColor);
