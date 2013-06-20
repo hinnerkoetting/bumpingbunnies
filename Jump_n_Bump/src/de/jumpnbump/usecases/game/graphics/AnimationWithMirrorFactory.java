@@ -11,7 +11,7 @@ public class AnimationWithMirrorFactory {
 		return new AnimationWithMirror(pictures, timeBetweenPictures);
 	}
 
-	public static AnimationWithMirror create(NormalAnimation pictures,
+	public static AnimationWithMirror create(Animation pictures,
 			Animation mirroredAnimation) {
 		return new AnimationWithMirror(pictures, mirroredAnimation);
 	}

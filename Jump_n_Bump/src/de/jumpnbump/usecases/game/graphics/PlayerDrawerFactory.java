@@ -25,11 +25,6 @@ public class PlayerDrawerFactory {
 		return new PlayerDrawer(player, animation);
 	}
 
-	private static Animation createAnimation(Resources resources) {
-		List<Bitmap> bitmaps = createListOfAllBitmaps(resources);
-		return new NormalAnimation(bitmaps, 20);
-	}
-
 	private static List<Bitmap> createListOfTestBitmap(Resources resources) {
 
 		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v5);

@@ -5,18 +5,22 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import de.jumpnbump.usecases.game.graphics.bitmapAltering.BitmapResizer;
 
-public abstract class AbstractAnimation implements Animation {
+public class AnimationImpl implements Animation {
 
-	protected final List<Bitmap> pictures;
-	protected List<Bitmap> scaledPictures;
+	protected final List<Bitmap> originalPictures;
 	private final int timeBetweenPictures;
+	protected List<Bitmap> scaledPictures;
 	private long lastTimeSwitched;
 	private int currentIndex;
+	private BitmapResizer resizer;
 
-	public AbstractAnimation(List<Bitmap> pictures, int timeBetweenPictures) {
-		this.pictures = pictures;
+	public AnimationImpl(List<Bitmap> pictures, int timeBetweenPictures,
+			BitmapResizer bitmapResizer) {
+		this.originalPictures = pictures;
 		this.timeBetweenPictures = timeBetweenPictures;
+		this.resizer = bitmapResizer;
 		this.lastTimeSwitched = System.currentTimeMillis();
 		this.scaledPictures = new ArrayList<Bitmap>(pictures.size());
 	}
@@ -40,6 +44,16 @@ public abstract class AbstractAnimation implements Animation {
 
 	public void increaseIndex() {
 		this.currentIndex += 1;
-		this.currentIndex = this.currentIndex % this.pictures.size();
+		this.currentIndex = this.currentIndex % this.originalPictures.size();
+	}
+
+	@Override
+	public void updateGraphics(CanvasDelegate canvas, int width, int height) {
+		this.scaledPictures.clear();
+		for (int i = 0; i < this.originalPictures.size(); i++) {
+			Bitmap original = this.originalPictures.get(i);
+			Bitmap resized = this.resizer.resize(original, width, height);
+			this.scaledPictures.add(resized);
+		}
 	}
 }

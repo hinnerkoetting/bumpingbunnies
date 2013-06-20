@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import de.jumpnbump.usecases.game.graphics.bitmapAltering.MirrorBitmapResizer;
+import de.jumpnbump.usecases.game.graphics.bitmapAltering.SimpleBitmapResizer;
 
 public class AnimationWithMirror implements Animation {
 
@@ -12,13 +14,13 @@ public class AnimationWithMirror implements Animation {
 	private boolean drawNormal = true;
 
 	public AnimationWithMirror(List<Bitmap> pictures, int timeBetweenPictures) {
-		this.normalAnimation = new NormalAnimation(pictures,
-				timeBetweenPictures);
-		this.leftMirroredAnimation = new LeftMirroredAnimation(pictures,
-				timeBetweenPictures);
+		this.normalAnimation = new AnimationImpl(pictures, timeBetweenPictures,
+				new SimpleBitmapResizer());
+		this.leftMirroredAnimation = new AnimationImpl(pictures,
+				timeBetweenPictures, new MirrorBitmapResizer());
 	}
 
-	public AnimationWithMirror(NormalAnimation normalAnimation,
+	public AnimationWithMirror(Animation normalAnimation,
 			Animation leftMirroredAnimation) {
 		this.normalAnimation = normalAnimation;
 		this.leftMirroredAnimation = leftMirroredAnimation;
