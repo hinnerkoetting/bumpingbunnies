@@ -21,4 +21,8 @@ public class DummyCommunication implements RemoteCommunication {
 		return false;
 	}
 
+	@Override
+	public void findServer() {
+	}
+
 }

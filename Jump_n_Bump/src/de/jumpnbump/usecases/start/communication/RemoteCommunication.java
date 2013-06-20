@@ -11,4 +11,6 @@ public interface RemoteCommunication {
 	void connectToServer(BluetoothDevice device);
 
 	boolean activate();
+
+	void findServer();
 }

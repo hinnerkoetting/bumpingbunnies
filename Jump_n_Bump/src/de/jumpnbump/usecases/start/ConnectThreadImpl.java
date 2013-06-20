@@ -40,9 +40,8 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 	@Override
 	public void run() {
 		LOGGER.info("Start Client Thread");
-		// Cancel discovery because it will slow down the connection
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(2500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
