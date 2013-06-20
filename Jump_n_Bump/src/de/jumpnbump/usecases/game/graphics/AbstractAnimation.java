@@ -11,20 +11,22 @@ public abstract class AbstractAnimation implements Animation {
 	protected final List<Bitmap> pictures;
 	protected List<Bitmap> scaledPictures;
 	private final int timeBetweenPictures;
-	private long lastTimeDrawn;
+	private long lastTimeSwitched;
 	private int currentIndex;
 
 	public AbstractAnimation(List<Bitmap> pictures, int timeBetweenPictures) {
 		this.pictures = pictures;
 		this.timeBetweenPictures = timeBetweenPictures;
-		this.lastTimeDrawn = System.currentTimeMillis();
+		this.lastTimeSwitched = System.currentTimeMillis();
 		this.scaledPictures = new ArrayList<Bitmap>(pictures.size());
 	}
 
 	@Override
 	public void draw(CanvasDelegate canvas, int left, int top, Paint paint) {
-		if (System.currentTimeMillis() - this.lastTimeDrawn >= this.timeBetweenPictures) {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - this.lastTimeSwitched >= this.timeBetweenPictures) {
 			increaseIndex();
+			this.lastTimeSwitched = currentTime;
 		}
 
 		drawCurrentImage(canvas, left, top, paint);

@@ -17,7 +17,7 @@ public class PlayerDrawerFactory {
 		AnimationWithMirror animation;
 		if (player.id() == 0) {
 			animation = AnimationWithMirrorFactory.create(
-					createListOfTestBitmap(resources), 20);
+					createListOfTestBitmap(resources), 2000);
 		} else {
 			animation = AnimationWithMirrorFactory.create(
 					createListOfTestBitmap2(resources), 20);
@@ -32,15 +32,18 @@ public class PlayerDrawerFactory {
 
 	private static List<Bitmap> createListOfTestBitmap(Resources resources) {
 
-		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v4);
+		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v5);
+		Bitmap bitmap2 = loadBitmap(resources, R.drawable.bunny_v5a);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
 				bitmap, Color.RED);
-		return Arrays.asList(convertedColor);
+		Bitmap convertedColor2 = GrayScaleToColorConverter.convertToColor(
+				bitmap2, Color.RED);
+		return Arrays.asList(convertedColor, convertedColor2);
 	}
 
 	private static List<Bitmap> createListOfTestBitmap2(Resources resources) {
 
-		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v4);
+		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v5a);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
 				bitmap, Color.BLUE);
 		return Arrays.asList(convertedColor);
