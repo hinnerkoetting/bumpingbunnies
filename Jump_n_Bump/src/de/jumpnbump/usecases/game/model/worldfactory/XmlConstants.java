@@ -5,7 +5,7 @@ public interface XmlConstants {
 	String WALLS = "walls";
 	String WALL = "wall";
 	String ICEWALLS = "icewalls";
-	String ICEWALL = "iceWall";
+	String ICEWALL = "icewall";
 	String JUMPERS = "jumpers";
 	String JUMPER = "jumper";
 	String SPAWPOINTS = "spawnpoints";

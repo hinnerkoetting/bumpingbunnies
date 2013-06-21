@@ -12,12 +12,25 @@
             maxX="0.95"
             minY="0.0" 
             maxY="0.05"/>
-        <wall
-            minX="0"
-            maxX="0.5"
-            minY="0.7" 
-            maxY="0.75"/>
+       <wall
+            minX="0.25"
+            maxX="0.45"
+            minY="0.15" 
+            maxY="0.20"/>
     </walls>
+    <icewalls>
+        
+         <icewall
+            minX="0.2"
+            maxX="0.5"
+            minY="0.4" 
+            maxY="0.45"/>
+        <icewall
+            minX="0.6"
+            maxX="0.8"
+            minY="0.2" 
+            maxY="0.25"/>
+    </icewalls>
     <jumpers>
 		<jumper
             minX="0.00"
