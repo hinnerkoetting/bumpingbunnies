@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.communication.StateSender;
+import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
 import de.jumpnbump.usecases.game.model.SpawnPoint;
@@ -32,11 +33,23 @@ public class WorldController {
 			movementService.executeUserInput();
 		}
 		for (PlayerMovementController movement : this.playermovements) {
-			movement.nextStep(delta);
+			movement.nextStep(delta);			
 			checkForJumpedPlayers();
 		}
 		for (StateSender ss : this.stateSender) {
 			ss.sendPlayerCoordinates();
+		}
+		killPlayersOutOfPlayZone();
+	}
+
+	private void killPlayersOutOfPlayZone() {
+		for (PlayerMovementController movement : this.playermovements) {
+			Player player = movement.getPlayer();
+			if (player.getCenterY() < -ModelConstants.MAX_VALUE * 0.1) {
+				PlayerState state = player.getState();
+				state.setScore(state.getScore() - 1);
+				resetCoordinate(player);
+			}
 		}
 
 	}

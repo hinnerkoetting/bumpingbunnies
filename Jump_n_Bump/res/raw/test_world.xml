@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<world xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://world.bunnies.de"
+    xsi:noNamespaceSchemaLocation="world.xsd"
+    xsi:schemaLocation="http://world.bunnies.de
+                                     world.xsd" >
+
+    <walls>
+        <wall
+            maxX="1"
+            maxY="0.55"
+            minX="0"
+            minY="0.5" />
+        <wall
+            maxX="0.5"
+            maxY="0.75"
+            minX="0"
+            minY="0.7" />
+    </walls>
+
+    <spawnpoints>
+        <spawnpoint x="0.1" y="1"/>
+        <spawnpoint x="0.3" y="1"/>
+        <spawnpoint x="0.5" y="1"/>
+        <spawnpoint x="0.7" y="1"/>
+        
+    </spawnpoints>
+</world>

@@ -1,0 +1,63 @@
+<xsd:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://world.bunnies.de"
+	targetNamespace="http://world.bunnies.de" elementFormDefault="qualified">
+
+	<xsd:simpleType name="Ordinate">
+		<xsd:restriction base="xsd:double">
+			<xsd:minInclusive value="0" />
+			<xsd:maxInclusive value="1" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Rectangle">
+		<xsd:attribute name="minX" use="required" type="Ordinate" />
+		<xsd:attribute name="minY" use="required" type="Ordinate" />
+		<xsd:attribute name="maxX" use="required" type="Ordinate" />
+		<xsd:attribute name="maxY" use="required" type="Ordinate" />
+	</xsd:complexType>
+	<xsd:element name="world">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="walls" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="wall" minOccurs="0" maxOccurs="unbounded"
+								type="Rectangle">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="icewalls" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="icewall" minOccurs="0" maxOccurs="unbounded"
+								type="Rectangle">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="jumper" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="jumper" minOccurs="0" maxOccurs="unbounded"
+								type="Rectangle">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="spawnpoints">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="spawnpoint" minOccurs="4"
+								maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:attribute name="x" use="required" type="Ordinate" />
+									<xsd:attribute name="y" use="required" type="Ordinate" />
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
