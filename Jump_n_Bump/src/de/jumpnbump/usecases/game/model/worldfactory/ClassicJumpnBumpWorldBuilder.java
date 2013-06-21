@@ -3,7 +3,6 @@ package de.jumpnbump.usecases.game.model.worldfactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
@@ -22,11 +21,7 @@ public class ClassicJumpnBumpWorldBuilder implements WorldObjectsBuilder {
 
 	@Override
 	public List<Player> createAllPlayers(int number) {
-		List<Player> allPlayers = new LinkedList<Player>();
-		for (int i = 0; i < number; i++) {
-			allPlayers.add(PlayerFactory.createPlayer(i));
-		}
-		return allPlayers;
+		return PlayerFactory.createAllPlayers(number);
 	}
 
 	@Override

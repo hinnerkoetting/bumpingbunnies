@@ -1,11 +1,22 @@
 package de.jumpnbump.usecases.game.factories;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.graphics.Color;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
 
 public class PlayerFactory {
+
+	public static List<Player> createAllPlayers(int number) {
+		List<Player> allPlayers = new LinkedList<Player>();
+		for (int i = 0; i < number; i++) {
+			allPlayers.add(PlayerFactory.createPlayer(i));
+		}
+		return allPlayers;
+	}
 
 	public static Player createPlayer(int i) {
 		switch (i) {

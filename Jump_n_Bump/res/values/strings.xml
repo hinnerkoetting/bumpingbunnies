@@ -47,5 +47,6 @@
     <string name="app_name_room">Raum</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="distributed_keyboard">Modern Keyboard</string>
+    <string name="world_test">Test</string>
 
 </resources>

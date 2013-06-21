@@ -9,7 +9,7 @@ public class WorldFactory {
 
 	public static World create(Configuration configuration, Context context) {
 		WorldObjectsBuilder factory = configuration.getWorldConfiguration()
-				.createInputconfigurationClass();
+				.createInputconfigurationClass(context);
 		World world = new World(factory, context);
 		world.buildWorld(configuration.getNumberPlayer());
 		return world;

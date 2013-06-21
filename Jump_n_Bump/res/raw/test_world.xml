@@ -6,17 +6,30 @@
                                      world.xsd" >
 
     <walls>
+       
         <wall
-            maxX="1"
-            maxY="0.55"
+            minX="0.05"
+            maxX="0.95"
+            minY="0.0" 
+            maxY="0.05"/>
+        <wall
             minX="0"
-            minY="0.5" />
-        <wall
             maxX="0.5"
-            maxY="0.75"
-            minX="0"
-            minY="0.7" />
+            minY="0.7" 
+            maxY="0.75"/>
     </walls>
+    <jumpers>
+		<jumper
+            minX="0.00"
+            maxX="0.05"
+            minY="0.00" 
+            maxY="0.05"/>
+		<jumper
+            minX="0.95"
+            maxX="1.00"
+            minY="0.00" 
+            maxY="0.05"/>
+    </jumpers>
 
     <spawnpoints>
         <spawnpoint x="0.1" y="1"/>

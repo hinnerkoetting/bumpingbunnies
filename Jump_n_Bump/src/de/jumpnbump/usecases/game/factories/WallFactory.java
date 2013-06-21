@@ -15,16 +15,40 @@ public class WallFactory {
 		return wall;
 	}
 
+	public static Wall createWallFromDouble(double x, double y, double maxX,
+			double maxY) {
+		return createWall((int) (x * ModelConstants.MAX_VALUE),
+				(int) (y * ModelConstants.MAX_VALUE),
+				(int) (maxX * ModelConstants.MAX_VALUE),
+				(int) (maxY * ModelConstants.MAX_VALUE));
+	}
+
 	public static Wall createWall(int x, int y, int maxX, int maxY) {
 		int id = IdCounter.getNextId();
 		Wall wall = new Wall(id, x, y, maxX, maxY);
 		return wall;
 	}
 
-	public static Wall createIceWall(int x, int y, int maxX, int maxY) {
+	public static IcyWall createIceWallFromDouble(double x, double y,
+			double maxX, double maxY) {
+		return createIceWall((int) (x * ModelConstants.MAX_VALUE),
+				(int) (y * ModelConstants.MAX_VALUE),
+				(int) (maxX * ModelConstants.MAX_VALUE),
+				(int) (maxY * ModelConstants.MAX_VALUE));
+	}
+
+	public static IcyWall createIceWall(int x, int y, int maxX, int maxY) {
 		int id = IdCounter.getNextId();
-		Wall wall = new IcyWall(id, x, y, maxX, maxY);
+		IcyWall wall = new IcyWall(id, x, y, maxX, maxY);
 		return wall;
+	}
+
+	public static Jumper createJumperFromDouble(double x, double y,
+			double maxX, double maxY, MediaPlayer mediaPlayer) {
+		return createJumper((int) (x * ModelConstants.MAX_VALUE),
+				(int) (y * ModelConstants.MAX_VALUE),
+				(int) (maxX * ModelConstants.MAX_VALUE),
+				(int) (maxY * ModelConstants.MAX_VALUE), mediaPlayer);
 	}
 
 	public static Jumper createJumper(int x, int y, int maxX, int maxY,

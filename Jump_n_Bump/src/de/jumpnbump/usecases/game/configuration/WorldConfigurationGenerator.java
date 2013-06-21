@@ -24,6 +24,8 @@ public class WorldConfigurationGenerator {
 			return WorldConfiguration.DEMO;
 		case R.id.start_world_simple:
 			return WorldConfiguration.SIMPLE;
+		case R.id.start_world_test:
+			return WorldConfiguration.TEST;
 		default:
 			throw new IllegalArgumentException("Unknown inputtype");
 		}

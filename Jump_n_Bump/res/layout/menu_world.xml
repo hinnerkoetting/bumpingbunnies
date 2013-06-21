@@ -29,6 +29,12 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/world_classic" />
+		<RadioButton
+            android:id="@+id/start_world_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true" 
+            android:text="@string/world_test" />
     </RadioGroup>
 
 </LinearLayout>
