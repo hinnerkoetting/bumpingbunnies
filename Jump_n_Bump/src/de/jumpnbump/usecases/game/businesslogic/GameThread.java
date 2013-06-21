@@ -8,18 +8,20 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.graphics.Drawer;
+import de.jumpnbump.usecases.game.graphics.RectDrawer;
+import de.jumpnbump.usecases.game.model.GameObject;
 import de.jumpnbump.usecases.game.model.GameThreadState;
 
 public class GameThread extends Thread implements SurfaceHolder.Callback {
 
 	private static final MyLog LOGGER = Logger.getLogger(GameThread.class);
 	private final Drawer drawer;
+	private final WorldController worldController;
 	private SurfaceHolder holder;
 	private GameThreadState state;
 
 	private boolean running;
 	private boolean isDrawingPossible;
-	private final WorldController worldController;
 	private boolean canceled;
 
 	public GameThread(Drawer drawer, WorldController worldController,
@@ -47,11 +49,21 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 		while (!this.canceled) {
 			if (this.running && this.isDrawingPossible) {
 				nextWorldStep();
+				addNewObjectDrawer();
 				drawGame();
 			} else {
 				sleep(100);
 			}
 		}
+	}
+
+	private void addNewObjectDrawer() {
+		for (GameObject blood : this.worldController.getNewBloodParticles()) {
+			RectDrawer rectDrawer = new RectDrawer(blood);
+			this.drawer.addNewDrawable(rectDrawer);
+		}
+		this.worldController.getNewBloodParticles().clear();
+
 	}
 
 	private void nextWorldStep() throws InterruptedException {

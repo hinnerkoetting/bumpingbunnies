@@ -23,6 +23,8 @@ public interface CanvasDelegate {
 
 	void drawImage(Bitmap bitmap, int left, int top, Paint paint);
 
+	void drawImageDirect(Bitmap bitmap, int left, int top, Paint paint);
+
 	float transformY(int y);
 
 	float transformX(int x);

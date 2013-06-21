@@ -2,66 +2,62 @@ package de.jumpnbump.usecases.game.model;
 
 public class PlayerState implements GameObjectState<PlayerState> {
 
-	private int centerX;
-	private int centerY;
-	private int movementX;
-	private int movementY;
-	private int accelerationX;
-	private int accelerationY;
+	private MovingGameobjectState movementState;
 	private int score;
 	private int color;
 	private int id;
 
 	public PlayerState(int id) {
 		this.id = id;
+		this.movementState = new MovingGameobjectState();
 	}
 
 	public int getCenterX() {
-		return this.centerX;
+		return this.movementState.centerX;
 	}
 
 	public void setCenterX(int centerX) {
-		this.centerX = centerX;
+		this.movementState.centerX = centerX;
 	}
 
 	public int getCenterY() {
-		return this.centerY;
+		return this.movementState.centerY;
 	}
 
 	public void setCenterY(int centerY) {
-		this.centerY = centerY;
+		this.movementState.centerY = centerY;
 	}
 
 	public int getMovementX() {
-		return this.movementX;
+		return this.movementState.movementX;
 	}
 
 	public void setMovementX(int movementX) {
-		this.movementX = movementX;
+		this.movementState.movementX = movementX;
 	}
 
 	public int getMovementY() {
-		return this.movementY;
+		return this.movementState.movementY;
 	}
 
 	public void setMovementY(int movementY) {
-		this.movementY = movementY;
+		this.movementState.movementY = movementY;
 	}
 
 	public int getAccelerationX() {
-		return this.accelerationX;
+		return this.movementState.accelerationX;
 	}
 
 	public void setAccelerationX(int accelerationX) {
-		this.accelerationX = accelerationX;
+		this.movementState.accelerationX = accelerationX;
 	}
 
 	public int getAccelerationY() {
-		return this.accelerationY;
+		return this.movementState.accelerationY;
 	}
 
 	public void setAccelerationY(int accelerationY) {
-		this.accelerationY = accelerationY;
+		this.movementState.accelerationY = accelerationY;
 	}
 
 	public int getScore() {
@@ -90,23 +86,14 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	@Override
 	public void copyContentTo(PlayerState other) {
-		other.accelerationX = this.accelerationX;
-		other.accelerationY = this.accelerationY;
-		other.centerX = this.centerX;
-		other.centerY = this.centerY;
+		other.movementState.accelerationX = this.movementState.accelerationX;
+		other.movementState.accelerationY = this.movementState.accelerationY;
+		other.movementState.centerX = this.movementState.centerX;
+		other.movementState.centerY = this.movementState.centerY;
+		other.movementState.movementX = this.movementState.movementX;
+		other.movementState.movementY = this.movementState.movementY;
 		other.color = this.color;
-		other.movementX = this.movementX;
-		other.movementY = this.movementY;
 		other.score = this.score;
-	}
-
-	@Override
-	public String toString() {
-		return "PlayerState [centerX=" + this.centerX + ", centerY="
-				+ this.centerY + ", movementX=" + this.movementX
-				+ ", movementY=" + this.movementY + ", accelerationX="
-				+ this.accelerationX + ", accelerationY=" + this.accelerationY
-				+ "]";
 	}
 
 }

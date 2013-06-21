@@ -1,6 +1,9 @@
 package de.jumpnbump.usecases.game.factories;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.configuration.Configuration;
@@ -22,7 +25,9 @@ public class DrawerFactory {
 		CanvasDelegateImpl canvasDelegate = new CanvasDelegateImpl(calculations);
 		calculations.setZoom((ModelConstants.MAX_VALUE / 7500 * configuration
 				.getZoom()));
-		Drawer drawer = new Drawer(drawFactory, canvasDelegate);
+		Bitmap background = BitmapFactory.decodeResource(resources,
+				R.drawable.hintergrund1);
+		Drawer drawer = new Drawer(drawFactory, canvasDelegate, background);
 		drawer.buildAllDrawables();
 		return drawer;
 	}
