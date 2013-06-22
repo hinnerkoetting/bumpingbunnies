@@ -8,14 +8,14 @@ import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.PathFinder.PathFinderFactory;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.touch.TouchInputDispatcher;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
+import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 
 public class PointerInputServiceFactory extends
 		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public AbstractTouchService createInputService(PlayerConfig config,
+	public AbstractTouchService createInputService(AllPlayerConfig config,
 			Context context) {
 		PlayerMovementController playerMovement = config
 				.getTabletControlledPlayerMovement();

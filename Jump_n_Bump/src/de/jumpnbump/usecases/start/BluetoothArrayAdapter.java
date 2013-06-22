@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.jumpnbump.usecases.networkRoom.ManagesConnectionsToServer;
+import de.jumpnbump.usecases.networkRoom.ConnectToServerCallback;
 import de.jumpnbump.usecases.start.communication.bluetooth.BluetoothServerDevice;
 
 public class BluetoothArrayAdapter extends ArrayAdapter<BluetoothDevice> {
 
-	private ManagesConnectionsToServer callback;
+	private ConnectToServerCallback callback;
 
 	public BluetoothArrayAdapter(Context context,
-			ManagesConnectionsToServer callback) {
+			ConnectToServerCallback callback) {
 		super(context, -1);
 		this.callback = callback;
 	}

@@ -6,7 +6,7 @@ import android.app.Activity;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.MyApplication;
-import de.jumpnbump.usecases.networkRoom.GameStarter;
+import de.jumpnbump.usecases.networkRoom.ClientConnectedSuccesfullCallback;
 
 public class AcceptThreadImpl extends Thread implements AcceptThread {
 	private final ServerSocket mmServerSocket;
@@ -16,11 +16,11 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 
 	private final Activity activity;
 
-	private final GameStarter gameStarter;
+	private final ClientConnectedSuccesfullCallback gameStarter;
 	private boolean canceled;
 
 	public AcceptThreadImpl(ServerSocket serverSocket, Activity activity,
-			GameStarter gameStarter) {
+			ClientConnectedSuccesfullCallback gameStarter) {
 		super("Host thread");
 		this.activity = activity;
 		this.gameStarter = gameStarter;
@@ -57,7 +57,7 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
 		application.setSocket(socket);
-		this.gameStarter.startGame(0);
+		this.gameStarter.clientConnectedSucessfull(0);
 		LOGGER.info("Connection accepeted");
 	}
 

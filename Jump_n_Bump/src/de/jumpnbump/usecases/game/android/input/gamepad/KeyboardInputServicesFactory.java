@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
+import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 
 public class KeyboardInputServicesFactory extends
 		AbstractPlayerInputServicesFactory<GamepadInputService> {
 
 	@Override
-	public GamepadInputService createInputService(PlayerConfig config,
+	public GamepadInputService createInputService(AllPlayerConfig config,
 			Context context) {
 		return new GamepadInputService(
 				config.getTabletControlledPlayerMovement());

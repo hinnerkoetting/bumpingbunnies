@@ -10,13 +10,13 @@ import de.jumpnbump.R;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpInputDispatcher;
 import de.jumpnbump.usecases.game.android.input.touch.TouchWithJumpService;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
+import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 
 public class TouchJumpInputServicesFactory extends
 		AbstractPlayerInputServicesFactory<TouchWithJumpService> {
 
 	@Override
-	public TouchWithJumpService createInputService(PlayerConfig config,
+	public TouchWithJumpService createInputService(AllPlayerConfig config,
 			Context context) {
 		TouchWithJumpService touchService = new TouchWithJumpService(
 				config.getTabletControlledPlayerMovement(),

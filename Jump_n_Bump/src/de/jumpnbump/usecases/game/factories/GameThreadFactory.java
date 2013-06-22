@@ -7,7 +7,7 @@ import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
 import de.jumpnbump.usecases.game.businesslogic.ListSpawnPointGenerator;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
+import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.businesslogic.SpawnPointGenerator;
 import de.jumpnbump.usecases.game.businesslogic.WorldController;
@@ -22,7 +22,7 @@ public class GameThreadFactory {
 	public static GameThread create(World world,
 			List<PlayerMovementController> playermovements,
 			List<InputService> movementServices, List<StateSender> stateSender,
-			Context context, PlayerConfig playerConfig,
+			Context context, AllPlayerConfig playerConfig,
 			Configuration configuration, CoordinatesCalculation calculations) {
 		GameThreadState threadState = new GameThreadState();
 		Drawer drawer = DrawerFactory.create(world, threadState, context,

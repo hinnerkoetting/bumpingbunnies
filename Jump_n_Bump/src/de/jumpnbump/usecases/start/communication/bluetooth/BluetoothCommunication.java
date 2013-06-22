@@ -69,6 +69,12 @@ public class BluetoothCommunication implements RemoteCommunication {
 
 	@Override
 	public void connectToServer(ServerDevice device) {
+		try {
+			// because of some bt discovery bug
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		this.commonBehaviour.connectToServer(device);
 	}
 

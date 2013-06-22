@@ -4,32 +4,30 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Intent;
-import de.jumpnbump.logger.Logger;
-import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.game.android.GameView;
 import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.calculation.RelativeCoordinatesCalculation;
+import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
+import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
 import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
 public class PlayerConfigFactory {
 
-	private static final MyLog LOGGER = Logger
-			.getLogger(PlayerConfigFactory.class);
-
-	public static PlayerConfig create(Intent intent, World world,
-			GameView gameView) {
+	public static AllPlayerConfig create(Intent intent, World world,
+			GameView gameView,
+			AbstractOtherPlayersFactorySingleton otherPlayerFactory) {
 		int myPlayerId = findTabletPlayerId(intent);
 		Player myPlayer = findMyPlayer(myPlayerId, world);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
-		PlayerConfig config = new PlayerConfig(createMovementController(
-				myPlayer, world), findOtherPlayers(myPlayerId, world),
-				gameView, world, calculations);
+		AllPlayerConfig config = new AllPlayerConfig(createMovementController(
+				myPlayer, world), findOtherPlayers(otherPlayerFactory,
+				myPlayerId, world), gameView, world, calculations);
 		return config;
 	}
 
@@ -38,15 +36,24 @@ public class PlayerConfigFactory {
 		return new RelativeCoordinatesCalculation(myPlayer);
 	}
 
-	private static List<PlayerMovementController> findOtherPlayers(
+	private static List<PlayerConfig> findOtherPlayers(
+			AbstractOtherPlayersFactorySingleton otherPlayerFactory,
 			int myPlayerId, World world) {
-		List<PlayerMovementController> list = new LinkedList<PlayerMovementController>();
+		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
 		for (Player p : world.getAllPlayer()) {
 			if (p.id() != myPlayerId) {
-				list.add(createMovementController(p, world));
+				list.add(createPlayerConfig(otherPlayerFactory, p, world));
 			}
 		}
 		return list;
+	}
+
+	private static PlayerConfig createPlayerConfig(
+			AbstractOtherPlayersFactorySingleton otherPlayerFactory,
+			Player player, World world) {
+		PlayerMovementController movementcontroller = createMovementController(
+				player, world);
+		return new PlayerConfig(otherPlayerFactory, movementcontroller, world);
 	}
 
 	private static PlayerMovementController createMovementController(Player p,

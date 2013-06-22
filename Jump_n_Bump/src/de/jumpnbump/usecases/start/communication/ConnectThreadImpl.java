@@ -26,11 +26,7 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 	@Override
 	public void run() {
 		LOGGER.info("Start Client Thread");
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+
 		try {
 			// Connect the device through the socket. This will block
 			// until it succeeds or throws an exception
@@ -57,7 +53,7 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 				.getApplication();
 		application.setSocket(this.mmSocket);
 
-		this.activity.startGame(1);
+		this.activity.connectToServerSuccesfull();
 		LOGGER.info("Connection accepted");
 	}
 

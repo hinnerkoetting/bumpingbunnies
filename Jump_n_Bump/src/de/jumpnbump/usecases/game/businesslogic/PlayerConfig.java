@@ -1,85 +1,36 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.jumpnbump.usecases.game.android.GameView;
-import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
-import de.jumpnbump.usecases.game.communication.StateSender;
-import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactory;
 import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
-import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
 public class PlayerConfig {
 
-	private final PlayerMovementController tabletControlledPlayer;
-	private final List<PlayerMovementController> notControlledPlayers;
-	private final GameView gameView;
-	private final World world;
-	private final CoordinatesCalculation coordinateCalculations;
+	private AbstractOtherPlayersFactorySingleton otherPlayerFactory;
+	private PlayerMovementController movementController;
+	private World world;
 
-	public PlayerConfig(PlayerMovementController tabletControlledPlayer,
-			List<PlayerMovementController> notControlledPlayers,
-			GameView gameView, World world,
-			CoordinatesCalculation coordinateCalculations) {
-		this.tabletControlledPlayer = tabletControlledPlayer;
-		this.notControlledPlayers = notControlledPlayers;
-		this.gameView = gameView;
+	public PlayerConfig(
+			AbstractOtherPlayersFactorySingleton otherPlayerFactory,
+			PlayerMovementController movementController, World world) {
+		super();
+		this.otherPlayerFactory = otherPlayerFactory;
+		this.movementController = movementController;
 		this.world = world;
-		this.coordinateCalculations = coordinateCalculations;
 	}
 
-	public List<StateSender> createStateSender(
-			AbstractStateSenderFactory senderFactory) {
-		List<StateSender> stateSender = new ArrayList<StateSender>(
-				this.notControlledPlayers.size());
-		stateSender.add(senderFactory.create(this.tabletControlledPlayer
-				.getPlayer()));
-		return stateSender;
+	public PlayerMovementController getMovementController() {
+		return this.movementController;
 	}
 
-	public List<PlayerMovementController> getAllPlayerMovementControllers() {
-		List<PlayerMovementController> list = new ArrayList<PlayerMovementController>(
-				this.notControlledPlayers.size() + 1);
-		list.add(this.tabletControlledPlayer);
-		list.addAll(this.notControlledPlayers);
-		return list;
-	}
-
-	public List<InputService> createOtherInputService(
-			AbstractOtherPlayersFactorySingleton factory) {
-		InformationSupplier informationSupplier = factory
+	public InputService createInputService() {
+		InformationSupplier informationSupplier = this.otherPlayerFactory
 				.createInformationSupplier();
-		AbstractInputServiceFactory inputServiceFactory = factory
+		AbstractInputServiceFactory inputServiceFactory = this.otherPlayerFactory
 				.getInputServiceFactory();
-
-		List<InputService> inputServices = new ArrayList<InputService>(
-				this.notControlledPlayers.size());
-		for (PlayerMovementController movement : this.notControlledPlayers) {
-			inputServices.add(inputServiceFactory.create(informationSupplier,
-					movement, this.world));
-		}
-		return inputServices;
+		return inputServiceFactory.create(informationSupplier,
+				this.movementController, this.world);
 	}
-
-	public Player getTabletControlledPlayer() {
-		return this.tabletControlledPlayer.getPlayer();
-	}
-
-	public PlayerMovementController getTabletControlledPlayerMovement() {
-		return this.tabletControlledPlayer;
-	}
-
-	public CoordinatesCalculation getCoordinateCalculations() {
-		return this.coordinateCalculations;
-	}
-
-	public GameView getGameView() {
-		return this.gameView;
-	}
-
 }

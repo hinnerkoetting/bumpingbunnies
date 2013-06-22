@@ -10,19 +10,14 @@ public abstract class AbstractOtherPlayersFactorySingleton {
 
 	private static AbstractOtherPlayersFactorySingleton singleton;
 
-	public static void initNetwork(MySocket socket) {
-		singleton = new NetworkFactorySingleton(socket);
+	public static AbstractOtherPlayersFactorySingleton initNetwork(
+			MySocket socket) {
+		return new NetworkFactorySingleton(socket);
 	}
 
-	public static void initSinglePlayer(AiModus aiModus) {
-		singleton = new SingleplayerFactorySingleton(aiModus);
-	}
-
-	public static AbstractOtherPlayersFactorySingleton getSingleton() {
-		if (singleton == null) {
-			throw new IllegalArgumentException("Init first");
-		}
-		return singleton;
+	public static AbstractOtherPlayersFactorySingleton initSinglePlayer(
+			AiModus aiModus) {
+		return new SingleplayerFactorySingleton(aiModus);
 	}
 
 	public abstract AbstractInputServiceFactory getInputServiceFactory();

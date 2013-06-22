@@ -20,9 +20,9 @@ import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
+import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
@@ -73,11 +73,12 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	private void initInputFactory() {
+	private AbstractOtherPlayersFactorySingleton initInputFactory() {
 		if (getSocket() != null) {
-			AbstractOtherPlayersFactorySingleton.initNetwork(getSocket());
+			return AbstractOtherPlayersFactorySingleton
+					.initNetwork(getSocket());
 		} else {
-			AbstractOtherPlayersFactorySingleton
+			return AbstractOtherPlayersFactorySingleton
 					.initSinglePlayer(this.parameter.getConfiguration()
 							.getAiModus());
 		}
@@ -99,16 +100,14 @@ public class GameActivity extends Activity {
 		World world = WorldFactory.create(this.parameter.getConfiguration(),
 				this);
 
-		initInputFactory();
-		AbstractOtherPlayersFactorySingleton singleton = AbstractOtherPlayersFactorySingleton
-				.getSingleton();
+		AbstractOtherPlayersFactorySingleton otherPlayerFactory = initInputFactory();
 
-		PlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
-				contentView);
-		initInputServices(singleton, config);
+		AllPlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
+				contentView, otherPlayerFactory);
+		initInputServices(otherPlayerFactory, config);
 
-		this.networkThread = singleton.createSender();
-		AbstractStateSenderFactory stateSenderFactory = singleton
+		this.networkThread = otherPlayerFactory.createSender();
+		AbstractStateSenderFactory stateSenderFactory = otherPlayerFactory
 				.createStateSenderFactory(this.networkThread);
 		this.gameThread = GameThreadFactory.create(world,
 				config.getAllPlayerMovementControllers(),
@@ -122,7 +121,8 @@ public class GameActivity extends Activity {
 	}
 
 	private void initInputServices(
-			AbstractOtherPlayersFactorySingleton singleton, PlayerConfig config) {
+			AbstractOtherPlayersFactorySingleton singleton,
+			AllPlayerConfig config) {
 		AbstractPlayerInputServicesFactory.init(this.parameter
 				.getConfiguration().getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory

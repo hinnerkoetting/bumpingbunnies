@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
+import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 
 public class HardwareKeyboardFactory extends
 		AbstractPlayerInputServicesFactory<HardwareKeyboardInputService> {
 
 	@Override
-	public HardwareKeyboardInputService createInputService(PlayerConfig config,
+	public HardwareKeyboardInputService createInputService(AllPlayerConfig config,
 			Context context) {
 		return new HardwareKeyboardInputService(
 				config.getTabletControlledPlayerMovement());

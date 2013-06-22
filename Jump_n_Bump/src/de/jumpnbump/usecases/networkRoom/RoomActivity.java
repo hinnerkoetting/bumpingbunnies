@@ -17,19 +17,15 @@ import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.ActivityLauncher;
-import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
-import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.start.BluetoothArrayAdapter;
-import de.jumpnbump.usecases.start.GameParameterFactory;
 import de.jumpnbump.usecases.start.communication.DummyCommunication;
 import de.jumpnbump.usecases.start.communication.RemoteCommunication;
 import de.jumpnbump.usecases.start.communication.ServerDevice;
 import de.jumpnbump.usecases.start.communication.bluetooth.BluetoothCommunicationFactory;
 import de.jumpnbump.usecases.start.communication.wlan.WlanCommunicationFactory;
 
-public class RoomActivity extends Activity implements
-		ManagesConnectionsToServer, GameStarter {
+public class RoomActivity extends Activity implements ConnectToServerCallback,
+		ClientConnectedSuccesfullCallback, ConnectionToServerSuccesfullCallback {
 
 	private static final MyLog LOGGER = Logger.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
@@ -154,14 +150,26 @@ public class RoomActivity extends Activity implements
 	}
 
 	@Override
-	public void startGame(int playerId) {
-		// this.playersAA.add("Player " + playerId);
-		// this.playersAA.notifyDataSetChanged();
-		Configuration configuration = (Configuration) getIntent().getExtras()
-				.get(ActivityLauncher.CONFIGURATION);
-		GameStartParameter parameter = GameParameterFactory.createParameter(
-				playerId, configuration);
-		ActivityLauncher.launchGame(this, parameter);
+	public void clientConnectedSucessfull(final int playerId) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				manadedConnectedClient(playerId);
+			}
+
+		});
+
+		// Configuration configuration = (Configuration) getIntent().getExtras()
+		// .get(ActivityLauncher.CONFIGURATION);
+		// GameStartParameter parameter = GameParameterFactory.createParameter(
+		// playerId, configuration);
+		// ActivityLauncher.launchGame(this, parameter);
+	}
+
+	private void manadedConnectedClient(final int playerId) {
+		RoomActivity.this.playersAA.add("Player " + playerId);
+		RoomActivity.this.playersAA.notifyDataSetChanged();
 	}
 
 	public void connectionNotSuccesful(final String message) {
@@ -188,5 +196,21 @@ public class RoomActivity extends Activity implements
 		LOGGER.info("Adding server");
 		RoomActivity.this.listAdapter.add(device);
 		this.listAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void connectToServerSuccesfull() {
+
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				createNewRoom();
+				// TODO
+				manadedConnectedClient(1);
+
+			}
+		});
+
 	}
 }

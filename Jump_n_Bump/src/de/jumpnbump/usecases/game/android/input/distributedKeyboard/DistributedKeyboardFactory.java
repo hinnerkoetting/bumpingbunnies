@@ -13,13 +13,13 @@ import de.jumpnbump.usecases.game.android.input.VibrateOnceService;
 import de.jumpnbump.usecases.game.android.input.VibratorService;
 import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.jumpnbump.usecases.game.android.input.gamepad.KeyboardDispatcher;
-import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
+import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 
 public class DistributedKeyboardFactory extends
 		AbstractPlayerInputServicesFactory<DistributedInputService> {
 
 	@Override
-	public DistributedInputService createInputService(PlayerConfig config,
+	public DistributedInputService createInputService(AllPlayerConfig config,
 			Context context) {
 
 		VibratorService vibrator = createvibratorService(context);
