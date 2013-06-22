@@ -29,7 +29,6 @@ import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
 import de.jumpnbump.usecases.game.factories.WorldFactory;
-import de.jumpnbump.usecases.game.model.GameThreadState;
 import de.jumpnbump.usecases.game.model.World;
 import de.jumpnbump.usecases.start.communication.MySocket;
 import de.jumpnbump.util.SystemUiHider;
@@ -64,6 +63,14 @@ public class GameActivity extends Activity {
 		registerScreenTouchListener(contentView);
 		initGame();
 		contentView.setGameThread(this.gameThread);
+		conditionalRestoreState();
+	}
+
+	private void conditionalRestoreState() {
+		Object data = getLastNonConfigurationInstance();
+		if (data != null) {
+			this.gameThread.applyState(data);
+		}
 	}
 
 	private void initInputFactory() {
@@ -91,7 +98,6 @@ public class GameActivity extends Activity {
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 		World world = WorldFactory.create(this.parameter.getConfiguration(),
 				this);
-		GameThreadState threadState = new GameThreadState();
 
 		initInputFactory();
 		AbstractOtherPlayersFactorySingleton singleton = AbstractOtherPlayersFactorySingleton
@@ -104,13 +110,14 @@ public class GameActivity extends Activity {
 		this.networkThread = singleton.createSender();
 		AbstractStateSenderFactory stateSenderFactory = singleton
 				.createStateSenderFactory(this.networkThread);
-		this.gameThread = GameThreadFactory.create(world, threadState,
+		this.gameThread = GameThreadFactory.create(world,
 				config.getAllPlayerMovementControllers(),
 				createInputServices(),
-				config.createStateSender(stateSenderFactory), getResources(),
-				config, this.parameter.getConfiguration(),
+				config.createStateSender(stateSenderFactory), this, config,
+				this.parameter.getConfiguration(),
 				config.getCoordinateCalculations());
 
+		contentView.addOnSizeListener(this.gameThread);
 		this.gameThread.start();
 	}
 
@@ -195,4 +202,8 @@ public class GameActivity extends Activity {
 		}
 	}
 
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return this.gameThread.getCurrentState();
+	}
 }

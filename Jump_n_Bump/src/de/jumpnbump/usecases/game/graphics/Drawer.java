@@ -3,9 +3,10 @@ package de.jumpnbump.usecases.game.graphics;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 
@@ -15,16 +16,19 @@ public class Drawer {
 	private List<Drawable> allDrawables;
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;
-	private boolean wasUpdated;
-	private Bitmap originalBackground;
+	private boolean needsUpdate;
+	private int backgroundId;
 	private Bitmap scaledBitmap;
+	private final Context context;
 
 	public Drawer(DrawablesFactory drawFactory, CanvasDelegate canvasDeleta,
-			Bitmap background) {
+			int backgroundId, Context context) {
 		this.factory = drawFactory;
+		this.context = context;
 		this.allDrawables = new LinkedList<Drawable>();
 		this.canvasDelegate = canvasDeleta;
-		this.originalBackground = background;
+		this.backgroundId = backgroundId;
+		this.needsUpdate = true;
 	}
 
 	public void buildAllDrawables() {
@@ -36,37 +40,39 @@ public class Drawer {
 	public void draw(Canvas canvas) {
 		LOGGER.verbose("drawing...");
 		update(canvas);
-		this.canvasDelegate.updateDelegate(canvas);
 
-		this.canvasDelegate.drawColor(Color.WHITE);
+		// this.canvasDelegate.drawColor(Color.WHITE);
 		this.canvasDelegate.drawImageDirect(this.scaledBitmap, 0, 0, null);
 		drawEverything();
 	}
 
 	private void drawEverything() {
-		synchronized (this.allDrawables) {
-			for (Drawable d : this.allDrawables) {
-				d.draw(this.canvasDelegate);
-			}
+		for (Drawable d : this.allDrawables) {
+			d.draw(this.canvasDelegate);
 		}
 	}
 
 	private void update(Canvas canvas) {
+		if (this.needsUpdate) {
+			this.canvasDelegate.updateDelegate(canvas);
+			this.scaledBitmap = scaleBackground(canvas);
 
-		if (!this.wasUpdated) {
-			this.scaledBitmap = Bitmap.createScaledBitmap(
-					this.originalBackground, canvas.getWidth(),
-					canvas.getHeight(), false);
 			for (Drawable d : this.allDrawables) {
 				d.updateGraphics(this.canvasDelegate);
-				this.wasUpdated = true;
 			}
+			this.needsUpdate = false;
 		}
 	}
 
-	public void addNewDrawable(RectDrawer rectDrawer) {
-		synchronized (this.allDrawables) {
-			this.allDrawables.add(rectDrawer);
-		}
+	private Bitmap scaleBackground(Canvas canvas) {
+		Bitmap background = BitmapFactory.decodeResource(
+				this.context.getResources(), this.backgroundId);
+		return Bitmap.createScaledBitmap(background, canvas.getWidth(),
+				canvas.getHeight(), false);
 	}
+
+	public void setNeedsUpdate(boolean b) {
+		this.needsUpdate = b;
+	}
+
 }

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.jumpnbump.usecases.game.android.input.InputService;
@@ -90,5 +91,27 @@ public class WorldController {
 			is.destroy();
 		}
 		this.inputServices = createInputServices;
+	}
+
+	public List<Player> getAllPlayers() {
+		List<Player> players = new ArrayList<Player>(
+				this.playermovements.size());
+		for (PlayerMovementController movement : this.playermovements) {
+			players.add(movement.getPlayer());
+		}
+		return players;
+	}
+
+	public void applyPlayers(List<Player> state) {
+		for (PlayerMovementController movement : this.playermovements) {
+			for (Player p : state) {
+				if (movement.getPlayer().id() == p.id()) {
+					PlayerState newState = movement.getPlayer().getState();
+					PlayerState oldState = p.getState();
+					oldState.copyContentTo(newState);
+				}
+			}
+		}
+
 	}
 }

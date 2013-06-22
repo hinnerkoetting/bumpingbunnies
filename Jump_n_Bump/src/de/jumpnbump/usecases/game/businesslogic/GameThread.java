@@ -9,8 +9,10 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.graphics.Drawer;
 import de.jumpnbump.usecases.game.model.GameThreadState;
+import de.jumpnbump.usecases.game.model.Player;
 
-public class GameThread extends Thread implements SurfaceHolder.Callback {
+public class GameThread extends Thread implements SurfaceHolder.Callback,
+		GameScreenSizeChangeListener {
 
 	private static final MyLog LOGGER = Logger.getLogger(GameThread.class);
 	private final Drawer drawer;
@@ -48,6 +50,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 			if (this.running && this.isDrawingPossible) {
 				nextWorldStep();
 				drawGame();
+				this.state.increaseFps();
 			} else {
 				sleep(100);
 			}
@@ -68,9 +71,8 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 			}
 			this.worldController.nextStep(delta);
 		} else {
-			sleep(1);
+			sleep(10 - delta);
 		}
-		this.state.increaseFps();
 	}
 
 	private boolean isLastResetOneSecondAgo(long currentTime) {
@@ -122,6 +124,21 @@ public class GameThread extends Thread implements SurfaceHolder.Callback {
 
 	public void switchInputServices(List<InputService> createInputServices) {
 		this.worldController.switchInputServices(createInputServices);
+
+	}
+
+	@Override
+	public void setNewSize(int width, int height) {
+		this.drawer.setNeedsUpdate(true);
+	}
+
+	public Object getCurrentState() {
+		return this.worldController.getAllPlayers();
+
+	}
+
+	public void applyState(Object state) {
+		this.worldController.applyPlayers((List<Player>) state);
 
 	}
 }
