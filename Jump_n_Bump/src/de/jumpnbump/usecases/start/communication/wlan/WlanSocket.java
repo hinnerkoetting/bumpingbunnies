@@ -29,7 +29,7 @@ public class WlanSocket implements MySocket {
 
 	@Override
 	public void connect() throws IOException {
-		if (this.address != null) {
+		if (this.address == null) {
 			throw new IllegalStateException(
 					"Need to set address in constructor");
 		}

@@ -10,6 +10,6 @@ public class WlanCommunicationFactory {
 		SocketFactory socketFactory = new WlanServerSocketFactory();
 		RemoteCommunicationImpl communication = new RemoteCommunicationImpl(
 				origin, socketFactory);
-		return new WlanCommunication(communication);
+		return new WlanCommunication(origin, communication);
 	}
 }

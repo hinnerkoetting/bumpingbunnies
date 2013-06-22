@@ -58,11 +58,13 @@ public class RoomActivity extends Activity implements
 	}
 
 	private void switchToBluetooth() {
+		LOGGER.info("selected bluetooth");
 		this.remoteCommunication = BluetoothCommunicationFactory.create(
 				BluetoothAdapter.getDefaultAdapter(), this);
 	}
 
 	private void switchToWlan() {
+		LOGGER.info("selected wlan");
 		this.remoteCommunication = WlanCommunicationFactory.create(this);
 	}
 
@@ -132,7 +134,9 @@ public class RoomActivity extends Activity implements
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				switchToBluetooth();
+				if (isChecked) {
+					switchToBluetooth();
+				}
 			}
 		});
 		RadioButton wlanButton = (RadioButton) findViewById(R.id.start_remote_wlan);
@@ -141,7 +145,9 @@ public class RoomActivity extends Activity implements
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				switchToWlan();
+				if (isChecked) {
+					switchToWlan();
+				}
 			}
 		});
 		btButton.setChecked(true);

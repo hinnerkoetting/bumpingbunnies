@@ -1,14 +1,18 @@
 package de.jumpnbump.usecases.start.communication.wlan;
 
+import de.jumpnbump.usecases.networkRoom.RoomActivity;
 import de.jumpnbump.usecases.start.communication.RemoteCommunication;
 import de.jumpnbump.usecases.start.communication.RemoteCommunicationImpl;
 import de.jumpnbump.usecases.start.communication.ServerDevice;
 
 public class WlanCommunication implements RemoteCommunication {
 	private RemoteCommunicationImpl commonRemoteCommunication;
+	private RoomActivity origin;
 
-	public WlanCommunication(RemoteCommunicationImpl commonRemoteCommunication) {
+	public WlanCommunication(RoomActivity origin,
+			RemoteCommunicationImpl commonRemoteCommunication) {
 		super();
+		this.origin = origin;
 		this.commonRemoteCommunication = commonRemoteCommunication;
 	}
 
@@ -34,7 +38,13 @@ public class WlanCommunication implements RemoteCommunication {
 
 	@Override
 	public void findServer() {
-		this.commonRemoteCommunication.findServer();
+		// TEMP
+		try {
+			WlanDevice device = new WlanDevice();
+			this.origin.startConnectToServer(device);
+			// this.commonRemoteCommunication.findServer();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
-
 }
