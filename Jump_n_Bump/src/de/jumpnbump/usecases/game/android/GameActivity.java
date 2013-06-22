@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -32,6 +31,7 @@ import de.jumpnbump.usecases.game.factories.GameThreadFactory;
 import de.jumpnbump.usecases.game.factories.WorldFactory;
 import de.jumpnbump.usecases.game.model.GameThreadState;
 import de.jumpnbump.usecases.game.model.World;
+import de.jumpnbump.usecases.start.communication.MySocket;
 import de.jumpnbump.util.SystemUiHider;
 
 /**
@@ -145,7 +145,7 @@ public class GameActivity extends Activity {
 		return inputServes;
 	}
 
-	private BluetoothSocket getSocket() {
+	private MySocket getSocket() {
 		MyApplication application = (MyApplication) getApplication();
 		return application.getSocket();
 	}

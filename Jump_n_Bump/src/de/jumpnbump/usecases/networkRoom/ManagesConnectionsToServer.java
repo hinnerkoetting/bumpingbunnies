@@ -1,8 +1,8 @@
 package de.jumpnbump.usecases.networkRoom;
 
-import android.bluetooth.BluetoothDevice;
+import de.jumpnbump.usecases.start.communication.ServerDevice;
 
 public interface ManagesConnectionsToServer {
 
-	void startConnectToServer(BluetoothDevice device);
+	void startConnectToServer(ServerDevice device);
 }

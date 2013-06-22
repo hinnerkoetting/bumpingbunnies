@@ -4,18 +4,17 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import android.bluetooth.BluetoothSocket;
-
 import com.google.gson.Gson;
 
 import de.jumpnbump.usecases.game.communication.DummyRemoteSender;
 import de.jumpnbump.usecases.game.communication.NetworkConstants;
 import de.jumpnbump.usecases.game.communication.NetworkSendQueueThread;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
+import de.jumpnbump.usecases.start.communication.MySocket;
 
 public class NetworkSendQueueThreadFactory {
 
-	public static NetworkSendQueueThread create(BluetoothSocket socket) {
+	public static NetworkSendQueueThread create(MySocket socket) {
 		try {
 			Writer writer = new OutputStreamWriter(socket.getOutputStream(),
 					NetworkConstants.ENCODING);

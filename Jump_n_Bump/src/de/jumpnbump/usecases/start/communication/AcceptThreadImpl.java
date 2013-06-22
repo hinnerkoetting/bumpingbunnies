@@ -1,19 +1,15 @@
-package de.jumpnbump.usecases.start;
+package de.jumpnbump.usecases.start.communication;
 
 import java.io.IOException;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.MyApplication;
-import de.jumpnbump.usecases.game.communication.NetworkConstants;
 import de.jumpnbump.usecases.networkRoom.GameStarter;
 
 public class AcceptThreadImpl extends Thread implements AcceptThread {
-	private final BluetoothServerSocket mmServerSocket;
+	private final ServerSocket mmServerSocket;
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(AcceptThreadImpl.class);
@@ -23,28 +19,18 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 	private final GameStarter gameStarter;
 	private boolean canceled;
 
-	public AcceptThreadImpl(BluetoothAdapter mBluetoothAdapter,
-			Activity activity, GameStarter gameStarter) {
+	public AcceptThreadImpl(ServerSocket serverSocket, Activity activity,
+			GameStarter gameStarter) {
 		super("Host thread");
 		this.activity = activity;
 		this.gameStarter = gameStarter;
-		// Use a temporary object that is later assigned to mmServerSocket,
-		// because mmServerSocket is final
-		BluetoothServerSocket tmp = null;
-		try {
-			// MY_UUID is the app's UUID string, also used by the client code
-			tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(
-					NetworkConstants.NAME, NetworkConstants.MY_UUID);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		this.mmServerSocket = tmp;
+		this.mmServerSocket = serverSocket;
 	}
 
 	@Override
 	public void run() {
 		LOGGER.info("Start Server Thread");
-		BluetoothSocket socket = null;
+		MySocket socket = null;
 		// Keep listening until exception occurs or a socket is returned
 		while (true) {
 			try {
@@ -67,7 +53,7 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 		}
 	}
 
-	private void manageConnectedSocket(BluetoothSocket socket) {
+	private void manageConnectedSocket(MySocket socket) {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
 		application.setSocket(socket);

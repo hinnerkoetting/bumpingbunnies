@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.start.communication;
 
-import android.bluetooth.BluetoothDevice;
 
 public interface RemoteCommunication {
 
@@ -8,7 +7,7 @@ public interface RemoteCommunication {
 
 	void closeOpenConnections();
 
-	void connectToServer(BluetoothDevice device);
+	void connectToServer(ServerDevice device);
 
 	boolean activate();
 

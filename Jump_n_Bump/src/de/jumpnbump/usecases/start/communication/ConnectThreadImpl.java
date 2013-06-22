@@ -1,47 +1,33 @@
-package de.jumpnbump.usecases.start;
+package de.jumpnbump.usecases.start.communication;
 
 import java.io.IOException;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.MyApplication;
-import de.jumpnbump.usecases.game.communication.NetworkConstants;
 import de.jumpnbump.usecases.networkRoom.RoomActivity;
 
 public class ConnectThreadImpl extends Thread implements ConnectThread {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(ConnectThreadImpl.class);
-	private final BluetoothSocket mmSocket;
+	private final MySocket mmSocket;
 	private final RoomActivity activity;
 
-	public ConnectThreadImpl(BluetoothDevice device,
-			BluetoothAdapter mBluetoothAdapter, RoomActivity activity) {
+	public ConnectThreadImpl(MySocket mmSocket, RoomActivity activity) {
 		super("Connect to Server thread");
 		this.activity = activity;
 		// Use a temporary object that is later assigned to mmSocket,
 		// because mmSocket is final
-		BluetoothSocket tmp = null;
 
-		// Get a BluetoothSocket to connect with the given BluetoothDevice
-		try {
-			// MY_UUID is the app's UUID string, also used by the server code
-			tmp = device
-					.createRfcommSocketToServiceRecord(NetworkConstants.MY_UUID);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		this.mmSocket = tmp;
+		this.mmSocket = mmSocket;
 	}
 
 	@Override
 	public void run() {
 		LOGGER.info("Start Client Thread");
 		try {
-			Thread.sleep(2500);
+			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +52,7 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 		manageConnectedSocket(this.mmSocket);
 	}
 
-	private void manageConnectedSocket(BluetoothSocket mmSocket2) {
+	private void manageConnectedSocket(MySocket mmSocket2) {
 		MyApplication application = (MyApplication) this.activity
 				.getApplication();
 		application.setSocket(this.mmSocket);

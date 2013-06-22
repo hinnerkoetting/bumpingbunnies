@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.start;
+package de.jumpnbump.usecases.start.communication;
 
 public class DummyAcceptThread implements AcceptThread {
 

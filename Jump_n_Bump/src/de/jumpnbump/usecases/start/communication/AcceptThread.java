@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.start;
+package de.jumpnbump.usecases.start.communication;
 
 public interface AcceptThread {
 

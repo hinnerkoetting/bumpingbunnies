@@ -3,20 +3,20 @@ package de.jumpnbump.usecases;
 import java.io.IOException;
 
 import android.app.Application;
-import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.start.communication.MySocket;
 
 public class MyApplication extends Application {
 
 	private static final MyLog LOGGER = Logger.getLogger(MyApplication.class);
-	private BluetoothSocket socket;
+	private MySocket socket;
 
-	public BluetoothSocket getSocket() {
+	public MySocket getSocket() {
 		return this.socket;
 	}
 
-	public void setSocket(BluetoothSocket socket) {
+	public void setSocket(MySocket socket) {
 		closeExistingSocket();
 		this.socket = socket;
 	}

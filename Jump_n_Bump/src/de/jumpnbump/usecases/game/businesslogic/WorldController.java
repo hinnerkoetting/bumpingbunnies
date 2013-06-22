@@ -69,9 +69,9 @@ public class WorldController {
 	}
 
 	private void handleJumpedPlayer(Player playerUnder, Player playerTop) {
+		createBlood(playerUnder);
 		increaseScore(playerTop);
 		resetCoordinate(playerUnder);
-		createBlood(playerUnder);
 	}
 
 	private void createBlood(Player playerUnder) {

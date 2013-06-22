@@ -17,10 +17,16 @@ import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.ActivityLauncher;
+import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
+import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.start.BluetoothArrayAdapter;
-import de.jumpnbump.usecases.start.communication.BluetoothCommunicationFactory;
+import de.jumpnbump.usecases.start.GameParameterFactory;
 import de.jumpnbump.usecases.start.communication.DummyCommunication;
 import de.jumpnbump.usecases.start.communication.RemoteCommunication;
+import de.jumpnbump.usecases.start.communication.ServerDevice;
+import de.jumpnbump.usecases.start.communication.bluetooth.BluetoothCommunicationFactory;
+import de.jumpnbump.usecases.start.communication.wlan.WlanCommunicationFactory;
 
 public class RoomActivity extends Activity implements
 		ManagesConnectionsToServer, GameStarter {
@@ -57,7 +63,7 @@ public class RoomActivity extends Activity implements
 	}
 
 	private void switchToWlan() {
-		LOGGER.warn("TODO: implement");
+		this.remoteCommunication = WlanCommunicationFactory.create(this);
 	}
 
 	public void onClickConnect(View v) {
@@ -97,7 +103,7 @@ public class RoomActivity extends Activity implements
 	}
 
 	@Override
-	public void startConnectToServer(BluetoothDevice device) {
+	public void startConnectToServer(ServerDevice device) {
 		this.remoteCommunication.closeOpenConnections();
 		this.remoteCommunication.connectToServer(device);
 		enableButtons(false);
@@ -143,13 +149,13 @@ public class RoomActivity extends Activity implements
 
 	@Override
 	public void startGame(int playerId) {
-		this.playersAA.add("Player " + playerId);
-		this.playersAA.notifyDataSetChanged();
-		// Configuration configuration = (Configuration) getIntent().getExtras()
-		// .get(ActivityLauncher.CONFIGURATION);
-		// GameStartParameter parameter = GameParameterFactory.createParameter(
-		// playerId, configuration);
-		// ActivityLauncher.launchGame(this, parameter);
+		// this.playersAA.add("Player " + playerId);
+		// this.playersAA.notifyDataSetChanged();
+		Configuration configuration = (Configuration) getIntent().getExtras()
+				.get(ActivityLauncher.CONFIGURATION);
+		GameStartParameter parameter = GameParameterFactory.createParameter(
+				playerId, configuration);
+		ActivityLauncher.launchGame(this, parameter);
 	}
 
 	public void connectionNotSuccesful(final String message) {

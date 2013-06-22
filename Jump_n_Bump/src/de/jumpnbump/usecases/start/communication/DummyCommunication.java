@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.start.communication;
 
-import android.bluetooth.BluetoothDevice;
 
 public class DummyCommunication implements RemoteCommunication {
 
@@ -13,7 +12,7 @@ public class DummyCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void connectToServer(BluetoothDevice device) {
+	public void connectToServer(ServerDevice device) {
 	}
 
 	@Override

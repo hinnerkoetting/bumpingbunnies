@@ -1,16 +1,16 @@
 package de.jumpnbump.usecases.game.factories;
 
-import android.bluetooth.BluetoothSocket;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.configuration.AiModus;
+import de.jumpnbump.usecases.start.communication.MySocket;
 
 public abstract class AbstractOtherPlayersFactorySingleton {
 
 	private static AbstractOtherPlayersFactorySingleton singleton;
 
-	public static void initNetwork(BluetoothSocket socket) {
+	public static void initNetwork(MySocket socket) {
 		singleton = new NetworkFactorySingleton(socket);
 	}
 

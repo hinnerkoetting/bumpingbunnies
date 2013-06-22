@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.start.communication;
+package de.jumpnbump.usecases.start.communication.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -11,31 +11,27 @@ import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.networkRoom.RoomActivity;
-import de.jumpnbump.usecases.start.AcceptThread;
-import de.jumpnbump.usecases.start.AcceptThreadImpl;
-import de.jumpnbump.usecases.start.ConnectThread;
-import de.jumpnbump.usecases.start.ConnectThreadImpl;
-import de.jumpnbump.usecases.start.DummyAcceptThread;
-import de.jumpnbump.usecases.start.DummyConnectThread;
+import de.jumpnbump.usecases.start.communication.RemoteCommunication;
+import de.jumpnbump.usecases.start.communication.RemoteCommunicationImpl;
+import de.jumpnbump.usecases.start.communication.ServerDevice;
 
 public class BluetoothCommunication implements RemoteCommunication {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(BluetoothCommunication.class);
-	private final RoomActivity origin;
-	private AcceptThread acceptThread;
-	private ConnectThread connectThread;
 	private final BluetoothAdapter mBluetoothAdapter;
 	private BroadcastReceiver mReceiver;
 	private boolean discoveryRunning;
 	private boolean receiversRegistered;
+	private RemoteCommunicationImpl commonBehaviour;
+	private final RoomActivity origin;
 
 	public BluetoothCommunication(RoomActivity origin,
-			BluetoothAdapter mBluetoothAdapter) {
+			BluetoothAdapter mBluetoothAdapter,
+			RemoteCommunicationImpl commonBehaviour) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
-		this.acceptThread = new DummyAcceptThread();
-		this.connectThread = new DummyConnectThread();
+		this.commonBehaviour = commonBehaviour;
 	}
 
 	@Override
@@ -49,17 +45,13 @@ public class BluetoothCommunication implements RemoteCommunication {
 					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 			this.origin.startActivity(discoverableIntent);
 			closeOpenConnections();
-			this.acceptThread = new AcceptThreadImpl(this.mBluetoothAdapter,
-					this.origin, this.origin);
-			this.acceptThread.start();
+			this.commonBehaviour.startServer();
 		}
 	}
 
 	@Override
 	public void closeOpenConnections() {
 		LOGGER.info("Closing connections");
-		this.acceptThread.close();
-		this.connectThread.close();
 		if (this.discoveryRunning) {
 			this.mBluetoothAdapter.cancelDiscovery();
 		}
@@ -72,14 +64,12 @@ public class BluetoothCommunication implements RemoteCommunication {
 			}
 			this.receiversRegistered = false;
 		}
+		this.commonBehaviour.closeOpenConnections();
 	}
 
 	@Override
-	public void connectToServer(BluetoothDevice device) {
-		LOGGER.info("Connecting to server");
-		this.connectThread = new ConnectThreadImpl(device,
-				this.mBluetoothAdapter, this.origin);
-		this.connectThread.start();
+	public void connectToServer(ServerDevice device) {
+		this.commonBehaviour.connectToServer(device);
 	}
 
 	@Override

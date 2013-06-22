@@ -18,4 +18,6 @@ public class NetworkConstants {
 	public static final String NAME = "JUMPNBUMP";
 
 	public static final String ENCODING = "UTF-8";
+
+	public static final int WLAN_PORT = 10765;
 }
