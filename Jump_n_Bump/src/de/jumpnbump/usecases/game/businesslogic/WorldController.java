@@ -1,11 +1,9 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import de.jumpnbump.usecases.game.android.input.InputService;
 import de.jumpnbump.usecases.game.communication.StateSender;
-import de.jumpnbump.usecases.game.model.BloodParticle;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
@@ -17,8 +15,6 @@ public class WorldController {
 	private List<StateSender> stateSender;
 	private SpawnPointGenerator spawnPointGenerator;
 
-	private List<BloodParticle> newBloodParticles;
-
 	public WorldController(List<PlayerMovementController> playermovements,
 			List<InputService> movementServices, List<StateSender> stateSender,
 			SpawnPointGenerator spawnPointGenerator) {
@@ -26,7 +22,6 @@ public class WorldController {
 		this.inputServices = movementServices;
 		this.stateSender = stateSender;
 		this.spawnPointGenerator = spawnPointGenerator;
-		this.newBloodParticles = new LinkedList<BloodParticle>();
 	}
 
 	public void addMovementService(InputService movementService) {
@@ -69,15 +64,8 @@ public class WorldController {
 	}
 
 	private void handleJumpedPlayer(Player playerUnder, Player playerTop) {
-		createBlood(playerUnder);
 		increaseScore(playerTop);
 		resetCoordinate(playerUnder);
-	}
-
-	private void createBlood(Player playerUnder) {
-		BloodParticle blood = new BloodParticle(playerUnder.centerX(),
-				playerUnder.centerY(), 100, 1000);
-		this.newBloodParticles.add(blood);
 	}
 
 	private void resetCoordinate(Player playerUnder) {
@@ -102,9 +90,5 @@ public class WorldController {
 			is.destroy();
 		}
 		this.inputServices = createInputServices;
-	}
-
-	public List<BloodParticle> getNewBloodParticles() {
-		return this.newBloodParticles;
 	}
 }

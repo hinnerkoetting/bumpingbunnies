@@ -97,6 +97,18 @@ public class PlayerMovementController implements ModelConstants {
 		// this.movedPlayer.setMovementX(-MOVEMENT);
 	}
 
+	public void removeLeftMovement() {
+		if (this.movedPlayer.getAccelerationX() < 0) {
+			removeHorizontalMovement();
+		}
+	}
+
+	public void removeRightMovement() {
+		if (this.movedPlayer.getAccelerationX() > 0) {
+			removeHorizontalMovement();
+		}
+	}
+
 	public void removeHorizontalMovement() {
 		this.tryingToRemoveHorizontalMovement = true;
 		this.movedPlayer.setAccelerationX(0);

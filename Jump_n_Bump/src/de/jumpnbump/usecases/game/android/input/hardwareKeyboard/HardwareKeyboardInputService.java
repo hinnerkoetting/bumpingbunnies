@@ -18,40 +18,29 @@ public class HardwareKeyboardInputService implements InputService {
 
 	@Override
 	public void executeUserInput() {
-		if (this.leftPressed) {
-			this.movementController.tryMoveLeft();
-		}
-		if (this.rightPressed) {
-			this.movementController.tryMoveRight();
-		}
-		if (this.upPressed) {
-			this.movementController.tryMoveUp();
-		} else {
-			this.movementController.tryMoveDown();
-		}
 	}
 
 	public void onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_S) {
-			this.leftPressed = false;
+			this.movementController.removeLeftMovement();
 		}
 		if (keyCode == KeyEvent.KEYCODE_D) {
-			this.rightPressed = false;
+			this.movementController.removeRightMovement();
 		}
 		if (keyCode == KeyEvent.KEYCODE_K) {
-			this.upPressed = false;
+			this.movementController.tryMoveDown();
 		}
 	}
 
 	public void onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_S) {
-			this.leftPressed = true;
+			this.movementController.tryMoveLeft();
 		}
 		if (keyCode == KeyEvent.KEYCODE_D) {
-			this.rightPressed = true;
+			this.movementController.tryMoveRight();
 		}
 		if (keyCode == KeyEvent.KEYCODE_K) {
-			this.upPressed = true;
+			this.movementController.tryMoveUp();
 		}
 	}
 
