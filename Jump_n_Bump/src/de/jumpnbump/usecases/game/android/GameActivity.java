@@ -23,8 +23,6 @@ import de.jumpnbump.usecases.game.android.input.factory.AbstractPlayerInputServi
 import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.GameThread;
-import de.jumpnbump.usecases.game.communication.RemoteSender;
-import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
@@ -45,7 +43,7 @@ public class GameActivity extends Activity {
 	private InputService touchService;
 
 	private List<InputService> networkMovementService;
-	private RemoteSender networkThread;
+	// private RemoteSender networkThread;
 	private GameStartParameter parameter;
 
 	private InputDispatcher<?> inputDispatcher;
@@ -103,17 +101,15 @@ public class GameActivity extends Activity {
 		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory();
 
 		AllPlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
-				contentView, otherPlayerFactory);
+				contentView, otherPlayerFactory,
+				this.parameter.getConfiguration());
 		initInputServices(otherPlayerFactory, config);
 
-		this.networkThread = otherPlayerFactory.createSender();
-		AbstractStateSenderFactory stateSenderFactory = otherPlayerFactory
-				.createStateSenderFactory(this.networkThread);
+		// this.networkThread = otherPlayerFactory.createSender();
 		this.gameThread = GameThreadFactory.create(world,
 				config.getAllPlayerMovementControllers(),
-				createInputServices(),
-				config.createStateSender(stateSenderFactory), this, config,
-				this.parameter.getConfiguration(),
+				createInputServices(), config.createStateSender(), this,
+				config, this.parameter.getConfiguration(),
 				config.getCoordinateCalculations());
 
 		contentView.addOnSizeListener(this.gameThread);
@@ -174,7 +170,6 @@ public class GameActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		this.gameThread.cancel();
-		this.networkThread.cancel();
 	}
 
 	public void onClickInputTypeCb() {

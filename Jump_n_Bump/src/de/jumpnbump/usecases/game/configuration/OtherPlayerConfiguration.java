@@ -16,6 +16,7 @@ public class OtherPlayerConfiguration implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.factory.getClass().getName());
+		this.factory.writeToParcel(dest, flags);
 	}
 
 	public OtherPlayerConfiguration(AbstractOtherPlayersFactory factory) {
@@ -29,8 +30,7 @@ public class OtherPlayerConfiguration implements Parcelable {
 
 			Class<? extends AbstractOtherPlayersFactory> clazz = (Class<? extends AbstractOtherPlayersFactory>) Class
 					.forName(strClazz, false, getClass().getClassLoader());
-			this.factory = clazz.getConstructor(AiModus.class).newInstance(
-					AiModus.NORMAL);
+			this.factory = clazz.getConstructor(Parcel.class).newInstance(in);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

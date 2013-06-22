@@ -24,7 +24,7 @@ public class World implements ObjectProvider {
 		super();
 		this.factory = factory;
 		this.context = context;
-		this.allPlayer = new ArrayList<Player>(2);
+		this.allPlayer = new ArrayList<Player>();
 		this.allWalls = new LinkedList<FixedWorldObject>();
 		this.allObjects = new LinkedList<GameObject>();
 	}

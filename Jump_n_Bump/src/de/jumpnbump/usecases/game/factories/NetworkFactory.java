@@ -40,9 +40,8 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 	}
 
 	@Override
-	public AbstractStateSenderFactory createStateSenderFactory(
-			RemoteSender sender) {
-		return new StateSenderFactory(sender);
+	public AbstractStateSenderFactory createStateSenderFactory() {
+		return new StateSenderFactory();
 	}
 
 	@Override

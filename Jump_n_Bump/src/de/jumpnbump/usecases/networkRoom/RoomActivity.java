@@ -17,7 +17,11 @@ import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.ActivityLauncher;
+import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
+import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.start.BluetoothArrayAdapter;
+import de.jumpnbump.usecases.start.GameParameterFactory;
 import de.jumpnbump.usecases.start.communication.DummyCommunication;
 import de.jumpnbump.usecases.start.communication.RemoteCommunication;
 import de.jumpnbump.usecases.start.communication.ServerDevice;
@@ -146,25 +150,25 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 				}
 			}
 		});
-		btButton.setChecked(true);
+		wlanButton.setChecked(true);
 	}
 
 	@Override
 	public void clientConnectedSucessfull(final int playerId) {
-		runOnUiThread(new Runnable() {
+		// runOnUiThread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// manadedConnectedClient(playerId);
+		// }
+		//
+		// });
 
-			@Override
-			public void run() {
-				manadedConnectedClient(playerId);
-			}
-
-		});
-
-		// Configuration configuration = (Configuration) getIntent().getExtras()
-		// .get(ActivityLauncher.CONFIGURATION);
-		// GameStartParameter parameter = GameParameterFactory.createParameter(
-		// playerId, configuration);
-		// ActivityLauncher.launchGame(this, parameter);
+		Configuration configuration = (Configuration) getIntent().getExtras()
+				.get(ActivityLauncher.CONFIGURATION);
+		GameStartParameter parameter = GameParameterFactory.createParameter(
+				playerId, configuration);
+		ActivityLauncher.launchGame(this, parameter);
 	}
 
 	private void manadedConnectedClient(final int playerId) {
@@ -200,17 +204,21 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void connectToServerSuccesfull() {
-
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				createNewRoom();
-				// TODO
-				manadedConnectedClient(1);
-
-			}
-		});
+		Configuration configuration = (Configuration) getIntent().getExtras()
+				.get(ActivityLauncher.CONFIGURATION);
+		GameStartParameter parameter = GameParameterFactory.createParameter(1,
+				configuration);
+		ActivityLauncher.launchGame(this, parameter);
+		// runOnUiThread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// createNewRoom();
+		// // TODO
+		// manadedConnectedClient(1);
+		//
+		// }
+		// });
 
 	}
 }

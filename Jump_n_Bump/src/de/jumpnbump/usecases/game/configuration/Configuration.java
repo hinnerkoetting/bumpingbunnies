@@ -5,9 +5,12 @@ import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.jumpnbump.logger.Logger;
+import de.jumpnbump.logger.MyLog;
 
 public class Configuration implements Parcelable {
 
+	private static MyLog LOGGER = Logger.getLogger(Configuration.class);
 	public static final Parcelable.Creator<Configuration> CREATOR = new Parcelable.Creator<Configuration>() {
 		@Override
 		public Configuration createFromParcel(Parcel source) {
@@ -21,7 +24,6 @@ public class Configuration implements Parcelable {
 	};
 
 	private final InputConfiguration inputConfiguration;
-	private final AiModus aiModus;
 	private final WorldConfiguration worldConfiguration;
 	private final List<OtherPlayerConfiguration> otherPlayers;
 	private final int zoom;
@@ -29,7 +31,6 @@ public class Configuration implements Parcelable {
 	public Configuration(Parcel source) {
 		this.inputConfiguration = InputConfiguration.valueOf(source
 				.readString());
-		this.aiModus = AiModus.valueOf(source.readString());
 		this.worldConfiguration = WorldConfiguration.valueOf(source
 				.readString());
 		int numberOtherPlayer = source.readInt();
@@ -39,16 +40,24 @@ public class Configuration implements Parcelable {
 			this.otherPlayers.add(new OtherPlayerConfiguration(source));
 		}
 		this.zoom = source.readInt();
+		log();
 	}
 
 	public Configuration(InputConfiguration inputConfiguration,
-			AiModus aiModus, WorldConfiguration worldConfiguration,
+			WorldConfiguration worldConfiguration,
 			List<OtherPlayerConfiguration> otherPlayers, int zoom) {
 		this.inputConfiguration = inputConfiguration;
-		this.aiModus = aiModus;
 		this.worldConfiguration = worldConfiguration;
 		this.otherPlayers = otherPlayers;
 		this.zoom = zoom;
+		log();
+	}
+
+	private void log() {
+		LOGGER.info("%s - %s - Players: %d - Zoom: %d",
+				this.inputConfiguration.toString(),
+				this.worldConfiguration.toString(), this.otherPlayers.size(),
+				this.zoom);
 	}
 
 	@Override
@@ -60,14 +69,9 @@ public class Configuration implements Parcelable {
 		return this.inputConfiguration;
 	}
 
-	public AiModus getAiModus() {
-		return this.aiModus;
-	}
-
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.inputConfiguration.toString());
-		dest.writeString(this.aiModus.toString());
 		dest.writeString(this.worldConfiguration.toString());
 		dest.writeInt(this.otherPlayers.size());
 		for (OtherPlayerConfiguration otherPlayer : this.otherPlayers) {
@@ -81,7 +85,7 @@ public class Configuration implements Parcelable {
 	}
 
 	public int getNumberPlayer() {
-		return this.otherPlayers.size();
+		return this.otherPlayers.size() + 1;
 	}
 
 	public int getZoom() {

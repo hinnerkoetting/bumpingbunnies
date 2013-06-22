@@ -32,12 +32,18 @@ public class AllPlayerConfig {
 		this.coordinateCalculations = coordinateCalculations;
 	}
 
-	public List<StateSender> createStateSender(
-			AbstractStateSenderFactory senderFactory) {
+	public List<StateSender> createStateSender() {
 		List<StateSender> stateSender = new ArrayList<StateSender>(
 				this.notControlledPlayers.size());
-		stateSender.add(senderFactory.create(this.tabletControlledPlayer
-				.getPlayer()));
+		for (PlayerConfig config : this.notControlledPlayers) {
+			AbstractOtherPlayersFactory factory = config
+					.getOtherPlayerFactory();
+			AbstractStateSenderFactory senderFactory = factory
+					.createStateSenderFactory();
+			stateSender.add(senderFactory.create(
+					this.tabletControlledPlayer.getPlayer(),
+					config.getConfiguration()));
+		}
 		return stateSender;
 	}
 

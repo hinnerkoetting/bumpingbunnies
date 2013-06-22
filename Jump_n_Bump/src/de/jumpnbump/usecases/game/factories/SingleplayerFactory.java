@@ -34,8 +34,7 @@ public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
 	}
 
 	@Override
-	public AbstractStateSenderFactory createStateSenderFactory(
-			RemoteSender sender) {
+	public AbstractStateSenderFactory createStateSenderFactory() {
 		return new DummyStateSenderFactory();
 	}
 
