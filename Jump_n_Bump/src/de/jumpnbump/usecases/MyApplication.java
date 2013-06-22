@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Application;
 import de.jumpnbump.logger.Logger;
@@ -10,26 +11,41 @@ import de.jumpnbump.usecases.start.communication.MySocket;
 public class MyApplication extends Application {
 
 	private static final MyLog LOGGER = Logger.getLogger(MyApplication.class);
-	private MySocket socket;
+	private List<MySocket> sockets;
 
-	public MySocket getSocket() {
-		return this.socket;
+	public MyApplication() {
+		this.sockets = new ArrayList<MySocket>();
 	}
 
+	@Deprecated
+	public MySocket getSocket() {
+		return this.sockets.get(0);
+	}
+
+	@Deprecated
 	public void setSocket(MySocket socket) {
 		closeExistingSocket();
-		this.socket = socket;
+		this.sockets.clear();
+		this.sockets.add(socket);
+	}
+
+	public MySocket getSocket(int index) {
+		return this.sockets.get(index);
 	}
 
 	public void closeExistingSocket() {
+		for (MySocket socket : this.sockets) {
+			closeOneSocket(socket);
+		}
+		this.sockets.clear();
+	}
+
+	private void closeOneSocket(MySocket socket) {
 		try {
-			if (this.socket != null) {
-				LOGGER.info("close connection");
-				this.socket.close();
-				this.socket = null;
-			}
-		} catch (IOException e) {
-			LOGGER.warn("Exception during connection close");
+			LOGGER.info("close connection");
+			socket.close();
+		} catch (Exception e) {
+			LOGGER.warn("Exception during closing socket: %s", e.getMessage());
 		}
 	}
 

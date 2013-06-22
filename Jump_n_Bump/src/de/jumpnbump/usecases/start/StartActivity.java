@@ -1,5 +1,8 @@
 package de.jumpnbump.usecases.start;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,8 +22,10 @@ import de.jumpnbump.usecases.game.configuration.AiModusGenerator;
 import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 import de.jumpnbump.usecases.game.configuration.InputConfigurationGenerator;
+import de.jumpnbump.usecases.game.configuration.OtherPlayerConfiguration;
 import de.jumpnbump.usecases.game.configuration.WorldConfiguration;
 import de.jumpnbump.usecases.game.configuration.WorldConfigurationGenerator;
+import de.jumpnbump.usecases.game.factories.SingleplayerFactory;
 
 public class StartActivity extends Activity {
 
@@ -62,7 +67,18 @@ public class StartActivity extends Activity {
 		AiModus aiModus = findSelectedAiMode();
 		WorldConfiguration world = findSelectedWorld();
 		return new Configuration(selectedInput, aiModus, world,
-				getNumberOfPlayers(), getZoom());
+				createOtherPlayerconfigurations(), getZoom());
+	}
+
+	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations() {
+		int number = getNumberOfPlayers();
+		List<OtherPlayerConfiguration> otherPlayers = new ArrayList<OtherPlayerConfiguration>(
+				number);
+		for (int i = 0; i < number; i++) {
+			otherPlayers.add(new OtherPlayerConfiguration(
+					new SingleplayerFactory(AiModus.NORMAL)));
+		}
+		return otherPlayers;
 	}
 
 	private void launchGame(GameStartParameter parameter) {

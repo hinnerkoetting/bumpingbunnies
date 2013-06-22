@@ -1,5 +1,7 @@
 package de.jumpnbump.usecases.game.factories;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import de.jumpnbump.usecases.game.communication.DummyInformationSupplier;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
@@ -8,13 +10,17 @@ import de.jumpnbump.usecases.game.communication.factories.DummyStateSenderFactor
 import de.jumpnbump.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.jumpnbump.usecases.game.configuration.AiModus;
 
-public class SingleplayerFactorySingleton extends
-		AbstractOtherPlayersFactorySingleton {
+public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
+		Parcelable {
 
 	private final AiModus aiModus;
 
-	public SingleplayerFactorySingleton(AiModus aiModus) {
+	public SingleplayerFactory(AiModus aiModus) {
 		this.aiModus = aiModus;
+	}
+
+	public SingleplayerFactory(Parcel in) {
+		this.aiModus = AiModus.valueOf(in.readString());
 	}
 
 	@Override
@@ -36,6 +42,16 @@ public class SingleplayerFactorySingleton extends
 	@Override
 	public RemoteSender createSender() {
 		return NetworkSendQueueThreadFactory.createDummyRemoteSender();
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.aiModus.toString());
 	}
 
 }

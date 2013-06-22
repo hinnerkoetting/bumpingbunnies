@@ -10,7 +10,7 @@ import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.StateSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.factories.AbstractInputServiceFactory;
-import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
+import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
 
@@ -52,7 +52,7 @@ public class AllPlayerConfig {
 	}
 
 	public List<InputService> createOtherInputService(
-			AbstractOtherPlayersFactorySingleton factory) {
+			AbstractOtherPlayersFactory factory) {
 		InformationSupplier informationSupplier = factory
 				.createInformationSupplier();
 		AbstractInputServiceFactory inputServiceFactory = factory

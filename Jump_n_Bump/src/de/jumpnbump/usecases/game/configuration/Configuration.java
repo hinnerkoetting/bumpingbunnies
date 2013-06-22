@@ -1,5 +1,8 @@
 package de.jumpnbump.usecases.game.configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -20,7 +23,7 @@ public class Configuration implements Parcelable {
 	private final InputConfiguration inputConfiguration;
 	private final AiModus aiModus;
 	private final WorldConfiguration worldConfiguration;
-	private final int numberPlayers;
+	private final List<OtherPlayerConfiguration> otherPlayers;
 	private final int zoom;
 
 	public Configuration(Parcel source) {
@@ -29,17 +32,22 @@ public class Configuration implements Parcelable {
 		this.aiModus = AiModus.valueOf(source.readString());
 		this.worldConfiguration = WorldConfiguration.valueOf(source
 				.readString());
-		this.numberPlayers = source.readInt();
+		int numberOtherPlayer = source.readInt();
+		this.otherPlayers = new ArrayList<OtherPlayerConfiguration>(
+				numberOtherPlayer);
+		for (int i = 0; i < numberOtherPlayer; i++) {
+			this.otherPlayers.add(new OtherPlayerConfiguration(source));
+		}
 		this.zoom = source.readInt();
 	}
 
 	public Configuration(InputConfiguration inputConfiguration,
 			AiModus aiModus, WorldConfiguration worldConfiguration,
-			int numberPlayer, int zoom) {
+			List<OtherPlayerConfiguration> otherPlayers, int zoom) {
 		this.inputConfiguration = inputConfiguration;
 		this.aiModus = aiModus;
 		this.worldConfiguration = worldConfiguration;
-		this.numberPlayers = numberPlayer;
+		this.otherPlayers = otherPlayers;
 		this.zoom = zoom;
 	}
 
@@ -61,7 +69,10 @@ public class Configuration implements Parcelable {
 		dest.writeString(this.inputConfiguration.toString());
 		dest.writeString(this.aiModus.toString());
 		dest.writeString(this.worldConfiguration.toString());
-		dest.writeInt(this.numberPlayers);
+		dest.writeInt(this.otherPlayers.size());
+		for (OtherPlayerConfiguration otherPlayer : this.otherPlayers) {
+			otherPlayer.writeToParcel(dest, flags);
+		}
 		dest.writeInt(this.zoom);
 	}
 
@@ -70,11 +81,15 @@ public class Configuration implements Parcelable {
 	}
 
 	public int getNumberPlayer() {
-		return this.numberPlayers;
+		return this.otherPlayers.size();
 	}
 
 	public int getZoom() {
 		return this.zoom;
+	}
+
+	public List<OtherPlayerConfiguration> getOtherPlayers() {
+		return this.otherPlayers;
 	}
 
 }

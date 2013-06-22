@@ -26,7 +26,7 @@ import de.jumpnbump.usecases.game.businesslogic.GameThread;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
-import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
+import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
 import de.jumpnbump.usecases.game.factories.WorldFactory;
 import de.jumpnbump.usecases.game.model.World;
@@ -73,15 +73,15 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	private AbstractOtherPlayersFactorySingleton initInputFactory() {
-		if (getSocket() != null) {
-			return AbstractOtherPlayersFactorySingleton
-					.initNetwork(getSocket());
-		} else {
-			return AbstractOtherPlayersFactorySingleton
-					.initSinglePlayer(this.parameter.getConfiguration()
-							.getAiModus());
-		}
+	private AbstractOtherPlayersFactory initInputFactory() {
+		return this.parameter.getConfiguration().getOtherPlayers().get(0)
+				.getFactory();
+		// if (getSocket() != null) {
+		// return AbstractOtherPlayersFactory.initNetwork(getSocket(), 0);
+		// } else {
+		// return AbstractOtherPlayersFactory.initSinglePlayer(this.parameter
+		// .getConfiguration().getAiModus());
+		// }
 	}
 
 	private void registerScreenTouchListener(final GameView contentView) {
@@ -100,7 +100,7 @@ public class GameActivity extends Activity {
 		World world = WorldFactory.create(this.parameter.getConfiguration(),
 				this);
 
-		AbstractOtherPlayersFactorySingleton otherPlayerFactory = initInputFactory();
+		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory();
 
 		AllPlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
 				contentView, otherPlayerFactory);
@@ -120,8 +120,7 @@ public class GameActivity extends Activity {
 		this.gameThread.start();
 	}
 
-	private void initInputServices(
-			AbstractOtherPlayersFactorySingleton singleton,
+	private void initInputServices(AbstractOtherPlayersFactory singleton,
 			AllPlayerConfig config) {
 		AbstractPlayerInputServicesFactory.init(this.parameter
 				.getConfiguration().getInputConfiguration());

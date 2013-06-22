@@ -12,7 +12,7 @@ import de.jumpnbump.usecases.game.businesslogic.AllPlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.businesslogic.PlayerConfig;
 import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
-import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactorySingleton;
+import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
@@ -21,7 +21,7 @@ public class PlayerConfigFactory {
 
 	public static AllPlayerConfig create(Intent intent, World world,
 			GameView gameView,
-			AbstractOtherPlayersFactorySingleton otherPlayerFactory) {
+			AbstractOtherPlayersFactory otherPlayerFactory) {
 		int myPlayerId = findTabletPlayerId(intent);
 		Player myPlayer = findMyPlayer(myPlayerId, world);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
@@ -37,7 +37,7 @@ public class PlayerConfigFactory {
 	}
 
 	private static List<PlayerConfig> findOtherPlayers(
-			AbstractOtherPlayersFactorySingleton otherPlayerFactory,
+			AbstractOtherPlayersFactory otherPlayerFactory,
 			int myPlayerId, World world) {
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
 		for (Player p : world.getAllPlayer()) {
@@ -49,7 +49,7 @@ public class PlayerConfigFactory {
 	}
 
 	private static PlayerConfig createPlayerConfig(
-			AbstractOtherPlayersFactorySingleton otherPlayerFactory,
+			AbstractOtherPlayersFactory otherPlayerFactory,
 			Player player, World world) {
 		PlayerMovementController movementcontroller = createMovementController(
 				player, world);

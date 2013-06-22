@@ -6,18 +6,17 @@ import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFac
 import de.jumpnbump.usecases.game.configuration.AiModus;
 import de.jumpnbump.usecases.start.communication.MySocket;
 
-public abstract class AbstractOtherPlayersFactorySingleton {
+public abstract class AbstractOtherPlayersFactory {
 
-	private static AbstractOtherPlayersFactorySingleton singleton;
+	private static AbstractOtherPlayersFactory singleton;
 
-	public static AbstractOtherPlayersFactorySingleton initNetwork(
-			MySocket socket) {
-		return new NetworkFactorySingleton(socket);
+	public static AbstractOtherPlayersFactory initNetwork(MySocket socket,
+			int index) {
+		return new NetworkFactory(socket, index);
 	}
 
-	public static AbstractOtherPlayersFactorySingleton initSinglePlayer(
-			AiModus aiModus) {
-		return new SingleplayerFactorySingleton(aiModus);
+	public static AbstractOtherPlayersFactory initSinglePlayer(AiModus aiModus) {
+		return new SingleplayerFactory(aiModus);
 	}
 
 	public abstract AbstractInputServiceFactory getInputServiceFactory();
