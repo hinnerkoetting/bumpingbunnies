@@ -33,4 +33,9 @@ public class NetworkMovementService implements InputService {
 		this.thread.cancel();
 	}
 
+	@Override
+	public void start() {
+		this.thread.cancel();
+	}
+
 }

@@ -10,4 +10,8 @@ public class DummyInformationSupplier implements InformationSupplier {
 	public void cancel() {
 	}
 
+	@Override
+	public void start() {
+	}
+
 }

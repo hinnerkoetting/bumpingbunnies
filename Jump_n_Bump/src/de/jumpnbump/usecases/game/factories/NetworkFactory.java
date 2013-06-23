@@ -2,7 +2,6 @@ package de.jumpnbump.usecases.game.factories;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.RemoteSender;
 import de.jumpnbump.usecases.game.communication.factories.AbstractStateSenderFactory;
@@ -23,8 +22,8 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 		this.index = index;
 	}
 
-	public NetworkFactory(Parcel in, MyApplication application) {
-		StorableSocket storeSocket = new StorableSocket(application, in);
+	public NetworkFactory(Parcel in) {
+		StorableSocket storeSocket = new StorableSocket(in);
 		this.socket = storeSocket.getStoredSocket();
 		this.index = in.readInt();
 	}

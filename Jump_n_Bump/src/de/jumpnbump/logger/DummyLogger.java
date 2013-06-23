@@ -20,4 +20,12 @@ public class DummyLogger implements MyLog {
 	public void warn(String string, Object... params) {
 	}
 
+	@Override
+	public void error(String string, Object... params) {
+	}
+
+	@Override
+	public void error(String string, Throwable t, Object... params) {
+	}
+
 }

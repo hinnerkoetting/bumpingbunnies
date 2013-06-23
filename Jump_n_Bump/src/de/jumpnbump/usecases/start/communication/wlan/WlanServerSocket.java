@@ -24,8 +24,7 @@ public class WlanServerSocket implements
 
 	@Override
 	public void close() throws IOException {
-		// TODO Auto-generated method stub
-
+		this.serverSocket.close();
 	}
 
 }

@@ -2,10 +2,14 @@ package de.jumpnbump.usecases.game.configuration;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.jumpnbump.logger.Logger;
+import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactory;
 
 public class OtherPlayerConfiguration implements Parcelable {
 
+	private static final MyLog LOGGER = Logger
+			.getLogger(OtherPlayerConfiguration.class);
 	private final AbstractOtherPlayersFactory factory;
 
 	@Override
@@ -25,13 +29,14 @@ public class OtherPlayerConfiguration implements Parcelable {
 
 	@SuppressWarnings("unchecked")
 	public OtherPlayerConfiguration(Parcel in) {
+		String strClazz = in.readString();
 		try {
-			String strClazz = in.readString();
 
 			Class<? extends AbstractOtherPlayersFactory> clazz = (Class<? extends AbstractOtherPlayersFactory>) Class
 					.forName(strClazz, false, getClass().getClassLoader());
 			this.factory = clazz.getConstructor(Parcel.class).newInstance(in);
 		} catch (Exception e) {
+			LOGGER.error("error for %s", strClazz);
 			throw new RuntimeException(e);
 		}
 	}

@@ -15,7 +15,7 @@ public class NetworkInputServiceFactory extends AbstractInputServiceFactory {
 	@Override
 	public InputService create(InformationSupplier reicerThread,
 			PlayerMovementController movementController, World world) {
-		LOGGER.info("Creating Bluetooth Input Service");
+		LOGGER.info("Creating Network Input Service");
 		return BluetoothInputServiceFactory.createBluetoothInputService(
 				reicerThread, movementController.getPlayer());
 	}

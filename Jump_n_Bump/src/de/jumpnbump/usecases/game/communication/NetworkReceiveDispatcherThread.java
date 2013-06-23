@@ -44,6 +44,9 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 	private void oneRun() throws IOException {
 		String input = this.reader.readLine();
 		JsonWrapper wrapper = convertToObject(input);
+		if (wrapper == null) {
+			LOGGER.error("Wrapper null. Input was %s", input);
+		}
 		dispatchMessage(wrapper);
 	}
 
@@ -75,7 +78,7 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 
 	@Override
 	public void addObserver(int id, NetworkListener listener) {
-		LOGGER.debug("Restering listener with id %d", id);
+		LOGGER.debug("Registering listener with id %d", id);
 		this.listeners.put(id, listener);
 	}
 

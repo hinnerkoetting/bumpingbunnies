@@ -2,7 +2,7 @@ package de.jumpnbump.logger;
 
 public enum Level {
 
-	VERBOSE(0), DEBUG(1), INFO(2), WARN(3), OFF(4);
+	VERBOSE(0), DEBUG(1), INFO(2), WARN(3), ERROR(4), OFF(5);
 
 	private int level;
 

@@ -3,6 +3,7 @@ package de.jumpnbump.usecases.game.android.input.network;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.android.input.InputService;
+import de.jumpnbump.usecases.game.communication.InformationSupplier;
 import de.jumpnbump.usecases.game.communication.NetworkListener;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
@@ -13,8 +14,10 @@ public class NetworkInputService implements InputService, NetworkListener {
 			.getLogger(NetworkInputService.class);
 	private PlayerState playerStateFromNetwork;
 	private final Player player;
+	private final InformationSupplier receiverThread;
 
-	public NetworkInputService(Player player) {
+	public NetworkInputService(InformationSupplier receiverThread, Player player) {
+		this.receiverThread = receiverThread;
 		this.player = player;
 	}
 
@@ -40,11 +43,17 @@ public class NetworkInputService implements InputService, NetworkListener {
 
 	@Override
 	public void destroy() {
+		this.receiverThread.cancel();
 	}
 
 	@Override
 	public void newMessage(Object message) {
 		this.playerStateFromNetwork = (PlayerState) message;
+	}
+
+	@Override
+	public void start() {
+		this.receiverThread.start();
 	}
 
 }

@@ -6,4 +6,6 @@ public interface InformationSupplier {
 
 	void cancel();
 
+	void start();
+
 }

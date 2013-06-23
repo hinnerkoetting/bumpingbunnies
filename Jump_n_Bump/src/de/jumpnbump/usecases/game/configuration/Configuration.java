@@ -14,7 +14,12 @@ public class Configuration implements Parcelable {
 	public static final Parcelable.Creator<Configuration> CREATOR = new Parcelable.Creator<Configuration>() {
 		@Override
 		public Configuration createFromParcel(Parcel source) {
-			return new Configuration(source);
+			try {
+				return new Configuration(source);
+			} catch (RuntimeException e) {
+				LOGGER.error("Exception during reading configuration", e);
+				throw e;
+			}
 		}
 
 		@Override

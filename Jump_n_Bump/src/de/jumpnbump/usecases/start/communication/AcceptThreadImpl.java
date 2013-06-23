@@ -5,7 +5,7 @@ import java.io.IOException;
 import android.app.Activity;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.MyApplication;
+import de.jumpnbump.usecases.game.android.SocketStorage;
 import de.jumpnbump.usecases.networkRoom.ClientConnectedSuccesfullCallback;
 
 public class AcceptThreadImpl extends Thread implements AcceptThread {
@@ -54,9 +54,7 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 	}
 
 	private void manageConnectedSocket(MySocket socket) {
-		MyApplication application = (MyApplication) this.activity
-				.getApplication();
-		application.setSocket(socket);
+		SocketStorage.getSingleton().setSocket(socket);
 		this.gameStarter.clientConnectedSucessfull(0);
 		LOGGER.info("Connection accepeted");
 	}

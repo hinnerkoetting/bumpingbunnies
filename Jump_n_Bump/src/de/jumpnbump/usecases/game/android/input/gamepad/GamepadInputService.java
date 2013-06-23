@@ -74,4 +74,8 @@ public class GamepadInputService implements KeyboardInputService {
 		}
 		return true;
 	}
+
+	@Override
+	public void start() {
+	}
 }

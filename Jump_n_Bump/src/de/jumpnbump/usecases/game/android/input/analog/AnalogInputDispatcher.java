@@ -58,8 +58,6 @@ public class AnalogInputDispatcher extends InputDispatcher<AnalogInputService> {
 
 	@Override
 	public void dispatchOnKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

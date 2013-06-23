@@ -2,7 +2,7 @@ package de.jumpnbump.usecases.start.communication;
 
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.MyApplication;
+import de.jumpnbump.usecases.game.android.SocketStorage;
 import de.jumpnbump.usecases.networkRoom.RoomActivity;
 
 public class RemoteCommunicationImpl implements RemoteCommunication {
@@ -35,9 +35,7 @@ public class RemoteCommunicationImpl implements RemoteCommunication {
 		LOGGER.info("Closing connections");
 		this.acceptThread.close();
 		this.connectThread.close();
-		MyApplication application = (MyApplication) this.origin
-				.getApplication();
-		application.closeExistingSocket();
+		SocketStorage.getSingleton().closeExistingSocket();
 	}
 
 	@Override

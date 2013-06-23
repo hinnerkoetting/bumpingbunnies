@@ -26,4 +26,7 @@ public abstract class AbstractOtherPlayersFactory implements Parcelable {
 
 	public abstract RemoteSender createSender();
 
+	protected AbstractOtherPlayersFactory() {
+	}
+
 }

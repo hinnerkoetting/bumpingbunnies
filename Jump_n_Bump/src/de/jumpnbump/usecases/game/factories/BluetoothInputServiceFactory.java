@@ -9,7 +9,8 @@ public class BluetoothInputServiceFactory {
 
 	public static InputService createBluetoothInputService(
 			InformationSupplier reicerThread, Player player) {
-		NetworkInputService inputService = new NetworkInputService(player);
+		NetworkInputService inputService = new NetworkInputService(
+				reicerThread, player);
 		reicerThread.addObserver(player.id(), inputService);
 		return inputService;
 	}

@@ -9,7 +9,7 @@ import android.content.IntentFilter;
 import android.widget.Toast;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.MyApplication;
+import de.jumpnbump.usecases.game.android.SocketStorage;
 import de.jumpnbump.usecases.networkRoom.RoomActivity;
 import de.jumpnbump.usecases.start.communication.RemoteCommunication;
 import de.jumpnbump.usecases.start.communication.RemoteCommunicationImpl;
@@ -55,9 +55,7 @@ public class BluetoothCommunication implements RemoteCommunication {
 		if (this.discoveryRunning) {
 			this.mBluetoothAdapter.cancelDiscovery();
 		}
-		MyApplication application = (MyApplication) this.origin
-				.getApplication();
-		application.closeExistingSocket();
+		SocketStorage.getSingleton().closeExistingSocket();
 		if (this.mReceiver != null) {
 			if (this.receiversRegistered) {
 				this.origin.unregisterReceiver(this.mReceiver);

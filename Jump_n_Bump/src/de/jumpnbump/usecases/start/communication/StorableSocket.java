@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.jumpnbump.usecases.MyApplication;
+import de.jumpnbump.usecases.game.android.SocketStorage;
 
 /**
  * Can be stored through parcelables.
@@ -47,13 +47,13 @@ public class StorableSocket implements MySocket, Parcelable {
 		dest.writeInt(this.index);
 	}
 
-	public StorableSocket(MyApplication application, Parcel in) {
-		this(application, in.readInt());
+	public StorableSocket(Parcel in) {
+		this(in.readInt());
 	}
 
-	public StorableSocket(MyApplication application, int index) {
+	public StorableSocket(int index) {
 		this.index = index;
-		this.cachedSocket = application.getSocket(this.index);
+		this.cachedSocket = SocketStorage.getSingleton().getSocket(index);
 	}
 
 	public StorableSocket(MySocket original, int index) {

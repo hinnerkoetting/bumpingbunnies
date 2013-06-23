@@ -18,7 +18,6 @@ public class NetworkReceiverDispatcherThreadFactory {
 					socket.getInputStream(), NetworkConstants.ENCODING));
 			NetworkReceiveDispatcherThread thread = new NetworkReceiveDispatcherThread(
 					reader, new Gson());
-			thread.start();
 			return thread;
 		} catch (Exception e) {
 			throw new RuntimeException(e);

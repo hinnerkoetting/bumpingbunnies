@@ -97,4 +97,7 @@ public abstract class AbstractControlledMovement implements InputService {
 		return movedPlayer.maxX() > xPosition && movedPlayer.minX() < xPosition;
 	}
 
+	@Override
+	public void start() {
+	}
 }

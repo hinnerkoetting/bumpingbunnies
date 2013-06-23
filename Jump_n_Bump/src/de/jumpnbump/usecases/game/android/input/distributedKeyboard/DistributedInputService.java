@@ -117,4 +117,8 @@ public class DistributedInputService implements InputService,
 				v.getLeft(), v.getWidth());
 		return event.getRawX() > v.getLeft() + v.getWidth() / 2;
 	}
+
+	@Override
+	public void start() {
+	}
 }

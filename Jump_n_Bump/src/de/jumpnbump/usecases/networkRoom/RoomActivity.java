@@ -163,7 +163,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		// }
 		//
 		// });
-
 		Configuration configuration = (Configuration) getIntent().getExtras()
 				.get(ActivityLauncher.CONFIGURATION);
 		GameStartParameter parameter = GameParameterFactory.createParameter(

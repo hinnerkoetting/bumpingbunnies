@@ -15,7 +15,6 @@ import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
-import de.jumpnbump.usecases.MyApplication;
 import de.jumpnbump.usecases.game.android.factories.PlayerConfigFactory;
 import de.jumpnbump.usecases.game.android.input.InputDispatcher;
 import de.jumpnbump.usecases.game.android.input.InputService;
@@ -28,7 +27,6 @@ import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.jumpnbump.usecases.game.factories.GameThreadFactory;
 import de.jumpnbump.usecases.game.factories.WorldFactory;
 import de.jumpnbump.usecases.game.model.World;
-import de.jumpnbump.usecases.start.communication.MySocket;
 import de.jumpnbump.util.SystemUiHider;
 
 /**
@@ -62,6 +60,13 @@ public class GameActivity extends Activity {
 		initGame();
 		contentView.setGameThread(this.gameThread);
 		conditionalRestoreState();
+		startNetworkThreads();
+	}
+
+	private void startNetworkThreads() {
+		for (InputService is : this.networkMovementService) {
+			is.start();
+		}
 	}
 
 	private void conditionalRestoreState() {
@@ -147,10 +152,10 @@ public class GameActivity extends Activity {
 		return inputServes;
 	}
 
-	private MySocket getSocket() {
-		MyApplication application = (MyApplication) getApplication();
-		return application.getSocket();
-	}
+	// private MySocket getSocket() {
+	// MyApplication application = (MyApplication) getApplication();
+	// return application.getSocket();
+	// }
 
 	@Override
 	protected void onResume() {
@@ -170,6 +175,9 @@ public class GameActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		this.gameThread.cancel();
+		for (InputService is : this.networkMovementService) {
+			is.destroy();
+		}
 	}
 
 	public void onClickInputTypeCb() {
