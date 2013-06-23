@@ -11,7 +11,7 @@ public class WorldFactory {
 		WorldObjectsBuilder factory = configuration.getWorldConfiguration()
 				.createInputconfigurationClass(context);
 		World world = new World(factory, context);
-		world.buildWorld(configuration.getNumberPlayer());
+		world.buildWorld();
 		return world;
 	}
 }

@@ -15,6 +15,7 @@ import de.jumpnbump.usecases.game.businesslogic.PlayerMovementController;
 import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.game.configuration.OtherPlayerConfiguration;
 import de.jumpnbump.usecases.game.factories.AbstractOtherPlayersFactory;
+import de.jumpnbump.usecases.game.factories.PlayerFactory;
 import de.jumpnbump.usecases.game.factories.PlayerMovementFactory;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.World;
@@ -26,6 +27,7 @@ public class PlayerConfigFactory {
 			Configuration configuration) {
 		int myPlayerId = findTabletPlayerId(intent);
 		Player myPlayer = findMyPlayer(myPlayerId, world);
+		world.addPlayer(myPlayer);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
 		PlayerMovementController myPlayerMovementController = createMovementController(
 				myPlayer, world);
@@ -46,6 +48,13 @@ public class PlayerConfigFactory {
 			AbstractOtherPlayersFactory otherPlayerFactory, int myPlayerId,
 			World world, Configuration configuration) {
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
+		// TODO so ist es richtig
+		// List<PlayerConfig> list = new LinkedList<PlayerConfig>();
+		// for (OtherPlayerConfiguration config :
+		// configuration.getOtherPlayers()) {
+		// Player p = PlayerFactory.createPlayer(config.getPlayerId());
+		// list.add(createPlayerConfig(p, world, config));
+		// }
 		if (configuration.getOtherPlayers().size() > 2) {
 			// TODO
 			throw new IllegalArgumentException("TODO");
@@ -54,13 +63,15 @@ public class PlayerConfigFactory {
 			OtherPlayerConfiguration config = configuration.getOtherPlayers()
 					.get(0);
 
-			Player p = world.getAllPlayer().get(1);
+			Player p = PlayerFactory.createPlayer(1);
+			world.addPlayer(p);
 			list.add(createPlayerConfig(p, world, config));
 		} else {
 			OtherPlayerConfiguration config = configuration.getOtherPlayers()
 					.get(0);
 
-			Player p = world.getAllPlayer().get(0);
+			Player p = PlayerFactory.createPlayer(0);
+			world.addPlayer(p);
 			list.add(createPlayerConfig(p, world, config));
 		}
 		return list;
@@ -82,14 +93,7 @@ public class PlayerConfigFactory {
 	}
 
 	private static Player findMyPlayer(int myPlayerId, World world) {
-		for (Player player : world.getAllPlayer()) {
-			if (player.id() == myPlayerId) {
-				return player;
-			}
-		}
-		throw new IllegalArgumentException("Could not find my player with id "
-				+ myPlayerId);
-
+		return PlayerFactory.createPlayer(myPlayerId);
 	}
 
 	private static int findTabletPlayerId(Intent intent) {

@@ -29,26 +29,15 @@ public class World implements ObjectProvider {
 		this.allObjects = new LinkedList<GameObject>();
 	}
 
-	public void buildWorld(int numberPlayer) {
+	public void buildWorld() {
 		this.allObjects.clear();
 		this.allPlayer.clear();
-		this.allPlayer.addAll(this.factory.createAllPlayers(numberPlayer));
 		this.allWalls.addAll(this.factory.createAllWalls(this.context));
 		this.allObjects.addAll(this.allPlayer);
 		this.allObjects.addAll(this.allWalls);
 		this.spawnPoints = this.factory.createSpawnPoints();
 		LOGGER.info("Added %d objects and %d players", this.allObjects.size(),
 				this.allPlayer.size());
-	}
-
-	@Deprecated
-	public Player getPlayer1() {
-		return this.allPlayer.get(0);
-	}
-
-	@Deprecated
-	public Player getPlayer2() {
-		return this.allPlayer.get(1);
 	}
 
 	@Override
@@ -67,6 +56,10 @@ public class World implements ObjectProvider {
 
 	public List<SpawnPoint> getSpawnPoints() {
 		return this.spawnPoints;
+	}
+
+	public void addPlayer(Player p) {
+		this.allPlayer.add(p);
 	}
 
 }

@@ -22,6 +22,7 @@ import de.jumpnbump.usecases.game.configuration.AiModusGenerator;
 import de.jumpnbump.usecases.game.configuration.Configuration;
 import de.jumpnbump.usecases.game.configuration.InputConfiguration;
 import de.jumpnbump.usecases.game.configuration.InputConfigurationGenerator;
+import de.jumpnbump.usecases.game.configuration.LocalSettings;
 import de.jumpnbump.usecases.game.configuration.OtherPlayerConfiguration;
 import de.jumpnbump.usecases.game.configuration.WorldConfiguration;
 import de.jumpnbump.usecases.game.configuration.WorldConfigurationGenerator;
@@ -66,20 +67,26 @@ public class StartActivity extends Activity {
 		InputConfiguration selectedInput = findSelectedInputConfiguration();
 
 		WorldConfiguration world = findSelectedWorld();
-		return new Configuration(selectedInput, world,
-				createOtherPlayerconfigurations(), getZoom());
+		LocalSettings localSettings = new LocalSettings(selectedInput, world,
+				getZoom());
+		return new Configuration(localSettings,
+				createOtherPlayerconfigurations());
 	}
 
 	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations() {
 		int number = getNumberOfPlayers();
 		List<OtherPlayerConfiguration> otherPlayers = new ArrayList<OtherPlayerConfiguration>(
 				number);
+		// TODO
 		AiModus aiModus = findSelectedAiMode();
 		for (int i = 1; i < number; i++) {
 			// otherPlayers.add(new OtherPlayerConfiguration(
 			// new SingleplayerFactory(aiModus)));
-			otherPlayers.add(new OtherPlayerConfiguration(new NetworkFactory(
-					null, 0)));
+			// TODO
+			NetworkFactory networkFactory = new NetworkFactory(null, 0);
+			OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
+					networkFactory, -1);
+			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;
 	}

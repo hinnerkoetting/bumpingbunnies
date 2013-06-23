@@ -28,41 +28,23 @@ public class Configuration implements Parcelable {
 		}
 	};
 
-	private final InputConfiguration inputConfiguration;
-	private final WorldConfiguration worldConfiguration;
 	private final List<OtherPlayerConfiguration> otherPlayers;
-	private final int zoom;
+	private final LocalSettings localSettings;
 
 	public Configuration(Parcel source) {
-		this.inputConfiguration = InputConfiguration.valueOf(source
-				.readString());
-		this.worldConfiguration = WorldConfiguration.valueOf(source
-				.readString());
 		int numberOtherPlayer = source.readInt();
 		this.otherPlayers = new ArrayList<OtherPlayerConfiguration>(
 				numberOtherPlayer);
 		for (int i = 0; i < numberOtherPlayer; i++) {
 			this.otherPlayers.add(new OtherPlayerConfiguration(source));
 		}
-		this.zoom = source.readInt();
-		log();
+		this.localSettings = new LocalSettings(source);
 	}
 
-	public Configuration(InputConfiguration inputConfiguration,
-			WorldConfiguration worldConfiguration,
-			List<OtherPlayerConfiguration> otherPlayers, int zoom) {
-		this.inputConfiguration = inputConfiguration;
-		this.worldConfiguration = worldConfiguration;
+	public Configuration(LocalSettings localSettings,
+			List<OtherPlayerConfiguration> otherPlayers) {
 		this.otherPlayers = otherPlayers;
-		this.zoom = zoom;
-		log();
-	}
-
-	private void log() {
-		LOGGER.info("%s - %s - Players: %d - Zoom: %d",
-				this.inputConfiguration.toString(),
-				this.worldConfiguration.toString(), this.otherPlayers.size(),
-				this.zoom);
+		this.localSettings = localSettings;
 	}
 
 	@Override
@@ -71,22 +53,20 @@ public class Configuration implements Parcelable {
 	}
 
 	public InputConfiguration getInputConfiguration() {
-		return this.inputConfiguration;
+		return this.localSettings.getInputConfiguration();
 	}
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(this.inputConfiguration.toString());
-		dest.writeString(this.worldConfiguration.toString());
 		dest.writeInt(this.otherPlayers.size());
 		for (OtherPlayerConfiguration otherPlayer : this.otherPlayers) {
 			otherPlayer.writeToParcel(dest, flags);
 		}
-		dest.writeInt(this.zoom);
+		this.localSettings.writeToParcel(dest, flags);
 	}
 
 	public WorldConfiguration getWorldConfiguration() {
-		return this.worldConfiguration;
+		return this.localSettings.getWorldConfiguration();
 	}
 
 	public int getNumberPlayer() {
@@ -94,7 +74,7 @@ public class Configuration implements Parcelable {
 	}
 
 	public int getZoom() {
-		return this.zoom;
+		return this.localSettings.getZoom();
 	}
 
 	public List<OtherPlayerConfiguration> getOtherPlayers() {

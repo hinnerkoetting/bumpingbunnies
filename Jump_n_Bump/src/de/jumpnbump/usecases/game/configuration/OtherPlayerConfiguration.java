@@ -11,6 +11,7 @@ public class OtherPlayerConfiguration implements Parcelable {
 	private static final MyLog LOGGER = Logger
 			.getLogger(OtherPlayerConfiguration.class);
 	private final AbstractOtherPlayersFactory factory;
+	private final int playerId;
 
 	@Override
 	public int describeContents() {
@@ -19,16 +20,20 @@ public class OtherPlayerConfiguration implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(this.playerId);
 		dest.writeString(this.factory.getClass().getName());
 		this.factory.writeToParcel(dest, flags);
 	}
 
-	public OtherPlayerConfiguration(AbstractOtherPlayersFactory factory) {
+	public OtherPlayerConfiguration(AbstractOtherPlayersFactory factory,
+			int playerId) {
 		this.factory = factory;
+		this.playerId = playerId;
 	}
 
 	@SuppressWarnings("unchecked")
 	public OtherPlayerConfiguration(Parcel in) {
+		this.playerId = in.readInt();
 		String strClazz = in.readString();
 		try {
 
@@ -43,6 +48,10 @@ public class OtherPlayerConfiguration implements Parcelable {
 
 	public AbstractOtherPlayersFactory getFactory() {
 		return this.factory;
+	}
+
+	public int getPlayerId() {
+		return this.playerId;
 	}
 
 }
