@@ -17,7 +17,9 @@ public class Configuration implements Parcelable {
 			try {
 				return new Configuration(source);
 			} catch (RuntimeException e) {
-				LOGGER.error("Exception during reading configuration", e);
+				LOGGER.error("Exception during reading configuration %s", e,
+						source.toString());
+
 				throw e;
 			}
 		}
@@ -32,13 +34,13 @@ public class Configuration implements Parcelable {
 	private final LocalSettings localSettings;
 
 	public Configuration(Parcel source) {
+		this.localSettings = new LocalSettings(source);
 		int numberOtherPlayer = source.readInt();
 		this.otherPlayers = new ArrayList<OtherPlayerConfiguration>(
 				numberOtherPlayer);
 		for (int i = 0; i < numberOtherPlayer; i++) {
 			this.otherPlayers.add(new OtherPlayerConfiguration(source));
 		}
-		this.localSettings = new LocalSettings(source);
 	}
 
 	public Configuration(LocalSettings localSettings,
@@ -58,11 +60,11 @@ public class Configuration implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		this.localSettings.writeToParcel(dest, flags);
 		dest.writeInt(this.otherPlayers.size());
 		for (OtherPlayerConfiguration otherPlayer : this.otherPlayers) {
 			otherPlayer.writeToParcel(dest, flags);
 		}
-		this.localSettings.writeToParcel(dest, flags);
 	}
 
 	public WorldConfiguration getWorldConfiguration() {

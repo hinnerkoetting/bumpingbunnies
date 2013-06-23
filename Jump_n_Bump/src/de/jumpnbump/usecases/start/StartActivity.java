@@ -26,7 +26,7 @@ import de.jumpnbump.usecases.game.configuration.LocalSettings;
 import de.jumpnbump.usecases.game.configuration.OtherPlayerConfiguration;
 import de.jumpnbump.usecases.game.configuration.WorldConfiguration;
 import de.jumpnbump.usecases.game.configuration.WorldConfigurationGenerator;
-import de.jumpnbump.usecases.game.factories.NetworkFactory;
+import de.jumpnbump.usecases.game.factories.SingleplayerFactory;
 
 public class StartActivity extends Activity {
 
@@ -56,39 +56,28 @@ public class StartActivity extends Activity {
 		launchGame(parameter);
 	}
 
-	public void startGame(int playerId) {
-		Configuration configuration = createConfiguration();
-		GameStartParameter parameter = GameParameterFactory.createParameter(
-				playerId, configuration);
-		launchGame(parameter);
-	}
+	// public void startGame(int playerId) {
+	// Configuration configuration = createConfiguration();
+	// GameStartParameter parameter = GameParameterFactory.createParameter(
+	// playerId, configuration);
+	// launchGame(parameter);
+	// }
 
 	private Configuration createConfiguration() {
-		InputConfiguration selectedInput = findSelectedInputConfiguration();
+		LocalSettings localSettings = createLocalSettings();
 
-		WorldConfiguration world = findSelectedWorld();
-		LocalSettings localSettings = new LocalSettings(selectedInput, world,
-				getZoom());
 		return new Configuration(localSettings,
-				createOtherPlayerconfigurations());
+				createSpOtherPlayerConfiguration());
 	}
 
-	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations() {
-		int number = getNumberOfPlayers();
-		List<OtherPlayerConfiguration> otherPlayers = new ArrayList<OtherPlayerConfiguration>(
-				number);
-		// TODO
-		AiModus aiModus = findSelectedAiMode();
-		for (int i = 1; i < number; i++) {
-			// otherPlayers.add(new OtherPlayerConfiguration(
-			// new SingleplayerFactory(aiModus)));
-			// TODO
-			NetworkFactory networkFactory = new NetworkFactory(null, 0);
-			OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
-					networkFactory, -1);
-			otherPlayers.add(otherPlayerConfiguration);
+	private List<OtherPlayerConfiguration> createSpOtherPlayerConfiguration() {
+		int numberPlayer = getNumberOfPlayers();
+		List<OtherPlayerConfiguration> list = new ArrayList<OtherPlayerConfiguration>();
+		for (int i = 1; i < numberPlayer; i++) {
+			list.add(new OtherPlayerConfiguration(new SingleplayerFactory(
+					findSelectedAiMode()), i));
 		}
-		return otherPlayers;
+		return list;
 	}
 
 	private void launchGame(GameStartParameter parameter) {
@@ -181,7 +170,16 @@ public class StartActivity extends Activity {
 	}
 
 	public void onClickMultiplayer(View v) {
-		ActivityLauncher.startRoom(this, createConfiguration());
+		LocalSettings localSettings = createLocalSettings();
+		ActivityLauncher.startRoom(this, localSettings);
+	}
+
+	private LocalSettings createLocalSettings() {
+		InputConfiguration selectedInput = findSelectedInputConfiguration();
+		WorldConfiguration world = findSelectedWorld();
+		LocalSettings localSettings = new LocalSettings(selectedInput, world,
+				getZoom());
+		return localSettings;
 	}
 
 }

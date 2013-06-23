@@ -1,5 +1,7 @@
 package de.jumpnbump.usecases.networkRoom;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
@@ -20,6 +22,9 @@ import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
 import de.jumpnbump.usecases.game.configuration.Configuration;
+import de.jumpnbump.usecases.game.configuration.LocalSettings;
+import de.jumpnbump.usecases.game.configuration.OtherPlayerConfiguration;
+import de.jumpnbump.usecases.game.factories.NetworkFactory;
 import de.jumpnbump.usecases.start.BluetoothArrayAdapter;
 import de.jumpnbump.usecases.start.GameParameterFactory;
 import de.jumpnbump.usecases.start.communication.DummyCommunication;
@@ -163,11 +168,30 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		// }
 		//
 		// });
-		Configuration configuration = (Configuration) getIntent().getExtras()
-				.get(ActivityLauncher.CONFIGURATION);
+		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
+				.get(ActivityLauncher.LOCAL_SETTINGS);
+		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(playerId);
+		Configuration config = new Configuration(localSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(
-				playerId, configuration);
+				playerId, config);
 		ActivityLauncher.launchGame(this, parameter);
+	}
+
+	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations(
+			int myPlayerId) {
+		// TODO
+		LOGGER.warn("Fixed number player 2");
+		int number = 2;
+		List<OtherPlayerConfiguration> otherPlayers = new ArrayList<OtherPlayerConfiguration>(
+				number);
+		for (int i = 1; i < number; i++) {
+			NetworkFactory networkFactory = new NetworkFactory(null, 0);
+			// TODO
+			OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
+					networkFactory, myPlayerId == 0 ? 1 : 0);
+			otherPlayers.add(otherPlayerConfiguration);
+		}
+		return otherPlayers;
 	}
 
 	private void manadedConnectedClient(final int playerId) {
@@ -203,10 +227,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void connectToServerSuccesfull() {
-		Configuration configuration = (Configuration) getIntent().getExtras()
-				.get(ActivityLauncher.CONFIGURATION);
+		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
+				.get(ActivityLauncher.LOCAL_SETTINGS);
+		// TODO
+		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(1);
+		Configuration config = new Configuration(localSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(1,
-				configuration);
+				config);
 		ActivityLauncher.launchGame(this, parameter);
 		// runOnUiThread(new Runnable() {
 		//

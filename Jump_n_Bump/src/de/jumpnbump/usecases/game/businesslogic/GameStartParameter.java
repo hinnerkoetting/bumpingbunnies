@@ -27,7 +27,7 @@ public class GameStartParameter implements Parcelable {
 	}
 
 	public GameStartParameter(Parcel source) {
-		this.configuration = source.readParcelable(getClass().getClassLoader());
+		this.configuration = new Configuration(source);
 		this.playerId = source.readInt();
 	}
 
@@ -38,7 +38,7 @@ public class GameStartParameter implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(this.configuration, flags);
+		this.configuration.writeToParcel(dest, flags);
 		dest.writeInt(this.playerId);
 	}
 
