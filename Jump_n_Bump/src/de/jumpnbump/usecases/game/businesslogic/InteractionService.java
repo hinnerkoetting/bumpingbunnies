@@ -20,9 +20,12 @@ public class InteractionService {
 		GameObject nextStep = player.simulateNextStep();
 		// next step is updated in interactWith if player collides with objects
 		for (GameObject object : world.getAllObjects()) {
-			if (object != player) { // optimization: careful!. 10% better
-									// performance
-				interactWith(nextStep, player, object);
+
+			interactWith(nextStep, player, object);
+		}
+		for (Player p : world.getAllPlayer()) {
+			if (p.id() != player.id()) {
+				interactWith(nextStep, player, p);
 			}
 		}
 	}

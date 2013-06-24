@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.game.android.SocketStorage;
 import de.jumpnbump.usecases.networkRoom.RoomActivity;
 
 public class ConnectThreadImpl extends Thread implements ConnectThread {
@@ -45,13 +44,12 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 		}
 
 		// Do work to manage the connection (in a separate thread)
-		manageConnectedSocket(this.mmSocket);
+		manageConnectedSocket();
 	}
 
-	private void manageConnectedSocket(MySocket mmSocket2) {
-		SocketStorage.getSingleton().setSocket(this.mmSocket);
+	private void manageConnectedSocket() {
 
-		this.activity.connectToServerSuccesfull();
+		this.activity.connectToServerSuccesfull(this.mmSocket);
 		LOGGER.info("Connection accepted");
 	}
 

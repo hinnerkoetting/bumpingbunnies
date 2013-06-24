@@ -48,29 +48,8 @@ public class PlayerConfigFactory {
 			AbstractOtherPlayersFactory otherPlayerFactory, int myPlayerId,
 			World world, Configuration configuration) {
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
-		// TODO so ist es richtig
-		// List<PlayerConfig> list = new LinkedList<PlayerConfig>();
-		// for (OtherPlayerConfiguration config :
-		// configuration.getOtherPlayers()) {
-		// Player p = PlayerFactory.createPlayer(config.getPlayerId());
-		// list.add(createPlayerConfig(p, world, config));
-		// }
-		if (configuration.getOtherPlayers().size() > 2) {
-			// TODO
-			throw new IllegalArgumentException("TODO");
-		}
-		if (myPlayerId == 0) {
-			OtherPlayerConfiguration config = configuration.getOtherPlayers()
-					.get(0);
-
-			Player p = PlayerFactory.createPlayer(1);
-			world.addPlayer(p);
-			list.add(createPlayerConfig(p, world, config));
-		} else {
-			OtherPlayerConfiguration config = configuration.getOtherPlayers()
-					.get(0);
-
-			Player p = PlayerFactory.createPlayer(0);
+		for (OtherPlayerConfiguration config : configuration.getOtherPlayers()) {
+			Player p = PlayerFactory.createPlayer(config.getPlayerId());
 			world.addPlayer(p);
 			list.add(createPlayerConfig(p, world, config));
 		}

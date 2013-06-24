@@ -10,7 +10,6 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
@@ -19,15 +18,12 @@ import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
-import de.jumpnbump.usecases.ActivityLauncher;
-import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
-import de.jumpnbump.usecases.game.configuration.Configuration;
-import de.jumpnbump.usecases.game.configuration.LocalSettings;
+import de.jumpnbump.usecases.game.android.SocketStorage;
 import de.jumpnbump.usecases.game.configuration.OtherPlayerConfiguration;
 import de.jumpnbump.usecases.game.factories.NetworkFactory;
 import de.jumpnbump.usecases.start.BluetoothArrayAdapter;
-import de.jumpnbump.usecases.start.GameParameterFactory;
 import de.jumpnbump.usecases.start.communication.DummyCommunication;
+import de.jumpnbump.usecases.start.communication.MySocket;
 import de.jumpnbump.usecases.start.communication.RemoteCommunication;
 import de.jumpnbump.usecases.start.communication.ServerDevice;
 import de.jumpnbump.usecases.start.communication.bluetooth.BluetoothCommunicationFactory;
@@ -41,7 +37,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private BluetoothArrayAdapter listAdapter;
 
 	private RemoteCommunication remoteCommunication;
-	private ArrayAdapter<String> playersAA;
+	private RoomArrayAdapter playersAA;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +53,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void initRoom() {
 		ListView players = (ListView) findViewById(R.id.room_players);
-		this.playersAA = new ArrayAdapter<String>(this,
-				R.layout.room_player_entry);
+		this.playersAA = new RoomArrayAdapter(this, R.layout.room_player_entry);
 		players.setAdapter(this.playersAA);
 	}
 
@@ -159,22 +154,24 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	@Override
-	public void clientConnectedSucessfull(final int playerId) {
-		// runOnUiThread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// manadedConnectedClient(playerId);
-		// }
-		//
-		// });
-		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
-				.get(ActivityLauncher.LOCAL_SETTINGS);
-		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(playerId);
-		Configuration config = new Configuration(localSettings, otherPlayers);
-		GameStartParameter parameter = GameParameterFactory.createParameter(
-				playerId, config);
-		ActivityLauncher.launchGame(this, parameter);
+	public void clientConnectedSucessfull(final MySocket socket) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				manadedConnectedClient(socket);
+			}
+
+		});
+		// LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
+		// .get(ActivityLauncher.LOCAL_SETTINGS);
+		// List<OtherPlayerConfiguration> otherPlayers =
+		// createOtherPlayerconfigurations(playerId);
+		// Configuration config = new Configuration(localSettings,
+		// otherPlayers);
+		// GameStartParameter parameter = GameParameterFactory.createParameter(
+		// playerId, config);
+		// ActivityLauncher.launchGame(this, parameter);
 	}
 
 	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations(
@@ -194,8 +191,18 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		return otherPlayers;
 	}
 
-	private void manadedConnectedClient(final int playerId) {
-		RoomActivity.this.playersAA.add("Player " + playerId);
+	private void manadedConnectedClient(MySocket socket) {
+		int nextPlayerId = this.playersAA.getCount();
+		addPlayerEntry(socket, nextPlayerId);
+	}
+
+	private void addPlayerEntry(MySocket socket, int nextPlayerId) {
+		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
+		NetworkFactory factory = new NetworkFactory(socket, socketIndex);
+		OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
+				factory, nextPlayerId);
+		RoomEntry entry = new RoomEntry(otherPlayerConfiguration);
+		RoomActivity.this.playersAA.add(entry);
 		RoomActivity.this.playersAA.notifyDataSetChanged();
 	}
 
@@ -215,7 +222,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public void createNewRoom() {
 		LOGGER.info("Creating new room");
-		this.playersAA.add("You");
+		this.playersAA.add(new RoomEntry(null));
 		this.playersAA.notifyDataSetChanged();
 	}
 
@@ -226,25 +233,32 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	@Override
-	public void connectToServerSuccesfull() {
-		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
-				.get(ActivityLauncher.LOCAL_SETTINGS);
-		// TODO
-		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(1);
-		Configuration config = new Configuration(localSettings, otherPlayers);
-		GameStartParameter parameter = GameParameterFactory.createParameter(1,
-				config);
-		ActivityLauncher.launchGame(this, parameter);
-		// runOnUiThread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// createNewRoom();
+	public void connectToServerSuccesfull(final MySocket socket) {
+		// LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
+		// .get(ActivityLauncher.LOCAL_SETTINGS);
 		// // TODO
-		// manadedConnectedClient(1);
-		//
-		// }
-		// });
+		// List<OtherPlayerConfiguration> otherPlayers =
+		// createOtherPlayerconfigurations(1);
+		// Configuration config = new Configuration(localSettings,
+		// otherPlayers);
+		// GameStartParameter parameter =
+		// GameParameterFactory.createParameter(1,
+		// config);
+		// ActivityLauncher.launchGame(this, parameter);
+		runOnUiThread(new Runnable() {
 
+			@Override
+			public void run() {
+				createNewRoom();
+				// TODO
+				manageConnectToServer(socket);
+
+			}
+		});
+
+	}
+
+	private void manageConnectToServer(MySocket socket) {
+		addPlayerEntry(socket, 0);
 	}
 }

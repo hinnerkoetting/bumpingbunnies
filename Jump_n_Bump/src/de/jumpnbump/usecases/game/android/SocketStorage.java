@@ -56,4 +56,10 @@ public class SocketStorage {
 			LOGGER.warn("Exception during closing socket: %s", e.getMessage());
 		}
 	}
+
+	public int addSocket(MySocket socket) {
+		int newPosition = this.sockets.size();
+		this.sockets.add(socket);
+		return newPosition;
+	}
 }

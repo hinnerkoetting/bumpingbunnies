@@ -27,20 +27,19 @@ public class PlayerDrawerFactory {
 
 	private static List<Bitmap> createListOfTestBitmap(Resources resources) {
 
-		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v5);
-		Bitmap bitmap2 = loadBitmap(resources, R.drawable.bunny_v5a);
+		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6a);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
 				bitmap, Color.RED);
-		Bitmap convertedColor2 = GrayScaleToColorConverter.convertToColor(
-				bitmap2, Color.RED);
-		return Arrays.asList(convertedColor, convertedColor2);
+		return Arrays.asList(convertedColor);
 	}
 
 	private static List<Bitmap> createListOfTestBitmap2(Resources resources) {
 
-		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v5a);
+		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6a);
+		Bitmap withOutBlackBorder = GrayScaleToColorConverter
+				.removeBlackbackground(bitmap);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
-				bitmap, Color.BLUE);
+				withOutBlackBorder, Color.BLUE);
 		return Arrays.asList(convertedColor);
 	}
 

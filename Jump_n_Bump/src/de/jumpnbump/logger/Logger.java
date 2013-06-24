@@ -2,7 +2,7 @@ package de.jumpnbump.logger;
 
 public class Logger {
 
-	static Level globalLogLevel = Level.INFO;
+	static Level globalLogLevel = Level.DEBUG;
 
 	public static MyLog getLogger(Class<?> cl) {
 		if (cl.getResource("/res") != null) {

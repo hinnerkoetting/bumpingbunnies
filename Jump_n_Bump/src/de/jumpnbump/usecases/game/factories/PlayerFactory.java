@@ -4,11 +4,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Color;
+import de.jumpnbump.logger.Logger;
+import de.jumpnbump.logger.MyLog;
 import de.jumpnbump.usecases.game.model.ModelConstants;
 import de.jumpnbump.usecases.game.model.Player;
 import de.jumpnbump.usecases.game.model.PlayerState;
 
 public class PlayerFactory {
+
+	private static final MyLog LOGGER = Logger.getLogger(PlayerFactory.class);
 
 	public static List<Player> createAllPlayers(int number) {
 		List<Player> allPlayers = new LinkedList<Player>();
@@ -19,6 +23,7 @@ public class PlayerFactory {
 	}
 
 	public static Player createPlayer(int i) {
+		LOGGER.debug("Creating player %d", i);
 		switch (i) {
 		case 0:
 			return createPlayer1();
