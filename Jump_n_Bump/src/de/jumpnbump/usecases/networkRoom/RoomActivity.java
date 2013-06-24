@@ -18,10 +18,15 @@ import android.widget.Toast;
 import de.jumpnbump.R;
 import de.jumpnbump.logger.Logger;
 import de.jumpnbump.logger.MyLog;
+import de.jumpnbump.usecases.ActivityLauncher;
 import de.jumpnbump.usecases.game.android.SocketStorage;
+import de.jumpnbump.usecases.game.businesslogic.GameStartParameter;
+import de.jumpnbump.usecases.game.configuration.Configuration;
+import de.jumpnbump.usecases.game.configuration.LocalSettings;
 import de.jumpnbump.usecases.game.configuration.OtherPlayerConfiguration;
 import de.jumpnbump.usecases.game.factories.NetworkFactory;
 import de.jumpnbump.usecases.start.BluetoothArrayAdapter;
+import de.jumpnbump.usecases.start.GameParameterFactory;
 import de.jumpnbump.usecases.start.communication.DummyCommunication;
 import de.jumpnbump.usecases.start.communication.MySocket;
 import de.jumpnbump.usecases.start.communication.RemoteCommunication;
@@ -163,15 +168,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 			}
 
 		});
-		// LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
-		// .get(ActivityLauncher.LOCAL_SETTINGS);
-		// List<OtherPlayerConfiguration> otherPlayers =
-		// createOtherPlayerconfigurations(playerId);
-		// Configuration config = new Configuration(localSettings,
-		// otherPlayers);
-		// GameStartParameter parameter = GameParameterFactory.createParameter(
-		// playerId, config);
-		// ActivityLauncher.launchGame(this, parameter);
+		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
+				.get(ActivityLauncher.LOCAL_SETTINGS);
+		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(0);
+		Configuration config = new Configuration(localSettings, otherPlayers);
+		GameStartParameter parameter = GameParameterFactory.createParameter(0,
+				config);
+		ActivityLauncher.launchGame(this, parameter);
 	}
 
 	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations(
@@ -234,17 +237,14 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		// LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
-		// .get(ActivityLauncher.LOCAL_SETTINGS);
-		// // TODO
-		// List<OtherPlayerConfiguration> otherPlayers =
-		// createOtherPlayerconfigurations(1);
-		// Configuration config = new Configuration(localSettings,
-		// otherPlayers);
-		// GameStartParameter parameter =
-		// GameParameterFactory.createParameter(1,
-		// config);
-		// ActivityLauncher.launchGame(this, parameter);
+		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
+				.get(ActivityLauncher.LOCAL_SETTINGS);
+		// TODO
+		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(1);
+		Configuration config = new Configuration(localSettings, otherPlayers);
+		GameStartParameter parameter = GameParameterFactory.createParameter(1,
+				config);
+		ActivityLauncher.launchGame(this, parameter);
 		runOnUiThread(new Runnable() {
 
 			@Override
