@@ -52,7 +52,7 @@ public class RemoteCommunicationImpl implements RemoteCommunication {
 	}
 
 	@Override
-	public void findServer() {
+	public void findServer(String address) {
 	}
 
 }

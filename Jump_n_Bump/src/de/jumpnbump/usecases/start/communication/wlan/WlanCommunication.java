@@ -37,10 +37,10 @@ public class WlanCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void findServer() {
+	public void findServer(String address) {
 		// TEMP
 		try {
-			WlanDevice device = new WlanDevice();
+			WlanDevice device = new WlanDevice(address);
 			this.origin.startConnectToServer(device);
 			// this.commonRemoteCommunication.findServer();
 		} catch (Exception e) {

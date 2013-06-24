@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.start.communication;
 
-
 public interface RemoteCommunication {
 
 	void startServer();
@@ -11,5 +10,8 @@ public interface RemoteCommunication {
 
 	boolean activate();
 
-	void findServer();
+	/**
+	 * TODO: Temp
+	 */
+	void findServer(String address);
 }

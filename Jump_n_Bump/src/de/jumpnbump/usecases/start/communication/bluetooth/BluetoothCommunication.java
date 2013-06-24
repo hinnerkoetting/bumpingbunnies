@@ -96,7 +96,7 @@ public class BluetoothCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void findServer() {
+	public void findServer(String address) {
 		LOGGER.info("Finding Servers");
 		boolean bluetoothWorking = checkBluetoothSettings();
 		if (bluetoothWorking) {

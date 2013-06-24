@@ -10,9 +10,15 @@ import de.jumpnbump.usecases.start.communication.ServerDevice;
 
 public class WlanDevice implements ServerDevice {
 
+	private final String address;
+
+	public WlanDevice(String address) {
+		this.address = address;
+	}
+
 	@Override
 	public MySocket createClientSocket() {
-		String adress = "192.168.0.110";
+		String adress = this.address;
 		try {
 			Socket socket = new Socket();
 			SocketAddress address = new InetSocketAddress(adress,

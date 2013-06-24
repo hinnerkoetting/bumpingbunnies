@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.start.communication;
 
-
 public class DummyCommunication implements RemoteCommunication {
 
 	@Override
@@ -21,7 +20,7 @@ public class DummyCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void findServer() {
+	public void findServer(String address) {
 	}
 
 }

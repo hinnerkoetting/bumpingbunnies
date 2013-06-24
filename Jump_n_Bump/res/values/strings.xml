@@ -48,5 +48,6 @@
     <string name="multiplayer">Multiplayer</string>
     <string name="distributed_keyboard">Modern Keyboard</string>
     <string name="world_test">Test</string>
+    <string name="ip">IP</string>
 
 </resources>

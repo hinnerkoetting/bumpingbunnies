@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -54,6 +55,14 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		list.setAdapter(this.listAdapter);
 		initRemoteCbListeners();
 		initRoom();
+		displayDefaultIp();
+	}
+
+	private void displayDefaultIp() {
+		EditText ipText = (EditText) findViewById(R.id.room_ip);
+		String ipAddress = Utils.getIPAddress(true);
+		int lastDot = ipAddress.lastIndexOf('.');
+		ipText.setText(ipAddress.substring(0, lastDot + 1));
 	}
 
 	private void initRoom() {
@@ -100,7 +109,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public void onClickDiscovery(View v) {
 		this.listAdapter.clear();
-		this.remoteCommunication.findServer();
+		this.remoteCommunication.findServer(getInputIp());
+	}
+
+	private String getInputIp() {
+		EditText ipText = (EditText) findViewById(R.id.room_ip);
+		return ipText.getText().toString();
 	}
 
 	@Override
