@@ -49,5 +49,6 @@
     <string name="distributed_keyboard">Modern Keyboard</string>
     <string name="world_test">Test</string>
     <string name="ip">IP</string>
+    <string name="speed">Geschwindigkeit</string>
 
 </resources>

@@ -10,11 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
@@ -30,15 +26,14 @@ import de.oetting.bumpingbunnies.usecases.game.factories.SingleplayerFactory;
 
 public class StartActivity extends Activity {
 
-	private static final MyLog LOGGER = Logger.getLogger(StartActivity.class);
+	private StartSettingsService settingsService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
-
-		initZoomSetting();
-		initNumberPlayerSettings();
+		this.settingsService = new StartSettingsService(this);
+		this.settingsService.initSettings();
 	}
 
 	@Override
@@ -101,7 +96,7 @@ public class StartActivity extends Activity {
 				.createWorldConfigurationFromRadioGroup(radioGroup);
 	}
 
-	private int getNumberOfPlayers() {
+	public int getNumberOfPlayers() {
 		SeekBar numberPlayers = (SeekBar) findViewById(R.id.number_player);
 		try {
 			return numberPlayers.getProgress() + 1;
@@ -110,63 +105,9 @@ public class StartActivity extends Activity {
 		}
 	}
 
-	private int getZoom() {
+	public int getZoom() {
 		SeekBar zoom = (SeekBar) findViewById(R.id.zoom);
 		return zoom.getProgress() + 1;
-	}
-
-	private void initNumberPlayerSettings() {
-		SeekBar numberPlayers = (SeekBar) findViewById(R.id.number_player);
-		numberPlayers.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-			}
-
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-			}
-
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				updateNumberPlayer();
-			}
-		});
-		numberPlayers.setProgress(1);
-		updateNumberPlayer();
-	}
-
-	private void updateNumberPlayer() {
-		TextView view = (TextView) findViewById(R.id.settings_number_player_number);
-		view.setText(Integer.toString(getNumberOfPlayers()));
-	}
-
-	private void initZoomSetting() {
-		SeekBar zoom = (SeekBar) findViewById(R.id.zoom);
-		zoom.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-			}
-
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-			}
-
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				updateZoom();
-			}
-		});
-		zoom.setProgress(4);
-		updateZoom();
-	}
-
-	private void updateZoom() {
-		TextView view = (TextView) findViewById(R.id.settings_zoom_number);
-		view.setText(Integer.toString(getZoom()));
 	}
 
 	public void onClickMultiplayer(View v) {
