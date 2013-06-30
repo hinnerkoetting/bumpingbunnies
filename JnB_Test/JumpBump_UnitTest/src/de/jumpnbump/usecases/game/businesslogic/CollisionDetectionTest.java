@@ -11,9 +11,10 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import de.jumpnbump.usecases.game.ObjectProvider;
-import de.jumpnbump.usecases.game.factories.WallFactory;
-import de.jumpnbump.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 
 public class CollisionDetectionTest {
 

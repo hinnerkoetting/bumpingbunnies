@@ -11,10 +11,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import de.jumpnbump.usecases.game.ObjectProvider;
-import de.jumpnbump.usecases.game.factories.PlayerFactory;
-import de.jumpnbump.usecases.game.model.GameObject;
-import de.jumpnbump.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.InteractionService;
+import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class InteractionServiceTest {
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.jumpnbump"
+    package="de.oetting.bumpingbunnies"
     android:versionCode="24"
     android:versionName="0.1">
 
@@ -15,22 +15,23 @@
         android:targetSdkVersion="17" />
 
     <application
-        android:name="de.jumpnbump.usecases.MyApplication"
+        android:name="de.oetting.bumpingbunnies.usecases.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="de.jumpnbump.usecases.game.android.GameActivity"
+            android:name="de.oetting.bumpingbunnies.usecases.game.android.GameActivity"
             android:configChanges="keyboardHidden"
             android:label="@string/app_name_solo"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name="de.jumpnbump.usecases.networkRoom.RoomActivity"
+			android:name="de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivitys"
             android:configChanges="keyboardHidden|screenSize"
             android:label="@string/app_name_room" />
-        <activity
-            android:name="de.jumpnbump.usecases.start.StartActivity"
+        
+      <activity
+			android:name="de.oetting.bumpingbunnies.usecases.start.StartActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>

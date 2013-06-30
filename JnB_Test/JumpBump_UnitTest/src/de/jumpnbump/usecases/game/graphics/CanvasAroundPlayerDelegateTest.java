@@ -12,8 +12,9 @@ import org.mockito.MockitoAnnotations;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import de.jumpnbump.usecases.game.android.calculation.CoordinatesCalculation;
-import de.jumpnbump.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.usecases.game.graphics.CanvasDelegateImpl;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class CanvasAroundPlayerDelegateTest {
 
