@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Jump\'n\'Bump</string>
+    <string name="app_name">Bumping Bunnies</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_start">StartActivity</string>
@@ -10,7 +10,7 @@
     <string name="connect">Bekannte Server</string>
     <string name="find_devices">Server finden</string>
     <string name="make_visible">Hosten</string>
-    <string name="app_name_solo">Jump\'n\'Bump Solo</string>
+    <string name="app_name_solo">Bumping Bunnies Solo</string>
     <string name="arrow_up">\u2191</string>
     <string name="arrow_down">\u2193</string>
     <string name="arrow_left">\u2190</string>
