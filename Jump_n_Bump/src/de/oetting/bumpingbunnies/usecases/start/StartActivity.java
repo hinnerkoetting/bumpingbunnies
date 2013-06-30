@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
@@ -51,13 +50,6 @@ public class StartActivity extends Activity {
 		launchGame(parameter);
 	}
 
-	// public void startGame(int playerId) {
-	// Configuration configuration = createConfiguration();
-	// GameStartParameter parameter = GameParameterFactory.createParameter(
-	// playerId, configuration);
-	// launchGame(parameter);
-	// }
-
 	private Configuration createConfiguration() {
 		LocalSettings localSettings = createLocalSettings();
 
@@ -66,7 +58,7 @@ public class StartActivity extends Activity {
 	}
 
 	private List<OtherPlayerConfiguration> createSpOtherPlayerConfiguration() {
-		int numberPlayer = getNumberOfPlayers();
+		int numberPlayer = this.settingsService.getNumberOfPlayers();
 		List<OtherPlayerConfiguration> list = new ArrayList<OtherPlayerConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
 			list.add(new OtherPlayerConfiguration(new SingleplayerFactory(
@@ -96,20 +88,6 @@ public class StartActivity extends Activity {
 				.createWorldConfigurationFromRadioGroup(radioGroup);
 	}
 
-	public int getNumberOfPlayers() {
-		SeekBar numberPlayers = (SeekBar) findViewById(R.id.number_player);
-		try {
-			return numberPlayers.getProgress() + 1;
-		} catch (Exception e) {
-			return 2;
-		}
-	}
-
-	public int getZoom() {
-		SeekBar zoom = (SeekBar) findViewById(R.id.zoom);
-		return zoom.getProgress() + 1;
-	}
-
 	public void onClickMultiplayer(View v) {
 		LocalSettings localSettings = createLocalSettings();
 		ActivityLauncher.startRoom(this, localSettings);
@@ -119,7 +97,7 @@ public class StartActivity extends Activity {
 		InputConfiguration selectedInput = findSelectedInputConfiguration();
 		WorldConfiguration world = findSelectedWorld();
 		LocalSettings localSettings = new LocalSettings(selectedInput, world,
-				getZoom());
+				this.settingsService.getZoom());
 		return localSettings;
 	}
 

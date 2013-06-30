@@ -22,8 +22,7 @@ public class StartSettingsService {
 	}
 
 	private void initNumberPlayerSettings() {
-		SeekBar numberPlayers = (SeekBar) this.startActivity
-				.findViewById(R.id.number_player);
+		SeekBar numberPlayers = findNumberPlayerSeekbar();
 		TextView view = (TextView) this.startActivity
 				.findViewById(R.id.settings_number_player_number);
 		numberPlayers.setOnSeekBarChangeListener(new ProgressBarValueChanger(
@@ -32,7 +31,7 @@ public class StartSettingsService {
 	}
 
 	private void initZoomSetting() {
-		SeekBar zoom = (SeekBar) this.startActivity.findViewById(R.id.zoom);
+		SeekBar zoom = findZoomSeekbar();
 		TextView view = (TextView) this.startActivity
 				.findViewById(R.id.settings_zoom_number);
 		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
@@ -40,10 +39,38 @@ public class StartSettingsService {
 	}
 
 	private void initSpeedSetting() {
-		SeekBar speed = (SeekBar) this.startActivity.findViewById(R.id.speed);
+		SeekBar speed = findSpeedSeekbar();
 		TextView view = (TextView) this.startActivity
 				.findViewById(R.id.settings_speed);
 		speed.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
 				new ProgressToIntValueConverter(5), 5));
 	}
+
+	public int getNumberOfPlayers() {
+		SeekBar numberPlayers = findNumberPlayerSeekbar();
+		return numberPlayers.getProgress() + 1;
+	}
+
+	public int getZoom() {
+		SeekBar zoom = findZoomSeekbar();
+		return zoom.getProgress() + 1;
+	}
+
+	public int getSpeed() {
+		SeekBar seekbar = findSpeedSeekbar();
+		return seekbar.getProgress() + 1;
+	}
+
+	private SeekBar findZoomSeekbar() {
+		return (SeekBar) this.startActivity.findViewById(R.id.zoom);
+	}
+
+	private SeekBar findNumberPlayerSeekbar() {
+		return (SeekBar) this.startActivity.findViewById(R.id.number_player);
+	}
+
+	private SeekBar findSpeedSeekbar() {
+		return (SeekBar) this.startActivity.findViewById(R.id.speed);
+	}
+
 }
