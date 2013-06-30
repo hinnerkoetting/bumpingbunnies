@@ -17,7 +17,7 @@
             android:id="@+id/number_player"
             android:layout_width="@dimen/slider_width"
             android:layout_height="wrap_content"
-            android:max="3" />
+            android:max="2" />
 
         <TextView
             android:textIsSelectable="false"

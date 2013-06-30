@@ -23,6 +23,7 @@ import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
@@ -184,8 +185,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		});
 		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
 				.get(ActivityLauncher.LOCAL_SETTINGS);
+		GeneralSettings generalSettings = (GeneralSettings) getIntent()
+				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
 		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(0);
-		Configuration config = new Configuration(localSettings, otherPlayers);
+		Configuration config = new Configuration(localSettings,
+				generalSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(0,
 				config);
 		ActivityLauncher.launchGame(this, parameter);
@@ -253,9 +257,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	public void connectToServerSuccesfull(final MySocket socket) {
 		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
 				.get(ActivityLauncher.LOCAL_SETTINGS);
+		GeneralSettings generalSettings = (GeneralSettings) getIntent()
+				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
 		// TODO
 		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(1);
-		Configuration config = new Configuration(localSettings, otherPlayers);
+		Configuration config = new Configuration(localSettings,
+				generalSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(1,
 				config);
 		ActivityLauncher.launchGame(this, parameter);

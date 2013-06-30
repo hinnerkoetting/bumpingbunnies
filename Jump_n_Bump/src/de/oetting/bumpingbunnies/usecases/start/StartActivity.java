@@ -15,6 +15,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModusGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
@@ -53,8 +54,9 @@ public class StartActivity extends Activity {
 	private Configuration createConfiguration() {
 		LocalSettings localSettings = createLocalSettings();
 
-		return new Configuration(localSettings,
-				createSpOtherPlayerConfiguration());
+		GeneralSettings generalSettings = createGeneralSettings();
+		List<OtherPlayerConfiguration> otherPlayers = createSpOtherPlayerConfiguration();
+		return new Configuration(localSettings, generalSettings, otherPlayers);
 	}
 
 	private List<OtherPlayerConfiguration> createSpOtherPlayerConfiguration() {
@@ -90,15 +92,22 @@ public class StartActivity extends Activity {
 
 	public void onClickMultiplayer(View v) {
 		LocalSettings localSettings = createLocalSettings();
-		ActivityLauncher.startRoom(this, localSettings);
+		GeneralSettings generalSettings = createGeneralSettings();
+		ActivityLauncher.startRoom(this, localSettings, generalSettings);
 	}
 
 	private LocalSettings createLocalSettings() {
 		InputConfiguration selectedInput = findSelectedInputConfiguration();
-		WorldConfiguration world = findSelectedWorld();
-		LocalSettings localSettings = new LocalSettings(selectedInput, world,
+
+		LocalSettings localSettings = new LocalSettings(selectedInput,
 				this.settingsService.getZoom());
 		return localSettings;
 	}
 
+	private GeneralSettings createGeneralSettings() {
+		WorldConfiguration world = findSelectedWorld();
+		int speed = this.settingsService.getSpeed();
+		GeneralSettings settings = new GeneralSettings(world, speed);
+		return settings;
+	}
 }

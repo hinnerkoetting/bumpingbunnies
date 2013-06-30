@@ -32,9 +32,11 @@ public class Configuration implements Parcelable {
 
 	private final List<OtherPlayerConfiguration> otherPlayers;
 	private final LocalSettings localSettings;
+	private final GeneralSettings generalSettings;
 
 	public Configuration(Parcel source) {
 		this.localSettings = new LocalSettings(source);
+		this.generalSettings = new GeneralSettings(source);
 		int numberOtherPlayer = source.readInt();
 		this.otherPlayers = new ArrayList<OtherPlayerConfiguration>(
 				numberOtherPlayer);
@@ -44,7 +46,9 @@ public class Configuration implements Parcelable {
 	}
 
 	public Configuration(LocalSettings localSettings,
+			GeneralSettings generalSettings,
 			List<OtherPlayerConfiguration> otherPlayers) {
+		this.generalSettings = generalSettings;
 		this.otherPlayers = otherPlayers;
 		this.localSettings = localSettings;
 	}
@@ -61,6 +65,7 @@ public class Configuration implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		this.localSettings.writeToParcel(dest, flags);
+		this.generalSettings.writeToParcel(dest, flags);
 		dest.writeInt(this.otherPlayers.size());
 		for (OtherPlayerConfiguration otherPlayer : this.otherPlayers) {
 			otherPlayer.writeToParcel(dest, flags);
@@ -68,7 +73,7 @@ public class Configuration implements Parcelable {
 	}
 
 	public WorldConfiguration getWorldConfiguration() {
-		return this.localSettings.getWorldConfiguration();
+		return this.generalSettings.getWorldConfiguration();
 	}
 
 	public int getNumberPlayer() {

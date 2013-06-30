@@ -26,7 +26,7 @@ public class StartSettingsService {
 		TextView view = (TextView) this.startActivity
 				.findViewById(R.id.settings_number_player_number);
 		numberPlayers.setOnSeekBarChangeListener(new ProgressBarValueChanger(
-				view, new ProgressToIntValueConverter(1), 0));
+				view, new ProgressToIntValueConverter(2), 0));
 		numberPlayers.setProgress(0);
 	}
 
