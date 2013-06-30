@@ -104,10 +104,11 @@ public class GameActivity extends Activity {
 				this);
 
 		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory();
-
+		int speedFactor = this.parameter.getConfiguration()
+				.getGeneralSettings().getSpeedSetting();
 		AllPlayerConfig config = PlayerConfigFactory.create(getIntent(), world,
 				contentView, otherPlayerFactory,
-				this.parameter.getConfiguration());
+				this.parameter.getConfiguration(), speedFactor);
 		initInputServices(otherPlayerFactory, config);
 
 		// this.networkThread = otherPlayerFactory.createSender();

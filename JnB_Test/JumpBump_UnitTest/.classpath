@@ -5,7 +5,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Jump_n_Bump"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="C:/develop/Android/android-sdk/platforms/android-17/android.jar"/>
-	<classpathentry kind="lib" path="libs/mockito-all-1.9.5.jar"/>
+	<classpathentry kind="lib" path="libs/mockito-all-1.9.5.jar" sourcepath="C:/Users/C/.m2/repository/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5-sources.jar"/>
 	<classpathentry kind="lib" path="libs/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="libs/robolectric-0.9.4-all.jar"/>
 	<classpathentry kind="output" path="bin"/>

@@ -27,6 +27,7 @@ public class InteractionServiceTest {
 	private ObjectProvider objectProvider;
 	@Mock
 	private GameObject otherGameObject;
+	private PlayerFactory playerFactory = new PlayerFactory(1);
 
 	@Test
 	public void interaction_givenPlayerCollidesWithWallOnRight_playerShouldHave0MovementX() {
@@ -40,7 +41,7 @@ public class InteractionServiceTest {
 
 	@Test
 	public void interaction_givenPlayerDoesNotCollide_playerShouldRetainMovementX() {
-		Player player = PlayerFactory.createPlayerAtPosition(0, 0);
+		Player player = this.playerFactory.createPlayerAtPosition(0, 0);
 		player.setMovementX(1);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(1, player.movementX(), 0.001);
@@ -164,13 +165,13 @@ public class InteractionServiceTest {
 	}
 
 	private Player givenPlayerAt00WithYMovement(int movementY) {
-		Player player = PlayerFactory.createPlayerAtPosition(0, 0);
+		Player player = this.playerFactory.createPlayerAtPosition(0, 0);
 		player.setMovementY(movementY);
 		return player;
 	}
 
 	private Player givenPlayerAt00WithMovement(int movementX) {
-		Player player = PlayerFactory.createPlayerAtPosition(0, 0);
+		Player player = this.playerFactory.createPlayerAtPosition(0, 0);
 		player.setMovementX(movementX);
 		return player;
 	}

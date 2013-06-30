@@ -24,15 +24,15 @@ public class PlayerConfigFactory {
 
 	public static AllPlayerConfig create(Intent intent, World world,
 			GameView gameView, AbstractOtherPlayersFactory otherPlayerFactory,
-			Configuration configuration) {
+			Configuration configuration, int speed) {
 		int myPlayerId = findTabletPlayerId(intent);
-		Player myPlayer = findMyPlayer(myPlayerId, world);
+		Player myPlayer = findMyPlayer(myPlayerId, world, speed);
 		world.addPlayer(myPlayer);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
 		PlayerMovementController myPlayerMovementController = createMovementController(
-				myPlayer, world);
+				myPlayer, world, speed);
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
-				otherPlayerFactory, myPlayerId, world, configuration);
+				otherPlayerFactory, myPlayerId, world, configuration, speed);
 		AllPlayerConfig config = new AllPlayerConfig(
 				myPlayerMovementController, otherPlayerconfigs, gameView,
 				world, calculations);
@@ -46,33 +46,35 @@ public class PlayerConfigFactory {
 
 	private static List<PlayerConfig> findOtherPlayers(
 			AbstractOtherPlayersFactory otherPlayerFactory, int myPlayerId,
-			World world, Configuration configuration) {
+			World world, Configuration configuration, int speed) {
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
+		PlayerFactory playerfactory = new PlayerFactory(speed);
 		for (OtherPlayerConfiguration config : configuration.getOtherPlayers()) {
-			Player p = PlayerFactory.createPlayer(config.getPlayerId());
+			Player p = playerfactory.createPlayer(config.getPlayerId());
 			world.addPlayer(p);
-			list.add(createPlayerConfig(p, world, config));
+			list.add(createPlayerConfig(p, world, config, speed));
 		}
 		return list;
 	}
 
 	private static PlayerConfig createPlayerConfig(Player player, World world,
-			OtherPlayerConfiguration configuration) {
+			OtherPlayerConfiguration configuration, int speedFactor) {
 		AbstractOtherPlayersFactory otherPlayerFactory = configuration
 				.getFactory();
 		PlayerMovementController movementcontroller = createMovementController(
-				player, world);
+				player, world, speedFactor);
 		return new PlayerConfig(otherPlayerFactory, movementcontroller, world,
 				configuration);
 	}
 
 	private static PlayerMovementController createMovementController(Player p,
-			World world) {
-		return PlayerMovementFactory.create(p, world);
+			World world, int speedfactor) {
+		return PlayerMovementFactory.create(p, world, speedfactor);
 	}
 
-	private static Player findMyPlayer(int myPlayerId, World world) {
-		return PlayerFactory.createPlayer(myPlayerId);
+	private static Player findMyPlayer(int myPlayerId, World world, int speed) {
+		PlayerFactory playerfactory = new PlayerFactory(speed);
+		return playerfactory.createPlayer(myPlayerId);
 	}
 
 	private static int findTabletPlayerId(Intent intent) {

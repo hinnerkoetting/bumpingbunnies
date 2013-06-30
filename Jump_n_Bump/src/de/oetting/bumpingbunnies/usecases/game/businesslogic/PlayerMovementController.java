@@ -19,13 +19,16 @@ public class PlayerMovementController implements ModelConstants {
 	private final World world;
 	boolean tryingToRemoveHorizontalMovement;
 
+	private final int speedFactor;
+
 	public PlayerMovementController(Player movedPlayer, World world,
 			InteractionService interActionService,
-			CollisionDetection collisionDetection) {
+			CollisionDetection collisionDetection, int speedFactor) {
 		this.movedPlayer = movedPlayer;
 		this.world = world;
 		this.interActionService = interActionService;
 		this.collisionDetection = collisionDetection;
+		this.speedFactor = speedFactor;
 	}
 
 	public void nextStep(long delta) {
@@ -74,7 +77,8 @@ public class PlayerMovementController implements ModelConstants {
 
 	public void tryMoveRight() {
 		this.tryingToRemoveHorizontalMovement = false;
-		this.movedPlayer.setAccelerationX(+findAccelerationForObject());
+		this.movedPlayer.setAccelerationX(+findAccelerationForObject()
+				* this.speedFactor);
 	}
 
 	private int findAccelerationForObject() {
@@ -93,7 +97,8 @@ public class PlayerMovementController implements ModelConstants {
 
 	public void tryMoveLeft() {
 		this.tryingToRemoveHorizontalMovement = false;
-		this.movedPlayer.setAccelerationX(-findAccelerationForObject());
+		this.movedPlayer.setAccelerationX(-findAccelerationForObject()
+				* this.speedFactor);
 		// this.movedPlayer.setMovementX(-MOVEMENT);
 	}
 

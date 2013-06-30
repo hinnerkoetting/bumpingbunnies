@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.Context;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 public class TestXmlWorldBuilder implements WorldObjectsBuilder {
@@ -15,11 +14,6 @@ public class TestXmlWorldBuilder implements WorldObjectsBuilder {
 
 	public TestXmlWorldBuilder() {
 		this.worldBuilder = new XmlWorldBuilder(R.raw.test_world);
-	}
-
-	@Override
-	public List<Player> createAllPlayers(int number) {
-		return this.worldBuilder.createAllPlayers(number);
 	}
 
 	@Override

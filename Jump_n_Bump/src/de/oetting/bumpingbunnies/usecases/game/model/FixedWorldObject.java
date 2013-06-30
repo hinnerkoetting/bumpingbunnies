@@ -36,10 +36,6 @@ public abstract class FixedWorldObject implements GameObject {
 	}
 
 	@Override
-	public void calculateNextSpeed() {
-	}
-
-	@Override
 	public int getColor() {
 		return this.color;
 	}

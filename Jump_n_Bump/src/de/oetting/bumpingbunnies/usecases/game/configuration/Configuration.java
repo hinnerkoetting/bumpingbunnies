@@ -88,4 +88,8 @@ public class Configuration implements Parcelable {
 		return this.otherPlayers;
 	}
 
+	public GeneralSettings getGeneralSettings() {
+		return this.generalSettings;
+	}
+
 }

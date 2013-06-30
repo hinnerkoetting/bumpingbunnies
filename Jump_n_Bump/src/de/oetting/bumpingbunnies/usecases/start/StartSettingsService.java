@@ -23,32 +23,37 @@ public class StartSettingsService {
 
 	private void initNumberPlayerSettings() {
 		SeekBar numberPlayers = findNumberPlayerSeekbar();
+		int startValue = 0;
 		TextView view = (TextView) this.startActivity
 				.findViewById(R.id.settings_number_player_number);
 		numberPlayers.setOnSeekBarChangeListener(new ProgressBarValueChanger(
-				view, new ProgressToIntValueConverter(2), 0));
-		numberPlayers.setProgress(0);
+				view, new ProgressToIntValueConverter(2), startValue));
+		numberPlayers.setProgress(startValue);
 	}
 
 	private void initZoomSetting() {
 		SeekBar zoom = findZoomSeekbar();
+		int startValue = 4;
 		TextView view = (TextView) this.startActivity
 				.findViewById(R.id.settings_zoom_number);
 		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
 				new ProgressToIntValueConverter(1), 4));
+		zoom.setProgress(startValue);
 	}
 
 	private void initSpeedSetting() {
 		SeekBar speed = findSpeedSeekbar();
+		int startValue = 5;
 		TextView view = (TextView) this.startActivity
 				.findViewById(R.id.settings_speed);
 		speed.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
-				new ProgressToIntValueConverter(5), 5));
+				new ProgressToIntValueConverter(5), startValue));
+		speed.setProgress(startValue);
 	}
 
 	public int getNumberOfPlayers() {
 		SeekBar numberPlayers = findNumberPlayerSeekbar();
-		return numberPlayers.getProgress() + 1;
+		return numberPlayers.getProgress() + 2;
 	}
 
 	public int getZoom() {

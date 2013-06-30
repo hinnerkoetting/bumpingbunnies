@@ -14,15 +14,22 @@ public class PlayerFactory {
 
 	private static final MyLog LOGGER = Logger.getLogger(PlayerFactory.class);
 
-	public static List<Player> createAllPlayers(int number) {
+	private int speed;
+
+	public PlayerFactory(int speed) {
+		super();
+		this.speed = speed;
+	}
+
+	public List<Player> createAllPlayers(int number) {
 		List<Player> allPlayers = new LinkedList<Player>();
 		for (int i = 0; i < number; i++) {
-			allPlayers.add(PlayerFactory.createPlayer(i));
+			allPlayers.add(createPlayer(i));
 		}
 		return allPlayers;
 	}
 
-	public static Player createPlayer(int i) {
+	public Player createPlayer(int i) {
 		LOGGER.debug("Creating player %d", i);
 		switch (i) {
 		case 0:
@@ -39,9 +46,9 @@ public class PlayerFactory {
 
 	}
 
-	public static Player createPlayer1() {
+	public Player createPlayer1() {
 		int id = 0;
-		Player p = new Player(new Player(id), id);
+		Player p = new Player(new Player(id, this.speed), this.speed, id);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (0.2 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.9 * ModelConstants.MAX_VALUE));
@@ -50,9 +57,9 @@ public class PlayerFactory {
 		return p;
 	}
 
-	public static Player createPlayer2() {
+	public Player createPlayer2() {
 		int id = 1;
-		Player p = new Player(new Player(id), id);
+		Player p = new Player(new Player(id, this.speed), this.speed, id);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (0.4 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
@@ -61,9 +68,9 @@ public class PlayerFactory {
 		return p;
 	}
 
-	public static Player createPlayer3() {
+	public Player createPlayer3() {
 		int id = 2;
-		Player p = new Player(new Player(id), id);
+		Player p = new Player(new Player(id, this.speed), this.speed, id);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (0.9 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
@@ -72,9 +79,9 @@ public class PlayerFactory {
 		return p;
 	}
 
-	public static Player createPlayer4() {
+	public Player createPlayer4() {
 		int id = 3;
-		Player p = new Player(new Player(id), id);
+		Player p = new Player(new Player(id, this.speed), this.speed, id);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (0.6 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
@@ -83,8 +90,8 @@ public class PlayerFactory {
 		return p;
 	}
 
-	public static Player createPlayerAtPosition(int x, int y) {
-		Player p = new Player(new Player(-1), -1);
+	public Player createPlayerAtPosition(int x, int y) {
+		Player p = new Player(new Player(-1, this.speed), this.speed, -1);
 		p.setCenterX(x);
 		p.setCenterY(y);
 		return p;

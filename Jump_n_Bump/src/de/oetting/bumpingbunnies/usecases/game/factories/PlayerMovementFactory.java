@@ -9,11 +9,11 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 public class PlayerMovementFactory {
 
 	public static PlayerMovementController create(Player movedPlayer,
-			World world) {
+			World world, int speedFactory) {
 		CollisionDetection collisionDetection = new CollisionDetection(world);
 		InteractionService interaction = new InteractionService(
 				collisionDetection);
 		return new PlayerMovementController(movedPlayer, world, interaction,
-				collisionDetection);
+				collisionDetection, speedFactory);
 	}
 }

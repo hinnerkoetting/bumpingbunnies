@@ -8,21 +8,14 @@ import java.util.List;
 import android.content.Context;
 import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
 public class ClassicWorldBuilder implements WorldObjectsBuilder {
-
-	@Override
-	public List<Player> createAllPlayers(int number) {
-		return PlayerFactory.createAllPlayers(number);
-	}
 
 	@Override
 	public Collection<FixedWorldObject> createAllWalls(Context context) {

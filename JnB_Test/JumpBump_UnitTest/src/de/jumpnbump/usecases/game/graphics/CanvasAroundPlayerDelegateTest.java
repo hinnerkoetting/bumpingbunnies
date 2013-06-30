@@ -87,7 +87,7 @@ public class CanvasAroundPlayerDelegateTest {
 	@Before
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
-		this.player = new Player(-1);
+		this.player = new Player(-1, 1);
 		this.canvasDelegate = new CanvasDelegateImpl(this.calculations);
 		init1000x1000Canvas();
 		this.canvasDelegate.updateDelegate(this.canvas);

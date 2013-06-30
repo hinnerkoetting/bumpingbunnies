@@ -14,8 +14,10 @@ public class Player implements GameObject {
 	private int halfWidth;
 	private int halfHeight;
 	private int id;
+	private final int speedFaktor;
 
-	public Player(int id) {
+	public Player(int id, int speedFaktor) {
+		this.speedFaktor = speedFaktor;
 		this.rect = new PlayerRect();
 		this.state = new PlayerState(id);
 		this.id = id;
@@ -24,8 +26,8 @@ public class Player implements GameObject {
 		this.halfWidth = ModelConstants.PLAYER_WIDTH / 2;
 	}
 
-	public Player(Player simulatedObject, int id) {
-		this(id);
+	public Player(Player simulatedObject, int speedFaktor, int id) {
+		this(id, speedFaktor);
 		this.simulatedObject = simulatedObject;
 	}
 
@@ -59,7 +61,6 @@ public class Player implements GameObject {
 
 	public void setMovementX(int movementX) {
 		this.state.setMovementX(movementX);
-		LOGGER.verbose("setting movement x %f", this.state.getMovementX());
 	}
 
 	public void increaseYMovement(int delta) {
@@ -112,7 +113,6 @@ public class Player implements GameObject {
 		calculateRect();
 	}
 
-	@Override
 	public void calculateNextSpeed() {
 		this.state.setMovementY(this.state.getMovementY()
 				+ this.state.getAccelerationY());
@@ -124,10 +124,11 @@ public class Player implements GameObject {
 	private int calculateNewMovementSpeedX() {
 		int newMovementSpeedX = this.state.getMovementX()
 				+ this.state.getAccelerationX();
-		if (newMovementSpeedX > ModelConstants.MOVEMENT) {
-			return ModelConstants.MOVEMENT;
-		} else if (newMovementSpeedX < -ModelConstants.MOVEMENT) {
-			return -ModelConstants.MOVEMENT;
+		if (newMovementSpeedX > ModelConstants.MOVEMENT * this.speedFaktor) {
+			return ModelConstants.MOVEMENT * this.speedFaktor;
+		} else if (newMovementSpeedX < -ModelConstants.MOVEMENT
+				* this.speedFaktor) {
+			return -ModelConstants.MOVEMENT * this.speedFaktor;
 		} else {
 			return newMovementSpeedX;
 		}
@@ -231,4 +232,5 @@ public class Player implements GameObject {
 		this.state.setCenterY(this.state.getCenterY()
 				+ this.state.getMovementY());
 	}
+
 }

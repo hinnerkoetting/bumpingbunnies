@@ -14,10 +14,8 @@ import android.util.Xml;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.MyLog;
-import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
@@ -118,11 +116,6 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		String maxX = parser.getAttributeValue(null, MAX_X);
 		String maxY = parser.getAttributeValue(null, MAX_Y);
 		return new XmlRect(minX, minY, maxX, maxY);
-	}
-
-	@Override
-	public List<Player> createAllPlayers(int number) {
-		return PlayerFactory.createAllPlayers(number);
 	}
 
 	@Override

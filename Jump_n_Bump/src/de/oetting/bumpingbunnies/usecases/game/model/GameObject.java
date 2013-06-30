@@ -22,8 +22,6 @@ public interface GameObject {
 
 	int movementY();
 
-	void calculateNextSpeed();
-
 	int accelerationOnThisGround();
 
 	void interactWithPlayerOnTop(Player p);
