@@ -6,10 +6,8 @@ import java.util.List;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
-import de.oetting.bumpingbunnies.usecases.game.communication.InformationSupplier;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractStateSenderFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.AbstractInputServiceFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -19,7 +17,6 @@ public class AllPlayerConfig {
 	private final PlayerMovementController tabletControlledPlayer;
 	private final List<PlayerConfig> notControlledPlayers;
 	private final GameView gameView;
-	private final World world;
 	private final CoordinatesCalculation coordinateCalculations;
 
 	public AllPlayerConfig(PlayerMovementController tabletControlledPlayer,
@@ -28,7 +25,6 @@ public class AllPlayerConfig {
 		this.tabletControlledPlayer = tabletControlledPlayer;
 		this.notControlledPlayers = notControlledPlayers;
 		this.gameView = gameView;
-		this.world = world;
 		this.coordinateCalculations = coordinateCalculations;
 	}
 
@@ -59,10 +55,6 @@ public class AllPlayerConfig {
 
 	public List<InputService> createOtherInputService(
 			AbstractOtherPlayersFactory factory) {
-		InformationSupplier informationSupplier = factory
-				.createInformationSupplier();
-		AbstractInputServiceFactory inputServiceFactory = factory
-				.getInputServiceFactory();
 
 		List<InputService> inputServices = new ArrayList<InputService>(
 				this.notControlledPlayers.size());
