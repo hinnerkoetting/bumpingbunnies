@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyInformationSupplier;
@@ -9,6 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractS
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.DummyStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
+import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
 		Parcelable {
@@ -29,7 +32,8 @@ public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
 	}
 
 	@Override
-	public InformationSupplier createInformationSupplier() {
+	public InformationSupplier createInformationSupplier(
+			List<MySocket> allSockets) {
 		return new DummyInformationSupplier();
 	}
 

@@ -27,6 +27,7 @@ import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFac
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
 /**
@@ -106,9 +107,11 @@ public class GameActivity extends Activity {
 		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory();
 		GameStartParameter parameter = (GameStartParameter) getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
+		List<MySocket> allSockets = SocketStorage.getSingleton()
+				.getAllSockets();
 		AllPlayerConfig config = PlayerConfigFactory.create(parameter, world,
 				contentView, otherPlayerFactory,
-				this.parameter.getConfiguration());
+				this.parameter.getConfiguration(), allSockets);
 		initInputServices(otherPlayerFactory, config);
 
 		// this.networkThread = otherPlayerFactory.createSender();

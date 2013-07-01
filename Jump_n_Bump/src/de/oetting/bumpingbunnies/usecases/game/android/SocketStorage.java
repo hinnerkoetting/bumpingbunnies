@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.android;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -61,5 +62,9 @@ public class SocketStorage {
 		int newPosition = this.sockets.size();
 		this.sockets.add(socket);
 		return newPosition;
+	}
+
+	public List<MySocket> getAllSockets() {
+		return Collections.unmodifiableList(this.sockets);
 	}
 }

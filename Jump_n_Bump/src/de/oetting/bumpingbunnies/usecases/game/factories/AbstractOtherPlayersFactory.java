@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
+import java.util.List;
+
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.usecases.game.communication.InformationSupplier;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
@@ -20,7 +22,8 @@ public abstract class AbstractOtherPlayersFactory implements Parcelable {
 
 	public abstract AbstractInputServiceFactory getInputServiceFactory();
 
-	public abstract InformationSupplier createInformationSupplier();
+	public abstract InformationSupplier createInformationSupplier(
+			List<MySocket> allSockets);
 
 	public abstract AbstractStateSenderFactory createStateSenderFactory();
 

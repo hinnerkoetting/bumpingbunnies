@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.usecases.game.communication.InformationSupplier;
@@ -34,8 +36,10 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 	}
 
 	@Override
-	public InformationSupplier createInformationSupplier() {
-		return NetworkReceiverDispatcherThreadFactory.create(this.socket);
+	public InformationSupplier createInformationSupplier(
+			List<MySocket> allSockets) {
+		return NetworkReceiverDispatcherThreadFactory.create(this.socket,
+				allSockets);
 	}
 
 	@Override
