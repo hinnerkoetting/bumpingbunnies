@@ -3,8 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.android.factories;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.content.Intent;
-import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.RelativeCoordinatesCalculation;
@@ -22,10 +20,12 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class PlayerConfigFactory {
 
-	public static AllPlayerConfig create(Intent intent, World world,
-			GameView gameView, AbstractOtherPlayersFactory otherPlayerFactory,
-			Configuration configuration, int speed) {
-		int myPlayerId = findTabletPlayerId(intent);
+	public static AllPlayerConfig create(GameStartParameter parameter,
+			World world, GameView gameView,
+			AbstractOtherPlayersFactory otherPlayerFactory,
+			Configuration configuration) {
+		int myPlayerId = findTabletPlayerId(parameter);
+		int speed = configuration.getGeneralSettings().getSpeedSetting();
 		Player myPlayer = findMyPlayer(myPlayerId, world, speed);
 		world.addPlayer(myPlayer);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
@@ -77,13 +77,7 @@ public class PlayerConfigFactory {
 		return playerfactory.createPlayer(myPlayerId);
 	}
 
-	private static int findTabletPlayerId(Intent intent) {
-		if (intent.getExtras() != null) {
-			GameStartParameter parameter = intent.getExtras().getParcelable(
-					ActivityLauncher.GAMEPARAMETER);
-			return parameter.getPlayerId();
-		} else {
-			return 0;
-		}
+	private static int findTabletPlayerId(GameStartParameter parameter) {
+		return parameter.getPlayerId();
 	}
 }
