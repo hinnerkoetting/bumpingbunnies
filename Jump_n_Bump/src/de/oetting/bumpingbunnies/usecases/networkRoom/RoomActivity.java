@@ -25,6 +25,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
@@ -188,8 +189,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		GeneralSettings generalSettings = (GeneralSettings) getIntent()
 				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
 		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(0);
+		NetworkSettings networkSettings = new NetworkSettings(true);
 		Configuration config = new Configuration(localSettings,
-				generalSettings, otherPlayers);
+				generalSettings, networkSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(0,
 				config);
 		ActivityLauncher.launchGame(this, parameter);
@@ -260,9 +262,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		GeneralSettings generalSettings = (GeneralSettings) getIntent()
 				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
 		// TODO
+		NetworkSettings networkSettings = new NetworkSettings(true);
 		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(1);
 		Configuration config = new Configuration(localSettings,
-				generalSettings, otherPlayers);
+				generalSettings, networkSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(1,
 				config);
 		ActivityLauncher.launchGame(this, parameter);

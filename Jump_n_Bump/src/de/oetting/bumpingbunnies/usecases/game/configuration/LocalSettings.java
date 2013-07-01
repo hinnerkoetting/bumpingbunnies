@@ -26,7 +26,6 @@ public class LocalSettings implements Parcelable {
 	};
 
 	private final InputConfiguration inputConfiguration;
-
 	private final int zoom;
 
 	public LocalSettings(InputConfiguration inputConfiguration, int zoom) {

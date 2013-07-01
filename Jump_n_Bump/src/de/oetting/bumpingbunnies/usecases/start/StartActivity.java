@@ -19,6 +19,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationGenerator;
@@ -56,7 +57,9 @@ public class StartActivity extends Activity {
 
 		GeneralSettings generalSettings = createGeneralSettings();
 		List<OtherPlayerConfiguration> otherPlayers = createSpOtherPlayerConfiguration();
-		return new Configuration(localSettings, generalSettings, otherPlayers);
+		NetworkSettings networkSettings = new NetworkSettings(false);
+		return new Configuration(localSettings, generalSettings,
+				networkSettings, otherPlayers);
 	}
 
 	private List<OtherPlayerConfiguration> createSpOtherPlayerConfiguration() {
