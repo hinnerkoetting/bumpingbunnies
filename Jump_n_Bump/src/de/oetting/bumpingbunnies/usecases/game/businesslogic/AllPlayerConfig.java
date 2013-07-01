@@ -6,6 +6,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
+import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
@@ -54,12 +55,12 @@ public class AllPlayerConfig {
 	}
 
 	public List<InputService> createOtherInputService(
-			AbstractOtherPlayersFactory factory) {
+			AbstractOtherPlayersFactory factory, List<RemoteSender> allSender) {
 
 		List<InputService> inputServices = new ArrayList<InputService>(
 				this.notControlledPlayers.size());
 		for (PlayerConfig config : this.notControlledPlayers) {
-			inputServices.add(config.createInputService());
+			inputServices.add(config.createInputService(allSender));
 		}
 		return inputServices;
 	}

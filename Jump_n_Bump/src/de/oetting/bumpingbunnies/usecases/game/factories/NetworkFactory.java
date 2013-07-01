@@ -37,9 +37,9 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 
 	@Override
 	public InformationSupplier createInformationSupplier(
-			List<MySocket> allSockets) {
+			List<RemoteSender> allSender) {
 		return NetworkReceiverDispatcherThreadFactory.create(this.socket,
-				allSockets);
+				allSender);
 	}
 
 	@Override

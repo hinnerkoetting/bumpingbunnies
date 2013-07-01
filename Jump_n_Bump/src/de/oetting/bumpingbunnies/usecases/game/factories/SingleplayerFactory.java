@@ -11,7 +11,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractS
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.DummyStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
 		Parcelable {
@@ -33,7 +32,7 @@ public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
 
 	@Override
 	public InformationSupplier createInformationSupplier(
-			List<MySocket> allSockets) {
+			List<RemoteSender> allSockets) {
 		return new DummyInformationSupplier();
 	}
 

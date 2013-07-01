@@ -23,7 +23,7 @@ public abstract class AbstractOtherPlayersFactory implements Parcelable {
 	public abstract AbstractInputServiceFactory getInputServiceFactory();
 
 	public abstract InformationSupplier createInformationSupplier(
-			List<MySocket> allSockets);
+			List<RemoteSender> allSockets);
 
 	public abstract AbstractStateSenderFactory createStateSenderFactory();
 

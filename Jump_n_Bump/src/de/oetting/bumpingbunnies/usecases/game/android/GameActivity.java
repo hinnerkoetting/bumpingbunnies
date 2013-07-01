@@ -22,12 +22,13 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPla
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
 /**
@@ -107,26 +108,36 @@ public class GameActivity extends Activity {
 		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory();
 		GameStartParameter parameter = (GameStartParameter) getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
-		List<MySocket> allSockets = SocketStorage.getSingleton()
-				.getAllSockets();
 		AllPlayerConfig config = PlayerConfigFactory.create(parameter, world,
 				contentView, otherPlayerFactory,
-				this.parameter.getConfiguration(), allSockets);
-		initInputServices(otherPlayerFactory, config);
+				this.parameter.getConfiguration());
+		List<StateSender> allStateSender = config.createStateSender();
+		initInputServices(otherPlayerFactory, config,
+				extractRemoteSenders(allStateSender));
 
 		// this.networkThread = otherPlayerFactory.createSender();
 		this.gameThread = GameThreadFactory.create(world,
 				config.getAllPlayerMovementControllers(),
-				createInputServices(), config.createStateSender(), this,
-				config, this.parameter.getConfiguration(),
+				createInputServices(), allStateSender, this, config,
+				this.parameter.getConfiguration(),
 				config.getCoordinateCalculations());
 
 		contentView.addOnSizeListener(this.gameThread);
 		this.gameThread.start();
 	}
 
+	private List<RemoteSender> extractRemoteSenders(
+			List<StateSender> stateSender) {
+		List<RemoteSender> remoteSenders = new ArrayList<RemoteSender>(
+				stateSender.size());
+		for (StateSender ss : stateSender) {
+			remoteSenders.add(ss.getRemoteSender());
+		}
+		return remoteSenders;
+	}
+
 	private void initInputServices(AbstractOtherPlayersFactory singleton,
-			AllPlayerConfig config) {
+			AllPlayerConfig config, List<RemoteSender> allSender) {
 		AbstractPlayerInputServicesFactory.init(this.parameter
 				.getConfiguration().getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
@@ -135,7 +146,8 @@ public class GameActivity extends Activity {
 		this.touchService = myPlayerFactory.createInputService(config, this);
 		this.inputDispatcher = myPlayerFactory
 				.createInputDispatcher(this.touchService);
-		this.networkMovementService = config.createOtherInputService(singleton);
+		this.networkMovementService = config.createOtherInputService(singleton,
+				allSender);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),
 				this.inputDispatcher);

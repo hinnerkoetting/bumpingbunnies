@@ -17,14 +17,13 @@ import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerMovementFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class PlayerConfigFactory {
 
 	public static AllPlayerConfig create(GameStartParameter parameter,
 			World world, GameView gameView,
 			AbstractOtherPlayersFactory otherPlayerFactory,
-			Configuration configuration, List<MySocket> allSockets) {
+			Configuration configuration) {
 		int myPlayerId = findTabletPlayerId(parameter);
 		int speed = configuration.getGeneralSettings().getSpeedSetting();
 		Player myPlayer = findMyPlayer(myPlayerId, world, speed);
@@ -33,8 +32,7 @@ public class PlayerConfigFactory {
 		PlayerMovementController myPlayerMovementController = createMovementController(
 				myPlayer, world, speed);
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
-				otherPlayerFactory, myPlayerId, world, configuration, speed,
-				allSockets);
+				otherPlayerFactory, myPlayerId, world, configuration, speed);
 		AllPlayerConfig config = new AllPlayerConfig(
 				myPlayerMovementController, otherPlayerconfigs, gameView,
 				world, calculations);
@@ -48,27 +46,25 @@ public class PlayerConfigFactory {
 
 	private static List<PlayerConfig> findOtherPlayers(
 			AbstractOtherPlayersFactory otherPlayerFactory, int myPlayerId,
-			World world, Configuration configuration, int speed,
-			List<MySocket> allSockets) {
+			World world, Configuration configuration, int speed) {
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
 		PlayerFactory playerfactory = new PlayerFactory(speed);
 		for (OtherPlayerConfiguration config : configuration.getOtherPlayers()) {
 			Player p = playerfactory.createPlayer(config.getPlayerId());
 			world.addPlayer(p);
-			list.add(createPlayerConfig(p, world, config, speed, allSockets));
+			list.add(createPlayerConfig(p, world, config, speed));
 		}
 		return list;
 	}
 
 	private static PlayerConfig createPlayerConfig(Player player, World world,
-			OtherPlayerConfiguration configuration, int speedFactor,
-			List<MySocket> allSockets) {
+			OtherPlayerConfiguration configuration, int speedFactor) {
 		AbstractOtherPlayersFactory otherPlayerFactory = configuration
 				.getFactory();
 		PlayerMovementController movementcontroller = createMovementController(
 				player, world, speedFactor);
 		return new PlayerConfig(otherPlayerFactory, movementcontroller, world,
-				configuration, allSockets);
+				configuration);
 	}
 
 	private static PlayerMovementController createMovementController(Player p,

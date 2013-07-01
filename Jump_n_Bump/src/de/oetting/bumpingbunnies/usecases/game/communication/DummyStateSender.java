@@ -6,4 +6,9 @@ public class DummyStateSender implements StateSender {
 	public void sendPlayerCoordinates() {
 	}
 
+	@Override
+	public RemoteSender getRemoteSender() {
+		return new DummyRemoteSender();
+	}
+
 }

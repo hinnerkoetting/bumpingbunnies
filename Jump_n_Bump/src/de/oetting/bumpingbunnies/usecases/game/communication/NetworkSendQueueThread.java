@@ -12,6 +12,7 @@ import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
+import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class NetworkSendQueueThread extends Thread implements RemoteSender {
 
@@ -22,9 +23,11 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	private boolean canceled;
 
 	private BlockingQueue<String> messageQueue;
+	private final MySocket socket;
 
-	public NetworkSendQueueThread(Writer writer, Gson gson) {
+	public NetworkSendQueueThread(MySocket socket, Writer writer, Gson gson) {
 		super("Network send thread");
+		this.socket = socket;
 		this.writer = writer;
 		this.gson = gson;
 		this.messageQueue = new LinkedBlockingQueue<String>();
@@ -57,11 +60,12 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	}
 
 	@Override
-	public synchronized void sendPlayerCoordinates(Player player) {
+	public void sendPlayerCoordinates(Player player) {
 		sendPlayerCoordinates(player.getState());
 	}
 
-	public synchronized void sendPlayerCoordinates(PlayerState state) {
+	@Override
+	public void sendPlayerCoordinates(PlayerState state) {
 		JsonWrapper wrapper = new JsonWrapper(state.getId(), state);
 		String data = this.gson.toJson(wrapper);
 		this.messageQueue.add(data);
@@ -70,5 +74,10 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	@Override
 	public void cancel() {
 		this.canceled = true;
+	}
+
+	@Override
+	public boolean usesThisSocket(MySocket socket) {
+		return this.socket.equals(socket);
 	}
 }

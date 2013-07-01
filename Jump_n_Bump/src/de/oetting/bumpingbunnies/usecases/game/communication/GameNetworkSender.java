@@ -17,4 +17,9 @@ public class GameNetworkSender implements StateSender {
 		this.networkThread.sendPlayerCoordinates(this.player);
 	}
 
+	@Override
+	public RemoteSender getRemoteSender() {
+		return this.networkThread;
+	}
+
 }
