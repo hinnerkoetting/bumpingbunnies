@@ -1,10 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 public interface RemoteSender {
 
-	public void sendPlayerCoordinates(Player player);
+	void sendPlayerCoordinates(Player player);
 
-	public void cancel();
+	void cancel();
+
+	void sendPlayerCoordinates(PlayerState playerState);
 }

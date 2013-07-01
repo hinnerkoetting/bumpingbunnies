@@ -3,30 +3,28 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import android.util.SparseArray;
-
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
-public class NetworkReceiveDispatcherThread extends Thread implements
+public class NetworkReceiveThread extends Thread implements
 		InformationSupplier {
 
 	private static final MyLog LOGGER = Logger
-			.getLogger(NetworkReceiveDispatcherThread.class);
+			.getLogger(NetworkReceiveThread.class);
 	private final BufferedReader reader;
 	private final Gson gson;
-	private SparseArray<NetworkListener> listeners;
+	private final IncomingNetworkDispatcher networkDispatcher;
 	private boolean canceled;
 
-	public NetworkReceiveDispatcherThread(BufferedReader reader, Gson gson) {
+	public NetworkReceiveThread(BufferedReader reader, Gson gson,
+			IncomingNetworkDispatcher networkDispatcher) {
 		super("Network receive thread");
 		this.reader = reader;
 		this.gson = gson;
-		this.listeners = new SparseArray<NetworkListener>();
+		this.networkDispatcher = networkDispatcher;
 	}
 
 	@Override
@@ -52,19 +50,9 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 
 	private void dispatchMessage(JsonWrapper wrapper) {
 		if (wrapper.getPlayerState() != null) {
-			dispatchPlayerState(wrapper.getPlayerState());
+			this.networkDispatcher
+					.dispatchPlayerState(wrapper.getPlayerState());
 		}
-	}
-
-	private synchronized void dispatchPlayerState(PlayerState playerState) {
-		NetworkListener networkListener = this.listeners.get(playerState
-				.getId());
-		if (networkListener == null) {
-			throw new IllegalStateException(
-					"No Listener registered for player with id "
-							+ playerState.getId());
-		}
-		networkListener.newMessage(playerState);
 	}
 
 	private JsonWrapper convertToObject(String input) {
@@ -77,9 +65,8 @@ public class NetworkReceiveDispatcherThread extends Thread implements
 	}
 
 	@Override
-	public void addObserver(int id, NetworkListener listener) {
-		LOGGER.debug("Registering listener with id %d", id);
-		this.listeners.put(id, listener);
+	public NetworkToGameDispatcher getGameDispatcher() {
+		return this.networkDispatcher.getNetworkToGameDispatcher();
 	}
 
 }

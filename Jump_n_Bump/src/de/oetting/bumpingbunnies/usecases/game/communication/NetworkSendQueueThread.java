@@ -11,6 +11,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 public class NetworkSendQueueThread extends Thread implements RemoteSender {
 
@@ -57,7 +58,11 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 
 	@Override
 	public synchronized void sendPlayerCoordinates(Player player) {
-		JsonWrapper wrapper = new JsonWrapper(player.id(), player.getState());
+		sendPlayerCoordinates(player.getState());
+	}
+
+	public synchronized void sendPlayerCoordinates(PlayerState state) {
+		JsonWrapper wrapper = new JsonWrapper(state.getId(), state);
 		String data = this.gson.toJson(wrapper);
 		this.messageQueue.add(data);
 	}
