@@ -37,7 +37,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerState;
+import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 import de.oetting.bumpingbunnies.usecases.start.GameParameterFactory;
@@ -210,8 +210,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		List<OtherPlayerConfiguration> otherPlayers = new ArrayList<OtherPlayerConfiguration>(
 				this.playersAA.getCount() - 1);
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
-			OtherPlayerConfiguration otherPlayerConfiguration = otherPlayer
-					.getPlayerConfiguration();
+			NetworkFactory factory = new NetworkFactory(
+					otherPlayer.getSocket(), otherPlayer.getSocketIndex());
+
+			OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
+					factory, otherPlayer.getPlayerProperties());
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;
@@ -224,12 +227,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void addPlayerEntry(MySocket socket, int nextPlayerId) {
 		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
-		NetworkFactory factory = new NetworkFactory(socket, socketIndex);
-
-		OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
-				factory, new OtherPlayerState(nextPlayerId, "Player "
-						+ nextPlayerId));
-		RoomEntry entry = new RoomEntry(otherPlayerConfiguration);
+		LOGGER.info("adding player info %d", nextPlayerId);
+		RoomEntry entry = new RoomEntry(new PlayerProperties(nextPlayerId,
+				"Player " + nextPlayerId), socket, socketIndex);
 		RoomActivity.this.playersAA.add(entry);
 		RoomActivity.this.playersAA.notifyDataSetChanged();
 	}
@@ -250,8 +250,22 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public void createNewRoom() {
 		LOGGER.info("Creating new room");
-		this.playersAA.add(new RoomEntry(null));
-		this.playersAA.notifyDataSetChanged();
+		addMyPlayerRoomEntry();
+	}
+
+	private void addMyPlayerRoomEntry() {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				PlayerProperties singlePlayerProperties = new PlayerProperties(
+						RoomActivity.this.myPlayerId, "Me");
+				RoomActivity.this.playersAA.addMe(new SinglePlayerRoomEntry(
+						singlePlayerProperties));
+				RoomActivity.this.playersAA.notifyDataSetChanged();
+			}
+		});
+
 	}
 
 	public void addServer(BluetoothDevice device) {
@@ -266,8 +280,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 			@Override
 			public void run() {
-				createNewRoom();
-				// TODO
 				manageConnectToServer(socket);
 
 			}
@@ -305,9 +317,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 					@Override
 					public void receiveMessage(Integer object) {
 						RoomActivity.this.myPlayerId = object;
+						addMyPlayerRoomEntry();
 					}
 				});
-
 	}
 
 	private void enableStartButton() {

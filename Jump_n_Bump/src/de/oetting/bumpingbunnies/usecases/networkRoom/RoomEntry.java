@@ -1,26 +1,39 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class RoomEntry {
-	// TODO: add yourself
-	private final OtherPlayerConfiguration playerConfiguration;
+	private final PlayerProperties playerProperties;
+	private final MySocket socket;
+	private final int socketIndex;
 
-	public RoomEntry(OtherPlayerConfiguration playerConfiguration) {
+	public RoomEntry(PlayerProperties playerProperties, MySocket socket,
+			int socketIndex) {
 		super();
-		this.playerConfiguration = playerConfiguration;
+		this.playerProperties = playerProperties;
+		this.socket = socket;
+		this.socketIndex = socketIndex;
 	}
 
-	public OtherPlayerConfiguration getPlayerConfiguration() {
-		return this.playerConfiguration;
+	public PlayerProperties getPlayerConfiguration() {
+		return this.playerProperties;
+	}
+
+	public PlayerProperties getPlayerProperties() {
+		return this.playerProperties;
+	}
+
+	public MySocket getSocket() {
+		return this.socket;
+	}
+
+	public int getSocketIndex() {
+		return this.socketIndex;
 	}
 
 	@Override
 	public String toString() {
-		if (this.playerConfiguration == null) {
-			return "You";
-		} else {
-			return Integer.toString(this.playerConfiguration.getPlayerId());
-		}
+		return Integer.toString(this.playerProperties.getPlayerId());
 	}
 }

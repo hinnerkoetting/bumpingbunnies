@@ -11,7 +11,7 @@ public class OtherPlayerConfiguration implements Parcelable {
 	private static final MyLog LOGGER = Logger
 			.getLogger(OtherPlayerConfiguration.class);
 	private final AbstractOtherPlayersFactory factory;
-	private final OtherPlayerState otherPlayerState;
+	private final PlayerProperties otherPlayerState;
 
 	@Override
 	public int describeContents() {
@@ -26,14 +26,14 @@ public class OtherPlayerConfiguration implements Parcelable {
 	}
 
 	public OtherPlayerConfiguration(AbstractOtherPlayersFactory factory,
-			OtherPlayerState otherPlayerState) {
+			PlayerProperties otherPlayerState) {
 		this.factory = factory;
 		this.otherPlayerState = otherPlayerState;
 	}
 
 	@SuppressWarnings("unchecked")
 	public OtherPlayerConfiguration(Parcel in) {
-		this.otherPlayerState = new OtherPlayerState(in);
+		this.otherPlayerState = new PlayerProperties(in);
 		String strClazz = in.readString();
 		try {
 

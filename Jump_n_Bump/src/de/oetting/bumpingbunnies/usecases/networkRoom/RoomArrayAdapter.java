@@ -8,14 +8,27 @@ import android.widget.ArrayAdapter;
 
 public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 
+	private RoomEntry me;
+
 	public RoomEntry getMyself() {
-		return getItem(0);
+		if (this.me == null) {
+			throw new IllegalStateException("You were not added");
+		}
+		return this.me;
+	}
+
+	public void addMe(RoomEntry entry) {
+		add(entry);
+		this.me = entry;
 	}
 
 	public List<RoomEntry> getAllOtherPlayers() {
 		List<RoomEntry> list = new ArrayList<RoomEntry>(getCount() - 1);
-		for (int i = 1; i < getCount(); i++) {
-			list.add(getItem(i));
+		for (int i = 0; i < getCount(); i++) {
+			RoomEntry entry = getItem(i);
+			if (entry != this.me) {
+				list.add(getItem(i));
+			}
 		}
 		return list;
 	}

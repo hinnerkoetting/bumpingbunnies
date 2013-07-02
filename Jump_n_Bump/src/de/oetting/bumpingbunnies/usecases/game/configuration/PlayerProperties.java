@@ -3,18 +3,18 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class OtherPlayerState implements Parcelable {
+public class PlayerProperties implements Parcelable {
 
 	private final int playerId;
 	private final String playerName;
 
-	public OtherPlayerState(int playerId, String playerName) {
+	public PlayerProperties(int playerId, String playerName) {
 		super();
 		this.playerId = playerId;
 		this.playerName = playerName;
 	}
 
-	public OtherPlayerState(Parcel in) {
+	public PlayerProperties(Parcel in) {
 		super();
 		this.playerId = in.readInt();
 		this.playerName = in.readString();
