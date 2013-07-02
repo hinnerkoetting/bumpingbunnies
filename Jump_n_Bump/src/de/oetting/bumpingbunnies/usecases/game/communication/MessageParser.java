@@ -2,8 +2,6 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-
 public class MessageParser {
 
 	private final Gson gson;
@@ -17,7 +15,7 @@ public class MessageParser {
 		return this.gson.fromJson(msg, clazz);
 	}
 
-	public String encodeMessage(JsonWrapper wrapper) {
-		return this.gson.toJson(wrapper);
+	public String encodeMessage(Object message) {
+		return this.gson.toJson(message);
 	}
 }

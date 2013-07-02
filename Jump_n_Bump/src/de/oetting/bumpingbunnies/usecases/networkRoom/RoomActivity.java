@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.MyLog;
@@ -24,9 +27,11 @@ import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
+import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
@@ -55,6 +60,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private RoomArrayAdapter playersAA;
 	private int myPlayerId;
 	private NetworkReceiver networkReceiver;
+	private GeneralSettings generalSettingsFromNetwork;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -271,16 +277,31 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		});
 		this.networkReceiver = NetworkReceiverDispatcherThreadFactory
 				.createRoomNetworkReceiver(socket);
+		addObserver();
+		this.networkReceiver.start();
+	}
+
+	private void addObserver() {
 		this.networkReceiver.getGameDispatcher().addObserver(
 				MessageIds.START_GAME_ID, new NetworkListener() {
 
 					@Override
-					public void newMessage(Object message) {
+					public void newMessage(String message) {
 						RoomActivity.this.networkReceiver.cancel();
-						launchGame();
+						launchGame(RoomActivity.this.generalSettingsFromNetwork);
 					}
 				});
-		this.networkReceiver.start();
+		this.networkReceiver.getGameDispatcher().addObserver(
+				MessageIds.SEND_CONFIGURATION_ID, new NetworkListener() {
+
+					@Override
+					public void newMessage(String message) {
+						RoomActivity.this.generalSettingsFromNetwork = new MessageParser(
+								new Gson()).parseMessage(message,
+								GeneralSettings.class);
+
+					}
+				});
 	}
 
 	private void enableStartButton() {
@@ -303,15 +324,15 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public void onClickStart(View v) {
 		notifyClientsAboutlaunch();
-		launchGame();
+		GeneralSettings generalSettings = createGeneralSettingsFromIntent();
+		launchGame(generalSettings);
 	}
 
-	private void launchGame() {
+	private void launchGame(GeneralSettings generalSettings) {
 
 		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
 				.get(ActivityLauncher.LOCAL_SETTINGS);
-		GeneralSettings generalSettings = (GeneralSettings) getIntent()
-				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
+
 		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(this.myPlayerId);
 		Configuration config = new Configuration(localSettings,
 				generalSettings, otherPlayers);
@@ -322,11 +343,23 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void notifyClientsAboutlaunch() {
 		SocketStorage singleton = SocketStorage.getSingleton();
+		MessageParser parser = MessageParserFactory.create();
+		GeneralSettings settings = createGeneralSettingsFromIntent();
+		JsonWrapper generalSettings = new JsonWrapper(
+				MessageIds.SEND_CONFIGURATION_ID,
+				parser.encodeMessage(settings));
 		JsonWrapper startMessage = new JsonWrapper(MessageIds.START_GAME_ID, "");
 		for (MySocket socket : singleton.getAllSockets()) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 					.createNetworkSender(socket);
+			networkSender.sendMessage(generalSettings);
 			networkSender.sendMessage(startMessage);
 		}
 	}
+
+	private GeneralSettings createGeneralSettingsFromIntent() {
+		return (GeneralSettings) getIntent().getExtras().get(
+				ActivityLauncher.GENERAL_SETTINGS);
+	}
+
 }

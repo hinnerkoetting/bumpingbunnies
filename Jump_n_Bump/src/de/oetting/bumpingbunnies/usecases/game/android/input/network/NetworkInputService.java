@@ -3,8 +3,9 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.network;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
@@ -15,10 +16,13 @@ public class NetworkInputService implements InputService, NetworkListener {
 	private PlayerState playerStateFromNetwork;
 	private final Player player;
 	private final NetworkReceiver receiverThread;
+	private final MessageParser parser;
 
-	public NetworkInputService(NetworkReceiver receiverThread, Player player) {
+	public NetworkInputService(NetworkReceiver receiverThread, Player player,
+			MessageParser parser) {
 		this.receiverThread = receiverThread;
 		this.player = player;
+		this.parser = parser;
 	}
 
 	@Override
@@ -47,8 +51,10 @@ public class NetworkInputService implements InputService, NetworkListener {
 	}
 
 	@Override
-	public void newMessage(Object message) {
-		this.playerStateFromNetwork = (PlayerState) message;
+	public void newMessage(String message) {
+		PlayerState state = this.parser
+				.parseMessage(message, PlayerState.class);
+		this.playerStateFromNetwork = state;
 	}
 
 	@Override
