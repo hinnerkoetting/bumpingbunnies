@@ -4,7 +4,7 @@ import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.oetting.bumpingbunnies.usecases.game.communication.InformationSupplier;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
@@ -36,9 +36,9 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 	}
 
 	@Override
-	public InformationSupplier createInformationSupplier(
+	public NetworkReceiver createInformationSupplier(
 			List<RemoteSender> allSender) {
-		return NetworkReceiverDispatcherThreadFactory.create(this.socket,
+		return NetworkReceiverDispatcherThreadFactory.createGameNetworkReceiver(this.socket,
 				allSender);
 	}
 

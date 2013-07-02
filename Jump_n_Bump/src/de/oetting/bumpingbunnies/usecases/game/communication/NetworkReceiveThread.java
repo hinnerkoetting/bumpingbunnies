@@ -10,7 +10,7 @@ import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 public class NetworkReceiveThread extends Thread implements
-		InformationSupplier {
+		NetworkReceiver {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(NetworkReceiveThread.class);

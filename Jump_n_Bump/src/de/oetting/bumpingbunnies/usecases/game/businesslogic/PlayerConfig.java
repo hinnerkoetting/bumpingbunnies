@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
-import de.oetting.bumpingbunnies.usecases.game.communication.InformationSupplier;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractInputServiceFactory;
@@ -32,7 +32,7 @@ public class PlayerConfig {
 	}
 
 	public InputService createInputService(List<RemoteSender> allSender) {
-		InformationSupplier informationSupplier = this.otherPlayerFactory
+		NetworkReceiver informationSupplier = this.otherPlayerFactory
 				.createInformationSupplier(allSender);
 		AbstractInputServiceFactory inputServiceFactory = this.otherPlayerFactory
 				.getInputServiceFactory();

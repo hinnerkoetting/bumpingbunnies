@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-public class DummyInformationSupplier implements InformationSupplier {
+public class DummyInformationSupplier implements NetworkReceiver {
 
 	@Override
 	public void cancel() {

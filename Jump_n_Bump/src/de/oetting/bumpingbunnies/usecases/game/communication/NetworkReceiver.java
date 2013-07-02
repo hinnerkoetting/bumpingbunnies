@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-public interface InformationSupplier {
+public interface NetworkReceiver {
 
 	void cancel();
 

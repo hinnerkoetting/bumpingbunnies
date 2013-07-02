@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
-import de.oetting.bumpingbunnies.usecases.game.communication.InformationSupplier;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class NetworkInputServiceFactory extends AbstractInputServiceFactory {
@@ -13,7 +13,7 @@ public class NetworkInputServiceFactory extends AbstractInputServiceFactory {
 			.getLogger(NetworkInputServiceFactory.class);
 
 	@Override
-	public InputService create(InformationSupplier reicerThread,
+	public InputService create(NetworkReceiver reicerThread,
 			PlayerMovementController movementController, World world) {
 		LOGGER.info("Creating Network Input Service");
 		return BluetoothInputServiceFactory.createBluetoothInputService(
