@@ -168,11 +168,6 @@ public class GameActivity extends Activity {
 		return inputServes;
 	}
 
-	// private MySocket getSocket() {
-	// MyApplication application = (MyApplication) getApplication();
-	// return application.getSocket();
-	// }
-
 	@Override
 	protected void onResume() {
 		super.onResume();

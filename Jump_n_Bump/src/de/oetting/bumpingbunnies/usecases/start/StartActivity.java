@@ -58,8 +58,7 @@ public class StartActivity extends Activity {
 		GeneralSettings generalSettings = createGeneralSettings();
 		List<OtherPlayerConfiguration> otherPlayers = createSpOtherPlayerConfiguration();
 		NetworkSettings networkSettings = new NetworkSettings(false);
-		return new Configuration(localSettings, generalSettings,
-				networkSettings, otherPlayers);
+		return new Configuration(localSettings, generalSettings, otherPlayers);
 	}
 
 	private List<OtherPlayerConfiguration> createSpOtherPlayerConfiguration() {

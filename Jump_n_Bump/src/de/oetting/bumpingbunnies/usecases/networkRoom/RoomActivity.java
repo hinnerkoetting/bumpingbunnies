@@ -189,9 +189,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		GeneralSettings generalSettings = (GeneralSettings) getIntent()
 				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
 		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(0);
-		NetworkSettings networkSettings = new NetworkSettings(true);
 		Configuration config = new Configuration(localSettings,
-				generalSettings, networkSettings, otherPlayers);
+				generalSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(0,
 				config);
 		ActivityLauncher.launchGame(this, parameter);
@@ -265,7 +264,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		NetworkSettings networkSettings = new NetworkSettings(true);
 		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(1);
 		Configuration config = new Configuration(localSettings,
-				generalSettings, networkSettings, otherPlayers);
+				generalSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(1,
 				config);
 		ActivityLauncher.launchGame(this, parameter);
