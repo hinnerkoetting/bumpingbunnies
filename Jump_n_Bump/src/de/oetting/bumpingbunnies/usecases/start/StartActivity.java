@@ -20,6 +20,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerState;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.factories.SingleplayerFactory;
@@ -64,7 +65,8 @@ public class StartActivity extends Activity {
 		List<OtherPlayerConfiguration> list = new ArrayList<OtherPlayerConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
 			list.add(new OtherPlayerConfiguration(new SingleplayerFactory(
-					findSelectedAiMode()), i));
+					findSelectedAiMode()), new OtherPlayerState(i, "Player "
+					+ i)));
 		}
 		return list;
 	}

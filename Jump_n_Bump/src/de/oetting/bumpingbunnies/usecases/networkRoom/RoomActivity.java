@@ -37,6 +37,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerState;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 import de.oetting.bumpingbunnies.usecases.start.GameParameterFactory;
@@ -206,16 +207,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations(
 			int myPlayerId) {
-		// TODO
-		LOGGER.warn("Fixed number player 2");
-		int number = 2;
 		List<OtherPlayerConfiguration> otherPlayers = new ArrayList<OtherPlayerConfiguration>(
-				number);
-		for (int i = 1; i < number; i++) {
-			NetworkFactory networkFactory = new NetworkFactory(null, 0);
-			// TODO
-			OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
-					networkFactory, myPlayerId == 0 ? 1 : 0);
+				this.playersAA.getCount() - 1);
+		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
+			OtherPlayerConfiguration otherPlayerConfiguration = otherPlayer
+					.getPlayerConfiguration();
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;
@@ -229,8 +225,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private void addPlayerEntry(MySocket socket, int nextPlayerId) {
 		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
 		NetworkFactory factory = new NetworkFactory(socket, socketIndex);
+
 		OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
-				factory, nextPlayerId);
+				factory, new OtherPlayerState(nextPlayerId, "Player "
+						+ nextPlayerId));
 		RoomEntry entry = new RoomEntry(otherPlayerConfiguration);
 		RoomActivity.this.playersAA.add(entry);
 		RoomActivity.this.playersAA.notifyDataSetChanged();
@@ -301,7 +299,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 						RoomActivity.this.generalSettingsFromNetwork = message;
 					}
 				});
-		gameDispatcher.addObserver(MessageIds.SEND_PLAYER_ID,
+		gameDispatcher.addObserver(MessageIds.SEND_CLIENT_PLAYER_ID,
 				new DefaultNetworkListener<Integer>(Integer.class) {
 
 					@Override
@@ -366,7 +364,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private JsonWrapper createJsonPlayerId(MessageParser parser) {
 		Integer playerId = this.playerCounter++;
-		return new JsonWrapper(MessageIds.SEND_PLAYER_ID,
+		return new JsonWrapper(MessageIds.SEND_CLIENT_PLAYER_ID,
 				parser.encodeMessage(playerId));
 	}
 
