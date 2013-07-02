@@ -62,7 +62,8 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 
 	@Override
 	public void sendPlayerCoordinates(PlayerState state) {
-		JsonWrapper wrapper = new JsonWrapper(state.getId(), state);
+		String stateJson = this.gson.toJson(state);
+		JsonWrapper wrapper = new JsonWrapper(state.getId(), stateJson);
 		String data = this.gson.toJson(wrapper);
 		this.messageQueue.add(data);
 	}

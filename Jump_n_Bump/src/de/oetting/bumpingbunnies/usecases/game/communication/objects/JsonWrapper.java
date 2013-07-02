@@ -1,22 +1,21 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.objects;
 
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
-
 public class JsonWrapper {
 
 	private final int id;
-	private final PlayerState playerState;
+	private final String message;
 
-	public PlayerState getPlayerState() {
-		return this.playerState;
+	public JsonWrapper(int id, String message) {
+		this.id = id;
+		this.message = message;
+	}
+
+	public String getMessage() {
+		return this.message;
 	}
 
 	public int getId() {
 		return this.id;
 	}
 
-	public JsonWrapper(int id, PlayerState playerState) {
-		this.id = id;
-		this.playerState = playerState;
-	}
 }

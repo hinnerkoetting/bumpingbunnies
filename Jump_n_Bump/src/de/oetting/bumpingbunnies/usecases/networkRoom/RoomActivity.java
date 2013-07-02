@@ -35,7 +35,6 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 import de.oetting.bumpingbunnies.usecases.start.GameParameterFactory;
 import de.oetting.bumpingbunnies.usecases.start.communication.DummyCommunication;
@@ -285,7 +284,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	private void enableStartButton() {
-		findStartButton().setEnabled(true);
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				findStartButton().setEnabled(true);
+			}
+		});
 	}
 
 	private Button findStartButton() {
@@ -317,8 +322,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void notifyClientsAboutlaunch() {
 		SocketStorage singleton = SocketStorage.getSingleton();
-		JsonWrapper startMessage = new JsonWrapper(MessageIds.START_GAME_ID,
-				new PlayerState(-999)); // TODO TESt
+		JsonWrapper startMessage = new JsonWrapper(MessageIds.START_GAME_ID, "");
 		for (MySocket socket : singleton.getAllSockets()) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 					.createNetworkSender(socket);
