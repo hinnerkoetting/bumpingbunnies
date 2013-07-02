@@ -7,8 +7,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
@@ -16,8 +14,6 @@ import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class NetworkSendQueueThread extends Thread implements RemoteSender {
 
-	private static final MyLog LOGGER = Logger
-			.getLogger(NetworkSendQueueThread.class);
 	private final Gson gson;
 	private final Writer writer;
 	private boolean canceled;

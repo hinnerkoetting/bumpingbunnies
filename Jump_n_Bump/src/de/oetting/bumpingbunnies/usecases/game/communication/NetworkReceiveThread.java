@@ -9,8 +9,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
-public class NetworkReceiveThread extends Thread implements
-		NetworkReceiver {
+public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 
 	private static final MyLog LOGGER = Logger
 			.getLogger(NetworkReceiveThread.class);
@@ -41,6 +40,16 @@ public class NetworkReceiveThread extends Thread implements
 
 	private void oneRun() throws IOException {
 		String input = this.reader.readLine();
+		if (input == null) {
+			LOGGER.warn("Input was null. Continuing...");
+		} else {
+			if (!this.canceled) {
+				dispatchMessage(input);
+			}
+		}
+	}
+
+	private void dispatchMessage(String input) {
 		JsonWrapper wrapper = convertToObject(input);
 		if (wrapper == null) {
 			LOGGER.error("Wrapper null. Input was %s", input);
@@ -50,8 +59,7 @@ public class NetworkReceiveThread extends Thread implements
 
 	private void dispatchMessage(JsonWrapper wrapper) {
 		if (wrapper.getPlayerState() != null) {
-			this.networkDispatcher
-					.dispatchPlayerState(wrapper.getPlayerState());
+			this.networkDispatcher.dispatchPlayerState(wrapper);
 		}
 	}
 

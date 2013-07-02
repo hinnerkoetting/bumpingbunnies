@@ -23,11 +23,19 @@ import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
+import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 import de.oetting.bumpingbunnies.usecases.start.GameParameterFactory;
 import de.oetting.bumpingbunnies.usecases.start.communication.DummyCommunication;
@@ -47,6 +55,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private RemoteCommunication remoteCommunication;
 	private RoomArrayAdapter playersAA;
 	private int myPlayerId;
+	private NetworkReceiver networkReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -261,7 +270,18 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 			}
 		});
-		enableStartButton();
+		this.networkReceiver = NetworkReceiverDispatcherThreadFactory
+				.createRoomNetworkReceiver(socket);
+		this.networkReceiver.getGameDispatcher().addObserver(
+				MessageIds.START_GAME_ID, new NetworkListener() {
+
+					@Override
+					public void newMessage(Object message) {
+						RoomActivity.this.networkReceiver.cancel();
+						launchGame();
+					}
+				});
+		this.networkReceiver.start();
 	}
 
 	private void enableStartButton() {
@@ -277,10 +297,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	public void onClickStart(View v) {
+		notifyClientsAboutlaunch();
 		launchGame();
 	}
 
 	private void launchGame() {
+
 		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
 				.get(ActivityLauncher.LOCAL_SETTINGS);
 		GeneralSettings generalSettings = (GeneralSettings) getIntent()
@@ -291,5 +313,16 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		GameStartParameter parameter = GameParameterFactory.createParameter(
 				this.myPlayerId, config);
 		ActivityLauncher.launchGame(this, parameter);
+	}
+
+	private void notifyClientsAboutlaunch() {
+		SocketStorage singleton = SocketStorage.getSingleton();
+		JsonWrapper startMessage = new JsonWrapper(MessageIds.START_GAME_ID,
+				new PlayerState(-999)); // TODO TESt
+		for (MySocket socket : singleton.getAllSockets()) {
+			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
+					.createNetworkSender(socket);
+			networkSender.sendMessage(startMessage);
+		}
 	}
 }

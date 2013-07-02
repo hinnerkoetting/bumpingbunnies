@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.logger;
 
 public class Logger {
 
-	static Level globalLogLevel = Level.OFF;
+	static Level globalLogLevel = Level.INFO;
 
 	public static MyLog getLogger(Class<?> cl) {
 		if (cl.getResource("/res") != null) {

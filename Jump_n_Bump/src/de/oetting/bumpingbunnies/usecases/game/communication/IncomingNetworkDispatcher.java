@@ -1,10 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 public interface IncomingNetworkDispatcher {
 
-	void dispatchPlayerState(PlayerState playerState);
+	void dispatchPlayerState(JsonWrapper wrapper);
 
 	NetworkToGameDispatcher getNetworkToGameDispatcher();
+
 }
