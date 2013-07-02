@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -25,7 +26,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
@@ -46,6 +46,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private RemoteCommunication remoteCommunication;
 	private RoomArrayAdapter playersAA;
+	private int myPlayerId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -180,20 +181,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 			@Override
 			public void run() {
-				manadedConnectedClient(socket);
+				manageConnectedClient(socket);
 			}
 
 		});
-		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
-				.get(ActivityLauncher.LOCAL_SETTINGS);
-		GeneralSettings generalSettings = (GeneralSettings) getIntent()
-				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
-		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(0);
-		Configuration config = new Configuration(localSettings,
-				generalSettings, otherPlayers);
-		GameStartParameter parameter = GameParameterFactory.createParameter(0,
-				config);
-		ActivityLauncher.launchGame(this, parameter);
+		enableStartButton();
+		this.myPlayerId = 0;
 	}
 
 	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations(
@@ -213,7 +206,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		return otherPlayers;
 	}
 
-	private void manadedConnectedClient(MySocket socket) {
+	private void manageConnectedClient(MySocket socket) {
 		int nextPlayerId = this.playersAA.getCount();
 		addPlayerEntry(socket, nextPlayerId);
 	}
@@ -256,18 +249,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
-				.get(ActivityLauncher.LOCAL_SETTINGS);
-		GeneralSettings generalSettings = (GeneralSettings) getIntent()
-				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
 		// TODO
-		NetworkSettings networkSettings = new NetworkSettings(true);
-		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(1);
-		Configuration config = new Configuration(localSettings,
-				generalSettings, otherPlayers);
-		GameStartParameter parameter = GameParameterFactory.createParameter(1,
-				config);
-		ActivityLauncher.launchGame(this, parameter);
+		this.myPlayerId = 1;
 		runOnUiThread(new Runnable() {
 
 			@Override
@@ -278,10 +261,35 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 			}
 		});
+		enableStartButton();
+	}
 
+	private void enableStartButton() {
+		findStartButton().setEnabled(true);
+	}
+
+	private Button findStartButton() {
+		return (Button) findViewById(R.id.room_start);
 	}
 
 	private void manageConnectToServer(MySocket socket) {
 		addPlayerEntry(socket, 0);
+	}
+
+	public void onClickStart(View v) {
+		launchGame();
+	}
+
+	private void launchGame() {
+		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
+				.get(ActivityLauncher.LOCAL_SETTINGS);
+		GeneralSettings generalSettings = (GeneralSettings) getIntent()
+				.getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
+		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(this.myPlayerId);
+		Configuration config = new Configuration(localSettings,
+				generalSettings, otherPlayers);
+		GameStartParameter parameter = GameParameterFactory.createParameter(
+				this.myPlayerId, config);
+		ActivityLauncher.launchGame(this, parameter);
 	}
 }

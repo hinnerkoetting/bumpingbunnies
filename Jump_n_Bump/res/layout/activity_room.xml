@@ -20,8 +20,10 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/room_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/room_start" />
+        android:text="@string/room_start"
+        android:onClick="onClickStart" />
 
 </LinearLayout>
