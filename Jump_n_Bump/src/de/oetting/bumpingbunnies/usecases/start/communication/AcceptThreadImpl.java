@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.start.communication;
 
 import java.io.IOException;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.ClientConnectedSuccesfullCallback;
 
 public class AcceptThreadImpl extends Thread implements AcceptThread {
@@ -35,7 +35,6 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 				if (socket != null) {
 					// Do work to manage the connection (in a separate thread)
 					manageConnectedSocket(socket);
-					break;
 				} else {
 					LOGGER.info("Socket == null ???");
 				}

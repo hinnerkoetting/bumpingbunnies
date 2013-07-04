@@ -4,9 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 public class NetworkReceiveThread extends Thread implements NetworkReceiver {
@@ -62,7 +63,12 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	}
 
 	private JsonWrapper convertToObject(String input) {
-		return this.gson.fromJson(input, JsonWrapper.class);
+		try {
+			return this.gson.fromJson(input, JsonWrapper.class);
+		} catch (JsonSyntaxException e) {
+			LOGGER.error(e.getMessage());
+			throw e;
+		}
 	}
 
 	@Override

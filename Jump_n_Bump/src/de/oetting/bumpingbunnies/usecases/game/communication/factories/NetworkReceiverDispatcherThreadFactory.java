@@ -19,9 +19,9 @@ import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 public class NetworkReceiverDispatcherThreadFactory {
 
 	public static NetworkReceiver createGameNetworkReceiver(MySocket socket,
-			List<RemoteSender> allRemoteSender) {
-		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher(
-				createParser());
+			List<RemoteSender> allRemoteSender,
+			NetworkToGameDispatcher networkDispatcher) {
+
 		// always create other clients dispatcher. for clients this will not
 		// dispatch incoming events to other sockets
 		NetworkToOtherClientsDispatcher otherClientsDispatcher = new NetworkToOtherClientsDispatcher(
@@ -31,8 +31,7 @@ public class NetworkReceiverDispatcherThreadFactory {
 	}
 
 	public static NetworkReceiver createRoomNetworkReceiver(MySocket socket) {
-		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher(
-				createParser());
+		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 		return createNetworkReceiver(socket, networkDispatcher);
 	}
 

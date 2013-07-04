@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
 import android.util.SparseArray;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 /**
@@ -14,11 +14,9 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(NetworkToGameDispatcher.class);
 	private final SparseArray<NetworkListener> listeners;
-	private final MessageParser parser;
 
-	public NetworkToGameDispatcher(MessageParser parser) {
+	public NetworkToGameDispatcher() {
 		super();
-		this.parser = parser;
 		this.listeners = new SparseArray<NetworkListener>();
 	}
 

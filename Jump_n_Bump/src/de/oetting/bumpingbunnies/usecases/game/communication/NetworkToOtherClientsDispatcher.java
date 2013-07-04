@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 /**
@@ -31,14 +30,11 @@ public class NetworkToOtherClientsDispatcher implements
 
 	@Override
 	public void dispatchPlayerState(JsonWrapper wrapper) {
-		PlayerState playerState = this.parser.parseMessage(
-				wrapper.getMessage(), PlayerState.class);
 		for (RemoteSender queue : this.sendQueues) {
 			if (!queue.usesThisSocket(this.incomingSocket)) {
-				queue.sendPlayerCoordinates(playerState);
+				queue.sendMessage(wrapper);
 			}
 		}
-
 		this.gameDispatcher.dispatchPlayerState(wrapper);
 	}
 
