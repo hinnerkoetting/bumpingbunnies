@@ -61,9 +61,7 @@ public class ConnectedToServerService {
 
 					@Override
 					public void receiveMessage(Integer object) {
-						ConnectedToServerService.this.roomActivity
-								.setMyPlayerId(object);
-						addMyPlayerRoomEntry();
+						addMyPlayerRoomEntry(object);
 					}
 				});
 		gameDispatcher.addObserver(MessageIds.SEND_OTHER_PLAYER_ID,
@@ -82,8 +80,8 @@ public class ConnectedToServerService {
 		this.roomActivity.addPlayerEntry(serverSocket, object, i);
 	}
 
-	protected void addMyPlayerRoomEntry() {
-		this.roomActivity.addMyPlayerRoomEntry();
+	protected void addMyPlayerRoomEntry(int myPlayerId) {
+		this.roomActivity.addMyPlayerRoomEntry(myPlayerId);
 	}
 
 	private void launchGame() {

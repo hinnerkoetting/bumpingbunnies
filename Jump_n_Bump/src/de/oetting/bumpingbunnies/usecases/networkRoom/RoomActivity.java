@@ -54,7 +54,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private RemoteCommunication remoteCommunication;
 	private RoomArrayAdapter playersAA;
-	private int myPlayerId;
 
 	private int playerCounter = 0;
 	private ConnectedToServerService connectedToServerService;
@@ -153,10 +152,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void startHostThread() {
 		this.playerCounter = 0;
-		this.myPlayerId = this.playerCounter++;
+		int myPlayerId = this.playerCounter++;
 		this.remoteCommunication.startServer();
 		enableButtons(false);
-		createNewRoom();
+		createNewRoom(myPlayerId);
 
 	}
 
@@ -286,18 +285,18 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	}
 
-	public void createNewRoom() {
+	public void createNewRoom(int myPlayerId) {
 		LOGGER.info("Creating new room");
-		addMyPlayerRoomEntry();
+		addMyPlayerRoomEntry(myPlayerId);
 	}
 
-	public void addMyPlayerRoomEntry() {
+	public void addMyPlayerRoomEntry(final int myPlayerId) {
 		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
 				PlayerProperties singlePlayerProperties = new PlayerProperties(
-						RoomActivity.this.myPlayerId, "Me");
+						myPlayerId, "Me");
 				RoomActivity.this.playersAA.addMe(new SinglePlayerRoomEntry(
 						singlePlayerProperties));
 				RoomActivity.this.playersAA.notifyDataSetChanged();
@@ -343,12 +342,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
 				.get(ActivityLauncher.LOCAL_SETTINGS);
-
-		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(this.myPlayerId);
+		int myPlayerId = this.playersAA.getMyself().getPlayerProperties()
+				.getPlayerId();
+		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(myPlayerId);
 		Configuration config = new Configuration(localSettings,
 				generalSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(
-				this.myPlayerId, config);
+				myPlayerId, config);
 		ActivityLauncher.launchGame(this, parameter);
 	}
 
@@ -382,10 +382,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private GeneralSettings createGeneralSettingsFromIntent() {
 		return (GeneralSettings) getIntent().getExtras().get(
 				ActivityLauncher.GENERAL_SETTINGS);
-	}
-
-	public void setMyPlayerId(int playerId) {
-		this.myPlayerId = playerId;
 	}
 
 }
