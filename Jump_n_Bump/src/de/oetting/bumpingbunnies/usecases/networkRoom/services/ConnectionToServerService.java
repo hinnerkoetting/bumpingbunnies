@@ -12,16 +12,16 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
-public class ConnectedToServerService implements ConnectedToServer {
+public class ConnectionToServerService implements ConnectionToServer {
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ConnectedToServerService.class);
+			.getLogger(ConnectionToServerService.class);
 	private final NetworkReceiver networkReceiver;
 	private GeneralSettings generalSettingsFromNetwork;
 	private RoomActivity roomActivity;
 	private final MySocket socket;
 
-	public ConnectedToServerService(MySocket socket, RoomActivity roomActivity) {
+	public ConnectionToServerService(MySocket socket, RoomActivity roomActivity) {
 		this.socket = socket;
 		this.roomActivity = roomActivity;
 		this.networkReceiver = NetworkReceiverDispatcherThreadFactory
@@ -44,7 +44,7 @@ public class ConnectedToServerService implements ConnectedToServer {
 
 					@Override
 					public void receiveMessage(Object message) {
-						ConnectedToServerService.this.networkReceiver.cancel();
+						ConnectionToServerService.this.networkReceiver.cancel();
 						launchGame();
 					}
 				});
@@ -54,7 +54,7 @@ public class ConnectedToServerService implements ConnectedToServer {
 
 					@Override
 					public void receiveMessage(GeneralSettings message) {
-						ConnectedToServerService.this.generalSettingsFromNetwork = message;
+						ConnectionToServerService.this.generalSettingsFromNetwork = message;
 					}
 				});
 		gameDispatcher.addObserver(MessageIds.SEND_CLIENT_PLAYER_ID,

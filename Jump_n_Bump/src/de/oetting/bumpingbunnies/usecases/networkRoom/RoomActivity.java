@@ -35,9 +35,10 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectedToServer;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectedToServerService;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectedToServer;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServer;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 import de.oetting.bumpingbunnies.usecases.start.GameParameterFactory;
 import de.oetting.bumpingbunnies.usecases.start.communication.DummyCommunication;
@@ -59,7 +60,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private RoomArrayAdapter playersAA;
 
 	private int playerCounter = 0;
-	private ConnectedToServer connectedToServerService;
+	private ConnectionToServer connectedToServerService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		initRemoteCbListeners();
 		initRoom();
 		displayDefaultIp();
-		this.connectedToServerService = new DummyConnectedToServer();
+		this.connectedToServerService = new DummyConnectionToServer();
 	}
 
 	private void displayDefaultIp() {
@@ -154,7 +155,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void startHostThread() {
 		this.playerCounter = 0;
-		int myPlayerId = this.playerCounter++;
+		int myPlayerId = getNextPlayerId();
 		this.remoteCommunication.startServer();
 		enableButtons(false);
 		createNewRoom(myPlayerId);
@@ -195,7 +196,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
-		manageConnectedClient(socket);
+		new ConnectionToClientService(this).onConnectToClient(socket);
 		enableStartButton();
 	}
 
@@ -212,45 +213,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;
-	}
-
-	private void manageConnectedClient(MySocket socket) {
-		notifyAboutExistingPlayers(socket);
-		int nextPlayerId = this.playersAA.getCount();
-		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
-		addPlayerEntry(socket, nextPlayerId, socketIndex);
-
-	}
-
-	private void notifyAboutExistingPlayers(MySocket socket) {
-		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
-				.createNetworkSender(socket);
-		MessageParser parser = MessageParserFactory.create();
-		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
-			informClientAboutPlayer(otherPlayer, networkSender, parser);
-		}
-		informClientAboutPlayer(this.playersAA.getMyself(), networkSender,
-				parser);
-		sendClientPlayer(networkSender, parser);
-	}
-
-	private void sendClientPlayer(SimpleNetworkSender networkSender,
-			MessageParser parser) {
-		JsonWrapper clientPlayer = createJsonPlayerId(parser);
-		networkSender.sendMessage(clientPlayer);
-	}
-
-	private void informClientAboutPlayer(RoomEntry player,
-			SimpleNetworkSender networkSender, MessageParser parser) {
-		JsonWrapper message = createPlayerInfoMessage(player, parser);
-		networkSender.sendMessage(message);
-	}
-
-	private JsonWrapper createPlayerInfoMessage(RoomEntry entry,
-			MessageParser parser) {
-		return new JsonWrapper(MessageIds.SEND_OTHER_PLAYER_ID,
-				parser.encodeMessage(Integer.valueOf(entry
-						.getPlayerConfiguration().getPlayerId())));
 	}
 
 	public void addPlayerEntry(MySocket socket, int nextPlayerId,
@@ -315,7 +277,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		this.connectedToServerService = new ConnectedToServerService(socket,
+		this.connectedToServerService = new ConnectionToServerService(socket,
 				this);
 		this.connectedToServerService.onConnectionToServer();
 	}
@@ -340,6 +302,19 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		launchGame(generalSettings);
 	}
 
+	private void notifyClientsAboutlaunch() {
+		SocketStorage singleton = SocketStorage.getSingleton();
+		MessageParser parser = MessageParserFactory.create();
+		JsonWrapper generalSettings = createJsonGeneralSettings(parser);
+		JsonWrapper startMessage = new JsonWrapper(MessageIds.START_GAME_ID, "");
+		for (MySocket socket : singleton.getAllSockets()) {
+			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
+					.createNetworkSender(socket);
+			networkSender.sendMessage(generalSettings);
+			networkSender.sendMessage(startMessage);
+		}
+	}
+
 	public void launchGame(GeneralSettings generalSettings) {
 
 		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
@@ -354,25 +329,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		ActivityLauncher.launchGame(this, parameter);
 	}
 
-	private void notifyClientsAboutlaunch() {
-		SocketStorage singleton = SocketStorage.getSingleton();
-		MessageParser parser = MessageParserFactory.create();
-		JsonWrapper generalSettings = createJsonGeneralSettings(parser);
-		JsonWrapper startMessage = new JsonWrapper(MessageIds.START_GAME_ID, "");
-		for (MySocket socket : singleton.getAllSockets()) {
-			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
-					.createNetworkSender(socket);
-			networkSender.sendMessage(generalSettings);
-			networkSender.sendMessage(startMessage);
-		}
-	}
-
-	private JsonWrapper createJsonPlayerId(MessageParser parser) {
-		Integer playerId = this.playerCounter++;
-		return new JsonWrapper(MessageIds.SEND_CLIENT_PLAYER_ID,
-				parser.encodeMessage(playerId));
-	}
-
 	private JsonWrapper createJsonGeneralSettings(MessageParser parser) {
 		GeneralSettings settings = createGeneralSettingsFromIntent();
 		JsonWrapper generalSettings = new JsonWrapper(
@@ -384,6 +340,18 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private GeneralSettings createGeneralSettingsFromIntent() {
 		return (GeneralSettings) getIntent().getExtras().get(
 				ActivityLauncher.GENERAL_SETTINGS);
+	}
+
+	public int getNextPlayerId() {
+		return this.playerCounter++;
+	}
+
+	public List<RoomEntry> getAllOtherPlayers() {
+		return this.playersAA.getAllOtherPlayers();
+	}
+
+	public RoomEntry getMyself() {
+		return this.playersAA.getMyself();
 	}
 
 }
