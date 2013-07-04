@@ -26,7 +26,7 @@ public class RemoteCommunicationImpl implements RemoteCommunication {
 		LOGGER.info("Starting server");
 		closeOpenConnections();
 		this.acceptThread = new AcceptThreadImpl(
-				this.serverSocketFactory.create(), this.origin, this.origin);
+				this.serverSocketFactory.create(), this.origin);
 		this.acceptThread.start();
 	}
 

@@ -12,7 +12,7 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 
 	public RoomEntry getMyself() {
 		if (this.me == null) {
-			throw new IllegalStateException("You were not added");
+			throw new IllegalStateException("You were not yet added");
 		}
 		return this.me;
 	}

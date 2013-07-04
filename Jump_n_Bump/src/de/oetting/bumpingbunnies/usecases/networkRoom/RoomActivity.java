@@ -221,15 +221,44 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	private void manageConnectedClient(MySocket socket) {
+		notifyAboutExistingPlayers(socket);
 		int nextPlayerId = this.playersAA.getCount();
-		addPlayerEntry(socket, nextPlayerId);
+		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
+		addPlayerEntry(socket, nextPlayerId, socketIndex);
 	}
 
-	private void addPlayerEntry(MySocket socket, int nextPlayerId) {
-		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
+	private void notifyAboutExistingPlayers(MySocket socket) {
+		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
+				.createNetworkSender(socket);
+		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
+			informClientAboutPlayer(otherPlayer, networkSender);
+		}
+		informClientAboutPlayer(this.playersAA.getMyself(), networkSender);
+	}
+
+	private void informClientAboutPlayer(RoomEntry player,
+			SimpleNetworkSender networkSender) {
+		JsonWrapper message = createPlayerInfoMessage(player);
+		networkSender.sendMessage(message);
+	}
+
+	private JsonWrapper createPlayerInfoMessage(RoomEntry entry) {
+		MessageParser parser = MessageParserFactory.create();
+		return new JsonWrapper(MessageIds.SEND_OTHER_PLAYER_ID,
+				parser.encodeMessage(Integer.valueOf(entry
+						.getPlayerConfiguration().getPlayerId())));
+	}
+
+	private void addPlayerEntry(MySocket socket, int nextPlayerId,
+			int socketIndex) {
+
 		LOGGER.info("adding player info %d", nextPlayerId);
 		RoomEntry entry = new RoomEntry(new PlayerProperties(nextPlayerId,
 				"Player " + nextPlayerId), socket, socketIndex);
+		addPlayerEntry(entry);
+	}
+
+	private void addPlayerEntry(RoomEntry entry) {
 		RoomActivity.this.playersAA.add(entry);
 		RoomActivity.this.playersAA.notifyDataSetChanged();
 	}
@@ -291,6 +320,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	private void addObserver() {
+		LOGGER.info("registering observers to receive messages from server");
 		NetworkToGameDispatcher gameDispatcher = this.networkReceiver
 				.getGameDispatcher();
 		gameDispatcher.addObserver(MessageIds.START_GAME_ID,
@@ -320,6 +350,16 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 						addMyPlayerRoomEntry();
 					}
 				});
+		gameDispatcher.addObserver(MessageIds.SEND_OTHER_PLAYER_ID,
+				new DefaultNetworkListener<Integer>(Integer.class) {
+
+					@Override
+					public void receiveMessage(Integer object) {
+						MySocket serverSocket = SocketStorage.getSingleton()
+								.getSocket();
+						addPlayerEntry(serverSocket, object, 0);
+					}
+				});
 	}
 
 	private void enableStartButton() {
@@ -337,7 +377,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	private void manageConnectToServer(MySocket socket) {
-		addPlayerEntry(socket, 0);
+		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
+		addPlayerEntry(socket, 0, socketIndex);
 	}
 
 	public void onClickStart(View v) {

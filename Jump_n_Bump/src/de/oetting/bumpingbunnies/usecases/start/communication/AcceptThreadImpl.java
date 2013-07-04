@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.usecases.start.communication;
 
 import java.io.IOException;
 
-import android.app.Activity;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.networkRoom.ClientConnectedSuccesfullCallback;
@@ -13,15 +12,12 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 	private static final MyLog LOGGER = Logger
 			.getLogger(AcceptThreadImpl.class);
 
-	private final Activity activity;
-
 	private final ClientConnectedSuccesfullCallback gameStarter;
 	private boolean canceled;
 
-	public AcceptThreadImpl(ServerSocket serverSocket, Activity activity,
+	public AcceptThreadImpl(ServerSocket serverSocket,
 			ClientConnectedSuccesfullCallback gameStarter) {
 		super("Host thread");
-		this.activity = activity;
 		this.gameStarter = gameStarter;
 		this.mmServerSocket = serverSocket;
 	}
@@ -39,7 +35,6 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 				if (socket != null) {
 					// Do work to manage the connection (in a separate thread)
 					manageConnectedSocket(socket);
-					this.mmServerSocket.close();
 					break;
 				} else {
 					LOGGER.info("Socket == null ???");

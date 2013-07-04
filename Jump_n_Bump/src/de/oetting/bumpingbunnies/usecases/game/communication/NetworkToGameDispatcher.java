@@ -29,7 +29,7 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 			throw new IllegalStateException("No Listener registered for id "
 					+ wrapper.getId());
 		}
-
+		LOGGER.debug("Received message %s", wrapper.getMessage());
 		networkListener.newMessage(wrapper.getMessage());
 	}
 
