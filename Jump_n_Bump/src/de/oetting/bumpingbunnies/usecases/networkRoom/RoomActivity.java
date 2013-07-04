@@ -23,14 +23,10 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.communication.DefaultNetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
@@ -59,9 +55,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private RemoteCommunication remoteCommunication;
 	private RoomArrayAdapter playersAA;
 	private int myPlayerId;
-	private NetworkReceiver networkReceiver;
-	private GeneralSettings generalSettingsFromNetwork;
+
 	private int playerCounter = 0;
+	private ConnectedToServerService connectedToServerService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +135,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	protected void onDestroy() {
 		super.onDestroy();
 		this.remoteCommunication.closeOpenConnections();
+		if (this.connectedToServerService != null) {
+			this.connectedToServerService.cancel();
+		}
 	}
 
 	@Override
@@ -253,7 +252,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 						.getPlayerConfiguration().getPlayerId())));
 	}
 
-	private void addPlayerEntry(MySocket socket, int nextPlayerId,
+	public void addPlayerEntry(MySocket socket, int nextPlayerId,
 			int socketIndex) {
 
 		LOGGER.info("adding player info %d", nextPlayerId);
@@ -292,7 +291,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		addMyPlayerRoomEntry();
 	}
 
-	private void addMyPlayerRoomEntry() {
+	public void addMyPlayerRoomEntry() {
 		runOnUiThread(new Runnable() {
 
 			@Override
@@ -315,54 +314,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		manageConnectToServer(socket);
-		this.networkReceiver = NetworkReceiverDispatcherThreadFactory
-				.createRoomNetworkReceiver(socket);
-		addObserver();
-		this.networkReceiver.start();
-	}
-
-	private void addObserver() {
-		LOGGER.info("registering observers to receive messages from server");
-		NetworkToGameDispatcher gameDispatcher = this.networkReceiver
-				.getGameDispatcher();
-		gameDispatcher.addObserver(MessageIds.START_GAME_ID,
-				new DefaultNetworkListener<Object>(Object.class) {
-
-					@Override
-					public void receiveMessage(Object message) {
-						RoomActivity.this.networkReceiver.cancel();
-						launchGame(RoomActivity.this.generalSettingsFromNetwork);
-					}
-				});
-		gameDispatcher.addObserver(MessageIds.SEND_CONFIGURATION_ID,
-				new DefaultNetworkListener<GeneralSettings>(
-						GeneralSettings.class) {
-
-					@Override
-					public void receiveMessage(GeneralSettings message) {
-						RoomActivity.this.generalSettingsFromNetwork = message;
-					}
-				});
-		gameDispatcher.addObserver(MessageIds.SEND_CLIENT_PLAYER_ID,
-				new DefaultNetworkListener<Integer>(Integer.class) {
-
-					@Override
-					public void receiveMessage(Integer object) {
-						RoomActivity.this.myPlayerId = object;
-						addMyPlayerRoomEntry();
-					}
-				});
-		gameDispatcher.addObserver(MessageIds.SEND_OTHER_PLAYER_ID,
-				new DefaultNetworkListener<Integer>(Integer.class) {
-
-					@Override
-					public void receiveMessage(Integer object) {
-						MySocket serverSocket = SocketStorage.getSingleton()
-								.getSocket();
-						addPlayerEntry(serverSocket, object, 0);
-					}
-				});
+		this.connectedToServerService = new ConnectedToServerService(socket,
+				this);
+		this.connectedToServerService.onConnectionToServer();
 	}
 
 	private void enableStartButton() {
@@ -379,17 +333,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		return (Button) findViewById(R.id.room_start);
 	}
 
-	private void manageConnectToServer(MySocket socket) {
-		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
-	}
-
 	public void onClickStart(View v) {
 		notifyClientsAboutlaunch();
 		GeneralSettings generalSettings = createGeneralSettingsFromIntent();
 		launchGame(generalSettings);
 	}
 
-	private void launchGame(GeneralSettings generalSettings) {
+	public void launchGame(GeneralSettings generalSettings) {
 
 		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
 				.get(ActivityLauncher.LOCAL_SETTINGS);
@@ -432,6 +382,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private GeneralSettings createGeneralSettingsFromIntent() {
 		return (GeneralSettings) getIntent().getExtras().get(
 				ActivityLauncher.GENERAL_SETTINGS);
+	}
+
+	public void setMyPlayerId(int playerId) {
+		this.myPlayerId = playerId;
 	}
 
 }
