@@ -3,8 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.distributedKeyboar
 import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.VibratorService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.gamepad.KeyboardInputService;
@@ -13,7 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementContr
 public class DistributedInputService implements InputService,
 		KeyboardInputService {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DistributedInputService.class);
 	private boolean leftIsPressed;
 	private boolean rightIsPressed;

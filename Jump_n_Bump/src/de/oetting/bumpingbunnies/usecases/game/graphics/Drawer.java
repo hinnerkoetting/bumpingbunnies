@@ -7,12 +7,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 
 public class Drawer {
 
-	private static final MyLog LOGGER = Logger.getLogger(Drawer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Drawer.class);
 	private List<Drawable> allDrawables;
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;

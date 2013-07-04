@@ -2,13 +2,13 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 
 public class OtherPlayerConfiguration implements Parcelable {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(OtherPlayerConfiguration.class);
 	private final AbstractOtherPlayersFactory factory;
 	private final PlayerProperties otherPlayerState;

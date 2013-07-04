@@ -1,15 +1,15 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.touchPress;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
 
 public class TouchPressInputService extends AbstractTouchService {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TouchPressInputService.class);
 
 	private long timeOfActionDown;

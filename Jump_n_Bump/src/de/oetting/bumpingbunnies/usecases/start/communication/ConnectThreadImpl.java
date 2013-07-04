@@ -2,13 +2,13 @@ package de.oetting.bumpingbunnies.usecases.start.communication;
 
 import java.io.IOException;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class ConnectThreadImpl extends Thread implements ConnectThread {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConnectThreadImpl.class);
 	private final MySocket mmSocket;
 	private final RoomActivity activity;

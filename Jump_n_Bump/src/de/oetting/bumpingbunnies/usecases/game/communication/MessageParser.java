@@ -3,12 +3,12 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 
 public class MessageParser {
 
-	private static final MyLog LOGGER = Logger.getLogger(MessageParser.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MessageParser.class);
 	private final Gson gson;
 
 	public MessageParser(Gson gson) {

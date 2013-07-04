@@ -12,8 +12,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.factories.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
@@ -38,7 +38,7 @@ import de.oetting.bumpingbunnies.util.SystemUiHider;
  * @see SystemUiHider
  */
 public class GameActivity extends Activity {
-	private static final MyLog LOGGER = Logger.getLogger(GameActivity.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameActivity.class);
 	private GameThread gameThread;
 	private InputService touchService;
 

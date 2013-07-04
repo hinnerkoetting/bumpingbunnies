@@ -3,8 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.factory;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
@@ -12,7 +12,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 
 public abstract class AbstractPlayerInputServicesFactory<S extends InputService> {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractPlayerInputServicesFactory.class);
 	private static AbstractPlayerInputServicesFactory<? extends InputService> factorySingleton;
 

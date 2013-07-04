@@ -1,12 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.start.communication;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class RemoteCommunicationImpl implements RemoteCommunication {
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(RemoteCommunicationImpl.class);
 	private final RoomActivity origin;
 	private AcceptThread acceptThread;

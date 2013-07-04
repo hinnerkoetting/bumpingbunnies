@@ -18,8 +18,8 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
@@ -51,7 +51,7 @@ import de.oetting.bumpingbunnies.usecases.start.communication.wlan.WlanCommunica
 public class RoomActivity extends Activity implements ConnectToServerCallback,
 		ClientConnectedSuccesfullCallback, ConnectionToServerSuccesfullCallback {
 
-	private static final MyLog LOGGER = Logger.getLogger(RoomActivity.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
 	private BluetoothArrayAdapter listAdapter;
 

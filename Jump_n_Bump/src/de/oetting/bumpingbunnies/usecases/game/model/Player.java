@@ -1,11 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 
 public class Player implements GameObject {
 
-	private static final MyLog LOGGER = Logger.getLogger(Player.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
 	private PlayerState state;
 
 	private Player simulatedObject;

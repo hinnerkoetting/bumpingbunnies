@@ -7,8 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.start.communication.RemoteCommunication;
@@ -17,7 +17,7 @@ import de.oetting.bumpingbunnies.usecases.start.communication.ServerDevice;
 
 public class BluetoothCommunication implements RemoteCommunication {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(BluetoothCommunication.class);
 	private final BluetoothAdapter mBluetoothAdapter;
 	private BroadcastReceiver mReceiver;

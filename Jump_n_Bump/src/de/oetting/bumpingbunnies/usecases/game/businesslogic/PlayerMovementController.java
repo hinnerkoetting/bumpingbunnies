@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class PlayerMovementController implements ModelConstants {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(PlayerMovementController.class);
 
 	private final Player movedPlayer;

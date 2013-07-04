@@ -5,12 +5,12 @@ import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 
 public class Configuration implements Parcelable {
 
-	private static MyLog LOGGER = Logger.getLogger(Configuration.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
 	public static final Parcelable.Creator<Configuration> CREATOR = new Parcelable.Creator<Configuration>() {
 		@Override
 		public Configuration createFromParcel(Parcel source) {

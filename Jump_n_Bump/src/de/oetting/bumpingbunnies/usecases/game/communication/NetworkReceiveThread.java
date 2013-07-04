@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(NetworkReceiveThread.class);
 	private final BufferedReader reader;
 	private final Gson gson;

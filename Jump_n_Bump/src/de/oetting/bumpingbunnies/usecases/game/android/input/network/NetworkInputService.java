@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.network;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 public class NetworkInputService implements InputService, NetworkListener {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(NetworkInputService.class);
 	private PlayerState playerStateFromNetwork;
 	private final Player player;

@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.logger;
 
-public class DummyLogger implements MyLog {
+public class DummyLogger implements Logger {
 
 	@Override
 	public void info(String log, Object... params) {

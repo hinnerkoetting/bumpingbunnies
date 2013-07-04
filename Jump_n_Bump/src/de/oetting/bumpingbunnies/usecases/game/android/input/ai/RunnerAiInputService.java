@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.ai;
 
 import java.util.List;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractControlledMovement;
 import de.oetting.bumpingbunnies.usecases.game.android.input.PathFinder.PathFinder;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
@@ -17,7 +17,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
  */
 public class RunnerAiInputService extends AbstractControlledMovement {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(RunnerAiInputService.class);
 	private final World world;
 	private final RunnerAiInputState state;

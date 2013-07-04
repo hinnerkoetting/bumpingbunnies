@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class SocketStorage {
 
-	private static final MyLog LOGGER = Logger.getLogger(SocketStorage.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SocketStorage.class);
 
 	private static SocketStorage singleton;
 	private List<MySocket> sockets;

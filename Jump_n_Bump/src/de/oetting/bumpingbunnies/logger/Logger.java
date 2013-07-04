@@ -1,18 +1,16 @@
 package de.oetting.bumpingbunnies.logger;
 
-public class Logger {
+public interface Logger {
 
-	static Level globalLogLevel = Level.DEBUG;
+	void info(String log, Object... params);
 
-	public static MyLog getLogger(Class<?> cl) {
-		if (cl.getResource("/res") != null) {
-			return new DummyLogger();
-		} else {
-			return new AndroidLog(cl);
-		}
-	}
+	void debug(String log, Object... params);
 
-	public static void setGlobalLogLevel(Level level) {
-		globalLogLevel = level;
-	}
+	void verbose(String log, Object... params);
+
+	void warn(String string, Object... params);
+
+	void error(String string, Object... params);
+
+	void error(String string, Throwable t, Object... params);
 }

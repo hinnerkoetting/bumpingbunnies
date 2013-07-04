@@ -5,14 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
 public class World implements ObjectProvider {
 
-	private static final MyLog LOGGER = Logger.getLogger(World.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
 	private List<GameObject> allObjects;
 	private List<FixedWorldObject> allWalls;
 	private List<Player> allPlayer;

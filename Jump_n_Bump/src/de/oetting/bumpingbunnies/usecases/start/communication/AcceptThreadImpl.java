@@ -2,14 +2,14 @@ package de.oetting.bumpingbunnies.usecases.start.communication;
 
 import java.io.IOException;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.networkRoom.ClientConnectedSuccesfullCallback;
 
 public class AcceptThreadImpl extends Thread implements AcceptThread {
 	private final ServerSocket mmServerSocket;
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AcceptThreadImpl.class);
 
 	private final ClientConnectedSuccesfullCallback gameStarter;

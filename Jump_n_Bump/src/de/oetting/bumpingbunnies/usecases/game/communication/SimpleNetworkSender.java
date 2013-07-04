@@ -4,13 +4,13 @@ import java.io.Writer;
 
 import com.google.gson.Gson;
 
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.MyLog;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 public class SimpleNetworkSender {
 
-	private static final MyLog LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SimpleNetworkSender.class);
 	private final Writer writer;
 	private final Gson gson;
