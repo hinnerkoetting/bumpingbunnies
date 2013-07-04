@@ -18,8 +18,8 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
@@ -51,7 +51,8 @@ import de.oetting.bumpingbunnies.usecases.start.communication.wlan.WlanCommunica
 public class RoomActivity extends Activity implements ConnectToServerCallback,
 		ClientConnectedSuccesfullCallback, ConnectionToServerSuccesfullCallback {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
 	private BluetoothArrayAdapter listAdapter;
 
@@ -194,14 +195,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				manageConnectedClient(socket);
-			}
-
-		});
+		manageConnectedClient(socket);
 		enableStartButton();
 	}
 
@@ -225,25 +219,35 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		int nextPlayerId = this.playersAA.getCount();
 		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
 		addPlayerEntry(socket, nextPlayerId, socketIndex);
+
 	}
 
 	private void notifyAboutExistingPlayers(MySocket socket) {
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 				.createNetworkSender(socket);
+		MessageParser parser = MessageParserFactory.create();
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
-			informClientAboutPlayer(otherPlayer, networkSender);
+			informClientAboutPlayer(otherPlayer, networkSender, parser);
 		}
-		informClientAboutPlayer(this.playersAA.getMyself(), networkSender);
+		informClientAboutPlayer(this.playersAA.getMyself(), networkSender,
+				parser);
+		sendClientPlayer(networkSender, parser);
+	}
+
+	private void sendClientPlayer(SimpleNetworkSender networkSender,
+			MessageParser parser) {
+		JsonWrapper clientPlayer = createJsonPlayerId(parser);
+		networkSender.sendMessage(clientPlayer);
 	}
 
 	private void informClientAboutPlayer(RoomEntry player,
-			SimpleNetworkSender networkSender) {
-		JsonWrapper message = createPlayerInfoMessage(player);
+			SimpleNetworkSender networkSender, MessageParser parser) {
+		JsonWrapper message = createPlayerInfoMessage(player, parser);
 		networkSender.sendMessage(message);
 	}
 
-	private JsonWrapper createPlayerInfoMessage(RoomEntry entry) {
-		MessageParser parser = MessageParserFactory.create();
+	private JsonWrapper createPlayerInfoMessage(RoomEntry entry,
+			MessageParser parser) {
 		return new JsonWrapper(MessageIds.SEND_OTHER_PLAYER_ID,
 				parser.encodeMessage(Integer.valueOf(entry
 						.getPlayerConfiguration().getPlayerId())));
@@ -258,9 +262,15 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		addPlayerEntry(entry);
 	}
 
-	private void addPlayerEntry(RoomEntry entry) {
-		RoomActivity.this.playersAA.add(entry);
-		RoomActivity.this.playersAA.notifyDataSetChanged();
+	private void addPlayerEntry(final RoomEntry entry) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				RoomActivity.this.playersAA.add(entry);
+				RoomActivity.this.playersAA.notifyDataSetChanged();
+			}
+		});
 	}
 
 	public void connectionNotSuccesful(final String message) {
@@ -305,14 +315,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				manageConnectToServer(socket);
-
-			}
-		});
+		manageConnectToServer(socket);
 		this.networkReceiver = NetworkReceiverDispatcherThreadFactory
 				.createRoomNetworkReceiver(socket);
 		addObserver();
@@ -378,7 +381,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void manageConnectToServer(MySocket socket) {
 		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
-		addPlayerEntry(socket, 0, socketIndex);
 	}
 
 	public void onClickStart(View v) {
@@ -405,11 +407,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		MessageParser parser = MessageParserFactory.create();
 		JsonWrapper generalSettings = createJsonGeneralSettings(parser);
 		JsonWrapper startMessage = new JsonWrapper(MessageIds.START_GAME_ID, "");
-		JsonWrapper clientPlayer = createJsonPlayerId(parser);
 		for (MySocket socket : singleton.getAllSockets()) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 					.createNetworkSender(socket);
-			networkSender.sendMessage(clientPlayer);
 			networkSender.sendMessage(generalSettings);
 			networkSender.sendMessage(startMessage);
 		}
