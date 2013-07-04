@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom;
+package de.oetting.bumpingbunnies.usecases.networkRoom.services;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -9,9 +9,10 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
-public class ConnectedToServerService {
+public class ConnectedToServerService implements ConnectedToServer {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConnectedToServerService.class);

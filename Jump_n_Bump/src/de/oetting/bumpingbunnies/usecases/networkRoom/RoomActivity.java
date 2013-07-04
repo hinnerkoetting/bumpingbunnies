@@ -35,6 +35,9 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectedToServer;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectedToServerService;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectedToServer;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 import de.oetting.bumpingbunnies.usecases.start.GameParameterFactory;
 import de.oetting.bumpingbunnies.usecases.start.communication.DummyCommunication;
@@ -56,7 +59,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private RoomArrayAdapter playersAA;
 
 	private int playerCounter = 0;
-	private ConnectedToServerService connectedToServerService;
+	private ConnectedToServer connectedToServerService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		initRemoteCbListeners();
 		initRoom();
 		displayDefaultIp();
+		this.connectedToServerService = new DummyConnectedToServer();
 	}
 
 	private void displayDefaultIp() {
@@ -134,9 +138,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	protected void onDestroy() {
 		super.onDestroy();
 		this.remoteCommunication.closeOpenConnections();
-		if (this.connectedToServerService != null) {
-			this.connectedToServerService.cancel();
-		}
+		this.connectedToServerService.cancel();
 	}
 
 	@Override
