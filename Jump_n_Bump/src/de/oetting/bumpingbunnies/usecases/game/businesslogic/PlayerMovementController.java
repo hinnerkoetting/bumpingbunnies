@@ -120,10 +120,13 @@ public class PlayerMovementController implements ModelConstants {
 
 	private int findAccelerationForObject() {
 		GameObject go = this.collisionDetection
-				.findObjectThisPlayerIsCollidingWith(this.movedPlayer);
+				.findObjectThisPlayerIsStandingOn(this.movedPlayer);
 		if (go == null) {
 			LOGGER.verbose("Acceleration air %d",
 					ModelConstants.ACCELERATION_X_AIR);
+			if (isInWater()) {
+				return ModelConstants.ACCELERATION_X_WATER;
+			}
 			return ModelConstants.ACCELERATION_X_AIR;
 		} else {
 			int ac = go.accelerationOnThisGround();
