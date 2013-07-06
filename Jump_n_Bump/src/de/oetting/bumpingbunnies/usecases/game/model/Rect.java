@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-public class PlayerRect {
+public class Rect {
 
 	private int minX;
 	private int maxX;

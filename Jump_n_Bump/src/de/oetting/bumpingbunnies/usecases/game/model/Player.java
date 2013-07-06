@@ -12,7 +12,7 @@ public class Player implements GameObject {
 
 	private Player simulatedObject;
 
-	private PlayerRect rect;
+	private Rect rect;
 	private int halfWidth;
 	private int halfHeight;
 	private int id;
@@ -21,7 +21,7 @@ public class Player implements GameObject {
 
 	public Player(int id, int speedFaktor) {
 		this.speedFaktor = speedFaktor;
-		this.rect = new PlayerRect();
+		this.rect = new Rect();
 		this.state = new PlayerState(id);
 		this.id = id;
 		calculateRect();
