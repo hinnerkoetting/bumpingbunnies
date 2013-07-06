@@ -7,15 +7,15 @@ import java.util.List;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 public class SimpleObjectsBuilder implements WorldObjectsBuilder {
 
 	@Override
-	public Collection<FixedWorldObject> createAllWalls(Context context) {
-		List<FixedWorldObject> allWalls = new LinkedList<FixedWorldObject>();
+	public Collection<GameObject> createAllWalls(Context context) {
+		List<GameObject> allWalls = new LinkedList<GameObject>();
 		allWalls.add(WallFactory.createWall(0,
 				(int) (0.25 * ModelConstants.MAX_VALUE),
 				(ModelConstants.MAX_VALUE),

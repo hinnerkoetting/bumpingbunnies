@@ -12,16 +12,17 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Xml;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
 public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(XmlWorldBuilder.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(XmlWorldBuilder.class);
 	private final int resourceId;
 	private XmlWorldBuilderState state;
 	private boolean parsed;
@@ -119,7 +120,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	}
 
 	@Override
-	public Collection<FixedWorldObject> createAllWalls(Context context) {
+	public Collection<GameObject> createAllWalls(Context context) {
 		parse(context);
 		return this.state.getAllObjects();
 	}

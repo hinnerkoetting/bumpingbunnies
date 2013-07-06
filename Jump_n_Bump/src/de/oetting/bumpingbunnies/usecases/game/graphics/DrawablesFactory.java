@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.content.res.Resources;
-import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -34,7 +34,7 @@ public class DrawablesFactory {
 
 	private Collection<? extends Drawable> createWalls() {
 		List<RectDrawer> allWalls = new LinkedList<RectDrawer>();
-		for (FixedWorldObject w : this.world.getAllWalls()) {
+		for (GameObject w : this.world.getAllWalls()) {
 			allWalls.add(new RectDrawer(w));
 		}
 		return allWalls;

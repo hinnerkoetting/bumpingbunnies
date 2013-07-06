@@ -5,6 +5,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
+import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
 public class WallFactory {
 
@@ -27,6 +28,11 @@ public class WallFactory {
 		int id = IdCounter.getNextId();
 		Wall wall = new Wall(id, x, y, maxX, maxY);
 		return wall;
+	}
+
+	public static Water createWater(int x, int y, int maxX, int maxY) {
+		Water water = new Water(x, y, maxX, maxY);
+		return water;
 	}
 
 	public static IcyWall createIceWallFromDouble(double x, double y,

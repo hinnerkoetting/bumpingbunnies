@@ -9,17 +9,18 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
+import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
 public class ClassicWorldBuilder implements WorldObjectsBuilder {
 
 	@Override
-	public Collection<FixedWorldObject> createAllWalls(Context context) {
-		Collection<FixedWorldObject> allWalls = new ArrayList<FixedWorldObject>();
+	public Collection<GameObject> createAllWalls(Context context) {
+		Collection<GameObject> allWalls = new ArrayList<GameObject>();
 		addLeftWall(allWalls);
 		addRightWall(allWalls);
 		addLowestRow(allWalls, context);
@@ -35,18 +36,18 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 		return allWalls;
 	}
 
-	private void addLeftWall(Collection<FixedWorldObject> allWalls) {
+	private void addLeftWall(Collection<GameObject> allWalls) {
 		allWalls.add(convenienceBuildWall(0, 10, 5, 80));
 	}
 
-	private void addRightWall(Collection<FixedWorldObject> allWalls) {
+	private void addRightWall(Collection<GameObject> allWalls) {
 		allWalls.add(convenienceBuildWall(105, 0, 110, 65));
 	}
 
-	private void addLowestRow(Collection<FixedWorldObject> allWalls,
-			Context context) {
+	private void addLowestRow(Collection<GameObject> allWalls, Context context) {
 		allWalls.add(convenienceBuildWall(5, 10, 10, 15));
 		MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.boing_test);
+		allWalls.add(convenienceBuildWater(0, 0, 40, 10));
 		allWalls.add(convenienceBuildJumper(40, 0, 45, 10, mediaPlayer));
 		// allWalls.add(convenienceBuildWall(40, 0, 50, 10));
 		allWalls.add(convenienceBuildWall(45, 0, 50, 10));
@@ -57,7 +58,7 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(100, 0, 105, 15));
 	}
 
-	private void addSecondRow(Collection<FixedWorldObject> allWalls) {
+	private void addSecondRow(Collection<GameObject> allWalls) {
 		allWalls.add(convenienceBuildWall(10, 20, 30, 25));
 		allWalls.add(convenienceBuildIcyWall(50, 20, 55, 25));
 		allWalls.add(convenienceBuildWall(55, 20, 95, 25));
@@ -67,7 +68,7 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(65, 30, 70, 35));
 	}
 
-	private void addThirdRow(Collection<FixedWorldObject> allWalls) {
+	private void addThirdRow(Collection<GameObject> allWalls) {
 		allWalls.add(convenienceBuildWall(5, 35, 15, 40));
 		allWalls.add(convenienceBuildWall(25, 35, 40, 40));
 		allWalls.add(convenienceBuildWall(70, 45, 90, 50));
@@ -75,7 +76,7 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(100, 40, 105, 45));
 	}
 
-	private void addFourthRow(Collection<FixedWorldObject> allWalls) {
+	private void addFourthRow(Collection<GameObject> allWalls) {
 		allWalls.add(convenienceBuildWall(5, 55, 10, 60));
 		allWalls.add(convenienceBuildWall(5, 50, 15, 55));
 
@@ -86,7 +87,7 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 		allWalls.add(convenienceBuildWall(60, 70, 65, 75));
 	}
 
-	private void addFifthRow(Collection<FixedWorldObject> allWalls) {
+	private void addFifthRow(Collection<GameObject> allWalls) {
 		allWalls.add(convenienceBuildWall(5, 75, 15, 80));
 		allWalls.add(convenienceBuildWall(20, 65, 40, 70));
 		allWalls.add(convenienceBuildWall(85, 70, 95, 75));
@@ -107,6 +108,14 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 
 	private Wall convenienceBuildIcyWall(int x, int y, int maxX, int maxY) {
 		return WallFactory.createIceWall(
+				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
+						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
+						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
+						* ModelConstants.MAX_VALUE / 80.0));
+	}
+
+	private Water convenienceBuildWater(int x, int y, int maxX, int maxY) {
+		return WallFactory.createWater(
 				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
 						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
 						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY

@@ -9,16 +9,16 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 public class FirstWorldObjectsBuilder implements WorldObjectsBuilder {
 
 	@Override
-	public Collection<FixedWorldObject> createAllWalls(Context context) {
+	public Collection<GameObject> createAllWalls(Context context) {
 		MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.boing_test);
-		List<FixedWorldObject> allWalls = new LinkedList<FixedWorldObject>();
+		List<GameObject> allWalls = new LinkedList<GameObject>();
 		allWalls.add(WallFactory.createWall(
 				(int) (0.1 * ModelConstants.MAX_VALUE),
 				(int) (0.15 * ModelConstants.MAX_VALUE),

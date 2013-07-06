@@ -162,7 +162,6 @@ public class Player implements GameObject {
 		this.simulatedObject.setMovementY(this.state.getMovementY());
 	}
 
-	@Override
 	public int id() {
 		return this.id;
 	}

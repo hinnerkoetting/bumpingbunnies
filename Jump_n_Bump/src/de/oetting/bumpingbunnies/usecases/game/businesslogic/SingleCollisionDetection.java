@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 
 public class SingleCollisionDetection {
@@ -11,7 +11,7 @@ public class SingleCollisionDetection {
 
 	public static boolean collidesObjectOnBottom(GameObject objectToBeChecked,
 			GameObject otherObject) {
-		if (otherObject.id() != objectToBeChecked.id()) {
+		if (!otherObject.equals(objectToBeChecked)) {
 			if (checkBottomCollisionWithOtherObject(objectToBeChecked,
 					otherObject)) {
 				return true;
@@ -22,7 +22,7 @@ public class SingleCollisionDetection {
 
 	public static boolean collidesCircaObjectOnTop(
 			GameObject objectToBeChecked, GameObject otherObject) {
-		if (otherObject.id() != objectToBeChecked.id()) {
+		if (!otherObject.equals(objectToBeChecked)) {
 			if (checkCircaBottomCollisionWithOtherObject(otherObject,
 					objectToBeChecked)) {
 				return true;
@@ -33,7 +33,7 @@ public class SingleCollisionDetection {
 
 	public static boolean collidesObjectOnTop(GameObject objectToBeChecked,
 			GameObject otherObject) {
-		if (otherObject.id() != objectToBeChecked.id()) {
+		if (!otherObject.equals(objectToBeChecked)) {
 			if (checkBottomCollisionWithOtherObject(otherObject,
 					objectToBeChecked)) {
 				return true;

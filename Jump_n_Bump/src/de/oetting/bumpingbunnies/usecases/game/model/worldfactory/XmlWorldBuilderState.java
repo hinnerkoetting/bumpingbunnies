@@ -3,19 +3,19 @@ package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 public class XmlWorldBuilderState {
 
-	private List<FixedWorldObject> allObjects = new LinkedList<FixedWorldObject>();
+	private List<GameObject> allObjects = new LinkedList<GameObject>();
 	private List<SpawnPoint> spawnPoints = new LinkedList<SpawnPoint>();
 
-	public List<FixedWorldObject> getAllObjects() {
+	public List<GameObject> getAllObjects() {
 		return this.allObjects;
 	}
 
-	public void setAllObjects(List<FixedWorldObject> allObjects) {
+	public void setAllObjects(List<GameObject> allObjects) {
 		this.allObjects = allObjects;
 	}
 

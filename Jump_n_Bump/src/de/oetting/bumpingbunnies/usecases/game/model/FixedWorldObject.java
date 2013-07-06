@@ -59,7 +59,6 @@ public abstract class FixedWorldObject implements GameObject {
 		return this.rect.getMaxY();
 	}
 
-	@Override
 	public int id() {
 		return this.id;
 	}

@@ -14,8 +14,6 @@ public interface GameObject {
 
 	int getColor();
 
-	int id();
-
 	int accelerationOnThisGround();
 
 	void interactWithPlayerOnTop(Player p);

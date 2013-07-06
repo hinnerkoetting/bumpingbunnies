@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.model.FixedWorldObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 public class TestXmlWorldBuilder implements WorldObjectsBuilder {
@@ -17,7 +17,7 @@ public class TestXmlWorldBuilder implements WorldObjectsBuilder {
 	}
 
 	@Override
-	public Collection<FixedWorldObject> createAllWalls(Context context) {
+	public Collection<GameObject> createAllWalls(Context context) {
 		return this.worldBuilder.createAllWalls(context);
 	}
 
