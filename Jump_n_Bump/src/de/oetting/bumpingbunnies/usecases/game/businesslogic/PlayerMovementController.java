@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -44,8 +44,20 @@ public class PlayerMovementController implements ModelConstants {
 	private void executeOneStep() {
 		computeGravity();
 		this.interActionService.interactWith(this.movedPlayer, this.world);
+		conditionalSetJumpMovement();
 		this.movedPlayer.moveNextStep();
 		this.movedPlayer.calculateNextSpeed();
+	}
+
+	private void conditionalSetJumpMovement() {
+		if (this.movingUp && isStandingOnGround()) {
+			setJumpMovement();
+		}
+	}
+
+	private void setJumpMovement() {
+		this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED);
+		this.movedPlayer.setAccelerationY(0);
 	}
 
 	private void computeGravity() {
@@ -120,19 +132,17 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public void removeVerticalMovement() {
+		LOGGER.verbose("removing vertical movement");
 		this.movingUp = false;
 	}
 
 	public void tryMoveUp() {
-		if (isStandingOnGround()) {
-			this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED);
-			this.movedPlayer.setAccelerationY(0);
-		} else {
-			this.movingUp = true;
-		}
+		LOGGER.verbose("trying to move up");
+		this.movingUp = true;
 	}
 
 	public void tryMoveDown() {
+		LOGGER.verbose("trying to move down");
 		this.movingUp = false;
 	}
 
