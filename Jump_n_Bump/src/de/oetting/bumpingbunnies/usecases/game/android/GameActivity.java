@@ -55,7 +55,8 @@ public class GameActivity extends Activity {
 	private GameStartParameter parameter;
 
 	private InputDispatcher<?> inputDispatcher;
-	private List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();;
+	private List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
+	private List<RemoteSender> sendThreads = new ArrayList<RemoteSender>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class GameActivity extends Activity {
 		contentView.setGameThread(this.gameThread);
 		conditionalRestoreState();
 		startNetworkThreads();
+		this.gameThread.start();
 	}
 
 	private void startNetworkThreads() {
@@ -133,7 +135,6 @@ public class GameActivity extends Activity {
 				config.getCoordinateCalculations());
 
 		contentView.addOnSizeListener(this.gameThread);
-		this.gameThread.start();
 	}
 
 	private List<StateSender> createSender(Player myPlayer) {
@@ -142,8 +143,8 @@ public class GameActivity extends Activity {
 		List<StateSender> resultSender = new ArrayList<StateSender>(
 				allSockets.size());
 		for (MySocket socket : allSockets) {
-			// TODO: vielleicht geht es auch?
 			RemoteSender sender = NetworkSendQueueThreadFactory.create(socket);
+			this.sendThreads.add(sender);
 			resultSender.add(new GameNetworkSender(myPlayer, sender));
 		}
 		return resultSender;
@@ -229,6 +230,9 @@ public class GameActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		this.gameThread.cancel();
+		for (RemoteSender sender : this.sendThreads) {
+			sender.cancel();
+		}
 		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
 			receiver.cancel();
 		}

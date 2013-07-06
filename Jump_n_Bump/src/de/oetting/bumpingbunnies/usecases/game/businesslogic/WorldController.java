@@ -95,12 +95,12 @@ public class WorldController {
 		return players;
 	}
 
-	public void applyPlayers(List<Player> state) {
+	public void applyPlayers(List<Player> storedPlayers) {
 		for (PlayerMovementController movement : this.playermovements) {
-			for (Player p : state) {
-				if (movement.getPlayer().id() == p.id()) {
+			for (Player storedPlayer : storedPlayers) {
+				if (movement.getPlayer().id() == storedPlayer.id()) {
 					PlayerState newState = movement.getPlayer().getState();
-					PlayerState oldState = p.getState();
+					PlayerState oldState = storedPlayer.getState();
 					oldState.copyContentTo(newState);
 				}
 			}
