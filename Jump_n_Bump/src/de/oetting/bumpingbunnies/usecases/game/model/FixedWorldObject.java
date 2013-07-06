@@ -1,5 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
+
 public abstract class FixedWorldObject implements GameObject {
 
 	private int id;
@@ -8,6 +11,7 @@ public abstract class FixedWorldObject implements GameObject {
 	private final int maxX;
 	private final int maxY;
 	private final int color;
+	private final CollisionHandling collisionHandling;
 
 	public FixedWorldObject(int id, int minX, int minY, int maxX, int maxY,
 			int color) {
@@ -17,6 +21,7 @@ public abstract class FixedWorldObject implements GameObject {
 		this.maxX = maxX;
 		this.maxY = maxY;
 		this.color = color;
+		this.collisionHandling = new CollisionHandling();
 		if (minX >= maxX) {
 			throw new IllegalArgumentException("minX must be smaller than maxX");
 		}
@@ -82,4 +87,9 @@ public abstract class FixedWorldObject implements GameObject {
 				+ ", maxY=" + this.maxY + "]";
 	}
 
+	@Override
+	public void handleCollisionWithPlayer(Player player,
+			CollisionDetection collisionDetection) {
+		this.collisionHandling.interactWith(player, this, collisionDetection);
+	}
 }

@@ -1,7 +1,9 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 
 public class Player implements GameObject {
 
@@ -15,6 +17,7 @@ public class Player implements GameObject {
 	private int halfHeight;
 	private int id;
 	private final int speedFaktor;
+	private final CollisionHandling collisionHandling;
 
 	public Player(int id, int speedFaktor) {
 		this.speedFaktor = speedFaktor;
@@ -24,6 +27,7 @@ public class Player implements GameObject {
 		calculateRect();
 		this.halfHeight = ModelConstants.PLAYER_HEIGHT / 2;
 		this.halfWidth = ModelConstants.PLAYER_WIDTH / 2;
+		this.collisionHandling = new CollisionHandling();
 	}
 
 	public Player(Player simulatedObject, int speedFaktor, int id) {
@@ -231,6 +235,16 @@ public class Player implements GameObject {
 	private void moveNextStepY() {
 		this.state.setCenterY(this.state.getCenterY()
 				+ this.state.getMovementY());
+	}
+
+	@Override
+	public void handleCollisionWithPlayer(Player player,
+			CollisionDetection collisionDetection) {
+		this.collisionHandling.interactWith(player, this, collisionDetection);
+		GameObject simulatedNextStep = player.simulateNextStep();
+		if (collisionDetection.isExactlyOverObject(simulatedNextStep, this)) {
+			player.interactWithPlayerOnTop(this);
+		}
 	}
 
 }
