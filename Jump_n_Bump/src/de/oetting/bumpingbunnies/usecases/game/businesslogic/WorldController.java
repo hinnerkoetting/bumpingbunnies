@@ -73,6 +73,8 @@ public class WorldController {
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
 		playerUnder.setCenterX(spawnPoint.getX());
 		playerUnder.setCenterY(spawnPoint.getY());
+		playerUnder.setMovementY(0);
+		playerUnder.setMovementX(0);
 	}
 
 	private void increaseScore(Player playerTop) {
