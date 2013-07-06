@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.ai;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractControlledMovement;
 import de.oetting.bumpingbunnies.usecases.game.android.input.PathFinder.PathFinder;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
@@ -135,11 +135,6 @@ public class RunnerAiInputService extends AbstractControlledMovement {
 		} else {
 			moveDown();
 		}
-
-	}
-
-	@Override
-	public void destroy() {
 
 	}
 

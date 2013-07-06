@@ -4,8 +4,8 @@ import java.util.List;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
@@ -14,7 +14,8 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class GameThread extends Thread implements SurfaceHolder.Callback,
 		GameScreenSizeChangeListener {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(GameThread.class);
 	private final Drawer drawer;
 	private final WorldController worldController;
 	private SurfaceHolder holder;
@@ -119,7 +120,6 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 
 	public void cancel() {
 		this.canceled = true;
-		this.worldController.destroy();
 	}
 
 	public void switchInputServices(List<InputService> createInputServices) {

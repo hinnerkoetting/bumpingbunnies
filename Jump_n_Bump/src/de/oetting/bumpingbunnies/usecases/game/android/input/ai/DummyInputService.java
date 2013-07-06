@@ -8,12 +8,4 @@ public class DummyInputService implements InputService {
 	public void executeUserInput() {
 	}
 
-	@Override
-	public void destroy() {
-	}
-
-	@Override
-	public void start() {
-	}
-
 }

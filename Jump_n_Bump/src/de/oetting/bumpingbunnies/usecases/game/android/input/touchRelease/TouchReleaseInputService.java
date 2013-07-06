@@ -33,8 +33,4 @@ public class TouchReleaseInputService extends AbstractTouchService {
 		executeRememberedMovement();
 	}
 
-	@Override
-	public void destroy() {
-	}
-
 }

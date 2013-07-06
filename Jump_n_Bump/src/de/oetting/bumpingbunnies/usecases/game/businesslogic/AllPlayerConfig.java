@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
+import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
+import de.oetting.bumpingbunnies.usecases.game.android.input.network.NetworkInputService;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
@@ -13,6 +16,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractS
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class AllPlayerConfig {
 
@@ -55,17 +59,42 @@ public class AllPlayerConfig {
 		return list;
 	}
 
-	public List<InputService> createOtherInputService(
-			AbstractOtherPlayersFactory factory, List<RemoteSender> allSender) {
+	// public List<InputService> createOtherInputService(
+	// AbstractOtherPlayersFactory factory, List<RemoteSender> allSender) {
+	//
+	// List<InputService> inputServices = new ArrayList<InputService>(
+	// this.notControlledPlayers.size());
+	// NetworkToGameDispatcher networkDispatcher = new
+	// NetworkToGameDispatcher();
+	// for (PlayerConfig config : this.notControlledPlayers) {
+	// inputServices.add(config.createInputService(allSender,
+	// networkDispatcher));
+	// }
+	// return inputServices;
+	// }
 
-		List<InputService> inputServices = new ArrayList<InputService>(
-				this.notControlledPlayers.size());
-		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
+	public List<InputService> createOtherInputService(
+			NetworkToGameDispatcher networkDispatcher,
+			List<NetworkReceiveThread> networkReceiveThreads,
+			AbstractOtherPlayersFactory factory, List<RemoteSender> allSender) {
+		List<MySocket> allSockets = SocketStorage.getSingleton()
+				.getAllSockets();
+		List<InputService> resultReceiver = new ArrayList<InputService>(
+				allSockets.size());
+
 		for (PlayerConfig config : this.notControlledPlayers) {
-			inputServices.add(config.createInputService(allSender,
-					networkDispatcher));
+			// TODO
+			InputService is = config.createInputService(allSender,
+					networkDispatcher);
+			if (is instanceof NetworkInputService) {
+				NetworkInputService inputservice = (NetworkInputService) is;
+				networkDispatcher.addObserver(config.getMovementController()
+						.getPlayer().id(), inputservice);
+			}
+
+			resultReceiver.add(is);
 		}
-		return inputServices;
+		return resultReceiver;
 	}
 
 	public Player getTabletControlledPlayer() {

@@ -76,10 +76,6 @@ public class RememberPointerInputService extends AbstractTouchService implements
 	}
 
 	@Override
-	public void destroy() {
-	}
-
-	@Override
 	public void onMotionEvent(MotionEvent motionEvent) {
 		double x = translateToGameXCoordinate(motionEvent);
 		double y = translateToGameYCoordinate(motionEvent);

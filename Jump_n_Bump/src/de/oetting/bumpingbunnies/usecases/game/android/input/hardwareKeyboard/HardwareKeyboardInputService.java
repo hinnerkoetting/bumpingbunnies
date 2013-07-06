@@ -44,12 +44,4 @@ public class HardwareKeyboardInputService implements InputService {
 		}
 	}
 
-	@Override
-	public void destroy() {
-	}
-
-	@Override
-	public void start() {
-	}
-
 }

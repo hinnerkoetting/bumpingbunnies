@@ -80,16 +80,7 @@ public class WorldController {
 		state.setScore(state.getScore() + 1);
 	}
 
-	public void destroy() {
-		for (InputService is : this.inputServices) {
-			is.destroy();
-		}
-	}
-
 	public void switchInputServices(List<InputService> createInputServices) {
-		for (InputService is : this.inputServices) {
-			is.destroy();
-		}
 		this.inputServices = createInputServices;
 	}
 

@@ -18,8 +18,8 @@ import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class NetworkReceiverDispatcherThreadFactory {
 
-	public static NetworkReceiver createGameNetworkReceiver(MySocket socket,
-			List<RemoteSender> allRemoteSender,
+	public static NetworkReceiveThread createGameNetworkReceiver(
+			MySocket socket, List<RemoteSender> allRemoteSender,
 			NetworkToGameDispatcher networkDispatcher) {
 
 		// always create other clients dispatcher. for clients this will not
@@ -39,7 +39,7 @@ public class NetworkReceiverDispatcherThreadFactory {
 		return new MessageParser(new Gson());
 	}
 
-	private static NetworkReceiver createNetworkReceiver(MySocket socket,
+	private static NetworkReceiveThread createNetworkReceiver(MySocket socket,
 			IncomingNetworkDispatcher networkDispatcher) {
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(

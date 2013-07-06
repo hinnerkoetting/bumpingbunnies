@@ -30,6 +30,7 @@ public class AnalogInputService extends AbstractControlledMovement {
 		}
 	}
 
+	@Override
 	public void reset() {
 		this.isTouchUp = false;
 		this.isTouchDown = false;
@@ -55,11 +56,6 @@ public class AnalogInputService extends AbstractControlledMovement {
 	public void onTouchLeftHalf() {
 		this.isTouchRight = false;
 		this.isTouchLeft = true;
-	}
-
-	@Override
-	public void destroy() {
-
 	}
 
 }

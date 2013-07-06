@@ -12,8 +12,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.factories.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
@@ -22,13 +22,20 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPla
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
 /**
@@ -38,7 +45,8 @@ import de.oetting.bumpingbunnies.util.SystemUiHider;
  * @see SystemUiHider
  */
 public class GameActivity extends Activity {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameActivity.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(GameActivity.class);
 	private GameThread gameThread;
 	private InputService touchService;
 
@@ -47,6 +55,7 @@ public class GameActivity extends Activity {
 	private GameStartParameter parameter;
 
 	private InputDispatcher<?> inputDispatcher;
+	private List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +75,8 @@ public class GameActivity extends Activity {
 	}
 
 	private void startNetworkThreads() {
-		for (InputService is : this.networkMovementService) {
-			is.start();
+		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
+			receiver.start();
 		}
 	}
 
@@ -111,10 +120,11 @@ public class GameActivity extends Activity {
 		AllPlayerConfig config = PlayerConfigFactory.create(parameter, world,
 				contentView, otherPlayerFactory,
 				this.parameter.getConfiguration());
-		List<StateSender> allStateSender = config.createStateSender();
+		// List<StateSender> allStateSender = config.createStateSender();
+		Player myPlayer = config.getTabletControlledPlayer();
+		List<StateSender> allStateSender = createSender(myPlayer);
 		initInputServices(otherPlayerFactory, config,
 				extractRemoteSenders(allStateSender));
-
 		// this.networkThread = otherPlayerFactory.createSender();
 		this.gameThread = GameThreadFactory.create(world,
 				config.getAllPlayerMovementControllers(),
@@ -124,6 +134,19 @@ public class GameActivity extends Activity {
 
 		contentView.addOnSizeListener(this.gameThread);
 		this.gameThread.start();
+	}
+
+	private List<StateSender> createSender(Player myPlayer) {
+		List<MySocket> allSockets = SocketStorage.getSingleton()
+				.getAllSockets();
+		List<StateSender> resultSender = new ArrayList<StateSender>(
+				allSockets.size());
+		for (MySocket socket : allSockets) {
+			// TODO: vielleicht geht es auch?
+			RemoteSender sender = NetworkSendQueueThreadFactory.create(socket);
+			resultSender.add(new GameNetworkSender(myPlayer, sender));
+		}
+		return resultSender;
 	}
 
 	private List<RemoteSender> extractRemoteSenders(
@@ -144,13 +167,34 @@ public class GameActivity extends Activity {
 				.getSingleton();
 
 		this.touchService = myPlayerFactory.createInputService(config, this);
+
+		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 		this.inputDispatcher = myPlayerFactory
 				.createInputDispatcher(this.touchService);
-		this.networkMovementService = config.createOtherInputService(singleton,
-				allSender);
+		this.networkMovementService = config.createOtherInputService(
+				networkDispatcher,
+				createNetworkReceiveThreads(networkDispatcher, allSender),
+				singleton, allSender);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),
 				this.inputDispatcher);
+	}
+
+	private List<NetworkReceiveThread> createNetworkReceiveThreads(
+			NetworkToGameDispatcher networkDispatcher,
+			List<RemoteSender> allRemoteSender) {
+		List<MySocket> allSockets = SocketStorage.getSingleton()
+				.getAllSockets();
+		this.networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
+
+		for (MySocket socket : allSockets) {
+			NetworkReceiveThread receiveThread = NetworkReceiverDispatcherThreadFactory
+					.createGameNetworkReceiver(socket, allRemoteSender,
+							networkDispatcher);
+
+			this.networkReceiveThreads.add(receiveThread);
+		}
+		return this.networkReceiveThreads;
 	}
 
 	private List<InputService> createInputServices() {
@@ -158,7 +202,6 @@ public class GameActivity extends Activity {
 				.getConfiguration().getInputConfiguration();
 		LOGGER.info("Selected Input is " + inputConfiguration.toString());
 		return createInputServicesTouch();
-
 	}
 
 	private List<InputService> createInputServicesTouch() {
@@ -186,8 +229,8 @@ public class GameActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		this.gameThread.cancel();
-		for (InputService is : this.networkMovementService) {
-			is.destroy();
+		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
+			receiver.cancel();
 		}
 	}
 

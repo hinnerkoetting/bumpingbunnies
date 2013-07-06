@@ -1,18 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public abstract class AbstractInputServiceFactory {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AbstractInputServiceFactory.class);
-
-	public abstract InputService create(NetworkReceiver reicerThread,
+	public abstract InputService create(
 			PlayerMovementController movementController, World world);
 
 }

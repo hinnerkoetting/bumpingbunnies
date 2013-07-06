@@ -50,10 +50,6 @@ public class GamepadInputService implements KeyboardInputService {
 	}
 
 	@Override
-	public void destroy() {
-	}
-
-	@Override
 	public boolean onButtonTouch(View v, MotionEvent event) {
 		boolean isPressed = event.getAction() != MotionEvent.ACTION_UP;
 		switch (v.getId()) {
@@ -75,7 +71,4 @@ public class GamepadInputService implements KeyboardInputService {
 		return true;
 	}
 
-	@Override
-	public void start() {
-	}
 }

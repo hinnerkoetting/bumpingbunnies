@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractInputServiceFactory;
@@ -34,12 +33,9 @@ public class PlayerConfig {
 
 	public InputService createInputService(List<RemoteSender> allSender,
 			IncomingNetworkDispatcher networkToGameDispatcher) {
-		NetworkReceiver informationSupplier = this.otherPlayerFactory
-				.createInformationSupplier(allSender, networkToGameDispatcher);
 		AbstractInputServiceFactory inputServiceFactory = this.otherPlayerFactory
 				.getInputServiceFactory();
-		return inputServiceFactory.create(informationSupplier,
-				this.movementController, this.world);
+		return inputServiceFactory.create(this.movementController, this.world);
 	}
 
 	public AbstractOtherPlayersFactory getOtherPlayerFactory() {

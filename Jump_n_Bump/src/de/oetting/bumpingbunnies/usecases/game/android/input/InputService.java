@@ -4,8 +4,4 @@ public interface InputService {
 
 	void executeUserInput();
 
-	void destroy();
-
-	void start();
-
 }

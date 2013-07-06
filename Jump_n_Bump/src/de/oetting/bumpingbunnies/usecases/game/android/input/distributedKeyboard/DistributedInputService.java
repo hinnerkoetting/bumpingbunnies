@@ -3,8 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.distributedKeyboar
 import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.VibratorService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.gamepad.KeyboardInputService;
@@ -53,10 +53,6 @@ public class DistributedInputService implements InputService,
 				this.playerMovement.tryMoveRight();
 			}
 		}
-	}
-
-	@Override
-	public void destroy() {
 	}
 
 	@Override
@@ -118,7 +114,4 @@ public class DistributedInputService implements InputService,
 		return event.getRawX() > v.getLeft() + v.getWidth() / 2;
 	}
 
-	@Override
-	public void start() {
-	}
 }
