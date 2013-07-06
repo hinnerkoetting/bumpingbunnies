@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -25,7 +25,7 @@ public class CollisionDetection {
 		return false;
 	}
 
-	private boolean standsOn(GameObject upperObject, GameObject lowerObject) {
+	public boolean standsOn(GameObject upperObject, GameObject lowerObject) {
 		if (upperObject.minY() == lowerObject.maxY()) {
 			if (upperObject.maxX() <= lowerObject.minX()) {
 				return false;
@@ -51,6 +51,15 @@ public class CollisionDetection {
 		for (Player p : this.world.getAllPlayer()) {
 			if (standsOn(player, p)) {
 				return p;
+			}
+		}
+		return null;
+	}
+
+	public GameObject findObjectThisPlayerIsCollidingWith(Player player) {
+		for (GameObject go : this.world.getAllObjects()) {
+			if (collides(player, go)) {
+				return go;
 			}
 		}
 		return null;

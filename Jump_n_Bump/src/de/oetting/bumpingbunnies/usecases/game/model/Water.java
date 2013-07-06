@@ -53,6 +53,8 @@ public class Water implements GameObject {
 	@Override
 	public void handleCollisionWithPlayer(Player player,
 			CollisionDetection collisionDetection) {
+		player.setMovementY((int) (player.movementY() * 0.99));
+		player.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WATER);
 	}
 
 }

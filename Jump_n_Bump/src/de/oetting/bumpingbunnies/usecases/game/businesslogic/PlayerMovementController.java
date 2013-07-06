@@ -5,6 +5,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class PlayerMovementController implements ModelConstants {
@@ -43,16 +44,40 @@ public class PlayerMovementController implements ModelConstants {
 
 	private void executeOneStep() {
 		computeGravity();
-		this.interActionService.interactWith(this.movedPlayer, this.world);
 		conditionalSetJumpMovement();
+		this.interActionService.interactWith(this.movedPlayer, this.world);
 		this.movedPlayer.moveNextStep();
 		this.movedPlayer.calculateNextSpeed();
 	}
 
 	private void conditionalSetJumpMovement() {
-		if (this.movingUp && isStandingOnGround()) {
-			setJumpMovement();
+		if (this.movingUp) {
+			if (standsOnFixedObject()) {
+				setJumpMovement();
+			} else if (isInWater()) {
+				this.movedPlayer
+						.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_WATER);
+				this.movedPlayer.setAccelerationY(0);
+			}
 		}
+	}
+
+	private boolean isInWater() {
+		GameObject collidingObject = this.collisionDetection
+				.findObjectThisPlayerIsCollidingWith(this.movedPlayer);
+		if (collidingObject != null) {
+			return collidingObject instanceof Water;
+		}
+		return false;
+	}
+
+	private boolean standsOnFixedObject() {
+		GameObject collidingObject = this.collisionDetection
+				.findObjectThisPlayerIsStandingOn(this.movedPlayer);
+		if (collidingObject != null) {
+			return !(collidingObject instanceof Water);
+		}
+		return false;
 	}
 
 	private void setJumpMovement() {
@@ -95,7 +120,7 @@ public class PlayerMovementController implements ModelConstants {
 
 	private int findAccelerationForObject() {
 		GameObject go = this.collisionDetection
-				.findObjectThisPlayerIsStandingOn(this.movedPlayer);
+				.findObjectThisPlayerIsCollidingWith(this.movedPlayer);
 		if (go == null) {
 			LOGGER.verbose("Acceleration air %d",
 					ModelConstants.ACCELERATION_X_AIR);
@@ -105,6 +130,11 @@ public class PlayerMovementController implements ModelConstants {
 			LOGGER.verbose("Acceleration %d", ac);
 			return ac;
 		}
+	}
+
+	private boolean isCollidingWithObject() {
+		return this.collisionDetection
+				.findObjectThisPlayerIsCollidingWith(this.movedPlayer) != null;
 	}
 
 	public void tryMoveLeft() {
