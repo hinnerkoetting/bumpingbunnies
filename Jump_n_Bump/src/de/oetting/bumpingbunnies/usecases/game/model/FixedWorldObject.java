@@ -6,20 +6,14 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 public abstract class FixedWorldObject implements GameObject {
 
 	private int id;
-	private final int minX;
-	private final int minY;
-	private final int maxX;
-	private final int maxY;
+	private final Rect rect;
 	private final int color;
 	private final CollisionHandling collisionHandling;
 
 	public FixedWorldObject(int id, int minX, int minY, int maxX, int maxY,
 			int color) {
 		this.id = id;
-		this.minX = minX;
-		this.minY = minY;
-		this.maxX = maxX;
-		this.maxY = maxY;
+		this.rect = new Rect(minX, maxX, minY, maxY);
 		this.color = color;
 		this.collisionHandling = new CollisionHandling();
 		if (minX >= maxX) {
@@ -47,34 +41,27 @@ public abstract class FixedWorldObject implements GameObject {
 
 	@Override
 	public int minX() {
-		return this.minX;
+		return this.rect.getMinX();
 	}
 
 	@Override
 	public int minY() {
-		return this.minY;
+		return this.rect.getMinY();
 	}
 
 	@Override
 	public int maxX() {
-		return this.maxX;
+		return this.rect.getMaxX();
 	}
 
 	@Override
 	public int maxY() {
-		return this.maxY;
+		return this.rect.getMaxY();
 	}
 
 	@Override
 	public int id() {
 		return this.id;
-	}
-
-	@Override
-	public String toString() {
-		return "Wall [id=" + this.id + ", minX=" + this.minX + ", minY="
-				+ this.minY + ", color=" + this.color + ", maxX=" + this.maxX
-				+ ", maxY=" + this.maxY + "]";
 	}
 
 	@Override

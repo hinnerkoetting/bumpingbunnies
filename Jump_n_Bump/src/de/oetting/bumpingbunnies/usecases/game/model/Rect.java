@@ -7,6 +7,17 @@ public class Rect {
 	private int minY;
 	private int maxY;
 
+	public Rect() {
+	}
+
+	public Rect(int minX, int maxX, int minY, int maxY) {
+		super();
+		this.minX = minX;
+		this.maxX = maxX;
+		this.minY = minY;
+		this.maxY = maxY;
+	}
+
 	public int getMinX() {
 		return this.minX;
 	}
