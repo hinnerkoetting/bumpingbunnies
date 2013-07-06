@@ -20,7 +20,7 @@ public class PlayerDrawer implements Drawable {
 	public void draw(CanvasDelegate canvas) {
 		this.paint.setColor(this.player.getColor());
 		if (this.player.movementX() != 0) {
-			this.runningAnimation.drawMirrored(this.player.movementX() < 0);
+			this.runningAnimation.drawMirrored(this.player.isFacingLeft());
 		}
 		// canvas.drawRect(this.player.minX(), this.player.maxY(),
 		// this.player.maxX(), this.player.minY(), this.paint);

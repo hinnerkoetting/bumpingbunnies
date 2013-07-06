@@ -116,6 +116,7 @@ public class PlayerMovementController implements ModelConstants {
 		this.tryingToRemoveHorizontalMovement = false;
 		this.movedPlayer.setAccelerationX(+findAccelerationForObject()
 				* this.speedFactor);
+		this.movedPlayer.setFacingLeft(false);
 	}
 
 	private int findAccelerationForObject() {
@@ -144,6 +145,7 @@ public class PlayerMovementController implements ModelConstants {
 		this.tryingToRemoveHorizontalMovement = false;
 		this.movedPlayer.setAccelerationX(-findAccelerationForObject()
 				* this.speedFactor);
+		this.movedPlayer.setFacingLeft(true);
 		// this.movedPlayer.setMovementX(-MOVEMENT);
 	}
 

@@ -8,16 +8,18 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 public class Player implements GameObject {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
-	private PlayerState state;
+	private final int speedFaktor;
+	private final CollisionHandling collisionHandling;
 
+	private final int halfWidth;
+	private final int halfHeight;
+	private final int id;
+
+	private PlayerState state;
 	private Player simulatedObject;
 
 	private Rect rect;
-	private int halfWidth;
-	private int halfHeight;
-	private int id;
-	private final int speedFaktor;
-	private final CollisionHandling collisionHandling;
+	private boolean facingLeft;
 
 	public Player(int id, int speedFaktor) {
 		this.speedFaktor = speedFaktor;
@@ -240,6 +242,14 @@ public class Player implements GameObject {
 		if (collisionDetection.isExactlyOverObject(simulatedNextStep, this)) {
 			player.interactWithPlayerOnTop(this);
 		}
+	}
+
+	public boolean isFacingLeft() {
+		return this.facingLeft;
+	}
+
+	public void setFacingLeft(boolean facingLeft) {
+		this.facingLeft = facingLeft;
 	}
 
 }
