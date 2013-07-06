@@ -16,14 +16,6 @@ public interface GameObject {
 
 	int id();
 
-	int centerX();
-
-	int centerY();
-
-	int movementX();
-
-	int movementY();
-
 	int accelerationOnThisGround();
 
 	void interactWithPlayerOnTop(Player p);

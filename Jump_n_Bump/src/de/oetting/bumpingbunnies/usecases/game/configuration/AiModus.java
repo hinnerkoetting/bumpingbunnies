@@ -3,12 +3,12 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractInputServiceFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.ai.NoAiInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.ai.NormalAiInputFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.ai.RunnerAiInputFactory;
 
 public enum AiModus {
 
-	OFF(NoAiInputFactory.class), NORMAL(NormalAiInputFactory.class), RUNNER(
-			RunnerAiInputFactory.class);
+	OFF(NoAiInputFactory.class), NORMAL(NormalAiInputFactory.class)
+	// , RUNNER(RunnerAiInputFactory.class)
+	;
 
 	private Class<? extends AbstractInputServiceFactory> factoryClass;
 

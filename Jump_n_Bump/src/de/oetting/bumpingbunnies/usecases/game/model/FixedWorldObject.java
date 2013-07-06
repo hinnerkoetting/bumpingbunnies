@@ -31,29 +31,19 @@ public abstract class FixedWorldObject implements GameObject {
 	}
 
 	@Override
-	public int movementX() {
-		return 0;
-	}
-
-	@Override
-	public int movementY() {
-		return 0;
-	}
-
-	@Override
 	public int getColor() {
 		return this.color;
 	}
 
-	@Override
-	public int centerX() {
-		return (this.minX + this.maxX) / 2;
-	}
-
-	@Override
-	public int centerY() {
-		return (this.minY + this.maxY) / 2;
-	}
+	// @Override
+	// public int centerX() {
+	// return (this.minX + this.maxX) / 2;
+	// }
+	//
+	// @Override
+	// public int centerY() {
+	// return (this.minY + this.maxY) / 2;
+	// }
 
 	@Override
 	public int minX() {

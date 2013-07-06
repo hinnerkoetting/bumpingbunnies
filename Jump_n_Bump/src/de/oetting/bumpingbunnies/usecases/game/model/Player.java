@@ -138,12 +138,10 @@ public class Player implements GameObject {
 		}
 	}
 
-	@Override
 	public int movementX() {
 		return this.state.getMovementX();
 	}
 
-	@Override
 	public int movementY() {
 		return this.state.getMovementY();
 	}
@@ -178,12 +176,10 @@ public class Player implements GameObject {
 		return this.state.getColor();
 	}
 
-	@Override
 	public int centerX() {
 		return this.state.getCenterX();
 	}
 
-	@Override
 	public int centerY() {
 		return this.state.getCenterY();
 	}
