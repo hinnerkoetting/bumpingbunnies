@@ -61,6 +61,11 @@ public class StartSettingsService {
 		return zoom.getProgress() + 1;
 	}
 
+	public void setZoom(int zoomValue) {
+		SeekBar zoom = findZoomSeekbar();
+		zoom.setProgress(zoomValue - 1);
+	}
+
 	public int getSpeed() {
 		SeekBar seekbar = findSpeedSeekbar();
 		return seekbar.getProgress() + 1;

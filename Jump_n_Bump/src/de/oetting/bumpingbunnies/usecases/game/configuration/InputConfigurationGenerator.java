@@ -47,4 +47,17 @@ public class InputConfigurationGenerator {
 			throw new IllegalArgumentException("Unknown inputtype");
 		}
 	}
+
+	public static void selectInputConfiguration(
+			InputConfiguration inputconfiguration, RadioGroup group) {
+		for (int i = 0; i < group.getChildCount(); i++) {
+			CompoundButton cb = (CompoundButton) group.getChildAt(i);
+			InputConfiguration buttonInputConfiguration = createInputConfigurationFromView(cb
+					.getId());
+			if (buttonInputConfiguration.equals(inputconfiguration)) {
+				cb.setChecked(true);
+				return;
+			}
+		}
+	}
 }

@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.RadioGroup;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.sql.AsyncDatabaseCreation;
+import de.oetting.bumpingbunnies.sql.OnDatabaseCreation;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
@@ -24,10 +29,16 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.factories.SingleplayerFactory;
+import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
+import de.oetting.bumpingbunnies.usecases.start.sql.SettingsDao;
+import de.oetting.bumpingbunnies.usecases.start.sql.SettingsStorage;
 
-public class StartActivity extends Activity {
+public class StartActivity extends Activity implements OnDatabaseCreation {
 
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(StartActivity.class);
 	private StartSettingsService settingsService;
+	private SettingsStorage settingsDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,8 @@ public class StartActivity extends Activity {
 		setContentView(R.layout.activity_start);
 		this.settingsService = new StartSettingsService(this);
 		this.settingsService.initSettings();
+		this.settingsDao = new DummySettingsDao();
+		new AsyncDatabaseCreation().createWritableDatabase(this, this);
 	}
 
 	@Override
@@ -76,7 +89,7 @@ public class StartActivity extends Activity {
 	}
 
 	private InputConfiguration findSelectedInputConfiguration() {
-		RadioGroup inputGroup = (RadioGroup) findViewById(R.id.start_input_group);
+		RadioGroup inputGroup = findInputConfiguration();
 		return InputConfigurationGenerator
 				.createInputConfigurationFromRadioGroup(inputGroup);
 	}
@@ -112,4 +125,63 @@ public class StartActivity extends Activity {
 		GeneralSettings settings = new GeneralSettings(world, speed);
 		return settings;
 	}
+
+	@Override
+	public void databaseCreated(SQLiteDatabase database) {
+		LOGGER.info("Db created");
+		this.settingsDao = new SettingsDao(database);
+		fillStoredSettings();
+	}
+
+	private void fillStoredSettings() {
+		LOGGER.info("Reading settings from database");
+		LocalSettings storedSettings = this.settingsDao.readStoredSettings();
+		if (storedSettings != null) {
+			restoreInputConfiguration(storedSettings);
+			restoreZoom(storedSettings);
+		} else {
+			LOGGER.info("no settings found");
+		}
+	}
+
+	private void restoreZoom(LocalSettings storedSettings) {
+		this.settingsService.setZoom(storedSettings.getZoom());
+	}
+
+	private void restoreInputConfiguration(LocalSettings storedSettings) {
+		RadioGroup inputconfiguration = findInputConfiguration();
+		InputConfiguration storedInputConfiguration = storedSettings
+				.getInputConfiguration();
+		InputConfigurationGenerator.selectInputConfiguration(
+				storedInputConfiguration, inputconfiguration);
+	}
+
+	private RadioGroup findInputConfiguration() {
+		return (RadioGroup) findViewById(R.id.start_input_group);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		storeSelectedLocalSettings();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		fillStoredSettings();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		this.settingsDao.close();
+	}
+
+	private void storeSelectedLocalSettings() {
+		LOGGER.info("storing local settings");
+		LocalSettings selectedSettings = createLocalSettings();
+		this.settingsDao.store(selectedSettings);
+	}
+
 }

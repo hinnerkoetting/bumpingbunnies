@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 import java.util.List;
 
 import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.view.SurfaceHolder;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -109,6 +110,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		this.holder = holder;
+		holder.setFormat(PixelFormat.RGBA_8888); // TODO variabel
 		this.isDrawingPossible = true;
 		LOGGER.info("Surface created");
 	}

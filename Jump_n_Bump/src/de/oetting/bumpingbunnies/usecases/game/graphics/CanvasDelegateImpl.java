@@ -88,7 +88,5 @@ public class CanvasDelegateImpl implements CanvasDelegate {
 	@Override
 	public void drawImageDirect(Bitmap bitmap, int left, int top, Paint paint) {
 		this.canvas.drawBitmap(bitmap, left, top, paint);
-
 	}
-
 }
