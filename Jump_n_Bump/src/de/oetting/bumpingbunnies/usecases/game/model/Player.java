@@ -19,7 +19,6 @@ public class Player implements GameObject {
 	private Player simulatedObject;
 
 	private Rect rect;
-	private boolean facingLeft;
 
 	public Player(int id, int speedFaktor) {
 		this.speedFaktor = speedFaktor;
@@ -245,11 +244,11 @@ public class Player implements GameObject {
 	}
 
 	public boolean isFacingLeft() {
-		return this.facingLeft;
+		return this.state.isFacingLeft();
 	}
 
 	public void setFacingLeft(boolean facingLeft) {
-		this.facingLeft = facingLeft;
+		this.state.setFacingLeft(facingLeft);
 	}
 
 }

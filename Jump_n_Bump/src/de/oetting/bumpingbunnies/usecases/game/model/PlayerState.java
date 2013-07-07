@@ -6,6 +6,7 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	private int score;
 	private int color;
 	private int id;
+	private boolean facingLeft;
 
 	public PlayerState(int id) {
 		this.id = id;
@@ -84,6 +85,14 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.id = id;
 	}
 
+	public boolean isFacingLeft() {
+		return this.facingLeft;
+	}
+
+	public void setFacingLeft(boolean facingLeft) {
+		this.facingLeft = facingLeft;
+	}
+
 	@Override
 	public void copyContentTo(PlayerState other) {
 		other.movementState.accelerationX = this.movementState.accelerationX;
@@ -94,6 +103,7 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		other.movementState.movementY = this.movementState.movementY;
 		other.color = this.color;
 		other.score = this.score;
+		other.facingLeft = this.facingLeft;
 	}
 
 }
