@@ -35,6 +35,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
@@ -58,6 +59,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private RemoteCommunication remoteCommunication;
 	private RoomArrayAdapter playersAA;
+	private BroadcastService broadcastService;
 
 	private int playerCounter = 0;
 	private ConnectionToServer connectedToServerService;
@@ -74,6 +76,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		initRoom();
 		displayDefaultIp();
 		this.connectedToServerService = new DummyConnectionToServer();
+		this.broadcastService = new BroadcastService();
 	}
 
 	private void displayDefaultIp() {
@@ -140,6 +143,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		super.onDestroy();
 		this.remoteCommunication.closeOpenConnections();
 		this.connectedToServerService.cancel();
+		this.broadcastService.cancel();
 	}
 
 	@Override
@@ -159,7 +163,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		this.remoteCommunication.startServer();
 		enableButtons(false);
 		createNewRoom(myPlayerId);
-
+		this.broadcastService.startRegularServerBroadcast(this);
 	}
 
 	private void enableButtons(boolean enable) {

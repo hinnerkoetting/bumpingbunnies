@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.logger;
 
 public class LoggerFactory {
 
-	static Level globalLogLevel = Level.INFO;
+	static Level globalLogLevel = Level.DEBUG;
 
 	public static Logger getLogger(Class<?> cl) {
 		if (cl.getResource("/res") != null) {

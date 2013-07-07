@@ -14,4 +14,5 @@ public interface RemoteCommunication {
 	 * TODO: Temp
 	 */
 	void findServer(String address);
+
 }
