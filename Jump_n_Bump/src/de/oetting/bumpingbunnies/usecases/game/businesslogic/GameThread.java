@@ -11,6 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
 
 public class GameThread extends Thread implements SurfaceHolder.Callback,
 		GameScreenSizeChangeListener {
@@ -141,6 +142,9 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 
 	public void applyState(Object state) {
 		this.worldController.applyPlayers((List<Player>) state);
+	}
 
+	public ResultWrapper extractPlayerScores() {
+		return this.worldController.extractPlayerScores();
 	}
 }

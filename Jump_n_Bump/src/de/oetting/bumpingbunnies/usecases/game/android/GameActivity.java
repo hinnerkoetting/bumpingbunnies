@@ -35,6 +35,7 @@ import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
 import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
@@ -265,5 +266,14 @@ public class GameActivity extends Activity {
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 		return this.gameThread.getCurrentState();
+	}
+
+	@Override
+	public void onBackPressed() {
+		ActivityLauncher.startResult(this, extractResult());
+	}
+
+	private ResultWrapper extractResult() {
+		return this.gameThread.extractPlayerScores();
 	}
 }

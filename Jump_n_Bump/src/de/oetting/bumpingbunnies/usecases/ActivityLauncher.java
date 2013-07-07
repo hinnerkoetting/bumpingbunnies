@@ -7,6 +7,9 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
+import de.oetting.bumpingbunnies.usecases.result.ResultActivity;
+import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
+import de.oetting.bumpingbunnies.usecases.start.StartActivity;
 
 public class ActivityLauncher {
 
@@ -14,6 +17,7 @@ public class ActivityLauncher {
 	public static final String CONFIGURATION = "CONFIGURATION";
 	public static final String LOCAL_SETTINGS = "LOCAL_SETTINGS";
 	public static final String GENERAL_SETTINGS = "GENERAL_SETTINGS";
+	public static final String RESULT = "RESULT";
 	public static final int SINGPLE_PLAYER_ID = 0;
 
 	public static void launchGame(Activity origin, GameStartParameter parameter) {
@@ -27,6 +31,17 @@ public class ActivityLauncher {
 		Intent intent = new Intent(origin, RoomActivity.class);
 		intent.putExtra(LOCAL_SETTINGS, localSettings);
 		intent.putExtra(GENERAL_SETTINGS, generalSettings);
+		origin.startActivity(intent);
+	}
+
+	public static void startResult(Activity origin, ResultWrapper gameResult) {
+		Intent intent = new Intent(origin, ResultActivity.class);
+		intent.putExtra(RESULT, gameResult);
+		origin.startActivity(intent);
+	}
+
+	public static void toStart(Activity origin) {
+		Intent intent = new Intent(origin, StartActivity.class);
 		origin.startActivity(intent);
 	}
 }

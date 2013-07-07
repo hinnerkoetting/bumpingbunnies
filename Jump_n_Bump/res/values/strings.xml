@@ -51,5 +51,6 @@
     <string name="ip">IP</string>
     <string name="speed">Geschwindigkeit</string>
     <string name="connect">Verbinden</string>
+    <string name="result">Ergebnis</string>
 
 </resources>
