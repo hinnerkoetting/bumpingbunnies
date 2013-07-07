@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickKnownHosts"
-            android:text="@string/connect" />
+            android:text="@string/known_hosts" />
 
         <Button
             android:id="@+id/room_find"

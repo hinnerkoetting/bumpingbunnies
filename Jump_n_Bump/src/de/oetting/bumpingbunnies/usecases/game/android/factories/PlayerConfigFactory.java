@@ -30,7 +30,7 @@ public class PlayerConfigFactory {
 		world.addPlayer(myPlayer);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
 		PlayerMovementController myPlayerMovementController = createMovementController(
-				myPlayer, world, speed);
+				myPlayer, world);
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
 				otherPlayerFactory, myPlayerId, world, configuration, speed);
 		AllPlayerConfig config = new AllPlayerConfig(
@@ -62,14 +62,14 @@ public class PlayerConfigFactory {
 		AbstractOtherPlayersFactory otherPlayerFactory = configuration
 				.getFactory();
 		PlayerMovementController movementcontroller = createMovementController(
-				player, world, speedFactor);
+				player, world);
 		return new PlayerConfig(otherPlayerFactory, movementcontroller, world,
 				configuration);
 	}
 
 	private static PlayerMovementController createMovementController(Player p,
-			World world, int speedfactor) {
-		return PlayerMovementFactory.create(p, world, speedfactor);
+			World world) {
+		return PlayerMovementFactory.create(p, world);
 	}
 
 	private static Player findMyPlayer(int myPlayerId, World world, int speed) {

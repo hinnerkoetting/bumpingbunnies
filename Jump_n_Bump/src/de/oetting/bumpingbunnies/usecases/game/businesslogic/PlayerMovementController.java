@@ -20,16 +20,13 @@ public class PlayerMovementController implements ModelConstants {
 	private final World world;
 	boolean tryingToRemoveHorizontalMovement;
 
-	private final int speedFactor;
-
 	public PlayerMovementController(Player movedPlayer, World world,
 			InteractionService interActionService,
-			CollisionDetection collisionDetection, int speedFactor) {
+			CollisionDetection collisionDetection) {
 		this.movedPlayer = movedPlayer;
 		this.world = world;
 		this.interActionService = interActionService;
 		this.collisionDetection = collisionDetection;
-		this.speedFactor = speedFactor;
 	}
 
 	public void nextStep(long delta) {
