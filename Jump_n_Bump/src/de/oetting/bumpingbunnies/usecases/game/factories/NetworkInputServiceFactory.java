@@ -19,8 +19,8 @@ public class NetworkInputServiceFactory extends AbstractInputServiceFactory {
 			World world) {
 		LOGGER.info("Creating Network Input Service");
 		Player player = movementController.getPlayer();
-		NetworkInputService inputService = new NetworkInputService(player,
-				MessageParserFactory.create());
+		NetworkInputService inputService = new NetworkInputService(
+				movementController, player, MessageParserFactory.create());
 		return inputService;
 	}
 
