@@ -7,7 +7,7 @@
     <string name="title_activity_start">StartActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="connect">Bekannte Server</string>
+    <string name="known_hosts">Bekannte Server</string>
     <string name="find_devices">Server finden</string>
     <string name="make_visible">Hosten</string>
     <string name="app_name_solo">Bumping Bunnies Solo</string>
@@ -50,5 +50,6 @@
     <string name="world_test">Test</string>
     <string name="ip">IP</string>
     <string name="speed">Geschwindigkeit</string>
+    <string name="connect">Verbinden</string>
 
 </resources>

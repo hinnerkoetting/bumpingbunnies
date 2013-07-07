@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +41,7 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClien
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 import de.oetting.bumpingbunnies.usecases.start.GameParameterFactory;
 import de.oetting.bumpingbunnies.usecases.start.communication.DummyCommunication;
@@ -50,7 +52,8 @@ import de.oetting.bumpingbunnies.usecases.start.communication.bluetooth.Bluetoot
 import de.oetting.bumpingbunnies.usecases.start.communication.wlan.WlanCommunicationFactory;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback,
-		ClientConnectedSuccesfullCallback, ConnectionToServerSuccesfullCallback {
+		ClientConnectedSuccesfullCallback,
+		ConnectionToServerSuccesfullCallback, OnBroadcastReceived {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(RoomActivity.class);
@@ -103,20 +106,20 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		this.remoteCommunication = WlanCommunicationFactory.create(this);
 	}
 
-	public void onClickConnect(View v) {
-		connectToDevice();
+	public void onClickKnownHosts(View v) {
+		displayKnownHosts();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_BT_ENABLE) {
 			if (resultCode == RESULT_OK) {
-				connectToDevice();
+				displayKnownHosts();
 			}
 		}
 	}
 
-	private void connectToDevice() {
+	private void displayKnownHosts() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
 				.getDefaultAdapter();
 		Set<BluetoothDevice> pairedDevices = mBluetoothAdapter
@@ -130,7 +133,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public void onClickDiscovery(View v) {
 		this.listAdapter.clear();
-		this.remoteCommunication.findServer(getInputIp());
+		this.broadcastService.listenForBroadCasts(this);
 	}
 
 	private String getInputIp() {
@@ -356,6 +359,23 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public RoomEntry getMyself() {
 		return this.playersAA.getMyself();
+	}
+
+	@Override
+	public void broadcastReceived(final InetAddress senderAddress) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				EditText ipText = (EditText) findViewById(R.id.room_ip);
+				ipText.setText(senderAddress.getHostAddress());
+			}
+		});
+
+	}
+
+	public void onClickConnect(View v) {
+		this.remoteCommunication.findServer(getInputIp());
 	}
 
 }

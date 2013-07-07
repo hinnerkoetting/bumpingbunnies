@@ -34,4 +34,12 @@ public class UdpSocket {
 	public void close() {
 		this.socket.close();
 	}
+
+	public void receive(DatagramPacket packet) {
+		try {
+			this.socket.receive(packet);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

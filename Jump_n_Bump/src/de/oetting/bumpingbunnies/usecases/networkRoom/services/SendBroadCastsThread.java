@@ -17,7 +17,7 @@ public class SendBroadCastsThread extends Thread {
 	private final List<UdpSocket> broadcastSockets;
 
 	public SendBroadCastsThread(List<UdpSocket> broadcastSockets) {
-		super();
+		super("Sending broadcasts");
 		this.broadcastSockets = broadcastSockets;
 		LOGGER.info("Found %d broadcast addresses", broadcastSockets.size());
 	}

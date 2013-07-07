@@ -35,7 +35,7 @@
             android:id="@+id/room_connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClickConnect"
+            android:onClick="onClickKnownHosts"
             android:text="@string/connect" />
 
         <Button
@@ -46,10 +46,20 @@
             android:text="@string/find_devices" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/room_ip"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/ip"/>
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/room_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/ip" />
+        <Button  android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickConnect"
+            android:text="@string/connect" />
+    </LinearLayout>
 
 </merge>
