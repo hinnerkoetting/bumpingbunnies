@@ -149,8 +149,8 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 
 	}
 
-	public void applyState(Object state) {
-		this.worldController.applyPlayers((List<Player>) state);
+	public void applyState(List<Player> state) {
+		this.worldController.applyPlayers(state);
 	}
 
 	public ResultWrapper extractPlayerScores() {

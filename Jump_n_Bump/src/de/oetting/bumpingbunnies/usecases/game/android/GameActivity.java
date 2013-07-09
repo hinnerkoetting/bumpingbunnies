@@ -92,10 +92,11 @@ public class GameActivity extends Activity {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	private void conditionalRestoreState() {
 		Object data = getLastNonConfigurationInstance();
 		if (data != null) {
-			this.gameThread.applyState(data);
+			this.gameThread.applyState((List<Player>) data);
 		}
 	}
 
