@@ -1,10 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.settings;
 
 import android.app.Activity;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.configuration.gameStart.DefaultConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
@@ -26,9 +28,12 @@ public class SettingsViewAccess {
 	}
 
 	public void fillViewDefault() {
-		fillZoomDefault();
-		fillNumberPlayerdefault();
-		fillSpeedDefault();
+		initNumberPlayer();
+		initSpeed();
+		initZoom();
+		SettingsEntity defaultEntity = DefaultConfiguration
+				.createDefaultEntity();
+		fillView(defaultEntity);
 	}
 
 	public int getZoom() {
@@ -62,7 +67,7 @@ public class SettingsViewAccess {
 		return seekbar.getProgress() + 1;
 	}
 
-	private void fillNumberPlayerdefault() {
+	private void initNumberPlayer() {
 		SeekBar numberPlayers = findNumberPlayerSeekbar();
 		int startValue = 0;
 		TextView view = (TextView) this.origin
@@ -72,7 +77,7 @@ public class SettingsViewAccess {
 		numberPlayers.setProgress(startValue);
 	}
 
-	private void fillSpeedDefault() {
+	private void initSpeed() {
 		SeekBar speed = findSpeedSeekbar();
 		int startValue = 5;
 		TextView view = (TextView) this.origin
@@ -82,7 +87,7 @@ public class SettingsViewAccess {
 		speed.setProgress(startValue);
 	}
 
-	private void fillZoomDefault() {
+	private void initZoom() {
 		SeekBar zoom = findZoomSeekbar();
 		int startValue = 4;
 		TextView view = (TextView) this.origin
@@ -97,6 +102,12 @@ public class SettingsViewAccess {
 		setZoom(settings.getZoom());
 		setNumberPlayer(settings.getNumberPlayer());
 		setSpeed(settings.getSpeed());
+		setPlayerName(settings.getPlayerName());
+	}
+
+	private void setPlayerName(String playerName) {
+		EditText nameTextfield = findNameTextfield();
+		nameTextfield.setText(playerName);
 	}
 
 	private void setSpeed(int speed) {
@@ -117,7 +128,18 @@ public class SettingsViewAccess {
 		int zoom = getZoom();
 		int numberPlayer = getNumberOfPlayers();
 		int speed = getSpeed();
-		return new SettingsEntity(inputConfiguration, zoom, numberPlayer, speed);
+		String name = getName();
+		return new SettingsEntity(inputConfiguration, zoom, numberPlayer,
+				speed, name);
+	}
+
+	private String getName() {
+		EditText editText = findNameTextfield();
+		return editText.getText().toString();
+	}
+
+	private EditText findNameTextfield() {
+		return (EditText) this.origin.findViewById(R.id.settings_playername);
 	}
 
 	private RadioGroup findInputConfigurationRadioGroup() {

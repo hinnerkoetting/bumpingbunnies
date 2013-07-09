@@ -1,11 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="@string/dummy_content"
+        android:id="@+id/settings_playername" />
+
+    <include layout="@layout/other_settings" />
 
     <include
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/menu_input_type" />
-    
-    <include layout="@layout/other_settings" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_input_type" />
+
 </LinearLayout>

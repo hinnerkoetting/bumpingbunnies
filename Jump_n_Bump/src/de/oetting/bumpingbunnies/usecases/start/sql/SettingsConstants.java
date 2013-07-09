@@ -7,4 +7,5 @@ public interface SettingsConstants {
 	String INPUT_COL = "input_configuration";
 	String NUMBER_PLAYER_COL = "number_player";
 	String SPEED_COL = "speed";
+	String NAME_COL = "player_name";
 }

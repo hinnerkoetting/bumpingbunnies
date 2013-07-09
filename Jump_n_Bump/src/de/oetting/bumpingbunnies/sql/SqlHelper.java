@@ -11,7 +11,7 @@ public class SqlHelper extends SQLiteOpenHelper implements SettingsConstants {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SqlHelper.class);
-	private static final int DB_VERSION = 5;
+	private static final int DB_VERSION = 6;
 	private static final String DATABASE_NAME = "bumpingbunnies.db";
 
 	private static final String CREATE_SETTINGS = //
@@ -20,6 +20,7 @@ public class SqlHelper extends SQLiteOpenHelper implements SettingsConstants {
 			+ NUMBER_PLAYER_COL + " INTEGER NOT NULL, "
 			+ ZOOM_COL + " INTEGER NOT NULL,"
 			+ INPUT_COL + " VARCHAR(80),"
+			+ NAME_COL + " VARCHAR(80),"
 			+ SPEED_COL + " INTEGER NOT NULL );";
 	
 	private static final String DROP_SETTINGS = "DROP TABLE " + SETTINGS_TABLE + ";";

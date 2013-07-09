@@ -131,8 +131,7 @@ public class GameActivity extends Activity {
 		GameStartParameter parameter = (GameStartParameter) getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
 		AllPlayerConfig config = PlayerConfigFactory.create(parameter, world,
-				contentView, otherPlayerFactory,
-				this.parameter.getConfiguration());
+				contentView, otherPlayerFactory);
 		// List<StateSender> allStateSender = config.createStateSender();
 		Player myPlayer = config.getTabletControlledPlayer();
 		List<StateSender> allStateSender = createSender(myPlayer);

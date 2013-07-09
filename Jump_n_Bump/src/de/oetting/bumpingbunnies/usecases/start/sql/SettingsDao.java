@@ -48,6 +48,7 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 		values.put(INPUT_COL, settings.getInputConfiguration().toString());
 		values.put(NUMBER_PLAYER_COL, settings.getNumberPlayer());
 		values.put(SPEED_COL, settings.getSpeed());
+		values.put(NAME_COL, settings.getPlayerName());
 		return values;
 	}
 
@@ -59,8 +60,8 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 	@Override
 	public SettingsEntity readStoredSettings() {
 		Cursor query = this.database.query(SETTINGS_TABLE, new String[] {
-				ZOOM_COL, INPUT_COL, NUMBER_PLAYER_COL, SPEED_COL }, null,
-				null, null, null, null);
+				ZOOM_COL, INPUT_COL, NUMBER_PLAYER_COL, SPEED_COL, NAME_COL },
+				null, null, null, null, null);
 		try {
 			query.moveToFirst();
 			if (!query.isAfterLast()) {
@@ -80,7 +81,8 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 				.valueOf(inputConfiguration);
 		int numberPlayer = cursor.getInt(2);
 		int speed = cursor.getInt(3);
-		return new SettingsEntity(inputEnum, zoom, numberPlayer, speed);
+		String name = cursor.getString(4);
+		return new SettingsEntity(inputEnum, zoom, numberPlayer, speed, name);
 	}
 
 	@Override

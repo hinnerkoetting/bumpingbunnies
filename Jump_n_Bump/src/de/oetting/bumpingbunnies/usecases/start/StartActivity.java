@@ -22,6 +22,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModusGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
@@ -72,10 +73,16 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	private Configuration createConfiguration() {
 		SettingsEntity settings = readSettingsFromDb();
 		LocalSettings localSettings = createLocalSettings(settings);
-
+		LocalPlayersettings localPlayerSettings = createLocalPlayerSettings(settings);
 		GeneralSettings generalSettings = createGeneralSettings(settings);
 		List<OpponentConfiguration> otherPlayers = createSpOtherPlayerConfiguration(settings);
-		return new Configuration(localSettings, generalSettings, otherPlayers);
+		return new Configuration(localSettings, generalSettings, otherPlayers,
+				localPlayerSettings);
+	}
+
+	private LocalPlayersettings createLocalPlayerSettings(
+			SettingsEntity settings) {
+		return new LocalPlayersettings(settings.getPlayerName());
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
@@ -107,8 +114,10 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	public void onClickMultiplayer(View v) {
 		SettingsEntity settings = readSettingsFromDb();
 		LocalSettings localSettings = createLocalSettings(settings);
+		LocalPlayersettings localPlayerSettings = createLocalPlayerSettings(settings);
 		GeneralSettings generalSettings = createGeneralSettings(settings);
-		ActivityLauncher.startRoom(this, localSettings, generalSettings);
+		ActivityLauncher.startRoom(this, localSettings, generalSettings,
+				localPlayerSettings);
 	}
 
 	private SettingsEntity readSettingsFromDb() {

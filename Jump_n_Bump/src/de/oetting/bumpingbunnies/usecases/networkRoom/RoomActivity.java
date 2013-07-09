@@ -39,6 +39,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNet
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
@@ -324,16 +325,21 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public void launchGame(GeneralSettings generalSettings) {
 
-		LocalSettings localSettings = (LocalSettings) getIntent().getExtras()
-				.get(ActivityLauncher.LOCAL_SETTINGS);
+		LocalSettings localSettings = createLocalSettingsFromIntent();
+		LocalPlayersettings localPlayerSettings = createLocalPlayerSettingsFromIntent();
 		int myPlayerId = this.playersAA.getMyself().getPlayerProperties()
 				.getPlayerId();
 		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations(myPlayerId);
 		Configuration config = new Configuration(localSettings,
-				generalSettings, otherPlayers);
+				generalSettings, otherPlayers, localPlayerSettings);
 		GameStartParameter parameter = GameParameterFactory.createParameter(
 				myPlayerId, config);
 		ActivityLauncher.launchGame(this, parameter);
+	}
+
+	private LocalSettings createLocalSettingsFromIntent() {
+		return (LocalSettings) getIntent().getExtras().get(
+				ActivityLauncher.LOCAL_SETTINGS);
 	}
 
 	private JsonWrapper createJsonGeneralSettings(MessageParser parser) {
@@ -347,6 +353,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private GeneralSettings createGeneralSettingsFromIntent() {
 		return (GeneralSettings) getIntent().getExtras().get(
 				ActivityLauncher.GENERAL_SETTINGS);
+	}
+
+	private LocalPlayersettings createLocalPlayerSettingsFromIntent() {
+		return (LocalPlayersettings) getIntent().getExtras().get(
+				ActivityLauncher.LOCAL_PLAYER_SETTINGS);
 	}
 
 	public int getNextPlayerId() {

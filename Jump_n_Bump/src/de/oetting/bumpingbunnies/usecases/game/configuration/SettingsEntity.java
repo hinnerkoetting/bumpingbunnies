@@ -6,14 +6,16 @@ public class SettingsEntity {
 	private final int zoom;
 	private final int numberPlayer;
 	private final int speed;
+	private final String playerName;
 
 	public SettingsEntity(InputConfiguration inputConfiguration, int zoom,
-			int numberPlayer, int speed) {
+			int numberPlayer, int speed, String playerName) {
 		super();
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
 		this.numberPlayer = numberPlayer;
 		this.speed = speed;
+		this.playerName = playerName;
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -30,6 +32,10 @@ public class SettingsEntity {
 
 	public int getSpeed() {
 		return this.speed;
+	}
+
+	public String getPlayerName() {
+		return this.playerName;
 	}
 
 }

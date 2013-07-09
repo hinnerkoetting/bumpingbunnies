@@ -22,17 +22,15 @@ public class PlayerConfigFactory {
 
 	public static AllPlayerConfig create(GameStartParameter parameter,
 			World world, GameView gameView,
-			AbstractOtherPlayersFactory otherPlayerFactory,
-			Configuration configuration) {
-		int myPlayerId = findTabletPlayerId(parameter);
-		int speed = configuration.getGeneralSettings().getSpeedSetting();
-		Player myPlayer = findMyPlayer(myPlayerId, world, speed);
+			AbstractOtherPlayersFactory otherPlayerFactory) {
+
+		Player myPlayer = findMyPlayer(parameter, world);
 		world.addPlayer(myPlayer);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
 		PlayerMovementController myPlayerMovementController = createMovementController(
 				myPlayer, world);
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
-				otherPlayerFactory, myPlayerId, world, configuration, speed);
+				otherPlayerFactory, world, parameter.getConfiguration());
 		AllPlayerConfig config = new AllPlayerConfig(
 				myPlayerMovementController, otherPlayerconfigs, gameView,
 				world, calculations);
@@ -45,8 +43,9 @@ public class PlayerConfigFactory {
 	}
 
 	private static List<PlayerConfig> findOtherPlayers(
-			AbstractOtherPlayersFactory otherPlayerFactory, int myPlayerId,
-			World world, Configuration configuration, int speed) {
+			AbstractOtherPlayersFactory otherPlayerFactory, World world,
+			Configuration configuration) {
+		int speed = configuration.getGeneralSettings().getSpeedSetting();
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
 		PlayerFactory playerfactory = new PlayerFactory(speed);
 		for (OpponentConfiguration config : configuration.getOtherPlayers()) {
@@ -73,12 +72,13 @@ public class PlayerConfigFactory {
 		return PlayerMovementFactory.create(p, world);
 	}
 
-	private static Player findMyPlayer(int myPlayerId, World world, int speed) {
+	private static Player findMyPlayer(GameStartParameter gameParameter,
+			World world) {
+		int speed = gameParameter.getConfiguration().getGeneralSettings()
+				.getSpeedSetting();
 		PlayerFactory playerfactory = new PlayerFactory(speed);
-		return playerfactory.createPlayer(myPlayerId, "You");
-	}
-
-	private static int findTabletPlayerId(GameStartParameter parameter) {
-		return parameter.getPlayerId();
+		return playerfactory.createPlayer(gameParameter.getPlayerId(),
+				gameParameter.getConfiguration().getLocalPlayerSettings()
+						.getPlayerName());
 	}
 }
