@@ -13,6 +13,15 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
+/**
+ * All game logic and drawing of the game is executed in this thread.<br>
+ * During each loop it will: <li>
+ * It will call the {@link WorldController} for gamelogic.</li> <br>
+ * <li>The {@link Drawer} is called to draw</li><br>
+ * <li>It will handle fps</li
+ * 
+ * 
+ */
 public class GameThread extends Thread implements SurfaceHolder.Callback,
 		GameScreenSizeChangeListener {
 
@@ -20,8 +29,8 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 			.getLogger(GameThread.class);
 	private final Drawer drawer;
 	private final WorldController worldController;
+	private final GameThreadState state;
 	private SurfaceHolder holder;
-	private GameThreadState state;
 
 	private boolean running;
 	private boolean isDrawingPossible;
