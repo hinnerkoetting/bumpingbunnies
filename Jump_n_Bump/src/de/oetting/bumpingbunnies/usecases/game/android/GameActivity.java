@@ -77,15 +77,13 @@ public class GameActivity extends Activity {
 		conditionalRestoreState();
 		startNetworkThreads();
 		this.gameThread.start();
-		startGameSound();
+		initGameSound();
 	}
 
-	private void startGameSound() {
+	private void initGameSound() {
 		this.backgroundMusic = MediaPlayer.create(GameActivity.this,
 				R.raw.bad_bunnies160);
 		this.backgroundMusic.setLooping(true);
-		this.backgroundMusic.start();
-
 	}
 
 	private void startNetworkThreads() {
@@ -229,13 +227,14 @@ public class GameActivity extends Activity {
 		super.onResume();
 
 		this.gameThread.setRunning(true);
-
+		this.backgroundMusic.start();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		this.gameThread.setRunning(false);
+		this.backgroundMusic.pause();
 	}
 
 	@Override
@@ -248,6 +247,7 @@ public class GameActivity extends Activity {
 		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
 			receiver.cancel();
 		}
+		this.backgroundMusic.stop();
 	}
 
 	public void onClickInputTypeCb() {
