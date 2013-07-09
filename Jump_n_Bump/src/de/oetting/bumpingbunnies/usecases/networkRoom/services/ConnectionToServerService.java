@@ -6,10 +6,16 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.DefaultNetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
+import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
@@ -32,9 +38,24 @@ public class ConnectionToServerService implements ConnectionToServer {
 	@Override
 	public void onConnectionToServer() {
 		SocketStorage.getSingleton().addSocket(this.socket);
-
+		sendMyPlayerName();
 		addObserver();
 		this.networkReceiver.start();
+	}
+
+	private void sendMyPlayerName() {
+		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
+				.createNetworkSender(this.socket);
+		LocalPlayersettings localPlayerSettings = this.roomActivity
+				.createLocalPlayerSettingsFromIntent();
+		JsonWrapper message = createMessage(localPlayerSettings);
+		networkSender.sendMessage(message);
+	}
+
+	private JsonWrapper createMessage(LocalPlayersettings localPlayerSettings) {
+		MessageParser parser = MessageParserFactory.create();
+		return new JsonWrapper(MessageIds.SEND_CLIENT_LOCAL_PLAYER_SETTINGS,
+				parser.encodeMessage(localPlayerSettings));
 	}
 
 	private void addObserver() {

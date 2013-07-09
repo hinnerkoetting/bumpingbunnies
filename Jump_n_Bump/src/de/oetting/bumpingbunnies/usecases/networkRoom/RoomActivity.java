@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.networkRoom;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
@@ -50,6 +52,7 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServe
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.OnBroadcastReceived;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback,
@@ -67,6 +70,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private int playerCounter = 0;
 	private ConnectionToServer connectedToServerService;
+	private List<ConnectionToClientService> connectionToClientServices = new LinkedList<ConnectionToClientService>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +208,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
-		new ConnectionToClientService(this).onConnectToClient(socket);
+		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory
+				.create(this, socket, new NetworkToGameDispatcher());
+		this.connectionToClientServices.add(connectionToClientService);
+		connectionToClientService.onConnectToClient(socket);
 		enableStartButton();
 	}
 
@@ -356,7 +363,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 				ActivityLauncher.GENERAL_SETTINGS);
 	}
 
-	private LocalPlayersettings createLocalPlayerSettingsFromIntent() {
+	public LocalPlayersettings createLocalPlayerSettingsFromIntent() {
 		return (LocalPlayersettings) getIntent().getExtras().get(
 				ActivityLauncher.LOCAL_PLAYER_SETTINGS);
 	}

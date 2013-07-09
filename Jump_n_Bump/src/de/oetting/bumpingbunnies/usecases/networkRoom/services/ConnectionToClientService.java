@@ -6,12 +6,16 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
+import de.oetting.bumpingbunnies.usecases.game.communication.DefaultNetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
+import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomEntry;
@@ -20,17 +24,41 @@ public class ConnectionToClientService {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConnectionToClientService.class);
-	private RoomActivity roomActivity;
-	private MessageParser parser;
+	private final RoomActivity roomActivity;
+	private final MessageParser parser;
+	private final NetworkReceiver networkReceiver;
+	private MySocket socket;
 
-	public ConnectionToClientService(RoomActivity roomActivity) {
+	public ConnectionToClientService(RoomActivity roomActivity,
+			NetworkReceiver networkReceiver) {
 		super();
 		this.roomActivity = roomActivity;
+		this.networkReceiver = networkReceiver;
 		this.parser = MessageParserFactory.create();
 	}
 
 	public void onConnectToClient(MySocket socket) {
-		manageConnectedClient(socket);
+		this.socket = socket;
+		addObserver();
+		this.networkReceiver.start();
+	}
+
+	private void addObserver() {
+		NetworkToGameDispatcher gameDispatcher = this.networkReceiver
+				.getGameDispatcher();
+		gameDispatcher.addObserver(
+				MessageIds.SEND_CLIENT_LOCAL_PLAYER_SETTINGS,
+				new DefaultNetworkListener<LocalPlayersettings>(
+						LocalPlayersettings.class) {
+
+					@Override
+					public void receiveMessage(LocalPlayersettings message) {
+						ConnectionToClientService.this.networkReceiver.cancel();
+						manageConnectedClient(
+								ConnectionToClientService.this.socket,
+								message.getPlayerName());
+					}
+				});
 	}
 
 	private void notifyExistingClients(PlayerProperties playerProperties) {
@@ -46,15 +74,14 @@ public class ConnectionToClientService {
 		}
 	}
 
-	private void manageConnectedClient(MySocket socket) {
+	private void manageConnectedClient(MySocket socket, String playerName) {
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 				.createNetworkSender(socket);
 		notifyAboutExistingPlayers(socket, networkSender);
 
 		int nextPlayerId = getNextPlayerId();
-		// TODO
 		PlayerProperties playerProperties = new PlayerProperties(nextPlayerId,
-				"client " + nextPlayerId);
+				playerName);
 		notifyExistingClients(playerProperties);
 		sendClientPlayer(networkSender, nextPlayerId);
 		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
@@ -101,6 +128,10 @@ public class ConnectionToClientService {
 
 	private int getNextPlayerId() {
 		return this.roomActivity.getNextPlayerId();
+	}
+
+	public void close() {
+		// TODO
 	}
 
 }
