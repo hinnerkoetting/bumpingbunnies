@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+
+    <TextView
+        android:id="@+id/result_player_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/result_entry_height"
+        android:textSize="@dimen/result_entry_text_size"
+        android:text="@string/placeholder" />
+
+    <TextView
+        android:id="@+id/result_player_score"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/result_entry_height"
+        android:gravity="right"
+        android:layout_alignParentRight="true"
+        android:text="@string/placeholder_int"
+        android:textSize="@dimen/result_entry_text_size"
+        android:paddingRight="25dp" />
+
+</RelativeLayout>

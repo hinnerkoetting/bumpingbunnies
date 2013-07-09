@@ -52,5 +52,7 @@
     <string name="speed">Geschwindigkeit</string>
     <string name="connect">Verbinden</string>
     <string name="result">Ergebnis</string>
+    <string name="placeholder">Platzhalter</string>
+    <string name="placeholder_int">123</string>
 
 </resources>

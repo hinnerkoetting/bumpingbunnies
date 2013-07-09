@@ -22,7 +22,7 @@ public class ResultArrayAdapter extends ArrayAdapter<ResultEntry> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Activity context = (Activity) getContext();
 		LayoutInflater layoutInflater = context.getLayoutInflater();
-		View entryView = layoutInflater.inflate(R.layout.result_entry, parent,
+		View entryView = layoutInflater.inflate(R.layout.result_screen_one_entry, parent,
 				false);
 		TextView id = (TextView) entryView
 				.findViewById(R.id.result_player_score);
