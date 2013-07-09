@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 
 public class OtherPlayerConfiguration implements Parcelable {
@@ -52,6 +52,10 @@ public class OtherPlayerConfiguration implements Parcelable {
 
 	public int getPlayerId() {
 		return this.otherPlayerState.getPlayerId();
+	}
+
+	public String getName() {
+		return this.otherPlayerState.getPlayerName();
 	}
 
 }

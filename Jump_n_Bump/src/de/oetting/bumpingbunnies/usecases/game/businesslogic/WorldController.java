@@ -114,8 +114,8 @@ public class WorldController {
 		List<ResultEntry> players = new ArrayList<ResultEntry>(
 				this.playermovements.size());
 		for (PlayerMovementController movement : this.playermovements) {
-			// TODO
-			ResultEntry entry = new ResultEntry("test", movement.getPlayer()
+			Player player = movement.getPlayer();
+			ResultEntry entry = new ResultEntry(player.getName(), player
 					.getState().getScore(), movement.getPlayer().getColor());
 			players.add(entry);
 		}

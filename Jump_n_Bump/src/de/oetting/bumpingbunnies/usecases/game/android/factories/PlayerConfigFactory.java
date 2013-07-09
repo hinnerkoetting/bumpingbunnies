@@ -50,7 +50,8 @@ public class PlayerConfigFactory {
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
 		PlayerFactory playerfactory = new PlayerFactory(speed);
 		for (OtherPlayerConfiguration config : configuration.getOtherPlayers()) {
-			Player p = playerfactory.createPlayer(config.getPlayerId());
+			Player p = playerfactory.createPlayer(config.getPlayerId(),
+					config.getName());
 			world.addPlayer(p);
 			list.add(createPlayerConfig(p, world, config, speed));
 		}
@@ -74,7 +75,7 @@ public class PlayerConfigFactory {
 
 	private static Player findMyPlayer(int myPlayerId, World world, int speed) {
 		PlayerFactory playerfactory = new PlayerFactory(speed);
-		return playerfactory.createPlayer(myPlayerId);
+		return playerfactory.createPlayer(myPlayerId, "You");
 	}
 
 	private static int findTabletPlayerId(GameStartParameter parameter) {

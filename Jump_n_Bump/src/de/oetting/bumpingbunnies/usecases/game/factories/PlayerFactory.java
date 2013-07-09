@@ -4,15 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Color;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 public class PlayerFactory {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerFactory.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(PlayerFactory.class);
 
 	private int speed;
 
@@ -21,34 +22,35 @@ public class PlayerFactory {
 		this.speed = speed;
 	}
 
-	public List<Player> createAllPlayers(int number) {
+	public List<Player> createAllPlayers(int number, String name) {
 		List<Player> allPlayers = new LinkedList<Player>();
 		for (int i = 0; i < number; i++) {
-			allPlayers.add(createPlayer(i));
+			allPlayers.add(createPlayer(i, name));
 		}
 		return allPlayers;
 	}
 
-	public Player createPlayer(int i) {
+	public Player createPlayer(int i, String name) {
 		LOGGER.debug("Creating player %d", i);
 		switch (i) {
 		case 0:
-			return createPlayer1();
+			return createPlayer1(name);
 		case 1:
-			return createPlayer2();
+			return createPlayer2(name);
 		case 2:
-			return createPlayer3();
+			return createPlayer3(name);
 		case 3:
-			return createPlayer4();
+			return createPlayer4(name);
 		default:
 			throw new IllegalArgumentException("Too many players");
 		}
 
 	}
 
-	public Player createPlayer1() {
+	public Player createPlayer1(String name) {
 		int id = 0;
-		Player p = new Player(new Player(id, this.speed), this.speed, id);
+		Player p = new Player(new Player(id, name, this.speed), id, name,
+				this.speed);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (0.2 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.9 * ModelConstants.MAX_VALUE));
@@ -57,9 +59,10 @@ public class PlayerFactory {
 		return p;
 	}
 
-	public Player createPlayer2() {
+	public Player createPlayer2(String name) {
 		int id = 1;
-		Player p = new Player(new Player(id, this.speed), this.speed, id);
+		Player p = new Player(new Player(id, name, this.speed), id, name,
+				this.speed);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (0.4 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
@@ -68,9 +71,10 @@ public class PlayerFactory {
 		return p;
 	}
 
-	public Player createPlayer3() {
+	public Player createPlayer3(String name) {
 		int id = 2;
-		Player p = new Player(new Player(id, this.speed), this.speed, id);
+		Player p = new Player(new Player(id, name, this.speed), id, name,
+				this.speed);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (0.9 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
@@ -79,9 +83,10 @@ public class PlayerFactory {
 		return p;
 	}
 
-	public Player createPlayer4() {
+	public Player createPlayer4(String name) {
 		int id = 3;
-		Player p = new Player(new Player(id, this.speed), this.speed, id);
+		Player p = new Player(new Player(id, name, this.speed), id, name,
+				this.speed);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (0.6 * ModelConstants.MAX_VALUE));
 		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
@@ -91,7 +96,8 @@ public class PlayerFactory {
 	}
 
 	public Player createPlayerAtPosition(int x, int y) {
-		Player p = new Player(new Player(-1, this.speed), this.speed, -1);
+		Player p = new Player(new Player(-1, "", this.speed), -1, "",
+				this.speed);
 		p.setCenterX(x);
 		p.setCenterY(y);
 		return p;

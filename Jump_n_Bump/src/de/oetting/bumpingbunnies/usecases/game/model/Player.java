@@ -14,13 +14,15 @@ public class Player implements GameObject {
 	private final int halfWidth;
 	private final int halfHeight;
 	private final int id;
+	private final String name;
 
 	private PlayerState state;
 	private Player simulatedObject;
 
 	private Rect rect;
 
-	public Player(int id, int speedFaktor) {
+	public Player(int id, String name, int speedFaktor) {
+		this.name = name;
 		this.speedFaktor = speedFaktor;
 		this.rect = new Rect();
 		this.state = new PlayerState(id);
@@ -31,8 +33,8 @@ public class Player implements GameObject {
 		this.collisionHandling = new CollisionHandling();
 	}
 
-	public Player(Player simulatedObject, int speedFaktor, int id) {
-		this(id, speedFaktor);
+	public Player(Player simulatedObject, int id, String name, int speedFaktor) {
+		this(id, name, speedFaktor);
 		this.simulatedObject = simulatedObject;
 	}
 
@@ -249,6 +251,10 @@ public class Player implements GameObject {
 
 	public void setFacingLeft(boolean facingLeft) {
 		this.state.setFacingLeft(facingLeft);
+	}
+
+	public String getName() {
+		return this.name;
 	}
 
 }
