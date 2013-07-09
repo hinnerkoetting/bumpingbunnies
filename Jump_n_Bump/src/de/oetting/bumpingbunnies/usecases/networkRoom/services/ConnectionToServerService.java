@@ -10,6 +10,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class ConnectionToServerService implements ConnectionToServer {
@@ -67,18 +68,20 @@ public class ConnectionToServerService implements ConnectionToServer {
 					}
 				});
 		gameDispatcher.addObserver(MessageIds.SEND_OTHER_PLAYER_ID,
-				new DefaultNetworkListener<Integer>(Integer.class) {
+				new DefaultNetworkListener<PlayerProperties>(
+						PlayerProperties.class) {
 
 					@Override
-					public void receiveMessage(Integer object) {
+					public void receiveMessage(PlayerProperties object) {
 						addPlayerEntry(ConnectionToServerService.this.socket,
 								object, 0);
 					}
 				});
 	}
 
-	protected void addPlayerEntry(MySocket serverSocket, Integer object, int i) {
-		this.roomActivity.addPlayerEntry(serverSocket, object, i);
+	protected void addPlayerEntry(MySocket serverSocket,
+			PlayerProperties properties, int socketIndex) {
+		this.roomActivity.addPlayerEntry(serverSocket, properties, socketIndex);
 	}
 
 	protected void addMyPlayerRoomEntry(int myPlayerId) {

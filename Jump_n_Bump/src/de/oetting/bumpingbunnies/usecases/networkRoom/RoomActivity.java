@@ -223,12 +223,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		return otherPlayers;
 	}
 
-	public void addPlayerEntry(MySocket socket, int nextPlayerId,
-			int socketIndex) {
-
-		LOGGER.info("adding player info %d", nextPlayerId);
-		RoomEntry entry = new RoomEntry(new PlayerProperties(nextPlayerId,
-				"Player " + nextPlayerId), socket, socketIndex);
+	public void addPlayerEntry(MySocket socket,
+			PlayerProperties playerProperties, int socketIndex) {
+		int playerId = playerProperties.getPlayerId();
+		LOGGER.info("adding player info %d", playerId);
+		RoomEntry entry = new RoomEntry(new PlayerProperties(playerId,
+				playerProperties.getPlayerName()), socket, socketIndex);
 		addPlayerEntry(entry);
 	}
 
@@ -267,8 +267,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 			@Override
 			public void run() {
+				LocalPlayersettings settings = createLocalPlayerSettingsFromIntent();
 				PlayerProperties singlePlayerProperties = new PlayerProperties(
-						myPlayerId, "Me");
+						myPlayerId, settings.getPlayerName());
 				RoomActivity.this.playersAA.addMe(new SinglePlayerRoomEntry(
 						singlePlayerProperties));
 				RoomActivity.this.playersAA.notifyDataSetChanged();

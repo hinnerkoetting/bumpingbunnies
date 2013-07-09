@@ -12,6 +12,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
+import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomEntry;
 
@@ -32,15 +33,15 @@ public class ConnectionToClientService {
 		manageConnectedClient(socket);
 	}
 
-	private void notifyExistingClients(int newPlayerId) {
+	private void notifyExistingClients(PlayerProperties playerProperties) {
 		LOGGER.info("Notifying existing clients about new player with id %d",
-				newPlayerId);
+				playerProperties.getPlayerId());
 		List<RoomEntry> allOtherPlayers = this.roomActivity
 				.getAllOtherPlayers();
 		for (RoomEntry otherPlayer : allOtherPlayers) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 					.createNetworkSender(otherPlayer.getSocket());
-			JsonWrapper message = createPlayerInfoMessage(newPlayerId);
+			JsonWrapper message = createPlayerInfoMessage(playerProperties);
 			networkSender.sendMessage(message);
 		}
 	}
@@ -49,11 +50,15 @@ public class ConnectionToClientService {
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 				.createNetworkSender(socket);
 		notifyAboutExistingPlayers(socket, networkSender);
+
 		int nextPlayerId = getNextPlayerId();
-		notifyExistingClients(nextPlayerId);
+		// TODO
+		PlayerProperties playerProperties = new PlayerProperties(nextPlayerId,
+				"client " + nextPlayerId);
+		notifyExistingClients(playerProperties);
 		sendClientPlayer(networkSender, nextPlayerId);
 		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
-		this.roomActivity.addPlayerEntry(socket, nextPlayerId, socketIndex);
+		this.roomActivity.addPlayerEntry(socket, playerProperties, socketIndex);
 	}
 
 	private void notifyAboutExistingPlayers(MySocket socket,
@@ -80,13 +85,13 @@ public class ConnectionToClientService {
 	}
 
 	private JsonWrapper createPlayerInfoMessage(RoomEntry entry) {
-		return createPlayerInfoMessage(Integer.valueOf(entry
-				.getPlayerConfiguration().getPlayerId()));
+		return createPlayerInfoMessage(entry.getPlayerConfiguration());
 	}
 
-	private JsonWrapper createPlayerInfoMessage(int playerId) {
+	private JsonWrapper createPlayerInfoMessage(
+			PlayerProperties playerProperties) {
 		return new JsonWrapper(MessageIds.SEND_OTHER_PLAYER_ID,
-				this.parser.encodeMessage(Integer.valueOf(playerId)));
+				this.parser.encodeMessage(playerProperties));
 	}
 
 	private JsonWrapper createJsonPlayerId(int playerId) {

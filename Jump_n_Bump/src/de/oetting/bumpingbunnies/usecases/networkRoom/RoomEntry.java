@@ -34,6 +34,7 @@ public class RoomEntry {
 
 	@Override
 	public String toString() {
-		return Integer.toString(this.playerProperties.getPlayerId());
+		return this.playerProperties.getPlayerId() + " "
+				+ this.playerProperties.getPlayerName();
 	}
 }
