@@ -18,36 +18,17 @@
             android:layout_height="wrap_content"
             layout="@layout/start_buttons" />
 
-      
-
-        <LinearLayout
+        <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            layout="@layout/menu_ai_type" />
 
-            <include
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/menu_input_type" />
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/menu_world" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <include
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    layout="@layout/menu_ai_type" />
-
-                <include
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    layout="@layout/menu_world" />
-
-                <include layout="@layout/other_settings" />
-            </LinearLayout>
-        </LinearLayout>
+        
     </LinearLayout>
 
 </ScrollView>

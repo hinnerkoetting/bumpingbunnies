@@ -9,6 +9,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.resultScreen.ResultActivity;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
+import de.oetting.bumpingbunnies.usecases.settings.SettingsActivity;
 import de.oetting.bumpingbunnies.usecases.start.StartActivity;
 
 public class ActivityLauncher {
@@ -23,6 +24,11 @@ public class ActivityLauncher {
 	public static void launchGame(Activity origin, GameStartParameter parameter) {
 		Intent intent = new Intent(origin, GameActivity.class);
 		intent.putExtra(GAMEPARAMETER, parameter);
+		origin.startActivity(intent);
+	}
+
+	public static void startSettings(Activity origin) {
+		Intent intent = new Intent(origin, SettingsActivity.class);
 		origin.startActivity(intent);
 	}
 

@@ -1,16 +1,16 @@
 package de.oetting.bumpingbunnies.usecases.start.sql;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
 
 public class DummySettingsDao implements SettingsStorage {
 
 	@Override
-	public LocalSettings readStoredSettings() {
+	public SettingsEntity readStoredSettings() {
 		return null;
 	}
 
 	@Override
-	public void store(LocalSettings settings) {
+	public void store(SettingsEntity settings) {
 	}
 
 	@Override

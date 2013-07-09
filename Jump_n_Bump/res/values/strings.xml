@@ -4,17 +4,13 @@
     <string name="app_name">Bumping Bunnies</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_start">Bumping Bunnies</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="known_hosts">Bekannte Server</string>
     <string name="find_devices">Server finden</string>
-    <string name="make_visible">Hosten</string>
+    <string name="make_visible">Host</string>
     <string name="app_name_solo">Bumping Bunnies Solo</string>
-    <string name="arrow_up">\u2191</string>
-    <string name="arrow_down">\u2193</string>
-    <string name="arrow_left">\u2190</string>
-    <string name="arrow_right">\u2192</string>
+   
     <string name="keyboard">Classic Keyboard</string>
     <string name="analog">Analog</string>
     <string name="touch">Touch</string>
@@ -44,7 +40,7 @@
     <string name="bluetooth">Bluetooth</string>
     <string name="wlan">W-LAN</string>
     <string name="room_start">Start</string>
-    <string name="app_name_room">Raum</string>
+    <string name="app_name_room">Netzwerk</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="distributed_keyboard">Modern Keyboard</string>
     <string name="world_test">Test</string>
@@ -54,5 +50,13 @@
     <string name="result">Ergebnis</string>
     <string name="placeholder">Platzhalter</string>
     <string name="placeholder_int">123</string>
-
+    <string name="settings">Einstellungen</string>
+	
+    
+     <!-- do not change -->
+    <string name="arrow_up">\u2191</string>
+    <string name="arrow_down">\u2193</string>
+    <string name="arrow_left">\u2190</string>
+    <string name="arrow_right">\u2192</string>
+    <!--  until here -->
 </resources>

@@ -22,11 +22,10 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModusGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.factories.SingleplayerFactory;
@@ -38,17 +37,14 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(StartActivity.class);
-	private StartSettingsService settingsService;
 	private SettingsStorage settingsDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
-		this.settingsService = new StartSettingsService(this);
-		this.settingsService.initSettings();
 		this.settingsDao = new DummySettingsDao();
-		new AsyncDatabaseCreation().createWritableDatabase(this, this);
+		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 	}
 
 	@Override
@@ -58,6 +54,9 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		return true;
 	}
 
+	/**
+	 * Call from Actitity
+	 */
 	public void onClickSingleplayer(View v) {
 		Configuration configuration = createConfiguration();
 		GameStartParameter parameter = GameParameterFactory
@@ -66,16 +65,27 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		launchGame(parameter);
 	}
 
-	private Configuration createConfiguration() {
-		LocalSettings localSettings = createLocalSettings();
+	public void onClickSettings(View v) {
+		ActivityLauncher.startSettings(this);
+	}
 
-		GeneralSettings generalSettings = createGeneralSettings();
-		List<OpponentConfiguration> otherPlayers = createSpOtherPlayerConfiguration();
+	private Configuration createConfiguration() {
+		SettingsEntity settings = readSettingsFromDb();
+		LocalSettings localSettings = createLocalSettings(settings);
+
+		GeneralSettings generalSettings = createGeneralSettings(settings);
+		List<OpponentConfiguration> otherPlayers = createSpOtherPlayerConfiguration(settings);
 		return new Configuration(localSettings, generalSettings, otherPlayers);
 	}
 
-	private List<OpponentConfiguration> createSpOtherPlayerConfiguration() {
-		int numberPlayer = this.settingsService.getNumberOfPlayers();
+	private LocalSettings createLocalSettings(SettingsEntity settings) {
+		return new LocalSettings(settings.getInputConfiguration(),
+				settings.getZoom());
+	}
+
+	private List<OpponentConfiguration> createSpOtherPlayerConfiguration(
+			SettingsEntity settings) {
+		int numberPlayer = settings.getNumberPlayer();
 		List<OpponentConfiguration> list = new ArrayList<OpponentConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
 			list.add(new OpponentConfiguration(new SingleplayerFactory(
@@ -89,100 +99,45 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		ActivityLauncher.launchGame(this, parameter);
 	}
 
-	private InputConfiguration findSelectedInputConfiguration() {
-		RadioGroup inputGroup = findInputConfiguration();
-		return InputConfigurationGenerator
-				.createInputConfigurationFromRadioGroup(inputGroup);
-	}
-
 	private AiModus findSelectedAiMode() {
 		RadioGroup radioGroup = (RadioGroup) findViewById(R.id.start_ai_group);
 		return AiModusGenerator.createFromRadioGroup(radioGroup);
 	}
 
-	private WorldConfiguration findSelectedWorld() {
-		RadioGroup radioGroup = (RadioGroup) findViewById(R.id.start_world_group);
-		return WorldConfigurationGenerator
-				.createWorldConfigurationFromRadioGroup(radioGroup);
-	}
-
 	public void onClickMultiplayer(View v) {
-		LocalSettings localSettings = createLocalSettings();
-		GeneralSettings generalSettings = createGeneralSettings();
+		SettingsEntity settings = readSettingsFromDb();
+		LocalSettings localSettings = createLocalSettings(settings);
+		GeneralSettings generalSettings = createGeneralSettings(settings);
 		ActivityLauncher.startRoom(this, localSettings, generalSettings);
 	}
 
-	private LocalSettings createLocalSettings() {
-		InputConfiguration selectedInput = findSelectedInputConfiguration();
-
-		LocalSettings localSettings = new LocalSettings(selectedInput,
-				this.settingsService.getZoom());
-		return localSettings;
+	private SettingsEntity readSettingsFromDb() {
+		return this.settingsDao.readStoredSettings();
 	}
 
-	private GeneralSettings createGeneralSettings() {
-		WorldConfiguration world = findSelectedWorld();
-		int speed = this.settingsService.getSpeed();
-		GeneralSettings settings = new GeneralSettings(world, speed);
-		return settings;
+	private GeneralSettings createGeneralSettings(SettingsEntity settings) {
+		WorldConfiguration world = findWorldConfiguration();
+		int speed = settings.getSpeed();
+		GeneralSettings generalSettings = new GeneralSettings(world, speed);
+		return generalSettings;
+	}
+
+	private WorldConfiguration findWorldConfiguration() {
+		RadioGroup rg = (RadioGroup) findViewById(R.id.start_world_group);
+		return WorldConfigurationGenerator
+				.createWorldConfigurationFromRadioGroup(rg);
 	}
 
 	@Override
 	public void databaseCreated(SQLiteDatabase database) {
 		LOGGER.info("Db created");
 		this.settingsDao = new SettingsDao(database);
-		fillStoredSettings();
-	}
-
-	private void fillStoredSettings() {
-		LOGGER.info("Reading settings from database");
-		LocalSettings storedSettings = this.settingsDao.readStoredSettings();
-		if (storedSettings != null) {
-			restoreInputConfiguration(storedSettings);
-			restoreZoom(storedSettings);
-		} else {
-			LOGGER.info("no settings found");
-		}
-	}
-
-	private void restoreZoom(LocalSettings storedSettings) {
-		this.settingsService.setZoom(storedSettings.getZoom());
-	}
-
-	private void restoreInputConfiguration(LocalSettings storedSettings) {
-		RadioGroup inputconfiguration = findInputConfiguration();
-		InputConfiguration storedInputConfiguration = storedSettings
-				.getInputConfiguration();
-		InputConfigurationGenerator.selectInputConfiguration(
-				storedInputConfiguration, inputconfiguration);
-	}
-
-	private RadioGroup findInputConfiguration() {
-		return (RadioGroup) findViewById(R.id.start_input_group);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		storeSelectedLocalSettings();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		fillStoredSettings();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		this.settingsDao.close();
-	}
-
-	private void storeSelectedLocalSettings() {
-		LOGGER.info("storing local settings");
-		LocalSettings selectedSettings = createLocalSettings();
-		this.settingsDao.store(selectedSettings);
 	}
 
 }

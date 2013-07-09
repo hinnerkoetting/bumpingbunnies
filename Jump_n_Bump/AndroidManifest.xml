@@ -43,6 +43,10 @@
             android:name="de.oetting.bumpingbunnies.usecases.resultScreen.ResultActivity"
             android:label="@string/result"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="de.oetting.bumpingbunnies.usecases.settings.SettingsActivity"
+            android:label="@string/settings"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

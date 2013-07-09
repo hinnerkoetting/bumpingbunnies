@@ -5,19 +5,25 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickSingleplayer"
             android:text="@string/singleplayer" />
-        
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickMultiplayer"
             android:text="@string/multiplayer" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickSettings"
+            android:text="@string/settings" />
     </LinearLayout>
 
 </merge>

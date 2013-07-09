@@ -2,12 +2,17 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
+/**
+ * Which which are valid for all players.
+ * 
+ */
 public class GeneralSettings implements Parcelable {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(GeneralSettings.class);
+	private static Logger LOGGER = LoggerFactory
+			.getLogger(GeneralSettings.class);
 	public static final Parcelable.Creator<GeneralSettings> CREATOR = new Parcelable.Creator<GeneralSettings>() {
 		@Override
 		public GeneralSettings createFromParcel(Parcel source) {

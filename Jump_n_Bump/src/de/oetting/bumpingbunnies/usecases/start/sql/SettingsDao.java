@@ -3,15 +3,16 @@ package de.oetting.bumpingbunnies.usecases.start.sql;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import de.oetting.bumpingbunnies.configuration.gameStart.DefaultConfiguration;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
 
-public class SettingsDao implements SettingsStorage {
+public class SettingsDao implements SettingsStorage, SettingsConstants {
 
-	private final static String SETTINGS_TABLE = "local_settings";
-	private final static String ZOOM_COL = "zoom";
-	private final static String INPUT_COL = "input_configuration";
-
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SettingsDao.class);
 	private final SQLiteDatabase database;
 
 	public SettingsDao(SQLiteDatabase database) {
@@ -19,25 +20,34 @@ public class SettingsDao implements SettingsStorage {
 	}
 
 	@Override
-	public void store(LocalSettings settings) {
-		// there can only be one row entry so we delete the old entry and create
-		// a new one
+	public void store(SettingsEntity settings) {
 		this.database.beginTransaction();
-		this.database.delete(SETTINGS_TABLE, null, null);
-		ContentValues values = createDbValues(settings);
-		long errorId = this.database.insert(SETTINGS_TABLE, null, values);
-		if (errorId == -1) {
-			throw new IllegalStateException("error for " + settings.toString());
-		} else {
-			this.database.setTransactionSuccessful();
-		}
+		insertLocalSettings(settings);
+		this.database.setTransactionSuccessful();
 		this.database.endTransaction();
 	}
 
-	private ContentValues createDbValues(LocalSettings settings) {
+	private void insertLocalSettings(SettingsEntity settings) {
+		// there can only be one row entry so we delete the old entry and create
+		// a new one
+		this.database.delete(SETTINGS_TABLE, null, null);
+		ContentValues values = createDbValues(settings);
+		strictInsert(SETTINGS_TABLE, values);
+	}
+
+	private void strictInsert(String table, ContentValues values) {
+		long errorId = this.database.insert(SETTINGS_TABLE, null, values);
+		if (errorId == -1) {
+			throw new IllegalStateException("error for " + values.toString());
+		}
+	}
+
+	private ContentValues createDbValues(SettingsEntity settings) {
 		ContentValues values = new ContentValues();
 		values.put(ZOOM_COL, settings.getZoom());
 		values.put(INPUT_COL, settings.getInputConfiguration().toString());
+		values.put(NUMBER_PLAYER_COL, settings.getNumberPlayer());
+		values.put(SPEED_COL, settings.getSpeed());
 		return values;
 	}
 
@@ -47,27 +57,30 @@ public class SettingsDao implements SettingsStorage {
 	 * @return
 	 */
 	@Override
-	public LocalSettings readStoredSettings() {
-		Cursor query = this.database.query("local_settings", new String[] {
-				ZOOM_COL, INPUT_COL }, null, null, null, null, null);
+	public SettingsEntity readStoredSettings() {
+		Cursor query = this.database.query(SETTINGS_TABLE, new String[] {
+				ZOOM_COL, INPUT_COL, NUMBER_PLAYER_COL, SPEED_COL }, null,
+				null, null, null, null);
 		try {
 			query.moveToFirst();
 			if (!query.isAfterLast()) {
 				return readLocalSettings(query);
 			}
-			return null;
+			LOGGER.info("Retuning default entity settings");
+			return DefaultConfiguration.createDefaultEntity();
 		} finally {
 			query.close();
 		}
 	}
 
-	private LocalSettings readLocalSettings(Cursor cursor) {
+	private SettingsEntity readLocalSettings(Cursor cursor) {
 		int zoom = cursor.getInt(0);
 		String inputConfiguration = cursor.getString(1);
 		InputConfiguration inputEnum = InputConfiguration
 				.valueOf(inputConfiguration);
-
-		return new LocalSettings(inputEnum, zoom);
+		int numberPlayer = cursor.getInt(2);
+		int speed = cursor.getInt(3);
+		return new SettingsEntity(inputEnum, zoom, numberPlayer, speed);
 	}
 
 	@Override
