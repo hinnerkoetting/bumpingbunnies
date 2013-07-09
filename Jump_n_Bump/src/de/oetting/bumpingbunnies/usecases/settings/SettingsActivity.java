@@ -46,6 +46,12 @@ public class SettingsActivity extends Activity implements OnDatabaseCreation {
 		storeLocalSettings();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		this.settingsDao.close();
+	}
+
 	private void fillStoredSettings() {
 		LOGGER.info("Reading settings from database");
 		SettingsEntity storedSettings = this.settingsDao.readStoredSettings();
