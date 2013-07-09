@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.result.model;
+package de.oetting.bumpingbunnies.usecases.resultScreen.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,18 +30,18 @@ public class ResultWrapper implements Parcelable {
 		}
 	};
 
-	private final List<ResultEntry> results;
+	private final List<ResultPlayerEntry> results;
 
-	public ResultWrapper(List<ResultEntry> results) {
+	public ResultWrapper(List<ResultPlayerEntry> results) {
 		super();
 		this.results = results;
 	}
 
 	public ResultWrapper(Parcel in) {
 		int number = in.readInt();
-		this.results = new ArrayList<ResultEntry>(number);
+		this.results = new ArrayList<ResultPlayerEntry>(number);
 		for (int i = 0; i < number; i++) {
-			ResultEntry entry = new ResultEntry(in);
+			ResultPlayerEntry entry = new ResultPlayerEntry(in);
 			this.results.add(entry);
 		}
 	}
@@ -59,7 +59,7 @@ public class ResultWrapper implements Parcelable {
 		}
 	}
 
-	public List<ResultEntry> getResults() {
+	public List<ResultPlayerEntry> getResults() {
 		return this.results;
 	}
 

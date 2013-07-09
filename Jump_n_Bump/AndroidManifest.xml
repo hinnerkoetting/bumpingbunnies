@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.oetting.bumpingbunnies.usecases.result.ResultActivity"
+            android:name="de.oetting.bumpingbunnies.usecases.resultScreen.ResultActivity"
             android:label="@string/result"
             android:windowSoftInputMode="stateHidden" />
     </application>

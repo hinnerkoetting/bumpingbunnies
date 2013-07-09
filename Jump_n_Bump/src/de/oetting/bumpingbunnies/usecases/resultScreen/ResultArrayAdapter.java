@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.result;
+package de.oetting.bumpingbunnies.usecases.resultScreen;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.result.model.ResultEntry;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 
-public class ResultArrayAdapter extends ArrayAdapter<ResultEntry> {
+public class ResultArrayAdapter extends ArrayAdapter<ResultPlayerEntry> {
 
-	public ResultArrayAdapter(Context context, List<ResultEntry> objects) {
+	public ResultArrayAdapter(Context context, List<ResultPlayerEntry> objects) {
 		super(context, -1, objects);
 	}
 
@@ -28,7 +28,7 @@ public class ResultArrayAdapter extends ArrayAdapter<ResultEntry> {
 				.findViewById(R.id.result_player_score);
 		TextView name = (TextView) entryView
 				.findViewById(R.id.result_player_name);
-		ResultEntry item = getItem(position);
+		ResultPlayerEntry item = getItem(position);
 		id.setTextColor(item.getPlayerColor());
 		name.setTextColor(item.getPlayerColor());
 		id.setText(Integer.toString(item.getPlayerScore()));

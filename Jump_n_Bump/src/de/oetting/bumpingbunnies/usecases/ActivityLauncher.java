@@ -7,8 +7,8 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
-import de.oetting.bumpingbunnies.usecases.result.ResultActivity;
-import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
+import de.oetting.bumpingbunnies.usecases.resultScreen.ResultActivity;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 import de.oetting.bumpingbunnies.usecases.start.StartActivity;
 
 public class ActivityLauncher {

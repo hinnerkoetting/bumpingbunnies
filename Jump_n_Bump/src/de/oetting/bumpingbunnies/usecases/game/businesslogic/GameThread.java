@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
 public class GameThread extends Thread implements SurfaceHolder.Callback,
 		GameScreenSizeChangeListener {

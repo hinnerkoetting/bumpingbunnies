@@ -9,8 +9,8 @@ import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
-import de.oetting.bumpingbunnies.usecases.result.model.ResultEntry;
-import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
 public class WorldController {
 	private List<InputService> inputServices;
@@ -111,11 +111,11 @@ public class WorldController {
 	}
 
 	public ResultWrapper extractPlayerScores() {
-		List<ResultEntry> players = new ArrayList<ResultEntry>(
+		List<ResultPlayerEntry> players = new ArrayList<ResultPlayerEntry>(
 				this.playermovements.size());
 		for (PlayerMovementController movement : this.playermovements) {
 			Player player = movement.getPlayer();
-			ResultEntry entry = new ResultEntry(player.getName(), player
+			ResultPlayerEntry entry = new ResultPlayerEntry(player.getName(), player
 					.getState().getScore(), movement.getPlayer().getColor());
 			players.add(entry);
 		}

@@ -1,24 +1,24 @@
-package de.oetting.bumpingbunnies.usecases.result.model;
+package de.oetting.bumpingbunnies.usecases.resultScreen.model;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 @SuppressLint("ParcelCreator")
-public class ResultEntry implements Parcelable {
+public class ResultPlayerEntry implements Parcelable {
 
 	private final String playerName;
 	private final int playerScore;
 	private final int playerColor;
 
-	public ResultEntry(String playerName, int playerScore, int playerColor) {
+	public ResultPlayerEntry(String playerName, int playerScore, int playerColor) {
 		super();
 		this.playerName = playerName;
 		this.playerScore = playerScore;
 		this.playerColor = playerColor;
 	}
 
-	public ResultEntry(Parcel in) {
+	public ResultPlayerEntry(Parcel in) {
 		this.playerName = in.readString();
 		this.playerScore = in.readInt();
 		this.playerColor = in.readInt();

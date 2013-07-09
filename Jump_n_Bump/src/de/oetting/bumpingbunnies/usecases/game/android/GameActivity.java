@@ -37,7 +37,7 @@ import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
-import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
 /**

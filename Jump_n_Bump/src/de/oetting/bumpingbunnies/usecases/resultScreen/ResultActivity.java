@@ -1,11 +1,11 @@
-package de.oetting.bumpingbunnies.usecases.result;
+package de.oetting.bumpingbunnies.usecases.resultScreen;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
-import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
 public class ResultActivity extends Activity {
 
