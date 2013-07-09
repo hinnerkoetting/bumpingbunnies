@@ -10,8 +10,6 @@ import java.util.Enumeration;
 import java.util.List;
 
 import android.content.Context;
-import android.net.DhcpInfo;
-import android.net.wifi.WifiManager;
 import de.oetting.bumpingbunnies.communication.UdpSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -51,27 +49,27 @@ public class SendBroadcastFactory {
 		return sockets;
 	}
 
-	/**
-	 * Requires wifi access permission
-	 * 
-	 * @param context
-	 * @return
-	 * @throws IOException
-	 */
-	private static InetAddress findBroadcastAddress(Context context)
-			throws IOException {
-		WifiManager wifi = (WifiManager) context
-				.getSystemService(Context.WIFI_SERVICE);
-		DhcpInfo dhcp = wifi.getDhcpInfo();
-		// handle null somehow
-
-		int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
-		byte[] quads = new byte[4];
-		for (int k = 0; k < 4; k++) {
-			quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
-		}
-		return InetAddress.getByAddress(quads);
-	}
+	// /**
+	// * Requires wifi access permission
+	// *
+	// * @param context
+	// * @return
+	// * @throws IOException
+	// */
+	// private static InetAddress findBroadcastAddress(Context context)
+	// throws IOException {
+	// WifiManager wifi = (WifiManager) context
+	// .getSystemService(Context.WIFI_SERVICE);
+	// DhcpInfo dhcp = wifi.getDhcpInfo();
+	// // handle null somehow
+	//
+	// int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
+	// byte[] quads = new byte[4];
+	// for (int k = 0; k < 4; k++) {
+	// quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
+	// }
+	// return InetAddress.getByAddress(quads);
+	// }
 
 	private static UdpSocket openSocket(InetAddress address) throws IOException {
 		DatagramSocket socket = new DatagramSocket(

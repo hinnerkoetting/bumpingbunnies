@@ -15,9 +15,6 @@ public class DistributedInputService implements InputService,
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DistributedInputService.class);
-	private boolean leftIsPressed;
-	private boolean rightIsPressed;
-	private boolean upIsPressed;
 
 	private PlayerMovementController playerMovement;
 	private final VibratorService vibrator;
@@ -30,29 +27,6 @@ public class DistributedInputService implements InputService,
 
 	@Override
 	public void executeUserInput() {
-		// handleHorizontalMovement();
-		// handleVerticalMovement();
-	}
-
-	private void handleVerticalMovement() {
-		if (this.upIsPressed) {
-			this.playerMovement.tryMoveUp();
-		} else {
-			this.playerMovement.tryMoveDown();
-		}
-	}
-
-	private void handleHorizontalMovement() {
-		if (this.leftIsPressed == this.rightIsPressed) {
-			this.playerMovement.removeHorizontalMovement();
-		} else {
-			if (this.leftIsPressed) {
-				this.playerMovement.tryMoveLeft();
-			}
-			if (this.rightIsPressed) {
-				this.playerMovement.tryMoveRight();
-			}
-		}
 	}
 
 	@Override

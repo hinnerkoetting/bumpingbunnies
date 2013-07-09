@@ -198,19 +198,6 @@ public class Player implements GameObject {
 		// resetPosition(this, p);
 	}
 
-	private void resetPosition(Player playerUnder, Player playerOver) {
-		PlayerState state = playerUnder.getState();
-		if (state.getCenterX() > 0.75 * ModelConstants.MAX_VALUE) {
-			state.setCenterX((int) (0.2 * ModelConstants.MAX_VALUE));
-		} else {
-			state.setCenterX((int) (0.8 * ModelConstants.MAX_VALUE));
-		}
-		state.setCenterY((int) (0.99 * ModelConstants.MAX_VALUE));
-
-		PlayerState state2 = playerOver.getState();
-		state2.setMovementY((int) (0.5 * ModelConstants.PLAYER_JUMP_SPEED));
-	}
-
 	public GameObject simulateNextStepX() {
 		resetSimulatedObject();
 		this.simulatedObject.moveNextStepX();

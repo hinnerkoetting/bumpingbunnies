@@ -132,11 +132,6 @@ public class PlayerMovementController implements ModelConstants {
 		}
 	}
 
-	private boolean isCollidingWithObject() {
-		return this.collisionDetection
-				.findObjectThisPlayerIsCollidingWith(this.movedPlayer) != null;
-	}
-
 	public void tryMoveLeft() {
 		this.tryingToRemoveHorizontalMovement = false;
 		this.movedPlayer.setAccelerationX(-findAccelerationForObject());

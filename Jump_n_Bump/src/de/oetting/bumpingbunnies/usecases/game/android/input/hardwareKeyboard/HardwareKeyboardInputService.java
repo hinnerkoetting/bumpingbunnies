@@ -6,9 +6,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementContr
 
 public class HardwareKeyboardInputService implements InputService {
 
-	private boolean leftPressed;
-	private boolean rightPressed;
-	private boolean upPressed;
 	private PlayerMovementController movementController;
 
 	public HardwareKeyboardInputService(

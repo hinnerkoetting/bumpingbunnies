@@ -28,6 +28,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 				.createRoomNetworkReceiver(socket);
 	}
 
+	@Override
 	public void onConnectionToServer() {
 		SocketStorage.getSingleton().addSocket(this.socket);
 
@@ -70,9 +71,8 @@ public class ConnectionToServerService implements ConnectionToServer {
 
 					@Override
 					public void receiveMessage(Integer object) {
-						MySocket serverSocket = SocketStorage.getSingleton()
-								.getSocket();
-						addPlayerEntry(serverSocket, object, 0);
+						addPlayerEntry(ConnectionToServerService.this.socket,
+								object, 0);
 					}
 				});
 	}
@@ -89,6 +89,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 		this.roomActivity.launchGame(this.generalSettingsFromNetwork);
 	}
 
+	@Override
 	public void cancel() {
 		this.networkReceiver.cancel();
 	}

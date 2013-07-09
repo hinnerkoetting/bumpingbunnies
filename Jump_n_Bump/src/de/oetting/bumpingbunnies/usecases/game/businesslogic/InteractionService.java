@@ -1,15 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class InteractionService {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(InteractionService.class);
 	private CollisionDetection collisionDetection;
 
 	public InteractionService(CollisionDetection collisionDetection) {

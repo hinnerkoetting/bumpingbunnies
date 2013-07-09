@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
@@ -25,18 +24,13 @@ public class NetworkReceiverDispatcherThreadFactory {
 		// always create other clients dispatcher. for clients this will not
 		// dispatch incoming events to other sockets
 		NetworkToOtherClientsDispatcher otherClientsDispatcher = new NetworkToOtherClientsDispatcher(
-				allRemoteSender, socket, networkDispatcher, new MessageParser(
-						new Gson()));
+				allRemoteSender, socket, networkDispatcher);
 		return createNetworkReceiver(socket, otherClientsDispatcher);
 	}
 
 	public static NetworkReceiver createRoomNetworkReceiver(MySocket socket) {
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 		return createNetworkReceiver(socket, networkDispatcher);
-	}
-
-	private static MessageParser createParser() {
-		return new MessageParser(new Gson());
 	}
 
 	private static NetworkReceiveThread createNetworkReceiver(MySocket socket,

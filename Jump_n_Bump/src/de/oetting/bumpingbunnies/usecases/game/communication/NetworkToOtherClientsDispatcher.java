@@ -16,16 +16,13 @@ public class NetworkToOtherClientsDispatcher implements
 	private final List<RemoteSender> sendQueues;
 	private final NetworkToGameDispatcher gameDispatcher;
 	private final MySocket incomingSocket;
-	private final MessageParser parser;
 
 	public NetworkToOtherClientsDispatcher(List<RemoteSender> sendQueues,
-			MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher,
-			MessageParser parser) {
+			MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher) {
 		super();
 		this.sendQueues = sendQueues;
 		this.incomingSocket = incomingSocket;
 		this.gameDispatcher = gameDispatcher;
-		this.parser = parser;
 	}
 
 	@Override

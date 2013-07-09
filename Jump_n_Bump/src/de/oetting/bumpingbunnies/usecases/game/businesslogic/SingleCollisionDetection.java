@@ -1,13 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 
 public class SingleCollisionDetection {
-
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SingleCollisionDetection.class);
 
 	public static boolean collidesObjectOnBottom(GameObject objectToBeChecked,
 			GameObject otherObject) {

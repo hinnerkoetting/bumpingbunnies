@@ -3,8 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.factory;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
@@ -27,6 +27,7 @@ public abstract class AbstractPlayerInputServicesFactory<S extends InputService>
 		return inputConfiguration.createInputconfigurationClass();
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <S extends InputService> AbstractPlayerInputServicesFactory<S> getSingleton() {
 		if (factorySingleton == null) {
 			throw new IllegalArgumentException("Singleton not intialized");
