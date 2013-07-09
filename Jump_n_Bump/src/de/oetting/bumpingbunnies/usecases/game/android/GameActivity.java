@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -58,6 +59,7 @@ public class GameActivity extends Activity {
 	private InputDispatcher<?> inputDispatcher;
 	private List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
 	private List<RemoteSender> sendThreads = new ArrayList<RemoteSender>();
+	private MediaPlayer backgroundMusic;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,15 @@ public class GameActivity extends Activity {
 		conditionalRestoreState();
 		startNetworkThreads();
 		this.gameThread.start();
+		startGameSound();
+	}
+
+	private void startGameSound() {
+		this.backgroundMusic = MediaPlayer.create(GameActivity.this,
+				R.raw.bad_bunnies160);
+		this.backgroundMusic.setLooping(true);
+		this.backgroundMusic.start();
+
 	}
 
 	private void startNetworkThreads() {
