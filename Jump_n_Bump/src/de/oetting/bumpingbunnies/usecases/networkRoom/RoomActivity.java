@@ -33,7 +33,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
@@ -207,15 +207,15 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		enableStartButton();
 	}
 
-	private List<OtherPlayerConfiguration> createOtherPlayerconfigurations(
+	private List<OpponentConfiguration> createOtherPlayerconfigurations(
 			int myPlayerId) {
-		List<OtherPlayerConfiguration> otherPlayers = new ArrayList<OtherPlayerConfiguration>(
+		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>(
 				this.playersAA.getCount() - 1);
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
 			NetworkFactory factory = new NetworkFactory(
 					otherPlayer.getSocket(), otherPlayer.getSocketIndex());
 
-			OtherPlayerConfiguration otherPlayerConfiguration = new OtherPlayerConfiguration(
+			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(
 					factory, otherPlayer.getPlayerProperties());
 			otherPlayers.add(otherPlayerConfiguration);
 		}
@@ -328,7 +328,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 				.get(ActivityLauncher.LOCAL_SETTINGS);
 		int myPlayerId = this.playersAA.getMyself().getPlayerProperties()
 				.getPlayerId();
-		List<OtherPlayerConfiguration> otherPlayers = createOtherPlayerconfigurations(myPlayerId);
+		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations(myPlayerId);
 		Configuration config = new Configuration(localSettings,
 				generalSettings, otherPlayers);
 		GameStartParameter parameter = GameParameterFactory.createParameter(

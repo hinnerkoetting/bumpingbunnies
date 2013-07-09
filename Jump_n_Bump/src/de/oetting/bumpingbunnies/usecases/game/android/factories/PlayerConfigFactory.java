@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerMovementFactory;
@@ -49,7 +49,7 @@ public class PlayerConfigFactory {
 			World world, Configuration configuration, int speed) {
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
 		PlayerFactory playerfactory = new PlayerFactory(speed);
-		for (OtherPlayerConfiguration config : configuration.getOtherPlayers()) {
+		for (OpponentConfiguration config : configuration.getOtherPlayers()) {
 			Player p = playerfactory.createPlayer(config.getPlayerId(),
 					config.getName());
 			world.addPlayer(p);
@@ -59,7 +59,7 @@ public class PlayerConfigFactory {
 	}
 
 	private static PlayerConfig createPlayerConfig(Player player, World world,
-			OtherPlayerConfiguration configuration, int speedFactor) {
+			OpponentConfiguration configuration, int speedFactor) {
 		AbstractOtherPlayersFactory otherPlayerFactory = configuration
 				.getFactory();
 		PlayerMovementController movementcontroller = createMovementController(

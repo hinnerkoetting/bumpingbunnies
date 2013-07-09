@@ -6,10 +6,10 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 
-public class OtherPlayerConfiguration implements Parcelable {
+public class OpponentConfiguration implements Parcelable {
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(OtherPlayerConfiguration.class);
+			.getLogger(OpponentConfiguration.class);
 	private final AbstractOtherPlayersFactory factory;
 	private final PlayerProperties otherPlayerState;
 
@@ -25,14 +25,14 @@ public class OtherPlayerConfiguration implements Parcelable {
 		this.factory.writeToParcel(dest, flags);
 	}
 
-	public OtherPlayerConfiguration(AbstractOtherPlayersFactory factory,
+	public OpponentConfiguration(AbstractOtherPlayersFactory factory,
 			PlayerProperties otherPlayerState) {
 		this.factory = factory;
 		this.otherPlayerState = otherPlayerState;
 	}
 
 	@SuppressWarnings("unchecked")
-	public OtherPlayerConfiguration(Parcel in) {
+	public OpponentConfiguration(Parcel in) {
 		this.otherPlayerState = new PlayerProperties(in);
 		String strClazz = in.readString();
 		try {

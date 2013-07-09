@@ -24,7 +24,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.OtherPlayerConfiguration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationGenerator;
@@ -69,15 +69,15 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		LocalSettings localSettings = createLocalSettings();
 
 		GeneralSettings generalSettings = createGeneralSettings();
-		List<OtherPlayerConfiguration> otherPlayers = createSpOtherPlayerConfiguration();
+		List<OpponentConfiguration> otherPlayers = createSpOtherPlayerConfiguration();
 		return new Configuration(localSettings, generalSettings, otherPlayers);
 	}
 
-	private List<OtherPlayerConfiguration> createSpOtherPlayerConfiguration() {
+	private List<OpponentConfiguration> createSpOtherPlayerConfiguration() {
 		int numberPlayer = this.settingsService.getNumberOfPlayers();
-		List<OtherPlayerConfiguration> list = new ArrayList<OtherPlayerConfiguration>();
+		List<OpponentConfiguration> list = new ArrayList<OpponentConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
-			list.add(new OtherPlayerConfiguration(new SingleplayerFactory(
+			list.add(new OpponentConfiguration(new SingleplayerFactory(
 					findSelectedAiMode()), new PlayerProperties(i, "Player "
 					+ i)));
 		}

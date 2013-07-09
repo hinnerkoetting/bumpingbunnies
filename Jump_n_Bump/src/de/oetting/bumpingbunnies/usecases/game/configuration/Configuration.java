@@ -30,7 +30,7 @@ public class Configuration implements Parcelable {
 		}
 	};
 
-	private final List<OtherPlayerConfiguration> otherPlayers;
+	private final List<OpponentConfiguration> otherPlayers;
 	private final LocalSettings localSettings;
 	private final GeneralSettings generalSettings;
 
@@ -38,16 +38,16 @@ public class Configuration implements Parcelable {
 		this.localSettings = new LocalSettings(source);
 		this.generalSettings = new GeneralSettings(source);
 		int numberOtherPlayer = source.readInt();
-		this.otherPlayers = new ArrayList<OtherPlayerConfiguration>(
+		this.otherPlayers = new ArrayList<OpponentConfiguration>(
 				numberOtherPlayer);
 		for (int i = 0; i < numberOtherPlayer; i++) {
-			this.otherPlayers.add(new OtherPlayerConfiguration(source));
+			this.otherPlayers.add(new OpponentConfiguration(source));
 		}
 	}
 
 	public Configuration(LocalSettings localSettings,
 			GeneralSettings generalSettings,
-			List<OtherPlayerConfiguration> otherPlayers) {
+			List<OpponentConfiguration> otherPlayers) {
 		this.generalSettings = generalSettings;
 		this.otherPlayers = otherPlayers;
 		this.localSettings = localSettings;
@@ -67,7 +67,7 @@ public class Configuration implements Parcelable {
 		this.localSettings.writeToParcel(dest, flags);
 		this.generalSettings.writeToParcel(dest, flags);
 		dest.writeInt(this.otherPlayers.size());
-		for (OtherPlayerConfiguration otherPlayer : this.otherPlayers) {
+		for (OpponentConfiguration otherPlayer : this.otherPlayers) {
 			otherPlayer.writeToParcel(dest, flags);
 		}
 	}
@@ -84,7 +84,7 @@ public class Configuration implements Parcelable {
 		return this.localSettings.getZoom();
 	}
 
-	public List<OtherPlayerConfiguration> getOtherPlayers() {
+	public List<OpponentConfiguration> getOtherPlayers() {
 		return this.otherPlayers;
 	}
 
