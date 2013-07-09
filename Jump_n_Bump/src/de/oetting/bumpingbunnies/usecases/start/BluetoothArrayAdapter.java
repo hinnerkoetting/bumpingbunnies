@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothServerDevice;
 import de.oetting.bumpingbunnies.usecases.networkRoom.ConnectToServerCallback;
-import de.oetting.bumpingbunnies.usecases.start.communication.bluetooth.BluetoothServerDevice;
 
 public class BluetoothArrayAdapter extends ArrayAdapter<BluetoothDevice> {
 

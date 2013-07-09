@@ -5,10 +5,10 @@ import java.io.InputStreamReader;
 
 import com.google.gson.Gson;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class NetworkReceiveThreadFactory {
 

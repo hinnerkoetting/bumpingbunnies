@@ -13,6 +13,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
@@ -37,7 +38,6 @@ import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.result.model.ResultWrapper;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
 /**

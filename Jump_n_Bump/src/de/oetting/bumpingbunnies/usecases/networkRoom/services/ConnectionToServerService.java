@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.services;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -10,7 +11,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispat
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class ConnectionToServerService implements ConnectionToServer {
 

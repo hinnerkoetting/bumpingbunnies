@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
+import de.oetting.bumpingbunnies.communication.MySocket;
 
 public interface ClientConnectedSuccesfullCallback {
 

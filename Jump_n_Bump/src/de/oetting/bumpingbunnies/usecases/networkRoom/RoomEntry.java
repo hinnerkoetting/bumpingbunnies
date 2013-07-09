@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class RoomEntry {
 	private final PlayerProperties playerProperties;

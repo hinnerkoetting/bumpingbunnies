@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 
 import java.util.List;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 /**
  * Dispatches all incoming traffic to each other client. Afterwards it is

@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.networkRoom.services;
 
 import java.util.List;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -13,7 +14,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNet
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomEntry;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class ConnectionToClientService {
 

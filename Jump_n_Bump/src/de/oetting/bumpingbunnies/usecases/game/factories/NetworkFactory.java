@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.communication.StorableSocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
@@ -12,8 +14,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractS
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.StateSenderFactory;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
-import de.oetting.bumpingbunnies.usecases.start.communication.StorableSocket;
 
 public class NetworkFactory extends AbstractOtherPlayersFactory implements
 		Parcelable {

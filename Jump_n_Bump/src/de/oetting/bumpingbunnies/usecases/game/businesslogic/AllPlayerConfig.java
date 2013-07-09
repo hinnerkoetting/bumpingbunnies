@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
@@ -16,7 +17,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractS
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
 
 public class AllPlayerConfig {
 

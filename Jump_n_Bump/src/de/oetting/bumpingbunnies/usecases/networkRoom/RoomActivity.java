@@ -19,6 +19,13 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.communication.DummyCommunication;
+import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.communication.RemoteCommunication;
+import de.oetting.bumpingbunnies.communication.ServerDevice;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
+import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
+import de.oetting.bumpingbunnies.configuration.gameStart.GameParameterFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
@@ -43,13 +50,6 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServe
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
-import de.oetting.bumpingbunnies.usecases.start.GameParameterFactory;
-import de.oetting.bumpingbunnies.usecases.start.communication.DummyCommunication;
-import de.oetting.bumpingbunnies.usecases.start.communication.MySocket;
-import de.oetting.bumpingbunnies.usecases.start.communication.RemoteCommunication;
-import de.oetting.bumpingbunnies.usecases.start.communication.ServerDevice;
-import de.oetting.bumpingbunnies.usecases.start.communication.bluetooth.BluetoothCommunicationFactory;
-import de.oetting.bumpingbunnies.usecases.start.communication.wlan.WlanCommunicationFactory;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback,
 		ClientConnectedSuccesfullCallback,
