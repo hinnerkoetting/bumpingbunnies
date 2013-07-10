@@ -120,7 +120,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		this.holder = holder;
-		holder.setFormat(PixelFormat.RGBA_8888); // TODO variabel
+		holder.setFormat(PixelFormat.OPAQUE); // TODO variabel
 		this.isDrawingPossible = true;
 		LOGGER.info("Surface created");
 	}

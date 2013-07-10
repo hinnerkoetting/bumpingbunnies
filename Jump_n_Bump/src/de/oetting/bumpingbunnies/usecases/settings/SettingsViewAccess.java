@@ -64,7 +64,7 @@ public class SettingsViewAccess {
 
 	public int getSpeed() {
 		SeekBar seekbar = findSpeedSeekbar();
-		return seekbar.getProgress() + 1;
+		return seekbar.getProgress() + 5;
 	}
 
 	private void initNumberPlayer() {
