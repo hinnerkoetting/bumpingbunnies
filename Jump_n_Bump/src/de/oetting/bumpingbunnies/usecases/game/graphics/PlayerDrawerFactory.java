@@ -14,26 +14,20 @@ public class PlayerDrawerFactory {
 
 	public static PlayerDrawer create(Player player, Resources resources) {
 
-		AnimationWithMirror animation;
-		if (player.id() == 0) {
-			animation = AnimationWithMirrorFactory.create(
-					createListOfTestBitmap(resources), 2000);
-		} else {
-			animation = AnimationWithMirrorFactory.create(
-					createListOfTestBitmap2(resources), 20);
-		}
+		AnimationWithMirror animation = AnimationWithMirrorFactory.create(
+				createListOfTestBitmap(resources, player), 2000);
 		return new PlayerDrawer(player, animation);
 	}
 
-	private static List<Bitmap> createListOfTestBitmap(Resources resources) {
+	private static List<Bitmap> createListOfTestBitmap(Resources resources, Player player) {
 
-		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6f);
+		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6g);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
-				bitmap, Color.RED);
+				bitmap, player.getColor());
 		return Arrays.asList(convertedColor);
 	}
 
-	private static List<Bitmap> createListOfTestBitmap2(Resources resources) {
+	private static List<Bitmap> createListOfTestBitmap2(Resources resources, Player player) {
 
 		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6g);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
