@@ -47,9 +47,6 @@ public class GameActivity extends Activity {
 	private GameThread gameThread;
 	private InputService touchService;
 
-	// private List<InputService> networkMovementService;
-	private GameStartParameter parameter;
-
 	private InputDispatcher<?> inputDispatcher;
 	private List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
 	private List<RemoteSender> sendThreads = new ArrayList<RemoteSender>();
@@ -60,8 +57,6 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
-		this.parameter = (GameStartParameter) getIntent().getExtras().get(
-				ActivityLauncher.GAMEPARAMETER);
 
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
@@ -94,15 +89,10 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	private AbstractOtherPlayersFactory initInputFactory() {
-		return this.parameter.getConfiguration().getOtherPlayers().get(0)
+	private AbstractOtherPlayersFactory initInputFactory(
+			GameStartParameter parameter) {
+		return parameter.getConfiguration().getOtherPlayers().get(0)
 				.getFactory();
-		// if (getSocket() != null) {
-		// return AbstractOtherPlayersFactory.initNetwork(getSocket(), 0);
-		// } else {
-		// return AbstractOtherPlayersFactory.initSinglePlayer(this.parameter
-		// .getConfiguration().getAiModus());
-		// }
 	}
 
 	private void registerScreenTouchListener(final GameView contentView) {
@@ -117,13 +107,12 @@ public class GameActivity extends Activity {
 	}
 
 	private void initGame() {
-		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
-		World world = WorldFactory.create(this.parameter.getConfiguration(),
-				this);
-
-		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory();
 		GameStartParameter parameter = (GameStartParameter) getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
+		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
+		World world = WorldFactory.create(parameter.getConfiguration(), this);
+
+		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory(parameter);
 		AllPlayerConfig config = PlayerConfigFactory.create(parameter, world,
 				contentView, otherPlayerFactory);
 		// List<StateSender> allStateSender = config.createStateSender();
@@ -131,14 +120,13 @@ public class GameActivity extends Activity {
 		List<StateSender> allStateSender = createSender(myPlayer);
 		List<InputService> networkInputServices = initInputServices(
 				otherPlayerFactory, config,
-				extractRemoteSenders(allStateSender));
+				extractRemoteSenders(allStateSender), parameter);
 		List<InputService> inputServices = createInputServices();
 		inputServices.addAll(networkInputServices);
 		// this.networkThread = otherPlayerFactory.createSender();
 		this.gameThread = GameThreadFactory.create(world,
 				config.getAllPlayerMovementControllers(), inputServices,
-				allStateSender, this, config,
-				this.parameter.getConfiguration(),
+				allStateSender, this, config, parameter.getConfiguration(),
 				config.getCoordinateCalculations());
 
 		contentView.addOnSizeListener(this.gameThread);
@@ -169,9 +157,9 @@ public class GameActivity extends Activity {
 
 	private List<InputService> initInputServices(
 			AbstractOtherPlayersFactory singleton, AllPlayerConfig config,
-			List<RemoteSender> allSender) {
-		AbstractPlayerInputServicesFactory.init(this.parameter
-				.getConfiguration().getInputConfiguration());
+			List<RemoteSender> allSender, GameStartParameter parameter) {
+		AbstractPlayerInputServicesFactory.init(parameter.getConfiguration()
+				.getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
 				.getSingleton();
 
