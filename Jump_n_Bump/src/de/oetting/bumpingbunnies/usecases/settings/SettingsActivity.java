@@ -30,6 +30,7 @@ public class SettingsActivity extends Activity implements OnDatabaseCreation {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 		this.viewAccess = new SettingsViewAccess(this);
+		this.viewAccess.init();
 		new AsyncDatabaseCreation().createWritableDatabase(this, this);
 		this.settingsDao = new DummySettingsDao();
 	}

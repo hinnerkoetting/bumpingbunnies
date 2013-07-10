@@ -27,7 +27,7 @@ public class SettingsViewAccess {
 		this.origin = origin;
 	}
 
-	public void fillViewDefault() {
+	public void init() {
 		initNumberPlayer();
 		initSpeed();
 		initZoom();
