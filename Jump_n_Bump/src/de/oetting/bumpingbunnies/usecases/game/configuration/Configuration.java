@@ -101,4 +101,8 @@ public class Configuration implements Parcelable {
 		return this.localPlayerSettings;
 	}
 
+	public LocalSettings getLocalSettings() {
+		return this.localSettings;
+	}
+
 }

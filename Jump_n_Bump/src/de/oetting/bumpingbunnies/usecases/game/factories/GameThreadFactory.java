@@ -31,6 +31,6 @@ public class GameThreadFactory {
 				world.getSpawnPoints());
 		WorldController worldController = new WorldController(playermovements,
 				movementServices, stateSender, spawnPointGenerator);
-		return new GameThread(drawer, worldController, threadState);
+		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
 	}
 }

@@ -56,11 +56,7 @@ public class SettingsActivity extends Activity implements OnDatabaseCreation {
 	private void fillStoredSettings() {
 		LOGGER.info("Reading settings from database");
 		SettingsEntity storedSettings = this.settingsDao.readStoredSettings();
-		if (storedSettings != null) {
-			this.viewAccess.fillView(storedSettings);
-		} else {
-			LOGGER.info("no settings found");
-		}
+		this.viewAccess.fillView(storedSettings);
 	}
 
 	private void storeLocalSettings() {

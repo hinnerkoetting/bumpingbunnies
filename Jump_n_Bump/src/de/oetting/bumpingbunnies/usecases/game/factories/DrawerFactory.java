@@ -25,7 +25,7 @@ public class DrawerFactory {
 				.getZoom()));
 
 		Drawer drawer = new Drawer(drawFactory, canvasDelegate,
-				R.drawable.hintergrund2, context);
+				R.drawable.hintergrund2, context, configuration.getLocalSettings().isBackground());
 		drawer.buildAllDrawables();
 		return drawer;
 	}

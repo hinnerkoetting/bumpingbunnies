@@ -87,7 +87,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
 		return new LocalSettings(settings.getInputConfiguration(),
-				settings.getZoom());
+				settings.getZoom(), settings.isBackground(), settings.isAltPixelformat());
 	}
 
 	private List<OpponentConfiguration> createSpOtherPlayerConfiguration(

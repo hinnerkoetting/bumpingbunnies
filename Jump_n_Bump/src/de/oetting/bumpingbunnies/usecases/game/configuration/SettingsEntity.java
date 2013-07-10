@@ -7,15 +7,19 @@ public class SettingsEntity {
 	private final int numberPlayer;
 	private final int speed;
 	private final String playerName;
+	private final boolean background;
+	private final boolean altPixelformat;
 
 	public SettingsEntity(InputConfiguration inputConfiguration, int zoom,
-			int numberPlayer, int speed, String playerName) {
+			int numberPlayer, int speed, String playerName, boolean background, boolean altPixelFormat) {
 		super();
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
 		this.numberPlayer = numberPlayer;
 		this.speed = speed;
 		this.playerName = playerName;
+		this.background = background;
+		this.altPixelformat = altPixelFormat;
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -36,6 +40,14 @@ public class SettingsEntity {
 
 	public String getPlayerName() {
 		return this.playerName;
+	}
+
+	public boolean isBackground() {
+		return this.background;
+	}
+
+	public boolean isAltPixelformat() {
+		return this.altPixelformat;
 	}
 
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
@@ -20,11 +21,13 @@ public class Drawer {
 	private int backgroundId;
 	private Bitmap scaledBitmap;
 	private final Context context;
+	private final boolean drawBackground;
 
 	public Drawer(DrawablesFactory drawFactory, CanvasDelegate canvasDeleta,
-			int backgroundId, Context context) {
+			int backgroundId, Context context, boolean drawBackground) {
 		this.factory = drawFactory;
 		this.context = context;
+		this.drawBackground = drawBackground;
 		this.allDrawables = new LinkedList<Drawable>();
 		this.canvasDelegate = canvasDeleta;
 		this.backgroundId = backgroundId;
@@ -41,8 +44,11 @@ public class Drawer {
 		LOGGER.verbose("drawing...");
 		update(canvas);
 
-		// this.canvasDelegate.drawColor(Color.WHITE);
-		this.canvasDelegate.drawImageDirect(this.scaledBitmap, 0, 0, null);
+		if (this.drawBackground) {
+			this.canvasDelegate.drawImageDirect(this.scaledBitmap, 0, 0, null);
+		} else {
+			this.canvasDelegate.drawColor(Color.WHITE);
+		}
 		drawEverything();
 	}
 

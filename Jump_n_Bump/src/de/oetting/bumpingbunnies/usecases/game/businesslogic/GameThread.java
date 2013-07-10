@@ -35,12 +35,14 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	private boolean running;
 	private boolean isDrawingPossible;
 	private boolean canceled;
+	private final boolean altPixelMode;
 
 	public GameThread(Drawer drawer, WorldController worldController,
-			GameThreadState gameThreadState) {
+			GameThreadState gameThreadState, boolean altPixelMode) {
 		super("Main Game Thread");
 		this.drawer = drawer;
 		this.worldController = worldController;
+		this.altPixelMode = altPixelMode;
 		this.running = true;
 		this.isDrawingPossible = false;
 		this.state = gameThreadState;
@@ -120,7 +122,11 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		this.holder = holder;
-		holder.setFormat(PixelFormat.RGBA_8888); // TODO variabel
+		if (this.altPixelMode) {
+			holder.setFormat(PixelFormat.OPAQUE);
+		} else {
+			holder.setFormat(PixelFormat.RGBA_8888);
+		}
 		this.isDrawingPossible = true;
 		LOGGER.info("Surface created");
 	}

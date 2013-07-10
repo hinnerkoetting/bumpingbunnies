@@ -8,4 +8,6 @@ public interface SettingsConstants {
 	String NUMBER_PLAYER_COL = "number_player";
 	String SPEED_COL = "speed";
 	String NAME_COL = "player_name";
+	String BACKGROUND_COL = "background";
+	String ALT_PIXELFORMAT = "alt_pixelformat";
 }

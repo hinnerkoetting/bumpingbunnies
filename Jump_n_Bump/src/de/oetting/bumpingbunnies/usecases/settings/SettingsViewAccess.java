@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.settings;
 
 import android.app.Activity;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -67,6 +68,16 @@ public class SettingsViewAccess {
 		return seekbar.getProgress() + 5;
 	}
 
+	public boolean isBackgroundChecked() {
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_background);
+		return view.isChecked();
+	}
+
+	public boolean isAltPixelformatChecked() {
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_pixelformat);
+		return view.isChecked();
+	}
+
 	private void initNumberPlayer() {
 		SeekBar numberPlayers = findNumberPlayerSeekbar();
 		int startValue = 0;
@@ -103,6 +114,8 @@ public class SettingsViewAccess {
 		setNumberPlayer(settings.getNumberPlayer());
 		setSpeed(settings.getSpeed());
 		setPlayerName(settings.getPlayerName());
+		setBackgroundChecked(settings.isBackground());
+		setAltPixelformatChecked(settings.isAltPixelformat());
 	}
 
 	private void setPlayerName(String playerName) {
@@ -123,14 +136,26 @@ public class SettingsViewAccess {
 				storedInputConfiguration, inputconfiguration);
 	}
 
+	public void setBackgroundChecked(boolean b) {
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_background);
+		view.setChecked(b);
+	}
+
+	public void setAltPixelformatChecked(boolean b) {
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_pixelformat);
+		view.setChecked(b);
+	}
+
 	public SettingsEntity readFromView() {
 		InputConfiguration inputConfiguration = getInputConfiguration();
 		int zoom = getZoom();
 		int numberPlayer = getNumberOfPlayers();
 		int speed = getSpeed();
 		String name = getName();
+		boolean background = isBackgroundChecked();
+		boolean isAltPixelFormat = isAltPixelformatChecked();
 		return new SettingsEntity(inputConfiguration, zoom, numberPlayer,
-				speed, name);
+				speed, name, background, isAltPixelFormat);
 	}
 
 	private String getName() {

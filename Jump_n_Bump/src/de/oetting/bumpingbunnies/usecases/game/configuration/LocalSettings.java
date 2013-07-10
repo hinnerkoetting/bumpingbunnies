@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 public class LocalSettings implements Parcelable {
 
@@ -27,17 +27,23 @@ public class LocalSettings implements Parcelable {
 
 	private final InputConfiguration inputConfiguration;
 	private final int zoom;
+	private final boolean background;
+	private final boolean altPixelMode;
 
-	public LocalSettings(InputConfiguration inputConfiguration, int zoom) {
+	public LocalSettings(InputConfiguration inputConfiguration, int zoom, boolean background, boolean altPixelMode) {
 		super();
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
+		this.background = background;
+		this.altPixelMode = altPixelMode;
 	}
 
 	public LocalSettings(Parcel source) {
 		this.inputConfiguration = InputConfiguration.valueOf(source
 				.readString());
 		this.zoom = source.readInt();
+		this.background = source.readInt() == 1;
+		this.altPixelMode = source.readInt() == 1;
 	}
 
 	@Override
@@ -49,6 +55,8 @@ public class LocalSettings implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.inputConfiguration.toString());
 		dest.writeInt(this.zoom);
+		dest.writeInt(this.background ? 1 : 0);
+		dest.writeInt(this.altPixelMode ? 1 : 0);
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -57,6 +65,14 @@ public class LocalSettings implements Parcelable {
 
 	public int getZoom() {
 		return this.zoom;
+	}
+
+	public boolean isBackground() {
+		return this.background;
+	}
+
+	public boolean isAltPixelMode() {
+		return this.altPixelMode;
 	}
 
 }
