@@ -45,7 +45,6 @@ import de.oetting.bumpingbunnies.util.SystemUiHider;
  */
 public class GameActivity extends Activity {
 	private GameThread gameThread;
-	private InputService touchService;
 
 	private InputDispatcher<?> inputDispatcher;
 	private List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
@@ -118,11 +117,9 @@ public class GameActivity extends Activity {
 		// List<StateSender> allStateSender = config.createStateSender();
 		Player myPlayer = config.getTabletControlledPlayer();
 		List<StateSender> allStateSender = createSender(myPlayer);
-		List<InputService> networkInputServices = initInputServices(
+		List<InputService> inputServices = initInputServices(
 				otherPlayerFactory, config,
 				extractRemoteSenders(allStateSender), parameter);
-		List<InputService> inputServices = createInputServices();
-		inputServices.addAll(networkInputServices);
 		// this.networkThread = otherPlayerFactory.createSender();
 		this.gameThread = GameThreadFactory.create(world,
 				config.getAllPlayerMovementControllers(), inputServices,
@@ -163,20 +160,21 @@ public class GameActivity extends Activity {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
 				.getSingleton();
 
-		this.touchService = myPlayerFactory.createInputService(config, this);
+		InputService touchService = myPlayerFactory.createInputService(config,
+				this);
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 		this.inputDispatcher = myPlayerFactory
-				.createInputDispatcher(this.touchService);
-		List<InputService> networkInputServices = config
-				.createOtherInputService(
-						networkDispatcher,
-						createNetworkReceiveThreads(networkDispatcher,
-								allSender), singleton, allSender);
+				.createInputDispatcher(touchService);
+		List<InputService> inputServices = config.createOtherInputService(
+				networkDispatcher,
+				createNetworkReceiveThreads(networkDispatcher, allSender),
+				singleton, allSender);
+		inputServices.add(touchService);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),
 				this.inputDispatcher);
-		return networkInputServices;
+		return inputServices;
 	}
 
 	private List<NetworkReceiveThread> createNetworkReceiveThreads(
@@ -194,16 +192,6 @@ public class GameActivity extends Activity {
 			this.networkReceiveThreads.add(receiveThread);
 		}
 		return this.networkReceiveThreads;
-	}
-
-	private List<InputService> createInputServices() {
-		return createInputServicesTouch();
-	}
-
-	private List<InputService> createInputServicesTouch() {
-		List<InputService> inputServes = new ArrayList<InputService>();
-		inputServes.add(this.touchService);
-		return inputServes;
 	}
 
 	@Override
@@ -232,10 +220,6 @@ public class GameActivity extends Activity {
 			receiver.cancel();
 		}
 		this.backgroundMusic.stop();
-	}
-
-	public void onClickInputTypeCb() {
-		this.gameThread.switchInputServices(createInputServices());
 	}
 
 	@Override
