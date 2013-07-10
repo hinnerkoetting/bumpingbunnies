@@ -67,6 +67,10 @@ public class Player implements GameObject {
 	}
 
 	public void setMovementX(int movementX) {
+		this.state.setMovementX(movementX * this.speedFaktor);
+	}
+
+	public void setExactMovementX(int movementX) {
 		this.state.setMovementX(movementX);
 	}
 
@@ -75,6 +79,10 @@ public class Player implements GameObject {
 	}
 
 	public void setMovementY(int movementY) {
+		this.state.setMovementY(movementY * this.speedFaktor);
+	}
+
+	public void setExactMovementY(int movementY) {
 		this.state.setMovementY(movementY);
 	}
 
@@ -83,7 +91,7 @@ public class Player implements GameObject {
 	}
 
 	public void setAccelerationX(int accelerationX) {
-		this.state.setAccelerationX(accelerationX);
+		this.state.setAccelerationX((int) (accelerationX * Math.pow(this.speedFaktor, 2)));
 	}
 
 	public int getAccelerationY() {
@@ -91,7 +99,7 @@ public class Player implements GameObject {
 	}
 
 	public void setAccelerationY(int accelerationY) {
-		this.state.setAccelerationY(accelerationY);
+		this.state.setAccelerationY((int) (accelerationY * Math.pow(this.speedFaktor, 2)));
 	}
 
 	@Override
@@ -160,9 +168,9 @@ public class Player implements GameObject {
 
 	public void resetSimulatedObject() {
 		this.simulatedObject.setCenterX(this.state.getCenterX());
-		this.simulatedObject.setMovementX(this.state.getMovementX());
+		this.simulatedObject.setExactMovementX(this.state.getMovementX());
 		this.simulatedObject.setCenterY(this.state.getCenterY());
-		this.simulatedObject.setMovementY(this.state.getMovementY());
+		this.simulatedObject.setExactMovementY(this.state.getMovementY());
 	}
 
 	public int id() {

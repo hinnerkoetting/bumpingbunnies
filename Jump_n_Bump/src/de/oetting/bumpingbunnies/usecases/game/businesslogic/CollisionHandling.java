@@ -31,11 +31,11 @@ public class CollisionHandling {
 		if (collisionDetection.collides(nextStepX, object)) {
 			if (player.movementX() > 0) {
 				int diffX = (int) (object.minX() - player.maxX());
-				player.setMovementX(diffX);
+				player.setExactMovementX(diffX);
 				player.setAccelerationX(0);
 			} else if (player.movementX() < 0) {
 				int diffX = (int) (object.maxX() - player.minX());
-				player.setMovementX(diffX);
+				player.setExactMovementX(diffX);
 				player.setAccelerationX(0);
 			}
 		}
@@ -47,11 +47,11 @@ public class CollisionHandling {
 		if (collisionDetection.collides(nextStepY, object)) {
 			if (player.movementY() > 0) {
 				int diffY = (int) (object.minY() - player.maxY());
-				player.setMovementY(diffY);
+				player.setExactMovementY(diffY);
 				player.setAccelerationY(0);
 			} else if (player.movementY() < 0) {
 				int diffY = (int) (object.maxY() - player.minY());
-				player.setMovementY(diffY);
+				player.setExactMovementY(diffY);
 				player.setAccelerationY(0);
 			}
 		}
