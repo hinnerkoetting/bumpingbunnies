@@ -318,7 +318,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	public void onClickStart(View v) {
 		notifyClientsAboutlaunch();
 		GeneralSettings generalSettings = createGeneralSettingsFromIntent();
-		launchGame(generalSettings);
+		launchGame(generalSettings, true);
 	}
 
 	private void notifyClientsAboutlaunch() {
@@ -334,7 +334,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		}
 	}
 
-	public void launchGame(GeneralSettings generalSettings) {
+	public void launchGame(GeneralSettings generalSettings, boolean asHost) {
 
 		LocalSettings localSettings = createLocalSettingsFromIntent();
 		LocalPlayersettings localPlayerSettings = createLocalPlayerSettingsFromIntent();
@@ -342,7 +342,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 				.getPlayerId();
 		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations(myPlayerId);
 		Configuration config = new Configuration(localSettings,
-				generalSettings, otherPlayers, localPlayerSettings);
+				generalSettings, otherPlayers, localPlayerSettings, asHost);
 		GameStartParameter parameter = GameParameterFactory.createParameter(
 				myPlayerId, config);
 		ActivityLauncher.launchGame(this, parameter);

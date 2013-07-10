@@ -77,7 +77,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		GeneralSettings generalSettings = createGeneralSettings(settings);
 		List<OpponentConfiguration> otherPlayers = createSpOtherPlayerConfiguration(settings);
 		return new Configuration(localSettings, generalSettings, otherPlayers,
-				localPlayerSettings);
+				localPlayerSettings, true);
 	}
 
 	private LocalPlayersettings createLocalPlayerSettings(

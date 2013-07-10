@@ -110,7 +110,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 	}
 
 	private void launchGame() {
-		this.roomActivity.launchGame(this.generalSettingsFromNetwork);
+		this.roomActivity.launchGame(this.generalSettingsFromNetwork, false);
 	}
 
 	@Override

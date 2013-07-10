@@ -34,11 +34,13 @@ public class Configuration implements Parcelable {
 	private final LocalSettings localSettings;
 	private final GeneralSettings generalSettings;
 	private final LocalPlayersettings localPlayerSettings;
+	private final boolean host;
 
 	public Configuration(Parcel source) {
 		this.localSettings = new LocalSettings(source);
 		this.generalSettings = new GeneralSettings(source);
 		this.localPlayerSettings = new LocalPlayersettings(source);
+		this.host = source.readInt() == 1;
 		int numberOtherPlayer = source.readInt();
 		this.otherPlayers = new ArrayList<OpponentConfiguration>(
 				numberOtherPlayer);
@@ -50,11 +52,12 @@ public class Configuration implements Parcelable {
 	public Configuration(LocalSettings localSettings,
 			GeneralSettings generalSettings,
 			List<OpponentConfiguration> otherPlayers,
-			LocalPlayersettings localPlayersettings) {
+			LocalPlayersettings localPlayersettings, boolean host) {
 		this.generalSettings = generalSettings;
 		this.otherPlayers = otherPlayers;
 		this.localSettings = localSettings;
 		this.localPlayerSettings = localPlayersettings;
+		this.host = host;
 	}
 
 	@Override
@@ -71,6 +74,7 @@ public class Configuration implements Parcelable {
 		this.localSettings.writeToParcel(dest, flags);
 		this.generalSettings.writeToParcel(dest, flags);
 		this.localPlayerSettings.writeToParcel(dest, flags);
+		dest.writeInt(this.host ? 1 : 0);
 		dest.writeInt(this.otherPlayers.size());
 		for (OpponentConfiguration otherPlayer : this.otherPlayers) {
 			otherPlayer.writeToParcel(dest, flags);
