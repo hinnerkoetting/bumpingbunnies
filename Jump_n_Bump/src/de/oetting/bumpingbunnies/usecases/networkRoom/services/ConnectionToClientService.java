@@ -130,8 +130,8 @@ public class ConnectionToClientService {
 		return this.roomActivity.getNextPlayerId();
 	}
 
-	public void close() {
-		// TODO
+	public void cancel() {
+		this.networkReceiver.cancel();
 	}
 
 }

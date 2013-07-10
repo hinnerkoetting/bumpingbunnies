@@ -67,7 +67,6 @@ public class AllPlayerConfig {
 				allSockets.size());
 
 		for (PlayerConfig config : this.notControlledPlayers) {
-			// TODO
 			InputService is = config.createInputService(allSender,
 					networkDispatcher);
 			if (is instanceof NetworkInputService) {

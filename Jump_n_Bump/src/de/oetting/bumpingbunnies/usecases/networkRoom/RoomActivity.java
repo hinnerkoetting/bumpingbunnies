@@ -152,6 +152,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		this.remoteCommunication.closeOpenConnections();
 		this.connectedToServerService.cancel();
 		this.broadcastService.cancel();
+		for (ConnectionToClientService connectionToClient : this.connectionToClientServices) {
+			connectionToClient.cancel();
+		}
 	}
 
 	@Override
