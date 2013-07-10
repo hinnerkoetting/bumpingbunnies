@@ -23,6 +23,8 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
@@ -77,6 +79,9 @@ public class GameActivity extends Activity {
 	private void startNetworkThreads() {
 		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
 			receiver.start();
+		}
+		for (RemoteSender sender : this.sendThreads) {
+			sender.start();
 		}
 	}
 
@@ -160,15 +165,20 @@ public class GameActivity extends Activity {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
 				.getSingleton();
 
-		InputService touchService = myPlayerFactory.createInputService(config,
-				this);
+		InputService touchService = myPlayerFactory.createInputService(config, this);
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
-		this.inputDispatcher = myPlayerFactory
-				.createInputDispatcher(touchService);
-		List<InputService> inputServices = config.createOtherInputService(
-				networkDispatcher,
-				createNetworkReceiveThreads(networkDispatcher, allSender),
+		networkDispatcher.addObserver(MessageIds.STOP_GAME, new NetworkListener() {
+
+			@Override
+			public void newMessage(String message) {
+				shutdownAllThreads();
+				startResultScreen();
+			}
+		});
+		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
+		createNetworkReceiveThreads(networkDispatcher, allSender);
+		List<InputService> inputServices = config.createOtherInputService(networkDispatcher,
 				singleton, allSender);
 		inputServices.add(touchService);
 		myPlayerFactory.insertGameControllerViews(
@@ -177,13 +187,11 @@ public class GameActivity extends Activity {
 		return inputServices;
 	}
 
-	private List<NetworkReceiveThread> createNetworkReceiveThreads(
+	private void createNetworkReceiveThreads(
 			NetworkToGameDispatcher networkDispatcher,
 			List<RemoteSender> allRemoteSender) {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
-		this.networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
-
 		for (MySocket socket : allSockets) {
 			NetworkReceiveThread receiveThread = NetworkReceiverDispatcherThreadFactory
 					.createGameNetworkReceiver(socket, allRemoteSender,
@@ -191,7 +199,6 @@ public class GameActivity extends Activity {
 
 			this.networkReceiveThreads.add(receiveThread);
 		}
-		return this.networkReceiveThreads;
 	}
 
 	@Override
@@ -212,6 +219,10 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		shutdownAllThreads();
+	}
+
+	public void shutdownAllThreads() {
 		this.gameThread.cancel();
 		for (RemoteSender sender : this.sendThreads) {
 			sender.cancel();
@@ -249,7 +260,18 @@ public class GameActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
+		sendStopMessage();
+		startResultScreen();
+	}
+
+	private void startResultScreen() {
 		ActivityLauncher.startResult(this, extractResult());
+	}
+
+	private void sendStopMessage() {
+		for (RemoteSender rs : this.sendThreads) {
+			rs.sendMessage(MessageIds.STOP_GAME, "");
+		}
 	}
 
 	private ResultWrapper extractResult() {

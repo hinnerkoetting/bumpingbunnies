@@ -18,4 +18,6 @@ public interface RemoteSender {
 	void sendMessage(JsonWrapper wrapper);
 
 	boolean usesThisSocket(MySocket socket);
+
+	void start();
 }

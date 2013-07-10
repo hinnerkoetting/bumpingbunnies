@@ -21,8 +21,8 @@ public class NetworkReceiverDispatcherThreadFactory {
 			MySocket socket, List<RemoteSender> allRemoteSender,
 			NetworkToGameDispatcher networkDispatcher) {
 
-		// always create other clients dispatcher. for clients this will not
-		// dispatch incoming events to other sockets
+		// create a new dispatcher which will dispatch incoming events to all
+		// other clients connected to this device.
 		NetworkToOtherClientsDispatcher otherClientsDispatcher = new NetworkToOtherClientsDispatcher(
 				allRemoteSender, socket, networkDispatcher);
 		return createNetworkReceiver(socket, otherClientsDispatcher);

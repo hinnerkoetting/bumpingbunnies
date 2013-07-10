@@ -32,4 +32,8 @@ public class DummyRemoteSender implements RemoteSender {
 	public void sendMessage(JsonWrapper wrapper) {
 	}
 
+	@Override
+	public void start() {
+	}
+
 }

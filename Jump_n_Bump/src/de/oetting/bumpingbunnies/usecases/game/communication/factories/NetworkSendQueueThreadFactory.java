@@ -20,7 +20,6 @@ public class NetworkSendQueueThreadFactory {
 					NetworkConstants.ENCODING);
 			NetworkSendQueueThread thread = new NetworkSendQueueThread(socket,
 					writer, new Gson());
-			thread.start();
 			return thread;
 		} catch (IOException e) {
 			throw new RuntimeException(e);

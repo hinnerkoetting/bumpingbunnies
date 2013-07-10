@@ -9,7 +9,6 @@ import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.NetworkInputService;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
@@ -59,23 +58,8 @@ public class AllPlayerConfig {
 		return list;
 	}
 
-	// public List<InputService> createOtherInputService(
-	// AbstractOtherPlayersFactory factory, List<RemoteSender> allSender) {
-	//
-	// List<InputService> inputServices = new ArrayList<InputService>(
-	// this.notControlledPlayers.size());
-	// NetworkToGameDispatcher networkDispatcher = new
-	// NetworkToGameDispatcher();
-	// for (PlayerConfig config : this.notControlledPlayers) {
-	// inputServices.add(config.createInputService(allSender,
-	// networkDispatcher));
-	// }
-	// return inputServices;
-	// }
-
 	public List<InputService> createOtherInputService(
 			NetworkToGameDispatcher networkDispatcher,
-			List<NetworkReceiveThread> networkReceiveThreads,
 			AbstractOtherPlayersFactory factory, List<RemoteSender> allSender) {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
