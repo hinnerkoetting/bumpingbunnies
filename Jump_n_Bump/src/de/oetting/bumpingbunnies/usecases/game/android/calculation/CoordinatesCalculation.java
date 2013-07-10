@@ -8,9 +8,9 @@ public interface CoordinatesCalculation {
 
 	int getGameCoordinateX(float touchX);
 
-	float getScreenCoordinateY(int gameY);
+	float getScreenCoordinateY(long gameY);
 
-	float getScreenCoordinateX(int gameX);
+	float getScreenCoordinateX(long gameX);
 
 	void updateCanvas(int width, int height);
 

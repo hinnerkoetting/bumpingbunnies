@@ -33,7 +33,7 @@ public class AnimationWithMirror implements Animation {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas, int left, int top, Paint paint) {
+	public void draw(CanvasDelegate canvas, long left, long top, Paint paint) {
 		if (this.drawNormal) {
 			this.normalAnimation.draw(canvas, left, top, paint);
 		} else {

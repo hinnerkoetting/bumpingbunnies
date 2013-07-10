@@ -24,13 +24,13 @@ public class WallFactory {
 				(int) (maxY * ModelConstants.MAX_VALUE));
 	}
 
-	public static Wall createWall(int x, int y, int maxX, int maxY) {
+	public static Wall createWall(long x, long y, long maxX, long maxY) {
 		int id = IdCounter.getNextId();
 		Wall wall = new Wall(id, x, y, maxX, maxY);
 		return wall;
 	}
 
-	public static Water createWater(int x, int y, int maxX, int maxY) {
+	public static Water createWater(long x, long y, long maxX, long maxY) {
 		Water water = new Water(x, y, maxX, maxY);
 		return water;
 	}
@@ -43,7 +43,7 @@ public class WallFactory {
 				(int) (maxY * ModelConstants.MAX_VALUE));
 	}
 
-	public static IcyWall createIceWall(int x, int y, int maxX, int maxY) {
+	public static IcyWall createIceWall(long x, long y, long maxX, long maxY) {
 		int id = IdCounter.getNextId();
 		IcyWall wall = new IcyWall(id, x, y, maxX, maxY);
 		return wall;
@@ -57,7 +57,7 @@ public class WallFactory {
 				(int) (maxY * ModelConstants.MAX_VALUE), mediaPlayer);
 	}
 
-	public static Jumper createJumper(int x, int y, int maxX, int maxY,
+	public static Jumper createJumper(long x, long y, long maxX, long maxY,
 			MediaPlayer mediaPlayer) {
 		int id = IdCounter.getNextId();
 		Jumper jumper = new Jumper(id, x, y, maxX, maxY, mediaPlayer);

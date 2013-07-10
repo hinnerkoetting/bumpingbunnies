@@ -2,26 +2,26 @@ package de.oetting.bumpingbunnies.usecases.game.model;
 
 public class SpawnPoint {
 
-	private int x;
-	private int y;
+	private long x;
+	private long y;
 
-	public int getX() {
+	public long getX() {
 		return this.x;
 	}
 
-	public void setX(int x) {
+	public void setX(long x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public long getY() {
 		return this.y;
 	}
 
-	public void setY(int y) {
+	public void setY(long y) {
 		this.y = y;
 	}
 
-	public SpawnPoint(int x, int y) {
+	public SpawnPoint(long x, long y) {
 		super();
 		this.x = x;
 		this.y = y;

@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.model;
 
 public class MovingGameobjectState {
 
-	int centerX;
-	int centerY;
+	long centerX;
+	long centerY;
 	int movementX;
 	int movementY;
 	int accelerationX;

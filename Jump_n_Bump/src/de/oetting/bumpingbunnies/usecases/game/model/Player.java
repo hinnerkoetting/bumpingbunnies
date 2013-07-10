@@ -39,29 +39,29 @@ public class Player implements GameObject {
 	}
 
 	public void calculateRect() {
-		int centerX = this.state.getCenterX();
-		int centerY = this.state.getCenterY();
+		long centerX = this.state.getCenterX();
+		long centerY = this.state.getCenterY();
 		this.rect.setMinX(centerX - this.halfWidth);
 		this.rect.setMaxX(centerX + this.halfWidth);
 		this.rect.setMinY(centerY - this.halfHeight);
 		this.rect.setMaxY(centerY + this.halfHeight);
 	}
 
-	public int getCenterX() {
+	public long getCenterX() {
 		return this.state.getCenterX();
 	}
 
-	public void setCenterX(int centerX) {
+	public void setCenterX(long centerX) {
 		this.state.setCenterX(centerX);
 		calculateRect();
 		LOGGER.debug("%s %d", "set", centerX);
 	}
 
-	public int getCenterY() {
+	public long getCenterY() {
 		return this.state.getCenterY();
 	}
 
-	public void setCenterY(int centerY) {
+	public void setCenterY(long centerY) {
 		this.state.setCenterY(centerY);
 		calculateRect();
 	}
@@ -95,22 +95,22 @@ public class Player implements GameObject {
 	}
 
 	@Override
-	public int maxX() {
+	public long maxX() {
 		return this.rect.getMaxX();
 	}
 
 	@Override
-	public int maxY() {
+	public long maxY() {
 		return this.rect.getMaxY();
 	}
 
 	@Override
-	public int minX() {
+	public long minX() {
 		return this.rect.getMinX();
 	}
 
 	@Override
-	public int minY() {
+	public long minY() {
 		return this.rect.getMinY();
 	}
 
@@ -178,11 +178,11 @@ public class Player implements GameObject {
 		return this.state.getColor();
 	}
 
-	public int centerX() {
+	public long centerX() {
 		return this.state.getCenterX();
 	}
 
-	public int centerY() {
+	public long centerY() {
 		return this.state.getCenterY();
 	}
 

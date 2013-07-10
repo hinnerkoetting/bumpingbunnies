@@ -26,12 +26,12 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 	}
 
 	@Override
-	public float getScreenCoordinateX(int gameX) {
+	public float getScreenCoordinateX(long gameX) {
 		return GameToAndroidTransformation.transformX(gameX, this.width);
 	}
 
 	@Override
-	public float getScreenCoordinateY(int gameY) {
+	public float getScreenCoordinateY(long gameY) {
 		return GameToAndroidTransformation.transformY(gameY, this.height);
 	}
 

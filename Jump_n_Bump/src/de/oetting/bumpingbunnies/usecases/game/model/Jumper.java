@@ -7,7 +7,7 @@ public class Jumper extends FixedWorldObject {
 
 	private final MediaPlayer mediaPlayer;
 
-	public Jumper(int id, int minX, int minY, int maxX, int maxY,
+	public Jumper(int id, long minX, long minY, long maxX, long maxY,
 			MediaPlayer mediaPlayer) {
 		super(id, minX, minY, maxX, maxY, Color.YELLOW);
 		this.mediaPlayer = mediaPlayer;

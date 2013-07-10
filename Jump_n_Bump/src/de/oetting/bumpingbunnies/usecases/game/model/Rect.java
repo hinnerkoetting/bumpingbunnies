@@ -2,15 +2,15 @@ package de.oetting.bumpingbunnies.usecases.game.model;
 
 public class Rect {
 
-	private int minX;
-	private int maxX;
-	private int minY;
-	private int maxY;
+	private long minX;
+	private long maxX;
+	private long minY;
+	private long maxY;
 
 	public Rect() {
 	}
 
-	public Rect(int minX, int maxX, int minY, int maxY) {
+	public Rect(long minX, long maxX, long minY, long maxY) {
 		super();
 		this.minX = minX;
 		this.maxX = maxX;
@@ -18,35 +18,35 @@ public class Rect {
 		this.maxY = maxY;
 	}
 
-	public int getMinX() {
+	public long getMinX() {
 		return this.minX;
 	}
 
-	public void setMinX(int minX) {
+	public void setMinX(long minX) {
 		this.minX = minX;
 	}
 
-	public int getMaxX() {
+	public long getMaxX() {
 		return this.maxX;
 	}
 
-	public void setMaxX(int maxX) {
+	public void setMaxX(long maxX) {
 		this.maxX = maxX;
 	}
 
-	public int getMinY() {
+	public long getMinY() {
 		return this.minY;
 	}
 
-	public void setMinY(int minY) {
+	public void setMinY(long minY) {
 		this.minY = minY;
 	}
 
-	public int getMaxY() {
+	public long getMaxY() {
 		return this.maxY;
 	}
 
-	public void setMaxY(int maxY) {
+	public void setMaxY(long maxY) {
 		this.maxY = maxY;
 	}
 

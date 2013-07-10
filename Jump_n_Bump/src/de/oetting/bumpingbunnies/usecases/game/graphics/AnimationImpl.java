@@ -26,7 +26,7 @@ public class AnimationImpl implements Animation {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas, int left, int top, Paint paint) {
+	public void draw(CanvasDelegate canvas, long left, long top, Paint paint) {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - this.lastTimeSwitched >= this.timeBetweenPictures) {
 			increaseIndex();
@@ -36,7 +36,7 @@ public class AnimationImpl implements Animation {
 		drawCurrentImage(canvas, left, top, paint);
 	}
 
-	private void drawCurrentImage(CanvasDelegate canvas, int left, int top,
+	private void drawCurrentImage(CanvasDelegate canvas, long left, long top,
 			Paint paint) {
 		canvas.drawImage(this.scaledPictures.get(this.currentIndex), left, top,
 				paint);

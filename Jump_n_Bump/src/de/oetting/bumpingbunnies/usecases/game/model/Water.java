@@ -7,7 +7,7 @@ public class Water implements GameObject {
 
 	private final Rect rect;
 
-	public Water(int minX, int minY, int maxX, int maxY) {
+	public Water(long minX, long minY, long maxX, long maxY) {
 		this.rect = new Rect(minX, maxX, minY, maxY);
 	}
 
@@ -17,22 +17,22 @@ public class Water implements GameObject {
 	}
 
 	@Override
-	public int maxX() {
+	public long maxX() {
 		return this.rect.getMaxX();
 	}
 
 	@Override
-	public int maxY() {
+	public long maxY() {
 		return this.rect.getMaxY();
 	}
 
 	@Override
-	public int minX() {
+	public long minX() {
 		return this.rect.getMinX();
 	}
 
 	@Override
-	public int minY() {
+	public long minY() {
 		return this.rect.getMinY();
 	}
 

@@ -13,19 +13,19 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.movementState = new MovingGameobjectState();
 	}
 
-	public int getCenterX() {
+	public long getCenterX() {
 		return this.movementState.centerX;
 	}
 
-	public void setCenterX(int centerX) {
+	public void setCenterX(long centerX) {
 		this.movementState.centerX = centerX;
 	}
 
-	public int getCenterY() {
+	public long getCenterY() {
 		return this.movementState.centerY;
 	}
 
-	public void setCenterY(int centerY) {
+	public void setCenterY(long centerY) {
 		this.movementState.centerY = centerY;
 	}
 

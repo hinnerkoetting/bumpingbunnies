@@ -42,13 +42,13 @@ public class CanvasDelegateImpl implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawRect(int left, int top, int right, int bottom, Paint paint) {
+	public void drawRect(long left, long top, long right, long bottom, Paint paint) {
 		this.canvas.drawRect(transformX(left), transformY(top),
 				transformX(right), transformY(bottom), paint);
 	}
 
 	@Override
-	public void drawImage(Bitmap bitmap, int left, int top, Paint paint) {
+	public void drawImage(Bitmap bitmap, long left, long top, Paint paint) {
 		this.canvas
 				.drawBitmap(bitmap, transformX(left), transformY(top), paint);
 	}
@@ -57,7 +57,7 @@ public class CanvasDelegateImpl implements CanvasDelegate {
 	 * Using double as parameter to avoid buffer overflow
 	 */
 	@Override
-	public float transformX(int x) {
+	public float transformX(long x) {
 		return this.calculations.getScreenCoordinateX(x);
 	}
 
@@ -65,7 +65,7 @@ public class CanvasDelegateImpl implements CanvasDelegate {
 	 * Using double as parameter to avoid buffer overflow
 	 */
 	@Override
-	public float transformY(int y) {
+	public float transformY(long y) {
 		return this.calculations.getScreenCoordinateY(y);
 	}
 

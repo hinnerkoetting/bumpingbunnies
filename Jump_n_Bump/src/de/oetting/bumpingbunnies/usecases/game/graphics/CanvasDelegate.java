@@ -16,17 +16,17 @@ public interface CanvasDelegate {
 
 	void drawTextRelativeToScreen(String text, double x, double y, Paint paint);
 
-	void drawRect(int left, int top, int right, int bottom, Paint paint);
+	void drawRect(long left, long top, long right, long bottom, Paint paint);
 
 	void drawRectRelativeToScreen(double left, double top, double right,
 			double bottom, Paint paint);
 
-	void drawImage(Bitmap bitmap, int left, int top, Paint paint);
+	void drawImage(Bitmap bitmap, long left, long top, Paint paint);
 
 	void drawImageDirect(Bitmap bitmap, int left, int top, Paint paint);
 
-	float transformY(int y);
+	float transformY(long y);
 
-	float transformX(int x);
+	float transformX(long x);
 
 }

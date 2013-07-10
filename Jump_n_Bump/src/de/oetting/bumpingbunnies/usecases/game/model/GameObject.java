@@ -4,13 +4,13 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 
 public interface GameObject {
 
-	int maxX();
+	long maxX();
 
-	int maxY();
+	long maxY();
 
-	int minX();
+	long minX();
 
-	int minY();
+	long minY();
 
 	int getColor();
 

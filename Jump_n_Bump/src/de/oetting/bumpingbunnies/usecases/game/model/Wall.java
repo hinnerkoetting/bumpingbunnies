@@ -4,11 +4,11 @@ import android.graphics.Color;
 
 public class Wall extends FixedWorldObject implements ModelConstants {
 
-	public Wall(int id, int minX, int minY, int maxX, int maxY, int color) {
+	public Wall(int id, long minX, long minY, long maxX, long maxY, int color) {
 		super(id, minX, minY, maxX, maxY, color);
 	}
 
-	public Wall(int id, int minX, int minY, int maxX, int maxY) {
+	public Wall(int id, long minX, long minY, long maxX, long maxY) {
 		this(id, minX, minY, maxX, maxY, Color.GRAY);
 	}
 

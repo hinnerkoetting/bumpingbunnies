@@ -50,20 +50,20 @@ public class InteractionServiceTest {
 	@Test
 	public void interaction_givenPlayerMovingRightRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
 		Player player = givenPlayerAt00WithMovement(2);
-		int wallXPosition = player.maxX() + 1;
+		long wallXPosition = player.maxX() + 1;
 		givenCollidingWallAt(wallXPosition, 0);
 		whenPlayerInteractsWithWorld(player);
-		int distanceToWall = wallXPosition - player.maxX();
+		long distanceToWall = wallXPosition - player.maxX();
 		assertEquals(distanceToWall, player.movementX());
 	}
 
 	@Test
 	public void interaction_givenPlayerMovingLeftRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
 		Player player = givenPlayerAt00WithMovement(-2);
-		int wallXPosition = -1;
+		long wallXPosition = -1;
 		givenCollidingWallAt(wallXPosition, 0);
 		whenPlayerInteractsWithWorld(player);
-		int distanceToWall = wallXPosition - player.minX();
+		long distanceToWall = wallXPosition - player.minX();
 		assertEquals(distanceToWall, player.movementX());
 
 	}
@@ -71,27 +71,27 @@ public class InteractionServiceTest {
 	@Test
 	public void interaction_givenPlayerMovingUpRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
 		Player player = givenPlayerAt00WithYMovement(2);
-		int wallYPosition = player.maxY() + 1;
+		long wallYPosition = player.maxY() + 1;
 		givenCollidingWallAt(0, wallYPosition);
 		whenPlayerInteractsWithWorld(player);
-		int distanceToWall = wallYPosition - player.maxY();
+		long distanceToWall = wallYPosition - player.maxY();
 		assertEquals(distanceToWall, player.movementY());
 	}
 
 	@Test
 	public void interaction_givenPlayerMovingDownRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
 		Player player = givenPlayerAt00WithYMovement(-2);
-		int wallYPosition = player.minY() - 1;
+		long wallYPosition = player.minY() - 1;
 		givenCollidingWallAt(0, wallYPosition);
 		whenPlayerInteractsWithWorld(player);
-		int distanceToWall = wallYPosition - player.minY();
+		long distanceToWall = wallYPosition - player.minY();
 		assertEquals(distanceToWall, player.movementY());
 	}
 
 	@Test
 	public void interaction_givenPlayerMovingRightIntoWall_shouldHaveNoAccelerationAfterwards() {
 		Player player = givenPlayerAt00WithMovement(1);
-		player.setAccelerationX(player.maxX() + 1);
+		player.setAccelerationX((int) (player.maxX() + 1));
 		givenPlayerStandsDirectlyBeforeWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(0, player.getAccelerationX(), 0.001);
@@ -127,7 +127,7 @@ public class InteractionServiceTest {
 	@Test
 	public void interaction_playerStandingOnTopOfWall_shouldHaveNoAccelerationAndMovementDown() {
 		Player player = givenPlayerAt00WithYMovement(-1);
-		player.setAccelerationY(player.minY());
+		player.setAccelerationY((int) player.minY());
 		givenPlayerStandsOnWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(0, player.movementY());
@@ -146,7 +146,7 @@ public class InteractionServiceTest {
 				.thenReturn(true);
 	}
 
-	private void givenCollidingWallAt(int x, int y) {
+	private void givenCollidingWallAt(long x, long y) {
 		when(
 				this.collisionDetection.collides(any(GameObject.class),
 						any(GameObject.class))).thenReturn(true);

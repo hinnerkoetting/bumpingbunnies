@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.model;
 
 public interface ModelConstants {
 
-	int MAX_VALUE = 10000000;
+	int MAX_VALUE = 100000000;
 
 	int WALL_WIDTH = (int) (0.025 * MAX_VALUE);
 	int WALL_HEIGHT = (int) (0.025 * MAX_VALUE);

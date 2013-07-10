@@ -10,7 +10,7 @@ public abstract class FixedWorldObject implements GameObject {
 	private final int color;
 	private final CollisionHandling collisionHandling;
 
-	public FixedWorldObject(int id, int minX, int minY, int maxX, int maxY,
+	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY,
 			int color) {
 		this.id = id;
 		this.rect = new Rect(minX, maxX, minY, maxY);
@@ -40,22 +40,22 @@ public abstract class FixedWorldObject implements GameObject {
 	// }
 
 	@Override
-	public int minX() {
+	public long minX() {
 		return this.rect.getMinX();
 	}
 
 	@Override
-	public int minY() {
+	public long minY() {
 		return this.rect.getMinY();
 	}
 
 	@Override
-	public int maxX() {
+	public long maxX() {
 		return this.rect.getMaxX();
 	}
 
 	@Override
-	public int maxY() {
+	public long maxY() {
 		return this.rect.getMaxY();
 	}
 

@@ -98,36 +98,36 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 	 * Coordinates from x = 0.. 110, y = 0..80 for easier building from original
 	 * jjumpn bump
 	 */
-	private Wall convenienceBuildWall(int x, int y, int maxX, int maxY) {
+	private Wall convenienceBuildWall(long x, long y, long maxX, long maxY) {
 		return WallFactory.createWall(
-				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
-						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
-						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
+				(long) (x * ModelConstants.MAX_VALUE / 110.0), (long) (y
+						* ModelConstants.MAX_VALUE / 80.0), (long) (maxX
+						* ModelConstants.MAX_VALUE / 110.0), (long) (maxY
 						* ModelConstants.MAX_VALUE / 80.0));
 	}
 
-	private Wall convenienceBuildIcyWall(int x, int y, int maxX, int maxY) {
+	private Wall convenienceBuildIcyWall(long x, long y, long maxX, long maxY) {
 		return WallFactory.createIceWall(
-				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
-						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
-						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
+				(long) (x * ModelConstants.MAX_VALUE / 110.0), (long) (y
+						* ModelConstants.MAX_VALUE / 80.0), (long) (maxX
+						* ModelConstants.MAX_VALUE / 110.0), (long) (maxY
 						* ModelConstants.MAX_VALUE / 80.0));
 	}
 
-	private Water convenienceBuildWater(int x, int y, int maxX, int maxY) {
+	private Water convenienceBuildWater(long x, long y, long maxX, long maxY) {
 		return WallFactory.createWater(
-				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
-						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
-						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
+				(long) (x * ModelConstants.MAX_VALUE / 110.0), (long) (y
+						* ModelConstants.MAX_VALUE / 80.0), (long) (maxX
+						* ModelConstants.MAX_VALUE / 110.0), (long) (maxY
 						* ModelConstants.MAX_VALUE / 80.0));
 	}
 
-	private Jumper convenienceBuildJumper(int x, int y, int maxX, int maxY,
+	private Jumper convenienceBuildJumper(long x, long y, long maxX, long maxY,
 			MediaPlayer mediaPlayer) {
 		return WallFactory.createJumper(
-				(int) (x * ModelConstants.MAX_VALUE / 110.0), (int) (y
-						* ModelConstants.MAX_VALUE / 80.0), (int) (maxX
-						* ModelConstants.MAX_VALUE / 110.0), (int) (maxY
+				(long) (x * ModelConstants.MAX_VALUE / 110.0), (long) (y
+						* ModelConstants.MAX_VALUE / 80.0), (long) (maxX
+						* ModelConstants.MAX_VALUE / 110.0), (long) (maxY
 						* ModelConstants.MAX_VALUE / 80.0), mediaPlayer);
 	}
 
@@ -143,9 +143,9 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 				convenicenceCreateSpawnPoint(90, 80));
 	}
 
-	private SpawnPoint convenicenceCreateSpawnPoint(int x, int y) {
-		return new SpawnPoint((int) (x * ModelConstants.MAX_VALUE / 110.0),
-				(int) (y * ModelConstants.MAX_VALUE / 80.0));
+	private SpawnPoint convenicenceCreateSpawnPoint(long x, long y) {
+		return new SpawnPoint((long) (x * ModelConstants.MAX_VALUE / 110.0),
+				(long) (y * ModelConstants.MAX_VALUE / 80.0));
 	}
 
 }
