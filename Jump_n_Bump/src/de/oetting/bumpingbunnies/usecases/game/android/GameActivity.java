@@ -32,7 +32,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.PlayerIsDeadReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;

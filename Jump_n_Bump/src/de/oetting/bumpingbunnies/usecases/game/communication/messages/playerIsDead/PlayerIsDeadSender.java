@@ -1,9 +1,8 @@
-package de.oetting.bumpingbunnies.usecases.game.communication.messages;
+package de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageSenderTemplate;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.model.messages.PlayerIsDead;
 
 public class PlayerIsDeadSender extends MessageSenderTemplate<PlayerIsDead> {
 

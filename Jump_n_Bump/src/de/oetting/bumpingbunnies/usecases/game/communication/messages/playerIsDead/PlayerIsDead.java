@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.model.messages;
+package de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead;
 
 public class PlayerIsDead {
 

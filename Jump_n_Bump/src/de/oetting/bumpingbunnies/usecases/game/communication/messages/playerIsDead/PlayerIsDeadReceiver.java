@@ -1,11 +1,10 @@
-package de.oetting.bumpingbunnies.usecases.game.communication.messages;
+package de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.model.messages.PlayerIsDead;
 
 public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDead> {
 
