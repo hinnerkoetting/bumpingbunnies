@@ -5,6 +5,10 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
+/**
+ * Allows sending messages to a client.
+ * 
+ */
 public interface RemoteSender {
 
 	void sendPlayerCoordinates(Player player);

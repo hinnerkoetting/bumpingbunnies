@@ -31,15 +31,12 @@ import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.PlayerIsDeadReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
-import de.oetting.bumpingbunnies.usecases.game.model.messages.PlayerIsDead;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
@@ -123,13 +120,13 @@ public class GameActivity extends Activity {
 		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory(parameter);
 		AllPlayerConfig config = PlayerConfigFactory.create(parameter, world,
 				contentView, otherPlayerFactory);
-		// List<StateSender> allStateSender = config.createStateSender();
 		Player myPlayer = config.getTabletControlledPlayer();
+		createRemoteSender();
 		List<StateSender> allStateSender = createSender(myPlayer);
 		List<InputService> inputServices = initInputServices(
 				otherPlayerFactory, config,
-				extractRemoteSenders(allStateSender), parameter);
-		// this.networkThread = otherPlayerFactory.createSender();
+				this.sendThreads, parameter);
+
 		this.gameThread = GameThreadFactory.create(world,
 				config.getAllPlayerMovementControllers(), inputServices,
 				allStateSender, this, config, parameter.getConfiguration(),
@@ -138,28 +135,25 @@ public class GameActivity extends Activity {
 		contentView.addOnSizeListener(this.gameThread);
 	}
 
-	private List<StateSender> createSender(Player myPlayer) {
+	private void createRemoteSender() {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
-		List<StateSender> resultSender = new ArrayList<StateSender>(
+		List<RemoteSender> resultSender = new ArrayList<RemoteSender>(
 				allSockets.size());
 		for (MySocket socket : allSockets) {
 			RemoteSender sender = NetworkSendQueueThreadFactory.create(socket);
-			new PlayerIsDeadSender(SimpleNetworkSenderFactory.createNetworkSender(socket)).message(new PlayerIsDead());
-			this.sendThreads.add(sender);
-			resultSender.add(new GameNetworkSender(myPlayer, sender));
+			resultSender.add(sender);
 		}
-		return resultSender;
+		this.sendThreads = resultSender;
 	}
 
-	private List<RemoteSender> extractRemoteSenders(
-			List<StateSender> stateSender) {
-		List<RemoteSender> remoteSenders = new ArrayList<RemoteSender>(
-				stateSender.size());
-		for (StateSender ss : stateSender) {
-			remoteSenders.add(ss.getRemoteSender());
+	private List<StateSender> createSender(Player myPlayer) {
+		List<StateSender> resultSender = new ArrayList<StateSender>(
+				this.sendThreads.size());
+		for (RemoteSender rs : this.sendThreads) {
+			resultSender.add(new GameNetworkSender(myPlayer, rs));
 		}
-		return remoteSenders;
+		return resultSender;
 	}
 
 	private List<InputService> initInputServices(
