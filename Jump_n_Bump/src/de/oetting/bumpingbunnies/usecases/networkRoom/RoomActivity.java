@@ -32,13 +32,11 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
@@ -46,6 +44,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
@@ -326,12 +325,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private void notifyClientsAboutlaunch() {
 		SocketStorage singleton = SocketStorage.getSingleton();
 		MessageParser parser = MessageParserFactory.create();
-		JsonWrapper generalSettings = createJsonGeneralSettings(parser);
-
+		GeneralSettings settings = createGeneralSettingsFromIntent();
 		for (MySocket socket : singleton.getAllSockets()) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 					.createNetworkSender(socket);
-			networkSender.sendMessage(generalSettings);
+			new GameSettingSender(networkSender).sendMessage(settings);
 			new StartGameSender(networkSender).sendMessage("");
 		}
 	}
@@ -353,14 +351,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private LocalSettings createLocalSettingsFromIntent() {
 		return (LocalSettings) getIntent().getExtras().get(
 				ActivityLauncher.LOCAL_SETTINGS);
-	}
-
-	private JsonWrapper createJsonGeneralSettings(MessageParser parser) {
-		GeneralSettings settings = createGeneralSettingsFromIntent();
-		JsonWrapper generalSettings = new JsonWrapper(
-				MessageIds.SEND_CONFIGURATION_ID,
-				parser.encodeMessage(settings));
-		return generalSettings;
 	}
 
 	private GeneralSettings createGeneralSettingsFromIntent() {

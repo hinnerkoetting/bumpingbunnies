@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingsReceiver;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameReceiver;
 
 public class ConnectionToServerService implements ConnectionToServer {
@@ -64,15 +65,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 		NetworkToGameDispatcher gameDispatcher = this.networkReceiver
 				.getGameDispatcher();
 		new StartGameReceiver(gameDispatcher, this);
-		gameDispatcher.addObserver(MessageIds.SEND_CONFIGURATION_ID,
-				new DefaultNetworkListener<GeneralSettings>(
-						GeneralSettings.class) {
-
-					@Override
-					public void receiveMessage(GeneralSettings message) {
-						ConnectionToServerService.this.generalSettingsFromNetwork = message;
-					}
-				});
+		new GameSettingsReceiver(gameDispatcher, this);
 		gameDispatcher.addObserver(MessageIds.SEND_CLIENT_PLAYER_ID,
 				new DefaultNetworkListener<Integer>(Integer.class) {
 
@@ -91,6 +84,10 @@ public class ConnectionToServerService implements ConnectionToServer {
 								object, 0);
 					}
 				});
+	}
+
+	public void onReceiveGameSettings(GeneralSettings message) {
+		ConnectionToServerService.this.generalSettingsFromNetwork = message;
 	}
 
 	public void onReceiveStartGame() {
