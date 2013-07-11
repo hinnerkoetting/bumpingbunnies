@@ -1,23 +1,28 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.ListSpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class GameThreadFactory {
@@ -36,10 +41,20 @@ public class GameThreadFactory {
 				world.getSpawnPoints());
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		List<PlayerMovementController> playermovements = playerConfig.getAllPlayerMovementControllers();
-		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, spawnPointGenerator);
+		BunnyKillChecker killChecker = new HostBunnyKillChecker(new CollisionDetection(world), extractPlayers(playermovements),
+				spawnPointGenerator);
+		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, spawnPointGenerator, killChecker);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
+	}
+
+	private static List<Player> extractPlayers(List<PlayerMovementController> movement) {
+		List<Player> players = new ArrayList<Player>(movement.size());
+		for (PlayerMovementController m : movement) {
+			players.add(m.getPlayer());
+		}
+		return players;
 	}
 }
