@@ -19,6 +19,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingsReceiver;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId.SendClientPlayerIdReceiver;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameReceiver;
 
 public class ConnectionToServerService implements ConnectionToServer {
@@ -66,14 +67,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 				.getGameDispatcher();
 		new StartGameReceiver(gameDispatcher, this);
 		new GameSettingsReceiver(gameDispatcher, this);
-		gameDispatcher.addObserver(MessageIds.SEND_CLIENT_PLAYER_ID,
-				new DefaultNetworkListener<Integer>(Integer.class) {
-
-					@Override
-					public void receiveMessage(Integer object) {
-						addMyPlayerRoomEntry(object);
-					}
-				});
+		new SendClientPlayerIdReceiver(gameDispatcher, this);
 		gameDispatcher.addObserver(MessageIds.SEND_OTHER_PLAYER_ID,
 				new DefaultNetworkListener<PlayerProperties>(
 						PlayerProperties.class) {
@@ -100,7 +94,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 		this.roomActivity.addPlayerEntry(serverSocket, properties, socketIndex);
 	}
 
-	protected void addMyPlayerRoomEntry(int myPlayerId) {
+	public void addMyPlayerRoomEntry(int myPlayerId) {
 		this.roomActivity.addMyPlayerRoomEntry(myPlayerId);
 	}
 

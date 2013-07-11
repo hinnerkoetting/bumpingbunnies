@@ -19,6 +19,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomEntry;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId.SendClientPlayerIdSender;
 
 public class ConnectionToClientService {
 
@@ -107,8 +108,7 @@ public class ConnectionToClientService {
 	private void sendClientPlayer(SimpleNetworkSender networkSender,
 			int playerId) {
 		LOGGER.info("Notifying new Player about his id %d", playerId);
-		JsonWrapper clientPlayer = createJsonPlayerId(playerId);
-		networkSender.sendMessage(clientPlayer);
+		new SendClientPlayerIdSender(networkSender).sendMessage(playerId);
 	}
 
 	private JsonWrapper createPlayerInfoMessage(RoomEntry entry) {
