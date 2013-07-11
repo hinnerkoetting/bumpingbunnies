@@ -15,7 +15,7 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDead> 
 	}
 
 	@Override
-	public void message(PlayerIsDead message) {
+	public void onReceiveMessage(PlayerIsDead object) {
 		LOGGER.info("received message");
 	}
 

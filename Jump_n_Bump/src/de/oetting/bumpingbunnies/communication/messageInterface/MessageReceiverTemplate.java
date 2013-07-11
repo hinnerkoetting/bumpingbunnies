@@ -12,10 +12,11 @@ public abstract class MessageReceiverTemplate<T> implements MessageInterface<T> 
 
 			@Override
 			public void receiveMessage(T object) {
-				message(object);
+				onReceiveMessage(object);
 			}
 		};
 		dispatcher.addObserver(messageId, this.listener);
 	}
 
+	public abstract void onReceiveMessage(T object);
 }

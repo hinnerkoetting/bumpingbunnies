@@ -23,8 +23,7 @@ public abstract class MessageSenderTemplate<T> implements MessageInterface<T> {
 		this.messageId = messageId;
 	}
 
-	@Override
-	public void message(T message) {
+	public void sendMessage(T message) {
 		String encoded = this.parser.encodeMessage(message);
 		this.networkSender.sendMessage(new JsonWrapper(this.messageId, encoded));
 	}

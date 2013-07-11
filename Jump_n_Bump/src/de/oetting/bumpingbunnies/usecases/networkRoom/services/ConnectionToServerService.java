@@ -67,9 +67,9 @@ public class ConnectionToServerService implements ConnectionToServer {
 
 					@Override
 					public void receiveMessage(Object message) {
-						ConnectionToServerService.this.networkReceiver.cancel();
-						launchGame();
+						onReceiveStartGame();
 					}
+
 				});
 		gameDispatcher.addObserver(MessageIds.SEND_CONFIGURATION_ID,
 				new DefaultNetworkListener<GeneralSettings>(
@@ -98,6 +98,11 @@ public class ConnectionToServerService implements ConnectionToServer {
 								object, 0);
 					}
 				});
+	}
+
+	public void onReceiveStartGame() {
+		this.networkReceiver.cancel();
+		launchGame();
 	}
 
 	protected void addPlayerEntry(MySocket serverSocket,
