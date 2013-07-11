@@ -155,6 +155,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		for (ConnectionToClientService connectionToClient : this.connectionToClientServices) {
 			connectionToClient.cancel();
 		}
+		SocketStorage.getSingleton().closeExistingSocket();
 	}
 
 	@Override

@@ -31,11 +31,15 @@ import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.PlayerIsDeadReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.game.model.messages.PlayerIsDead;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
@@ -49,7 +53,7 @@ public class GameActivity extends Activity {
 	private GameThread gameThread;
 
 	private InputDispatcher<?> inputDispatcher;
-	private List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
+	private List<NetworkReceiveThread> networkReceiveThreads;
 	private List<RemoteSender> sendThreads = new ArrayList<RemoteSender>();
 	private MediaPlayer backgroundMusic;
 
@@ -141,6 +145,7 @@ public class GameActivity extends Activity {
 				allSockets.size());
 		for (MySocket socket : allSockets) {
 			RemoteSender sender = NetworkSendQueueThreadFactory.create(socket);
+			new PlayerIsDeadSender(SimpleNetworkSenderFactory.createNetworkSender(socket)).message(new PlayerIsDead());
 			this.sendThreads.add(sender);
 			resultSender.add(new GameNetworkSender(myPlayer, sender));
 		}
@@ -176,6 +181,7 @@ public class GameActivity extends Activity {
 				startResultScreen();
 			}
 		});
+		addAllNetworkListeners(networkDispatcher);
 		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		createNetworkReceiveThreads(networkDispatcher, allSender);
 		List<InputService> inputServices = config.createOtherInputService(networkDispatcher,
@@ -187,11 +193,16 @@ public class GameActivity extends Activity {
 		return inputServices;
 	}
 
+	private void addAllNetworkListeners(NetworkToGameDispatcher networkDispatcher) {
+		new PlayerIsDeadReceiver(networkDispatcher);
+	}
+
 	private void createNetworkReceiveThreads(
 			NetworkToGameDispatcher networkDispatcher,
 			List<RemoteSender> allRemoteSender) {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
+		this.networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
 		for (MySocket socket : allSockets) {
 			NetworkReceiveThread receiveThread = NetworkReceiverDispatcherThreadFactory
 					.createGameNetworkReceiver(socket, allRemoteSender,
@@ -220,6 +231,7 @@ public class GameActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		shutdownAllThreads();
+		SocketStorage.getSingleton().closeExistingSocket();
 	}
 
 	public void shutdownAllThreads() {

@@ -8,6 +8,7 @@ public class MessageIds {
 	public static final int SEND_OTHER_PLAYER_ID = 100003;
 	public static final int SEND_CLIENT_LOCAL_PLAYER_SETTINGS = 100004;
 	public static final int STOP_GAME = 100005;
+	public static final int PLAYER_IS_DEAD_MESSAGE = 100006;
 
 	private MessageIds() {
 	}
