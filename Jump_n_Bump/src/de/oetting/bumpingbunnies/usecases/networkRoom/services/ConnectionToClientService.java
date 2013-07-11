@@ -6,7 +6,6 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
-import de.oetting.bumpingbunnies.usecases.game.communication.DefaultNetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
@@ -20,6 +19,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomEntry;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId.SendClientPlayerIdSender;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendLocalSettings.SendLocalSettingsReceiver;
 
 public class ConnectionToClientService {
 
@@ -47,19 +47,14 @@ public class ConnectionToClientService {
 	private void addObserver() {
 		NetworkToGameDispatcher gameDispatcher = this.networkReceiver
 				.getGameDispatcher();
-		gameDispatcher.addObserver(
-				MessageIds.SEND_CLIENT_LOCAL_PLAYER_SETTINGS,
-				new DefaultNetworkListener<LocalPlayersettings>(
-						LocalPlayersettings.class) {
+		new SendLocalSettingsReceiver(gameDispatcher, this);
+	}
 
-					@Override
-					public void receiveMessage(LocalPlayersettings message) {
-						ConnectionToClientService.this.networkReceiver.cancel();
-						manageConnectedClient(
-								ConnectionToClientService.this.socket,
-								message.getPlayerName());
-					}
-				});
+	public void onReceiveLocalPlayersettings(LocalPlayersettings message) {
+		ConnectionToClientService.this.networkReceiver.cancel();
+		manageConnectedClient(
+				ConnectionToClientService.this.socket,
+				message.getPlayerName());
 	}
 
 	private void notifyExistingClients(PlayerProperties playerProperties) {
@@ -119,11 +114,6 @@ public class ConnectionToClientService {
 			PlayerProperties playerProperties) {
 		return new JsonWrapper(MessageIds.SEND_OTHER_PLAYER_ID,
 				this.parser.encodeMessage(playerProperties));
-	}
-
-	private JsonWrapper createJsonPlayerId(int playerId) {
-		return new JsonWrapper(MessageIds.SEND_CLIENT_PLAYER_ID,
-				this.parser.encodeMessage(playerId));
 	}
 
 	private int getNextPlayerId() {
