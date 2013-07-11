@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameReceiver;
 
 public class ConnectionToServerService implements ConnectionToServer {
 
@@ -62,15 +63,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 		LOGGER.info("registering observers to receive messages from server");
 		NetworkToGameDispatcher gameDispatcher = this.networkReceiver
 				.getGameDispatcher();
-		gameDispatcher.addObserver(MessageIds.START_GAME_ID,
-				new DefaultNetworkListener<Object>(Object.class) {
-
-					@Override
-					public void receiveMessage(Object message) {
-						onReceiveStartGame();
-					}
-
-				});
+		new StartGameReceiver(gameDispatcher, this);
 		gameDispatcher.addObserver(MessageIds.SEND_CONFIGURATION_ID,
 				new DefaultNetworkListener<GeneralSettings>(
 						GeneralSettings.class) {

@@ -46,6 +46,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServer;
@@ -326,12 +327,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		SocketStorage singleton = SocketStorage.getSingleton();
 		MessageParser parser = MessageParserFactory.create();
 		JsonWrapper generalSettings = createJsonGeneralSettings(parser);
-		JsonWrapper startMessage = new JsonWrapper(MessageIds.START_GAME_ID, "");
+
 		for (MySocket socket : singleton.getAllSockets()) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 					.createNetworkSender(socket);
 			networkSender.sendMessage(generalSettings);
-			networkSender.sendMessage(startMessage);
+			new StartGameSender(networkSender).sendMessage("");
 		}
 	}
 
