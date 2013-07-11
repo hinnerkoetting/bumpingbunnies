@@ -1,22 +1,17 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import java.util.List;
-
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.view.SurfaceHolder;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
 /**
  * All game logic and drawing of the game is executed in this thread.<br>
  * During each loop it will: <li>
- * It will call the {@link WorldController} for gamelogic.</li> <br>
+ * It will call the {@link GameStepController} for gamelogic.</li> <br>
  * <li>The {@link Drawer} is called to draw</li><br>
  * <li>It will handle fps</li
  * 
@@ -28,7 +23,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(GameThread.class);
 	private final Drawer drawer;
-	private final WorldController worldController;
+	private final GameStepController worldController;
 	private final GameThreadState state;
 	private SurfaceHolder holder;
 
@@ -37,7 +32,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	private boolean canceled;
 	private final boolean altPixelMode;
 
-	public GameThread(Drawer drawer, WorldController worldController,
+	public GameThread(Drawer drawer, GameStepController worldController,
 			GameThreadState gameThreadState, boolean altPixelMode) {
 		super("Main Game Thread");
 		this.drawer = drawer;
@@ -140,26 +135,8 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 		this.canceled = true;
 	}
 
-	public void switchInputServices(List<InputService> createInputServices) {
-		this.worldController.switchInputServices(createInputServices);
-
-	}
-
 	@Override
 	public void setNewSize(int width, int height) {
 		this.drawer.setNeedsUpdate(true);
-	}
-
-	public Object getCurrentState() {
-		return this.worldController.getAllPlayers();
-
-	}
-
-	public void applyState(List<Player> state) {
-		this.worldController.applyPlayers(state);
-	}
-
-	public ResultWrapper extractPlayerScores() {
-		return this.worldController.extractPlayerScores();
 	}
 }

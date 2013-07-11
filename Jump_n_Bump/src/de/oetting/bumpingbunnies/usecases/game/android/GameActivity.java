@@ -22,6 +22,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPla
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
@@ -36,7 +37,9 @@ import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFac
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
@@ -53,6 +56,7 @@ public class GameActivity extends Activity {
 	private List<NetworkReceiveThread> networkReceiveThreads;
 	private List<RemoteSender> sendThreads = new ArrayList<RemoteSender>();
 	private MediaPlayer backgroundMusic;
+	private AllPlayerConfig allPlayerConfig;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class GameActivity extends Activity {
 	private void conditionalRestoreState() {
 		Object data = getLastNonConfigurationInstance();
 		if (data != null) {
-			this.gameThread.applyState((List<Player>) data);
+			applyPlayers((List<Player>) data);
 		}
 	}
 
@@ -118,19 +122,18 @@ public class GameActivity extends Activity {
 		World world = WorldFactory.create(parameter.getConfiguration(), this);
 
 		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory(parameter);
-		AllPlayerConfig config = PlayerConfigFactory.create(parameter, world,
+		this.allPlayerConfig = PlayerConfigFactory.create(parameter, world,
 				contentView, otherPlayerFactory);
-		Player myPlayer = config.getTabletControlledPlayer();
+		Player myPlayer = this.allPlayerConfig.getTabletControlledPlayer();
 		createRemoteSender();
 		List<StateSender> allStateSender = createSender(myPlayer);
 		List<InputService> inputServices = initInputServices(
-				otherPlayerFactory, config,
+				otherPlayerFactory, this.allPlayerConfig,
 				this.sendThreads, parameter);
 
 		this.gameThread = GameThreadFactory.create(world,
-				config.getAllPlayerMovementControllers(), inputServices,
-				allStateSender, this, config, parameter.getConfiguration(),
-				config.getCoordinateCalculations());
+				inputServices,
+				allStateSender, this, this.allPlayerConfig, parameter.getConfiguration());
 
 		contentView.addOnSizeListener(this.gameThread);
 	}
@@ -261,7 +264,43 @@ public class GameActivity extends Activity {
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
-		return this.gameThread.getCurrentState();
+		return getAllPlayers();
+	}
+
+	private List<Player> getAllPlayers() {
+		List<PlayerMovementController> playermovements = this.allPlayerConfig.getAllPlayerMovementControllers();
+		List<Player> players = new ArrayList<Player>(
+				playermovements.size());
+		for (PlayerMovementController movement : playermovements) {
+			players.add(movement.getPlayer());
+		}
+		return players;
+	}
+
+	public void applyPlayers(List<Player> storedPlayers) {
+		List<PlayerMovementController> playermovements = this.allPlayerConfig.getAllPlayerMovementControllers();
+		for (PlayerMovementController movement : playermovements) {
+			for (Player storedPlayer : storedPlayers) {
+				if (movement.getPlayer().id() == storedPlayer.id()) {
+					PlayerState newState = movement.getPlayer().getState();
+					PlayerState oldState = storedPlayer.getState();
+					oldState.copyContentTo(newState);
+				}
+			}
+		}
+	}
+
+	public ResultWrapper extractPlayerScores() {
+		List<PlayerMovementController> playermovements = this.allPlayerConfig.getAllPlayerMovementControllers();
+		List<ResultPlayerEntry> players = new ArrayList<ResultPlayerEntry>(
+				playermovements.size());
+		for (PlayerMovementController movement : playermovements) {
+			Player player = movement.getPlayer();
+			ResultPlayerEntry entry = new ResultPlayerEntry(player.getName(), player
+					.getState().getScore(), movement.getPlayer().getColor());
+			players.add(entry);
+		}
+		return new ResultWrapper(players);
 	}
 
 	@Override
@@ -281,6 +320,6 @@ public class GameActivity extends Activity {
 	}
 
 	private ResultWrapper extractResult() {
-		return this.gameThread.extractPlayerScores();
+		return extractPlayerScores();
 	}
 }
