@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.Message;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageMetadata;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 public abstract class MessageSenderTemplate<T> implements MessageInterface<T> {
@@ -13,7 +13,7 @@ public abstract class MessageSenderTemplate<T> implements MessageInterface<T> {
 	private final MessageParser parser;
 	private final MessageId messageId;
 
-	public MessageSenderTemplate(NetworkSender networkSender, Message<T> msg) {
+	public MessageSenderTemplate(NetworkSender networkSender, MessageMetadata<T> msg) {
 		this(networkSender, msg.getId());
 	}
 

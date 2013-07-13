@@ -8,6 +8,8 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDead;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreMessage;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
@@ -43,7 +45,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	private void handleJumpedPlayer(Player playerUnder, Player playerTop) {
 		increaseScore(playerTop);
-		killPlayer(playerUnder);
+		killPlayer(playerUnder, playerTop);
 		resetCoordinate(playerUnder);
 		revivePlayerDelayed(playerUnder);
 	}
@@ -52,12 +54,14 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		ResetToScorePoint.resetPlayerToSpawnPoint(this.spawnPointGenerator, playerUnder);
 	}
 
-	private void killPlayer(Player player) {
-		player.setDead(true);
+	private void killPlayer(Player playerKilled, Player playerKiller) {
+		playerKilled.setDead(true);
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
-		PlayerIsDead message = new PlayerIsDead(player.id(), spawnPoint);
+		PlayerIsDead killedMessage = new PlayerIsDead(playerKilled.id(), spawnPoint);
+		PlayerScoreMessage newScoreMessage = new PlayerScoreMessage(playerKiller.id(), playerKiller.getScore());
 		for (RemoteSender sender : this.sendThreads) {
-			new PlayerIsDeadSender(sender).sendMessage(message);
+			new PlayerIsDeadSender(sender).sendMessage(killedMessage);
+			new PlayerScoreSender(sender).sendMessage(newScoreMessage);
 		}
 	}
 
@@ -66,6 +70,6 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private void revivePlayerDelayed(final Player player) {
-		new BunnyDelayedReviver(player, BunnyDelayedReviver.KILL_TIME_CLIENT_MILLISECONDS).start();
+		new BunnyDelayedReviver(player, BunnyDelayedReviver.KILL_TIME_CLIENT_MILLISECONDS, this.sendThreads).start();
 	}
 }

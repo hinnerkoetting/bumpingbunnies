@@ -30,8 +30,22 @@ public class ClientBunnyKillChecker implements BunnyKillChecker {
 	/**
 	 * Simulate Server behaviour
 	 */
-	private void handleJumpedPlayer(Player playerUnder, Player player) {
+	private void handleJumpedPlayer(final Player playerUnder, Player player) {
 		playerUnder.setDead(true);
-		new BunnyDelayedReviver(playerUnder, BunnyDelayedReviver.KILL_TIME_CLIENT_MILLISECONDS).start();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(BunnyDelayedReviver.KILL_TIME_CLIENT_MILLISECONDS);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				// might be needed id client falsely assumed that other player
+				// is killed
+				playerUnder.setDead(false);
+			}
+		});
+
 	}
 }

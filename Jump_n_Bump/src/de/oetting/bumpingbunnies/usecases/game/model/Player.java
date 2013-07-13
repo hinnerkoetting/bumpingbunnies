@@ -266,6 +266,10 @@ public class Player implements GameObject {
 		return this.state.getScore();
 	}
 
+	public void setScore(int score) {
+		this.state.setScore(score);
+	}
+
 	public void increaseScore(int i) {
 		this.state.setScore(this.state.getScore() + i);
 	}

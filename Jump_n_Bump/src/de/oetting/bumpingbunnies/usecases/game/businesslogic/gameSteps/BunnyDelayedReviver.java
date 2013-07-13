@@ -1,7 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
+import java.util.List;
+
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class BunnyDelayedReviver extends Thread {
@@ -9,26 +13,40 @@ public class BunnyDelayedReviver extends Thread {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostBunnyKillChecker.class);
 	public static final int KILL_TIME_MILLISECONDS = 1000;
 	/**
-	 * make sure that player does accidentallynot stay dead for too long on
+	 * make sure that player does accidentally not stay dead for too long on
 	 * client
 	 */
 	public static final int KILL_TIME_CLIENT_MILLISECONDS = 2500;
 	private final Player player;
 	private int duration;
+	private final List<RemoteSender> senderList;
 
-	public BunnyDelayedReviver(Player player, int duration) {
+	public BunnyDelayedReviver(Player player, int duration, List<RemoteSender> sender) {
 		super();
 		this.player = player;
 		this.duration = duration;
+		this.senderList = sender;
 	}
 
 	@Override
 	public void run() {
+		waitShortTime();
+		this.player.setDead(false);
+		notifyClients();
+	}
+
+	private void notifyClients() {
+		Integer playerId = this.player.id();
+		for (RemoteSender sender : this.senderList) {
+			new PlayerIsRevivedSender(sender).sendMessage(playerId);
+		}
+	}
+
+	private void waitShortTime() {
 		try {
 			Thread.sleep(this.duration);
 		} catch (InterruptedException e) {
 			LOGGER.error("exception", e);
 		}
-		this.player.setDead(false);
 	}
 }

@@ -12,7 +12,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 public enum MessageId {
 	START_GAME_ID(String.class), SEND_CONFIGURATION_ID(GeneralSettings.class), SEND_CLIENT_PLAYER_ID(Integer.class), SEND_OTHER_PLAYER_ID(
 			PlayerProperties.class), SEND_CLIENT_LOCAL_PLAYER_SETTINGS(LocalPlayersettings.class), STOP_GAME(String.class), PLAYER_IS_DEAD_MESSAGE(
-			PlayerIsDead.class), SEND_PLAYER_STATE(PlayerState.class);
+			PlayerIsDead.class), SEND_PLAYER_STATE(PlayerState.class), PLAYER_IS_REVIVED(Integer.class), PLAYER_SCORE_UPDATE(null);
 
 	private final Class<?> clazz;
 

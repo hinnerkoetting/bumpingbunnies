@@ -31,6 +31,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
@@ -169,7 +170,7 @@ public class GameActivity extends Activity {
 		InputService touchService = myPlayerFactory.createInputService(config, this);
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
-		new StopGameReceiver(networkDispatcher, this);
+
 		addAllNetworkListeners(networkDispatcher, world);
 		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		createNetworkReceiveThreads(networkDispatcher, allSender);
@@ -188,7 +189,9 @@ public class GameActivity extends Activity {
 	}
 
 	private void addAllNetworkListeners(NetworkToGameDispatcher networkDispatcher, World world) {
+		new StopGameReceiver(networkDispatcher, this);
 		new PlayerIsDeadReceiver(networkDispatcher, world.getAllPlayer());
+		new PlayerScoreReceiver(networkDispatcher, world.getAllPlayer());
 	}
 
 	private void createNetworkReceiveThreads(
