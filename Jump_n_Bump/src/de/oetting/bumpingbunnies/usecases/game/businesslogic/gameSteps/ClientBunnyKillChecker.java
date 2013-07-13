@@ -48,4 +48,13 @@ public class ClientBunnyKillChecker implements BunnyKillChecker {
 		});
 
 	}
+
+	@Override
+	public void checkForPlayerOutsideOfGameZone() {
+		for (Player p : this.allPlayers) {
+			if (OutsideOfPlayZoneChecker.outsideOfGameZone(p)) {
+				p.increaseScore(-1);
+			}
+		}
+	}
 }

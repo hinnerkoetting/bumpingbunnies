@@ -5,8 +5,6 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 /**
  * Takes care that all bunnies are moved during each step of the game.
@@ -32,25 +30,10 @@ public class BunnyMovementStep implements GameStepAction {
 			movement.nextStep(deltaStepsSinceLastCall);
 			checkForJumpedPlayers();
 		}
-		killPlayersOutOfPlayZone();
 	}
 
 	private void checkForJumpedPlayers() {
 		this.killChecker.checkForJumpedPlayers();
 	}
 
-	private void killPlayersOutOfPlayZone() {
-		for (PlayerMovementController movement : this.playermovements) {
-			Player player = movement.getPlayer();
-			if (player.getCenterY() < -ModelConstants.MAX_VALUE * 0.1) {
-				player.increaseScore(-1);
-				resetCoordinate(player);
-			}
-		}
-
-	}
-
-	private void resetCoordinate(Player playerUnder) {
-		ResetToScorePoint.resetPlayerToSpawnPoint(this.spawnPointGenerator, playerUnder);
-	}
 }

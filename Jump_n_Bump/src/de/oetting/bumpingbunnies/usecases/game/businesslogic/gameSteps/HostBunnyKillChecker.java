@@ -75,4 +75,20 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private void revivePlayerDelayed(final Player player) {
 		new BunnyDelayedReviver(player, BunnyDelayedReviver.KILL_TIME_CLIENT_MILLISECONDS, this.sendThreads).start();
 	}
+
+	@Override
+	public void checkForPlayerOutsideOfGameZone() {
+		for (Player p : this.allPlayers) {
+			if (OutsideOfPlayZoneChecker.outsideOfGameZone(p)) {
+				handlePlayerOutOfPlayZone(p);
+			}
+		}
+	}
+
+	private void handlePlayerOutOfPlayZone(Player killedPlayer) {
+		killedPlayer.increaseScore(-1);
+		killPlayer(killedPlayer);
+		resetCoordinate(killedPlayer);
+		revivePlayerDelayed(killedPlayer);
+	}
 }
