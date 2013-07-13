@@ -8,12 +8,10 @@ public class DummyLogger implements Logger {
 
 	@Override
 	public void debug(String log, Object... params) {
-
 	}
 
 	@Override
 	public void verbose(String log, Object... params) {
-
 	}
 
 	@Override
@@ -26,6 +24,10 @@ public class DummyLogger implements Logger {
 
 	@Override
 	public void error(String string, Throwable t, Object... params) {
+	}
+
+	@Override
+	public void warn(String string, Throwable t, Object... params) {
 	}
 
 }

@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageReceiverTemplate;
-import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 
@@ -11,7 +11,7 @@ public class GameSettingsReceiver extends MessageReceiverTemplate<GeneralSetting
 	private final ConnectionToServerService service;
 
 	public GameSettingsReceiver(NetworkToGameDispatcher dispatcher, ConnectionToServerService service) {
-		super(dispatcher, MessageIds.SEND_CONFIGURATION_ID, GeneralSettings.class);
+		super(dispatcher, MessageId.SEND_CONFIGURATION_ID, GeneralSettings.class);
 		this.service = service;
 	}
 

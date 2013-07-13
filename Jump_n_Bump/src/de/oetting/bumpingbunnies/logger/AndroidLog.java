@@ -40,6 +40,13 @@ public class AndroidLog implements de.oetting.bumpingbunnies.logger.Logger {
 	}
 
 	@Override
+	public void warn(String log, Throwable t, Object... params) {
+		if (Level.WARN.isBiggerEqualThan(LoggerFactory.globalLogLevel)) {
+			Log.w(this.tag, String.format(log, params), t);
+		}
+	}
+
+	@Override
 	public void error(String log, Object... params) {
 		if (Level.ERROR.isBiggerEqualThan(LoggerFactory.globalLogLevel)) {
 			Log.e(this.tag, String.format(log, params));
@@ -52,4 +59,5 @@ public class AndroidLog implements de.oetting.bumpingbunnies.logger.Logger {
 			Log.e(this.tag, String.format(log, params), t);
 		}
 	}
+
 }

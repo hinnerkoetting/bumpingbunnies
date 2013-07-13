@@ -2,24 +2,20 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.network;
 
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
-import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
-public class NetworkInputService implements InputService, NetworkListener {
+public class NetworkInputService implements InputService {
 
 	private PlayerState playerStateFromNetwork;
 	private final Player player;
-	private final MessageParser parser;
 	private PlayerMovementController movementController;
 
 	public NetworkInputService(PlayerMovementController movementController,
-			Player player, MessageParser parser) {
+			Player player) {
 		this.movementController = movementController;
 		this.player = player;
-		this.parser = parser;
 	}
 
 	@Override
@@ -47,11 +43,8 @@ public class NetworkInputService implements InputService, NetworkListener {
 		return this.playerStateFromNetwork != null;
 	}
 
-	@Override
-	public void newMessage(String message) {
-		PlayerState state = this.parser
-				.parseMessage(message, PlayerState.class);
-		this.playerStateFromNetwork = state;
+	public void newMessage(PlayerState message) {
+		this.playerStateFromNetwork = message;
 	}
 
 }

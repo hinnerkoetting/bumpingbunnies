@@ -82,7 +82,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		initRoom();
 		displayDefaultIp();
 		this.connectedToServerService = new DummyConnectionToServer();
-		this.broadcastService = new BroadcastService();
+		this.broadcastService = new BroadcastService(this);
 	}
 
 	private void displayDefaultIp() {

@@ -2,10 +2,10 @@ package de.oetting.bumpingbunnies.usecases.game.communication.objects;
 
 public class JsonWrapper {
 
-	private final int id;
+	private final MessageId id;
 	private final String message;
 
-	public JsonWrapper(int id, String message) {
+	public JsonWrapper(MessageId id, String message) {
 		this.id = id;
 		this.message = message;
 	}
@@ -14,7 +14,7 @@ public class JsonWrapper {
 		return this.message;
 	}
 
-	public int getId() {
+	public MessageId getId() {
 		return this.id;
 	}
 

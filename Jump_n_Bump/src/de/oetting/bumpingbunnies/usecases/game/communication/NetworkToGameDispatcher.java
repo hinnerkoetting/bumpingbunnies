@@ -4,6 +4,7 @@ import android.util.SparseArray;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 /**
  * Dispatches incoming traffic to registered listeners;
@@ -22,7 +23,7 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 
 	@Override
 	public void dispatchPlayerState(JsonWrapper wrapper) {
-		NetworkListener networkListener = this.listeners.get(wrapper.getId());
+		NetworkListener networkListener = this.listeners.get(wrapper.getId().ordinal());
 		if (networkListener == null) {
 			throw new IllegalStateException("No Listener registered for id "
 					+ wrapper.getId());
@@ -31,9 +32,9 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 		networkListener.newMessage(wrapper.getMessage());
 	}
 
-	public void addObserver(int id, NetworkListener listener) {
+	public void addObserver(MessageId id, NetworkListener listener) {
 		LOGGER.debug("Registering listener with id %d", id);
-		this.listeners.put(id, listener);
+		this.listeners.put(id.ordinal(), listener);
 	}
 
 	@Override

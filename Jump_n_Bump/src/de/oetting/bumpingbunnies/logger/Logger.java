@@ -10,6 +10,8 @@ public interface Logger {
 
 	void warn(String string, Object... params);
 
+	void warn(String string, Throwable t, Object... params);
+
 	void error(String string, Object... params);
 
 	void error(String string, Throwable t, Object... params);

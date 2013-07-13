@@ -6,11 +6,9 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
-import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
@@ -25,7 +23,6 @@ public class ConnectionToClientService {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConnectionToClientService.class);
 	private final RoomActivity roomActivity;
-	private final MessageParser parser;
 	private final NetworkReceiver networkReceiver;
 	private MySocket socket;
 
@@ -34,7 +31,6 @@ public class ConnectionToClientService {
 		super();
 		this.roomActivity = roomActivity;
 		this.networkReceiver = networkReceiver;
-		this.parser = MessageParserFactory.create();
 	}
 
 	public void onConnectToClient(MySocket socket) {

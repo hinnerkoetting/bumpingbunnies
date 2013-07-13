@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
@@ -63,13 +64,13 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	@Override
 	public void sendPlayerCoordinates(PlayerState state) {
 		String stateJson = this.gson.toJson(state);
-		JsonWrapper wrapper = new JsonWrapper(state.getId(), stateJson);
+		JsonWrapper wrapper = new JsonWrapper(MessageId.SEND_PLAYER_STATE, stateJson);
 		String data = this.gson.toJson(wrapper);
 		this.messageQueue.add(data);
 	}
 
 	@Override
-	public void sendMessage(int id, Object message) {
+	public void sendMessage(MessageId id, Object message) {
 		String json = this.gson.toJson(message);
 		JsonWrapper wrapper = new JsonWrapper(id, json);
 		sendMessage(wrapper);

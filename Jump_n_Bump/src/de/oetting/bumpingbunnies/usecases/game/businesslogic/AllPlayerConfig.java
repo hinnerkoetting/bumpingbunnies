@@ -13,6 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispat
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractStateSenderFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -66,12 +67,13 @@ public class AllPlayerConfig {
 		List<InputService> resultReceiver = new ArrayList<InputService>(
 				allSockets.size());
 
+		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		for (PlayerConfig config : this.notControlledPlayers) {
 			InputService is = config.createInputService(allSender,
 					networkDispatcher);
 			if (is instanceof NetworkInputService) {
 				NetworkInputService inputservice = (NetworkInputService) is;
-				networkDispatcher.addObserver(config.getMovementController()
+				stateDispatcher.addInputService(config.getMovementController()
 						.getPlayer().id(), inputservice);
 			}
 
