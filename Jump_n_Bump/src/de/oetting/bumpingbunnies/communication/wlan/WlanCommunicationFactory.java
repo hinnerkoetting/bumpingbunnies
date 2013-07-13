@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 public class WlanCommunicationFactory {
 
 	public static WlanCommunication create(RoomActivity origin) {
-		SocketFactory socketFactory = new WlanServerSocketFactory();
+		SocketFactory socketFactory = new WlanSocketFactory();
 		RemoteCommunicationImpl communication = new RemoteCommunicationImpl(
 				origin, socketFactory);
 		return new WlanCommunication(origin, communication);

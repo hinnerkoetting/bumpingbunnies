@@ -15,6 +15,7 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	 */
 	private boolean facingLeft;
 	private boolean jumpingButtonPressed;
+	private boolean isDead;
 
 	public PlayerState(int id) {
 		this.id = id;
@@ -103,6 +104,14 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	public void setJumpingButtonPressed(boolean jumpingButtonIsPressed) {
 		this.jumpingButtonPressed = jumpingButtonIsPressed;
+	}
+
+	public boolean isDead() {
+		return this.isDead;
+	}
+
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 
 	@Override

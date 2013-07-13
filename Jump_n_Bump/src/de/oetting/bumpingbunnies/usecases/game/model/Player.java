@@ -268,4 +268,12 @@ public class Player implements GameObject {
 		this.state.setScore(this.state.getScore() + i);
 	}
 
+	public void setDead(boolean b) {
+		this.state.setDead(b);
+	}
+
+	public boolean isDead() {
+		return this.state.isDead();
+	}
+
 }

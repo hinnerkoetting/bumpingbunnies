@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.communication.ServerSocket;
 import de.oetting.bumpingbunnies.communication.SocketFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 
-public class WlanServerSocketFactory implements SocketFactory {
+public class WlanSocketFactory implements SocketFactory {
 
 	@Override
 	public ServerSocket create() {

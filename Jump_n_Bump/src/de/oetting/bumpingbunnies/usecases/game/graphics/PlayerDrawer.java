@@ -6,26 +6,28 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class PlayerDrawer implements Drawable {
 
 	private final Player player;
-	private AnimationWithMirror runningAnimation;
-	private Paint paint;
+	private final AnimationWithMirror runningAnimation;
+	private final Paint paint;
 
 	public PlayerDrawer(Player player, AnimationWithMirror runningAnimation) {
 		this.player = player;
 		this.runningAnimation = runningAnimation;
 		this.paint = new Paint();
 		this.paint.setAlpha(125);
+		this.paint.setColor(this.player.getColor());
 	}
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
-		this.paint.setColor(this.player.getColor());
-		if (this.player.movementX() != 0) {
-			this.runningAnimation.drawMirrored(this.player.isFacingLeft());
+		if (!this.player.isDead()) {
+			if (this.player.movementX() != 0) {
+				this.runningAnimation.drawMirrored(this.player.isFacingLeft());
+			}
+			// canvas.drawRect(this.player.minX(), this.player.maxY(),
+			// this.player.maxX(), this.player.minY(), this.paint);
+			this.runningAnimation.draw(canvas, this.player.minX(),
+					this.player.maxY(), this.paint);
 		}
-		// canvas.drawRect(this.player.minX(), this.player.maxY(),
-		// this.player.maxX(), this.player.minY(), this.paint);
-		this.runningAnimation.draw(canvas, this.player.minX(),
-				this.player.maxY(), this.paint);
 	}
 
 	@Override

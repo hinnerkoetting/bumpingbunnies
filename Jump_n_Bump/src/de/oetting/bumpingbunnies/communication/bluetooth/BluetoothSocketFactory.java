@@ -10,11 +10,11 @@ import de.oetting.bumpingbunnies.communication.ServerSocket;
 import de.oetting.bumpingbunnies.communication.SocketFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 
-public class BluetoothServerSocketFactory implements SocketFactory {
+public class BluetoothSocketFactory implements SocketFactory {
 
 	public BluetoothAdapter btAdapter;
 
-	public BluetoothServerSocketFactory(BluetoothAdapter btAdapter) {
+	public BluetoothSocketFactory(BluetoothAdapter btAdapter) {
 		super();
 		this.btAdapter = btAdapter;
 	}
