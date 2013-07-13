@@ -7,7 +7,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementContr
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 /**
  * Takes care that all bunnies are moved during each step of the game.
@@ -44,8 +43,7 @@ public class BunnyMovementStep implements GameStepAction {
 		for (PlayerMovementController movement : this.playermovements) {
 			Player player = movement.getPlayer();
 			if (player.getCenterY() < -ModelConstants.MAX_VALUE * 0.1) {
-				PlayerState state = player.getState();
-				state.setScore(state.getScore() - 1);
+				player.increaseScore(-1);
 				resetCoordinate(player);
 			}
 		}

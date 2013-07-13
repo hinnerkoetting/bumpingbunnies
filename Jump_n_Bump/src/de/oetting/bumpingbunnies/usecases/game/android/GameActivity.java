@@ -279,7 +279,7 @@ public class GameActivity extends Activity {
 		for (PlayerMovementController movement : playermovements) {
 			for (Player storedPlayer : storedPlayers) {
 				if (movement.getPlayer().id() == storedPlayer.id()) {
-					movement.getPlayer().applyState(storedPlayer.getState());
+					movement.getPlayer().applyState(storedPlayer);
 				}
 			}
 		}
@@ -292,7 +292,7 @@ public class GameActivity extends Activity {
 		for (PlayerMovementController movement : playermovements) {
 			Player player = movement.getPlayer();
 			ResultPlayerEntry entry = new ResultPlayerEntry(player.getName(), player
-					.getState().getScore(), movement.getPlayer().getColor());
+					.getScore(), movement.getPlayer().getColor());
 			players.add(entry);
 		}
 		return new ResultWrapper(players);

@@ -252,6 +252,10 @@ public class Player implements GameObject {
 		return this.name;
 	}
 
+	public void applyState(Player player) {
+		this.state.copyContentTo(player.state);
+	}
+
 	public void applyState(PlayerState state) {
 		state.copyContentTo(this.state);
 	}
@@ -259,4 +263,9 @@ public class Player implements GameObject {
 	public int getScore() {
 		return this.state.getScore();
 	}
+
+	public void increaseScore(int i) {
+		this.state.setScore(this.state.getScore() + i);
+	}
+
 }

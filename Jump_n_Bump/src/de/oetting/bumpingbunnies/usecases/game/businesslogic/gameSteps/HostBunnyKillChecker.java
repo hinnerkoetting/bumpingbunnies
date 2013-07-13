@@ -6,7 +6,6 @@ import java.util.List;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 /**
  * Host logic what should be done when a bunny jumps on another bunny.
@@ -45,7 +44,6 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private void increaseScore(Player playerTop) {
-		PlayerState state = playerTop.getState();
-		state.setScore(state.getScore() + 1);
+		playerTop.increaseScore(1);
 	}
 }
