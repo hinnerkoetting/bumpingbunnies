@@ -12,13 +12,8 @@ public class CollisionDetection {
 		this.world = world;
 	}
 
-	public boolean objectStandsOnGround(GameObject gameobject) {
-		for (GameObject otherObject : this.world.getAllObjects()) {
-			if (standsOn(gameobject, otherObject)) {
-				return true;
-			}
-		}
-		return false;
+	public boolean objectStandsOnGround(Player gameobject) {
+		return findObjectThisPlayerIsStandingOn(gameobject) != null;
 	}
 
 	public boolean standsOn(GameObject upperObject, GameObject lowerObject) {
@@ -37,6 +32,10 @@ public class CollisionDetection {
 	public GameObject findObjectThisPlayerIsStandingOn(Player player) {
 		for (GameObject go : this.world.getAllObjects()) {
 			if (standsOn(player, go)) {
+				if (go instanceof Player) {
+					Player p = (Player) go;
+					return p.isDead() ? null : p;
+				}
 				return go;
 			}
 		}
@@ -45,7 +44,7 @@ public class CollisionDetection {
 
 	public Player findPlayerThisPlayerIsStandingOn(Player player) {
 		for (Player p : this.world.getAllPlayer()) {
-			if (standsOn(player, p)) {
+			if (!p.isDead() && standsOn(player, p)) {
 				return p;
 			}
 		}

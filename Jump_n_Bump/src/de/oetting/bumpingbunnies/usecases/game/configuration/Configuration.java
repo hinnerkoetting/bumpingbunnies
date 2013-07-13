@@ -109,4 +109,8 @@ public class Configuration implements Parcelable {
 		return this.localSettings;
 	}
 
+	public boolean isHost() {
+		return this.host;
+	}
+
 }

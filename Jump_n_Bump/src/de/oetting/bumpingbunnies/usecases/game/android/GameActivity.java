@@ -126,11 +126,11 @@ public class GameActivity extends Activity {
 		Player myPlayer = this.allPlayerConfig.getTabletControlledPlayer();
 		createRemoteSender();
 		List<StateSender> allStateSender = createSender(myPlayer);
-		List<InputService> inputServices = initInputServices(
+		List<InputService> inputServices = initInputServices(world,
 				otherPlayerFactory, this.allPlayerConfig,
 				this.sendThreads, parameter);
 
-		this.gameThread = GameThreadFactory.create(world,
+		this.gameThread = GameThreadFactory.create(this.sendThreads, world,
 				inputServices,
 				allStateSender, this, this.allPlayerConfig, parameter.getConfiguration());
 
@@ -159,7 +159,7 @@ public class GameActivity extends Activity {
 	}
 
 	private List<InputService> initInputServices(
-			AbstractOtherPlayersFactory singleton, AllPlayerConfig config,
+			World world, AbstractOtherPlayersFactory singleton, AllPlayerConfig config,
 			List<RemoteSender> allSender, GameStartParameter parameter) {
 		AbstractPlayerInputServicesFactory.init(parameter.getConfiguration()
 				.getInputConfiguration());
@@ -170,7 +170,7 @@ public class GameActivity extends Activity {
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 		new StopGameReceiver(networkDispatcher, this);
-		addAllNetworkListeners(networkDispatcher);
+		addAllNetworkListeners(networkDispatcher, world);
 		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		createNetworkReceiveThreads(networkDispatcher, allSender);
 		List<InputService> inputServices = config.createOtherInputService(networkDispatcher,
@@ -187,8 +187,8 @@ public class GameActivity extends Activity {
 		startResultScreen();
 	}
 
-	private void addAllNetworkListeners(NetworkToGameDispatcher networkDispatcher) {
-		new PlayerIsDeadReceiver(networkDispatcher);
+	private void addAllNetworkListeners(NetworkToGameDispatcher networkDispatcher, World world) {
+		new PlayerIsDeadReceiver(networkDispatcher, world.getAllPlayer());
 	}
 
 	private void createNetworkReceiveThreads(

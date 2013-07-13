@@ -126,6 +126,7 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		other.score = this.score;
 		other.facingLeft = this.facingLeft;
 		other.jumpingButtonPressed = this.jumpingButtonPressed;
+		other.isDead = this.isDead;
 	}
 
 }

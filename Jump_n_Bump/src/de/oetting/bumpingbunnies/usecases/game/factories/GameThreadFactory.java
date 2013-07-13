@@ -15,9 +15,11 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementContr
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
+import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
@@ -27,8 +29,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class GameThreadFactory {
 
-	public static GameThread create(World world,
-
+	public static GameThread create(List<RemoteSender> sendThreads, World world,
 			List<InputService> movementServices, List<StateSender> stateSender,
 			Context context, AllPlayerConfig playerConfig,
 			Configuration configuration) {
@@ -41,13 +42,25 @@ public class GameThreadFactory {
 				world.getSpawnPoints());
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		List<PlayerMovementController> playermovements = playerConfig.getAllPlayerMovementControllers();
-		BunnyKillChecker killChecker = new HostBunnyKillChecker(new CollisionDetection(world), extractPlayers(playermovements),
+		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world, extractPlayers(playermovements),
 				spawnPointGenerator);
 		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, spawnPointGenerator, killChecker);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
+	}
+
+	private static BunnyKillChecker createKillChecker(List<RemoteSender> sendThreads, Configuration conf, World world,
+			List<Player> allPlayers,
+			SpawnPointGenerator spawnPointGenerator) {
+		CollisionDetection collisionDetection = new CollisionDetection(world);
+		if (conf.isHost()) {
+			return new HostBunnyKillChecker(sendThreads, collisionDetection, allPlayers,
+					spawnPointGenerator);
+		} else {
+			return new ClientBunnyKillChecker(collisionDetection, allPlayers);
+		}
 	}
 
 	private static List<Player> extractPlayers(List<PlayerMovementController> movement) {

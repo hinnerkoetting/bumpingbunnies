@@ -233,10 +233,12 @@ public class Player implements GameObject {
 	@Override
 	public void handleCollisionWithPlayer(Player player,
 			CollisionDetection collisionDetection) {
-		this.collisionHandling.interactWith(player, this, collisionDetection);
-		GameObject simulatedNextStep = player.simulateNextStep();
-		if (collisionDetection.isExactlyOverObject(simulatedNextStep, this)) {
-			player.interactWithPlayerOnTop(this);
+		if (!player.isDead() && !isDead()) {
+			this.collisionHandling.interactWith(player, this, collisionDetection);
+			GameObject simulatedNextStep = player.simulateNextStep();
+			if (collisionDetection.isExactlyOverObject(simulatedNextStep, this)) {
+				player.interactWithPlayerOnTop(this);
+			}
 		}
 	}
 

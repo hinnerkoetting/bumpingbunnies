@@ -3,25 +3,29 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 import java.util.Collections;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator;
+import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDead;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 /**
  * Host logic what should be done when a bunny jumps on another bunny.
  * 
  */
 public class HostBunnyKillChecker implements BunnyKillChecker {
-	private static final int KILL_TIME_MILLISECONDS = 1000;
-	private static final Logger LOGGER = LoggerFactory.getLogger(HostBunnyKillChecker.class);
+
 	private final CollisionDetection collisionDetection;
 	private final List<Player> allPlayers;
 	private final SpawnPointGenerator spawnPointGenerator;
+	private List<RemoteSender> sendThreads;
 
-	public HostBunnyKillChecker(CollisionDetection collisionDetection, List<Player> allPlayers, SpawnPointGenerator spawnPointGenerator) {
+	public HostBunnyKillChecker(List<RemoteSender> sendThreads, CollisionDetection collisionDetection, List<Player> allPlayers,
+			SpawnPointGenerator spawnPointGenerator) {
 		super();
+		this.sendThreads = sendThreads;
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.allPlayers = Collections.unmodifiableList(allPlayers);
@@ -50,6 +54,11 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	private void killPlayer(Player player) {
 		player.setDead(true);
+		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
+		PlayerIsDead message = new PlayerIsDead(player.id(), spawnPoint);
+		for (RemoteSender sender : this.sendThreads) {
+			new PlayerIsDeadSender(sender).sendMessage(message);
+		}
 	}
 
 	private void increaseScore(Player playerTop) {
@@ -57,17 +66,6 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private void revivePlayerDelayed(final Player player) {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(KILL_TIME_MILLISECONDS);
-				} catch (InterruptedException e) {
-					LOGGER.error("exception", e);
-				}
-				player.setDead(false);
-			}
-		}).start();
+		new BunnyDelayedReviver(player, BunnyDelayedReviver.KILL_TIME_CLIENT_MILLISECONDS).start();
 	}
 }
