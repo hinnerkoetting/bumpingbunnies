@@ -92,6 +92,8 @@ public class PlayerMovementController implements ModelConstants {
 		if (this.tryingToRemoveHorizontalMovement) {
 			if (this.movedPlayer.movementX() != 0) {
 				tryToSteerAgainstMovement();
+			} else {
+				this.movedPlayer.setAccelerationX(0);
 			}
 		}
 	}

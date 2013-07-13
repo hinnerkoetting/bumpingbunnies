@@ -63,7 +63,6 @@ public class BroadcastService {
 				} catch (BindException e) {
 					displayErrorAddressInUse();
 					LOGGER.warn("Error when trying to search for host", e);
-					throw new RuntimeException(e);
 				} catch (Exception e) {
 					displayListenError();
 					LOGGER.warn("Error when trying to search for host", e);
