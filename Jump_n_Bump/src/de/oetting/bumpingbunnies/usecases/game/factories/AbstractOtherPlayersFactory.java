@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
@@ -9,6 +10,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 
+@SuppressLint("ParcelCreator")
 public abstract class AbstractOtherPlayersFactory implements Parcelable {
 
 	public static AbstractOtherPlayersFactory initNetwork(MySocket socket,

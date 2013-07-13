@@ -9,7 +9,7 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	private MovingGameobjectState movementState;
 	private int score;
 	private int color;
-	private int id;
+	private final int id;
 	/**
 	 * is bunny looking to the left (not necessarily moving left)
 	 */
@@ -87,10 +87,6 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	public int getId() {
 		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public boolean isFacingLeft() {

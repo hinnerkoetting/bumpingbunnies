@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyInformationSupplier;
@@ -10,6 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 
+@SuppressLint("ParcelCreator")
 public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
 		Parcelable {
 
