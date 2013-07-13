@@ -170,7 +170,7 @@ public class GameActivity extends Activity {
 		InputService touchService = myPlayerFactory.createInputService(config, this);
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
-		new StopGameReceiver(networkDispatcher);
+		new StopGameReceiver(networkDispatcher, this);
 		addAllNetworkListeners(networkDispatcher);
 		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		createNetworkReceiveThreads(networkDispatcher, allSender);

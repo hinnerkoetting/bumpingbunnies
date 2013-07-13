@@ -7,10 +7,11 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispat
 
 public class StopGameReceiver extends MessageReceiverTemplate<String> {
 
-	private GameActivity gameActivity;
+	private final GameActivity gameActivity;
 
-	public StopGameReceiver(NetworkToGameDispatcher dispatcher) {
+	public StopGameReceiver(NetworkToGameDispatcher dispatcher, GameActivity gameActivity) {
 		super(dispatcher, MessageIds.STOP_GAME, String.class);
+		this.gameActivity = gameActivity;
 	}
 
 	@Override
