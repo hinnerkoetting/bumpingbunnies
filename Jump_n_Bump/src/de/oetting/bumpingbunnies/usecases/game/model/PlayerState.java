@@ -1,12 +1,20 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
+/**
+ * Contains all information about a player which has to be set over network.
+ * 
+ */
 public class PlayerState implements GameObjectState<PlayerState> {
 
 	private MovingGameobjectState movementState;
 	private int score;
 	private int color;
 	private int id;
+	/**
+	 * is bunny looking to the left (not necessarily moving left)
+	 */
 	private boolean facingLeft;
+	private boolean jumpingButtonPressed;
 
 	public PlayerState(int id) {
 		this.id = id;
@@ -93,6 +101,14 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.facingLeft = facingLeft;
 	}
 
+	public boolean isJumpingButtonPressed() {
+		return this.jumpingButtonPressed;
+	}
+
+	public void setJumpingButtonPressed(boolean jumpingButtonIsPressed) {
+		this.jumpingButtonPressed = jumpingButtonIsPressed;
+	}
+
 	@Override
 	public void copyContentTo(PlayerState other) {
 		other.movementState.accelerationX = this.movementState.accelerationX;
@@ -104,6 +120,7 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		other.color = this.color;
 		other.score = this.score;
 		other.facingLeft = this.facingLeft;
+		other.jumpingButtonPressed = this.jumpingButtonPressed;
 	}
 
 }

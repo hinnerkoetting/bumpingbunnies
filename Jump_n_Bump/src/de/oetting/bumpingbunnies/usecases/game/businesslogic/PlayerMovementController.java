@@ -5,6 +5,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
@@ -14,7 +15,8 @@ public class PlayerMovementController implements ModelConstants {
 			.getLogger(PlayerMovementController.class);
 
 	private final Player movedPlayer;
-	private boolean movingUp;
+	private final PlayerState movedPlayerState;
+	// private boolean movingUp;
 	private final InteractionService interActionService;
 	private final CollisionDetection collisionDetection;
 	private final World world;
@@ -24,6 +26,7 @@ public class PlayerMovementController implements ModelConstants {
 			InteractionService interActionService,
 			CollisionDetection collisionDetection) {
 		this.movedPlayer = movedPlayer;
+		this.movedPlayerState = movedPlayer.getState();
 		this.world = world;
 		this.interActionService = interActionService;
 		this.collisionDetection = collisionDetection;
@@ -48,7 +51,7 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	private void conditionalSetJumpMovement() {
-		if (this.movingUp) {
+		if (this.movedPlayerState.isJumpingButtonPressed()) {
 			if (standsOnFixedObject()) {
 				setJumpMovement();
 			} else if (isInWater()) {
@@ -83,7 +86,7 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	private void computeGravity() {
-		if (this.movingUp) {
+		if (this.movedPlayerState.isJumpingButtonPressed()) {
 			this.movedPlayer
 					.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
 		} else {
@@ -160,23 +163,23 @@ public class PlayerMovementController implements ModelConstants {
 
 	public void removeVerticalMovement() {
 		LOGGER.verbose("removing vertical movement");
-		this.movingUp = false;
+		this.movedPlayerState.setJumpingButtonPressed(false);
 	}
 
 	public void tryMoveUp() {
 		LOGGER.verbose("trying to move up");
-		this.movingUp = true;
+		this.movedPlayer.getState().setJumpingButtonPressed(true);
 	}
 
 	public void tryMoveDown() {
 		LOGGER.verbose("trying to move down");
-		this.movingUp = false;
+		this.movedPlayer.getState().setJumpingButtonPressed(false);
 	}
 
 	public void removeMovement() {
 		removeHorizontalMovement();
-		this.movingUp = false;
 		LOGGER.debug("removing movement");
+		this.movedPlayer.getState().setJumpingButtonPressed(false);
 	}
 
 	public Player getPlayer() {
@@ -186,10 +189,6 @@ public class PlayerMovementController implements ModelConstants {
 	public Player isOnTopOfOtherPlayer() {
 		return this.collisionDetection
 				.findPlayerThisPlayerIsStandingOn(this.movedPlayer);
-	}
-
-	public boolean isJumping() {
-		return this.movingUp;
 	}
 
 	public boolean isStandingOnGround() {

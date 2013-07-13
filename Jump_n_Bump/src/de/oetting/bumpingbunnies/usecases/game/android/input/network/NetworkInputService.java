@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.network;
 
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
@@ -35,11 +34,6 @@ public class NetworkInputService implements InputService {
 		// while new message is sent
 		PlayerState playerFromNetwork = this.playerStateFromNetwork;
 		playerFromNetwork.copyContentTo(this.player.getState());
-		if (playerFromNetwork.getAccelerationY() == ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING) {
-			this.movementController.tryMoveUp();
-		} else {
-			this.movementController.tryMoveDown();
-		}
 	}
 
 	private boolean existsNewMessage() {
