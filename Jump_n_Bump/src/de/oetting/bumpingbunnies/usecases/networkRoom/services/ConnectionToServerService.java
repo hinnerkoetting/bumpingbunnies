@@ -4,8 +4,6 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
-import de.oetting.bumpingbunnies.usecases.game.communication.DefaultNetworkListener;
-import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
@@ -16,6 +14,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingsReceiver;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.otherPlayerId.OtherPlayerClientIdReceiver;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId.SendClientPlayerIdReceiver;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendLocalSettings.SendLocalSettingsSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameReceiver;
@@ -59,16 +58,12 @@ public class ConnectionToServerService implements ConnectionToServer {
 		new StartGameReceiver(gameDispatcher, this);
 		new GameSettingsReceiver(gameDispatcher, this);
 		new SendClientPlayerIdReceiver(gameDispatcher, this);
-		gameDispatcher.addObserver(MessageIds.SEND_OTHER_PLAYER_ID,
-				new DefaultNetworkListener<PlayerProperties>(
-						PlayerProperties.class) {
+		new OtherPlayerClientIdReceiver(gameDispatcher, this);
+	}
 
-					@Override
-					public void receiveMessage(PlayerProperties object) {
-						addPlayerEntry(ConnectionToServerService.this.socket,
-								object, 0);
-					}
-				});
+	public void addOtherPlayer(PlayerProperties object) {
+		addPlayerEntry(ConnectionToServerService.this.socket,
+				object, 0);
 	}
 
 	public void onReceiveGameSettings(GeneralSettings message) {

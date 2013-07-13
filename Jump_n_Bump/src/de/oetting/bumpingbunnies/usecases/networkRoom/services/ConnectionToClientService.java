@@ -6,18 +6,17 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
-import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomEntry;
+import de.oetting.bumpingbunnies.usecases.networkRoom.communication.otherPlayerId.OtherPlayerClientIdSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId.SendClientPlayerIdSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendLocalSettings.SendLocalSettingsReceiver;
 
@@ -65,8 +64,7 @@ public class ConnectionToClientService {
 		for (RoomEntry otherPlayer : allOtherPlayers) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 					.createNetworkSender(otherPlayer.getSocket());
-			JsonWrapper message = createPlayerInfoMessage(playerProperties);
-			networkSender.sendMessage(message);
+			new OtherPlayerClientIdSender(networkSender).sendMessage(playerProperties);
 		}
 	}
 
@@ -96,24 +94,13 @@ public class ConnectionToClientService {
 
 	private void informClientAboutPlayer(RoomEntry player,
 			SimpleNetworkSender networkSender) {
-		JsonWrapper message = createPlayerInfoMessage(player);
-		networkSender.sendMessage(message);
+		new OtherPlayerClientIdSender(networkSender).sendMessage(player.getPlayerProperties());
 	}
 
 	private void sendClientPlayer(SimpleNetworkSender networkSender,
 			int playerId) {
 		LOGGER.info("Notifying new Player about his id %d", playerId);
 		new SendClientPlayerIdSender(networkSender).sendMessage(playerId);
-	}
-
-	private JsonWrapper createPlayerInfoMessage(RoomEntry entry) {
-		return createPlayerInfoMessage(entry.getPlayerConfiguration());
-	}
-
-	private JsonWrapper createPlayerInfoMessage(
-			PlayerProperties playerProperties) {
-		return new JsonWrapper(MessageIds.SEND_OTHER_PLAYER_ID,
-				this.parser.encodeMessage(playerProperties));
 	}
 
 	private int getNextPlayerId() {

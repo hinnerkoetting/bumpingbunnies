@@ -24,8 +24,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.MessageIds;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
@@ -33,6 +31,8 @@ import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
@@ -170,14 +170,7 @@ public class GameActivity extends Activity {
 		InputService touchService = myPlayerFactory.createInputService(config, this);
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
-		networkDispatcher.addObserver(MessageIds.STOP_GAME, new NetworkListener() {
-
-			@Override
-			public void newMessage(String message) {
-				shutdownAllThreads();
-				startResultScreen();
-			}
-		});
+		new StopGameReceiver(networkDispatcher);
 		addAllNetworkListeners(networkDispatcher);
 		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		createNetworkReceiveThreads(networkDispatcher, allSender);
@@ -188,6 +181,11 @@ public class GameActivity extends Activity {
 				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),
 				this.inputDispatcher);
 		return inputServices;
+	}
+
+	public void receiveStopGame() {
+		shutdownAllThreads();
+		startResultScreen();
 	}
 
 	private void addAllNetworkListeners(NetworkToGameDispatcher networkDispatcher) {
@@ -315,7 +313,7 @@ public class GameActivity extends Activity {
 
 	private void sendStopMessage() {
 		for (RemoteSender rs : this.sendThreads) {
-			rs.sendMessage(MessageIds.STOP_GAME, "");
+			new StopGameSender(rs).sendMessage("");
 		}
 	}
 
