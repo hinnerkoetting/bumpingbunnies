@@ -144,7 +144,7 @@ public class GameActivity extends Activity {
 		List<RemoteSender> resultSender = new ArrayList<RemoteSender>(
 				allSockets.size());
 		for (MySocket socket : allSockets) {
-			RemoteSender sender = NetworkSendQueueThreadFactory.create(socket);
+			RemoteSender sender = NetworkSendQueueThreadFactory.create(socket, this);
 			resultSender.add(sender);
 		}
 		this.sendThreads = resultSender;
@@ -183,7 +183,7 @@ public class GameActivity extends Activity {
 		return inputServices;
 	}
 
-	public void receiveStopGame() {
+	public void stopGame() {
 		shutdownAllThreads();
 		startResultScreen();
 	}

@@ -10,10 +10,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDisp
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.StateSenderFactory;
 
 public class NetworkFactory extends AbstractOtherPlayersFactory implements
 		Parcelable {
@@ -44,16 +41,6 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 		return NetworkReceiverDispatcherThreadFactory
 				.createGameNetworkReceiver(this.socket, allSender,
 						(NetworkToGameDispatcher) networkDispatcher);
-	}
-
-	@Override
-	public AbstractStateSenderFactory createStateSenderFactory() {
-		return new StateSenderFactory();
-	}
-
-	@Override
-	public RemoteSender createSender() {
-		return NetworkSendQueueThreadFactory.create(this.socket);
 	}
 
 	@Override

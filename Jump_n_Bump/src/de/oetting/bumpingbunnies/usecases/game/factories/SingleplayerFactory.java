@@ -8,9 +8,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.DummyInformationSup
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractStateSenderFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.DummyStateSenderFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 
 public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
@@ -36,16 +33,6 @@ public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
 			List<RemoteSender> allSockets,
 			IncomingNetworkDispatcher networkDispatcher) {
 		return new DummyInformationSupplier();
-	}
-
-	@Override
-	public AbstractStateSenderFactory createStateSenderFactory() {
-		return new DummyStateSenderFactory();
-	}
-
-	@Override
-	public RemoteSender createSender() {
-		return NetworkSendQueueThreadFactory.createDummyRemoteSender();
 	}
 
 	@Override

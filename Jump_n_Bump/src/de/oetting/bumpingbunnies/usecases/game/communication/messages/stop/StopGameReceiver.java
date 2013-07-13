@@ -16,7 +16,7 @@ public class StopGameReceiver extends MessageReceiverTemplate<String> {
 
 	@Override
 	public void onReceiveMessage(String object) {
-		this.gameActivity.receiveStopGame();
+		this.gameActivity.stopGame();
 	}
 
 }

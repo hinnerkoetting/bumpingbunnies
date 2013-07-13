@@ -65,4 +65,5 @@
     
     <string name="address_in_use">Adresse wird bereits verwendet. Konnte nicht nach Server suchen. Bitte Anwendung neu starten.</string>
     <string name="unknown_error">Unbekannter Fehler</string>
+    <string name="disconnected">Verbindung wurde getrennt</string>
 </resources>

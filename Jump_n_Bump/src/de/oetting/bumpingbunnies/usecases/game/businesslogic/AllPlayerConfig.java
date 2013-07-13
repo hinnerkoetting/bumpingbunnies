@@ -11,8 +11,6 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.NetworkInputService;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -32,21 +30,6 @@ public class AllPlayerConfig {
 		this.notControlledPlayers = notControlledPlayers;
 		this.gameView = gameView;
 		this.coordinateCalculations = coordinateCalculations;
-	}
-
-	public List<StateSender> createStateSender() {
-		List<StateSender> stateSender = new ArrayList<StateSender>(
-				this.notControlledPlayers.size());
-		for (PlayerConfig config : this.notControlledPlayers) {
-			AbstractOtherPlayersFactory factory = config
-					.getOtherPlayerFactory();
-			AbstractStateSenderFactory senderFactory = factory
-					.createStateSenderFactory();
-			stateSender.add(senderFactory.create(
-					this.tabletControlledPlayer.getPlayer(),
-					config.getConfiguration()));
-		}
-		return stateSender;
 	}
 
 	public List<PlayerMovementController> getAllPlayerMovementControllers() {

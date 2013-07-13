@@ -7,7 +7,6 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.AbstractStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 
 public abstract class AbstractOtherPlayersFactory implements Parcelable {
@@ -26,10 +25,6 @@ public abstract class AbstractOtherPlayersFactory implements Parcelable {
 	public abstract NetworkReceiver createInformationSupplier(
 			List<RemoteSender> allSockets,
 			IncomingNetworkDispatcher networkDispatcher);
-
-	public abstract AbstractStateSenderFactory createStateSenderFactory();
-
-	public abstract RemoteSender createSender();
 
 	protected AbstractOtherPlayersFactory() {
 	}
