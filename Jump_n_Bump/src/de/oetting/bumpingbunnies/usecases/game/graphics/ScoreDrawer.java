@@ -2,14 +2,13 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import android.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 public class ScoreDrawer implements Drawable {
 
-	private Player player;
+	private final Player player;
+	private final Paint paint;
 	private double scoreX;
 	private double scoreY;
-	private Paint paint;
 
 	public ScoreDrawer(Player player, double scoreX, double scoreY) {
 		super();
@@ -23,8 +22,8 @@ public class ScoreDrawer implements Drawable {
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
-		PlayerState state = this.player.getState();
-		canvas.drawTextRelativeToScreen(Integer.toString(state.getScore()),
+		int score = this.player.getScore();
+		canvas.drawTextRelativeToScreen(Integer.toString(score),
 				this.scoreX, this.scoreY, this.paint);
 	}
 

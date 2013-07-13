@@ -37,7 +37,6 @@ import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFac
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
@@ -280,9 +279,7 @@ public class GameActivity extends Activity {
 		for (PlayerMovementController movement : playermovements) {
 			for (Player storedPlayer : storedPlayers) {
 				if (movement.getPlayer().id() == storedPlayer.id()) {
-					PlayerState newState = movement.getPlayer().getState();
-					PlayerState oldState = storedPlayer.getState();
-					oldState.copyContentTo(newState);
+					movement.getPlayer().applyState(storedPlayer.getState());
 				}
 			}
 		}

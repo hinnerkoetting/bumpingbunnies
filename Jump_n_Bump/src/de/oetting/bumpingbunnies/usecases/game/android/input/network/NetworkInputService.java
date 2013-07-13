@@ -30,10 +30,8 @@ public class NetworkInputService implements InputService {
 	}
 
 	private void copyStateFromNetwork() {
-		// get local copy to avoid synch problems if this method is executed
-		// while new message is sent
 		PlayerState playerFromNetwork = this.playerStateFromNetwork;
-		playerFromNetwork.copyContentTo(this.player.getState());
+		this.player.applyState(playerFromNetwork);
 	}
 
 	private boolean existsNewMessage() {
