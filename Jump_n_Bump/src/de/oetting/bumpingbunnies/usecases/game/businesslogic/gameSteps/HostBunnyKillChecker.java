@@ -45,7 +45,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	private void handleJumpedPlayer(Player playerUnder, Player playerTop) {
 		increaseScore(playerTop);
-		killPlayer(playerUnder, playerTop);
+		killPlayer(playerUnder);
 		resetCoordinate(playerUnder);
 		revivePlayerDelayed(playerUnder);
 	}
@@ -54,19 +54,22 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		ResetToScorePoint.resetPlayerToSpawnPoint(this.spawnPointGenerator, playerUnder);
 	}
 
-	private void killPlayer(Player playerKilled, Player playerKiller) {
+	private void killPlayer(Player playerKilled) {
 		playerKilled.setDead(true);
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
 		PlayerIsDead killedMessage = new PlayerIsDead(playerKilled.id(), spawnPoint);
-		PlayerScoreMessage newScoreMessage = new PlayerScoreMessage(playerKiller.id(), playerKiller.getScore());
+
 		for (RemoteSender sender : this.sendThreads) {
 			new PlayerIsDeadSender(sender).sendMessage(killedMessage);
-			new PlayerScoreSender(sender).sendMessage(newScoreMessage);
 		}
 	}
 
 	private void increaseScore(Player playerTop) {
 		playerTop.increaseScore(1);
+		PlayerScoreMessage newScoreMessage = new PlayerScoreMessage(playerTop.id(), playerTop.getScore());
+		for (RemoteSender sender : this.sendThreads) {
+			new PlayerScoreSender(sender).sendMessage(newScoreMessage);
+		}
 	}
 
 	private void revivePlayerDelayed(final Player player) {
