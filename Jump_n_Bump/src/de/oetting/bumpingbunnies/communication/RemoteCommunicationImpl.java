@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.communication;
 
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.communication.exceptions.TimeoutRuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -42,18 +41,27 @@ public class RemoteCommunicationImpl implements RemoteCommunication {
 	}
 
 	@Override
-	public void connectToServer(ServerDevice device) {
+	public void connectToServer(final ServerDevice device) {
 		LOGGER.info("Connecting to server");
-		try {
-			this.connectThread = new ConnectThreadImpl(this.serverSocketFactory.createClientSocket(device),
-					this.origin);
-			this.connectThread.start();
-		} catch (TimeoutRuntimeException e) {
-			displayTimeoutException();
-		}
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					RemoteCommunicationImpl.this.connectThread = new ConnectThreadImpl(
+							RemoteCommunicationImpl.this.serverSocketFactory.createClientSocket(device),
+							RemoteCommunicationImpl.this.origin);
+					RemoteCommunicationImpl.this.connectThread.start();
+				} catch (Exception e) {
+					LOGGER.error("Error", e);
+					displayCouldNotConnectException();
+				}
+			}
+		}).start();
+
 	}
 
-	private void displayTimeoutException() {
+	private void displayCouldNotConnectException() {
 		CharSequence text = this.origin.getText(R.string.could_not_connect);
 		Toast.makeText(this.origin, text, Toast.LENGTH_SHORT).show();
 	}
