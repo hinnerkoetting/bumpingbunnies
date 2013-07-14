@@ -58,6 +58,14 @@ public class WallFactory {
 				(int) (maxY * properties.getWorldHeight()), mediaPlayer);
 	}
 
+	public static Water createWaterFromDouble(double x, double y,
+			double maxX, double maxY, WorldProperties properties) {
+		return createWater((int) (x * properties.getWorldWidth()),
+				(int) (y * properties.getWorldHeight()),
+				(int) (maxX * properties.getWorldWidth()),
+				(int) (maxY * properties.getWorldHeight()));
+	}
+
 	public static Jumper createJumper(long x, long y, long maxX, long maxY,
 			MediaPlayer mediaPlayer) {
 		int id = IdCounter.getNextId();

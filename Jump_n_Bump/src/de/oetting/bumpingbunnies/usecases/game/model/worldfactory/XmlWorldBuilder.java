@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
+import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 
 public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
@@ -80,9 +81,19 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 			readJumper(parser, mediaPlayer);
 		} else if (XmlConstants.SPAWNPOINT.equals(name)) {
 			readSpawnpoint(parser);
-		} else {
+		} else if (XmlConstants.WATER.equals(name)) {
+			readWater(parser);
+		}
+		else {
 			LOGGER.debug("Found tag %s", name);
 		}
+	}
+
+	private void readWater(XmlPullParser parser) {
+		XmlRect rect = readRect(parser);
+		Water water = XmlRectToObjectConverter
+				.createWater(rect, this.worldProperties);
+		this.state.getAllObjects().add(water);
 	}
 
 	private void readSpawnpoint(XmlPullParser parser) {

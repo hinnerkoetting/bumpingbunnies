@@ -10,6 +10,8 @@ public interface XmlConstants {
 	String JUMPER = "jumper";
 	String SPAWPOINTS = "spawnpoints";
 	String SPAWNPOINT = "spawnpoint";
+	String WATER = "water";
+	String WATERS = "waters";
 
 	String MIN_X = "minX";
 	String MIN_Y = "minY";
