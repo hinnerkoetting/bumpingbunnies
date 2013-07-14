@@ -16,16 +16,20 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMove
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.PlayerReviver;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ResetToScorePoint;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.ListSpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointMessage;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class GameThreadFactory {
@@ -41,6 +45,7 @@ public class GameThreadFactory {
 				playerConfig, configuration, calculations);
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
 				world.getSpawnPoints());
+		assignInitialSpawnpoints(spawnPointGenerator, world.getAllPlayer(), sendThreads);
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		List<PlayerMovementController> playermovements = playerConfig.getAllPlayerMovementControllers();
 		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
@@ -51,6 +56,21 @@ public class GameThreadFactory {
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
+	}
+
+	private static void assignInitialSpawnpoints(SpawnPointGenerator spGenerator, List<Player> allPlayers, List<RemoteSender> sendThreads) {
+		for (Player p : allPlayers) {
+			SpawnPoint nextSpawnPoint = spGenerator.nextSpawnPoint();
+			ResetToScorePoint.resetPlayerToSpawnPoint(nextSpawnPoint, p);
+			notifyAllClientsAboutSpawnpoints(sendThreads, nextSpawnPoint, p);
+		}
+	}
+
+	private static void notifyAllClientsAboutSpawnpoints(List<RemoteSender> sendThreads, SpawnPoint spawnpoint, Player player) {
+		SpawnPointMessage message = new SpawnPointMessage(spawnpoint, player.id());
+		for (RemoteSender sender : sendThreads) {
+			new SpawnPointSender(sender).sendMessage(message);
+		}
 	}
 
 	private static PlayerReviver createReviver(List<RemoteSender> sendThreads, List<Player> list, Configuration configuration) {
