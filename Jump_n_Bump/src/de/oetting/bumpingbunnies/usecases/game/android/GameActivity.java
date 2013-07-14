@@ -78,7 +78,7 @@ public class GameActivity extends Activity {
 
 	private void initGameSound() {
 		this.backgroundMusic = MediaPlayer.create(GameActivity.this,
-				R.raw.bad_bunnies160);
+				R.raw.bad_bunnies_2);
 		this.backgroundMusic.setLooping(true);
 	}
 
