@@ -21,8 +21,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 public class PlayerConfigFactory {
 
 	public static AllPlayerConfig create(GameStartParameter parameter,
-			World world, GameView gameView,
-			AbstractOtherPlayersFactory otherPlayerFactory) {
+			World world, GameView gameView) {
 
 		Player myPlayer = findMyPlayer(parameter, world);
 		world.addPlayer(myPlayer);
@@ -30,7 +29,7 @@ public class PlayerConfigFactory {
 		PlayerMovementController myPlayerMovementController = createMovementController(
 				myPlayer, world);
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
-				otherPlayerFactory, world, parameter.getConfiguration());
+				world, parameter.getConfiguration());
 		AllPlayerConfig config = new AllPlayerConfig(
 				myPlayerMovementController, otherPlayerconfigs, gameView,
 				world, calculations);
@@ -42,8 +41,7 @@ public class PlayerConfigFactory {
 		return new RelativeCoordinatesCalculation(myPlayer);
 	}
 
-	private static List<PlayerConfig> findOtherPlayers(
-			AbstractOtherPlayersFactory otherPlayerFactory, World world,
+	private static List<PlayerConfig> findOtherPlayers(World world,
 			Configuration configuration) {
 		int speed = configuration.getGeneralSettings().getSpeedSetting();
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();

@@ -36,7 +36,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScor
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
-import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -100,12 +99,6 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	private AbstractOtherPlayersFactory initInputFactory(
-			GameStartParameter parameter) {
-		return parameter.getConfiguration().getOtherPlayers().get(0)
-				.getFactory();
-	}
-
 	private void registerScreenTouchListener(final GameView contentView) {
 		contentView.setOnTouchListener(new OnTouchListener() {
 
@@ -123,9 +116,8 @@ public class GameActivity extends Activity {
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 		World world = WorldFactory.create(parameter.getConfiguration(), this);
 
-		AbstractOtherPlayersFactory otherPlayerFactory = initInputFactory(parameter);
 		this.allPlayerConfig = PlayerConfigFactory.create(parameter, world,
-				contentView, otherPlayerFactory);
+				contentView);
 		Player myPlayer = this.allPlayerConfig.getTabletControlledPlayer();
 		createRemoteSender();
 		List<StateSender> allStateSender = createSender(myPlayer);
