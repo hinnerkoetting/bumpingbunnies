@@ -29,6 +29,7 @@ public class PlayerFactory {
 		Player p = new Player(new Player(id, name, this.speed), id, name,
 				this.speed);
 		PlayerState state = p.getState();
+		p.setDead(true);
 		// TODO: get from spawnpoints
 		state.setCenterX((int) (id * 0.35 * ModelConstants.STANDARD_WORLD_SIZE));
 		state.setCenterY((int) (0.99 * ModelConstants.STANDARD_WORLD_SIZE));

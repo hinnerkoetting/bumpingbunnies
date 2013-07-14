@@ -43,7 +43,7 @@ public class GameThreadFactory {
 				world.getSpawnPoints());
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		List<PlayerMovementController> playermovements = playerConfig.getAllPlayerMovementControllers();
-		PlayerReviver reviver = new PlayerReviver(sendThreads);
+		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
 		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world, extractPlayers(playermovements),
 				spawnPointGenerator, reviver);
 		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, killChecker);
@@ -51,6 +51,16 @@ public class GameThreadFactory {
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
+	}
+
+	private static PlayerReviver createReviver(List<RemoteSender> sendThreads, List<Player> list, Configuration configuration) {
+		PlayerReviver reviver = new PlayerReviver(sendThreads);
+		if (configuration.isHost()) {
+			for (Player p : list) {
+				reviver.revivePlayerLater(p);
+			}
+		} // all players are revived by a message from the host
+		return reviver;
 	}
 
 	private static BunnyKillChecker createKillChecker(List<RemoteSender> sendThreads, Configuration conf, World world,
