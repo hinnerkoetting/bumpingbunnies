@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.touch;
 
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
@@ -26,14 +25,6 @@ public class TouchWithJumpInputDispatcher extends
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void dispatchOnKeyDown(int keyCode, KeyEvent event) {
-	}
-
-	@Override
-	public void dispatchOnKeyUp(int keyCode, KeyEvent event) {
 	}
 
 }

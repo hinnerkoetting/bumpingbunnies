@@ -26,9 +26,11 @@ public abstract class InputDispatcher<S extends InputService> {
 		return false;
 	}
 
-	public void dispatchOnKeyDown(int keyCode, KeyEvent event) {
+	public boolean dispatchOnKeyDown(int keyCode, KeyEvent event) {
+		return false;
 	}
 
-	public void dispatchOnKeyUp(int keyCode, KeyEvent event) {
+	public boolean dispatchOnKeyUp(int keyCode, KeyEvent event) {
+		return false;
 	}
 }
