@@ -48,6 +48,7 @@ public class ActivityLauncher {
 		Intent intent = new Intent(origin, ResultActivity.class);
 		intent.putExtra(RESULT, gameResult);
 		origin.startActivity(intent);
+		origin.finish();
 	}
 
 	public static void toStart(Activity origin) {

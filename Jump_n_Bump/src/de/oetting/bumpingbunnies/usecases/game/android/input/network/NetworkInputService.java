@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 public class NetworkInputService implements InputService {
 
-	private PlayerState playerStateFromNetwork;
+	private volatile PlayerState playerStateFromNetwork;
 	private final Player player;
 
 	public NetworkInputService(

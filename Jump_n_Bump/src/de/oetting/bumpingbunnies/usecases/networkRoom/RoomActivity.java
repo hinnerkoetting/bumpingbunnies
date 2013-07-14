@@ -343,6 +343,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		GameStartParameter parameter = GameParameterFactory.createParameter(
 				myPlayerId, config);
 		ActivityLauncher.launchGame(this, parameter);
+		finish();
 	}
 
 	private LocalSettings createLocalSettingsFromIntent() {
