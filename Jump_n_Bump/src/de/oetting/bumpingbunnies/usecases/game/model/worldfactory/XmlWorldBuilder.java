@@ -89,7 +89,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		String x = parser.getAttributeValue(null, X);
 		String y = parser.getAttributeValue(null, Y);
 		this.state.getSpawnPoints().add(
-				XmlRectToObjectConverter.createSpawn(x, y));
+				XmlRectToObjectConverter.createSpawn(x, y, this.worldProperties));
 	}
 
 	private void readJumper(XmlPullParser parser, MediaPlayer mediaPlayer) {

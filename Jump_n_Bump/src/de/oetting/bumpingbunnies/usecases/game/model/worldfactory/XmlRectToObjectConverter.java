@@ -4,7 +4,6 @@ import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
@@ -26,9 +25,9 @@ public class XmlRectToObjectConverter {
 				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), mediaPlayer, properties);
 	}
 
-	public static SpawnPoint createSpawn(String x, String y) {
+	public static SpawnPoint createSpawn(String x, String y, WorldProperties properties) {
 		return new SpawnPoint(
-				(int) (ModelConstants.MAX_VALUE * Double.parseDouble(x)),
-				(int) (ModelConstants.MAX_VALUE * Double.parseDouble(y)));
+				(int) (properties.getWorldWidth() * Double.parseDouble(x)),
+				(int) (properties.getWorldHeight() * Double.parseDouble(y)));
 	}
 }

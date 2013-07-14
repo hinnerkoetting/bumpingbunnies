@@ -1,38 +1,40 @@
 package de.oetting.bumpingbunnies.usecases.game.android.calculation;
 
 import android.view.MotionEvent;
-import de.oetting.bumpingbunnies.usecases.game.graphics.GameToAndroidTransformation;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
+import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 
 public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 
 	private int width;
 	private int height;
+	private final WorldProperties properties;
 
-	public AbsoluteCoordinatesCalculation(int width, int height) {
+	public AbsoluteCoordinatesCalculation(int width, int height, WorldProperties properties) {
 		this.width = width;
 		this.height = height;
+		this.properties = properties;
 	}
 
 	@Override
 	public int getGameCoordinateX(float touchX) {
-		return ModelConstants.MAX_VALUE / this.width;
+		return (int) (this.properties.getWorldWidth() / this.width);
 	}
 
 	@Override
 	public int getGameCoordinateY(float touchY) {
-		return ModelConstants.MAX_VALUE - ModelConstants.MAX_VALUE
-				/ this.height;
+		return (int) (this.properties.getWorldHeight() - this.properties.getWorldHeight()
+				/ this.height);
 	}
 
 	@Override
 	public float getScreenCoordinateX(long gameX) {
-		return GameToAndroidTransformation.transformX(gameX, this.width);
+		return (gameX * this.width) / this.properties.getWorldWidth();
 	}
 
 	@Override
 	public float getScreenCoordinateY(long gameY) {
-		return GameToAndroidTransformation.transformY(gameY, this.height);
+		return ((ModelConstants.MAX_VALUE - gameY) * this.height) / this.properties.getWorldHeight();
 	}
 
 	@Override

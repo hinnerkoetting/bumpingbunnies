@@ -79,8 +79,8 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	@Override
 	public void checkForPlayerOutsideOfGameZone() {
 		for (Player p : this.allPlayers) {
+			handlePlayerOutOfPlayZone(p);
 			if (OutsideOfPlayZoneChecker.outsideOfGameZone(p)) {
-				handlePlayerOutOfPlayZone(p);
 			}
 		}
 	}
