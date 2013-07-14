@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDead;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadSender;

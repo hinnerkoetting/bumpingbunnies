@@ -13,7 +13,7 @@ public class PlayerMovementController implements ModelConstants {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(PlayerMovementController.class);
-	private static final long SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.STANDARD_WORLD_SIZE / 100;
+	private static final long SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.STANDARD_WORLD_SIZE / 200;
 
 	private final Player movedPlayer;
 	private final PlayerState movedPlayerState;
