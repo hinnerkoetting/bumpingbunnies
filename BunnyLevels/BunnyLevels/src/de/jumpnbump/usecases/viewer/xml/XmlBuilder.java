@@ -1,13 +1,11 @@
 package de.jumpnbump.usecases.viewer.xml;
 
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.soap.Node;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -15,9 +13,9 @@ import org.w3c.dom.NodeList;
 
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
-import de.jumpnbump.usecases.viewer.model.ModelConstants;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
 import de.jumpnbump.usecases.viewer.model.Wall;
+import de.jumpnbump.usecases.viewer.model.Water;
 
 public class XmlBuilder implements XmlConstants {
 
@@ -35,13 +33,14 @@ public class XmlBuilder implements XmlConstants {
 		Document doc = dBuilder.parse(is);
 		ObjectContainer container = new ObjectContainer();
 		container.setWalls(parseWalls(doc));
-		container.setIceWalls (parseIceWalls(doc));
-		container.setJumpers (parseJumper(doc));
+		container.setIceWalls(parseIceWalls(doc));
+		container.setJumpers(parseJumper(doc));
+		container.setWaters(parseWater(doc));
 		container.setSpawnPoints(parseSpawnpoints(doc));
 		return container;
 	}
 
-	private List<SpawnPoint> parseSpawnpoints(Document doc) { 
+	private List<SpawnPoint> parseSpawnpoints(Document doc) {
 		NodeList elements = doc.getElementsByTagName(XmlConstants.SPAWNPOINT);
 		List<SpawnPoint> spawnpoints = new LinkedList<>();
 		for (int i = 0; i < elements.getLength(); i++) {
@@ -50,14 +49,13 @@ public class XmlBuilder implements XmlConstants {
 		}
 		return spawnpoints;
 	}
-	
+
 	private SpawnPoint extractSpawnpoint(org.w3c.dom.Node node) {
 		NamedNodeMap attributes = node.getAttributes();
 		String x = attributes.getNamedItem(X).getNodeValue();
 		String y = attributes.getNamedItem(Y).getNodeValue();
 		return XmlRectToObjectConverter.createSpawn(x, y);
 	}
-	
 
 	private List<Jumper> parseJumper(Document doc) {
 		NodeList elements = doc.getElementsByTagName(XmlConstants.JUMPER);
@@ -69,7 +67,17 @@ public class XmlBuilder implements XmlConstants {
 		return jumpers;
 	}
 
-	private List<IcyWall>  parseIceWalls(Document doc) {
+	private List<Water> parseWater(Document doc) {
+		NodeList elements = doc.getElementsByTagName(XmlConstants.WATER);
+		List<Water> waters = new LinkedList<>();
+		for (int i = 0; i < elements.getLength(); i++) {
+			org.w3c.dom.Node node = elements.item(i);
+			waters.add(XmlRectToObjectConverter.createWater(extractRectangle(node)));
+		}
+		return waters;
+	}
+
+	private List<IcyWall> parseIceWalls(Document doc) {
 		NodeList elements = doc.getElementsByTagName(XmlConstants.ICEWALL);
 		List<IcyWall> walls = new LinkedList<>();
 		for (int i = 0; i < elements.getLength(); i++) {
@@ -88,14 +96,13 @@ public class XmlBuilder implements XmlConstants {
 		}
 		return walls;
 	}
-	
 
 	private XmlRect extractRectangle(org.w3c.dom.Node node) {
 		NamedNodeMap attributes = node.getAttributes();
-		double minX =  extractDouble(attributes.getNamedItem(MIN_X));
-		double minY =  extractDouble(attributes.getNamedItem(MIN_Y));
-		double maxX =  extractDouble(attributes.getNamedItem(MAX_X));
-		double maxY =  extractDouble(attributes.getNamedItem(MAX_Y));
+		double minX = extractDouble(attributes.getNamedItem(MIN_X));
+		double minY = extractDouble(attributes.getNamedItem(MIN_Y));
+		double maxX = extractDouble(attributes.getNamedItem(MAX_X));
+		double maxY = extractDouble(attributes.getNamedItem(MAX_Y));
 		return new XmlRect(minX, minY, maxX, maxY);
 	}
 

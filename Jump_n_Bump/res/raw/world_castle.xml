@@ -23,6 +23,11 @@
             maxX="0.25"
             minY="0.20" 
             maxY="0.25"/>
+       <wall
+            minX="0.10"
+            maxX="0.15"
+            minY="0.25" 
+            maxY="0.30"/>
        
        
        <wall
@@ -52,22 +57,57 @@
             maxX="0.90"
             minY="0.20" 
             maxY="0.25"/>
+       <wall
+            minX="0.85"
+            maxX="0.90"
+            minY="0.25" 
+            maxY="0.30"/>
+       
+       <!-- second row -->
+       
+       <wall
+            minX="0.05"
+            maxX="0.21"
+            minY="0.8" 
+            maxY="0.85"/>
+       <wall
+            minX="0.29"
+            maxX="0.46"
+            minY="0.8" 
+            maxY="0.85"/>
+       <wall
+            minX="0.54"
+            maxX="0.71"
+            minY="0.8" 
+            maxY="0.85"/>
+       <wall
+            minX="0.79"
+            maxX="0.95"
+            minY="0.8" 
+            maxY="0.85"/>
     </walls>
     <icewalls>
-        <!-- 
-         <icewall
-            minX="0.2"
-            maxX="0.5"
-            minY="0.4" 
-            maxY="0.45"/>
         
         <icewall
-            minX="0.6"
+            minX="0.2"
+            maxX="0.3"
+            minY="0.6" 
+            maxY="0.65"/>
+        
+       <icewall
+            minX="0.45"
+            maxX="0.55"
+            minY="0.6" 
+            maxY="0.65"/>
+       
+       <icewall
+            minX="0.7"
             maxX="0.8"
-            minY="0.2" 
-            maxY="0.25"/> -->
+            minY="0.6" 
+            maxY="0.65"/>
     </icewalls>
     <jumpers>
+        <!--  bottom -->
 		<jumper
             minX="0.00"
             maxX="0.05"
@@ -83,7 +123,21 @@
             maxX="1.00"
             minY="0.00" 
             maxY="0.075"/>
+		
+		<!--  first row -->
+		<jumper
+            minX="0.10"
+            maxX="0.15"
+            minY="0.30" 
+            maxY="0.35"/>
+		<jumper
+            minX="0.85"
+            maxX="0.90"
+            minY="0.30" 
+            maxY="0.35"/>
+		
     </jumpers>
+    
 
     <spawnpoints>
         <spawnpoint x="0.1" y="1"/>
@@ -92,4 +146,27 @@
         <spawnpoint x="0.7" y="1"/>
         
     </spawnpoints>
+    
+    <waters>
+       <water
+            minX="0.05"
+            maxX="0.21"
+            minY="0.85" 
+            maxY="0.90"/>
+       <water
+            minX="0.29"
+            maxX="0.46"
+            minY="0.85" 
+            maxY="0.90"/>
+       <water
+            minX="0.54"
+            maxX="0.71"
+            minY="0.85" 
+            maxY="0.90"/>
+       <water
+            minX="0.79"
+            maxX="0.95"
+            minY="0.85" 
+            maxY="0.90"/>
+    </waters>
 </world>

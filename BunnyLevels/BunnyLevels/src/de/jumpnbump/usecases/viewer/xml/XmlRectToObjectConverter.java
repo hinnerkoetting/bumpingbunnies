@@ -6,6 +6,7 @@ import de.jumpnbump.usecases.viewer.model.ModelConstants;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
 import de.jumpnbump.usecases.viewer.model.Wall;
 import de.jumpnbump.usecases.viewer.model.WallFactory;
+import de.jumpnbump.usecases.viewer.model.Water;
 
 public class XmlRectToObjectConverter {
 
@@ -21,6 +22,11 @@ public class XmlRectToObjectConverter {
 
 	public static Jumper createJumper(XmlRect rect) {
 		return WallFactory.createJumperFromDouble(rect.getMinX(),
+				rect.getMinY(), rect.getMaxX(), rect.getMaxY());
+	}
+
+	public static Water createWater(XmlRect rect) {
+		return WallFactory.createWaterFromDouble(rect.getMinX(),
 				rect.getMinY(), rect.getMaxX(), rect.getMaxY());
 	}
 

@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.R;
 public class CastleWorldbuilder extends XmlWorldBuilderTemplate {
 
 	public CastleWorldbuilder() {
-		super(R.raw.world_1);
+		super(R.raw.world_castle);
 	}
 
 }

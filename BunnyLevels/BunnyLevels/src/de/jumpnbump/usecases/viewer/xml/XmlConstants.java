@@ -8,6 +8,8 @@ public interface XmlConstants {
 	String ICEWALL = "icewall";
 	String JUMPERS = "jumpers";
 	String JUMPER = "jumper";
+	String WATERS = "waters";
+	String WATER = "water";
 	String SPAWPOINTS = "spawnpoints";
 	String SPAWNPOINT = "spawnpoint";
 

@@ -1,12 +1,12 @@
 package de.jumpnbump.usecases.viewer.xml;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
 import de.jumpnbump.usecases.viewer.model.Wall;
+import de.jumpnbump.usecases.viewer.model.Water;
 
 public class ObjectContainer {
 
@@ -14,9 +14,10 @@ public class ObjectContainer {
 	private List<IcyWall> iceWalls;
 	private List<SpawnPoint> spawnPoints;;
 	private List<Jumper> jumpers;
+	private List<Water> waters;
 
 	public List<Wall> getWalls() {
-		return walls;
+		return this.walls;
 	}
 
 	public void setWalls(List<Wall> walls) {
@@ -24,7 +25,7 @@ public class ObjectContainer {
 	}
 
 	public List<IcyWall> getIceWalls() {
-		return iceWalls;
+		return this.iceWalls;
 	}
 
 	public void setIceWalls(List<IcyWall> iceWalls) {
@@ -32,7 +33,7 @@ public class ObjectContainer {
 	}
 
 	public List<SpawnPoint> getSpawnPoints() {
-		return spawnPoints;
+		return this.spawnPoints;
 	}
 
 	public void setSpawnPoints(List<SpawnPoint> spawnPoints) {
@@ -40,17 +41,19 @@ public class ObjectContainer {
 	}
 
 	public List<Jumper> getJumpers() {
-		return jumpers;
+		return this.jumpers;
 	}
 
 	public void setJumpers(List<Jumper> jumpers) {
 		this.jumpers = jumpers;
 	}
 
-	@Override
-	public String toString() {
-		return "ObjectContainer [walls=" + walls + ", iceWalls=" + iceWalls
-				+ ", spawnPoints=" + spawnPoints + ", jumpers=" + jumpers + "]";
+	public List<Water> getWaters() {
+		return this.waters;
+	}
+
+	public void setWaters(List<Water> waters) {
+		this.waters = waters;
 	}
 
 }

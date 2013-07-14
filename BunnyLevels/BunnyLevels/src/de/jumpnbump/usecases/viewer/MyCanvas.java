@@ -9,6 +9,7 @@ import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
 import de.jumpnbump.usecases.viewer.model.Wall;
+import de.jumpnbump.usecases.viewer.model.Water;
 import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
 
 public class MyCanvas extends Canvas {
@@ -27,7 +28,15 @@ public class MyCanvas extends Canvas {
 		paintWalls(g);
 		paintIceWalls(g);
 		paintJumpers(g);
+		paintWaters(g);
 		paintSpawnPoints(g);
+	}
+
+	private void paintWaters(Graphics g) {
+		g.setColor(new Color(128, 128, 255));
+		for (Water w : this.objectContainer.getWaters()) {
+			drawObject(g, w);
+		}
 	}
 
 	private void paintJumpers(Graphics g) {

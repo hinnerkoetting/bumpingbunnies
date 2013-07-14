@@ -1,10 +1,5 @@
 package de.jumpnbump.usecases.viewer.model;
 
-import de.jumpnbump.usecases.viewer.model.IcyWall;
-import de.jumpnbump.usecases.viewer.model.Jumper;
-import de.jumpnbump.usecases.viewer.model.ModelConstants;
-import de.jumpnbump.usecases.viewer.model.Wall;
-
 public class WallFactory {
 
 	public static Wall createWall(int x, int y) {
@@ -50,9 +45,23 @@ public class WallFactory {
 				(int) (maxY * ModelConstants.MAX_VALUE));
 	}
 
+	public static Water createWaterFromDouble(double x, double y,
+			double maxX, double maxY) {
+		return createWater((int) (x * ModelConstants.MAX_VALUE),
+				(int) (y * ModelConstants.MAX_VALUE),
+				(int) (maxX * ModelConstants.MAX_VALUE),
+				(int) (maxY * ModelConstants.MAX_VALUE));
+	}
+
 	public static Jumper createJumper(int x, int y, int maxX, int maxY) {
 		int id = IdCounter.getNextId();
 		Jumper jumper = new Jumper(id, x, y, maxX, maxY);
+		return jumper;
+	}
+
+	public static Water createWater(int x, int y, int maxX, int maxY) {
+		int id = IdCounter.getNextId();
+		Water jumper = new Water(id, x, y, maxX, maxY);
 		return jumper;
 	}
 }

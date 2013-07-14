@@ -57,6 +57,15 @@
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
+				<xsd:element name="waters" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="water" minOccurs="0" maxOccurs="unbounded"
+								type="Rectangle">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
