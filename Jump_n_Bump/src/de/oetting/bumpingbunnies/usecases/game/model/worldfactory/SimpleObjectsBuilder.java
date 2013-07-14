@@ -34,7 +34,7 @@ public class SimpleObjectsBuilder implements WorldObjectsBuilder {
 				(int) (0.9 * this.worldProperties.getWorldWidth()),
 				(int) (0.45 * this.worldProperties.getWorldHeight())));
 
-		allWalls.addAll(BuildBorderAroundWorldHelper.build(new WorldProperties()));
+		allWalls.addAll(BuildBorderAroundWorldHelper.build(this.worldProperties));
 		return allWalls;
 	}
 
