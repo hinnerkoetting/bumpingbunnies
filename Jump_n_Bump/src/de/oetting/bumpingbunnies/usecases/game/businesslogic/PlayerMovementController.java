@@ -49,9 +49,12 @@ public class PlayerMovementController implements ModelConstants {
 	private void smoothlyUpdateScreenPosition(long delta) {
 		long diffBetweenPlayerAndScreenX = +this.movedPlayer.getCenterX() - this.movedPlayer.getCurrentScreenX();
 		long diffBetweenPlayerAndScreenY = +this.movedPlayer.getCenterY() - this.movedPlayer.getCurrentScreenY();
-		long maxScrollValue = SCROLLING_WHILE_PLAYER_IS_DEAD * delta;
-		long xScrollValue = Math.abs(diffBetweenPlayerAndScreenX) > Math.abs(maxScrollValue) ? maxScrollValue : diffBetweenPlayerAndScreenX;
-		long yScrollValue = Math.abs(diffBetweenPlayerAndScreenY) > Math.abs(maxScrollValue) ? maxScrollValue : diffBetweenPlayerAndScreenY;
+		long maxScrollValueX = SCROLLING_WHILE_PLAYER_IS_DEAD * delta * (long) Math.signum(diffBetweenPlayerAndScreenX);
+		long maxScrollValueY = SCROLLING_WHILE_PLAYER_IS_DEAD * delta * (long) Math.signum(diffBetweenPlayerAndScreenY);
+		long xScrollValue = Math.abs(diffBetweenPlayerAndScreenX) > Math.abs(maxScrollValueX) ? maxScrollValueX
+				: diffBetweenPlayerAndScreenX;
+		long yScrollValue = Math.abs(diffBetweenPlayerAndScreenY) > Math.abs(maxScrollValueY) ? maxScrollValueY
+				: diffBetweenPlayerAndScreenY;
 		this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCurrentScreenX() + xScrollValue);
 		this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCurrentScreenY() + yScrollValue);
 	}

@@ -3,15 +3,13 @@ package de.oetting.bumpingbunnies.usecases.game.model;
 public interface ModelConstants {
 
 	int MAX_VALUE = 100000000;
+	int STANDARD_WORLD_SIZE = 100000000;
 
 	int WALL_WIDTH = (int) (0.025 * MAX_VALUE);
 	int WALL_HEIGHT = (int) (0.025 * MAX_VALUE);
 
 	int PLAYER_WIDTH = (int) (0.04 * MAX_VALUE);
 	int PLAYER_HEIGHT = (int) (0.045 * MAX_VALUE);
-
-	int BLOOD_WIDTH = (int) (0.01 * MAX_VALUE);
-	int BLOOD_HEIGHT = (int) (0.01 * MAX_VALUE);
 
 	// X movement
 	int MOVEMENT = (int) (0.00004f * MAX_VALUE);
