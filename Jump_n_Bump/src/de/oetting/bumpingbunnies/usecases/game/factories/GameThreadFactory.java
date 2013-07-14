@@ -44,7 +44,7 @@ public class GameThreadFactory {
 		List<PlayerMovementController> playermovements = playerConfig.getAllPlayerMovementControllers();
 		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world, extractPlayers(playermovements),
 				spawnPointGenerator);
-		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, spawnPointGenerator, killChecker);
+		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, killChecker);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates);

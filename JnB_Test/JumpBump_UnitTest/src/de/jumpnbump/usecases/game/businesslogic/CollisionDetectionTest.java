@@ -129,10 +129,6 @@ public class CollisionDetectionTest {
 		return WallFactory.createWall(x, y, maxX, maxY);
 	}
 
-	private GameObject createPlayer(int x, int y, int maxX, int maxY) {
-		return WallFactory.createWall(x, y, maxX, maxY);
-	}
-
 	@Before
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);

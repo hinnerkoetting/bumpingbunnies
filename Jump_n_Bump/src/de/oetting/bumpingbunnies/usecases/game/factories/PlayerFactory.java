@@ -4,16 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Color;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 public class PlayerFactory {
-
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(PlayerFactory.class);
 
 	private int speed;
 

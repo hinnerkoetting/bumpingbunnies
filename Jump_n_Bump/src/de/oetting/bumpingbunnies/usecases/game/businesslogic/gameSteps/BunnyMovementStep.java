@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator;
 
 /**
  * Takes care that all bunnies are moved during each step of the game.
@@ -13,13 +12,11 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.SpawnPointGenerator
 public class BunnyMovementStep implements GameStepAction {
 
 	private final List<PlayerMovementController> playermovements;
-	private final SpawnPointGenerator spawnPointGenerator;
 	private final BunnyKillChecker killChecker;
 
-	public BunnyMovementStep(List<PlayerMovementController> playermovements, SpawnPointGenerator spawnPointGenerator,
+	public BunnyMovementStep(List<PlayerMovementController> playermovements,
 			BunnyKillChecker killChecker) {
 		super();
-		this.spawnPointGenerator = spawnPointGenerator;
 		this.killChecker = killChecker;
 		this.playermovements = Collections.unmodifiableList(playermovements);
 	}

@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -24,14 +23,6 @@ public class PlayerDrawerFactory {
 		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6g);
 		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
 				bitmap, player.getColor());
-		return Arrays.asList(convertedColor);
-	}
-
-	private static List<Bitmap> createListOfTestBitmap2(Resources resources, Player player) {
-
-		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6g);
-		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
-				bitmap, Color.BLUE);
 		return Arrays.asList(convertedColor);
 	}
 
