@@ -32,28 +32,28 @@ public class MyCanvas extends Canvas {
 
 	private void paintJumpers(Graphics g) {
 		g.setColor(Color.YELLOW);
-		for (Jumper w : objectContainer.getJumpers()) {
+		for (Jumper w : this.objectContainer.getJumpers()) {
 			drawObject(g, w);
 		}
 	}
 
 	private void paintIceWalls(Graphics g) {
 		g.setColor(Color.BLUE);
-		for (IcyWall w : objectContainer.getIceWalls()) {
+		for (IcyWall w : this.objectContainer.getIceWalls()) {
 			drawObject(g, w);
 		}
 	}
 
 	private void paintWalls(Graphics g) {
 		g.setColor(Color.GRAY);
-		for (Wall w : objectContainer.getWalls()) {
+		for (Wall w : this.objectContainer.getWalls()) {
 			drawObject(g, w);
 		}
 	}
 
 	private void paintSpawnPoints(Graphics g) {
 		g.setColor(Color.RED);
-		for (SpawnPoint spawn : objectContainer.getSpawnPoints()) {
+		for (SpawnPoint spawn : this.objectContainer.getSpawnPoints()) {
 			drawSpawn(g, spawn);
 		}
 	}
@@ -83,7 +83,7 @@ public class MyCanvas extends Canvas {
 	}
 
 	private int calculateHeight(int minY, int maxY) {
-		return (maxY - minY) / DIVIDER_Y_CONST;
+		return (-maxY + minY) / DIVIDER_Y_CONST;
 	}
 
 }

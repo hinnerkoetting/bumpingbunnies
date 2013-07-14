@@ -134,7 +134,7 @@ public class PlayerMovementController implements ModelConstants {
 				.signum(this.movedPlayer.movementX())
 				* findAccelerationForObject();
 		if (Math.abs(this.movedPlayer.movementX()) <= Math
-				.abs(breakAcceleration)) {
+				.abs(breakAcceleration) * Math.pow(this.movedPlayer.getSpeedFaktor(), 2)) {
 			this.movedPlayer.setMovementX(0);
 			this.movedPlayer.setAccelerationX(0);
 		} else {
@@ -163,6 +163,7 @@ public class PlayerMovementController implements ModelConstants {
 			LOGGER.verbose("Acceleration %d", ac);
 			return ac;
 		}
+
 	}
 
 	public void tryMoveLeft() {

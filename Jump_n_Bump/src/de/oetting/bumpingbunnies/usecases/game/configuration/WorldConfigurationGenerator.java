@@ -22,8 +22,8 @@ public class WorldConfigurationGenerator {
 			return WorldConfiguration.CLASSIC;
 		case R.id.start_world_first:
 			return WorldConfiguration.DEMO;
-		case R.id.start_world_simple:
-			return WorldConfiguration.SIMPLE;
+		case R.id.start_world_castle:
+			return WorldConfiguration.CASTLE;
 		case R.id.start_world_test:
 			return WorldConfiguration.TEST;
 		default:

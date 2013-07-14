@@ -142,11 +142,8 @@ public class Player implements GameObject {
 	private int calculateNewMovementSpeedX() {
 		int newMovementSpeedX = this.state.getMovementX()
 				+ this.state.getAccelerationX();
-		if (newMovementSpeedX > ModelConstants.MOVEMENT * this.speedFaktor) {
-			return ModelConstants.MOVEMENT * this.speedFaktor;
-		} else if (newMovementSpeedX < -ModelConstants.MOVEMENT
-				* this.speedFaktor) {
-			return -ModelConstants.MOVEMENT * this.speedFaktor;
+		if (Math.abs(newMovementSpeedX) > ModelConstants.MOVEMENT * this.speedFaktor) {
+			return (int) (Math.signum(newMovementSpeedX) * ModelConstants.MOVEMENT * this.speedFaktor);
 		} else {
 			return newMovementSpeedX;
 		}
@@ -299,6 +296,10 @@ public class Player implements GameObject {
 
 	public void setCurrentScreenY(long currentScreenY) {
 		this.currentScreenY = currentScreenY;
+	}
+
+	public int getSpeedFaktor() {
+		return this.speedFaktor;
 	}
 
 }

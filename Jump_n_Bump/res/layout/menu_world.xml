@@ -14,10 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 		<RadioButton
-            android:id="@+id/start_world_simple"
+            android:id="@+id/start_world_castle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/world_simple" />
+            android:text="@string/world_castle" />
 		<RadioButton
             android:id="@+id/start_world_first"
             android:layout_width="wrap_content"
