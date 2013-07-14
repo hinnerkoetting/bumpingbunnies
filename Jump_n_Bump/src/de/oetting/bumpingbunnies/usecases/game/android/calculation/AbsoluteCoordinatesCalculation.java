@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.android.calculation;
 
 import android.view.MotionEvent;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 
 public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
@@ -34,7 +33,7 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 
 	@Override
 	public float getScreenCoordinateY(long gameY) {
-		return ((ModelConstants.MAX_VALUE - gameY) * this.height) / this.properties.getWorldHeight();
+		return ((this.properties.getWorldHeight() - gameY) * this.height) / this.properties.getWorldHeight();
 	}
 
 	@Override
