@@ -2,7 +2,6 @@ package de.jumpnbump.usecases.viewer.model;
 
 import java.io.InputStream;
 
-import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.Viewer;
 import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
 import de.jumpnbump.usecases.viewer.xml.XmlBuilder;

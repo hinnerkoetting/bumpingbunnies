@@ -13,6 +13,7 @@ import de.jumpnbump.usecases.viewer.model.Water;
 import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
 
 public class MyCanvas extends Canvas {
+	private static final long serialVersionUID = 1L;
 	public static final int DIVIDER_X_CONST = 10000;
 	public static final int DIVIDER_Y_CONST = 20000;
 	public static final int SPAWN_RADIUS = 5;

@@ -10,6 +10,8 @@ import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDe
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreMessage;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointMessage;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
@@ -57,10 +59,11 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private void killPlayer(Player playerKilled) {
 		playerKilled.setDead(true);
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
-		PlayerIsDead killedMessage = new PlayerIsDead(playerKilled.id(), spawnPoint);
+		PlayerIsDead killedMessage = new PlayerIsDead(playerKilled.id());
 
 		for (RemoteSender sender : this.sendThreads) {
 			new PlayerIsDeadSender(sender).sendMessage(killedMessage);
+			new SpawnPointSender(sender).sendMessage(new SpawnPointMessage(spawnPoint, playerKilled.id()));
 		}
 	}
 

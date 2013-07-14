@@ -33,6 +33,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSe
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreReceiver;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
@@ -194,6 +195,7 @@ public class GameActivity extends Activity {
 		new PlayerIsDeadReceiver(networkDispatcher, world.getAllPlayer());
 		new PlayerScoreReceiver(networkDispatcher, world.getAllPlayer());
 		new PlayerIsRevivedReceiver(networkDispatcher, world.getAllPlayer());
+		new SpawnPointReceiver(networkDispatcher, world.getAllPlayer());
 	}
 
 	private void createNetworkReceiveThreads(

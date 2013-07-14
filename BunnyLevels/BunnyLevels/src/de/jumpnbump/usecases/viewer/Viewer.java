@@ -1,7 +1,6 @@
 package de.jumpnbump.usecases.viewer;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
 
