@@ -12,7 +12,6 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.network.NetworkInpu
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
@@ -43,8 +42,7 @@ public class AllPlayerConfig {
 	}
 
 	public List<InputService> createOtherInputService(
-			NetworkToGameDispatcher networkDispatcher,
-			AbstractOtherPlayersFactory factory, List<RemoteSender> allSender) {
+			NetworkToGameDispatcher networkDispatcher, List<RemoteSender> allSender) {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
 		List<InputService> resultReceiver = new ArrayList<InputService>(

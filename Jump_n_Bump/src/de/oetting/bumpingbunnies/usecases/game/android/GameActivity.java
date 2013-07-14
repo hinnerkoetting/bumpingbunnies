@@ -130,7 +130,7 @@ public class GameActivity extends Activity {
 		createRemoteSender();
 		List<StateSender> allStateSender = createSender(myPlayer);
 		List<InputService> inputServices = initInputServices(world,
-				otherPlayerFactory, this.allPlayerConfig,
+				this.allPlayerConfig,
 				this.sendThreads, parameter);
 
 		this.gameThread = GameThreadFactory.create(this.sendThreads, world,
@@ -162,7 +162,7 @@ public class GameActivity extends Activity {
 	}
 
 	private List<InputService> initInputServices(
-			World world, AbstractOtherPlayersFactory singleton, AllPlayerConfig config,
+			World world, AllPlayerConfig config,
 			List<RemoteSender> allSender, GameStartParameter parameter) {
 		AbstractPlayerInputServicesFactory.init(parameter.getConfiguration()
 				.getInputConfiguration());
@@ -177,7 +177,7 @@ public class GameActivity extends Activity {
 		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		createNetworkReceiveThreads(networkDispatcher, allSender);
 		List<InputService> inputServices = config.createOtherInputService(networkDispatcher,
-				singleton, allSender);
+				allSender);
 		inputServices.add(touchService);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),
