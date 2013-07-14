@@ -59,7 +59,7 @@ public class GameThreadFactory {
 			return new HostBunnyKillChecker(sendThreads, collisionDetection, allPlayers,
 					spawnPointGenerator);
 		} else {
-			return new ClientBunnyKillChecker(collisionDetection, allPlayers);
+			return new ClientBunnyKillChecker();
 		}
 	}
 
