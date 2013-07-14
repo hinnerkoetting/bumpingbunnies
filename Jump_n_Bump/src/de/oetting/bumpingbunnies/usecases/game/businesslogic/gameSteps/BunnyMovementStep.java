@@ -30,6 +30,7 @@ public class BunnyMovementStep implements GameStepAction {
 			movement.nextStep(deltaStepsSinceLastCall);
 			checkForJumpedPlayers();
 		}
+		this.killChecker.checkForPlayerOutsideOfGameZone();
 	}
 
 	private void checkForJumpedPlayers() {
