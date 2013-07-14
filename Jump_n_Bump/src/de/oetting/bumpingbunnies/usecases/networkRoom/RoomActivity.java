@@ -147,13 +147,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		this.remoteCommunication.closeOpenConnections();
 		this.connectedToServerService.cancel();
 		this.broadcastService.cancel();
 		for (ConnectionToClientService connectionToClient : this.connectionToClientServices) {
 			connectionToClient.cancel();
 		}
-		SocketStorage.getSingleton().closeExistingSocket();
 	}
 
 	@Override
@@ -388,6 +386,18 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public void onClickConnect(View v) {
 		this.remoteCommunication.findServer(getInputIp());
+	}
+
+	@Override
+	public void errorOnBroadcastListening() {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				String message = getString(R.string.could_not_connect);
+				Toast.makeText(RoomActivity.this, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 }

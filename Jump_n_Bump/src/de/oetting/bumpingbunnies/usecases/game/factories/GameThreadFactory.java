@@ -15,6 +15,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKill
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.HostBunnyKillChecker;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.PlayerReviver;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.ListSpawnPointGenerator;
@@ -42,22 +43,23 @@ public class GameThreadFactory {
 				world.getSpawnPoints());
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		List<PlayerMovementController> playermovements = playerConfig.getAllPlayerMovementControllers();
+		PlayerReviver reviver = new PlayerReviver(sendThreads);
 		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world, extractPlayers(playermovements),
-				spawnPointGenerator);
+				spawnPointGenerator, reviver);
 		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, killChecker);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
-				userInputStep, movementStep, sendCoordinates);
+				userInputStep, movementStep, sendCoordinates, reviver);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
 	}
 
 	private static BunnyKillChecker createKillChecker(List<RemoteSender> sendThreads, Configuration conf, World world,
 			List<Player> allPlayers,
-			SpawnPointGenerator spawnPointGenerator) {
+			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver) {
 		CollisionDetection collisionDetection = new CollisionDetection(world);
 		if (conf.isHost()) {
 			return new HostBunnyKillChecker(sendThreads, collisionDetection, allPlayers,
-					spawnPointGenerator);
+					spawnPointGenerator, reviver);
 		} else {
 			return new ClientBunnyKillChecker();
 		}

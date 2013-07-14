@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.PlayerReviver;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
 
@@ -14,6 +15,7 @@ public class GameStepController {
 	private final UserInputStep userInputStep;
 	private final BunnyMovementStep movements;
 	private final SendingCoordinatesStep sendingCoordinates;
+	private final PlayerReviver reviver;
 	// because we execute one step per multiple milliseconds
 	// it may happen that some milliseconds can not be processed
 	// this remaining time is stored in this variable
@@ -22,10 +24,11 @@ public class GameStepController {
 
 	public GameStepController(
 			UserInputStep userInputStep, BunnyMovementStep movements,
-			SendingCoordinatesStep sendingCoordinates) {
+			SendingCoordinatesStep sendingCoordinates, PlayerReviver reviver) {
 		this.userInputStep = userInputStep;
 		this.movements = movements;
 		this.sendingCoordinates = sendingCoordinates;
+		this.reviver = reviver;
 	}
 
 	public void nextStep(long delta) {
@@ -35,6 +38,7 @@ public class GameStepController {
 		this.userInputStep.executeNextStep(numberSteps);
 		this.movements.executeNextStep(numberSteps);
 		this.sendingCoordinates.executeNextStep(numberSteps);
+		this.reviver.executeNextStep(numberSteps);
 
 	}
 }

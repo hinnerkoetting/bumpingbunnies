@@ -24,14 +24,16 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final CollisionDetection collisionDetection;
 	private final List<Player> allPlayers;
 	private final SpawnPointGenerator spawnPointGenerator;
-	private List<RemoteSender> sendThreads;
+	private final List<RemoteSender> sendThreads;
+	private final PlayerReviver reviver;
 
 	public HostBunnyKillChecker(List<RemoteSender> sendThreads, CollisionDetection collisionDetection, List<Player> allPlayers,
-			SpawnPointGenerator spawnPointGenerator) {
+			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver) {
 		super();
 		this.sendThreads = sendThreads;
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
+		this.reviver = reviver;
 		this.allPlayers = Collections.unmodifiableList(allPlayers);
 	}
 
@@ -76,7 +78,10 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private void revivePlayerDelayed(final Player player) {
-		new BunnyDelayedReviver(player, BunnyDelayedReviver.KILL_TIME_MILLISECONDS, this.sendThreads).start();
+		this.reviver.revivePlayerLater(player);
+		// new BunnyDelayedReviver(player,
+		// BunnyDelayedReviver.KILL_TIME_MILLISECONDS,
+		// this.sendThreads).start();
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class ListenForBroadcastsThread extends Thread {
 	private final DatagramSocket socket;
 	private boolean canceled;
 	private final DatagramPacket packet;
-	private OnBroadcastReceived callback;
+	private final OnBroadcastReceived callback;
 
 	public ListenForBroadcastsThread(DatagramSocket socket,
 			OnBroadcastReceived callback) {
@@ -32,9 +32,18 @@ public class ListenForBroadcastsThread extends Thread {
 			try {
 				oneRun();
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				if (this.canceled) {
+					LOGGER.info("exception because socket was closed");
+				} else {
+					LOGGER.error("exception because socket was closed");
+					displayErrorMessage();
+				}
 			}
 		}
+	}
+
+	private void displayErrorMessage() {
+		this.callback.errorOnBroadcastListening();
 	}
 
 	private void oneRun() throws IOException {

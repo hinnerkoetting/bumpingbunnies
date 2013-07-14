@@ -6,4 +6,5 @@ public interface OnBroadcastReceived {
 
 	void broadcastReceived(InetAddress senderAddress);
 
+	void errorOnBroadcastListening();
 }
