@@ -67,5 +67,6 @@
     <string name="unknown_error">Unbekannter Fehler</string>
     <string name="disconnected">Verbindung wurde getrennt</string>
     <string name="could_not_connect">Konnte keine Verbindung zum Server aufbauen</string>
+    <string name="could_not_open_server">Konnte keinen Server starten. Bitte starten Sie die Anwendung neu und versuchen es erneut.</string>
     <string name="world_castle">Castle</string>
 </resources>

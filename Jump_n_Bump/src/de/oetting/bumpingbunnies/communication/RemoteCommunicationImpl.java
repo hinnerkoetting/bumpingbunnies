@@ -27,9 +27,15 @@ public class RemoteCommunicationImpl implements RemoteCommunication {
 	public void startServer() {
 		LOGGER.info("Starting server");
 		closeOpenConnections();
-		this.acceptThread = new AcceptThreadImpl(
-				this.serverSocketFactory.create(), this.origin);
-		this.acceptThread.start();
+		try {
+			this.acceptThread = new AcceptThreadImpl(
+					this.serverSocketFactory.create(), this.origin);
+			this.acceptThread.start();
+		} catch (Exception e) {
+			LOGGER.error("Exception when creating server", e);
+			CharSequence text = this.origin.getText(R.string.could_not_open_server);
+			Toast.makeText(this.origin, text, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
