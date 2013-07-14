@@ -8,6 +8,6 @@ public class DefaultConfiguration {
 
 	public static SettingsEntity createDefaultEntity() {
 		return new SettingsEntity(InputConfiguration.DISTRIBUTED_KEYBOARD, 5,
-				2, 10, Build.MODEL, true, false);
+				2, 40, Build.MODEL, true, false);
 	}
 }
