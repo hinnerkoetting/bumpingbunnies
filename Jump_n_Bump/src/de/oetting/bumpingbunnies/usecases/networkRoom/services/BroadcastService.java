@@ -24,6 +24,7 @@ public class BroadcastService {
 	}
 
 	public void startRegularServerBroadcast(final Context context) {
+		cancel();
 		new Thread(new Runnable() {
 
 			@Override
@@ -48,6 +49,7 @@ public class BroadcastService {
 	}
 
 	public void listenForBroadCasts(final RoomActivity room) {
+		cancel();
 		new Thread(new Runnable() {
 
 			@Override
@@ -90,4 +92,5 @@ public class BroadcastService {
 			}
 		});
 	}
+
 }
