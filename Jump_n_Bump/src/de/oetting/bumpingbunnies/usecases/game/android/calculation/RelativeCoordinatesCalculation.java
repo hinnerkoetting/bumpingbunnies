@@ -27,35 +27,41 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 
 	@Override
 	public int getGameCoordinateX(float touchX) {
-		return (int) (this.zoom * touchX + (this.targetPlayer.getCenterX() - this.width
+		return (int) (this.zoom * touchX + (getCurrentCenterX() - this.width
 				/ 2 * this.zoom));
 	}
 
 	@Override
 	public int getGameCoordinateY(float touchY) {
-		return (int) (-(touchY - this.height / 2) * this.zoom + this.targetPlayer
-				.getCenterY());
+		return (int) (-(touchY - this.height / 2) * this.zoom + getCurrentCenterY());
 	}
 
 	@Override
 	public float getScreenCoordinateX(long gameX) {
 		float res = this.width
 				/ 2
-				+ (float) ((gameX - this.targetPlayer.getCenterX()) / this.zoom);
+				+ (float) ((gameX - getCurrentCenterX()) / this.zoom);
 		return res;
 	}
 
 	@Override
 	public float getScreenCoordinateY(long gameY) {
 		float res = this.height / 2
-				- (((+gameY - this.targetPlayer.getCenterY())) / this.zoom);
+				- (((+gameY - getCurrentCenterY())) / this.zoom);
 		return res;
 	}
 
 	@Override
 	public boolean isClickOnUpperHalf(MotionEvent motionEvent) {
-		return getGameCoordinateY(motionEvent.getY()) > this.targetPlayer
-				.getCenterY();
+		return getGameCoordinateY(motionEvent.getY()) > getCurrentCenterY();
+	}
+
+	public long getCurrentCenterX() {
+		return this.targetPlayer.getCurrentScreenX();
+	}
+
+	public long getCurrentCenterY() {
+		return this.targetPlayer.getCurrentScreenY();
 	}
 
 }

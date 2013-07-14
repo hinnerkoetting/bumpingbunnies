@@ -31,6 +31,7 @@ public class BunnyDelayedReviver extends Thread {
 	@Override
 	public void run() {
 		waitShortTime();
+		LOGGER.info("reviving player %d", this.player.id());
 		this.player.setDead(false);
 		notifyClients();
 	}

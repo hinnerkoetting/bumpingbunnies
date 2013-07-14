@@ -20,6 +20,9 @@ public class Player implements GameObject {
 	private Player simulatedObject;
 
 	private Rect rect;
+	// cooordinates which are centered in screen
+	private long currentScreenX;
+	private long currentScreenY;
 
 	public Player(int id, String name, int speedFaktor) {
 		this.name = name;
@@ -280,6 +283,22 @@ public class Player implements GameObject {
 
 	public boolean isDead() {
 		return this.state.isDead();
+	}
+
+	public long getCurrentScreenX() {
+		return this.currentScreenX;
+	}
+
+	public long getCurrentScreenY() {
+		return this.currentScreenY;
+	}
+
+	public void setCurrentScreenX(long currentScreenX) {
+		this.currentScreenX = currentScreenX;
+	}
+
+	public void setCurrentScreenY(long currentScreenY) {
+		this.currentScreenY = currentScreenY;
 	}
 
 }

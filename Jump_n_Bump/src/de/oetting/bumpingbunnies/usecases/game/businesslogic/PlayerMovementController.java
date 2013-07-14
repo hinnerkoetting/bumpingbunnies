@@ -13,6 +13,7 @@ public class PlayerMovementController implements ModelConstants {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(PlayerMovementController.class);
+	private static final long SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.MAX_VALUE / 100;
 
 	private final Player movedPlayer;
 	private final PlayerState movedPlayerState;
@@ -33,7 +34,31 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public void nextStep(long delta) {
-		movePlayerNextStep(delta);
+		if (!this.movedPlayer.isDead()) {
+			movePlayerNextStep(delta);
+			updateScreenPosition();
+		} else {
+			smoothlyUpdateScreenPosition(delta);
+		}
+	}
+
+	/**
+	 * we want to smoothly move to the players position if he is dead. This will
+	 * avoid fast jumps because of next spawnpoint.
+	 */
+	private void smoothlyUpdateScreenPosition(long delta) {
+		long diffBetweenPlayerAndScreenX = +this.movedPlayer.getCenterX() - this.movedPlayer.getCurrentScreenX();
+		long diffBetweenPlayerAndScreenY = +this.movedPlayer.getCenterY() - this.movedPlayer.getCurrentScreenY();
+		long maxScrollValue = SCROLLING_WHILE_PLAYER_IS_DEAD * delta;
+		long xScrollValue = Math.abs(diffBetweenPlayerAndScreenX) > Math.abs(maxScrollValue) ? maxScrollValue : diffBetweenPlayerAndScreenX;
+		long yScrollValue = Math.abs(diffBetweenPlayerAndScreenY) > Math.abs(maxScrollValue) ? maxScrollValue : diffBetweenPlayerAndScreenY;
+		this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCurrentScreenX() + xScrollValue);
+		this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCurrentScreenY() + yScrollValue);
+	}
+
+	private void updateScreenPosition() {
+		this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCenterX());
+		this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCenterY());
 	}
 
 	private void movePlayerNextStep(long delta) {
