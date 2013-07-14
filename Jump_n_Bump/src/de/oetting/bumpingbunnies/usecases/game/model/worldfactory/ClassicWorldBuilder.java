@@ -11,12 +11,14 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
+import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 
 public class ClassicWorldBuilder implements WorldObjectsBuilder {
+
+	private final WorldProperties worldProperties = new WorldProperties();
 
 	@Override
 	public Collection<GameObject> createAllWalls(Context context) {
@@ -28,7 +30,7 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 		addThirdRow(allWalls);
 		addFourthRow(allWalls);
 		addFifthRow(allWalls);
-		allWalls.addAll(BuildBorderAroundWorldHelper.build());
+		allWalls.addAll(BuildBorderAroundWorldHelper.build(new WorldProperties()));
 		// allWalls.add(WallFactory.createWall(0, 0.2, 0.4, 0.1));
 		// allWalls.add(WallFactory.createWall(0.4, 0.2, 0.3, 0.05));
 		// allWalls.add(WallFactory.createWall(0.7, 0.2, 0.2, 0.05));
@@ -100,35 +102,35 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 	 */
 	private Wall convenienceBuildWall(long x, long y, long maxX, long maxY) {
 		return WallFactory.createWall(
-				(long) (x * ModelConstants.MAX_VALUE / 110.0), (long) (y
-						* ModelConstants.MAX_VALUE / 80.0), (long) (maxX
-						* ModelConstants.MAX_VALUE / 110.0), (long) (maxY
-						* ModelConstants.MAX_VALUE / 80.0));
+				(long) (x * this.worldProperties.getWorldWidth() / 110.0), (long) (y
+						* this.worldProperties.getWorldHeight() / 80.0), (long) (maxX
+						* this.worldProperties.getWorldWidth() / 110.0), (long) (maxY
+						* this.worldProperties.getWorldHeight() / 80.0));
 	}
 
 	private Wall convenienceBuildIcyWall(long x, long y, long maxX, long maxY) {
 		return WallFactory.createIceWall(
-				(long) (x * ModelConstants.MAX_VALUE / 110.0), (long) (y
-						* ModelConstants.MAX_VALUE / 80.0), (long) (maxX
-						* ModelConstants.MAX_VALUE / 110.0), (long) (maxY
-						* ModelConstants.MAX_VALUE / 80.0));
+				(long) (x * this.worldProperties.getWorldWidth() / 110.0), (long) (y
+						* this.worldProperties.getWorldHeight() / 80.0), (long) (maxX
+						* this.worldProperties.getWorldWidth() / 110.0), (long) (maxY
+						* this.worldProperties.getWorldHeight() / 80.0));
 	}
 
 	private Water convenienceBuildWater(long x, long y, long maxX, long maxY) {
 		return WallFactory.createWater(
-				(long) (x * ModelConstants.MAX_VALUE / 110.0), (long) (y
-						* ModelConstants.MAX_VALUE / 80.0), (long) (maxX
-						* ModelConstants.MAX_VALUE / 110.0), (long) (maxY
-						* ModelConstants.MAX_VALUE / 80.0));
+				(long) (x * this.worldProperties.getWorldWidth() / 110.0), (long) (y
+						* this.worldProperties.getWorldHeight() / 80.0), (long) (maxX
+						* this.worldProperties.getWorldWidth() / 110.0), (long) (maxY
+						* this.worldProperties.getWorldHeight() / 80.0));
 	}
 
 	private Jumper convenienceBuildJumper(long x, long y, long maxX, long maxY,
 			MediaPlayer mediaPlayer) {
 		return WallFactory.createJumper(
-				(long) (x * ModelConstants.MAX_VALUE / 110.0), (long) (y
-						* ModelConstants.MAX_VALUE / 80.0), (long) (maxX
-						* ModelConstants.MAX_VALUE / 110.0), (long) (maxY
-						* ModelConstants.MAX_VALUE / 80.0), mediaPlayer);
+				(long) (x * this.worldProperties.getWorldWidth() / 110.0), (long) (y
+						* this.worldProperties.getWorldHeight() / 80.0), (long) (maxX
+						* this.worldProperties.getWorldWidth() / 110.0), (long) (maxY
+						* this.worldProperties.getWorldHeight() / 80.0), mediaPlayer);
 	}
 
 	@Override
@@ -144,8 +146,8 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 	}
 
 	private SpawnPoint convenicenceCreateSpawnPoint(long x, long y) {
-		return new SpawnPoint((long) (x * ModelConstants.MAX_VALUE / 110.0),
-				(long) (y * ModelConstants.MAX_VALUE / 80.0));
+		return new SpawnPoint((long) (x * this.worldProperties.getWorldWidth() / 110.0),
+				(long) (y * this.worldProperties.getWorldHeight() / 80.0));
 	}
 
 }

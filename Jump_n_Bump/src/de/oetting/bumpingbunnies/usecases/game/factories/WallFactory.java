@@ -6,6 +6,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
+import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 
 public class WallFactory {
 
@@ -17,11 +18,11 @@ public class WallFactory {
 	}
 
 	public static Wall createWallFromDouble(double x, double y, double maxX,
-			double maxY) {
-		return createWall((int) (x * ModelConstants.MAX_VALUE),
-				(int) (y * ModelConstants.MAX_VALUE),
-				(int) (maxX * ModelConstants.MAX_VALUE),
-				(int) (maxY * ModelConstants.MAX_VALUE));
+			double maxY, WorldProperties properties) {
+		return createWall((int) (x * properties.getWorldWidth()),
+				(int) (y * properties.getWorldHeight()),
+				(int) (maxX * properties.getWorldWidth()),
+				(int) (maxY * properties.getWorldHeight()));
 	}
 
 	public static Wall createWall(long x, long y, long maxX, long maxY) {
@@ -36,11 +37,11 @@ public class WallFactory {
 	}
 
 	public static IcyWall createIceWallFromDouble(double x, double y,
-			double maxX, double maxY) {
-		return createIceWall((int) (x * ModelConstants.MAX_VALUE),
-				(int) (y * ModelConstants.MAX_VALUE),
-				(int) (maxX * ModelConstants.MAX_VALUE),
-				(int) (maxY * ModelConstants.MAX_VALUE));
+			double maxX, double maxY, WorldProperties properties) {
+		return createIceWall((int) (x * properties.getWorldWidth()),
+				(int) (y * properties.getWorldHeight()),
+				(int) (maxX * properties.getWorldWidth()),
+				(int) (maxY * properties.getWorldHeight()));
 	}
 
 	public static IcyWall createIceWall(long x, long y, long maxX, long maxY) {
@@ -50,11 +51,11 @@ public class WallFactory {
 	}
 
 	public static Jumper createJumperFromDouble(double x, double y,
-			double maxX, double maxY, MediaPlayer mediaPlayer) {
-		return createJumper((int) (x * ModelConstants.MAX_VALUE),
-				(int) (y * ModelConstants.MAX_VALUE),
-				(int) (maxX * ModelConstants.MAX_VALUE),
-				(int) (maxY * ModelConstants.MAX_VALUE), mediaPlayer);
+			double maxX, double maxY, MediaPlayer mediaPlayer, WorldProperties properties) {
+		return createJumper((int) (x * properties.getWorldWidth()),
+				(int) (y * properties.getWorldHeight()),
+				(int) (maxX * properties.getWorldWidth()),
+				(int) (maxY * properties.getWorldHeight()), mediaPlayer);
 	}
 
 	public static Jumper createJumper(long x, long y, long maxX, long maxY,

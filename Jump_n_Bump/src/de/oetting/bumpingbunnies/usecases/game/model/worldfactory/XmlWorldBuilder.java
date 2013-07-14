@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
+import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 
 public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 
@@ -26,6 +27,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	private final int resourceId;
 	private XmlWorldBuilderState state;
 	private boolean parsed;
+	private WorldProperties worldProperties = new WorldProperties();
 
 	public XmlWorldBuilder(int resourceId) {
 		this.resourceId = resourceId;
@@ -93,20 +95,20 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	private void readJumper(XmlPullParser parser, MediaPlayer mediaPlayer) {
 		XmlRect rect = readRect(parser);
 		Jumper jumper = XmlRectToObjectConverter
-				.createJumper(rect, mediaPlayer);
+				.createJumper(rect, mediaPlayer, this.worldProperties);
 		this.state.getAllObjects().add(jumper);
 	}
 
 	private void readIcewall(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
-		Wall wall = XmlRectToObjectConverter.createIceWall(rect);
+		Wall wall = XmlRectToObjectConverter.createIceWall(rect, this.worldProperties);
 		this.state.getAllObjects().add(wall);
 	}
 
 	private void readWall(XmlPullParser parser) throws XmlPullParserException,
 			IOException {
 		XmlRect rect = readRect(parser);
-		Wall wall = XmlRectToObjectConverter.createWall(rect);
+		Wall wall = XmlRectToObjectConverter.createWall(rect, this.worldProperties);
 		this.state.getAllObjects().add(wall);
 
 	}

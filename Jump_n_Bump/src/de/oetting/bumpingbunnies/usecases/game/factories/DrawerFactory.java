@@ -21,7 +21,7 @@ public class DrawerFactory {
 				context.getResources());
 
 		CanvasDelegateImpl canvasDelegate = new CanvasDelegateImpl(calculations);
-		calculations.setZoom((ModelConstants.MAX_VALUE / 7500 * configuration
+		calculations.setZoom((ModelConstants.STANDARD_WORLD_SIZE / 7500 * configuration
 				.getZoom()));
 
 		Drawer drawer = new Drawer(drawFactory, canvasDelegate,

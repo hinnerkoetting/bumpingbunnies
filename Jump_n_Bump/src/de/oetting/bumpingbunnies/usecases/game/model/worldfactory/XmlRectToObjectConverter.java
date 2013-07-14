@@ -7,22 +7,23 @@ import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
+import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 
 public class XmlRectToObjectConverter {
 
-	public static Wall createWall(XmlRect rect) {
+	public static Wall createWall(XmlRect rect, WorldProperties properties) {
 		return WallFactory.createWallFromDouble(rect.getMinX(), rect.getMinY(),
-				rect.getMaxX(), rect.getMaxY());
+				rect.getMaxX(), rect.getMaxY(), properties);
 	}
 
-	public static IcyWall createIceWall(XmlRect rect) {
+	public static IcyWall createIceWall(XmlRect rect, WorldProperties properties) {
 		return WallFactory.createIceWallFromDouble(rect.getMinX(),
-				rect.getMinY(), rect.getMaxX(), rect.getMaxY());
+				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties);
 	}
 
-	public static Jumper createJumper(XmlRect rect, MediaPlayer mediaPlayer) {
+	public static Jumper createJumper(XmlRect rect, MediaPlayer mediaPlayer, WorldProperties properties) {
 		return WallFactory.createJumperFromDouble(rect.getMinX(),
-				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), mediaPlayer);
+				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), mediaPlayer, properties);
 	}
 
 	public static SpawnPoint createSpawn(String x, String y) {
