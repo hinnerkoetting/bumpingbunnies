@@ -5,6 +5,8 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerDrawer implements Drawable {
 
+	private static final int ALPHA_WHILE_ALIVE = 255;
+	private static final int ALPHA_WHILE_DEAD = 64;
 	private final Player player;
 	private final AnimationWithMirror runningAnimation;
 	private final Paint paint;
@@ -13,18 +15,22 @@ public class PlayerDrawer implements Drawable {
 		this.player = player;
 		this.runningAnimation = runningAnimation;
 		this.paint = new Paint();
-		this.paint.setAlpha(125);
 		this.paint.setColor(this.player.getColor());
 	}
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
 		if (!this.player.isDead()) {
+			this.paint.setAlpha(ALPHA_WHILE_ALIVE);
 			if (this.player.movementX() != 0) {
 				this.runningAnimation.drawMirrored(this.player.isFacingLeft());
 			}
 			// canvas.drawRect(this.player.minX(), this.player.maxY(),
 			// this.player.maxX(), this.player.minY(), this.paint);
+			this.runningAnimation.draw(canvas, this.player.minX(),
+					this.player.maxY(), this.paint);
+		} else {
+			this.paint.setAlpha(ALPHA_WHILE_DEAD);
 			this.runningAnimation.draw(canvas, this.player.minX(),
 					this.player.maxY(), this.paint);
 		}
