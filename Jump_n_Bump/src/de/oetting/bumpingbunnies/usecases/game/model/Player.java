@@ -233,8 +233,10 @@ public class Player implements GameObject {
 	@Override
 	public void handleCollisionWithPlayer(Player player,
 			CollisionDetection collisionDetection) {
+		// collision with dead players is allowed
+		// but dead players are not able to jump-kil other players
+		this.collisionHandling.interactWith(player, this, collisionDetection);
 		if (!player.isDead() && !isDead()) {
-			this.collisionHandling.interactWith(player, this, collisionDetection);
 			GameObject simulatedNextStep = player.simulateNextStep();
 			if (collisionDetection.isExactlyOverObject(simulatedNextStep, this)) {
 				player.interactWithPlayerOnTop(this);

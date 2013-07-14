@@ -34,8 +34,8 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	public void nextStep(long delta) {
+		movePlayerNextStep(delta);
 		if (!this.movedPlayer.isDead()) {
-			movePlayerNextStep(delta);
 			updateScreenPosition();
 		} else {
 			smoothlyUpdateScreenPosition(delta);
