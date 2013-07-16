@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<world xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://world.bunnies.de"
+    xsi:noNamespaceSchemaLocation="world.xsd"
+    xsi:schemaLocation="http://world.bunnies.de
+                                     world.xsd" >
+
+    <walls>
+        <!-- left and bottom -->
+    	<wall minX="0" maxX="0.05" minY="0.1" maxY="1" />  
+    	<wall minX="0.05" maxX="0.10" minY="0.1" maxY="0.15" />  
+    	<wall minX="0.4" maxX="0.45" minY="0.0" maxY="0.1" />  
+    	<wall minX="0.45" maxX="0.95" minY="0.0" maxY="0.05" />  
+    	<wall minX="0.6" maxX="0.65" minY="0.05" maxY="0.1" />  
+    	<wall minX="0.85" maxX="0.95" minY="0.05" maxY="0.1" />  
+    	<wall minX="0.9" maxX="0.95" minY="0.1" maxY="0.15" />  
+    	<wall minX="0.95" maxX="1" minY="0.0" maxY="0.75" />
+    	<!--  second row -->
+    	<wall minX="0.1" maxX="0.25" minY="0.2" maxY="0.25" />  
+    	<wall minX="0.5" maxX="0.85" minY="0.2" maxY="0.25" />  
+    	<wall minX="0.55" maxX="0.75" minY="0.25" maxY="0.3" />  
+    	<wall minX="0.65" maxX="0.7" minY="0.3" maxY="0.35" />  
+    	<!-- third row -->
+    	<wall minX="0.05" maxX="0.15" minY="0.35" maxY="0.40" />
+    	<wall minX="0.2" maxX="0.3" minY="0.35" maxY="0.40" />
+    	<wall minX="0.7" maxX="0.8" minY="0.525" maxY="0.575" />
+    	<wall minX="0.85" maxX="0.95" minY="0.4" maxY="0.45" />
+    	<wall minX="0.9" maxX="0.95" minY="0.45" maxY="0.5" />
+    	<!-- fourth row -->
+    	<wall minX="0.05" maxX="0.15" minY="0.6" maxY="0.65" />  
+    	<wall minX="0.05" maxX="0.10" minY="0.65" maxY="0.70" />  
+    	
+    	<wall minX="0.25" maxX="0.55" minY="0.6" maxY="0.65" />  
+    	<wall minX="0.4" maxX="0.6" minY="0.65" maxY="0.7" />  
+    	<wall minX="0.45" maxX="0.65" minY="0.7" maxY="0.75" />  
+    	<wall minX="0.5" maxX="0.6" minY="0.75" maxY="0.8" />  
+    	<wall minX="0.5" maxX="0.55" minY="0.8" maxY="0.85" />
+    	<wall minX="0.9" maxX="0.95" minY="0.7" maxY="0.75" />
+    	<!-- fifth row -->
+    	<wall minX="0.05" maxX="0.10" minY="0.95" maxY="1" />  
+    	<wall minX="0.15" maxX="0.30" minY="0.8" maxY="0.85" />  
+    	<wall minX="0.75" maxX="0.85" minY="0.85" maxY="0.9" />  
+    	
+    </walls>
+</world>
