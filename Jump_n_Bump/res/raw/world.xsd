@@ -4,8 +4,8 @@
 
 	<xsd:simpleType name="Ordinate">
 		<xsd:restriction base="xsd:double">
-			<xsd:minInclusive value="0" />
-			<xsd:maxInclusive value="1" />
+			<xsd:minInclusive value="-0.00001" />
+			<xsd:maxInclusive value="2" />
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:complexType name="Rectangle">

@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
@@ -108,7 +109,7 @@ public class ClassicWorldBuilder implements WorldObjectsBuilder {
 						* this.worldProperties.getWorldHeight() / 80.0));
 	}
 
-	private Wall convenienceBuildIcyWall(long x, long y, long maxX, long maxY) {
+	private IcyWall convenienceBuildIcyWall(long x, long y, long maxX, long maxY) {
 		return WallFactory.createIceWall(
 				(long) (x * this.worldProperties.getWorldWidth() / 110.0), (long) (y
 						* this.worldProperties.getWorldHeight() / 80.0), (long) (maxX

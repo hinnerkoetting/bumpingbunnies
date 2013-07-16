@@ -15,6 +15,7 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
@@ -112,7 +113,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 
 	private void readIcewall(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
-		Wall wall = XmlRectToObjectConverter.createIceWall(rect, this.worldProperties);
+		IcyWall wall = XmlRectToObjectConverter.createIceWall(rect, this.worldProperties);
 		this.state.getAllObjects().add(wall);
 	}
 

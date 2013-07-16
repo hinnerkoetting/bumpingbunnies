@@ -7,6 +7,9 @@
 
     <walls>
         <!-- left and bottom -->
+       <wall minX="0" maxX="0.00001" minY="0.0" maxY="2" />  
+       <wall minX="0" maxX="1" minY="-0.00001" maxY="0.0" />  
+        
     	<wall minX="0" maxX="0.05" minY="0.1" maxY="1" />  
     	<wall minX="0.05" maxX="0.10" minY="0.1" maxY="0.15" />  
     	<wall minX="0.35" maxX="0.4" minY="0.0" maxY="0.1" />  
@@ -16,16 +19,17 @@
     	<wall minX="0.9" maxX="0.95" minY="0.1" maxY="0.15" />  
     	<wall minX="0.95" maxX="1" minY="0.0" maxY="0.75" />
     	<!--  second row -->
-    	<wall minX="0.1" maxX="0.25" minY="0.2" maxY="0.25" />  
-    	<wall minX="0.5" maxX="0.85" minY="0.2" maxY="0.25" />  
-    	<wall minX="0.55" maxX="0.70" minY="0.25" maxY="0.3" />  
-    	<wall minX="0.60" maxX="0.65" minY="0.3" maxY="0.35" />  
+    	<wall minX="0.1" maxX="0.25" minY="0.225" maxY="0.275" />  
+    	<wall minX="0.5" maxX="0.85" minY="0.225" maxY="0.3" />  
+    	<wall minX="0.55" maxX="0.75" minY="0.30" maxY="0.375" />  
+    	<wall minX="0.6" maxX="0.675" minY="0.375" maxY="0.45" />  
     	<!-- third row -->
-    	<wall minX="0.05" maxX="0.125" minY="0.35" maxY="0.40" />
-    	<wall minX="0.225" maxX="0.3" minY="0.35" maxY="0.40" />
-    	<wall minX="0.7" maxX="0.8" minY="0.525" maxY="0.575" />
-    	<wall minX="0.85" maxX="0.95" minY="0.4" maxY="0.45" />
-    	<wall minX="0.9" maxX="0.95" minY="0.45" maxY="0.5" />
+    	<wall minX="0.05" maxX="0.125" minY="0.375" maxY="0.425" />
+    	<wall minX="0.225" maxX="0.3" minY="0.375" maxY="0.425" />
+    	<wall minX="0.7" maxX="0.8" minY="0.55" maxY="0.6" />
+    	<wall minX="0.85" maxX="0.95" minY="0.425" maxY="0.475" />
+    	<wall minX="0.9" maxX="0.95" minY="0.475" maxY="0.525" />
+    	<wall minX="1" maxX="1.00001" minY="0.0" maxY="2" />
     	<!-- fourth row -->
     	<wall minX="0.05" maxX="0.15" minY="0.6" maxY="0.65" />  
     	<wall minX="0.05" maxX="0.10" minY="0.65" maxY="0.70" />  
@@ -44,9 +48,9 @@
     </walls>
     <icewalls>
         <icewall minX="0.75" maxX="0.85" minY="0.05" maxY="0.1" />
-        <icewall minX="0.45" maxX="0.5" minY="0.2" maxY="0.25" />
-        <icewall minX="0.5" maxX="0.55" minY="0.25" maxY="0.30" />
-        <icewall minX="0.55" maxX="0.6" minY="0.3" maxY="0.35" />
+        <icewall minX="0.45" maxX="0.5" minY="0.225" maxY="0.30" />
+        <icewall minX="0.5" maxX="0.55" minY="0.30" maxY="0.375" />
+        <icewall minX="0.55" maxX="0.60" minY="0.375" maxY="0.45" />
     </icewalls>
     <jumpers>
         <jumper minX="0.40" maxX="0.45" minY="0.05"  maxY="0.1"/>
@@ -60,7 +64,7 @@
         <spawnpoint x="0.325" y="0.7"/>
         <spawnpoint x="0.6" y="0.1"/>
         <spawnpoint x="0.925" y="0.2"/>
-        <spawnpoint x="0.8" y="0.3"/>
+        <spawnpoint x="0.8" y="0.35"/>
         <spawnpoint x="0.925" y="0.55"/>
         <spawnpoint x="0.75" y="0.65"/>
         <spawnpoint x="0.8" y="0.95"/>
