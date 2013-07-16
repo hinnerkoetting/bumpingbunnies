@@ -5,13 +5,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
+import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class DrawablesFactory {
 
+	private static final int MIN_SIZE_FOR_DRAWER = ModelConstants.MAX_VALUE / 100000;
 	private final World world;
 	private final GameThreadState threadState;
 	private final Resources resources;
@@ -33,11 +39,24 @@ public class DrawablesFactory {
 	}
 
 	private Collection<? extends Drawable> createWalls() {
-		List<RectDrawer> allWalls = new LinkedList<RectDrawer>();
+		List<Drawable> allWalls = new LinkedList<Drawable>();
+		Bitmap bitmap = readWallBitmap();
 		for (GameObject w : this.world.getAllWalls()) {
-			allWalls.add(new RectDrawer(w));
+			// TODO rework
+			if (w.maxX() - w.minX() > MIN_SIZE_FOR_DRAWER && w.maxY() - w.minY() > MIN_SIZE_FOR_DRAWER) {
+				if (w instanceof Wall) {
+					allWalls.add(ImageDrawerFactory.create(bitmap, w));
+				} else {
+					allWalls.add(new RectDrawer(w));
+				}
+			}
 		}
 		return allWalls;
+	}
+
+	private Bitmap readWallBitmap() {
+		Bitmap bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.blumenwiese21);
+		return bitmap;
 	}
 
 	private List<Drawable> createAllScores() {
