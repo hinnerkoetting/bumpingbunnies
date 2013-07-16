@@ -8,7 +8,6 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 public class XmlWorldBuilderTemplate implements WorldObjectsBuilder {
-
 	private XmlWorldBuilder worldBuilder;
 
 	public XmlWorldBuilderTemplate(int id) {
