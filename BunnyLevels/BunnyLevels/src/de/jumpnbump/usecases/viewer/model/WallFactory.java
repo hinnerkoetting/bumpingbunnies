@@ -1,13 +1,7 @@
 package de.jumpnbump.usecases.viewer.model;
 
-public class WallFactory {
 
-	public static Wall createWall(int x, int y) {
-		int id = IdCounter.getNextId();
-		Wall wall = new Wall(id, x, y, ModelConstants.WALL_WIDTH,
-				ModelConstants.WALL_HEIGHT);
-		return wall;
-	}
+public class WallFactory {
 
 	public static Wall createWallFromDouble(double x, double y, double maxX,
 			double maxY) {

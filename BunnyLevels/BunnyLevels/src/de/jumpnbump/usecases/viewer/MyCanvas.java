@@ -17,7 +17,7 @@ public class MyCanvas extends Canvas {
 	public static final int DIVIDER_X_CONST = 10000;
 	public static final int DIVIDER_Y_CONST = 20000;
 	public static final int SPAWN_RADIUS = 5;
-	private final ObjectContainer objectContainer;
+	private ObjectContainer objectContainer;
 
 	public MyCanvas(ObjectContainer container) {
 		this.objectContainer = container;
@@ -94,6 +94,10 @@ public class MyCanvas extends Canvas {
 
 	private int calculateHeight(int minY, int maxY) {
 		return (-maxY + minY) / DIVIDER_Y_CONST;
+	}
+
+	public void setObjectContainer(ObjectContainer objectContainer) {
+		this.objectContainer = objectContainer;
 	}
 
 }
