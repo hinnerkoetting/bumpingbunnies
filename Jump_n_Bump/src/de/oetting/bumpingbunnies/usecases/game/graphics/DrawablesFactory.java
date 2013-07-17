@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,8 +56,19 @@ public class DrawablesFactory {
 	}
 
 	private Bitmap readWallBitmap() {
-		Bitmap bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.blumenwiese21);
+		int id = getWallBackgroundId();
+		Bitmap bitmap = BitmapFactory.decodeResource(this.resources, id);
 		return bitmap;
+	}
+
+	private int getWallBackgroundId() {
+		try {
+			Class<?> res = R.drawable.class;
+			Field field = res.getField("blumenwiese21");
+			return field.getInt(null);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private List<Drawable> createAllScores() {

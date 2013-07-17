@@ -79,11 +79,4 @@ public abstract class FixedWorldObject implements GameObject {
 		return this.id;
 	}
 
-	@Override
-	public String toString() {
-		return "Wall [id=" + this.id + ", minX=" + this.minX + ", minY="
-				+ this.minY + ", color=" + this.color + ", maxX=" + this.maxX
-				+ ", maxY=" + this.maxY + "]";
-	}
-
 }

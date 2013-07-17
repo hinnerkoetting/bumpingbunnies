@@ -10,11 +10,19 @@ import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
+import de.jumpnbump.usecases.viewer.model.IcyWall;
+import de.jumpnbump.usecases.viewer.model.Jumper;
+import de.jumpnbump.usecases.viewer.model.SpawnPoint;
+import de.jumpnbump.usecases.viewer.model.Wall;
+import de.jumpnbump.usecases.viewer.model.Water;
 import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
 import de.jumpnbump.usecases.viewer.xml.XmlBuilder;
 import de.jumpnbump.usecases.viewer.xml.XmlStorer;
@@ -38,17 +46,86 @@ public class ViewerPanel extends JPanel {
 		setLayout(new BorderLayout());
 		parsexml();
 		this.myCanvas = new MyCanvas(this.model);
-		add(this.myCanvas, BorderLayout.CENTER);
-		addButtons();
+		add(new JScrollPane(this.myCanvas), BorderLayout.CENTER);
+		add(createRightBox(), BorderLayout.LINE_END);
+
 	}
 
-	private void addButtons() {
+	private Box createRightBox() {
 		Box box = new Box(BoxLayout.Y_AXIS);
+		addButtons(box);
+		addLists(box);
+		return box;
+	}
+
+	private void addButtons(Box box) {
 		box.add(createLoadButton());
 		box.add(createRefreshButton());
 
 		box.add(createSaveButton());
-		add(box, BorderLayout.LINE_END);
+	}
+
+	private void addLists(Box box) {
+		box.add(new JScrollPane(createWallList()));
+		box.add(new JScrollPane(createIceWallList()));
+		box.add(new JScrollPane(createJumperList()));
+		box.add(new JScrollPane(createWatersList()));
+		box.add(new JScrollPane(createSpawnList()));
+	}
+
+	private JList<Wall> createWallList() {
+		JList<Wall> wall = new JList<>();
+		DefaultListModel<Wall> defaultListModel = new DefaultListModel<>();
+		for (Wall w : this.model.getWalls()) {
+			defaultListModel.addElement(w);
+		}
+		wall.setCellRenderer(new GameObjectRenderer());
+		wall.setModel(defaultListModel);
+		return wall;
+	}
+
+	private JList<IcyWall> createIceWallList() {
+		JList<IcyWall> wall = new JList<>();
+		DefaultListModel<IcyWall> defaultListModel = new DefaultListModel<>();
+		for (IcyWall w : this.model.getIceWalls()) {
+			defaultListModel.addElement(w);
+		}
+		wall.setCellRenderer(new GameObjectRenderer());
+		wall.setModel(defaultListModel);
+		return wall;
+	}
+
+	private JList<Jumper> createJumperList() {
+		JList<Jumper> jumpers = new JList<>();
+		DefaultListModel<Jumper> defaultListModel = new DefaultListModel<>();
+		for (Jumper w : this.model.getJumpers()) {
+			defaultListModel.addElement(w);
+		}
+		jumpers.setCellRenderer(new GameObjectRenderer());
+		jumpers.setModel(defaultListModel);
+		return jumpers;
+	}
+
+	private JList<Water> createWatersList() {
+		JList<Water> waters = new JList<>();
+		DefaultListModel<Water> defaultListModel = new DefaultListModel<>();
+		for (Water w : this.model.getWaters()) {
+			defaultListModel.addElement(w);
+		}
+		waters.setCellRenderer(new GameObjectRenderer());
+		waters.setModel(defaultListModel);
+		return waters;
+	}
+
+	private JList<SpawnPoint> createSpawnList() {
+		JList<SpawnPoint> spawns = new JList<>();
+		DefaultListModel<SpawnPoint> defaultListModel = new DefaultListModel<>();
+		for (SpawnPoint w : this.model.getSpawnPoints()) {
+			defaultListModel.addElement(w);
+		}
+		spawns.setCellRenderer(new SpawnpointRender());
+		spawns.setModel(defaultListModel);
+		return spawns;
 	}
 
 	private JButton createRefreshButton() {
