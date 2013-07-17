@@ -17,7 +17,7 @@
 	<xsd:element name="world">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="walls" minOccurs="0">
+				<xsd:element name="walls" minOccurs="0" maxOccurs="unbounded">
 					<xsd:complexType>
 						<xsd:sequence>
 							<xsd:element name="wall" minOccurs="0" maxOccurs="unbounded"

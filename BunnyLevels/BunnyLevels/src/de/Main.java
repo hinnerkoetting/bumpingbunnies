@@ -2,7 +2,7 @@ package de;
 
 import java.io.FileNotFoundException;
 
-import de.jumpnbump.usecases.viewer.Viewer;
+import de.jumpnbump.usecases.viewer.Viewer.Viewer;
 
 public class Main {
 
