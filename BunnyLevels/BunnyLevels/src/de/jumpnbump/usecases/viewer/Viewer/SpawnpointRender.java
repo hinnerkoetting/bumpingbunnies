@@ -19,7 +19,7 @@ public class SpawnpointRender implements ListCellRenderer<SpawnPoint> {
 	@Override
 	public Component getListCellRendererComponent(JList<? extends SpawnPoint> list, SpawnPoint value, int index, boolean isSelected,
 			boolean cellHasFocus) {
-		this.label.setText(String.format(": [%d, %d]", value.getX(), value.getY()));
+		this.label.setText(String.format("[%d, %d]", value.getX(), value.getY()));
 		return this.label;
 	}
 }

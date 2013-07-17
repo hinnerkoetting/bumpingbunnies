@@ -7,10 +7,7 @@ import javax.swing.JFrame;
 
 public class Viewer {
 
-	// private MyCanvas myCanvas;
-
 	public JFrame createFrame(String file) {
-		// this.myCanvas = new MyCanvas(container);
 		ViewerPanel panel = new ViewerPanel(file);
 		panel.build();
 		JFrame frame = new JFrame();
@@ -18,6 +15,7 @@ public class Viewer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1200, 900);
 		frame.add(panel, BorderLayout.CENTER);
+
 		return frame;
 	}
 

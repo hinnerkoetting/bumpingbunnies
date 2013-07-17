@@ -48,7 +48,6 @@ public class ViewerPanel extends JPanel {
 		this.myCanvas = new MyCanvas(this.model);
 		add(new JScrollPane(this.myCanvas), BorderLayout.CENTER);
 		add(createRightBox(), BorderLayout.LINE_END);
-
 	}
 
 	private Box createRightBox() {
@@ -74,13 +73,14 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JList<Wall> createWallList() {
-		JList<Wall> wall = new JList<>();
-		DefaultListModel<Wall> defaultListModel = new DefaultListModel<>();
+		final JList<Wall> wall = new JList<>();
+		final DefaultListModel<Wall> defaultListModel = new DefaultListModel<>();
 		for (Wall w : this.model.getWalls()) {
 			defaultListModel.addElement(w);
 		}
 		wall.setCellRenderer(new GameObjectRenderer());
 		wall.setModel(defaultListModel);
+		wall.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		return wall;
 	}
 
@@ -92,6 +92,7 @@ public class ViewerPanel extends JPanel {
 		}
 		wall.setCellRenderer(new GameObjectRenderer());
 		wall.setModel(defaultListModel);
+		wall.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		return wall;
 	}
 
@@ -103,6 +104,7 @@ public class ViewerPanel extends JPanel {
 		}
 		jumpers.setCellRenderer(new GameObjectRenderer());
 		jumpers.setModel(defaultListModel);
+		jumpers.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		return jumpers;
 	}
 
@@ -114,6 +116,7 @@ public class ViewerPanel extends JPanel {
 		}
 		waters.setCellRenderer(new GameObjectRenderer());
 		waters.setModel(defaultListModel);
+		waters.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		return waters;
 	}
 
@@ -125,6 +128,7 @@ public class ViewerPanel extends JPanel {
 		}
 		spawns.setCellRenderer(new SpawnpointRender());
 		spawns.setModel(defaultListModel);
+		spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		return spawns;
 	}
 
@@ -200,4 +204,5 @@ public class ViewerPanel extends JPanel {
 			throw new RuntimeException(e);
 		}
 	}
+
 }
