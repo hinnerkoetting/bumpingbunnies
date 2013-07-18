@@ -9,6 +9,7 @@ import java.awt.Stroke;
 
 import javax.swing.JPanel;
 
+import de.jumpnbump.usecases.viewer.Viewer.CoordinatesCalculation;
 import de.jumpnbump.usecases.viewer.model.GameObject;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
@@ -19,8 +20,7 @@ import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
 
 public class MyCanvas extends JPanel {
 	private static final long serialVersionUID = 1L;
-	public static final int DIVIDER_X_CONST = 10000;
-	public static final int DIVIDER_Y_CONST = 20000;
+
 	public static final int SPAWN_RADIUS = 5;
 	private ObjectContainer objectContainer;
 	private Object selectedObject;
@@ -85,6 +85,14 @@ public class MyCanvas extends JPanel {
 				SPAWN_RADIUS, SPAWN_RADIUS);
 	}
 
+	private int calculatePixelY(int y) {
+		return CoordinatesCalculation.calculatePixelY(y, getHeight());
+	}
+
+	private int calculatePixelX(int x) {
+		return CoordinatesCalculation.calculatePixelX(x);
+	}
+
 	private void drawObject(Graphics g, GameObject w) {
 		int height = calculateHeight(w.minY(), w.maxY());
 		g.fillRect(calculatePixelX(w.minX()), calculatePixelY(w.minY()) - height,
@@ -108,20 +116,12 @@ public class MyCanvas extends JPanel {
 		}
 	}
 
-	private int calculatePixelX(int origX) {
-		return origX / DIVIDER_X_CONST;
-	}
-
 	private int calculatePixelWidht(int minX, int maxX) {
-		return calculatePixelX(maxX - minX);
-	}
-
-	private int calculatePixelY(int origY) {
-		return (int) (getHeight() * 0.9 - origY / DIVIDER_Y_CONST);
+		return CoordinatesCalculation.calculatePixelWidht(minX, maxX);
 	}
 
 	private int calculateHeight(int minY, int maxY) {
-		return (maxY - minY) / DIVIDER_Y_CONST;
+		return CoordinatesCalculation.calculateHeight(minY, maxY);
 	}
 
 	public void setObjectContainer(ObjectContainer objectContainer) {
@@ -130,5 +130,12 @@ public class MyCanvas extends JPanel {
 
 	public void setSelectedObject(Object selectedObject) {
 		this.selectedObject = selectedObject;
+	}
+
+	public GameObject getSelectedGameObject() {
+		if (this.selectedObject instanceof GameObject) {
+			return (GameObject) this.selectedObject;
+		}
+		return null;
 	}
 }

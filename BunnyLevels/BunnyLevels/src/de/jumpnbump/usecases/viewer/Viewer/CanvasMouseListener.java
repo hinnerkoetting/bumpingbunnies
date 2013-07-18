@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.viewer.Viewer;
 
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -13,7 +14,6 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
 	private final ObjectContainer container;
 	private final MyCanvas canvas;
-	private GameObject selectedObject;
 
 	public CanvasMouseListener(ObjectContainer container, MyCanvas canvas) {
 		super();
@@ -27,12 +27,12 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	}
 
 	private void selectItem(MouseEvent e) {
-		long gameX = translateToGameX(e.getX());
-		long gameY = translateToGameY(e.getY());
+		long gameX = CoordinatesCalculation.translateToGameX(e.getX());
+		long gameY = CoordinatesCalculation.translateToGameY(e.getY(), this.canvas.getHeight());
 		GameObject go = findGameObject(gameX, gameY);
 		this.canvas.setSelectedObject(go);
 		this.canvas.repaint();
-		this.selectedObject = go;
+		this.canvas.setSelectedObject(go);
 	}
 
 	private GameObject findGameObject(long gameX, long gameY) {
@@ -45,14 +45,6 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 		return null;
 	}
 
-	private int translateToGameX(int pixelX) {
-		return pixelX * MyCanvas.DIVIDER_X_CONST;
-	}
-
-	private int translateToGameY(int pixelY) {
-		return (int) ((this.canvas.getHeight() * 0.9 - pixelY) * MyCanvas.DIVIDER_Y_CONST);
-	}
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		selectItem(e);
@@ -60,7 +52,6 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		this.selectedObject = null;
 	}
 
 	@Override
@@ -75,18 +66,55 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (this.selectedObject != null) {
+		GameObject selectedGameObject = this.canvas.getSelectedGameObject();
+		if (selectedGameObject != null) {
 			int gameX = translateToGameX(e.getX());
 			int gameY = translateToGameY(e.getY());
-			this.selectedObject.setCenterX(gameX);
-			this.selectedObject.setCenterY(gameY);
+			selectedGameObject.setCenterX(gameX);
+			selectedGameObject.setCenterY(gameY);
 			this.canvas.repaint();
 		}
 	}
 
+	private int translateToGameY(int y) {
+		return CoordinatesCalculation.translateToGameY(y, this.canvas.getHeight());
+	}
+
+	private int translateToGameX(int x) {
+		return CoordinatesCalculation.translateToGameX(x);
+	}
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		GameObject selectedGameObject = this.canvas.getSelectedGameObject();
+		if (selectedGameObject != null) {
+			int pixelMinX = selectedGameObject.minX();
+			int pixelMaxX = selectedGameObject.maxX();
+			int pixelMinY = selectedGameObject.minY();
+			int pixelMaxY = selectedGameObject.maxY();
+			this.canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			if (Math.abs(e.getX() - translateToPixelX(pixelMinX)) < 10) {
+				this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+			}
+			if (Math.abs(e.getX() - translateToPixelX(pixelMaxX)) < 10) {
+				this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+			}
+			if (Math.abs(e.getY() - translateToPixelY(pixelMinY)) < 10) {
+				this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+			}
+			if (Math.abs(e.getY() - translateToPixelY(pixelMaxY)) < 10) {
+				this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+			}
 
+		}
+	}
+
+	private int translateToPixelX(int gameX) {
+		return CoordinatesCalculation.calculatePixelX(gameX);
+	}
+
+	private int translateToPixelY(int gameY) {
+		return CoordinatesCalculation.calculatePixelY(gameY, this.canvas.getHeight());
 	}
 
 }
