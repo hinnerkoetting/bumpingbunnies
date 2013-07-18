@@ -28,7 +28,7 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 		this.container = container;
 		this.canvas = canvas;
 		this.viewerPanel = viewerPanel;
-		this.nextAction = new MoveAction(this.canvas);
+		resetAction();
 	}
 
 	@Override
@@ -43,6 +43,7 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 		this.canvas.setSelectedObject(go);
 		this.canvas.repaint();
 		this.canvas.setSelectedObject(go);
+
 	}
 
 	private GameObject findGameObject(long gameX, long gameY) {
@@ -58,11 +59,12 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		selectItem(e);
+		resetAction();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		this.nextAction = new MoveAction(this.canvas);
+		resetAction();
 		this.viewerPanel.refreshTables();
 	}
 
@@ -89,8 +91,7 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 			int pixelMaxX = selectedGameObject.maxX();
 			int pixelMinY = selectedGameObject.minY();
 			int pixelMaxY = selectedGameObject.maxY();
-			this.canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			this.nextAction = new MoveAction(this.canvas);
+			resetAction();
 			if (Math.abs(e.getX() - translateToPixelX(pixelMinX)) < 5) {
 				this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 				this.nextAction = new ResizeLeftAction(selectedGameObject, this.canvas);
@@ -109,6 +110,11 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 			}
 
 		}
+	}
+
+	private void resetAction() {
+		this.canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		this.nextAction = new MoveAction(this.canvas);
 	}
 
 	private int translateToPixelX(int gameX) {

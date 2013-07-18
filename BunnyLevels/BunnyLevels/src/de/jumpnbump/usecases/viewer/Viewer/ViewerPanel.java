@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases.viewer.Viewer;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,7 +58,15 @@ public class ViewerPanel extends JPanel {
 		this.myCanvas = new MyCanvas(this.model);
 		add(new JScrollPane(this.myCanvas), BorderLayout.CENTER);
 		add(createRightBox(), BorderLayout.LINE_END);
+		add(createBottomImages(), BorderLayout.PAGE_END);
 		addMouseListener();
+	}
+
+	private JPanel createBottomImages() {
+		ImagesPanel panel = new ImagesPanel();
+		panel.build();
+		panel.setPreferredSize(new Dimension(100, 200));
+		return panel;
 	}
 
 	private Box createRightBox() {
