@@ -13,6 +13,7 @@ public class SelectionToCanvasSynchronizer implements javax.swing.event.ListSele
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		int selectedIndex = e.getFirstIndex();
+		@SuppressWarnings("unchecked")
 		JList<Object> source = (JList<Object>) e.getSource();
 		ListModel<Object> model = source.getModel();
 		this.canvas.setSelectedObject(model.getElementAt(selectedIndex));

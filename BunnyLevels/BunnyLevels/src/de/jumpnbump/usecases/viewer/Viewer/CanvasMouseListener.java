@@ -20,12 +20,14 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
 	private final ObjectContainer container;
 	private final MyCanvas canvas;
+	private final ViewerPanel viewerPanel;
 	private MouseAction nextAction;
 
-	public CanvasMouseListener(ObjectContainer container, MyCanvas canvas) {
+	public CanvasMouseListener(ObjectContainer container, MyCanvas canvas, ViewerPanel viewerPanel) {
 		super();
 		this.container = container;
 		this.canvas = canvas;
+		this.viewerPanel = viewerPanel;
 		this.nextAction = new MoveAction(this.canvas);
 	}
 
@@ -61,6 +63,7 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		this.nextAction = new MoveAction(this.canvas);
+		this.viewerPanel.refreshTables();
 	}
 
 	@Override
@@ -76,14 +79,6 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		this.nextAction.newMousePosition(e);
-	}
-
-	private int translateToGameY(int y) {
-		return CoordinatesCalculation.translateToGameY(y, this.canvas.getHeight());
-	}
-
-	private int translateToGameX(int x) {
-		return CoordinatesCalculation.translateToGameX(x);
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -90,7 +89,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setWallModel() {
-		final DefaultListModel<Wall> defaultListModel = new DefaultListModel<>();
+		final MyListModel<Wall> defaultListModel = new MyListModel<>();
 		for (Wall w : this.model.getWalls()) {
 			defaultListModel.addElement(w);
 		}
@@ -106,7 +105,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setIcyWallModel() {
-		DefaultListModel<IcyWall> defaultListModel = new DefaultListModel<>();
+		MyListModel<IcyWall> defaultListModel = new MyListModel<>();
 		for (IcyWall w : this.model.getIceWalls()) {
 			defaultListModel.addElement(w);
 		}
@@ -122,7 +121,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setJumperModel() {
-		DefaultListModel<Jumper> defaultListModel = new DefaultListModel<>();
+		MyListModel<Jumper> defaultListModel = new MyListModel<>();
 		for (Jumper w : this.model.getJumpers()) {
 			defaultListModel.addElement(w);
 		}
@@ -138,7 +137,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setWaterModel() {
-		DefaultListModel<Water> defaultListModel = new DefaultListModel<>();
+		MyListModel<Water> defaultListModel = new MyListModel<>();
 		for (Water w : this.model.getWaters()) {
 			defaultListModel.addElement(w);
 		}
@@ -154,7 +153,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setSpawnModel() {
-		DefaultListModel<SpawnPoint> defaultListModel = new DefaultListModel<>();
+		MyListModel<SpawnPoint> defaultListModel = new MyListModel<>();
 		for (SpawnPoint w : this.model.getSpawnPoints()) {
 			defaultListModel.addElement(w);
 		}
@@ -237,7 +236,7 @@ public class ViewerPanel extends JPanel {
 		for (MouseMotionListener ml : this.myCanvas.getMouseMotionListeners()) {
 			this.myCanvas.removeMouseMotionListener(ml);
 		}
-		CanvasMouseListener ml = new CanvasMouseListener(this.model, this.myCanvas);
+		CanvasMouseListener ml = new CanvasMouseListener(this.model, this.myCanvas, this);
 		this.myCanvas.addMouseListener(ml);
 		this.myCanvas.addMouseMotionListener(ml);
 	}
@@ -254,6 +253,19 @@ public class ViewerPanel extends JPanel {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public void refreshTables() {
+		refreshList(this.spawns);
+		refreshList(this.wall);
+		refreshList(this.icyWallList);
+		refreshList(this.watersList);
+		refreshList(this.jumpersList);
+	}
+
+	private void refreshList(JList<?> list) {
+		MyListModel<?> lModel = (MyListModel<?>) list.getModel();
+		lModel.fireContentsChanged(this, 0, lModel.size() - 1);
 	}
 
 }
