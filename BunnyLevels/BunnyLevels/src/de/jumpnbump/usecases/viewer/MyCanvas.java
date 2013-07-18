@@ -1,7 +1,11 @@
 package de.jumpnbump.usecases.viewer;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 
 import javax.swing.JPanel;
 
@@ -29,6 +33,7 @@ public class MyCanvas extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		g.clearRect(0, 0, getWidth(), getHeight());
 		paintWalls(g);
 		paintIceWalls(g);
 		paintJumpers(g);
@@ -81,14 +86,25 @@ public class MyCanvas extends JPanel {
 	}
 
 	private void drawObject(Graphics g, GameObject w) {
-		g.fillRect(calculatePixelX(w.minX()), calculatePixelY(w.minY()),
+		int height = calculateHeight(w.minY(), w.maxY());
+		g.fillRect(calculatePixelX(w.minX()), calculatePixelY(w.minY()) - height,
 				calculatePixelWidht(w.minX(), w.maxX()),
-				calculateHeight(w.minY(), w.maxY()));
+				height);
 		if (w == this.selectedObject) {
-			g.setColor(Color.GREEN);
-			g.drawRect(calculatePixelX(w.minX()), calculatePixelY(w.minY()),
+			Graphics2D g2d = (Graphics2D) g;
+			Stroke oldStroke = g2d.getStroke();
+			g2d.setStroke(new BasicStroke(5));
+			g2d.setColor(Color.GREEN);
+			// g.drawRect(calculatePixelX(w.minX()), calculatePixelY(w.minY()),
+			// calculatePixelWidht(w.minX(), w.maxX()),
+			// calculateHeight(w.minY(), w.maxY()));
+
+			g2d.draw(new Rectangle(calculatePixelX(w.minX()),
+					calculatePixelY(w.minY()) - height,
 					calculatePixelWidht(w.minX(), w.maxX()),
-					calculateHeight(w.minY(), w.maxY()));
+					height));
+
+			g2d.setStroke(oldStroke);
 		}
 	}
 
@@ -105,7 +121,7 @@ public class MyCanvas extends JPanel {
 	}
 
 	private int calculateHeight(int minY, int maxY) {
-		return (-maxY + minY) / DIVIDER_Y_CONST;
+		return (maxY - minY) / DIVIDER_Y_CONST;
 	}
 
 	public void setObjectContainer(ObjectContainer objectContainer) {

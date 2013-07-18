@@ -14,12 +14,18 @@ public class SpawnpointRender implements ListCellRenderer<SpawnPoint> {
 
 	public SpawnpointRender() {
 		this.label = new JLabel();
+		this.label.setOpaque(true);
 	}
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends SpawnPoint> list, SpawnPoint value, int index, boolean isSelected,
 			boolean cellHasFocus) {
 		this.label.setText(String.format("[%d, %d]", value.getX(), value.getY()));
+		if (isSelected) {
+			this.label.setBackground(list.getSelectionBackground());
+		} else {
+			this.label.setBackground(list.getBackground());
+		}
 		return this.label;
 	}
 }

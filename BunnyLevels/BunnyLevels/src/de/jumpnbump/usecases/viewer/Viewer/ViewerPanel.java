@@ -34,6 +34,11 @@ public class ViewerPanel extends JPanel {
 	private final XmlBuilder builder;
 	private String lastFile;
 	private ObjectContainer model;
+	private JList<Wall> wall;
+	private JList<IcyWall> icyWallList;
+	private JList<Jumper> jumpersList;
+	private JList<Water> watersList;
+	private JList<SpawnPoint> spawns;
 
 	public ViewerPanel(String file) {
 		this.lastFile = file;
@@ -73,63 +78,83 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JList<Wall> createWallList() {
-		final JList<Wall> wall = new JList<>();
+		this.wall = new JList<>();
+		setWallModel();
+		return this.wall;
+	}
+
+	private void setWallModel() {
 		final DefaultListModel<Wall> defaultListModel = new DefaultListModel<>();
 		for (Wall w : this.model.getWalls()) {
 			defaultListModel.addElement(w);
 		}
-		wall.setCellRenderer(new GameObjectRenderer());
-		wall.setModel(defaultListModel);
-		wall.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
-		return wall;
+		this.wall.setCellRenderer(new GameObjectRenderer());
+		this.wall.setModel(defaultListModel);
+		this.wall.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 	}
 
 	private JList<IcyWall> createIceWallList() {
-		JList<IcyWall> wall = new JList<>();
+		this.icyWallList = new JList<>();
+		setIcyWallModel();
+		return this.icyWallList;
+	}
+
+	private void setIcyWallModel() {
 		DefaultListModel<IcyWall> defaultListModel = new DefaultListModel<>();
 		for (IcyWall w : this.model.getIceWalls()) {
 			defaultListModel.addElement(w);
 		}
-		wall.setCellRenderer(new GameObjectRenderer());
-		wall.setModel(defaultListModel);
-		wall.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
-		return wall;
+		this.icyWallList.setCellRenderer(new GameObjectRenderer());
+		this.icyWallList.setModel(defaultListModel);
+		this.icyWallList.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 	}
 
 	private JList<Jumper> createJumperList() {
-		JList<Jumper> jumpers = new JList<>();
+		this.jumpersList = new JList<>();
+		setJumperModel();
+		return this.jumpersList;
+	}
+
+	private void setJumperModel() {
 		DefaultListModel<Jumper> defaultListModel = new DefaultListModel<>();
 		for (Jumper w : this.model.getJumpers()) {
 			defaultListModel.addElement(w);
 		}
-		jumpers.setCellRenderer(new GameObjectRenderer());
-		jumpers.setModel(defaultListModel);
-		jumpers.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
-		return jumpers;
+		this.jumpersList.setCellRenderer(new GameObjectRenderer());
+		this.jumpersList.setModel(defaultListModel);
+		this.jumpersList.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 	}
 
 	private JList<Water> createWatersList() {
-		JList<Water> waters = new JList<>();
+		this.watersList = new JList<>();
+		setWaterModel();
+		return this.watersList;
+	}
+
+	private void setWaterModel() {
 		DefaultListModel<Water> defaultListModel = new DefaultListModel<>();
 		for (Water w : this.model.getWaters()) {
 			defaultListModel.addElement(w);
 		}
-		waters.setCellRenderer(new GameObjectRenderer());
-		waters.setModel(defaultListModel);
-		waters.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
-		return waters;
+		this.watersList.setCellRenderer(new GameObjectRenderer());
+		this.watersList.setModel(defaultListModel);
+		this.watersList.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 	}
 
 	private JList<SpawnPoint> createSpawnList() {
-		JList<SpawnPoint> spawns = new JList<>();
+		this.spawns = new JList<>();
+		setSpawnModel();
+		return this.spawns;
+	}
+
+	private void setSpawnModel() {
 		DefaultListModel<SpawnPoint> defaultListModel = new DefaultListModel<>();
 		for (SpawnPoint w : this.model.getSpawnPoints()) {
 			defaultListModel.addElement(w);
 		}
-		spawns.setCellRenderer(new SpawnpointRender());
-		spawns.setModel(defaultListModel);
-		spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
-		return spawns;
+		this.spawns.setCellRenderer(new SpawnpointRender());
+		this.spawns.setModel(defaultListModel);
+		this.spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 	}
 
 	private JButton createRefreshButton() {
@@ -160,6 +185,11 @@ public class ViewerPanel extends JPanel {
 	private void displayFile() {
 		parsexml();
 		this.myCanvas.setObjectContainer(this.model);
+		setWallModel();
+		setIcyWallModel();
+		setJumperModel();
+		setWaterModel();
+		setSpawnModel();
 		this.myCanvas.repaint();
 	}
 
