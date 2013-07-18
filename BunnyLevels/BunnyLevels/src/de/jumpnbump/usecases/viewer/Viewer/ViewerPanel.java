@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,6 +55,7 @@ public class ViewerPanel extends JPanel {
 		this.myCanvas = new MyCanvas(this.model);
 		add(new JScrollPane(this.myCanvas), BorderLayout.CENTER);
 		add(createRightBox(), BorderLayout.LINE_END);
+		addMouseListener();
 	}
 
 	private Box createRightBox() {
@@ -190,7 +193,9 @@ public class ViewerPanel extends JPanel {
 		setJumperModel();
 		setWaterModel();
 		setSpawnModel();
+		addMouseListener();
 		this.myCanvas.repaint();
+
 	}
 
 	private void loadFilecontent() {
@@ -218,6 +223,18 @@ public class ViewerPanel extends JPanel {
 			}
 		});
 		return button;
+	}
+
+	private void addMouseListener() {
+		for (MouseListener ml : this.myCanvas.getMouseListeners()) {
+			this.myCanvas.removeMouseListener(ml);
+		}
+		for (MouseMotionListener ml : this.myCanvas.getMouseMotionListeners()) {
+			this.myCanvas.removeMouseMotionListener(ml);
+		}
+		CanvasMouseListener ml = new CanvasMouseListener(this.model, this.myCanvas);
+		this.myCanvas.addMouseListener(ml);
+		this.myCanvas.addMouseMotionListener(ml);
 	}
 
 	private void save() {

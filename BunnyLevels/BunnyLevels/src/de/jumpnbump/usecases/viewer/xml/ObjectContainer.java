@@ -1,7 +1,9 @@
 package de.jumpnbump.usecases.viewer.xml;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import de.jumpnbump.usecases.viewer.model.GameObject;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
@@ -15,6 +17,7 @@ public class ObjectContainer {
 	private List<SpawnPoint> spawnPoints;;
 	private List<Jumper> jumpers;
 	private List<Water> waters;
+	private List<GameObject> allObjects;
 
 	public List<Wall> getWalls() {
 		return this.walls;
@@ -54,6 +57,17 @@ public class ObjectContainer {
 
 	public void setWaters(List<Water> waters) {
 		this.waters = waters;
+	}
+
+	public List<GameObject> allObjects() {
+		if (this.allObjects == null) {
+			this.allObjects = new LinkedList<>();
+			this.allObjects.addAll(getWalls());
+			this.allObjects.addAll(getIceWalls());
+			this.allObjects.addAll(getJumpers());
+			this.allObjects.addAll(getWaters());
+		}
+		return this.allObjects;
 	}
 
 }

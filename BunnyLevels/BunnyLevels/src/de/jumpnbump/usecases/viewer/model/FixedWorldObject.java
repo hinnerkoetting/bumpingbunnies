@@ -3,11 +3,11 @@ package de.jumpnbump.usecases.viewer.model;
 public abstract class FixedWorldObject implements GameObject {
 
 	private int id;
-	private final int minX;
-	private final int minY;
-	private final int maxX;
-	private final int maxY;
-	private final int color;
+	private int minX;
+	private int minY;
+	private int maxX;
+	private int maxY;
+	private int color;
 
 	public FixedWorldObject(int id, int minX, int minY, int maxX, int maxY,
 			int color) {
@@ -77,6 +77,21 @@ public abstract class FixedWorldObject implements GameObject {
 	@Override
 	public int id() {
 		return this.id;
+	}
+
+	@Override
+	public void setCenterX(int gameX) {
+		int currentWidth = this.maxX - this.minX;
+		this.minX = gameX - currentWidth / 2;
+		this.maxX = gameX + currentWidth / 2;
+	}
+
+	@Override
+	public void setCenterY(int gameY) {
+		int currentHeight = this.maxY - this.minY;
+		this.minY = gameY - currentHeight / 2;
+		this.maxY = gameY + currentHeight / 2;
+
 	}
 
 }

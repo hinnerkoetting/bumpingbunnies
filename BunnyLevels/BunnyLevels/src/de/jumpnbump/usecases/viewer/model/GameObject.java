@@ -26,5 +26,8 @@ public interface GameObject {
 
 	int accelerationOnThisGround();
 
+	void setCenterX(int gameX);
+
+	void setCenterY(int gameY);
 
 }
