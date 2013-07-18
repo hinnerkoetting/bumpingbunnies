@@ -80,6 +80,21 @@ public abstract class FixedWorldObject implements GameObject {
 	}
 
 	@Override
+	public void setMaxY(int maxY) {
+		this.maxY = maxY;
+	}
+
+	@Override
+	public void setMinY(int minY) {
+		this.minY = minY;
+	}
+
+	@Override
+	public int getHeight() {
+		return this.maxY - this.minY;
+	}
+
+	@Override
 	public void setCenterX(int gameX) {
 		int currentWidth = this.maxX - this.minX;
 		this.minX = gameX - currentWidth / 2;
@@ -91,7 +106,15 @@ public abstract class FixedWorldObject implements GameObject {
 		int currentHeight = this.maxY - this.minY;
 		this.minY = gameY - currentHeight / 2;
 		this.maxY = gameY + currentHeight / 2;
-
 	}
 
+	@Override
+	public void setMaxX(int newRight) {
+		this.maxX = newRight;
+	}
+
+	@Override
+	public void setMinX(int newLeft) {
+		this.minX = newLeft;
+	}
 }

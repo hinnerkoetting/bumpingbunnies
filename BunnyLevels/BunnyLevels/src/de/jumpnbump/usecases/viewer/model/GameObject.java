@@ -26,8 +26,18 @@ public interface GameObject {
 
 	int accelerationOnThisGround();
 
+	void setMaxY(int maxY);
+
+	int getHeight();
+
+	void setMinY(int newBottomY);
+
 	void setCenterX(int gameX);
 
 	void setCenterY(int gameY);
+
+	void setMaxX(int newRight);
+
+	void setMinX(int newLeft);
 
 }

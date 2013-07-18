@@ -239,14 +239,13 @@ public class ViewerPanel extends JPanel {
 
 	private void save() {
 		try {
-			ObjectContainer container = this.builder.parse(new FileInputStream(this.lastFile));
 			FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent(), "save", FileDialog.SAVE);
 			dialog.setVisible(true);
 			this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
 			java.io.File newFile = new java.io.File(this.lastFile);
 			newFile.delete();
 			newFile.createNewFile();
-			new XmlStorer(container).saveXml(newFile);
+			new XmlStorer(this.model).saveXml(newFile);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
