@@ -95,9 +95,14 @@ public class MyCanvas extends JPanel {
 
 	private void drawObject(Graphics g, GameObject w) {
 		int height = calculateHeight(w.minY(), w.maxY());
-		g.fillRect(calculatePixelX(w.minX()), calculatePixelY(w.minY()) - height,
-				calculatePixelWidht(w.minX(), w.maxX()),
-				height);
+		int minX = calculatePixelX(w.minX());
+		int width = calculatePixelWidht(w.minX(), w.maxX());
+		int minY = calculatePixelY(w.minY()) - height;
+		if (w.hasImage()) {
+			g.drawImage(w.getImage(), minX, minY, width, height, null);
+		} else {
+			g.fillRect(minX, minY, width, height);
+		}
 		if (w == this.selectedObject) {
 			Graphics2D g2d = (Graphics2D) g;
 			Stroke oldStroke = g2d.getStroke();
@@ -107,10 +112,7 @@ public class MyCanvas extends JPanel {
 			// calculatePixelWidht(w.minX(), w.maxX()),
 			// calculateHeight(w.minY(), w.maxY()));
 
-			g2d.draw(new Rectangle(calculatePixelX(w.minX()),
-					calculatePixelY(w.minY()) - height,
-					calculatePixelWidht(w.minX(), w.maxX()),
-					height));
+			g2d.draw(new Rectangle(minX, minY, width, height));
 
 			g2d.setStroke(oldStroke);
 		}

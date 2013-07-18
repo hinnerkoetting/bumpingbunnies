@@ -63,7 +63,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JPanel createBottomImages() {
-		ImagesPanel panel = new ImagesPanel();
+		ImagesPanel panel = new ImagesPanel(this.myCanvas);
 		panel.build();
 		panel.setPreferredSize(new Dimension(100, 200));
 		return panel;

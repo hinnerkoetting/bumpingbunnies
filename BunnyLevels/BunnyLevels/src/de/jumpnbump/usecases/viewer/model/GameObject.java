@@ -1,5 +1,7 @@
 package de.jumpnbump.usecases.viewer.model;
 
+import java.awt.image.BufferedImage;
+
 public interface GameObject {
 
 	int maxX();
@@ -39,5 +41,11 @@ public interface GameObject {
 	void setMaxX(int newRight);
 
 	void setMinX(int newLeft);
+
+	void applyImage(BufferedImage image);
+
+	public abstract BufferedImage getImage();
+
+	public abstract boolean hasImage();
 
 }

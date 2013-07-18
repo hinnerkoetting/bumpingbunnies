@@ -1,5 +1,7 @@
 package de.jumpnbump.usecases.viewer.model;
 
+import java.awt.image.BufferedImage;
+
 public abstract class FixedWorldObject implements GameObject {
 
 	private int id;
@@ -8,6 +10,7 @@ public abstract class FixedWorldObject implements GameObject {
 	private int maxX;
 	private int maxY;
 	private int color;
+	private BufferedImage image;
 
 	public FixedWorldObject(int id, int minX, int minY, int maxX, int maxY,
 			int color) {
@@ -116,5 +119,20 @@ public abstract class FixedWorldObject implements GameObject {
 	@Override
 	public void setMinX(int newLeft) {
 		this.minX = newLeft;
+	}
+
+	@Override
+	public void applyImage(BufferedImage image) {
+		this.image = image;
+	}
+
+	@Override
+	public boolean hasImage() {
+		return this.image != null;
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		return this.image;
 	}
 }

@@ -1,6 +1,8 @@
 package de.jumpnbump.usecases.viewer.Viewer;
 
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map.Entry;
@@ -8,10 +10,19 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.jumpnbump.usecases.viewer.MyCanvas;
+import de.jumpnbump.usecases.viewer.model.GameObject;
+
 public class ImagesPanel extends JPanel {
+
+	private final MyCanvas canvas;
+
+	public ImagesPanel(MyCanvas canvas) {
+		super();
+		this.canvas = canvas;
+	}
 
 	public void build() {
 		Properties props = loadProperties();
@@ -22,18 +33,49 @@ public class ImagesPanel extends JPanel {
 
 	private void addImage(Entry<Object, Object> prop) {
 		String value = (String) prop.getValue();
-		Image image = readImage(value);
-		JLabel picLabel = new ImagePanel(new ImageIcon(image), (String) prop.getKey());
+		BufferedImage image = readImage(value);
+		Image scaledImage = scaleImagE(image);
+		final ImagePanel picLabel = new ImagePanel(image, new ImageIcon(scaledImage), (String) prop.getKey());
 		add(picLabel);
+		picLabel.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				GameObject selectedGameObject = ImagesPanel.this.canvas.getSelectedGameObject();
+				selectedGameObject.applyImage(picLabel.getOriginal());
+
+				ImagesPanel.this.canvas.repaint();
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+		});
 	}
 
-	private Image readImage(String resource) {
+	private BufferedImage readImage(String resource) {
 		try {
 			BufferedImage bufImg = ImageIO.read(getClass().getResourceAsStream("/" + resource));
-			return bufImg.getScaledInstance(100, 100, 0);
+			return bufImg;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private Image scaleImagE(BufferedImage in) {
+		return in.getScaledInstance(100, 100, 0);
 	}
 
 	private Properties loadProperties() {
