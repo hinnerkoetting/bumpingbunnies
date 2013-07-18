@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.viewer.xml;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,11 +13,11 @@ import de.jumpnbump.usecases.viewer.model.Water;
 
 public class ObjectContainer {
 
-	private List<Wall> walls;
-	private List<IcyWall> iceWalls;
-	private List<SpawnPoint> spawnPoints;;
-	private List<Jumper> jumpers;
-	private List<Water> waters;
+	private List<Wall> walls = new ArrayList<>();
+	private List<IcyWall> iceWalls = new ArrayList<>();
+	private List<SpawnPoint> spawnPoints = new ArrayList<>();
+	private List<Jumper> jumpers = new ArrayList<>();
+	private List<Water> waters = new ArrayList<>();
 	private List<GameObject> allObjects;
 
 	public List<Wall> getWalls() {

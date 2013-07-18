@@ -44,9 +44,12 @@ public class ViewerPanel extends JPanel {
 
 	public ViewerPanel(String file) {
 		this.lastFile = file;
-
 		this.builder = new XmlBuilder();
+	}
 
+	public ViewerPanel() {
+		this.builder = new XmlBuilder();
+		this.model = new ObjectContainer();
 	}
 
 	public void build() {
@@ -201,13 +204,15 @@ public class ViewerPanel extends JPanel {
 	private void loadFilecontent() {
 		FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent());
 		dialog.setVisible(true);
-		this.lastFile = dialog.getFile();
+		this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
 		displayFile();
 	}
 
 	private void parsexml() {
 		try {
-			this.model = this.builder.parse(new FileInputStream(this.lastFile));
+			if (this.lastFile != null) {
+				this.model = this.builder.parse(new FileInputStream(this.lastFile));
+			}
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
