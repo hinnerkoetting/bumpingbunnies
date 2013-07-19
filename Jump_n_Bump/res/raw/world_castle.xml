@@ -1,231 +1,232 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <world xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://world.bunnies.de"
     xsi:noNamespaceSchemaLocation="world.xsd"
     xsi:schemaLocation="http://world.bunnies.de
-                                     world.xsd" >
+ world.xsd" >
 
     <walls>
-       <!-- bottom -->
         <wall
-            minX="0.05"
             maxX="0.475"
-            minY="0.0" 
-            maxY="0.05"/>
+            maxY="0.05"
+            minX="0.05"
+            minY="0.0" />
         <wall
-            minX="0.525"
             maxX="0.95"
-            minY="0.0" 
-            maxY="0.05"/>
-       <!--  first row from bottom -->
-       <wall
-            minX="0.10"
+            maxY="0.05"
+            minX="0.525"
+            minY="0.0" />
+        <wall
             maxX="0.25"
-            minY="0.20" 
-            maxY="0.25"/>
-       <wall
-            minX="0.10"
+            maxY="0.25"
+            minX="0.1"
+            minY="0.2" />
+        <wall
             maxX="0.15"
-            minY="0.25" 
-            maxY="0.30"/>
-       
-       
-       <wall
-            minX="0.35"
+            maxY="0.3"
+            minX="0.1"
+            minY="0.25" />
+        <wall
+            image="wiese3"
             maxX="0.475"
-            minY="0.15" 
-            maxY="0.30"/>
-       <wall
+            maxY="0.3"
             minX="0.35"
+            minY="0.15" />
+        <wall
             maxX="0.375"
-            minY="0.30" 
-            maxY="0.45"/>
-       
-       <wall
+            maxY="0.45"
+            minX="0.35"
+            minY="0.3" />
+        <wall
+            image="blumenwiese21"
+            maxX="0.65"
+            maxY="0.3"
             minX="0.525"
+            minY="0.15" />
+        <wall
             maxX="0.65"
-            minY="0.15" 
-            maxY="0.30"/>
-       <wall
+            maxY="0.45"
             minX="0.625"
-            maxX="0.65"
-            minY="0.30" 
-            maxY="0.45"/>
-       
-       <wall
+            minY="0.3" />
+        <wall
+            image="wiese2"
+            maxX="0.9"
+            maxY="0.25"
             minX="0.75"
-            maxX="0.90"
-            minY="0.20" 
-            maxY="0.25"/>
-       <wall
+            minY="0.2" />
+        <wall
+            maxX="0.9"
+            maxY="0.3"
             minX="0.85"
-            maxX="0.90"
-            minY="0.25" 
-            maxY="0.30"/>
-       
-       <!-- top row -->
-       
-       <!-- first -->
-       <wall
+            minY="0.25" />
+        <wall
+            maxX="0.05"
+            maxY="0.9"
             minX="0.04"
-            maxX="0.05"
-            minY="0.8" 
-            maxY="0.9"/>
-       <wall
+            minY="0.8" />
+        <wall
+            maxX="0.2"
+            maxY="0.85"
             minX="0.05"
-            maxX="0.20"
-            minY="0.8" 
-            maxY="0.85"/>
-       <wall
-            minX="0.20"
+            minY="0.8" />
+        <wall
             maxX="0.21"
-            minY="0.8" 
-            maxY="0.9"/>
-       
-        <!-- second -->
-       <wall
-            minX="0.29"
-            maxX="0.30"
-            minY="0.8" 
-            maxY="0.90"/>
-       <wall
-            minX="0.30"
-            maxX="0.45"
-            minY="0.8" 
-            maxY="0.85"/>
-       <wall
-            minX="0.45"
-            maxX="0.46"
-            minY="0.8" 
-            maxY="0.90"/>
-       
-       <!-- third -->
-       <wall
-            minX="0.54"
-            maxX="0.55"
-            minY="0.8" 
-            maxY="0.90"/>
-       <wall
-            minX="0.55"
-            maxX="0.70"
-            minY="0.8" 
-            maxY="0.85"/>
-       <wall
-            minX="0.70"
-            maxX="0.71"
-            minY="0.8" 
-            maxY="0.90"/>
-       
-       
-       <!-- fourth -->
-         <wall
-            minX="0.79"
-            maxX="0.80"
-            minY="0.8" 
-            maxY="0.90"/>
-       <wall
-            minX="0.80"
-            maxX="0.95"
-            minY="0.8" 
-            maxY="0.85"/>
-       <wall
-            minX="0.95"
-            maxX="0.96"
-            minY="0.8" 
-            maxY="0.90"/>
-    </walls>
-    <icewalls>
-        
-        <icewall
+            maxY="0.9"
             minX="0.2"
+            minY="0.8" />
+        <wall
             maxX="0.3"
-            minY="0.6" 
-            maxY="0.65"/>
-        
-       <icewall
+            maxY="0.9"
+            minX="0.29"
+            minY="0.8" />
+        <wall
+            maxX="0.45"
+            maxY="0.85"
+            minX="0.3"
+            minY="0.8" />
+        <wall
+            maxX="0.46"
+            maxY="0.9"
             minX="0.45"
+            minY="0.8" />
+        <wall
             maxX="0.55"
-            minY="0.6" 
-            maxY="0.65"/>
-       
-       <icewall
+            maxY="0.9"
+            minX="0.54"
+            minY="0.8" />
+        <wall
+            maxX="0.7"
+            maxY="0.85"
+            minX="0.55"
+            minY="0.8" />
+        <wall
+            maxX="0.71"
+            maxY="0.9"
             minX="0.7"
+            minY="0.8" />
+        <wall
             maxX="0.8"
-            minY="0.6" 
-            maxY="0.65"/>
-    </icewalls>
-    <jumpers>
-        <!--  bottom -->
-		<jumper
-            minX="0.00"
-            maxX="0.05"
-            minY="0.00" 
-            maxY="0.075"/>
-		 <jumper
-            minX="0.475"
-            maxX="0.525"
-            minY="0.0" 
-            maxY="0.025"/>
-		<jumper
+            maxY="0.9"
+            minX="0.79"
+            minY="0.8" />
+        <wall
+            maxX="0.95"
+            maxY="0.85"
+            minX="0.8"
+            minY="0.8" />
+        <wall
+            maxX="0.96"
+            maxY="0.9"
             minX="0.95"
-            maxX="1.00"
-            minY="0.00" 
-            maxY="0.075"/>
-		
-		<!--  first row -->
-		<jumper
-            minX="0.10"
+            minY="0.8" />
+    </walls>
+
+    <icewalls>
+        <icewall
+            maxX="0.3"
+            maxY="0.65"
+            minX="0.2"
+            minY="0.6" />
+        <icewall
+            maxX="0.55"
+            maxY="0.65"
+            minX="0.45"
+            minY="0.6" />
+        <icewall
+            maxX="0.8"
+            maxY="0.65"
+            minX="0.7"
+            minY="0.6" />
+    </icewalls>
+
+    <jumpers>
+        <jumper
+            maxX="0.05"
+            maxY="0.075"
+            minX="0.0"
+            minY="0.0" />
+        <jumper
+            maxX="0.525"
+            maxY="0.025"
+            minX="0.475"
+            minY="0.0" />
+        <jumper
+            maxX="1.0"
+            maxY="0.075"
+            minX="0.95"
+            minY="0.0" />
+        <jumper
             maxX="0.15"
-            minY="0.30" 
-            maxY="0.35"/>
-		<jumper
+            maxY="0.35"
+            minX="0.1"
+            minY="0.3" />
+        <jumper
+            maxX="0.9"
+            maxY="0.35"
             minX="0.85"
-            maxX="0.90"
-            minY="0.30" 
-            maxY="0.35"/>
-		
+            minY="0.3" />
     </jumpers>
-    
 
     <spawnpoints>
-        
-        <spawnpoint x="0.125" y="1"/>        
-        <spawnpoint x="0.8" y="0.3"/>
-        <spawnpoint x="0.125" y="0.1"/>
-        <spawnpoint x="0.85" y="1"/>
-        <spawnpoint x="0.4" y="0.35"/>
-        <spawnpoint x="0.6" y="0.35"/>
-        
-        <spawnpoint x="0.625" y="0.1"/>
-        <spawnpoint x="0.175" y="0.3"/>
-        <spawnpoint x="0.375" y="1"/>
-        
-        <spawnpoint x="0.375" y="0.1"/>
-        <spawnpoint x="0.625" y="1"/>
-        <spawnpoint x="0.85" y="0.1"/>
-        
+        <spawnpoint
+            x="0.125"
+            y="1.0" />
+        <spawnpoint
+            x="0.8"
+            y="0.3" />
+        <spawnpoint
+            x="0.125"
+            y="0.1" />
+        <spawnpoint
+            x="0.85"
+            y="1.0" />
+        <spawnpoint
+            x="0.4"
+            y="0.35" />
+        <spawnpoint
+            x="0.6"
+            y="0.35" />
+        <spawnpoint
+            x="0.625"
+            y="0.1" />
+        <spawnpoint
+            x="0.175"
+            y="0.3" />
+        <spawnpoint
+            x="0.375"
+            y="1.0" />
+        <spawnpoint
+            x="0.375"
+            y="0.1" />
+        <spawnpoint
+            x="0.625"
+            y="1.0" />
+        <spawnpoint
+            x="0.85"
+            y="0.1" />
     </spawnpoints>
-    
+
     <waters>
-       <water
+        <water
+            maxX="0.2"
+            maxY="0.9"
             minX="0.05"
-            maxX="0.20"
-            minY="0.85" 
-            maxY="0.90"/>
-       <water
-            minX="0.30"
+            minY="0.85" />
+        <water
             maxX="0.45"
-            minY="0.85" 
-            maxY="0.90"/>
-       <water
+            maxY="0.9"
+            minX="0.3"
+            minY="0.85" />
+        <water
+            maxX="0.7"
+            maxY="0.9"
             minX="0.55"
-            maxX="0.70"
-            minY="0.85" 
-            maxY="0.90"/>
-       <water
-            minX="0.80"
+            minY="0.85" />
+        <water
             maxX="0.95"
-            minY="0.85" 
-            maxY="0.90"/>
+            maxY="0.9"
+            minX="0.8"
+            minY="0.85" />
     </waters>
+
 </world>

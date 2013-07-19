@@ -1,14 +1,16 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
+import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 
-public abstract class FixedWorldObject implements GameObject {
+public abstract class FixedWorldObject implements GameObjectWithImage {
 
 	private int id;
 	private final Rect rect;
 	private final int color;
 	private final CollisionHandling collisionHandling;
+	private Bitmap image;
 
 	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY,
 			int color) {
@@ -67,5 +69,15 @@ public abstract class FixedWorldObject implements GameObject {
 	public void handleCollisionWithPlayer(Player player,
 			CollisionDetection collisionDetection) {
 		this.collisionHandling.interactWith(player, this, collisionDetection);
+	}
+
+	@Override
+	public void setBitmap(Bitmap b) {
+		this.image = b;
+	}
+
+	@Override
+	public Bitmap getBitmap() {
+		return this.image;
 	}
 }

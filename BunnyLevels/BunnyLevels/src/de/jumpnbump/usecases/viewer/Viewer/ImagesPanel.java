@@ -14,9 +14,11 @@ import javax.swing.JPanel;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.model.GameObject;
+import de.jumpnbump.usecases.viewer.model.ImageWrapper;
 
 public class ImagesPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private final MyCanvas canvas;
 
 	public ImagesPanel(MyCanvas canvas) {
@@ -32,9 +34,10 @@ public class ImagesPanel extends JPanel {
 	}
 
 	private void addImage(Entry<Object, Object> prop) {
-		String value = (String) prop.getValue();
+		final String value = (String) prop.getValue();
+		final String key = (String) prop.getKey();
 		BufferedImage image = readImage(value);
-		Image scaledImage = scaleImagE(image);
+		Image scaledImage = scaleImage(image);
 		final ImagePanel picLabel = new ImagePanel(image, new ImageIcon(scaledImage), (String) prop.getKey());
 		add(picLabel);
 		picLabel.addMouseListener(new MouseListener() {
@@ -46,7 +49,8 @@ public class ImagesPanel extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				GameObject selectedGameObject = ImagesPanel.this.canvas.getSelectedGameObject();
-				selectedGameObject.applyImage(picLabel.getOriginal());
+				ImageWrapper wrapper = new ImageWrapper(picLabel.getOriginal(), key);
+				selectedGameObject.applyImage(wrapper);
 
 				ImagesPanel.this.canvas.repaint();
 			}
@@ -74,7 +78,7 @@ public class ImagesPanel extends JPanel {
 		}
 	}
 
-	private Image scaleImagE(BufferedImage in) {
+	private Image scaleImage(BufferedImage in) {
 		return in.getScaledInstance(100, 100, 0);
 	}
 

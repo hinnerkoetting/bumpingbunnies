@@ -1,19 +1,15 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class DrawablesFactory {
@@ -41,11 +37,13 @@ public class DrawablesFactory {
 
 	private Collection<? extends Drawable> createWalls() {
 		List<Drawable> allWalls = new LinkedList<Drawable>();
-		Bitmap bitmap = readWallBitmap();
-		for (GameObject w : this.world.getAllWalls()) {
+
+		for (GameObjectWithImage w : this.world.getAllWalls()) {
+
 			// TODO rework
 			if (w.maxX() - w.minX() > MIN_SIZE_FOR_DRAWER && w.maxY() - w.minY() > MIN_SIZE_FOR_DRAWER) {
-				if (w instanceof Wall) {
+				Bitmap bitmap = w.getBitmap();
+				if (bitmap != null) {
 					allWalls.add(ImageDrawerFactory.create(bitmap, w));
 				} else {
 					allWalls.add(new RectDrawer(w));
@@ -53,22 +51,6 @@ public class DrawablesFactory {
 			}
 		}
 		return allWalls;
-	}
-
-	private Bitmap readWallBitmap() {
-		int id = getWallBackgroundId();
-		Bitmap bitmap = BitmapFactory.decodeResource(this.resources, id);
-		return bitmap;
-	}
-
-	private int getWallBackgroundId() {
-		try {
-			Class<?> res = R.drawable.class;
-			Field field = res.getField("blumenwiese21");
-			return field.getInt(null);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	private List<Drawable> createAllScores() {

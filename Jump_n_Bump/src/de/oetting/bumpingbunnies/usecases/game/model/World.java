@@ -14,7 +14,7 @@ public class World implements ObjectProvider {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
 	private List<GameObject> allObjects;
-	private List<GameObject> allWalls;
+	private List<GameObjectWithImage> allWalls;
 	private List<Player> allPlayer;
 	private List<SpawnPoint> spawnPoints;
 	private WorldObjectsBuilder factory;
@@ -25,7 +25,7 @@ public class World implements ObjectProvider {
 		this.factory = factory;
 		this.context = context;
 		this.allPlayer = new ArrayList<Player>();
-		this.allWalls = new LinkedList<GameObject>();
+		this.allWalls = new LinkedList<GameObjectWithImage>();
 		this.allObjects = new LinkedList<GameObject>();
 	}
 
@@ -50,7 +50,7 @@ public class World implements ObjectProvider {
 		return this.allPlayer;
 	}
 
-	public List<GameObject> getAllWalls() {
+	public List<GameObjectWithImage> getAllWalls() {
 		return this.allWalls;
 	}
 

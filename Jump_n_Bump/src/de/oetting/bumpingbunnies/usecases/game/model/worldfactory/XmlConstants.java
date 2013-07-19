@@ -19,4 +19,5 @@ public interface XmlConstants {
 	String MAX_Y = "maxY";
 	String X = "x";
 	String Y = "y";
+	String IMAGE = "image";
 }

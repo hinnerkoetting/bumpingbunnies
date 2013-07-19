@@ -36,7 +36,7 @@ public class XmlStorer {
 	}
 
 	private Element appendAllElements(Document doc) {
-		Element worldElement =createRootElement(doc);
+		Element worldElement = createRootElement(doc);
 		worldElement.appendChild(createWalls(doc));
 		worldElement.appendChild(createIceWalls(doc));
 		worldElement.appendChild(createJumpers(doc));
@@ -118,6 +118,9 @@ public class XmlStorer {
 		element.setAttribute(XmlConstants.MAX_X, Double.toString((double) go.maxX() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MIN_Y, Double.toString((double) go.minY() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MAX_Y, Double.toString((double) go.maxY() / ModelConstants.MAX_VALUE));
+		if (go.hasImage()) {
+			element.setAttribute(XmlConstants.image, go.getImageKey());
+		}
 		return element;
 	}
 

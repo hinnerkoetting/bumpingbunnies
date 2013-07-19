@@ -9,12 +9,13 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.util.Xml;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
@@ -30,6 +31,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	private XmlWorldBuilderState state;
 	private boolean parsed;
 	private WorldProperties worldProperties = new WorldProperties();
+	private BitmapReader bitmapReader;
 
 	public XmlWorldBuilder(int resourceId) {
 		this.resourceId = resourceId;
@@ -37,6 +39,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	}
 
 	private void parse(Context context) {
+		this.bitmapReader = new BitmapReader(context.getResources());
 		this.parsed = true;
 		InputStream worldXml = context.getResources().openRawResource(
 				this.resourceId);
@@ -121,8 +124,8 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 			IOException {
 		XmlRect rect = readRect(parser);
 		Wall wall = XmlRectToObjectConverter.createWall(rect, this.worldProperties);
+		wall.setBitmap(readBitmap(parser));
 		this.state.getAllObjects().add(wall);
-
 	}
 
 	private XmlRect readRect(XmlPullParser parser) {
@@ -134,7 +137,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	}
 
 	@Override
-	public Collection<GameObject> createAllWalls(Context context) {
+	public Collection<GameObjectWithImage> createAllWalls(Context context) {
 		parse(context);
 		return this.state.getAllObjects();
 	}
@@ -145,5 +148,18 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 			throw new IllegalStateException("You need to parse first");
 		}
 		return this.state.getSpawnPoints();
+	}
+
+	private Bitmap readBitmap(XmlPullParser parser) {
+		String filename = parser.getAttributeValue(null, IMAGE);
+		if (filename != null) {
+			return readBitmap(filename);
+		}
+		return null;
+
+	}
+
+	private Bitmap readBitmap(String fileName) {
+		return this.bitmapReader.readBitmap(fileName);
 	}
 }

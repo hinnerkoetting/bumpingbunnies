@@ -10,7 +10,7 @@ public abstract class FixedWorldObject implements GameObject {
 	private int maxX;
 	private int maxY;
 	private int color;
-	private BufferedImage image;
+	private ImageWrapper image;
 
 	public FixedWorldObject(int id, int minX, int minY, int maxX, int maxY,
 			int color) {
@@ -122,7 +122,7 @@ public abstract class FixedWorldObject implements GameObject {
 	}
 
 	@Override
-	public void applyImage(BufferedImage image) {
+	public void applyImage(ImageWrapper image) {
 		this.image = image;
 	}
 
@@ -133,6 +133,17 @@ public abstract class FixedWorldObject implements GameObject {
 
 	@Override
 	public BufferedImage getImage() {
-		return this.image;
+		if (this.image != null) {
+			return this.image.getImage();
+		}
+		return null;
+	}
+
+	@Override
+	public String getImageKey() {
+		if (this.image != null) {
+			return this.image.getName();
+		}
+		return null;
 	}
 }

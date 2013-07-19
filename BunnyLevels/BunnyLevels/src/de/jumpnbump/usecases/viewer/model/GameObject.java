@@ -42,10 +42,11 @@ public interface GameObject {
 
 	void setMinX(int newLeft);
 
-	void applyImage(BufferedImage image);
+	void applyImage(ImageWrapper image);
 
-	public abstract BufferedImage getImage();
+	BufferedImage getImage();
 
-	public abstract boolean hasImage();
+	boolean hasImage();
 
+	String getImageKey();
 }

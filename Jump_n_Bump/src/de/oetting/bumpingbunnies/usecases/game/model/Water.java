@@ -1,11 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 
-public class Water implements GameObject {
+public class Water implements GameObjectWithImage {
 
 	private final Rect rect;
+	private Bitmap bitmap;
 
 	public Water(long minX, long minY, long maxX, long maxY) {
 		this.rect = new Rect(minX, maxX, minY, maxY);
@@ -55,6 +57,16 @@ public class Water implements GameObject {
 			CollisionDetection collisionDetection) {
 		player.setExactMovementY((int) (player.movementY() * 0.99));
 		player.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WATER);
+	}
+
+	@Override
+	public Bitmap getBitmap() {
+		return this.bitmap;
+	}
+
+	@Override
+	public void setBitmap(Bitmap b) {
+		this.bitmap = b;
 	}
 
 }
