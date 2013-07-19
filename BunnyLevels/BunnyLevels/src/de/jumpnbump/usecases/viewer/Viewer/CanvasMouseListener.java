@@ -4,7 +4,6 @@ import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.List;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.Viewer.actions.MouseAction;
@@ -13,11 +12,13 @@ import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeDownAction;
 import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeLeftAction;
 import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeRightAction;
 import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeTopMouseAction;
+import de.jumpnbump.usecases.viewer.Viewer.actions.SelectAction;
 import de.jumpnbump.usecases.viewer.model.GameObject;
 import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
 
 public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
+	private static final int TOLERANCE = 5;
 	private final ObjectContainer container;
 	private final MyCanvas canvas;
 	private final ViewerPanel viewerPanel;
@@ -33,33 +34,11 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	private void selectItem(MouseEvent e) {
-		long gameX = CoordinatesCalculation.translateToGameX(e.getX());
-		long gameY = CoordinatesCalculation.translateToGameY(e.getY(), this.canvas.getHeight());
-		GameObject go = findGameObject(gameX, gameY);
-		this.canvas.setSelectedObject(go);
-		this.canvas.repaint();
-		this.canvas.setSelectedObject(go);
-
-	}
-
-	private GameObject findGameObject(long gameX, long gameY) {
-		List<GameObject> allObjects = this.container.allObjects();
-		for (GameObject go : allObjects) {
-			if (go.minX() < gameX && go.maxX() > gameX && go.minY() < gameY && go.maxY() > gameY) {
-				return go;
-			}
-		}
-		return null;
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		selectItem(e);
-		resetAction();
+		this.nextAction.newMousePosition(e);
 	}
 
 	@Override
@@ -87,34 +66,48 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	public void mouseMoved(MouseEvent e) {
 		GameObject selectedGameObject = this.canvas.getSelectedGameObject();
 		if (selectedGameObject != null) {
+
 			int pixelMinX = selectedGameObject.minX();
 			int pixelMaxX = selectedGameObject.maxX();
 			int pixelMinY = selectedGameObject.minY();
 			int pixelMaxY = selectedGameObject.maxY();
-			resetAction();
-			if (Math.abs(e.getX() - translateToPixelX(pixelMinX)) < 5) {
-				this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-				this.nextAction = new ResizeLeftAction(selectedGameObject, this.canvas);
-			}
-			if (Math.abs(e.getX() - translateToPixelX(pixelMaxX)) < 5) {
-				this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-				this.nextAction = new ResizeRightAction(selectedGameObject, this.canvas);
-			}
-			if (Math.abs(e.getY() - translateToPixelY(pixelMinY)) < 5) {
-				this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-				this.nextAction = new ResizeDownAction(selectedGameObject, this.canvas);
-			}
-			if (Math.abs(e.getY() - translateToPixelY(pixelMaxY)) < 5) {
-				this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-				this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.canvas);
+			if (isMouseOverSelectedObject(e, selectedGameObject)) {
+				this.nextAction = new MoveAction(this.canvas);
+				if (Math.abs(e.getX() - translateToPixelX(pixelMinX)) < TOLERANCE) {
+					this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+					this.nextAction = new ResizeLeftAction(selectedGameObject, this.canvas);
+				}
+				if (Math.abs(e.getX() - translateToPixelX(pixelMaxX)) < TOLERANCE) {
+					this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+					this.nextAction = new ResizeRightAction(selectedGameObject, this.canvas);
+				}
+				if (Math.abs(e.getY() - translateToPixelY(pixelMinY)) < TOLERANCE) {
+					this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+					this.nextAction = new ResizeDownAction(selectedGameObject, this.canvas);
+				}
+				if (Math.abs(e.getY() - translateToPixelY(pixelMaxY)) < TOLERANCE) {
+					this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+					this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.canvas);
+				}
+			} else {
+				resetAction();
 			}
 
 		}
 	}
 
+	private boolean isMouseOverSelectedObject(MouseEvent e, GameObject selectedGameObject) {
+		int pixelMinX = selectedGameObject.minX();
+		int pixelMaxX = selectedGameObject.maxX();
+		int pixelMinY = selectedGameObject.minY();
+		int pixelMaxY = selectedGameObject.maxY();
+		return (e.getX() + TOLERANCE > translateToPixelX(pixelMinX) && e.getX() - TOLERANCE < translateToPixelX(pixelMaxX)
+				&& e.getY() - TOLERANCE < translateToPixelY(pixelMinY) && e.getY() + TOLERANCE > translateToPixelY(pixelMaxY));
+	}
+
 	private void resetAction() {
 		this.canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		this.nextAction = new MoveAction(this.canvas);
+		this.nextAction = new SelectAction(this.canvas, this.container);
 	}
 
 	private int translateToPixelX(int gameX) {
