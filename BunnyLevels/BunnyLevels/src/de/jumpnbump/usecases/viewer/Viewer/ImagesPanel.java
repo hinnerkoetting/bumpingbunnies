@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -34,9 +35,8 @@ public class ImagesPanel extends JPanel {
 	}
 
 	private void addImage(Entry<Object, Object> prop) {
-		final String value = (String) prop.getValue();
 		final String key = (String) prop.getKey();
-		BufferedImage image = readImage(value);
+		BufferedImage image = readImage(key);
 		Image scaledImage = scaleImage(image);
 		final ImagePanel picLabel = new ImagePanel(image, new ImageIcon(scaledImage), (String) prop.getKey());
 		add(picLabel);
@@ -70,7 +70,7 @@ public class ImagesPanel extends JPanel {
 	}
 
 	private BufferedImage readImage(String resource) {
-		return ImageReader.readImage(resource);
+		return ImageReader.readImage(resource + ".png");
 	}
 
 	private Image scaleImage(BufferedImage in) {
@@ -80,7 +80,7 @@ public class ImagesPanel extends JPanel {
 	private Properties loadProperties() {
 		Properties prop = new Properties();
 		try {
-			prop.load(getClass().getResourceAsStream("/images.properties"));
+			prop.load(new FileInputStream("files/config"));
 			return prop;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
