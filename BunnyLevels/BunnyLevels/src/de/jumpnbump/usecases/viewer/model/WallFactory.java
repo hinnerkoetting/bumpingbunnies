@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.viewer.model;
 
-
 public class WallFactory {
 
 	public static Wall createWallFromDouble(double x, double y, double maxX,
@@ -47,10 +46,24 @@ public class WallFactory {
 				(int) (maxY * ModelConstants.MAX_VALUE));
 	}
 
+	public static Background createBackgroundFromDouble(double x, double y,
+			double maxX, double maxY) {
+		return createBackground((int) (x * ModelConstants.MAX_VALUE),
+				(int) (y * ModelConstants.MAX_VALUE),
+				(int) (maxX * ModelConstants.MAX_VALUE),
+				(int) (maxY * ModelConstants.MAX_VALUE));
+	}
+
 	public static Jumper createJumper(int x, int y, int maxX, int maxY) {
 		int id = IdCounter.getNextId();
 		Jumper jumper = new Jumper(id, x, y, maxX, maxY);
 		return jumper;
+	}
+
+	public static Background createBackground(int x, int y, int maxX, int maxY) {
+		int id = IdCounter.getNextId();
+		Background bg = new Background(id, x, y, maxX, maxY);
+		return bg;
 	}
 
 	public static Water createWater(int x, int y, int maxX, int maxY) {

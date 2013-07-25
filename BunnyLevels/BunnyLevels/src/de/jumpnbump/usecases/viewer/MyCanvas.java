@@ -10,6 +10,7 @@ import java.awt.Stroke;
 import javax.swing.JPanel;
 
 import de.jumpnbump.usecases.viewer.Viewer.CoordinatesCalculation;
+import de.jumpnbump.usecases.viewer.model.Background;
 import de.jumpnbump.usecases.viewer.model.GameObject;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
@@ -34,6 +35,7 @@ public class MyCanvas extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.clearRect(0, 0, getWidth(), getHeight());
+		drawBackground(g);
 		paintWalls(g);
 		paintIceWalls(g);
 		paintJumpers(g);
@@ -83,6 +85,13 @@ public class MyCanvas extends JPanel {
 		g.fillOval(calculatePixelX(spawn.getX()),
 				calculatePixelY(spawn.getY()),
 				SPAWN_RADIUS, SPAWN_RADIUS);
+	}
+
+	private void drawBackground(Graphics g) {
+		for (Background bf : this.objectContainer.getBackgrounds()) {
+			g.setColor(Color.LIGHT_GRAY);
+			drawObject(g, bf);
+		}
 	}
 
 	private int calculatePixelY(int y) {

@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.model.GameObject;
+import de.jumpnbump.usecases.viewer.model.ImageReader;
 import de.jumpnbump.usecases.viewer.model.ImageWrapper;
 
 public class ImagesPanel extends JPanel {
@@ -70,12 +70,7 @@ public class ImagesPanel extends JPanel {
 	}
 
 	private BufferedImage readImage(String resource) {
-		try {
-			BufferedImage bufImg = ImageIO.read(getClass().getResourceAsStream("/" + resource));
-			return bufImg;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		return ImageReader.readImage(resource);
 	}
 
 	private Image scaleImage(BufferedImage in) {

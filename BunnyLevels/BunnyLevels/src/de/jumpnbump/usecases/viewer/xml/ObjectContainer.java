@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.jumpnbump.usecases.viewer.model.Background;
 import de.jumpnbump.usecases.viewer.model.GameObject;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
@@ -18,6 +19,7 @@ public class ObjectContainer {
 	private List<SpawnPoint> spawnPoints = new ArrayList<>();
 	private List<Jumper> jumpers = new ArrayList<>();
 	private List<Water> waters = new ArrayList<>();
+	private List<Background> backgrounds = new ArrayList<>();
 	private List<GameObject> allObjects;
 
 	public List<Wall> getWalls() {
@@ -67,8 +69,17 @@ public class ObjectContainer {
 			this.allObjects.addAll(getIceWalls());
 			this.allObjects.addAll(getJumpers());
 			this.allObjects.addAll(getWaters());
+			this.allObjects.addAll(this.backgrounds);
 		}
 		return this.allObjects;
+	}
+
+	public List<Background> getBackgrounds() {
+		return this.backgrounds;
+	}
+
+	public void setBackgrounds(List<Background> backgrounds) {
+		this.backgrounds = backgrounds;
 	}
 
 }

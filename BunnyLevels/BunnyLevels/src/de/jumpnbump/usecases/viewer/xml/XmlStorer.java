@@ -11,7 +11,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
+import de.jumpnbump.usecases.viewer.model.Background;
 import de.jumpnbump.usecases.viewer.model.GameObject;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
@@ -42,7 +44,17 @@ public class XmlStorer {
 		worldElement.appendChild(createJumpers(doc));
 		worldElement.appendChild(createSpawnpoints(doc));
 		worldElement.appendChild(createWaters(doc));
+		worldElement.appendChild(createBackgrounds(doc));
 		return worldElement;
+	}
+
+	private Node createBackgrounds(Document doc) {
+		Element bgs = doc.createElement(XmlConstants.BACKGROUNDS);
+		for (Background w : this.container.getBackgrounds()) {
+			Element wall = createGameObjectElement(doc, w, XmlConstants.BACKGROUND);
+			bgs.appendChild(wall);
+		}
+		return bgs;
 	}
 
 	private Element createRootElement(Document doc) {

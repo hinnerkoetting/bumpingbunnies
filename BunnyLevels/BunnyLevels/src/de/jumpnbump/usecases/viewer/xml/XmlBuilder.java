@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.viewer.xml;
 
+import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,9 +10,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.jumpnbump.usecases.viewer.model.Background;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
+import de.jumpnbump.usecases.viewer.model.ImageReader;
+import de.jumpnbump.usecases.viewer.model.ImageWrapper;
 import de.jumpnbump.usecases.viewer.model.Jumper;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
 import de.jumpnbump.usecases.viewer.model.Wall;
@@ -37,6 +42,7 @@ public class XmlBuilder implements XmlConstants {
 		container.setJumpers(parseJumper(doc));
 		container.setWaters(parseWater(doc));
 		container.setSpawnPoints(parseSpawnpoints(doc));
+		container.setBackgrounds(parseBackgrounds(doc));
 		return container;
 	}
 
@@ -62,7 +68,9 @@ public class XmlBuilder implements XmlConstants {
 		List<Jumper> jumpers = new LinkedList<>();
 		for (int i = 0; i < elements.getLength(); i++) {
 			org.w3c.dom.Node node = elements.item(i);
-			jumpers.add(XmlRectToObjectConverter.createJumper(extractRectangle(node)));
+			Jumper j = XmlRectToObjectConverter.createJumper(extractRectangle(node));
+			j.applyImage(extractImage(node));
+			jumpers.add(j);
 		}
 		return jumpers;
 	}
@@ -72,7 +80,9 @@ public class XmlBuilder implements XmlConstants {
 		List<Water> waters = new LinkedList<>();
 		for (int i = 0; i < elements.getLength(); i++) {
 			org.w3c.dom.Node node = elements.item(i);
-			waters.add(XmlRectToObjectConverter.createWater(extractRectangle(node)));
+			Water w = XmlRectToObjectConverter.createWater(extractRectangle(node));
+			w.applyImage(extractImage(node));
+			waters.add(w);
 		}
 		return waters;
 	}
@@ -82,7 +92,9 @@ public class XmlBuilder implements XmlConstants {
 		List<IcyWall> walls = new LinkedList<>();
 		for (int i = 0; i < elements.getLength(); i++) {
 			org.w3c.dom.Node node = elements.item(i);
-			walls.add(XmlRectToObjectConverter.createIceWall(extractRectangle(node)));
+			IcyWall iw = XmlRectToObjectConverter.createIceWall(extractRectangle(node));
+			iw.applyImage(extractImage(node));
+			walls.add(iw);
 		}
 		return walls;
 	}
@@ -92,9 +104,33 @@ public class XmlBuilder implements XmlConstants {
 		List<Wall> walls = new LinkedList<>();
 		for (int i = 0; i < elements.getLength(); i++) {
 			org.w3c.dom.Node node = elements.item(i);
-			walls.add(XmlRectToObjectConverter.createWall(extractRectangle(node)));
+			Wall w = XmlRectToObjectConverter.createWall(extractRectangle(node));
+			w.applyImage(extractImage(node));
+			walls.add(w);
 		}
 		return walls;
+	}
+
+	private List<Background> parseBackgrounds(Document doc) {
+		NodeList elements = doc.getElementsByTagName(XmlConstants.BACKGROUND);
+		List<Background> bgs = new LinkedList<>();
+		for (int i = 0; i < elements.getLength(); i++) {
+			org.w3c.dom.Node node = elements.item(i);
+			Background bg = XmlRectToObjectConverter.createBackground(extractRectangle(node));
+			bg.applyImage(extractImage(node));
+			bgs.add(bg);
+		}
+		return bgs;
+	}
+
+	private ImageWrapper extractImage(Node node) {
+		Node namedItem = node.getAttributes().getNamedItem(image);
+		if (namedItem != null) {
+			String background = namedItem.getNodeValue();
+			BufferedImage readImage = ImageReader.readImage(background + ".png");
+			return new ImageWrapper(readImage, background);
+		}
+		return null;
 	}
 
 	private XmlRect extractRectangle(org.w3c.dom.Node node) {
@@ -103,6 +139,7 @@ public class XmlBuilder implements XmlConstants {
 		double minY = extractDouble(attributes.getNamedItem(MIN_Y));
 		double maxX = extractDouble(attributes.getNamedItem(MAX_X));
 		double maxY = extractDouble(attributes.getNamedItem(MAX_Y));
+
 		return new XmlRect(minX, minY, maxX, maxY);
 	}
 

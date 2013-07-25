@@ -20,4 +20,6 @@ public interface XmlConstants {
 	String X = "x";
 	String Y = "y";
 	String image = "image";
+	String BACKGROUNDS = "backgrounds";
+	String BACKGROUND = "background";
 }

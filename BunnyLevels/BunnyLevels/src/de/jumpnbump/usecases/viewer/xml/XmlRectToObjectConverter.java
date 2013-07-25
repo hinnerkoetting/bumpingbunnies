@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.viewer.xml;
 
+import de.jumpnbump.usecases.viewer.model.Background;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
 import de.jumpnbump.usecases.viewer.model.ModelConstants;
@@ -34,5 +35,10 @@ public class XmlRectToObjectConverter {
 		return new SpawnPoint(
 				(int) (ModelConstants.MAX_VALUE * Double.parseDouble(x)),
 				(int) (ModelConstants.MAX_VALUE * Double.parseDouble(y)));
+	}
+
+	public static Background createBackground(XmlRect rect) {
+		return WallFactory.createBackgroundFromDouble(rect.getMinX(),
+				rect.getMinY(), rect.getMaxX(), rect.getMaxY());
 	}
 }
