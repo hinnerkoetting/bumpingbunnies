@@ -26,10 +26,12 @@ public class MyCanvas extends JPanel {
 	private ObjectContainer objectContainer;
 	private Object selectedObject;
 	private double zoom;
+	private final CoordinatesCalculation coordinatesCalculation;
 
 	public MyCanvas(ObjectContainer container) {
 		this.objectContainer = container;
 		this.zoom = 1;
+		this.coordinatesCalculation = new CoordinatesCalculation(this);
 	}
 
 	@Override
@@ -96,15 +98,15 @@ public class MyCanvas extends JPanel {
 	}
 
 	private int calculatePixelY(int y) {
-		return (int) (CoordinatesCalculation.calculatePixelY(y, getHeight()) / this.zoom);
+		return (this.coordinatesCalculation.calculatePixelY(y, getHeight()));
 	}
 
 	private int calculatePixelX(int x) {
-		return (int) (CoordinatesCalculation.calculatePixelX(x) / this.zoom);
+		return (this.coordinatesCalculation.calculatePixelX(x));
 	}
 
 	private void drawObject(Graphics g, GameObject w) {
-		int height = calculateHeight(w.minY(), w.maxY());
+		int height = calculateHeight(w.minY(), w.maxY(), getHeight());
 		int minX = calculatePixelX(w.minX());
 		int width = calculatePixelWidht(w.minX(), w.maxX());
 		int minY = calculatePixelY(w.minY()) - height;
@@ -129,11 +131,11 @@ public class MyCanvas extends JPanel {
 	}
 
 	private int calculatePixelWidht(int minX, int maxX) {
-		return (int) (CoordinatesCalculation.calculatePixelWidht(minX, maxX) / this.zoom);
+		return (this.coordinatesCalculation.calculatePixelWidht(minX, maxX));
 	}
 
-	private int calculateHeight(int minY, int maxY) {
-		return (int) (CoordinatesCalculation.calculateHeight(minY, maxY) / this.zoom);
+	private int calculateHeight(int minY, int maxY, int heigth) {
+		return (this.coordinatesCalculation.calculateHeight(minY, maxY, heigth));
 	}
 
 	public void setObjectContainer(ObjectContainer objectContainer) {

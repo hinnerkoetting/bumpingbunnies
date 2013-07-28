@@ -3,9 +3,7 @@ package de.jumpnbump.usecases.viewer.Viewer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FileDialog;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -193,11 +191,6 @@ public class ViewerPanel extends JPanel {
 		p.add(new JLabel("Background"));
 		p.add(new JScrollPane(createBackgroundsList()));
 		return p;
-	}
-
-	private LayoutManager createLayout() {
-		GridBagLayout layout = new GridBagLayout();
-		return layout;
 	}
 
 	private JList<Wall> createWallList() {

@@ -23,12 +23,14 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	private final MyCanvas canvas;
 	private final ViewerPanel viewerPanel;
 	private MouseAction nextAction;
+	private final CoordinatesCalculation coordinatesCalculation;
 
 	public CanvasMouseListener(ObjectContainer container, MyCanvas canvas, ViewerPanel viewerPanel) {
 		super();
 		this.container = container;
 		this.canvas = canvas;
 		this.viewerPanel = viewerPanel;
+		this.coordinatesCalculation = new CoordinatesCalculation(canvas);
 		resetAction();
 	}
 
@@ -72,22 +74,22 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 			int pixelMinY = selectedGameObject.minY();
 			int pixelMaxY = selectedGameObject.maxY();
 			if (isMouseOverSelectedObject(e, selectedGameObject)) {
-				this.nextAction = new MoveAction(this.canvas);
+				this.nextAction = new MoveAction(this.canvas, this.coordinatesCalculation);
 				if (Math.abs(e.getX() - translateToPixelX(pixelMinX)) < TOLERANCE) {
 					this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-					this.nextAction = new ResizeLeftAction(selectedGameObject, this.canvas);
+					this.nextAction = new ResizeLeftAction(selectedGameObject, this.canvas, this.coordinatesCalculation);
 				}
 				if (Math.abs(e.getX() - translateToPixelX(pixelMaxX)) < TOLERANCE) {
 					this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-					this.nextAction = new ResizeRightAction(selectedGameObject, this.canvas);
+					this.nextAction = new ResizeRightAction(selectedGameObject, this.canvas, this.coordinatesCalculation);
 				}
 				if (Math.abs(e.getY() - translateToPixelY(pixelMinY)) < TOLERANCE) {
 					this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-					this.nextAction = new ResizeDownAction(selectedGameObject, this.canvas);
+					this.nextAction = new ResizeDownAction(selectedGameObject, this.canvas, this.coordinatesCalculation);
 				}
 				if (Math.abs(e.getY() - translateToPixelY(pixelMaxY)) < TOLERANCE) {
 					this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-					this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.canvas);
+					this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.canvas, this.coordinatesCalculation);
 				}
 			} else {
 				resetAction();
@@ -107,15 +109,15 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
 	private void resetAction() {
 		this.canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		this.nextAction = new SelectAction(this.canvas, this.container);
+		this.nextAction = new SelectAction(this.canvas, this.container, this.coordinatesCalculation);
 	}
 
 	private int translateToPixelX(int gameX) {
-		return CoordinatesCalculation.calculatePixelX(gameX / this.canvas.getZoom());
+		return this.coordinatesCalculation.calculatePixelX(gameX);
 	}
 
 	private int translateToPixelY(int gameY) {
-		return (int) (CoordinatesCalculation.calculatePixelY(gameY, (this.canvas.getHeight())) / this.canvas.getZoom());
+		return (this.coordinatesCalculation.calculatePixelY(gameY, (this.canvas.getHeight())));
 	}
 
 }

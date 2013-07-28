@@ -12,17 +12,19 @@ public class SelectAction implements MouseAction {
 
 	private final MyCanvas canvas;
 	private final ObjectContainer container;
+	private final CoordinatesCalculation coordinatesCalculation;
 
-	public SelectAction(MyCanvas canvas, ObjectContainer container) {
+	public SelectAction(MyCanvas canvas, ObjectContainer container, CoordinatesCalculation coordinatesCalculation) {
 		super();
 		this.canvas = canvas;
 		this.container = container;
+		this.coordinatesCalculation = coordinatesCalculation;
 	}
 
 	@Override
 	public void newMousePosition(MouseEvent e) {
-		long gameX = CoordinatesCalculation.translateToGameX((int) (e.getX() * this.canvas.getZoom()));
-		long gameY = CoordinatesCalculation.translateToGameY((int) (e.getY() * this.canvas.getZoom()), this.canvas.getHeight());
+		long gameX = this.coordinatesCalculation.translateToGameX((e.getX()));
+		long gameY = this.coordinatesCalculation.translateToGameY((e.getY()), this.canvas.getHeight());
 		GameObject go = findGameObject(gameX, gameY);
 		this.canvas.setSelectedObject(go);
 		this.canvas.repaint();
