@@ -111,11 +111,11 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	}
 
 	private int translateToPixelX(int gameX) {
-		return CoordinatesCalculation.calculatePixelX(gameX);
+		return CoordinatesCalculation.calculatePixelX(gameX / this.canvas.getZoom());
 	}
 
 	private int translateToPixelY(int gameY) {
-		return CoordinatesCalculation.calculatePixelY(gameY, this.canvas.getHeight());
+		return (int) (CoordinatesCalculation.calculatePixelY(gameY, (this.canvas.getHeight())) / this.canvas.getZoom());
 	}
 
 }

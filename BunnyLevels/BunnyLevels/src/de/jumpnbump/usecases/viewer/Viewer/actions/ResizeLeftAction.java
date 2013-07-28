@@ -19,7 +19,7 @@ public class ResizeLeftAction implements MouseAction {
 
 	@Override
 	public void newMousePosition(MouseEvent event) {
-		int newLeft = CoordinatesCalculation.translateToGameX(event.getX());
+		int newLeft = CoordinatesCalculation.translateToGameX(event.getX() * this.canvas.getZoom());
 		if (newLeft < this.selectedObject.maxX()) {
 			this.selectedObject.setMinX(newLeft);
 		}

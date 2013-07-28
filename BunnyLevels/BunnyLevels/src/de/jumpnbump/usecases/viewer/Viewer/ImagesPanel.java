@@ -49,10 +49,12 @@ public class ImagesPanel extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				GameObject selectedGameObject = ImagesPanel.this.canvas.getSelectedGameObject();
-				ImageWrapper wrapper = new ImageWrapper(picLabel.getOriginal(), key);
-				selectedGameObject.applyImage(wrapper);
+				if (selectedGameObject != null) {
+					ImageWrapper wrapper = new ImageWrapper(picLabel.getOriginal(), key);
+					selectedGameObject.applyImage(wrapper);
 
-				ImagesPanel.this.canvas.repaint();
+					ImagesPanel.this.canvas.repaint();
+				}
 			}
 
 			@Override

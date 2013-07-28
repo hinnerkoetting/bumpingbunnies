@@ -19,7 +19,7 @@ public class ResizeTopMouseAction implements MouseAction {
 
 	@Override
 	public void newMousePosition(MouseEvent event) {
-		int newTopY = CoordinatesCalculation.translateToGameY(event.getY(), this.canvas.getHeight());
+		int newTopY = CoordinatesCalculation.translateToGameY(event.getY() * this.canvas.getZoom(), this.canvas.getHeight());
 		if (newTopY > this.selectedObject.minY()) {
 			this.selectedObject.setMaxY(newTopY);
 		}

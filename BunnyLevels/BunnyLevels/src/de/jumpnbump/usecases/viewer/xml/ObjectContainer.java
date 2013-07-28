@@ -69,7 +69,7 @@ public class ObjectContainer {
 			this.allObjects.addAll(getIceWalls());
 			this.allObjects.addAll(getJumpers());
 			this.allObjects.addAll(getWaters());
-			this.allObjects.addAll(this.backgrounds);
+			this.allObjects.addAll(getBackgrounds());
 		}
 		return this.allObjects;
 	}

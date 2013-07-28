@@ -3,8 +3,13 @@ package de.jumpnbump.usecases.viewer.Viewer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FileDialog;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
@@ -14,12 +19,16 @@ import java.io.FileNotFoundException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
+import de.jumpnbump.usecases.viewer.model.Background;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
@@ -41,6 +50,7 @@ public class ViewerPanel extends JPanel {
 	private JList<Jumper> jumpersList;
 	private JList<Water> watersList;
 	private JList<SpawnPoint> spawns;
+	private JList<Background> backgrounds;
 
 	public ViewerPanel(String file) {
 		this.lastFile = file;
@@ -71,24 +81,123 @@ public class ViewerPanel extends JPanel {
 
 	private Box createRightBox() {
 		Box box = new Box(BoxLayout.Y_AXIS);
-		addButtons(box);
+		box.add(createTopPanel());
 		addLists(box);
 		return box;
 	}
 
-	private void addButtons(Box box) {
+	private JComponent createTopPanel() {
+		JComponent panel = new JPanel(new GridLayout(0, 2));
+		panel.add(createButtons());
+		panel.add(createSettings());
+		return panel;
+	}
+
+	private JComponent createSettings() {
+		JPanel panel = new JPanel();
+		panel.add(new JLabel("Zoom"));
+		final JTextField zoomField = new JTextField(5);
+		zoomField.setText("1");
+		zoomField.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				applyZoom(zoomField);
+			}
+		});
+		zoomField.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				applyZoom(zoomField);
+			}
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+			}
+		});
+		panel.add(zoomField);
+		return panel;
+	}
+
+	private void applyZoom(JTextField zoomField) {
+		String text = zoomField.getText();
+		try {
+			double newZoom = Double.parseDouble(text);
+			ViewerPanel.this.myCanvas.setZoom(newZoom);
+			ViewerPanel.this.myCanvas.repaint();
+		} catch (NumberFormatException e) {
+			double oldZoom = ViewerPanel.this.myCanvas.getZoom();
+			zoomField.setText(Double.toString(oldZoom));
+		}
+	}
+
+	private JComponent createButtons() {
+		Box box = Box.createVerticalBox();
 		box.add(createLoadButton());
 		box.add(createRefreshButton());
-
 		box.add(createSaveButton());
+		return box;
 	}
 
 	private void addLists(Box box) {
-		box.add(new JScrollPane(createWallList()));
-		box.add(new JScrollPane(createIceWallList()));
-		box.add(new JScrollPane(createJumperList()));
-		box.add(new JScrollPane(createWatersList()));
-		box.add(new JScrollPane(createSpawnList()));
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(0, 2));
+		p.add(createWallsPanel());
+
+		p.add(createIceWallsPanel());
+		p.add(createJumpersPanel());
+		p.add(createWatersPanel());
+		p.add(createSpawnPanel());
+		p.add(createBackgroundsPanel());
+		box.add(p);
+	}
+
+	private JComponent createWallsPanel() {
+		Box p = Box.createVerticalBox();
+		p.add(new JLabel("Walls"));
+		p.add(new JScrollPane(createWallList()));
+		return p;
+	}
+
+	private JComponent createIceWallsPanel() {
+		Box p = Box.createVerticalBox();
+		p.add(new JLabel("IceWalls"));
+		p.add(new JScrollPane(createIceWallList()));
+		return p;
+	}
+
+	private JComponent createJumpersPanel() {
+		Box p = Box.createVerticalBox();
+		p.add(new JLabel("Jumpers"));
+		p.add(new JScrollPane(createJumperList()));
+		return p;
+	}
+
+	private JComponent createWatersPanel() {
+		Box p = Box.createVerticalBox();
+		p.add(new JLabel("Waters"));
+		p.add(new JScrollPane(createWatersList()));
+		return p;
+	}
+
+	private JComponent createSpawnPanel() {
+		Box p = Box.createVerticalBox();
+		p.add(new JLabel("Spawns"));
+		p.add(new JScrollPane(createSpawnList()));
+		return p;
+	}
+
+	private JComponent createBackgroundsPanel() {
+		Box p = Box.createVerticalBox();
+		p.add(new JLabel("Background"));
+		p.add(new JScrollPane(createBackgroundsList()));
+		return p;
+	}
+
+	private LayoutManager createLayout() {
+		GridBagLayout layout = new GridBagLayout();
+		return layout;
 	}
 
 	private JList<Wall> createWallList() {
@@ -161,6 +270,12 @@ public class ViewerPanel extends JPanel {
 		return this.spawns;
 	}
 
+	private JList<Background> createBackgroundsList() {
+		this.backgrounds = new JList<>();
+		setBackgroundsModel();
+		return this.backgrounds;
+	}
+
 	private void setSpawnModel() {
 		MyListModel<SpawnPoint> defaultListModel = new MyListModel<>();
 		for (SpawnPoint w : this.model.getSpawnPoints()) {
@@ -169,6 +284,16 @@ public class ViewerPanel extends JPanel {
 		this.spawns.setCellRenderer(new SpawnpointRender());
 		this.spawns.setModel(defaultListModel);
 		this.spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
+	}
+
+	private void setBackgroundsModel() {
+		MyListModel<Background> defaultListModel = new MyListModel<>();
+		for (Background w : this.model.getBackgrounds()) {
+			defaultListModel.addElement(w);
+		}
+		this.backgrounds.setCellRenderer(new GameObjectRenderer());
+		this.backgrounds.setModel(defaultListModel);
+		this.backgrounds.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 	}
 
 	private JButton createRefreshButton() {
@@ -204,6 +329,7 @@ public class ViewerPanel extends JPanel {
 		setJumperModel();
 		setWaterModel();
 		setSpawnModel();
+		setBackgroundsModel();
 		addMouseListener();
 		this.myCanvas.repaint();
 
@@ -270,6 +396,7 @@ public class ViewerPanel extends JPanel {
 		refreshList(this.icyWallList);
 		refreshList(this.watersList);
 		refreshList(this.jumpersList);
+		refreshList(this.backgrounds);
 	}
 
 	private void refreshList(JList<?> list) {

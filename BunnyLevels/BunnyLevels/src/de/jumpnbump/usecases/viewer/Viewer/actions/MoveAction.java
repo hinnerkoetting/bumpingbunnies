@@ -19,8 +19,8 @@ public class MoveAction implements MouseAction {
 	public void newMousePosition(MouseEvent event) {
 		GameObject selectedGameObject = this.canvas.getSelectedGameObject();
 		if (selectedGameObject != null) {
-			int gameX = CoordinatesCalculation.translateToGameX(event.getX());
-			int gameY = CoordinatesCalculation.translateToGameY(event.getY(), this.canvas.getHeight());
+			int gameX = CoordinatesCalculation.translateToGameX(event.getX() * this.canvas.getZoom());
+			int gameY = CoordinatesCalculation.translateToGameY(event.getY() * this.canvas.getZoom(), this.canvas.getHeight());
 			selectedGameObject.setCenterX(gameX);
 			selectedGameObject.setCenterY(gameY);
 			this.canvas.repaint();

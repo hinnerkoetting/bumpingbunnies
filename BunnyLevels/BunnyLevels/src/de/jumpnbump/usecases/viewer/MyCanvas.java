@@ -25,10 +25,11 @@ public class MyCanvas extends JPanel {
 	public static final int SPAWN_RADIUS = 5;
 	private ObjectContainer objectContainer;
 	private Object selectedObject;
+	private double zoom;
 
 	public MyCanvas(ObjectContainer container) {
 		this.objectContainer = container;
-
+		this.zoom = 1;
 	}
 
 	@Override
@@ -95,11 +96,11 @@ public class MyCanvas extends JPanel {
 	}
 
 	private int calculatePixelY(int y) {
-		return CoordinatesCalculation.calculatePixelY(y, getHeight());
+		return (int) (CoordinatesCalculation.calculatePixelY(y, getHeight()) / this.zoom);
 	}
 
 	private int calculatePixelX(int x) {
-		return CoordinatesCalculation.calculatePixelX(x);
+		return (int) (CoordinatesCalculation.calculatePixelX(x) / this.zoom);
 	}
 
 	private void drawObject(Graphics g, GameObject w) {
@@ -128,11 +129,11 @@ public class MyCanvas extends JPanel {
 	}
 
 	private int calculatePixelWidht(int minX, int maxX) {
-		return CoordinatesCalculation.calculatePixelWidht(minX, maxX);
+		return (int) (CoordinatesCalculation.calculatePixelWidht(minX, maxX) / this.zoom);
 	}
 
 	private int calculateHeight(int minY, int maxY) {
-		return CoordinatesCalculation.calculateHeight(minY, maxY);
+		return (int) (CoordinatesCalculation.calculateHeight(minY, maxY) / this.zoom);
 	}
 
 	public void setObjectContainer(ObjectContainer objectContainer) {
@@ -149,4 +150,13 @@ public class MyCanvas extends JPanel {
 		}
 		return null;
 	}
+
+	public double getZoom() {
+		return this.zoom;
+	}
+
+	public void setZoom(double zoom) {
+		this.zoom = zoom;
+	}
+
 }

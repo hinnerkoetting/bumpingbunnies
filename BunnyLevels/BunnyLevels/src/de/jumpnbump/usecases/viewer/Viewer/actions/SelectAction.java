@@ -21,8 +21,8 @@ public class SelectAction implements MouseAction {
 
 	@Override
 	public void newMousePosition(MouseEvent e) {
-		long gameX = CoordinatesCalculation.translateToGameX(e.getX());
-		long gameY = CoordinatesCalculation.translateToGameY(e.getY(), this.canvas.getHeight());
+		long gameX = CoordinatesCalculation.translateToGameX((int) (e.getX() * this.canvas.getZoom()));
+		long gameY = CoordinatesCalculation.translateToGameY((int) (e.getY() * this.canvas.getZoom()), this.canvas.getHeight());
 		GameObject go = findGameObject(gameX, gameY);
 		this.canvas.setSelectedObject(go);
 		this.canvas.repaint();
