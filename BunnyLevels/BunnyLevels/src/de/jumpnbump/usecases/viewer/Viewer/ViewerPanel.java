@@ -1,6 +1,7 @@
 package de.jumpnbump.usecases.viewer.Viewer;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.GridLayout;
@@ -13,6 +14,7 @@ import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,6 +29,7 @@ import javax.swing.JTextField;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.model.Background;
+import de.jumpnbump.usecases.viewer.model.GameObject;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
@@ -135,7 +138,51 @@ public class ViewerPanel extends JPanel {
 		box.add(createLoadButton());
 		box.add(createRefreshButton());
 		box.add(createSaveButton());
+		box.add(createRoundButton());
 		return box;
+	}
+
+	private Component createRoundButton() {
+		JButton button = new JButton("Round");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				round();
+			}
+
+		});
+		return button;
+	}
+
+	private void round() {
+		List<GameObject> allObjects = this.model.allObjects();
+		for (GameObject go : allObjects) {
+			round(go);
+		}
+	}
+
+	private void round(GameObject go) {
+		go.setMinX(findRoundedValueX(go.minX()));
+		go.setMaxX(findRoundedValueX(go.maxX()));
+		if (go.minX() == go.maxX()) {
+			go.setMaxX(go.minX() + 1);
+		}
+		go.setMinY(findRoundedValueY(go.minY()));
+		go.setMaxY(findRoundedValueY(go.maxY()));
+		if (go.minY() == go.maxY()) {
+			go.setMaxY(go.minY() + 1);
+		}
+	}
+
+	private int findRoundedValueX(double inX) {
+		double targetValue = inX / CoordinatesCalculation.DIVIDER_X_CONST / 100;
+		return (int) (Math.round(targetValue * 40) * CoordinatesCalculation.DIVIDER_X_CONST * 100 / 40.0);
+	}
+
+	private int findRoundedValueY(double inY) {
+		double targetValue = inY / CoordinatesCalculation.DIVIDER_Y_CONST / 100;
+		return (int) (Math.round(targetValue * 40) * CoordinatesCalculation.DIVIDER_Y_CONST * 100 / 40.0);
 	}
 
 	private void addLists(Box box) {

@@ -21,10 +21,10 @@ public abstract class FixedWorldObject implements GameObject {
 		this.maxY = maxY;
 		this.color = color;
 		if (minX >= maxX) {
-			throw new IllegalArgumentException("minX must be smaller than maxX");
+			throw new IllegalArgumentException("minX must be smaller than maxX: " + minX + "/" + maxX);
 		}
 		if (minY >= maxY) {
-			throw new IllegalArgumentException("minY must be smaller than maxY");
+			throw new IllegalArgumentException("minY must be smaller than maxY " + minY + "/" + maxY);
 		}
 	}
 

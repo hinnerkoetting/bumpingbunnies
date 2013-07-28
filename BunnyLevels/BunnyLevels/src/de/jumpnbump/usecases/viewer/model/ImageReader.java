@@ -13,6 +13,7 @@ public class ImageReader {
 			BufferedImage bufImg = ImageIO.read(new File("files/" + resource));
 			return bufImg;
 		} catch (IOException e) {
+			System.out.print("Error for resource " + resource);
 			throw new RuntimeException(e);
 		}
 	}
