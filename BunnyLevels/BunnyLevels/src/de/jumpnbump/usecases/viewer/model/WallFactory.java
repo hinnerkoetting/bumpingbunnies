@@ -4,10 +4,10 @@ public class WallFactory {
 
 	public static Wall createWallFromDouble(double x, double y, double maxX,
 			double maxY) {
-		return createWall((int) (x * ModelConstants.MAX_VALUE),
-				(int) (y * ModelConstants.MAX_VALUE),
-				(int) (maxX * ModelConstants.MAX_VALUE),
-				(int) (maxY * ModelConstants.MAX_VALUE));
+		return createWall((int) Math.round(x * ModelConstants.MAX_VALUE),
+				(int) Math.round(y * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxX * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxY * ModelConstants.MAX_VALUE));
 	}
 
 	public static Wall createWall(int x, int y, int maxX, int maxY) {
@@ -18,10 +18,10 @@ public class WallFactory {
 
 	public static IcyWall createIceWallFromDouble(double x, double y,
 			double maxX, double maxY) {
-		return createIceWall((int) (x * ModelConstants.MAX_VALUE),
-				(int) (y * ModelConstants.MAX_VALUE),
-				(int) (maxX * ModelConstants.MAX_VALUE),
-				(int) (maxY * ModelConstants.MAX_VALUE));
+		return createIceWall((int) Math.round(x * ModelConstants.MAX_VALUE),
+				(int) Math.round(y * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxX * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxY * ModelConstants.MAX_VALUE));
 	}
 
 	public static IcyWall createIceWall(int x, int y, int maxX, int maxY) {
@@ -32,26 +32,26 @@ public class WallFactory {
 
 	public static Jumper createJumperFromDouble(double x, double y,
 			double maxX, double maxY) {
-		return createJumper((int) (x * ModelConstants.MAX_VALUE),
-				(int) (y * ModelConstants.MAX_VALUE),
-				(int) (maxX * ModelConstants.MAX_VALUE),
-				(int) (maxY * ModelConstants.MAX_VALUE));
+		return createJumper((int) Math.round(x * ModelConstants.MAX_VALUE),
+				(int) Math.round(y * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxX * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxY * ModelConstants.MAX_VALUE));
 	}
 
 	public static Water createWaterFromDouble(double x, double y,
 			double maxX, double maxY) {
-		return createWater((int) (x * ModelConstants.MAX_VALUE),
-				(int) (y * ModelConstants.MAX_VALUE),
-				(int) (maxX * ModelConstants.MAX_VALUE),
-				(int) (maxY * ModelConstants.MAX_VALUE));
+		return createWater((int) Math.round(x * ModelConstants.MAX_VALUE),
+				(int) Math.round(y * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxX * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxY * ModelConstants.MAX_VALUE));
 	}
 
 	public static Background createBackgroundFromDouble(double x, double y,
 			double maxX, double maxY) {
-		return createBackground((int) (x * ModelConstants.MAX_VALUE),
-				(int) (y * ModelConstants.MAX_VALUE),
-				(int) (maxX * ModelConstants.MAX_VALUE),
-				(int) (maxY * ModelConstants.MAX_VALUE));
+		return createBackground((int) Math.round(x * ModelConstants.MAX_VALUE),
+				(int) Math.round(y * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxX * ModelConstants.MAX_VALUE),
+				(int) Math.round(maxY * ModelConstants.MAX_VALUE));
 	}
 
 	public static Jumper createJumper(int x, int y, int maxX, int maxY) {

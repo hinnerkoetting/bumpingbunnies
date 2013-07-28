@@ -32,6 +32,7 @@ import de.jumpnbump.usecases.viewer.model.Background;
 import de.jumpnbump.usecases.viewer.model.GameObject;
 import de.jumpnbump.usecases.viewer.model.IcyWall;
 import de.jumpnbump.usecases.viewer.model.Jumper;
+import de.jumpnbump.usecases.viewer.model.ModelConstants;
 import de.jumpnbump.usecases.viewer.model.SpawnPoint;
 import de.jumpnbump.usecases.viewer.model.Wall;
 import de.jumpnbump.usecases.viewer.model.Water;
@@ -176,13 +177,13 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private int findRoundedValueX(double inX) {
-		double targetValue = inX / CoordinatesCalculation.DIVIDER_X_CONST / 100;
-		return (int) (Math.round(targetValue * 40) * CoordinatesCalculation.DIVIDER_X_CONST * 100 / 40.0);
+		double targetValue = inX / ModelConstants.MAX_VALUE;
+		return (int) (Math.round(targetValue * 100) * ModelConstants.MAX_VALUE / 100.0);
 	}
 
 	private int findRoundedValueY(double inY) {
-		double targetValue = inY / CoordinatesCalculation.DIVIDER_Y_CONST / 100;
-		return (int) (Math.round(targetValue * 40) * CoordinatesCalculation.DIVIDER_Y_CONST * 100 / 40.0);
+		double targetValue = inY / ModelConstants.MAX_VALUE;
+		return (int) (Math.round(targetValue * 100) * ModelConstants.MAX_VALUE / 100.0);
 	}
 
 	private void addLists(Box box) {

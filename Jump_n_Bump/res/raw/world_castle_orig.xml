@@ -12,7 +12,6 @@
             maxX="0.475"
             minY="0.0" 
             maxY="0.05"
-            image="test"
             />
         <wall
             minX="0.525"

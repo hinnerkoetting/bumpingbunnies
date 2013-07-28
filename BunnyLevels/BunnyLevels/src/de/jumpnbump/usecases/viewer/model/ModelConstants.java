@@ -2,7 +2,7 @@ package de.jumpnbump.usecases.viewer.model;
 
 public interface ModelConstants {
 
-	int MAX_VALUE = 10000000;
+	long MAX_VALUE = 10000000;
 
 	int WALL_WIDTH = (int) (0.025 * MAX_VALUE);
 	int WALL_HEIGHT = (int) (0.025 * MAX_VALUE);

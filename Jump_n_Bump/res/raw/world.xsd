@@ -73,6 +73,15 @@
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
+				<xsd:element name="backgrounds" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="background" minOccurs="0" maxOccurs="unbounded"
+								type="RectangleWithImage">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
