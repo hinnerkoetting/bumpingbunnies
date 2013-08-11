@@ -18,6 +18,7 @@ public interface ModelConstants {
 	int PLAYER_WIDTH = (int) (0.04 * STANDARD_WORLD_SIZE);
 	int PLAYER_HEIGHT = (int) (0.045 * STANDARD_WORLD_SIZE);
 
+	int MOVEMENT_LIMIT = 100000;
 	// X movement
 	int MOVEMENT = (int) (0.00004f * STANDARD_WORLD_SIZE);
 

@@ -5,10 +5,13 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.BitmapResizer;
 
 public class AnimationImpl implements Animation {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(AnimationImpl.class);
 	protected final List<Bitmap> originalPictures;
 	private final int timeBetweenPictures;
 	protected List<Bitmap> scaledPictures;
@@ -30,6 +33,8 @@ public class AnimationImpl implements Animation {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - this.lastTimeSwitched >= this.timeBetweenPictures) {
 			increaseIndex();
+			LOGGER.info("next info %d - %d - %d - %d", currentTime, this.lastTimeSwitched, this.timeBetweenPictures, currentTime
+					- this.lastTimeSwitched);
 			this.lastTimeSwitched = currentTime;
 		}
 

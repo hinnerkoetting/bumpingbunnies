@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.res.Resources;
@@ -14,17 +14,61 @@ public class PlayerDrawerFactory {
 	public static PlayerDrawer create(Player player, Resources resources) {
 
 		AnimationWithMirror animation = AnimationWithMirrorFactory.create(
-				createListOfTestBitmap(resources, player), 2000);
-		return new PlayerDrawer(player, animation);
+				createRunningAnimation(resources, player), 100);
+		AnimationWithMirror fallingAnimation = AnimationWithMirrorFactory.create(
+				createFallingAnimation(resources, player), 100);
+		AnimationWithMirror jumpingAnimation = AnimationWithMirrorFactory.create(
+				createJumpingAnimation(resources, player), 100);
+		AnimationWithMirror sittingAnimation = AnimationWithMirrorFactory.create(
+				createSittingAnimation(resources, player), 100);
+		return new PlayerDrawer(player, animation, fallingAnimation, jumpingAnimation, sittingAnimation);
 	}
 
-	private static List<Bitmap> createListOfTestBitmap(Resources resources, Player player) {
-
-		Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6g);
-		Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
-				bitmap, player.getColor());
-		return Arrays.asList(convertedColor);
+	private static List<Bitmap> createRunningAnimation(Resources resources, Player player) {
+		return loadColoredImages(resources, player, R.drawable.v1d_run_1, R.drawable.v1d_run_2, R.drawable.v1d_run_3, R.drawable.v1d_run_4);
 	}
+
+	private static List<Bitmap> createFallingAnimation(Resources resources, Player player) {
+		return loadColoredImages(resources, player, R.drawable.v1d_down_1, R.drawable.v1d_down_2, R.drawable.v1d_down_3,
+				R.drawable.v1d_down_4);
+	}
+
+	private static List<Bitmap> createJumpingAnimation(Resources resources, Player player) {
+		return loadColoredImages(resources, player, R.drawable.v1d_up_1, R.drawable.v1d_up_2, R.drawable.v1d_up_3,
+				R.drawable.v1d_up_4);
+	}
+
+	private static List<Bitmap> createSittingAnimation(Resources resources, Player player) {
+		return loadColoredImages(resources, player, R.drawable.v1d_sit_1, R.drawable.v1d_sit_2, R.drawable.v1d_sit_3,
+				R.drawable.v1d_sit_4);
+	}
+
+	private static List<Bitmap> loadColoredImages(Resources resources, Player player, int... ids) {
+		List<Bitmap> originalBitmaps = new ArrayList<Bitmap>(ids.length);
+		for (int id : ids) {
+			originalBitmaps.add(loadBitmap(resources, id));
+		}
+		return colorImages(originalBitmaps, player);
+	}
+
+	private static List<Bitmap> colorImages(List<Bitmap> originalBitmaps, Player player) {
+		List<Bitmap> coloredBitmaps = new ArrayList<Bitmap>(originalBitmaps.size());
+		for (Bitmap bitmap : originalBitmaps) {
+			Bitmap coloredBitmap = GrayScaleToColorConverter.convertToColor(
+					bitmap, player.getColor());
+			coloredBitmaps.add(coloredBitmap);
+		}
+		return coloredBitmaps;
+	}
+
+	// private static List<Bitmap> createListOfTestBitmap(Resources resources,
+	// Player player) {
+	//
+	// Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6g);
+	// Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
+	// bitmap, player.getColor());
+	// return Arrays.asList(convertedColor);
+	// }
 
 	// private static List<Bitmap> createListOfAllBitmaps(Resources resources) {
 	// return Arrays.asList(

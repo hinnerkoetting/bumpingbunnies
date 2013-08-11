@@ -56,7 +56,12 @@ public class Water implements GameObjectWithImage {
 	public void handleCollisionWithPlayer(Player player,
 			CollisionDetection collisionDetection) {
 		player.setExactMovementY((int) (player.movementY() * 0.99));
-		player.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WATER);
+		if (Math.abs(player.calculateNewMovementSpeedY()) <= ModelConstants.PLAYER_GRAVITY_WATER) {
+			player.setAccelerationY(0);
+			player.setExactMovementY(0);
+		} else {
+			player.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WATER);
+		}
 	}
 
 	@Override

@@ -45,6 +45,7 @@ public abstract class AbstractControlledMovement implements InputService {
 	}
 
 	protected void executeRememberedMovement() {
+		// TODO can be removed?
 		if (this.moveDown) {
 			this.playerMovement.tryMoveDown();
 		} else if (this.moveUp) {

@@ -132,11 +132,15 @@ public class Player implements GameObject {
 	}
 
 	public void calculateNextSpeed() {
-		this.state.setMovementY(this.state.getMovementY()
-				+ this.state.getAccelerationY());
+		this.state.setMovementY(calculateNewMovementSpeedY());
 
 		int newMovementSpeedX = calculateNewMovementSpeedX();
 		this.state.setMovementX(newMovementSpeedX);
+	}
+
+	public int calculateNewMovementSpeedY() {
+		return this.state.getMovementY()
+				+ this.state.getAccelerationY();
 	}
 
 	private int calculateNewMovementSpeedX() {
