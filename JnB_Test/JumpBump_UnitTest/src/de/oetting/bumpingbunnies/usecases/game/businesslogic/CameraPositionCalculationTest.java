@@ -60,8 +60,6 @@ public class CameraPositionCalculationTest {
 		assertEquals(-SCROLLING_WHILE_PLAYER_IS_DEAD, this.player.getCurrentScreenY());
 	}
 
-	// public void smoothUpdate_given
-
 	public void smoothUpdate() {
 		this.fixture.smoothlyUpdateScreenPosition(1);
 	}

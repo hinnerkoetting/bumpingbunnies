@@ -7,6 +7,10 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 
 public class Player implements GameObject {
 
+	enum HorizontalMovementStatus {
+		MOVING_LEFT, MOVING_RIGHT, NOT_MOVING_HORIZONTAL
+	}
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
 	private final int speedFaktor;
 	private final CollisionHandling collisionHandling;
@@ -23,8 +27,7 @@ public class Player implements GameObject {
 	// cooordinates which are centered in screen
 	private long currentScreenX;
 	private long currentScreenY;
-	private boolean notMoving;
-	private boolean movingLeft;
+	private HorizontalMovementStatus horizontalMovementStatus;
 
 	public Player(int id, String name, int speedFaktor) {
 		this.name = name;
@@ -36,6 +39,7 @@ public class Player implements GameObject {
 		this.halfHeight = ModelConstants.PLAYER_HEIGHT / 2;
 		this.halfWidth = ModelConstants.PLAYER_WIDTH / 2;
 		this.collisionHandling = new CollisionHandling();
+		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
 	}
 
 	public Player(Player simulatedObject, int id, String name, int speedFaktor) {
@@ -311,25 +315,25 @@ public class Player implements GameObject {
 	}
 
 	public boolean isTryingToRemoveHorizontalMovement() {
-		return this.notMoving;
+		return HorizontalMovementStatus.NOT_MOVING_HORIZONTAL.equals(this.horizontalMovementStatus);
 	}
 
-	public void setTryingToRemoveHorizontalMovement(boolean newValue) {
-		this.notMoving = newValue;
+	public void setNotMoving() {
+		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
 	}
 
 	public void setMovingRight() {
-		this.movingLeft = false;
+		this.horizontalMovementStatus = HorizontalMovementStatus.MOVING_RIGHT;
 		this.state.setFacingLeft(false);
 	}
 
 	public void setMovingLeft() {
-		this.movingLeft = true;
+		this.horizontalMovementStatus = HorizontalMovementStatus.MOVING_LEFT;
 		this.state.setFacingLeft(true);
 	}
 
 	public boolean isMovingLeft() {
-		return this.movingLeft;
+		return HorizontalMovementStatus.MOVING_LEFT.equals(this.horizontalMovementStatus);
 	}
 
 }

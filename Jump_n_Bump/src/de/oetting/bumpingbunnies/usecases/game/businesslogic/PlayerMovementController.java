@@ -17,12 +17,10 @@ public class PlayerMovementController {
 	}
 
 	public void tryMoveRight() {
-		this.movedPlayer.setTryingToRemoveHorizontalMovement(false);
 		this.movedPlayer.setMovingRight();
 	}
 
 	public void tryMoveLeft() {
-		this.movedPlayer.setTryingToRemoveHorizontalMovement(false);
 		this.movedPlayer.setMovingLeft();
 	}
 
@@ -39,7 +37,7 @@ public class PlayerMovementController {
 	}
 
 	public void removeHorizontalMovement() {
-		this.movedPlayer.setTryingToRemoveHorizontalMovement(true);
+		this.movedPlayer.setNotMoving();
 	}
 
 	public void tryMoveUp() {
