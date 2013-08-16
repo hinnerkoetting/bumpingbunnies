@@ -15,6 +15,7 @@ public class AnimationImpl implements Animation {
 	private long lastTimeSwitched;
 	private int currentIndex;
 	private BitmapResizer resizer;
+	private boolean movingIndexUp = true;
 
 	public AnimationImpl(List<Bitmap> pictures, int timeBetweenPictures,
 			BitmapResizer bitmapResizer) {
@@ -29,7 +30,7 @@ public class AnimationImpl implements Animation {
 	public void draw(CanvasDelegate canvas, long left, long top, Paint paint) {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - this.lastTimeSwitched >= this.timeBetweenPictures) {
-			increaseIndex();
+			changeIndex();
 			this.lastTimeSwitched = currentTime;
 		}
 
@@ -42,9 +43,14 @@ public class AnimationImpl implements Animation {
 				paint);
 	}
 
-	public void increaseIndex() {
-		this.currentIndex += 1;
-		this.currentIndex = this.currentIndex % this.originalPictures.size();
+	public void changeIndex() {
+		if (this.movingIndexUp && this.currentIndex == this.originalPictures.size() - 1) {
+			this.movingIndexUp = false;
+		}
+		if (!this.movingIndexUp && this.currentIndex == 0) {
+			this.movingIndexUp = true;
+		}
+		this.currentIndex += this.movingIndexUp ? 1 : -1;
 	}
 
 	@Override
