@@ -92,10 +92,10 @@ public class CollisionDetection {
 	}
 
 	public boolean collides(GameObject gameObject, GameObject other) {
-		return (!(gameObject.maxX() <= other.minX()
-				|| gameObject.minX() >= other.maxX()
-				|| gameObject.maxY() <= other.minY() || gameObject.minY() >= other
-				.maxY()));
+		boolean collidesX = gameObject.maxX() > other.minX() && gameObject.minX() < other.maxX(); // not equal
+		boolean collidesY = gameObject.maxY() >= other.minY() && gameObject.minY() <= other.maxY(); //bigger and less or equal
+		//we require unquality for x because this would not be desirable if x and y are touching at the same time
+		return collidesX && collidesY;
 	}
 
 	public boolean isExactlyOverObject(GameObject gameObject, GameObject other) {

@@ -76,11 +76,11 @@ public class CollisionDetectionTest {
 	}
 
 	@Test
-	public void collides_givenTouchingObjectsHorizontal_shouldreturnTrue() {
+	public void collides_givenTouchingObjectsHorizontal_shouldreturnFalse() {
 		GameObject square1 = createObject(0, 0, 1, 1);
 
 		GameObject square2 = createObject(1, 0, 2, 2);
-		assertTrue(this.detection.collides(square1, square2));
+		assertFalse(this.detection.collides(square1, square2));
 	}
 
 	@Test
@@ -92,11 +92,11 @@ public class CollisionDetectionTest {
 	}
 
 	@Test
-	public void collides_givenTouchingObjectsVerticalAndHorizontal_shouldreturnTrue() {
+	public void collides_givenTouchingObjectsVerticalAndHorizontal_shouldreturnFalse() {
 		GameObject square1 = createObject(0, 0, 1, 1);
 
 		GameObject square2 = createObject(1, 1, 2, 2);
-		assertTrue(this.detection.collides(square1, square2));
+		assertFalse(this.detection.collides(square1, square2));
 	}
 
 	@Test

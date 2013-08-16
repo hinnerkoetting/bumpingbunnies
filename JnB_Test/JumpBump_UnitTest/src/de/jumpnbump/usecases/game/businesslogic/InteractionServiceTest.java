@@ -17,6 +17,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.InteractionService;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
 public class InteractionServiceTest {
 
@@ -25,8 +26,7 @@ public class InteractionServiceTest {
 	private CollisionDetection collisionDetection;
 	@Mock
 	private ObjectProvider objectProvider;
-	@Mock
-	private GameObject otherGameObject;
+	// private Wall otherGameObject;
 	private PlayerFactory playerFactory = new PlayerFactory(1);
 
 	@Test
@@ -135,18 +135,19 @@ public class InteractionServiceTest {
 	}
 
 	private void givenPlayerStandsOnWall(Player player) {
+		Wall otherGameObject = new Wall(-1, player.minX(), player.minY() - 1, player.maxX(), player.minY());
 		when(
 				this.collisionDetection.collides(any(GameObject.class),
 						any(GameObject.class))).thenReturn(true);
-		when(this.otherGameObject.maxY()).thenReturn(player.minY());
-		when(this.otherGameObject.minY()).thenReturn(player.minY() - 1);
 		when(
 				this.collisionDetection.isOverOrUnderObject(
 						any(GameObject.class), any(GameObject.class)))
 				.thenReturn(true);
+		givenObjectExists(otherGameObject);
 	}
 
 	private void givenCollidingWallAt(long x, long y) {
+		Wall otherGameObject = new Wall(-1, x, y, x, y);
 		when(
 				this.collisionDetection.collides(any(GameObject.class),
 						any(GameObject.class))).thenReturn(true);
@@ -158,10 +159,7 @@ public class InteractionServiceTest {
 				this.collisionDetection.isOverOrUnderObject(
 						any(GameObject.class), any(GameObject.class)))
 				.thenReturn(true);
-		when(this.otherGameObject.maxX()).thenReturn(x);
-		when(this.otherGameObject.minX()).thenReturn(x);
-		when(this.otherGameObject.minY()).thenReturn(y);
-		when(this.otherGameObject.maxY()).thenReturn(y);
+		givenObjectExists(otherGameObject);
 	}
 
 	private Player givenPlayerAt00WithYMovement(int movementY) {
@@ -181,6 +179,7 @@ public class InteractionServiceTest {
 	}
 
 	private void givenPlayerStandsDirectlyBeforeWall(Player player) {
+		Wall otherGameObject = new Wall(-1, player.maxX(), player.minY(), player.maxX(), player.maxY());
 		when(
 				this.collisionDetection.collides(any(GameObject.class),
 						any(GameObject.class))).thenReturn(true);
@@ -192,10 +191,7 @@ public class InteractionServiceTest {
 				this.collisionDetection.isOverOrUnderObject(
 						any(GameObject.class), any(GameObject.class)))
 				.thenReturn(true);
-		when(this.otherGameObject.maxX()).thenReturn(player.minX());
-		when(this.otherGameObject.minX()).thenReturn(player.maxX());
-		when(this.otherGameObject.maxY()).thenReturn(player.minY());
-		when(this.otherGameObject.minY()).thenReturn(player.maxY());
+		givenObjectExists(otherGameObject);
 	}
 
 	@Before
@@ -203,11 +199,10 @@ public class InteractionServiceTest {
 		MockitoAnnotations.initMocks(this);
 		this.interactionService = new InteractionService(
 				this.collisionDetection);
-		initObjectProviderwithOneObject();
 	}
 
-	private void initObjectProviderwithOneObject() {
+	private void givenObjectExists(Wall gameObject) {
 		when(this.objectProvider.getAllObjects()).thenReturn(
-				Arrays.asList(this.otherGameObject));
+				Arrays.asList((GameObject) gameObject));
 	}
 }

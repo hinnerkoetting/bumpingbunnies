@@ -18,10 +18,10 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 		this.rect = new Rect(minX, maxX, minY, maxY);
 		this.color = color;
 		this.collisionHandling = new CollisionHandling();
-		if (minX >= maxX) {
+		if (minX > maxX) {
 			throw new IllegalArgumentException("minX must be smaller than maxX");
 		}
-		if (minY >= maxY) {
+		if (minY > maxY) {
 			throw new IllegalArgumentException("minY must be smaller than maxY");
 		}
 	}
