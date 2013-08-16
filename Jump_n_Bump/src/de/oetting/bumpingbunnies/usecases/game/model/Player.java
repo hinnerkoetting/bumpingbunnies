@@ -336,4 +336,15 @@ public class Player implements GameObject {
 		return HorizontalMovementStatus.MOVING_LEFT.equals(this.horizontalMovementStatus);
 	}
 
+	@Override
+	public String toString() {
+		return "Player [speedFaktor=" + this.speedFaktor + ", collisionHandling=" + this.collisionHandling + ", halfWidth="
+				+ this.halfWidth
+				+ ", halfHeight=" + this.halfHeight + ", id=" + this.id + ", name=" + this.name + ", state=" + this.state
+				+ ", simulatedObject="
+				+ this.simulatedObject + ", rect=" + this.rect + ", currentScreenX=" + this.currentScreenX + ", currentScreenY="
+				+ this.currentScreenY
+				+ ", horizontalMovementStatus=" + this.horizontalMovementStatus + "]";
+	}
+
 }

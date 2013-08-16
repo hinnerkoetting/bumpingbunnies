@@ -129,4 +129,11 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		other.isDead = this.isDead;
 	}
 
+	@Override
+	public String toString() {
+		return "PlayerState [movementState=" + this.movementState + ", score=" + this.score + ", color=" + this.color + ", id=" + this.id
+				+ ", facingLeft="
+				+ this.facingLeft + ", jumpingButtonPressed=" + this.jumpingButtonPressed + ", isDead=" + this.isDead + "]";
+	}
+
 }

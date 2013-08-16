@@ -15,8 +15,8 @@ public class AnimationWithMirrorFactory {
 
 			@Override
 			public boolean shouldBeExecuted() {
-				return (Math.abs(player.movementX()) > ModelConstants.MOVEMENT_LIMIT)
-						&& Math.abs(player.movementY()) < ModelConstants.MOVEMENT_LIMIT;
+				return (Math.abs(player.movementX()) >= ModelConstants.MOVEMENT_LIMIT)
+						&& Math.abs(player.movementY()) <= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
@@ -28,7 +28,7 @@ public class AnimationWithMirrorFactory {
 
 			@Override
 			public boolean shouldBeExecuted() {
-				return player.movementY() < -ModelConstants.MOVEMENT_LIMIT;
+				return player.movementY() <= -ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
@@ -40,7 +40,7 @@ public class AnimationWithMirrorFactory {
 
 			@Override
 			public boolean shouldBeExecuted() {
-				return player.movementY() > ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementX()) > ModelConstants.MOVEMENT_LIMIT;
+				return player.movementY() >= ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementX()) >= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
@@ -52,8 +52,8 @@ public class AnimationWithMirrorFactory {
 
 			@Override
 			public boolean shouldBeExecuted() {
-				return Math.abs(player.movementX()) < ModelConstants.MOVEMENT_LIMIT
-						&& Math.abs(player.movementY()) < ModelConstants.MOVEMENT_LIMIT;
+				return Math.abs(player.movementX()) <= ModelConstants.MOVEMENT_LIMIT
+						&& Math.abs(player.movementY()) <= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
@@ -65,8 +65,8 @@ public class AnimationWithMirrorFactory {
 
 			@Override
 			public boolean shouldBeExecuted() {
-				return Math.abs(player.movementX()) < ModelConstants.MOVEMENT_LIMIT
-						&& player.movementY() > ModelConstants.MOVEMENT_LIMIT;
+				return Math.abs(player.movementX()) <= ModelConstants.MOVEMENT_LIMIT
+						&& player.movementY() >= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
