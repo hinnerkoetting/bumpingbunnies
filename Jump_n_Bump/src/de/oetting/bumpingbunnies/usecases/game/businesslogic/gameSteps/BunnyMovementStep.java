@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 import java.util.Collections;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementCalculation;
 
 /**
  * Takes care that all bunnies are moved during each step of the game.
@@ -11,10 +11,10 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementContr
  */
 public class BunnyMovementStep implements GameStepAction {
 
-	private final List<PlayerMovementController> playermovements;
+	private final List<PlayerMovementCalculation> playermovements;
 	private final BunnyKillChecker killChecker;
 
-	public BunnyMovementStep(List<PlayerMovementController> playermovements,
+	public BunnyMovementStep(List<PlayerMovementCalculation> playermovements,
 			BunnyKillChecker killChecker) {
 		super();
 		this.killChecker = killChecker;
@@ -23,7 +23,7 @@ public class BunnyMovementStep implements GameStepAction {
 
 	@Override
 	public void executeNextStep(long deltaStepsSinceLastCall) {
-		for (PlayerMovementController movement : this.playermovements) {
+		for (PlayerMovementCalculation movement : this.playermovements) {
 			movement.nextStep(deltaStepsSinceLastCall);
 			checkForJumpedPlayers();
 		}

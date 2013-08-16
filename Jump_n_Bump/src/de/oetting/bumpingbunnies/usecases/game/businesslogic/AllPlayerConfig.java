@@ -21,6 +21,7 @@ public class AllPlayerConfig {
 	private final List<PlayerConfig> notControlledPlayers;
 	private final GameView gameView;
 	private final CoordinatesCalculation coordinateCalculations;
+	private World world;
 
 	public AllPlayerConfig(PlayerMovementController tabletControlledPlayer,
 			List<PlayerConfig> notControlledPlayers, GameView gameView,
@@ -28,6 +29,7 @@ public class AllPlayerConfig {
 		this.tabletControlledPlayer = tabletControlledPlayer;
 		this.notControlledPlayers = notControlledPlayers;
 		this.gameView = gameView;
+		this.world = world;
 		this.coordinateCalculations = coordinateCalculations;
 	}
 
@@ -39,6 +41,34 @@ public class AllPlayerConfig {
 			list.add(config.getMovementController());
 		}
 		return list;
+	}
+
+	public List<PlayerMovementCalculation> getAllPlayerMovementCalculations() {
+		List<PlayerMovementCalculation> list = new ArrayList<PlayerMovementCalculation>(
+				this.notControlledPlayers.size() + 1);
+		CollisionDetection colDetection = new CollisionDetection(this.world);
+		Player p = this.tabletControlledPlayer.getPlayer();
+		PlayerMovementCalculation playerMovementCalculation = createMovementCalculation(colDetection, p);
+		list.add(playerMovementCalculation);
+		for (PlayerConfig config : this.notControlledPlayers) {
+			list.add(createMovementCalculation(colDetection, config.getMovementController().getPlayer()));
+		}
+		return list;
+	}
+
+	public List<Player> getAllPlayers() {
+		List<Player> allPlayers = new ArrayList<Player>();
+		allPlayers.add(this.tabletControlledPlayer.getPlayer());
+		for (PlayerConfig config : this.notControlledPlayers) {
+			allPlayers.add(config.getMovementController().getPlayer());
+		}
+		return allPlayers;
+	}
+
+	public PlayerMovementCalculation createMovementCalculation(CollisionDetection colDetection, Player p) {
+		PlayerMovementCalculation playerMovementCalculation = new PlayerMovementCalculation(p, new InteractionService(colDetection,
+				this.world), p.getState(), colDetection);
+		return playerMovementCalculation;
 	}
 
 	public List<InputService> createOtherInputService(

@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -10,7 +9,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
@@ -47,9 +46,9 @@ public class GameThreadFactory {
 				world.getSpawnPoints());
 		assignInitialSpawnpoints(spawnPointGenerator, world.getAllPlayer(), sendThreads);
 		UserInputStep userInputStep = new UserInputStep(movementServices);
-		List<PlayerMovementController> playermovements = playerConfig.getAllPlayerMovementControllers();
+		List<PlayerMovementCalculation> playermovements = playerConfig.getAllPlayerMovementCalculations();
 		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
-		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world, extractPlayers(playermovements),
+		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world, playerConfig.getAllPlayers(),
 				spawnPointGenerator, reviver);
 		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, killChecker);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
@@ -95,11 +94,4 @@ public class GameThreadFactory {
 		}
 	}
 
-	private static List<Player> extractPlayers(List<PlayerMovementController> movement) {
-		List<Player> players = new ArrayList<Player>(movement.size());
-		for (PlayerMovementController m : movement) {
-			players.add(m.getPlayer());
-		}
-		return players;
-	}
 }
