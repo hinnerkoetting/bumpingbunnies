@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class CameraPositionCalculation {
 
-	private static final long SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.STANDARD_WORLD_SIZE / 200;
+	protected static final int SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.STANDARD_WORLD_SIZE / 200;
 	private final Player movedPlayer;
 
 	private int currentScreenX;
@@ -39,18 +39,23 @@ public class CameraPositionCalculation {
 	/**
 	 * we want to smoothly move to the players position if he is dead. This will avoid fast jumps because of next spawnpoint.
 	 */
-	private void smoothlyUpdateScreenPosition(long delta) {
-		long diffBetweenPlayerAndScreenX = +this.movedPlayer.getCenterX() - this.movedPlayer.getCurrentScreenX();
-		long diffBetweenPlayerAndScreenY = +this.movedPlayer.getCenterY() - this.movedPlayer.getCurrentScreenY();
-		long maxScrollValueX = SCROLLING_WHILE_PLAYER_IS_DEAD * delta
-				* (long) Math.signum(diffBetweenPlayerAndScreenX);
-		long maxScrollValueY = SCROLLING_WHILE_PLAYER_IS_DEAD * delta
-				* (long) Math.signum(diffBetweenPlayerAndScreenY);
-		long xScrollValue = Math.abs(diffBetweenPlayerAndScreenX) > Math.abs(maxScrollValueX) ? maxScrollValueX
-				: diffBetweenPlayerAndScreenX;
-		long yScrollValue = Math.abs(diffBetweenPlayerAndScreenY) > Math.abs(maxScrollValueY) ? maxScrollValueY
-				: diffBetweenPlayerAndScreenY;
-		this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCurrentScreenX() + xScrollValue);
-		this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCurrentScreenY() + yScrollValue);
+	protected void smoothlyUpdateScreenPosition(int delta) {
+		int diffBetweenPlayerAndScreenX = (int) (-
+				this.movedPlayer.getCurrentScreenX() + this.movedPlayer.getCenterX());
+		int diffBetweenPlayerAndScreenY = (int) (this.movedPlayer.getCenterY() - this.movedPlayer.getCurrentScreenY());
+		int maxScrollValueX = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta
+				* Math.signum(diffBetweenPlayerAndScreenX));
+		int maxScrollValueY = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta
+				* Math.signum(diffBetweenPlayerAndScreenY));
+		if (Math.abs(diffBetweenPlayerAndScreenX) <= Math.abs(maxScrollValueX)) {
+			this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCenterX());
+		} else {
+			this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCurrentScreenX() - maxScrollValueX);
+		}
+		if (Math.abs(diffBetweenPlayerAndScreenY) <= Math.abs(maxScrollValueY)) {
+			this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCenterY());
+		} else {
+			this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCurrentScreenY() - maxScrollValueY);
+		}
 	}
 }

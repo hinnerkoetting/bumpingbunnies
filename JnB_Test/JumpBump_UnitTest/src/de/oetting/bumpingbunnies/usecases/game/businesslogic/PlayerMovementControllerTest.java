@@ -1,8 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -34,11 +32,11 @@ public class PlayerMovementControllerTest {
 	}
 
 	@Test
-	public void moveRight_givenPlayerIsStandingOnGround_thenGetsHorizontalAcceleration() {
+	public void moveRight_givenPlayerIsStandingOnGround_thenIsMovingRight() {
 		GameObject go = createGameObjectWithGrip(1);
 		givenPlayerIsStandingOnGround(go);
 		whenMovingRight();
-		assertThat(this.movedPlayer.getAccelerationX(), equalTo(1));
+		assertFalse(this.movedPlayer.isMovingLeft());
 	}
 
 	@Test
@@ -48,11 +46,11 @@ public class PlayerMovementControllerTest {
 	}
 
 	@Test
-	public void moveLeft_givenPlayerIsStandingOnGround_thenGetHorizontalAcceleration() {
+	public void moveLeft_givenPlayerIsStandingOnGround_thenIsMovingLeft() {
 		GameObject go = createGameObjectWithGrip(1);
 		givenPlayerIsStandingOnGround(go);
 		whenMovingLeft();
-		assertThat(this.movedPlayer.getAccelerationX(), equalTo(-1));
+		assertTrue(this.movedPlayer.isMovingLeft());
 	}
 
 	@Test

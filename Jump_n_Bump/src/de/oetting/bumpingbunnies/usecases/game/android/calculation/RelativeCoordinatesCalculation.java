@@ -37,17 +37,17 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 	}
 
 	@Override
-	public float getScreenCoordinateX(long gameX) {
-		float res = this.width
+	public int getScreenCoordinateX(long gameX) {
+		int res = (int) (this.width
 				/ 2
-				+ (float) ((gameX - getCurrentCenterX()) / this.zoom);
+				+ (gameX - getCurrentCenterX()) / this.zoom);
 		return res;
 	}
 
 	@Override
-	public float getScreenCoordinateY(long gameY) {
-		float res = this.height / 2
-				- (((+gameY - getCurrentCenterY())) / this.zoom);
+	public int getScreenCoordinateY(long gameY) {
+		int res = (int) (this.height / 2
+				- (((+gameY - getCurrentCenterY())) / this.zoom));
 		return res;
 	}
 

@@ -23,9 +23,8 @@ public class Player implements GameObject {
 	// cooordinates which are centered in screen
 	private long currentScreenX;
 	private long currentScreenY;
-	private boolean tryingToRemoveHorizontalMovement;
+	private boolean notMoving;
 	private boolean movingLeft;
-	private boolean movingRight;
 
 	public Player(int id, String name, int speedFaktor) {
 		this.name = name;
@@ -312,22 +311,20 @@ public class Player implements GameObject {
 	}
 
 	public boolean isTryingToRemoveHorizontalMovement() {
-		return this.tryingToRemoveHorizontalMovement;
+		return this.notMoving;
 	}
 
 	public void setTryingToRemoveHorizontalMovement(boolean newValue) {
-		this.tryingToRemoveHorizontalMovement = newValue;
+		this.notMoving = newValue;
 	}
 
 	public void setMovingRight() {
 		this.movingLeft = false;
-		this.movingRight = true;
 		this.state.setFacingLeft(false);
 	}
 
 	public void setMovingLeft() {
 		this.movingLeft = true;
-		this.movingRight = false;
 		this.state.setFacingLeft(true);
 	}
 

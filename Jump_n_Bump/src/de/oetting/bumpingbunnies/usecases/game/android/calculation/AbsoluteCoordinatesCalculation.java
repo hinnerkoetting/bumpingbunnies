@@ -27,13 +27,13 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 	}
 
 	@Override
-	public float getScreenCoordinateX(long gameX) {
-		return (gameX * this.width) / this.properties.getWorldWidth();
+	public int getScreenCoordinateX(long gameX) {
+		return (int) ((gameX * this.width) / this.properties.getWorldWidth());
 	}
 
 	@Override
-	public float getScreenCoordinateY(long gameY) {
-		return ((this.properties.getWorldHeight() - gameY) * this.height) / this.properties.getWorldHeight();
+	public int getScreenCoordinateY(long gameY) {
+		return (int) (((this.properties.getWorldHeight() - gameY) * this.height) / this.properties.getWorldHeight());
 	}
 
 	@Override

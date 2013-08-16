@@ -1,14 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import android.graphics.Paint;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerDrawer implements Drawable {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDrawer.class);
 	private static final int ALPHA_WHILE_ALIVE = 255;
 	private static final int ALPHA_WHILE_DEAD = 64;
 	private final Player player;
