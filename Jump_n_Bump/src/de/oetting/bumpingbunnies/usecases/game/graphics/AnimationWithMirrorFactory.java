@@ -40,7 +40,7 @@ public class AnimationWithMirrorFactory {
 
 			@Override
 			public boolean shouldBeExecuted() {
-				return player.movementY() > ModelConstants.MOVEMENT_LIMIT;
+				return player.movementY() > ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementX()) > ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
@@ -54,6 +54,19 @@ public class AnimationWithMirrorFactory {
 			public boolean shouldBeExecuted() {
 				return Math.abs(player.movementX()) < ModelConstants.MOVEMENT_LIMIT
 						&& Math.abs(player.movementY()) < ModelConstants.MOVEMENT_LIMIT;
+			}
+		};
+	}
+
+	public static ConditionalMirroredAnimation createJumpingOnlyUpAnimation(final Player player, final List<Bitmap> pictures,
+			final int timeBetweenPictures) {
+		MirroredAnimation animationImpl = create(pictures, timeBetweenPictures);
+		return new ConditionalMirroredAnimation(animationImpl) {
+
+			@Override
+			public boolean shouldBeExecuted() {
+				return Math.abs(player.movementX()) < ModelConstants.MOVEMENT_LIMIT
+						&& player.movementY() > ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}

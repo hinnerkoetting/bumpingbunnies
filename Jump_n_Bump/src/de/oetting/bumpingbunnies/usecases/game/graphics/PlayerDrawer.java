@@ -10,19 +10,11 @@ public class PlayerDrawer implements Drawable {
 	private static final int ALPHA_WHILE_ALIVE = 255;
 	private static final int ALPHA_WHILE_DEAD = 64;
 	private final Player player;
-	// private final AnimationWithMirror runningAnimation;
 	private final Paint paint;
-	// private AnimationWithMirror fallingAnimation;
-	// private AnimationWithMirror jumpingAnimation;
-	// private AnimationWithMirror sittingAnimation;
 	private List<ConditionalMirroredAnimation> animations;
 
 	public PlayerDrawer(Player player, List<ConditionalMirroredAnimation> animations) {
 		this.player = player;
-		// this.runningAnimation = runningAnimation;
-		// this.fallingAnimation = fallingAnimation;
-		// this.jumpingAnimation = jumpingAnimation;
-		// this.sittingAnimation = sittingAnimation;
 		this.animations = animations;
 		this.paint = new Paint();
 		this.paint.setColor(this.player.getColor());
@@ -48,9 +40,6 @@ public class PlayerDrawer implements Drawable {
 			}
 		}
 		throw new IllegalStateException("cannot find animation");
-		// animation.drawMirrored(this.player.isFacingLeft());
-		// animation.draw(canvas, this.player.minX(),
-		// this.player.maxY(), this.paint);
 	}
 
 	@Override
@@ -59,10 +48,6 @@ public class PlayerDrawer implements Drawable {
 				.transformX(this.player.minX()));
 		int height = (int) (canvas.transformX(this.player.maxY()) - canvas
 				.transformX(this.player.minY()));
-		// this.runningAnimation.updateGraphics(canvas, width, height);
-		// this.fallingAnimation.updateGraphics(canvas, width, height);
-		// this.jumpingAnimation.updateGraphics(canvas, width, height);
-		// this.sittingAnimation.updateGraphics(canvas, width, height);
 		for (ConditionalAnimation ani : this.animations) {
 			ani.updateGraphics(canvas, width, height);
 		}

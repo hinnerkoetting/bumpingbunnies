@@ -22,8 +22,10 @@ public class PlayerDrawerFactory {
 				createJumpingAnimation(resources, player), 100);
 		ConditionalMirroredAnimation sittingAnimation = AnimationWithMirrorFactory.createSittingAnimation(player,
 				createSittingAnimation(resources, player), 100);
+		ConditionalMirroredAnimation jumpingOnlyUpAnimation = AnimationWithMirrorFactory.createJumpingOnlyUpAnimation(player,
+				createJumpingOnlyUpAnimation(resources, player), 100);
 		List<ConditionalMirroredAnimation> animations = Arrays.asList(runningAnimation, fallingAnimation, jumpingAnimation,
-				sittingAnimation);
+				sittingAnimation, jumpingOnlyUpAnimation);
 		return new PlayerDrawer(player, animations);
 	}
 
@@ -46,6 +48,10 @@ public class PlayerDrawerFactory {
 				R.drawable.v1d_sit_4);
 	}
 
+	private static List<Bitmap> createJumpingOnlyUpAnimation(Resources resources, Player player) {
+		return loadColoredImages(resources, player, R.drawable.v1d_run_1);
+	}
+
 	private static List<Bitmap> loadColoredImages(Resources resources, Player player, int... ids) {
 		List<Bitmap> originalBitmaps = new ArrayList<Bitmap>(ids.length);
 		for (int id : ids) {
@@ -63,31 +69,6 @@ public class PlayerDrawerFactory {
 		}
 		return coloredBitmaps;
 	}
-
-	// private static List<Bitmap> createListOfTestBitmap(Resources resources,
-	// Player player) {
-	//
-	// Bitmap bitmap = loadBitmap(resources, R.drawable.bunny_v6g);
-	// Bitmap convertedColor = GrayScaleToColorConverter.convertToColor(
-	// bitmap, player.getColor());
-	// return Arrays.asList(convertedColor);
-	// }
-
-	// private static List<Bitmap> createListOfAllBitmaps(Resources resources) {
-	// return Arrays.asList(
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000001),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000002),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000003),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000004),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000005),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000006),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000007),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000008),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000009),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000010),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000011),
-	// loadBitmap(resources, R.drawable.v4_pink_4steps_000012));
-	// }
 
 	private static Bitmap loadBitmap(Resources resources, int id) {
 		return BitmapFactory.decodeResource(resources, id);

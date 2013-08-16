@@ -44,13 +44,17 @@ public class AnimationImpl implements Animation {
 	}
 
 	public void changeIndex() {
-		if (this.movingIndexUp && this.currentIndex == this.originalPictures.size() - 1) {
-			this.movingIndexUp = false;
+		if (this.originalPictures.size() == 1) {
+			this.currentIndex = 0;
+		} else {
+			if (this.movingIndexUp && this.currentIndex == this.originalPictures.size() - 1) {
+				this.movingIndexUp = false;
+			}
+			if (!this.movingIndexUp && this.currentIndex == 0) {
+				this.movingIndexUp = true;
+			}
+			this.currentIndex += this.movingIndexUp ? 1 : -1;
 		}
-		if (!this.movingIndexUp && this.currentIndex == 0) {
-			this.movingIndexUp = true;
-		}
-		this.currentIndex += this.movingIndexUp ? 1 : -1;
 	}
 
 	@Override
