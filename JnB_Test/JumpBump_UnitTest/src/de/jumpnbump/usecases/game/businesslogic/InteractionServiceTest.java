@@ -179,7 +179,7 @@ public class InteractionServiceTest {
 	}
 
 	private void whenPlayerInteractsWithWorld(Player player) {
-		this.interactionService.interactWith(player, this.objectProvider);
+		this.interactionService.interactWith(player);
 	}
 
 	private void givenPlayerStandsDirectlyUnderWall(Player player) {
@@ -207,7 +207,7 @@ public class InteractionServiceTest {
 		MockitoAnnotations.initMocks(this);
 		this.collisionDetection = new CollisionDetection(this.objectProvider);
 		this.interactionService = new InteractionService(
-				this.collisionDetection);
+				this.collisionDetection, this.objectProvider);
 	}
 
 	private void givenObjectExists(Wall gameObject) {

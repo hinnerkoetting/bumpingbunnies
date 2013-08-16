@@ -12,8 +12,8 @@ public class PlayerMovementFactory {
 			World world) {
 		CollisionDetection collisionDetection = new CollisionDetection(world);
 		InteractionService interaction = new InteractionService(
-				collisionDetection);
-		return new PlayerMovementController(movedPlayer, world, interaction,
+				collisionDetection, world);
+		return new PlayerMovementController(movedPlayer, interaction,
 				collisionDetection);
 	}
 }

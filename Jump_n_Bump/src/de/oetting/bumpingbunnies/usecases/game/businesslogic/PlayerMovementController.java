@@ -7,7 +7,6 @@ import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class PlayerMovementController implements ModelConstants {
 
@@ -18,18 +17,16 @@ public class PlayerMovementController implements ModelConstants {
 	private final Player movedPlayer;
 	private final PlayerState movedPlayerState;
 	// private boolean movingUp;
-	private final InteractionService interActionService;
+	private final InteractionService interactionService;
 	private final CollisionDetection collisionDetection;
-	private final World world;
 	boolean tryingToRemoveHorizontalMovement;
 
-	public PlayerMovementController(Player movedPlayer, World world,
+	public PlayerMovementController(Player movedPlayer,
 			InteractionService interActionService,
 			CollisionDetection collisionDetection) {
 		this.movedPlayer = movedPlayer;
 		this.movedPlayerState = movedPlayer.getState();
-		this.world = world;
-		this.interActionService = interActionService;
+		this.interactionService = interActionService;
 		this.collisionDetection = collisionDetection;
 	}
 
@@ -43,8 +40,7 @@ public class PlayerMovementController implements ModelConstants {
 	}
 
 	/**
-	 * we want to smoothly move to the players position if he is dead. This will
-	 * avoid fast jumps because of next spawnpoint.
+	 * we want to smoothly move to the players position if he is dead. This will avoid fast jumps because of next spawnpoint.
 	 */
 	private void smoothlyUpdateScreenPosition(long delta) {
 		long diffBetweenPlayerAndScreenX = +this.movedPlayer.getCenterX() - this.movedPlayer.getCurrentScreenX();
@@ -73,7 +69,7 @@ public class PlayerMovementController implements ModelConstants {
 	private void executeOneStep() {
 		computeGravity();
 		conditionalSetJumpMovement();
-		this.interActionService.interactWith(this.movedPlayer, this.world);
+		this.interactionService.interactWith(this.movedPlayer);
 		this.movedPlayer.moveNextStep();
 		this.movedPlayer.calculateNextSpeed();
 	}
