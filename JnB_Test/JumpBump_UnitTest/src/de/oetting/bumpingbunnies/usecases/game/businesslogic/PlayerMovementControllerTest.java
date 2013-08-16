@@ -1,7 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -24,14 +29,60 @@ public class PlayerMovementControllerTest {
 
 	@Test
 	public void moveRight_thenPlayerIsFacingRight() {
-		this.fixture.tryMoveRight();
+		whenMovingRight();
 		assertFalse(this.movedPlayer.isFacingLeft());
 	}
 
 	@Test
+	public void moveRight_givenPlayerIsStandingOnGround_thenGetsHorizontalAcceleration() {
+		GameObject go = createGameObjectWithGrip(1);
+		givenPlayerIsStandingOnGround(go);
+		whenMovingRight();
+		assertThat(this.movedPlayer.getAccelerationX(), equalTo(1));
+	}
+
+	@Test
 	public void moveLeft_thenPlayerIsMovingLeft() {
-		this.fixture.tryMoveLeft();
+		whenMovingLeft();
 		assertTrue(this.movedPlayer.isFacingLeft());
+	}
+
+	@Test
+	public void moveLeft_givenPlayerIsStandingOnGround_thenGetHorizontalAcceleration() {
+		GameObject go = createGameObjectWithGrip(1);
+		givenPlayerIsStandingOnGround(go);
+		whenMovingLeft();
+		assertThat(this.movedPlayer.getAccelerationX(), equalTo(-1));
+	}
+
+	@Test
+	public void moveUp_thenPlayerIsJumping() {
+		this.fixture.tryMoveUp();
+		assertTrue(this.movedPlayer.getState().isJumpingButtonPressed());
+	}
+
+	@Test
+	public void moveDown_thenPlayerIsNotJumping() {
+		this.fixture.tryMoveDown();
+		assertFalse(this.movedPlayer.getState().isJumpingButtonPressed());
+	}
+
+	public void whenMovingRight() {
+		this.fixture.tryMoveRight();
+	}
+
+	public void whenMovingLeft() {
+		this.fixture.tryMoveLeft();
+	}
+
+	private GameObject createGameObjectWithGrip(int grip) {
+		GameObject go = mock(GameObject.class);
+		when(go.accelerationOnThisGround()).thenReturn(grip);
+		return go;
+	}
+
+	private void givenPlayerIsStandingOnGround(GameObject ground) {
+		when(this.collisionDetection.findObjectThisPlayerIsStandingOn(this.movedPlayer)).thenReturn(ground);
 	}
 
 	@Before
