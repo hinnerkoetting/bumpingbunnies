@@ -6,6 +6,7 @@ import android.content.Context;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
@@ -54,7 +55,12 @@ public class GameThreadFactory {
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver);
-		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
+		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode(),
+				createCameraPositionCalculator(playerConfig.getTabletControlledPlayer()));
+	}
+
+	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
+		return new CameraPositionCalculation(player);
 	}
 
 	private static void assignInitialSpawnpoints(SpawnPointGenerator spGenerator, List<Player> allPlayers, List<RemoteSender> sendThreads) {

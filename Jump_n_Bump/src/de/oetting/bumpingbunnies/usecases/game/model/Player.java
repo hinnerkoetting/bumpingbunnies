@@ -331,4 +331,8 @@ public class Player implements GameObject {
 		this.state.setFacingLeft(true);
 	}
 
+	public boolean isMovingLeft() {
+		return this.movingLeft;
+	}
+
 }

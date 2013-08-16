@@ -14,7 +14,6 @@ import de.oetting.bumpingbunnies.usecases.game.model.Water;
 public class PlayerMovementCalculation {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerMovementCalculation.class);
-	private static final long SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.STANDARD_WORLD_SIZE / 200;
 
 	private final Player movedPlayer;
 	private final InteractionService interactionService;
@@ -32,34 +31,6 @@ public class PlayerMovementCalculation {
 
 	public void nextStep(long delta) {
 		movePlayerNextStep(delta);
-		if (!this.movedPlayer.isDead()) {
-			updateScreenPosition();
-		} else {
-			smoothlyUpdateScreenPosition(delta);
-		}
-	}
-
-	/**
-	 * we want to smoothly move to the players position if he is dead. This will avoid fast jumps because of next spawnpoint.
-	 */
-	private void smoothlyUpdateScreenPosition(long delta) {
-		long diffBetweenPlayerAndScreenX = +this.movedPlayer.getCenterX() - this.movedPlayer.getCurrentScreenX();
-		long diffBetweenPlayerAndScreenY = +this.movedPlayer.getCenterY() - this.movedPlayer.getCurrentScreenY();
-		long maxScrollValueX = SCROLLING_WHILE_PLAYER_IS_DEAD * delta
-				* (long) Math.signum(diffBetweenPlayerAndScreenX);
-		long maxScrollValueY = SCROLLING_WHILE_PLAYER_IS_DEAD * delta
-				* (long) Math.signum(diffBetweenPlayerAndScreenY);
-		long xScrollValue = Math.abs(diffBetweenPlayerAndScreenX) > Math.abs(maxScrollValueX) ? maxScrollValueX
-				: diffBetweenPlayerAndScreenX;
-		long yScrollValue = Math.abs(diffBetweenPlayerAndScreenY) > Math.abs(maxScrollValueY) ? maxScrollValueY
-				: diffBetweenPlayerAndScreenY;
-		this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCurrentScreenX() + xScrollValue);
-		this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCurrentScreenY() + yScrollValue);
-	}
-
-	private void updateScreenPosition() {
-		this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCenterX());
-		this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCenterY());
 	}
 
 	private void movePlayerNextStep(long delta) {
@@ -128,7 +99,8 @@ public class PlayerMovementCalculation {
 	public void computeHorizontalGravity() {
 		if (isPlayerMoving()) {
 			int accelerationX = findAccelerationForObject();
-			this.movedPlayer.setAccelerationX(accelerationX);
+			boolean isMovingLeft = this.movedPlayer.isMovingLeft();
+			this.movedPlayer.setAccelerationX(isMovingLeft ? -accelerationX : accelerationX);
 		} else {
 			if (this.movedPlayer.movementX() != 0) {
 				tryToSteerAgainstMovement();

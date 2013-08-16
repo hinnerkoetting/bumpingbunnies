@@ -40,7 +40,6 @@ public class PlayerMovementController {
 
 	public void removeHorizontalMovement() {
 		this.movedPlayer.setTryingToRemoveHorizontalMovement(true);
-		this.movedPlayer.setAccelerationX(0);
 	}
 
 	public void tryMoveUp() {
