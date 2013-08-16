@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.res.Resources;
@@ -13,15 +14,17 @@ public class PlayerDrawerFactory {
 
 	public static PlayerDrawer create(Player player, Resources resources) {
 
-		AnimationWithMirror animation = AnimationWithMirrorFactory.create(
+		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(player,
 				createRunningAnimation(resources, player), 100);
-		AnimationWithMirror fallingAnimation = AnimationWithMirrorFactory.create(
+		ConditionalMirroredAnimation fallingAnimation = AnimationWithMirrorFactory.createFallingAnimation(player,
 				createFallingAnimation(resources, player), 100);
-		AnimationWithMirror jumpingAnimation = AnimationWithMirrorFactory.create(
+		ConditionalMirroredAnimation jumpingAnimation = AnimationWithMirrorFactory.createJumpingAnimation(player,
 				createJumpingAnimation(resources, player), 100);
-		AnimationWithMirror sittingAnimation = AnimationWithMirrorFactory.create(
+		ConditionalMirroredAnimation sittingAnimation = AnimationWithMirrorFactory.createSittingAnimation(player,
 				createSittingAnimation(resources, player), 100);
-		return new PlayerDrawer(player, animation, fallingAnimation, jumpingAnimation, sittingAnimation);
+		List<ConditionalMirroredAnimation> animations = Arrays.asList(runningAnimation, fallingAnimation, jumpingAnimation,
+				sittingAnimation);
+		return new PlayerDrawer(player, animations);
 	}
 
 	private static List<Bitmap> createRunningAnimation(Resources resources, Player player) {

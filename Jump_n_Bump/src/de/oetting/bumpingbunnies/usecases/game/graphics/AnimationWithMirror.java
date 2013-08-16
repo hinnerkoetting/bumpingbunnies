@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.MirrorBitmapResizer;
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.SimpleBitmapResizer;
 
-public class AnimationWithMirror implements Animation {
+public class AnimationWithMirror implements Animation, MirroredAnimation {
 
 	private Animation normalAnimation;
 	private Animation leftMirroredAnimation;
@@ -42,6 +42,7 @@ public class AnimationWithMirror implements Animation {
 
 	}
 
+	@Override
 	public void drawMirrored(boolean b) {
 		this.drawNormal = !b;
 	}
