@@ -17,7 +17,6 @@ public class InteractionService {
 		// careful: next step is updated in interactWith if player collides with
 		// objects
 		for (GameObject object : world.getAllObjects()) {
-
 			interactWith(nextStep, player, object);
 		}
 		for (Player p : world.getAllPlayer()) {
@@ -31,7 +30,6 @@ public class InteractionService {
 			GameObject object) {
 		if (this.collisionDetection.collides(nextStep, object)) {
 			object.handleCollisionWithPlayer(player, this.collisionDetection);
-
 		}
 	}
 

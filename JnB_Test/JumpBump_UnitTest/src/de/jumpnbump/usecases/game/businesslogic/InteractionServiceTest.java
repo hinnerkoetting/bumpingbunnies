@@ -1,7 +1,6 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -22,7 +21,6 @@ import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 public class InteractionServiceTest {
 
 	private InteractionService interactionService;
-	@Mock
 	private CollisionDetection collisionDetection;
 	@Mock
 	private ObjectProvider objectProvider;
@@ -31,8 +29,8 @@ public class InteractionServiceTest {
 
 	@Test
 	public void interaction_givenPlayerCollidesWithWallOnRight_playerShouldHave0MovementX() {
-		Player player = givenPlayerAt00WithMovement(1);
-		givenPlayerStandsDirectlyBeforeWall(player);
+		Player player = givenPlayerAt00WithXMovement(1);
+		givenPlayerStandsDirectlyLeftToWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(
 				"Player Movement x must be 0 after it ran into a wall on the right",
@@ -49,7 +47,7 @@ public class InteractionServiceTest {
 
 	@Test
 	public void interaction_givenPlayerMovingRightRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
-		Player player = givenPlayerAt00WithMovement(2);
+		Player player = givenPlayerAt00WithXMovement(2);
 		long wallXPosition = player.maxX() + 1;
 		givenCollidingWallAt(wallXPosition, 0);
 		whenPlayerInteractsWithWorld(player);
@@ -59,7 +57,7 @@ public class InteractionServiceTest {
 
 	@Test
 	public void interaction_givenPlayerMovingLeftRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
-		Player player = givenPlayerAt00WithMovement(-2);
+		Player player = givenPlayerAt00WithXMovement(-2);
 		long wallXPosition = -1;
 		givenCollidingWallAt(wallXPosition, 0);
 		whenPlayerInteractsWithWorld(player);
@@ -90,18 +88,18 @@ public class InteractionServiceTest {
 
 	@Test
 	public void interaction_givenPlayerMovingRightIntoWall_shouldHaveNoAccelerationAfterwards() {
-		Player player = givenPlayerAt00WithMovement(1);
+		Player player = givenPlayerAt00WithXMovement(1);
 		player.setAccelerationX((int) (player.maxX() + 1));
-		givenPlayerStandsDirectlyBeforeWall(player);
+		givenPlayerStandsDirectlyLeftToWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(0, player.getAccelerationX(), 0.001);
 	}
 
 	@Test
 	public void interaction_givenPlayerMovingLeftIntoWall_shouldHaveNoAccelerationAfterwards() {
-		Player player = givenPlayerAt00WithMovement(-1);
+		Player player = givenPlayerAt00WithXMovement(-1);
 		player.setAccelerationX(-1);
-		givenPlayerStandsDirectlyBeforeWall(player);
+		givenPlayerStandsDirectlyRightToWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(0, player.getAccelerationX(), 0.001);
 	}
@@ -110,7 +108,7 @@ public class InteractionServiceTest {
 	public void interaction_givenPlayerMovingTopIntoWall_shouldHaveNoAccelerationAfterwards() {
 		Player player = givenPlayerAt00WithYMovement(1);
 		player.setAccelerationY(1);
-		givenPlayerStandsDirectlyBeforeWall(player);
+		givenPlayerStandsDirectlyUnderWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(0, player.getAccelerationY(), 0.001);
 	}
@@ -119,7 +117,7 @@ public class InteractionServiceTest {
 	public void interaction_givenPlayerMovingDownIntoWall_shouldHaveNoAccelerationAfterwards() {
 		Player player = givenPlayerAt00WithYMovement(-1);
 		player.setAccelerationY(-1);
-		givenPlayerStandsDirectlyBeforeWall(player);
+		givenPlayerStandsDirectlyOverWall(player);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(0, player.getAccelerationY(), 0.001);
 	}
@@ -134,31 +132,37 @@ public class InteractionServiceTest {
 		assertEquals(0, player.getAccelerationY(), 0.001);
 	}
 
+	@Test
+	public void interaction_playerStandingOnWallMovingRight_shouldBeAbleToMoveRight() {
+		Player player = givenPlayerAt00WithXMovement(1);
+		givenPlayerStandsOnWall(player);
+		whenPlayerInteractsWithWorld(player);
+		assertEquals(1, player.movementX());
+	}
+
+	@Test
+	public void interaction_playerStandingOnWallMovingLeft_shouldBeAbleToMoveeft() {
+		Player player = givenPlayerAt00WithXMovement(-1);
+		givenPlayerStandsOnWall(player);
+		whenPlayerInteractsWithWorld(player);
+		assertEquals(-1, player.movementX());
+	}
+
+	@Test
+	public void interaction_playerStandingOnWallMovingRight_shouldHaveNoVerticalMovement() {
+		Player player = givenPlayerAt00WithXMovement(1);
+		givenPlayerStandsOnWall(player);
+		whenPlayerInteractsWithWorld(player);
+		assertEquals(0, player.movementY());
+	}
+
 	private void givenPlayerStandsOnWall(Player player) {
 		Wall otherGameObject = new Wall(-1, player.minX(), player.minY() - 1, player.maxX(), player.minY());
-		when(
-				this.collisionDetection.collides(any(GameObject.class),
-						any(GameObject.class))).thenReturn(true);
-		when(
-				this.collisionDetection.isOverOrUnderObject(
-						any(GameObject.class), any(GameObject.class)))
-				.thenReturn(true);
 		givenObjectExists(otherGameObject);
 	}
 
 	private void givenCollidingWallAt(long x, long y) {
 		Wall otherGameObject = new Wall(-1, x, y, x, y);
-		when(
-				this.collisionDetection.collides(any(GameObject.class),
-						any(GameObject.class))).thenReturn(true);
-		when(
-				this.collisionDetection.isLeftOrRightToObject(
-						any(GameObject.class), any(GameObject.class)))
-				.thenReturn(true);
-		when(
-				this.collisionDetection.isOverOrUnderObject(
-						any(GameObject.class), any(GameObject.class)))
-				.thenReturn(true);
 		givenObjectExists(otherGameObject);
 	}
 
@@ -168,7 +172,7 @@ public class InteractionServiceTest {
 		return player;
 	}
 
-	private Player givenPlayerAt00WithMovement(int movementX) {
+	private Player givenPlayerAt00WithXMovement(int movementX) {
 		Player player = this.playerFactory.createPlayerAtPosition(0, 0);
 		player.setMovementX(movementX);
 		return player;
@@ -178,25 +182,30 @@ public class InteractionServiceTest {
 		this.interactionService.interactWith(player, this.objectProvider);
 	}
 
-	private void givenPlayerStandsDirectlyBeforeWall(Player player) {
+	private void givenPlayerStandsDirectlyUnderWall(Player player) {
+		Wall otherGameObject = new Wall(-1, player.minX(), player.maxY(), player.maxX(), player.maxY() + 1);
+		givenObjectExists(otherGameObject);
+	}
+
+	private void givenPlayerStandsDirectlyLeftToWall(Player player) {
 		Wall otherGameObject = new Wall(-1, player.maxX(), player.minY(), player.maxX(), player.maxY());
-		when(
-				this.collisionDetection.collides(any(GameObject.class),
-						any(GameObject.class))).thenReturn(true);
-		when(
-				this.collisionDetection.isLeftOrRightToObject(
-						any(GameObject.class), any(GameObject.class)))
-				.thenReturn(true);
-		when(
-				this.collisionDetection.isOverOrUnderObject(
-						any(GameObject.class), any(GameObject.class)))
-				.thenReturn(true);
+		givenObjectExists(otherGameObject);
+	}
+
+	private void givenPlayerStandsDirectlyOverWall(Player player) {
+		Wall otherGameObject = new Wall(-1, player.minX(), player.minY() - 1, player.maxX(), player.minY());
+		givenObjectExists(otherGameObject);
+	}
+
+	private void givenPlayerStandsDirectlyRightToWall(Player player) {
+		Wall otherGameObject = new Wall(-1, player.minX() - 1, player.minY(), player.minX(), player.maxY());
 		givenObjectExists(otherGameObject);
 	}
 
 	@Before
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
+		this.collisionDetection = new CollisionDetection(this.objectProvider);
 		this.interactionService = new InteractionService(
 				this.collisionDetection);
 	}

@@ -53,10 +53,23 @@ public class CollisionDetectionTest {
 
 	@Test
 	public void collides_givenOverlappingVerticalTop_shouldReturnTrue() {
-		GameObject square1 = createObject(0, 0, 1, 1);
-
-		GameObject square2 = createObject(0, 1, 1, 2);
+		GameObject square1 = createObject(0, 0, 2, 2);
+		GameObject square2 = createObject(0, 1, 1, 3);
 		assertTrue(this.detection.collides(square1, square2));
+	}
+
+	@Test
+	public void collides_givenTouchingVerticalTop_shouldReturnFalse() {
+		GameObject square1 = createObject(0, 0, 1, 1);
+		GameObject square2 = createObject(0, 1, 1, 2);
+		assertFalse(this.detection.collides(square1, square2));
+	}
+
+	@Test
+	public void touch_givenTouchingVerticalTop_shouldReturnTrue() {
+		GameObject square1 = createObject(0, 0, 1, 1);
+		GameObject square2 = createObject(0, 1, 1, 2);
+		assertTrue(this.detection.touches(square1, square2));
 	}
 
 	@Test
@@ -84,11 +97,17 @@ public class CollisionDetectionTest {
 	}
 
 	@Test
-	public void collides_givenTouchingObjectsVertical_shouldreturnTrue() {
+	public void collides_givenTouchingObjectsVertical_shouldReturnFalse() {
 		GameObject square1 = createObject(0, 0, 1, 1);
+		GameObject square2 = createObject(0, 1, 1, 2);
+		assertFalse(this.detection.collides(square1, square2));
+	}
 
-		GameObject square2 = createObject(0, 1, 2, 2);
-		assertTrue(this.detection.collides(square1, square2));
+	@Test
+	public void touches_givenTouchingObjectsVertical_shouldReturnFalse() {
+		GameObject square1 = createObject(0, 0, 1, 1);
+		GameObject square2 = createObject(0, 1, 1, 2);
+		assertTrue(this.detection.touches(square1, square2));
 	}
 
 	@Test

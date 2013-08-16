@@ -92,13 +92,40 @@ public class CollisionDetection {
 	}
 
 	public boolean collides(GameObject gameObject, GameObject other) {
-		boolean collidesX = gameObject.maxX() > other.minX() && gameObject.minX() < other.maxX(); // not equal
-		boolean collidesY = gameObject.maxY() >= other.minY() && gameObject.minY() <= other.maxY(); //bigger and less or equal
-		//we require unquality for x because this would not be desirable if x and y are touching at the same time
+		boolean collidesX = sharesHorizontalPosition(gameObject, other);
+		boolean collidesY = sharesVerticalPosition(gameObject, other);
 		return collidesX && collidesY;
+	}
+
+	/**
+	 * This does not mean that vertical position is the same.
+	 */
+	public boolean sharesHorizontalPosition(GameObject gameObject, GameObject other) {
+		return gameObject.maxX() > other.minX() && gameObject.minX() < other.maxX();
+	}
+
+	/**
+	 * This does not mean that horizontal position is the same.
+	 */
+	public boolean sharesVerticalPosition(GameObject gameObject, GameObject other) {
+		return gameObject.maxY() > other.minY() && gameObject.minY() < other.maxY();
 	}
 
 	public boolean isExactlyOverObject(GameObject gameObject, GameObject other) {
 		return gameObject.maxY() == other.minY();
+	}
+
+	public boolean touches(GameObject square1, GameObject square2) {
+		boolean touchesX = touchesHorizontal(square1, square2) && sharesVerticalPosition(square1, square2);
+		boolean touchesY = touchesVertical(square1, square2) && sharesHorizontalPosition(square1, square2);
+		return touchesX || touchesY;
+	}
+
+	public boolean touchesHorizontal(GameObject gameObject, GameObject other) {
+		return gameObject.maxX() == other.minX() || gameObject.minX() == other.maxX();
+	}
+
+	public boolean touchesVertical(GameObject gameObject, GameObject other) {
+		return gameObject.maxY() == other.minY() || gameObject.minY() == other.maxY();
 	}
 }
