@@ -19,7 +19,7 @@ public class PlayerMovementController implements ModelConstants {
 	// private boolean movingUp;
 	private final InteractionService interactionService;
 	private final CollisionDetection collisionDetection;
-	boolean tryingToRemoveHorizontalMovement;
+	private boolean tryingToRemoveHorizontalMovement;
 
 	public PlayerMovementController(Player movedPlayer,
 			InteractionService interActionService,
@@ -166,7 +166,6 @@ public class PlayerMovementController implements ModelConstants {
 		this.tryingToRemoveHorizontalMovement = false;
 		this.movedPlayer.setAccelerationX(-findAccelerationForObject());
 		this.movedPlayer.setFacingLeft(true);
-		// this.movedPlayer.setMovementX(-MOVEMENT);
 	}
 
 	public void removeLeftMovement() {
@@ -184,11 +183,6 @@ public class PlayerMovementController implements ModelConstants {
 	public void removeHorizontalMovement() {
 		this.tryingToRemoveHorizontalMovement = true;
 		this.movedPlayer.setAccelerationX(0);
-	}
-
-	public void removeVerticalMovement() {
-		LOGGER.verbose("removing vertical movement");
-		this.movedPlayerState.setJumpingButtonPressed(false);
 	}
 
 	public void tryMoveUp() {
@@ -209,15 +203,6 @@ public class PlayerMovementController implements ModelConstants {
 
 	public Player getPlayer() {
 		return this.movedPlayer;
-	}
-
-	public Player isOnTopOfOtherPlayer() {
-		return this.collisionDetection
-				.findPlayerThisPlayerIsStandingOn(this.movedPlayer);
-	}
-
-	public boolean isStandingOnGround() {
-		return this.collisionDetection.objectStandsOnGround(this.movedPlayer);
 	}
 
 }

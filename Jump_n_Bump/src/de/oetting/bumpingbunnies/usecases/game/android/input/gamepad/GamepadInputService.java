@@ -26,7 +26,7 @@ public class GamepadInputService implements KeyboardInputService {
 
 	private void handleVerticalMovement() {
 		if (this.downIsPressed == this.upIsPressed) {
-			this.playerMovement.removeVerticalMovement();
+			this.playerMovement.tryMoveDown();
 		}
 		if (this.downIsPressed) {
 			this.playerMovement.tryMoveDown();
