@@ -5,13 +5,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.bluetooth.BluetoothSocket;
+import de.oetting.bumpingbunnies.communication.AbstractSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
 
-public class MyBluetoothSocket implements MySocket {
+public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 
 	private final BluetoothSocket socket;
 
-	public MyBluetoothSocket(BluetoothSocket socket) {
+	public MyBluetoothSocket(BluetoothSocket socket) throws IOException {
+		super(socket.getOutputStream());
 		this.socket = socket;
 	}
 

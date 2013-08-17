@@ -6,18 +6,21 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketAddress;
 
+import de.oetting.bumpingbunnies.communication.AbstractSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
 
-public class WlanSocket implements MySocket {
+public class WlanSocket extends AbstractSocket implements MySocket {
 
 	private Socket socket;
 	private SocketAddress address;
 
-	public WlanSocket(Socket socket2) {
+	public WlanSocket(Socket socket2) throws IOException {
+		super(socket2.getOutputStream());
 		this.socket = socket2;
 	}
 
-	public WlanSocket(Socket socket2, SocketAddress address) {
+	public WlanSocket(Socket socket2, SocketAddress address) throws IOException {
+		super(socket2.getOutputStream());
 		this.socket = socket2;
 		this.address = address;
 	}

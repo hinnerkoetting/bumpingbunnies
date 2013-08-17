@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
+import java.io.IOException;
+
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -19,9 +21,13 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 	}
 
 	public NetworkFactory(Parcel in) {
-		StorableSocket storeSocket = new StorableSocket(in);
-		this.socket = storeSocket.getStoredSocket();
-		this.index = in.readInt();
+		try {
+			StorableSocket storeSocket = new StorableSocket(in);
+			this.socket = storeSocket.getStoredSocket();
+			this.index = in.readInt();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -36,9 +42,13 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		StorableSocket storeSocket = new StorableSocket(this.socket, this.index);
-		storeSocket.writeToParcel(dest, flags);
-		dest.writeInt(this.index);
+		try {
+			StorableSocket storeSocket = new StorableSocket(this.socket, this.index);
+			storeSocket.writeToParcel(dest, flags);
+			dest.writeInt(this.index);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

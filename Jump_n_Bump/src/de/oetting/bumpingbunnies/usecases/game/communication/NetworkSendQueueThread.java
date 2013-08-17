@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -21,7 +20,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 public class NetworkSendQueueThread extends Thread implements RemoteSender {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkSendQueueThread.class);
-	private final Writer writer;
 	private final BlockingQueue<String> messageQueue;
 	private final MySocket socket;
 	private final MessageParser parser;
@@ -29,10 +27,9 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 
 	private boolean canceled;
 
-	public NetworkSendQueueThread(MySocket socket, Writer writer, MessageParser parser, GameActivity origin) {
+	public NetworkSendQueueThread(MySocket socket, MessageParser parser, GameActivity origin) {
 		super("Network send thread");
 		this.socket = socket;
-		this.writer = writer;
 		this.parser = parser;
 		this.origin = origin;
 		this.messageQueue = new LinkedBlockingQueue<String>();
@@ -59,10 +56,8 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 		sendOneMessage(poll);
 	}
 
-	private void sendOneMessage(String string) throws IOException {
-		this.writer.write(string);
-		this.writer.write('\n');
-		this.writer.flush();
+	private void sendOneMessage(String message) throws IOException {
+		this.socket.sendMessage(message);
 	}
 
 	private void endGameOnError() {

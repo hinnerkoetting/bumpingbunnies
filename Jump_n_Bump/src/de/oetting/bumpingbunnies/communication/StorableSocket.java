@@ -12,7 +12,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
  * Can be stored through parcelables.
  * 
  */
-public class StorableSocket implements MySocket, Parcelable {
+public class StorableSocket extends AbstractSocket implements MySocket, Parcelable {
 
 	private int index;
 	private MySocket cachedSocket;
@@ -47,16 +47,18 @@ public class StorableSocket implements MySocket, Parcelable {
 		dest.writeInt(this.index);
 	}
 
-	public StorableSocket(Parcel in) {
+	public StorableSocket(Parcel in) throws IOException {
 		this(in.readInt());
 	}
 
-	public StorableSocket(int index) {
+	public StorableSocket(int index) throws IOException {
+		super(SocketStorage.getSingleton().getSocket(index).getOutputStream());
 		this.index = index;
 		this.cachedSocket = SocketStorage.getSingleton().getSocket(index);
 	}
 
-	public StorableSocket(MySocket original, int index) {
+	public StorableSocket(MySocket original, int index) throws IOException {
+		super(original.getOutputStream());
 		this.index = index;
 		this.cachedSocket = original;
 	}

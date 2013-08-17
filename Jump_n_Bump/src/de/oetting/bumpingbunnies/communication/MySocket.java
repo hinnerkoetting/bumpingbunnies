@@ -13,4 +13,6 @@ public interface MySocket {
 	InputStream getInputStream() throws IOException;
 
 	OutputStream getOutputStream() throws IOException;
+
+	void sendMessage(String message);
 }
