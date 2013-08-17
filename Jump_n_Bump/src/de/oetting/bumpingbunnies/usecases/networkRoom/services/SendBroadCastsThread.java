@@ -1,12 +1,10 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.services;
 
-import java.net.DatagramPacket;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.communication.UdpSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 
 public class SendBroadCastsThread extends Thread {
 
@@ -42,10 +40,10 @@ public class SendBroadCastsThread extends Thread {
 		LOGGER.debug("sending a new broadcast");
 		for (UdpSocket socket : this.broadcastSockets) {
 			String data = "hello";
-			DatagramPacket packet = new DatagramPacket(data.getBytes(),
-					data.length(), socket.getAddress(),
-					NetworkConstants.BROADCAST_PORT);
-			socket.send(packet);
+			// DatagramPacket packet = new DatagramPacket(data.getBytes(),
+			// data.length(), socket.getAddress(),
+			// NetworkConstants.BROADCAST_PORT);
+			socket.sendMessage(data);
 		}
 	}
 

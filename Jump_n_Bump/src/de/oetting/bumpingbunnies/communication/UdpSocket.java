@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class UdpSocket {
+public class UdpSocket implements MySocket {
 
 	private final DatagramSocket socket;
 	private final InetAddress address;
@@ -24,6 +24,10 @@ public class UdpSocket {
 		return this.address;
 	}
 
+	/**
+	 * use #send(String) instead
+	 */
+	@Deprecated
 	public void send(DatagramPacket packet) {
 		try {
 			this.socket.send(packet);
@@ -32,6 +36,7 @@ public class UdpSocket {
 		}
 	}
 
+	@Override
 	public void close() {
 		this.socket.close();
 	}
@@ -49,5 +54,25 @@ public class UdpSocket {
 		public UdpException(Throwable throwable) {
 			super(throwable);
 		}
+	}
+
+	@Override
+	public void connect() throws IOException {
+	}
+
+	@Override
+	public void sendMessage(String message) {
+		try {
+			DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(), this.address, this.socket.getPort());
+			this.socket.send(packet);
+		} catch (IOException e) {
+			throw new UdpException(e);
+		}
+	}
+
+	@Override
+	public String blockingReceive() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
