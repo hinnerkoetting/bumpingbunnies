@@ -1,9 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import java.io.Writer;
-
 import com.google.gson.Gson;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -13,13 +12,13 @@ public class SimpleNetworkSender implements NetworkSender {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SimpleNetworkSender.class);
-	private final Writer writer;
 	private final Gson gson;
+	private final MySocket socket;
 
-	public SimpleNetworkSender(Writer writer, Gson gson) {
+	public SimpleNetworkSender(Gson gson, MySocket socket) {
 		super();
-		this.writer = writer;
 		this.gson = gson;
+		this.socket = socket;
 	}
 
 	@Override
@@ -27,9 +26,7 @@ public class SimpleNetworkSender implements NetworkSender {
 		try {
 			LOGGER.debug("sending message %s", message.getMessage());
 			String json = this.gson.toJson(message);
-			this.writer.write(json);
-			this.writer.write('\n');
-			this.writer.flush();
+			this.socket.sendMessage(json);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

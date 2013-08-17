@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
+import static de.oetting.bumpingbunnies.usecases.game.communication.SimpleMessageConsts.CONVERTED_MESSAGE;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
@@ -9,10 +10,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,7 +22,6 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 @RunWith(RobolectricTestRunner.class)
 public class NetworkSendQueueThreadTest {
@@ -41,7 +38,7 @@ public class NetworkSendQueueThreadTest {
 	public void sendNextMessage_givenOneMessageInQueue_shouldWriteThisMessage() throws IOException, InterruptedException {
 		addMessageToQueue();
 		whenRun();
-		thenMessageIsWritten("{\"id\":\"SEND_PLAYER_STATE\",\"message\":\"\\\"1\\\"\"}");
+		thenMessageIsWritten(CONVERTED_MESSAGE);
 	}
 
 	@Ignore
@@ -72,7 +69,7 @@ public class NetworkSendQueueThreadTest {
 	}
 
 	private void addMessageToQueue() {
-		this.fixture.sendMessage(MessageId.SEND_PLAYER_STATE, "1");
+		this.fixture.sendMessage(SimpleMessageConsts.ID, SimpleMessageConsts.MSG);
 	}
 
 	private void thenMessageIsWritten(String message) throws IOException {
@@ -80,22 +77,7 @@ public class NetworkSendQueueThreadTest {
 	}
 
 	private byte[] byteArrayThatStartsWith(final String msg) {
-		return argThat(new BaseMatcher<byte[]>() {
-			private byte[] expected = msg.getBytes();
-
-			@Override
-			public boolean matches(Object item) {
-				byte[] bArr = (byte[]) item;
-				byte[] shortenedArray = Arrays.copyOf(bArr, this.expected.length);
-				return Arrays.equals(shortenedArray, this.expected);
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText(Arrays.toString(this.expected));
-			}
-		});
-
+		return argThat(new ByteArrayStartMatcher(msg));
 	}
 
 	@Before
