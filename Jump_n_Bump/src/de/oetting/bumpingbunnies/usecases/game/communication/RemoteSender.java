@@ -4,8 +4,6 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 /**
  * Allows sending messages to a client.
@@ -13,11 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
  */
 public interface RemoteSender extends NetworkSender {
 
-	void sendPlayerCoordinates(Player player);
-
 	void cancel();
-
-	void sendPlayerCoordinates(PlayerState playerState);
 
 	void sendMessage(MessageId id, Object message);
 

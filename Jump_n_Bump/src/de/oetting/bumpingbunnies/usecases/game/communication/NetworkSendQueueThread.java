@@ -13,12 +13,9 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 /**
- * Messages are stored to a queue, The sender will send messages from this queue
- * ony by one.
+ * Messages are stored to a queue, The sender will send messages from this queue ony by one.
  * 
  */
 public class NetworkSendQueueThread extends Thread implements RemoteSender {
@@ -78,19 +75,6 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 		this.writer.write(string);
 		this.writer.write('\n');
 		this.writer.flush();
-	}
-
-	@Override
-	public void sendPlayerCoordinates(Player player) {
-		sendPlayerCoordinates(player.getState());
-	}
-
-	@Override
-	public void sendPlayerCoordinates(PlayerState state) {
-		String stateJson = this.parser.encodeMessage(state);
-		JsonWrapper wrapper = new JsonWrapper(MessageId.SEND_PLAYER_STATE, stateJson);
-		String data = this.parser.encodeMessage(wrapper);
-		this.messageQueue.add(data);
 	}
 
 	@Override

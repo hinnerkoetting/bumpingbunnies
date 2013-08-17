@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class GameNetworkSender implements StateSender {
@@ -14,7 +15,7 @@ public class GameNetworkSender implements StateSender {
 
 	@Override
 	public void sendPlayerCoordinates() {
-		this.networkThread.sendPlayerCoordinates(this.player);
+		this.networkThread.sendMessage(MessageId.SEND_PLAYER_STATE, this.player.getState());
 	}
 
 	@Override
