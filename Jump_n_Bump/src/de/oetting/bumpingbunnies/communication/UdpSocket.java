@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.communication;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -26,8 +27,8 @@ public class UdpSocket {
 	public void send(DatagramPacket packet) {
 		try {
 			this.socket.send(packet);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new UdpException(e);
 		}
 	}
 
@@ -38,8 +39,15 @@ public class UdpSocket {
 	public void receive(DatagramPacket packet) {
 		try {
 			this.socket.receive(packet);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new UdpException(e);
+		}
+	}
+
+	public static class UdpException extends RuntimeException {
+
+		public UdpException(Throwable throwable) {
+			super(throwable);
 		}
 	}
 }

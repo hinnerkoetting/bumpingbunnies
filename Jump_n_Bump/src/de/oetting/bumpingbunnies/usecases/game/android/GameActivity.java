@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.communication.ServerConnection;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.factories.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
@@ -25,6 +26,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
@@ -45,8 +47,7 @@ import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 import de.oetting.bumpingbunnies.util.SystemUiHider;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) with user interaction.
  * 
  * @see SystemUiHider
  */
@@ -138,10 +139,16 @@ public class GameActivity extends Activity {
 		List<RemoteSender> resultSender = new ArrayList<RemoteSender>(
 				allSockets.size());
 		for (MySocket socket : allSockets) {
-			RemoteSender sender = NetworkSendQueueThreadFactory.create(socket, this);
-			resultSender.add(sender);
+			ServerConnection serverConnection = createServerConnection(socket);
+			resultSender.add(serverConnection);
 		}
 		this.sendThreads = resultSender;
+	}
+
+	public ServerConnection createServerConnection(MySocket socket) {
+		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, this);
+		ServerConnection serverConnection = new ServerConnection(tcpConnection, null); // TODO
+		return serverConnection;
 	}
 
 	private List<StateSender> createSender(Player myPlayer) {

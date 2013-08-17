@@ -41,13 +41,28 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	@Override
 	public void run() {
 		while (!this.canceled) {
-			try {
-				oneRun();
-			} catch (Exception e) {
-				LOGGER.error("Disconnected from server", e);
-				endGameOnError();
-			}
+			runOnce();
 		}
+	}
+
+	void runOnce() {
+		try {
+			sendNextMessage();
+		} catch (Exception e) {
+			LOGGER.error("Disconnected from server", e);
+			endGameOnError();
+		}
+	}
+
+	void sendNextMessage() throws IOException, InterruptedException {
+		String poll = this.messageQueue.take();
+		sendOneMessage(poll);
+	}
+
+	private void sendOneMessage(String string) throws IOException {
+		this.writer.write(string);
+		this.writer.write('\n');
+		this.writer.flush();
 	}
 
 	private void endGameOnError() {
@@ -60,21 +75,6 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 				NetworkSendQueueThread.this.origin.stopGame();
 			}
 		});
-	}
-
-	private void oneRun() throws InterruptedException, IOException {
-		sendNextMessage();
-	}
-
-	private void sendNextMessage() throws IOException, InterruptedException {
-		String poll = this.messageQueue.take();
-		sendOneMessage(poll);
-	}
-
-	private void sendOneMessage(String string) throws IOException {
-		this.writer.write(string);
-		this.writer.write('\n');
-		this.writer.flush();
 	}
 
 	@Override
