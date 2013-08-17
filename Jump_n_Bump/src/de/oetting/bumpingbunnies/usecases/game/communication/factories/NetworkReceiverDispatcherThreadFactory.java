@@ -1,14 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
@@ -35,18 +32,11 @@ public class NetworkReceiverDispatcherThreadFactory {
 
 	private static NetworkReceiveThread createNetworkReceiver(MySocket socket,
 			IncomingNetworkDispatcher networkDispatcher) {
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					socket.getInputStream(), NetworkConstants.ENCODING));
-
-			// always create other clients dispatcher. for clients this will not
-			// dispatch incoming events to other sockets
-			NetworkReceiveThread thread = new NetworkReceiveThread(reader,
-					new Gson(), networkDispatcher);
-			return thread;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		// always create other clients dispatcher. for clients this will not
+		// dispatch incoming events to other sockets
+		NetworkReceiveThread thread = new NetworkReceiveThread(
+				new Gson(), networkDispatcher, socket);
+		return thread;
 	}
 
 }

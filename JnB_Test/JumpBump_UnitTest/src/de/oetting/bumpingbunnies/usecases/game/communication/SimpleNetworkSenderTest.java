@@ -39,7 +39,7 @@ public class SimpleNetworkSenderTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.gson = new Gson();
-		this.socket = new TestSocket(this.os);
+		this.socket = new TestSocket(this.os, null);
 		this.fixture = new SimpleNetworkSender(this.gson, this.socket);
 	}
 }

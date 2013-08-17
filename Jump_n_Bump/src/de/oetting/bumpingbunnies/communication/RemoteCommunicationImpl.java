@@ -68,8 +68,15 @@ public class RemoteCommunicationImpl implements RemoteCommunication {
 	}
 
 	private void displayCouldNotConnectException() {
-		CharSequence text = this.origin.getText(R.string.could_not_connect);
-		Toast.makeText(this.origin, text, Toast.LENGTH_SHORT).show();
+		this.origin.runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				CharSequence text = RemoteCommunicationImpl.this.origin.getText(R.string.could_not_connect);
+				Toast.makeText(RemoteCommunicationImpl.this.origin, text, Toast.LENGTH_SHORT).show();
+			}
+		});
+
 	}
 
 	@Override

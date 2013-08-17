@@ -13,7 +13,6 @@ public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 	private final BluetoothSocket socket;
 
 	public MyBluetoothSocket(BluetoothSocket socket) throws IOException {
-		super(socket.getOutputStream());
 		this.socket = socket;
 	}
 
@@ -33,8 +32,14 @@ public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 	}
 
 	@Override
-	public OutputStream getOutputStream() throws IOException {
+	protected OutputStream getOutputStream() throws IOException {
 		return this.socket.getOutputStream();
+	}
+
+	@Override
+	public String blockingReceive() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

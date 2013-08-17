@@ -83,7 +83,7 @@ public class NetworkSendQueueThreadTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.socket = new TestSocket(this.os);
+		this.socket = new TestSocket(this.os, null);
 		this.fixture = new NetworkSendQueueThread(this.socket, this.parser, this.origin);
 	}
 }

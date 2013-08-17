@@ -29,12 +29,7 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 
 	@Override
 	public InputStream getInputStream() throws IOException {
-		return this.cachedSocket.getInputStream();
-	}
-
-	@Override
-	public OutputStream getOutputStream() throws IOException {
-		return this.cachedSocket.getOutputStream();
+		throw new IllegalArgumentException("Storable socket does not support getInputstream");
 	}
 
 	@Override
@@ -52,18 +47,21 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	}
 
 	public StorableSocket(int index) throws IOException {
-		super(SocketStorage.getSingleton().getSocket(index).getOutputStream());
 		this.index = index;
 		this.cachedSocket = SocketStorage.getSingleton().getSocket(index);
 	}
 
 	public StorableSocket(MySocket original, int index) throws IOException {
-		super(original.getOutputStream());
 		this.index = index;
 		this.cachedSocket = original;
 	}
 
 	public MySocket getStoredSocket() {
 		return this.cachedSocket;
+	}
+
+	@Override
+	protected OutputStream getOutputStream() throws IOException {
+		throw new IllegalArgumentException("Storable socket does not support getOutputStream");
 	}
 }

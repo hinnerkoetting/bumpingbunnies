@@ -14,14 +14,12 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 	private Socket socket;
 	private SocketAddress address;
 
-	public WlanSocket(Socket socket2) throws IOException {
-		super(socket2.getOutputStream());
-		this.socket = socket2;
+	public WlanSocket(Socket socket) throws IOException {
+		this.socket = socket;
 	}
 
-	public WlanSocket(Socket socket2, SocketAddress address) throws IOException {
-		super(socket2.getOutputStream());
-		this.socket = socket2;
+	public WlanSocket(Socket socket, SocketAddress address) throws IOException {
+		this.socket = socket;
 		this.address = address;
 	}
 
@@ -45,7 +43,7 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 	}
 
 	@Override
-	public OutputStream getOutputStream() throws IOException {
+	protected OutputStream getOutputStream() throws IOException {
 		return this.socket.getOutputStream();
 	}
 

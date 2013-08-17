@@ -1,11 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
@@ -14,17 +14,17 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(NetworkReceiveThread.class);
-	private final BufferedReader reader;
 	private final Gson gson;
 	private final IncomingNetworkDispatcher networkDispatcher;
 	private boolean canceled;
+	private MySocket socket;
 
-	public NetworkReceiveThread(BufferedReader reader, Gson gson,
-			IncomingNetworkDispatcher networkDispatcher) {
+	public NetworkReceiveThread(Gson gson,
+			IncomingNetworkDispatcher networkDispatcher, MySocket socket) {
 		super("Network receive thread");
-		this.reader = reader;
 		this.gson = gson;
 		this.networkDispatcher = networkDispatcher;
+		this.socket = socket;
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 		}
 	}
 
-	private void oneRun() throws IOException {
-		String input = this.reader.readLine();
+	void oneRun() throws IOException {
+		String input = this.socket.blockingReceive();
 		if (input == null) {
 			LOGGER.warn("Input was null. Continuing...");
 		} else {

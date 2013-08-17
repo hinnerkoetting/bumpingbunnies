@@ -9,10 +9,11 @@ import de.oetting.bumpingbunnies.communication.AbstractSocket;
 public class TestSocket extends AbstractSocket {
 
 	private final OutputStream os;
+	private final InputStream is;
 
-	public TestSocket(OutputStream os) {
-		super(os);
+	public TestSocket(OutputStream os, InputStream is) {
 		this.os = os;
+		this.is = is;
 	}
 
 	@Override
@@ -27,11 +28,11 @@ public class TestSocket extends AbstractSocket {
 
 	@Override
 	public InputStream getInputStream() throws IOException {
-		return null;
+		return this.is;
 	}
 
 	@Override
-	public OutputStream getOutputStream() throws IOException {
+	protected OutputStream getOutputStream() throws IOException {
 		return this.os;
 	}
 
