@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import android.content.Context;
 import de.oetting.bumpingbunnies.communication.UdpSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -20,7 +19,7 @@ public class SendBroadcastFactory {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SendBroadcastFactory.class);
 
-	public static SendBroadCastsThread create(Context context) {
+	public static SendBroadCastsThread create() {
 		try {
 			List<UdpSocket> broadCastAddresses = getAllBroadCastSockets();
 			return new SendBroadCastsThread(broadCastAddresses);

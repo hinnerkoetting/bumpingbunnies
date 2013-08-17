@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 import android.content.Context;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.graphics.CanvasDelegateImpl;
 import de.oetting.bumpingbunnies.usecases.game.graphics.DrawablesFactory;
@@ -15,7 +14,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 public class DrawerFactory {
 
 	public static Drawer create(World world, GameThreadState threadState,
-			Context context, AllPlayerConfig playerConfig,
+			Context context,
 			Configuration configuration, CoordinatesCalculation calculations) {
 		DrawablesFactory drawFactory = new DrawablesFactory(world, threadState,
 				context.getResources());

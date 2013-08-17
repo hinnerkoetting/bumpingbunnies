@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.configuration;
 
-import android.content.Context;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.CastleWorldbuilder;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.TestWorldBuilder;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
@@ -17,7 +16,7 @@ public enum WorldConfiguration {
 		this.factoryClass = clazz;
 	}
 
-	public WorldObjectsBuilder createInputconfigurationClass(Context context) {
+	public WorldObjectsBuilder createInputconfigurationClass() {
 		try {
 			return this.factoryClass.getConstructor().newInstance();
 		} catch (Exception e) {

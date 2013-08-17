@@ -16,22 +16,14 @@ public class HardwareKeyboardInputDispatcher extends
 		return false;
 	}
 
-	public void onKeyUp(int keyCode, KeyEvent event) {
-		getInputService().onKeyUp(keyCode, event);
-	}
-
-	public void onKeyDown(int keyCode, KeyEvent event) {
-		getInputService().onKeyDown(keyCode, event);
-	}
-
 	@Override
 	public boolean dispatchOnKeyDown(int keyCode, KeyEvent event) {
-		return getInputService().onKeyDown(keyCode, event);
+		return getInputService().onKeyDown(keyCode);
 	}
 
 	@Override
 	public boolean dispatchOnKeyUp(int keyCode, KeyEvent event) {
-		return getInputService().onKeyUp(keyCode, event);
+		return getInputService().onKeyUp(keyCode);
 	}
 
 }

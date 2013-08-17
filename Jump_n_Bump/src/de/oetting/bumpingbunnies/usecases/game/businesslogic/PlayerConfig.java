@@ -1,10 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import java.util.List;
-
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
-import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractInputServiceFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
@@ -31,8 +27,7 @@ public class PlayerConfig {
 		return this.movementController;
 	}
 
-	public InputService createInputService(List<RemoteSender> allSender,
-			IncomingNetworkDispatcher networkToGameDispatcher) {
+	public InputService createInputService() {
 		AbstractInputServiceFactory inputServiceFactory = this.otherPlayerFactory
 				.getInputServiceFactory();
 		return inputServiceFactory.create(this.movementController, this.world);

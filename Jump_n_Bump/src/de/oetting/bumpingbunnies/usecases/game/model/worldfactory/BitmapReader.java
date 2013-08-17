@@ -28,10 +28,10 @@ public class BitmapReader {
 		return bitmap;
 	}
 
-	private int getResourceId(String id) {
+	private int getResourceId(String filename) {
 		try {
 			Class<?> res = R.drawable.class;
-			Field field = res.getField("blumenwiese21");
+			Field field = res.getField(filename);
 			return field.getInt(null);
 		} catch (Exception e) {
 			throw new RuntimeException(e);

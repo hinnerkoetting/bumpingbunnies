@@ -32,10 +32,10 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 		// a new one
 		this.database.delete(SETTINGS_TABLE, null, null);
 		ContentValues values = createDbValues(settings);
-		strictInsert(SETTINGS_TABLE, values);
+		strictInsert(values);
 	}
 
-	private void strictInsert(String table, ContentValues values) {
+	private void strictInsert(ContentValues values) {
 		long errorId = this.database.insert(SETTINGS_TABLE, null, values);
 		if (errorId == -1) {
 			throw new IllegalStateException("error for " + values.toString());

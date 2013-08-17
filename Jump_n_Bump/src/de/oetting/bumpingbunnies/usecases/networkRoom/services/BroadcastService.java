@@ -4,7 +4,6 @@ import java.net.BindException;
 import java.net.DatagramSocket;
 
 import android.app.Activity;
-import android.content.Context;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -23,16 +22,15 @@ public class BroadcastService {
 		this.origin = origin;
 	}
 
-	public void startRegularServerBroadcast(final Context context) {
+	public void startRegularServerBroadcast() {
 		cancel();
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				BroadcastService.this.sendBroadcastsThread = SendBroadcastFactory
-						.create(context);
+						.create();
 				BroadcastService.this.sendBroadcastsThread.start();
-
 			}
 		}).start();
 	}

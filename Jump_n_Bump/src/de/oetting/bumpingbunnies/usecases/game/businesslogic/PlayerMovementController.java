@@ -10,9 +10,7 @@ public class PlayerMovementController {
 
 	private final Player movedPlayer;
 
-	public PlayerMovementController(Player movedPlayer,
-			InteractionService interActionService,
-			CollisionDetection collisionDetection) {
+	public PlayerMovementController(Player movedPlayer) {
 		this.movedPlayer = movedPlayer;
 	}
 

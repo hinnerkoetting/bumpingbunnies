@@ -17,7 +17,7 @@ public class HardwareKeyboardInputService implements InputService {
 	public void executeUserInput() {
 	}
 
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
+	public boolean onKeyUp(int keyCode) {
 		if (keyCode == KeyEvent.KEYCODE_S) {
 			this.movementController.removeLeftMovement();
 			return true;
@@ -33,7 +33,7 @@ public class HardwareKeyboardInputService implements InputService {
 		return false;
 	}
 
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	public boolean onKeyDown(int keyCode) {
 		if (keyCode == KeyEvent.KEYCODE_S) {
 			this.movementController.tryMoveLeft();
 			return true;

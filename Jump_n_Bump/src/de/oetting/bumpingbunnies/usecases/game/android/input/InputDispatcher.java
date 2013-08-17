@@ -8,6 +8,7 @@ import android.view.View;
  * Dispatches user input from screen to right input service
  * 
  */
+@SuppressWarnings("unused")
 public abstract class InputDispatcher<S extends InputService> {
 
 	private S inputService;

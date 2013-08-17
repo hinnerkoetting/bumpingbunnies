@@ -7,10 +7,8 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +25,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper
 public class NetworkReceiveThreadTest {
 
 	private NetworkReceiveThread fixture;
-	private BufferedReader reader;
 	@Mock
 	private IncomingNetworkDispatcher networkDispatcher;
 	private MySocket socket;
@@ -68,7 +65,6 @@ public class NetworkReceiveThreadTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.socket = new TestSocket(null, this.is);
-		this.reader = new BufferedReader(new InputStreamReader(this.is), 1000);
 		this.fixture = new NetworkReceiveThread(new Gson(), this.networkDispatcher, this.socket);
 	}
 }

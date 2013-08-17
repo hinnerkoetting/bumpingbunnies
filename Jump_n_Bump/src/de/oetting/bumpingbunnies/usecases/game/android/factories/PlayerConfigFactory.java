@@ -23,11 +23,11 @@ public class PlayerConfigFactory {
 	public static AllPlayerConfig create(GameStartParameter parameter,
 			World world, GameView gameView) {
 
-		Player myPlayer = findMyPlayer(parameter, world);
+		Player myPlayer = findMyPlayer(parameter);
 		world.addPlayer(myPlayer);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
 		PlayerMovementController myPlayerMovementController = createMovementController(
-				myPlayer, world);
+				myPlayer);
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
 				world, parameter.getConfiguration());
 		AllPlayerConfig config = new AllPlayerConfig(
@@ -50,28 +50,26 @@ public class PlayerConfigFactory {
 			Player p = playerfactory.createPlayer(config.getPlayerId(),
 					config.getName());
 			world.addPlayer(p);
-			list.add(createPlayerConfig(p, world, config, speed));
+			list.add(createPlayerConfig(p, world, config));
 		}
 		return list;
 	}
 
 	private static PlayerConfig createPlayerConfig(Player player, World world,
-			OpponentConfiguration configuration, int speedFactor) {
+			OpponentConfiguration configuration) {
 		AbstractOtherPlayersFactory otherPlayerFactory = configuration
 				.getFactory();
 		PlayerMovementController movementcontroller = createMovementController(
-				player, world);
+				player);
 		return new PlayerConfig(otherPlayerFactory, movementcontroller, world,
 				configuration);
 	}
 
-	private static PlayerMovementController createMovementController(Player p,
-			World world) {
-		return PlayerMovementFactory.create(p, world);
+	private static PlayerMovementController createMovementController(Player p) {
+		return PlayerMovementFactory.create(p);
 	}
 
-	private static Player findMyPlayer(GameStartParameter gameParameter,
-			World world) {
+	private static Player findMyPlayer(GameStartParameter gameParameter) {
 		int speed = gameParameter.getConfiguration().getGeneralSettings()
 				.getSpeedSetting();
 		PlayerFactory playerfactory = new PlayerFactory(speed);

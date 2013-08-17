@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -12,6 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
  * Can be stored through parcelables.
  * 
  */
+@SuppressLint("ParcelCreator")
 public class StorableSocket extends AbstractSocket implements MySocket, Parcelable {
 
 	private int index;

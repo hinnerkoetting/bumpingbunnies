@@ -175,8 +175,7 @@ public class GameActivity extends Activity {
 		addAllNetworkListeners(networkDispatcher, world);
 		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		createNetworkReceiveThreads(networkDispatcher, allSender);
-		List<InputService> inputServices = config.createOtherInputService(networkDispatcher,
-				allSender);
+		List<InputService> inputServices = config.createOtherInputService(networkDispatcher);
 		inputServices.add(touchService);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),

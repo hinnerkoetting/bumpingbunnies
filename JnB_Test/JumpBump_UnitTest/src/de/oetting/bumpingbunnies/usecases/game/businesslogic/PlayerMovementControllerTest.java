@@ -86,6 +86,6 @@ public class PlayerMovementControllerTest {
 	@Before
 	public void beforeEveryTest() {
 		this.movedPlayer = new Player(-1, "any", 1);
-		this.fixture = new PlayerMovementController(this.movedPlayer, this.interActionService, this.collisionDetection);
+		this.fixture = new PlayerMovementController(this.movedPlayer);
 	}
 }

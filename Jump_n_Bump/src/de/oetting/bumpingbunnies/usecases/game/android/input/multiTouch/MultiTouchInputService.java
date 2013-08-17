@@ -16,17 +16,17 @@ public class MultiTouchInputService extends LeftRightTouchService {
 	public void onMotionEvent(MotionEvent motionEvent) {
 		super.onMotionEvent(motionEvent);
 		if (motionEvent.getPointerCount() > 1) {
-			onMultiTouch(motionEvent);
+			onMultiTouch();
 		} else {
-			onMultiTouchRemoved(motionEvent);
+			onMultiTouchRemoved();
 		}
 	}
 
-	public void onMultiTouch(MotionEvent motionEvent) {
+	public void onMultiTouch() {
 		rememberMoveUp();
 	}
 
-	public void onMultiTouchRemoved(MotionEvent motionEvent) {
+	public void onMultiTouchRemoved() {
 		rememberMoveDown();
 	}
 

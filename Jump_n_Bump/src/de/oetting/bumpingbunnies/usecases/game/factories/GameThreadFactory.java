@@ -42,7 +42,7 @@ public class GameThreadFactory {
 
 		CoordinatesCalculation calculations = playerConfig.getCoordinateCalculations();
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
-				playerConfig, configuration, calculations);
+				configuration, calculations);
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
 				world.getSpawnPoints());
 		assignInitialSpawnpoints(spawnPointGenerator, world.getAllPlayer(), sendThreads);

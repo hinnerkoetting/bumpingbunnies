@@ -88,8 +88,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	}
 
 	private boolean isLastResetOneSecondAgo(long currentTime) {
-		return System.currentTimeMillis() - this.state.getLastFpsReset() > 1000;
-
+		return currentTime - this.state.getLastFpsReset() > 1000;
 	}
 
 	private void drawGame() {

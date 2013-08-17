@@ -67,7 +67,7 @@ public class ConnectionToClientService {
 	private void manageConnectedClient(MySocket socket, String playerName) {
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 				.createNetworkSender(socket);
-		notifyAboutExistingPlayers(socket, networkSender);
+		notifyAboutExistingPlayers(networkSender);
 
 		int nextPlayerId = getNextPlayerId();
 		PlayerProperties playerProperties = new PlayerProperties(nextPlayerId,
@@ -78,7 +78,7 @@ public class ConnectionToClientService {
 		this.roomActivity.addPlayerEntry(socket, playerProperties, socketIndex);
 	}
 
-	private void notifyAboutExistingPlayers(MySocket socket,
+	private void notifyAboutExistingPlayers(
 			SimpleNetworkSender networkSender) {
 		LOGGER.info("Notifying new Player all existing players");
 		for (RoomEntry otherPlayer : this.roomActivity.getAllOtherPlayers()) {

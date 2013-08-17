@@ -109,6 +109,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		this.remoteCommunication = WlanCommunicationFactory.create(this);
 	}
 
+	@SuppressWarnings("unused")
 	public void onClickKnownHosts(View v) {
 		displayKnownHosts();
 	}
@@ -134,6 +135,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public void onClickDiscovery(View v) {
 		this.listAdapter.clear();
 		this.broadcastService.listenForBroadCasts(this);
@@ -161,6 +163,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		enableButtons(false);
 	}
 
+	@SuppressWarnings("unused")
 	public void onClickMakeVisible(View v) {
 		startHostThread();
 	}
@@ -171,7 +174,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		this.remoteCommunication.startServer();
 		enableButtons(false);
 		createNewRoom(myPlayerId);
-		this.broadcastService.startRegularServerBroadcast(this);
+		this.broadcastService.startRegularServerBroadcast();
 	}
 
 	private void enableButtons(boolean enable) {
@@ -215,8 +218,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		enableStartButton();
 	}
 
-	private List<OpponentConfiguration> createOtherPlayerconfigurations(
-			int myPlayerId) {
+	private List<OpponentConfiguration> createOtherPlayerconfigurations() {
 		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>(
 				this.playersAA.getCount() - 1);
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
@@ -312,6 +314,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		return (Button) findViewById(R.id.room_start);
 	}
 
+	@SuppressWarnings("unused")
 	public void onClickStart(View v) {
 		notifyClientsAboutlaunch();
 		GeneralSettings generalSettings = createGeneralSettingsFromIntent();
@@ -335,7 +338,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		LocalPlayersettings localPlayerSettings = createLocalPlayerSettingsFromIntent();
 		int myPlayerId = this.playersAA.getMyself().getPlayerProperties()
 				.getPlayerId();
-		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations(myPlayerId);
+		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations();
 		Configuration config = new Configuration(localSettings,
 				generalSettings, otherPlayers, localPlayerSettings, asHost);
 		GameStartParameter parameter = GameParameterFactory.createParameter(
@@ -384,6 +387,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	}
 
+	@SuppressWarnings("unused")
 	public void onClickConnect(View v) {
 		this.remoteCommunication.findServer(getInputIp());
 	}

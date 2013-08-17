@@ -58,6 +58,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	/**
 	 * Call from Actitity
 	 */
+	@SuppressWarnings("unused")
 	public void onClickSingleplayer(View v) {
 		Configuration configuration = createConfiguration();
 		GameStartParameter parameter = GameParameterFactory
@@ -66,6 +67,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		launchGame(parameter);
 	}
 
+	@SuppressWarnings("unused")
 	public void onClickSettings(View v) {
 		ActivityLauncher.startSettings(this);
 	}
@@ -111,6 +113,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		return AiModusGenerator.createFromRadioGroup(radioGroup);
 	}
 
+	@SuppressWarnings("unused")
 	public void onClickMultiplayer(View v) {
 		SettingsEntity settings = readSettingsFromDb();
 		LocalSettings localSettings = createLocalSettings(settings);
