@@ -6,6 +6,7 @@ import java.io.OutputStream;
 
 import android.bluetooth.BluetoothSocket;
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
+import de.oetting.bumpingbunnies.communication.MethodNotImplemented;
 import de.oetting.bumpingbunnies.communication.MySocket;
 
 public class MyBluetoothSocket extends AbstractSocket implements MySocket {
@@ -38,8 +39,12 @@ public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 
 	@Override
 	public String blockingReceive() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new MethodNotImplemented();
+	}
+
+	@Override
+	public MySocket createFastConnection() {
+		return this;
 	}
 
 }

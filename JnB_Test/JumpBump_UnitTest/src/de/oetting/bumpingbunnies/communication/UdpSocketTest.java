@@ -4,7 +4,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.IOException;
@@ -27,6 +26,7 @@ public class UdpSocketTest {
 	private DatagramSocket socket;
 	@Mock
 	private InetAddress address;
+	private int port = 12345;
 
 	@Test
 	public void sendDatagram_thenDatagramIsSentViaSocket() throws IOException {
@@ -60,7 +60,6 @@ public class UdpSocketTest {
 
 	@Test
 	public void sendMessage_shouldUsePortFromSocket() throws IOException {
-		givenPortIsUsed(12345);
 		sendMessage("message");
 		verify(this.socket).send(datagramWithPort(12345));
 	}
@@ -111,10 +110,6 @@ public class UdpSocketTest {
 		this.fixture.sendMessage(message);
 	}
 
-	private void givenPortIsUsed(int port) {
-		when(this.socket.getPort()).thenReturn(port);
-	}
-
 	private DatagramPacket datagramWithText(final String text) {
 		return argThat(new BaseMatcher<DatagramPacket>() {
 
@@ -141,6 +136,6 @@ public class UdpSocketTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new UdpSocket(this.socket, this.address);
+		this.fixture = new UdpSocket(this.socket, this.address, this.port);
 	}
 }

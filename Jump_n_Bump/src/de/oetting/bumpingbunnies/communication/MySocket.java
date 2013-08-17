@@ -12,4 +12,8 @@ public interface MySocket {
 
 	String blockingReceive();
 
+	/**
+	 * Fast connection is udp for example. bluetooth would return itself, also udp does return itself
+	 */
+	MySocket createFastConnection();
 }

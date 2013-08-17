@@ -3,11 +3,14 @@ package de.oetting.bumpingbunnies.communication.wlan;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.communication.UdpSocket;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 
 public class WlanSocket extends AbstractSocket implements MySocket {
 
@@ -47,4 +50,20 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 		return this.socket.getOutputStream();
 	}
 
+	@Override
+	public MySocket createFastConnection() {
+		try {
+			DatagramSocket dataSocket = new DatagramSocket(NetworkConstants.UDP_PORT);
+			dataSocket.setBroadcast(false);
+			return new UdpSocket(dataSocket, this.socket.getInetAddress(), NetworkConstants.UDP_PORT);
+		} catch (IOException e) {
+			throw new SocketCreationException(e);
+		}
+	}
+
+	public static class SocketCreationException extends RuntimeException {
+		public SocketCreationException(Exception e) {
+			super(e);
+		}
+	}
 }

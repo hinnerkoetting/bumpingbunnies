@@ -21,4 +21,5 @@ public class NetworkConstants {
 
 	public static final int WLAN_PORT = 10765;
 	public static final int BROADCAST_PORT = 10766;
+	public static final int UDP_PORT = 10767;
 }

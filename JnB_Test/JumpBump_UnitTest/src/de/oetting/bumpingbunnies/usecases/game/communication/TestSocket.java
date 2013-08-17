@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
+import de.oetting.bumpingbunnies.communication.MySocket;
 
 public class TestSocket extends AbstractSocket {
 
@@ -34,6 +35,11 @@ public class TestSocket extends AbstractSocket {
 	@Override
 	protected OutputStream getOutputStream() throws IOException {
 		return this.os;
+	}
+
+	@Override
+	public MySocket createFastConnection() {
+		return this;
 	}
 
 }

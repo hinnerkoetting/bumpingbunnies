@@ -147,8 +147,15 @@ public class GameActivity extends Activity {
 
 	public ServerConnection createServerConnection(MySocket socket) {
 		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, this);
-		ServerConnection serverConnection = new ServerConnection(tcpConnection, null); // TODO
+		NetworkSendQueueThread udpConnection = createUdpConnection(socket);
+
+		ServerConnection serverConnection = new ServerConnection(tcpConnection, udpConnection);
 		return serverConnection;
+	}
+
+	private NetworkSendQueueThread createUdpConnection(MySocket socket) {
+		MySocket fastSocket = socket.createFastConnection();
+		return NetworkSendQueueThreadFactory.create(fastSocket, this);
 	}
 
 	private List<StateSender> createSender(Player myPlayer) {
