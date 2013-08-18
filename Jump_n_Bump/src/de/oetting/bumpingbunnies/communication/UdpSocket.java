@@ -10,12 +10,14 @@ public class UdpSocket implements MySocket {
 	private final DatagramSocket socket;
 	private final InetAddress address;
 	private final int port;
+	private DatagramPacket receivingPacket;
 
 	public UdpSocket(DatagramSocket socket, InetAddress address, int port) {
 		super();
 		this.socket = socket;
 		this.address = address;
 		this.port = port;
+		this.receivingPacket = new DatagramPacket(new byte[1024], 1024);
 	}
 
 	public DatagramSocket getSocket() {
@@ -75,11 +77,22 @@ public class UdpSocket implements MySocket {
 
 	@Override
 	public String blockingReceive() {
-		throw new MethodNotImplemented();
+		try {
+			this.socket.receive(this.receivingPacket);
+			return new String(this.receivingPacket.getData(), 0, this.receivingPacket.getLength());
+		} catch (IOException e) {
+			throw new ReceiveFailure(e);
+		}
 	}
 
 	@Override
 	public MySocket createFastConnection() {
 		return this;
+	}
+
+	public static class ReceiveFailure extends RuntimeException {
+		public ReceiveFailure(Exception e) {
+			super(e);
+		}
 	}
 }

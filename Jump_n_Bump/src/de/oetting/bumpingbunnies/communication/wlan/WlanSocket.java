@@ -16,6 +16,7 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 
 	private Socket socket;
 	private SocketAddress address;
+	private UdpSocket udpSocket;
 
 	public WlanSocket(Socket socket) throws IOException {
 		this.socket = socket;
@@ -52,6 +53,13 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 
 	@Override
 	public MySocket createFastConnection() {
+		if (this.udpSocket == null) {
+			this.udpSocket = createUdpSocket();
+		}
+		return this.udpSocket;
+	}
+
+	private UdpSocket createUdpSocket() {
 		try {
 			DatagramSocket dataSocket = new DatagramSocket(NetworkConstants.UDP_PORT);
 			dataSocket.setBroadcast(false);

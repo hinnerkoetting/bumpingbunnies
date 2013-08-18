@@ -5,12 +5,12 @@ import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
-public class ServerConnection implements RemoteSender {
+public class RemoteConnection implements RemoteSender {
 
 	private final RemoteSender tcpConnection;
 	private final RemoteSender udpConnection;
 
-	public ServerConnection(NetworkSendQueueThread tcpConnection, RemoteSender udpConnection) {
+	public RemoteConnection(NetworkSendQueueThread tcpConnection, RemoteSender udpConnection) {
 		this.tcpConnection = tcpConnection;
 		this.udpConnection = udpConnection;
 	}

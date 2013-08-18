@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.communication.MySocket;
-import de.oetting.bumpingbunnies.communication.ServerConnection;
+import de.oetting.bumpingbunnies.communication.RemoteConnection;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.factories.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
@@ -56,7 +56,7 @@ public class GameActivity extends Activity {
 
 	private InputDispatcher<?> inputDispatcher;
 	private List<NetworkReceiveThread> networkReceiveThreads;
-	private List<RemoteSender> sendThreads = new ArrayList<RemoteSender>();
+	private List<RemoteConnection> sendThreads = new ArrayList<RemoteConnection>();
 	private MediaPlayer backgroundMusic;
 	private AllPlayerConfig allPlayerConfig;
 
@@ -136,20 +136,20 @@ public class GameActivity extends Activity {
 	private void createRemoteSender() {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
-		List<RemoteSender> resultSender = new ArrayList<RemoteSender>(
+		List<RemoteConnection> resultSender = new ArrayList<RemoteConnection>(
 				allSockets.size());
 		for (MySocket socket : allSockets) {
-			ServerConnection serverConnection = createServerConnection(socket);
+			RemoteConnection serverConnection = createServerConnection(socket);
 			resultSender.add(serverConnection);
 		}
 		this.sendThreads = resultSender;
 	}
 
-	public ServerConnection createServerConnection(MySocket socket) {
+	public RemoteConnection createServerConnection(MySocket socket) {
 		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, this);
 		NetworkSendQueueThread udpConnection = createUdpConnection(socket);
 
-		ServerConnection serverConnection = new ServerConnection(tcpConnection, udpConnection);
+		RemoteConnection serverConnection = new RemoteConnection(tcpConnection, udpConnection);
 		return serverConnection;
 	}
 
@@ -161,7 +161,7 @@ public class GameActivity extends Activity {
 	private List<StateSender> createSender(Player myPlayer) {
 		List<StateSender> resultSender = new ArrayList<StateSender>(
 				this.sendThreads.size());
-		for (RemoteSender rs : this.sendThreads) {
+		for (RemoteConnection rs : this.sendThreads) {
 			resultSender.add(new GameNetworkSender(myPlayer, rs));
 		}
 		return resultSender;
@@ -169,7 +169,7 @@ public class GameActivity extends Activity {
 
 	private List<InputService> initInputServices(
 			World world, AllPlayerConfig config,
-			List<RemoteSender> allSender, GameStartParameter parameter) {
+			List<? extends RemoteSender> allSender, GameStartParameter parameter) {
 		AbstractPlayerInputServicesFactory.init(parameter.getConfiguration()
 				.getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
@@ -205,16 +205,20 @@ public class GameActivity extends Activity {
 
 	private void createNetworkReceiveThreads(
 			NetworkToGameDispatcher networkDispatcher,
-			List<RemoteSender> allRemoteSender) {
+			List<? extends RemoteSender> allRemoteSender) {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
 		this.networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
 		for (MySocket socket : allSockets) {
-			NetworkReceiveThread receiveThread = NetworkReceiverDispatcherThreadFactory
+			NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory
 					.createGameNetworkReceiver(socket, allRemoteSender,
 							networkDispatcher);
+			NetworkReceiveThread udpReceiveThread = NetworkReceiverDispatcherThreadFactory
+					.createGameNetworkReceiver(socket.createFastConnection(), allRemoteSender,
+							networkDispatcher);
 
-			this.networkReceiveThreads.add(receiveThread);
+			this.networkReceiveThreads.add(tcpReceiveThread);
+			this.networkReceiveThreads.add(udpReceiveThread);
 		}
 	}
 

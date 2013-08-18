@@ -24,10 +24,10 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final CollisionDetection collisionDetection;
 	private final List<Player> allPlayers;
 	private final SpawnPointGenerator spawnPointGenerator;
-	private final List<RemoteSender> sendThreads;
+	private final List<? extends RemoteSender> sendThreads;
 	private final PlayerReviver reviver;
 
-	public HostBunnyKillChecker(List<RemoteSender> sendThreads, CollisionDetection collisionDetection, List<Player> allPlayers,
+	public HostBunnyKillChecker(List<? extends RemoteSender> sendThreads, CollisionDetection collisionDetection, List<Player> allPlayers,
 			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver) {
 		super();
 		this.sendThreads = sendThreads;

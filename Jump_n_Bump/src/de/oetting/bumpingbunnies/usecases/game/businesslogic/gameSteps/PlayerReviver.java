@@ -10,9 +10,9 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class PlayerReviver implements GameStepAction {
 
 	private final List<PlayerReviveEntry> reviveEntries = new LinkedList<PlayerReviveEntry>();
-	private final List<RemoteSender> senderList;
+	private final List<? extends RemoteSender> senderList;
 
-	public PlayerReviver(List<RemoteSender> senderList) {
+	public PlayerReviver(List<? extends RemoteSender> senderList) {
 		super();
 		this.senderList = senderList;
 	}

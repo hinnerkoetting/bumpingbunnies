@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -42,7 +41,8 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	void oneRun() throws IOException {
 		String input = this.socket.blockingReceive();
 		if (input == null) {
-			LOGGER.warn("Input was null. Continuing...");
+			LOGGER.warn("Input was null.");
+			throw new InputIsNullException();
 		} else {
 			if (!this.canceled) {
 				dispatchMessage(input);
@@ -65,9 +65,9 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	private JsonWrapper convertToObject(String input) {
 		try {
 			return this.gson.fromJson(input, JsonWrapper.class);
-		} catch (JsonSyntaxException e) {
-			LOGGER.error(e.getMessage());
-			throw e;
+		} catch (Exception e) {
+			LOGGER.error("Message was %s", input);
+			throw new JsonConvertionException(e);
 		}
 	}
 
@@ -81,4 +81,12 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 		return this.networkDispatcher.getNetworkToGameDispatcher();
 	}
 
+	public static class InputIsNullException extends RuntimeException {
+	}
+
+	public static class JsonConvertionException extends RuntimeException {
+		public JsonConvertionException(Exception e) {
+			super(e);
+		}
+	}
 }

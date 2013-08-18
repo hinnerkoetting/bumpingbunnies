@@ -34,7 +34,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class GameThreadFactory {
 
-	public static GameThread create(List<RemoteSender> sendThreads, World world,
+	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
 			List<InputService> movementServices, List<StateSender> stateSender,
 			Context context, AllPlayerConfig playerConfig,
 			Configuration configuration) {
@@ -63,7 +63,8 @@ public class GameThreadFactory {
 		return new CameraPositionCalculation(player);
 	}
 
-	private static void assignInitialSpawnpoints(SpawnPointGenerator spGenerator, List<Player> allPlayers, List<RemoteSender> sendThreads) {
+	private static void assignInitialSpawnpoints(SpawnPointGenerator spGenerator, List<Player> allPlayers,
+			List<? extends RemoteSender> sendThreads) {
 		for (Player p : allPlayers) {
 			SpawnPoint nextSpawnPoint = spGenerator.nextSpawnPoint();
 			ResetToScorePoint.resetPlayerToSpawnPoint(nextSpawnPoint, p);
@@ -71,14 +72,14 @@ public class GameThreadFactory {
 		}
 	}
 
-	private static void notifyAllClientsAboutSpawnpoints(List<RemoteSender> sendThreads, SpawnPoint spawnpoint, Player player) {
+	private static void notifyAllClientsAboutSpawnpoints(List<? extends RemoteSender> sendThreads, SpawnPoint spawnpoint, Player player) {
 		SpawnPointMessage message = new SpawnPointMessage(spawnpoint, player.id());
 		for (RemoteSender sender : sendThreads) {
 			new SpawnPointSender(sender).sendMessage(message);
 		}
 	}
 
-	private static PlayerReviver createReviver(List<RemoteSender> sendThreads, List<Player> list, Configuration configuration) {
+	private static PlayerReviver createReviver(List<? extends RemoteSender> sendThreads, List<Player> list, Configuration configuration) {
 		PlayerReviver reviver = new PlayerReviver(sendThreads);
 		if (configuration.isHost()) {
 			for (Player p : list) {
@@ -88,7 +89,7 @@ public class GameThreadFactory {
 		return reviver;
 	}
 
-	private static BunnyKillChecker createKillChecker(List<RemoteSender> sendThreads, Configuration conf, World world,
+	private static BunnyKillChecker createKillChecker(List<? extends RemoteSender> sendThreads, Configuration conf, World world,
 			List<Player> allPlayers,
 			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver) {
 		CollisionDetection collisionDetection = new CollisionDetection(world);

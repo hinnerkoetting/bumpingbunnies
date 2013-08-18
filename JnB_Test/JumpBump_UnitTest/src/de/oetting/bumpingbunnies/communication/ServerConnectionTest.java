@@ -19,7 +19,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 public class ServerConnectionTest {
 
-	private ServerConnection fixture;
+	private RemoteConnection fixture;
 	@Mock
 	private NetworkSendQueueThread tcpConnection;
 	@Mock
@@ -95,7 +95,7 @@ public class ServerConnectionTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new ServerConnection(this.tcpConnection, this.udpConnection);
+		this.fixture = new RemoteConnection(this.tcpConnection, this.udpConnection);
 	}
 
 }

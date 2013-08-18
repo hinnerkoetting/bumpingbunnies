@@ -25,8 +25,7 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 	public void dispatchPlayerState(JsonWrapper wrapper) {
 		NetworkListener networkListener = this.listeners.get(wrapper.getId().ordinal());
 		if (networkListener == null) {
-			throw new IllegalStateException("No Listener registered for id "
-					+ wrapper.getId());
+			throw new NoListenerFound(wrapper.getId());
 		}
 		LOGGER.debug("Received message %s", wrapper.getMessage());
 		networkListener.newMessage(wrapper.getMessage());
@@ -40,5 +39,11 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 	@Override
 	public NetworkToGameDispatcher getNetworkToGameDispatcher() {
 		return this;
+	}
+
+	public static class NoListenerFound extends RuntimeException {
+		public NoListenerFound(MessageId messageId) {
+			super(String.format("No listener found for id %s", messageId.toString()));
+		}
 	}
 }

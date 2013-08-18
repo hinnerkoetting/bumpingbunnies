@@ -15,7 +15,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 public class NetworkReceiverDispatcherThreadFactory {
 
 	public static NetworkReceiveThread createGameNetworkReceiver(
-			MySocket socket, List<RemoteSender> allRemoteSender,
+			MySocket socket, List<? extends RemoteSender> allRemoteSender,
 			NetworkToGameDispatcher networkDispatcher) {
 
 		// create a new dispatcher which will dispatch incoming events to all

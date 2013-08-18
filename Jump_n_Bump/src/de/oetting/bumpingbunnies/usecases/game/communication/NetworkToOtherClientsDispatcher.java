@@ -6,18 +6,17 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 /**
- * Dispatches all incoming traffic to each other client. Afterwards it is
- * dispatched to game controls.
+ * Dispatches all incoming traffic to each other client. Afterwards it is dispatched to game controls.
  * 
  */
 public class NetworkToOtherClientsDispatcher implements
 		IncomingNetworkDispatcher {
 
-	private final List<RemoteSender> sendQueues;
+	private final List<? extends RemoteSender> sendQueues;
 	private final NetworkToGameDispatcher gameDispatcher;
 	private final MySocket incomingSocket;
 
-	public NetworkToOtherClientsDispatcher(List<RemoteSender> sendQueues,
+	public NetworkToOtherClientsDispatcher(List<? extends RemoteSender> sendQueues,
 			MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher) {
 		super();
 		this.sendQueues = sendQueues;
