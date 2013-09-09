@@ -293,7 +293,7 @@ public class GameActivity extends Activity {
 		for (PlayerMovementController movement : playermovements) {
 			for (Player storedPlayer : storedPlayers) {
 				if (movement.getPlayer().id() == storedPlayer.id()) {
-					movement.getPlayer().applyState(storedPlayer);
+					movement.getPlayer().applyStateTo(storedPlayer);
 				}
 			}
 		}

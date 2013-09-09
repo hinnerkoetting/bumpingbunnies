@@ -66,7 +66,7 @@ public class AllPlayerConfig {
 
 	public PlayerMovementCalculation createMovementCalculation(CollisionDetection colDetection, Player p) {
 		PlayerMovementCalculation playerMovementCalculation = new PlayerMovementCalculation(p, new InteractionService(colDetection,
-				this.world), p.getState(), colDetection);
+				this.world), colDetection);
 		return playerMovementCalculation;
 	}
 

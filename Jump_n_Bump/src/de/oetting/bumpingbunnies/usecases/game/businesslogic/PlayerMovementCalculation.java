@@ -5,7 +5,6 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
 /**
@@ -17,15 +16,13 @@ public class PlayerMovementCalculation {
 
 	private final Player movedPlayer;
 	private final InteractionService interactionService;
-	private final PlayerState movedPlayerState;
 	private final CollisionDetection collisionDetection;
 
-	public PlayerMovementCalculation(Player movedPlayer, InteractionService interactionService, PlayerState movedPlayerState,
+	public PlayerMovementCalculation(Player movedPlayer, InteractionService interactionService,
 			CollisionDetection collisionDetection) {
 		super();
 		this.movedPlayer = movedPlayer;
 		this.interactionService = interactionService;
-		this.movedPlayerState = movedPlayerState;
 		this.collisionDetection = collisionDetection;
 	}
 
@@ -48,7 +45,7 @@ public class PlayerMovementCalculation {
 	}
 
 	private void conditionalSetJumpMovement() {
-		if (this.movedPlayerState.isJumpingButtonPressed()) {
+		if (this.movedPlayer.isJumpingButtonPressed()) {
 			if (standsOnFixedObject()) {
 				setJumpMovement();
 			} else if (isInWater()) {
@@ -88,7 +85,7 @@ public class PlayerMovementCalculation {
 	}
 
 	public void computeVerticalGravity() {
-		if (this.movedPlayerState.isJumpingButtonPressed()) {
+		if (this.movedPlayer.isJumpingButtonPressed()) {
 			this.movedPlayer
 					.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
 		} else {
@@ -103,7 +100,7 @@ public class PlayerMovementCalculation {
 			this.movedPlayer.setAccelerationX(isMovingLeft ? -accelerationX : accelerationX);
 		} else {
 			if (this.movedPlayer.movementX() != 0) {
-				tryToSteerAgainstMovement();
+				steerAgainstMovement();
 			} else {
 				this.movedPlayer.setAccelerationX(0);
 			}
@@ -114,7 +111,7 @@ public class PlayerMovementCalculation {
 		return !this.movedPlayer.isTryingToRemoveHorizontalMovement();
 	}
 
-	private void tryToSteerAgainstMovement() {
+	void steerAgainstMovement() {
 		int breakAcceleration = (int) -Math
 				.signum(this.movedPlayer.movementX())
 				* findAccelerationForObject();

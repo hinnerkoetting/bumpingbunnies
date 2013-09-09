@@ -266,7 +266,7 @@ public class Player implements GameObject {
 		return this.name;
 	}
 
-	public void applyState(Player player) {
+	public void applyStateTo(Player player) {
 		this.state.copyContentTo(player.state);
 	}
 
@@ -345,6 +345,10 @@ public class Player implements GameObject {
 				+ this.simulatedObject + ", rect=" + this.rect + ", currentScreenX=" + this.currentScreenX + ", currentScreenY="
 				+ this.currentScreenY
 				+ ", horizontalMovementStatus=" + this.horizontalMovementStatus + "]";
+	}
+
+	public boolean isJumpingButtonPressed() {
+		return this.state.isJumpingButtonPressed();
 	}
 
 }
