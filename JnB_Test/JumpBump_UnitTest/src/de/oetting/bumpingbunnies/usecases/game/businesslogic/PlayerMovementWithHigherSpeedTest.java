@@ -15,27 +15,27 @@ public class PlayerMovementWithHigherSpeedTest extends AbstractTestPlayerMovemen
 	private static final int speed = 2;
 
 	@Test
-	public void steerAgainstMovement_givenMovementIsEqualToAccelerationMultipliedWithSpeedFactor_thenMovementShouldBeEqualToBefore() {
-		setHorizontalPlayerMovement(2);
-		givenAccelerationOnGroundIs(1);
+	public void steerAgainstMovement_givenMovementIsEqualToNextAcceleration_thenMovementShouldBeZero() {
+		setHorizontalPlayerMovement(4);
+		givenAccelerationOnGroundIs(2);
 		steerAgainstMovement();
-		assertThat(this.player.movementX(), is(equalTo(2)));
+		assertThat(this.player.movementX(), is(equalTo(0)));
 	}
 
 	@Test
-	public void steerAgainstMovement_givenMovementIsEqualToAccelerationMultipliedWithSpeedFactor_thenAccelerationShouldBeNegativeGroundAcceleration() {
-		setHorizontalPlayerMovement(2);
-		givenAccelerationOnGroundIs(1);
+	public void steerAgainstMovement_givenMovementIsEqualToNextAcceleration_thenAccelerationShouldBeZero() {
+		setHorizontalPlayerMovement(4);
+		givenAccelerationOnGroundIs(2);
 		steerAgainstMovement();
-		assertThat(this.player.getAccelerationX(), is(equalTo(-1)));
+		assertThat(this.player.getAccelerationX(), is(equalTo(0)));
 	}
 
 	@Test
-	public void steerAgainstMovement_givenMovementIsHigherThanAccelerationMultSpeed_thenAccelerationShouldBeNegativeGroundAcceleration() {
-		setHorizontalPlayerMovement(3);
-		givenAccelerationOnGroundIs(1);
+	public void steerAgainstMovement_givenMovementIsHigherThanNextAcceleration_thenGroundAccelerationIsAppliedNegative() {
+		setHorizontalPlayerMovement(5);
+		givenAccelerationOnGroundIs(2);
 		steerAgainstMovement();
-		assertThat(this.player.getAccelerationX(), is(equalTo(-1)));
+		assertThat(this.player.getAccelerationX(), is(equalTo(-8)));
 	}
 
 	@Before

@@ -4,9 +4,8 @@ public interface ModelConstants {
 
 	int MAX_VALUE = 100000000;
 	/**
-	 * this constant can be used for constant values. For example movement speed
-	 * or outside of game zone. All of these constants should be some
-	 * multiple/divider of this constant. <br>
+	 * this constant can be used for constant values. For example movement speed or outside of game zone. All of these constants should be some multiple/divider
+	 * of this constant. <br>
 	 * This constant may change in another version.
 	 * 
 	 */
@@ -35,8 +34,8 @@ public interface ModelConstants {
 	int PLAYER_GRAVITY_WATER = -PLAYER_GRAVITY_WHILE_JUMPING / 2;
 
 	int ACCELERATION_X_WALL = 40;
-	int ACCELERATION_X_AIR = 20;
-	int ACCELERATION_X_WATER = 10;
+	int ACCELERATION_X_AIR = 5;
+	int ACCELERATION_X_WATER = 5;
 	int ACCELERATION_X_ICE = 2;
 
 }

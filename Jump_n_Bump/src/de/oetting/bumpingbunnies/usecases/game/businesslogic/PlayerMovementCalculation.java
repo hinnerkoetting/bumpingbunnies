@@ -38,7 +38,6 @@ public class PlayerMovementCalculation {
 
 	private void executeOneStep() {
 		computeGravity();
-		conditionalSetJumpMovement();
 		this.interactionService.interactWith(this.movedPlayer);
 		this.movedPlayer.moveNextStep();
 		this.movedPlayer.calculateNextSpeed();
@@ -46,13 +45,7 @@ public class PlayerMovementCalculation {
 
 	private void conditionalSetJumpMovement() {
 		if (this.movedPlayer.isJumpingButtonPressed()) {
-			if (standsOnFixedObject()) {
-				setJumpMovement();
-			} else if (isInWater()) {
-				this.movedPlayer
-						.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_WATER);
-				this.movedPlayer.setAccelerationY(0);
-			}
+
 		}
 	}
 
@@ -86,10 +79,22 @@ public class PlayerMovementCalculation {
 
 	public void computeVerticalGravity() {
 		if (this.movedPlayer.isJumpingButtonPressed()) {
-			this.movedPlayer
-					.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
+			computeJumpingVerticalGravity();
 		} else {
 			this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY);
+		}
+	}
+
+	private void computeJumpingVerticalGravity() {
+		if (standsOnFixedObject()) {
+			setJumpMovement();
+		} else if (isInWater()) {
+			this.movedPlayer
+					.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_WATER);
+			this.movedPlayer.setAccelerationY(0);
+		} else {
+			this.movedPlayer
+					.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
 		}
 	}
 
