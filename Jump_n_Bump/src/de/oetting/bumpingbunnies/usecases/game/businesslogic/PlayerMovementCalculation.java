@@ -37,16 +37,9 @@ public class PlayerMovementCalculation {
 	}
 
 	private void executeOneStep() {
-		computeGravity();
+		computeMovement();
 		this.interactionService.interactWith(this.movedPlayer);
 		this.movedPlayer.moveNextStep();
-		this.movedPlayer.calculateNextSpeed();
-	}
-
-	private void conditionalSetJumpMovement() {
-		if (this.movedPlayer.isJumpingButtonPressed()) {
-
-		}
 	}
 
 	private boolean isInWater() {
@@ -72,16 +65,21 @@ public class PlayerMovementCalculation {
 		this.movedPlayer.setAccelerationY(0);
 	}
 
-	private void computeGravity() {
-		computeVerticalGravity();
-		computeHorizontalGravity();
+	private void computeMovement() {
+		computeVerticalMovement();
+		computeHorizontalMovement();
+		this.movedPlayer.calculateNextSpeed();
 	}
 
-	public void computeVerticalGravity() {
+	public void computeVerticalMovement() {
 		if (this.movedPlayer.isJumpingButtonPressed()) {
 			computeJumpingVerticalGravity();
 		} else {
-			this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY);
+			if (standsOnFixedObject()) {
+				this.movedPlayer.setAccelerationY(0);
+			} else {
+				this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY);
+			}
 		}
 	}
 
@@ -98,7 +96,7 @@ public class PlayerMovementCalculation {
 		}
 	}
 
-	public void computeHorizontalGravity() {
+	public void computeHorizontalMovement() {
 		if (isPlayerMoving()) {
 			int accelerationX = findAccelerationForObject();
 			boolean isMovingLeft = this.movedPlayer.isMovingLeft();

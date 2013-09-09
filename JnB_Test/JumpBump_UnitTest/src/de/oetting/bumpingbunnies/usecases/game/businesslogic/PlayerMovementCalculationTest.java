@@ -3,12 +3,17 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
+import de.oetting.bumpingbunnies.usecases.game.model.Rect;
+import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
 public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCalculation {
 
@@ -49,6 +54,61 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 		setHorizontalPlayerMovement(2);
 		steerAgainstMovement();
 		assertThat(this.player.getAccelerationX(), is(equalTo(-1)));
+	}
+
+	@Test
+	public void computeVerticalGravity_givenJumpButtonIsPressedAndNotStanding_thenGravityShouldBeReduced() {
+		this.player.getState().setJumpingButtonPressed(true);
+		givenPlayerIsInTheAir();
+		computeVerticalMovement();
+		assertThat(this.player.getAccelerationY(), is(equalTo(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING)));
+	}
+
+	@Test
+	public void computeVerticalGravity_givenJumpButtonIsPressedAndStandingOnObject_thanGravityShouldBeZeroAndMovementSpeedIsPositive() {
+		this.player.getState().setJumpingButtonPressed(true);
+		givenPlayerIsStandingOnGround();
+		computeVerticalMovement();
+		assertThat(this.player.getAccelerationY(), is(equalTo(0)));
+		assertThat(this.player.movementY(), is(equalTo(ModelConstants.PLAYER_JUMP_SPEED)));
+	}
+
+	@Test
+	public void computeVerticalGravity_givenJumpButtonIsPressedAndInWater_thenGravityIsPostiveAndMovementSpeedIsPositive() {
+		this.player.getState().setJumpingButtonPressed(true);
+		givenPlayerIsStandingInWater();
+		computeVerticalMovement();
+		assertThat(this.player.getAccelerationY(), is(equalTo(0)));
+		assertThat(this.player.movementY(), is(equalTo(ModelConstants.PLAYER_JUMP_SPEED_WATER)));
+	}
+
+	@Test
+	public void computeVerticalGravity_givenStandingOnFixedObject_thenGravityShouldBeZero() {
+		givenPlayerIsStandingOnGround();
+		computeVerticalMovement();
+		assertThat(this.player.getAccelerationY(), is(equalTo(0)));
+	}
+
+	@Test
+	public void computeVerticalGravity_givenPlayerIsFalling_thenGravityShouldBeFallGravity() {
+		computeVerticalMovement();
+		assertThat(this.player.getAccelerationY(), is(equalTo(ModelConstants.PLAYER_GRAVITY)));
+	}
+
+	private void givenPlayerIsStandingInWater() {
+		when(this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.player)).thenReturn(new Water(new Rect()));
+	}
+
+	private void givenPlayerIsStandingOnGround() {
+		when(this.collisionDetection.findObjectThisPlayerIsStandingOn(this.player)).thenReturn(new TestableGameObject());
+	}
+
+	private void computeVerticalMovement() {
+		this.fixture.computeVerticalMovement();
+	}
+
+	private void givenPlayerIsInTheAir() {
+		when(this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.player)).thenReturn(null);
 	}
 
 	@Before
