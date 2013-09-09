@@ -38,7 +38,7 @@ public class DrawablesFactory {
 	private Collection<? extends Drawable> createWalls() {
 		List<Drawable> allWalls = new LinkedList<Drawable>();
 
-		for (GameObjectWithImage w : this.world.getAllWalls()) {
+		for (GameObjectWithImage w : this.world.getAllObjects()) {
 
 			// TODO rework
 			if (w.maxX() - w.minX() > MIN_SIZE_FOR_DRAWER && w.maxY() - w.minY() > MIN_SIZE_FOR_DRAWER) {

@@ -15,10 +15,10 @@ public class PlayerMovementCalculation {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerMovementCalculation.class);
 
 	private final Player movedPlayer;
-	private final InteractionService interactionService;
+	private final GameObjectInteractor interactionService;
 	private final CollisionDetection collisionDetection;
 
-	public PlayerMovementCalculation(Player movedPlayer, InteractionService interactionService,
+	public PlayerMovementCalculation(Player movedPlayer, GameObjectInteractor interactionService,
 			CollisionDetection collisionDetection) {
 		super();
 		this.movedPlayer = movedPlayer;

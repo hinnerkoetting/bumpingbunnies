@@ -12,7 +12,7 @@ public class AbstractTestPlayerMovementCalculation {
 	protected PlayerMovementCalculation fixture;
 	protected Player player;
 	@Mock
-	protected InteractionService interactionService;
+	protected GameObjectInteractor interactionService;
 	@Mock
 	protected CollisionDetection collisionDetection;
 

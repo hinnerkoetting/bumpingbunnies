@@ -12,15 +12,14 @@ import org.mockito.MockitoAnnotations;
 
 import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.InteractionService;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
 public class InteractionServiceTest {
 
-	private InteractionService interactionService;
+	private GameObjectInteractor interactionService;
 	private CollisionDetection collisionDetection;
 	@Mock
 	private ObjectProvider objectProvider;
@@ -206,12 +205,12 @@ public class InteractionServiceTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.collisionDetection = new CollisionDetection(this.objectProvider);
-		this.interactionService = new InteractionService(
+		this.interactionService = new GameObjectInteractor(
 				this.collisionDetection, this.objectProvider);
 	}
 
 	private void givenObjectExists(Wall gameObject) {
-		when(this.objectProvider.getAllObjects()).thenReturn(
-				Arrays.asList((GameObject) gameObject));
+		when(this.objectProvider.getAllWalls()).thenReturn(
+				Arrays.asList(gameObject));
 	}
 }

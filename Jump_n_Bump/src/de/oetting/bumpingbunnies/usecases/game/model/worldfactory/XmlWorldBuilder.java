@@ -15,7 +15,6 @@ import android.util.Xml;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
@@ -97,7 +96,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		XmlRect rect = readRect(parser);
 		Water water = XmlRectToObjectConverter
 				.createWater(rect, this.worldProperties);
-		this.state.getAllObjects().add(water);
+		this.state.getWaters().add(water);
 	}
 
 	private void readSpawnpoint(XmlPullParser parser) {
@@ -111,13 +110,13 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		XmlRect rect = readRect(parser);
 		Jumper jumper = XmlRectToObjectConverter
 				.createJumper(rect, mediaPlayer, this.worldProperties);
-		this.state.getAllObjects().add(jumper);
+		this.state.getAllJumper().add(jumper);
 	}
 
 	private void readIcewall(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
 		IcyWall wall = XmlRectToObjectConverter.createIceWall(rect, this.worldProperties);
-		this.state.getAllObjects().add(wall);
+		this.state.getAllIcyWalls().add(wall);
 	}
 
 	private void readWall(XmlPullParser parser) throws XmlPullParserException,
@@ -125,7 +124,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		XmlRect rect = readRect(parser);
 		Wall wall = XmlRectToObjectConverter.createWall(rect, this.worldProperties);
 		wall.setBitmap(readBitmap(parser));
-		this.state.getAllObjects().add(wall);
+		this.state.getAllWalls().add(wall);
 	}
 
 	private XmlRect readRect(XmlPullParser parser) {
@@ -137,9 +136,8 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	}
 
 	@Override
-	public Collection<GameObjectWithImage> createAllWalls(Context context) {
+	public void build(Context context) {
 		parse(context);
-		return this.state.getAllObjects();
 	}
 
 	@Override
@@ -161,5 +159,25 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 
 	private Bitmap readBitmap(String fileName) {
 		return this.bitmapReader.readBitmap(fileName);
+	}
+
+	@Override
+	public Collection<Wall> getAllWalls() {
+		return this.state.getAllWalls();
+	}
+
+	@Override
+	public Collection<IcyWall> getAllIcyWalls() {
+		return this.state.getAllIcyWalls();
+	}
+
+	@Override
+	public Collection<Jumper> getAllJumpers() {
+		return this.state.getAllJumper();
+	}
+
+	@Override
+	public Collection<Water> getAllWaters() {
+		return this.state.getWaters();
 	}
 }
