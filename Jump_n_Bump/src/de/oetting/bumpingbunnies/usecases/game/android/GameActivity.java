@@ -169,10 +169,9 @@ public class GameActivity extends Activity {
 	private List<InputService> initInputServices(
 			World world, AllPlayerConfig config,
 			List<? extends RemoteSender> allSender, GameStartParameter parameter, GameView view, CoordinatesCalculation calculations) {
-		AbstractPlayerInputServicesFactory.init(parameter.getConfiguration()
-				.getInputConfiguration());
-		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
-				.getSingleton();
+		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
+				.getConfiguration().getInputConfiguration()
+				.createInputconfigurationClass();
 
 		InputService touchService = myPlayerFactory.createInputService(config, this, view, calculations);
 
