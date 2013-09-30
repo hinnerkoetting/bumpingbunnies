@@ -7,13 +7,12 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 /**
- * Dispatches incoming traffic to registered listeners;
+ * Dispatches incoming traffic to registered listeners. If no listener is registered for an ID, an exception is thrown.
  * 
  */
 public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(NetworkToGameDispatcher.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkToGameDispatcher.class);
 	private final SparseArray<NetworkListener> listeners;
 
 	public NetworkToGameDispatcher() {

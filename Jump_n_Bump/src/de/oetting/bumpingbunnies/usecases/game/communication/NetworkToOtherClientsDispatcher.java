@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 /**
- * Dispatches all incoming traffic to each other client. Afterwards it is dispatched to game controls.
+ * Dispatches all incoming traffic to each other client. This should only done by the server. Afterwards the message gets dispatched to game controls.
  * 
  */
 public class NetworkToOtherClientsDispatcher implements
