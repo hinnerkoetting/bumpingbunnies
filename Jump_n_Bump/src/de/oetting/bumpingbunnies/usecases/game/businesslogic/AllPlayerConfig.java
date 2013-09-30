@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
-import de.oetting.bumpingbunnies.usecases.game.android.input.network.NetworkInputService;
+import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -80,8 +80,8 @@ public class AllPlayerConfig {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		for (PlayerConfig config : this.notControlledPlayers) {
 			InputService is = config.createInputService();
-			if (is instanceof NetworkInputService) {
-				NetworkInputService inputservice = (NetworkInputService) is;
+			if (is instanceof PlayerFromNetworkInput) {
+				PlayerFromNetworkInput inputservice = (PlayerFromNetworkInput) is;
 				stateDispatcher.addInputService(config.getMovementController()
 						.getPlayer().id(), inputservice);
 			}
