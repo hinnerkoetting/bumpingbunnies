@@ -44,10 +44,7 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 
 	void oneRun() {
 		String input = this.socket.blockingReceive();
-		if (input == null) {
-			LOGGER.warn("Input was null.");
-			throw new InputIsNullException();
-		} else {
+		if (input != null) {
 			if (!this.canceled) {
 				dispatchMessage(input);
 			}

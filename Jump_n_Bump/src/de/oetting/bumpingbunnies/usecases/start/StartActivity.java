@@ -152,4 +152,10 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		this.settingsDao.close();
 	}
 
+	@Override
+	public void onBackPressed() {
+		this.finish();
+		super.onBackPressed();
+	}
+
 }

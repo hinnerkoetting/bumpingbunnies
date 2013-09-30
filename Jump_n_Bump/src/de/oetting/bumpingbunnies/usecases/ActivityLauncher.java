@@ -54,5 +54,6 @@ public class ActivityLauncher {
 	public static void toStart(Activity origin) {
 		Intent intent = new Intent(origin, StartActivity.class);
 		origin.startActivity(intent);
+		origin.finish();
 	}
 }
