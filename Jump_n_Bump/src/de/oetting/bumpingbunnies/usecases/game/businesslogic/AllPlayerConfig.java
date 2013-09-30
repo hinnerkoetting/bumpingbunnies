@@ -18,14 +18,12 @@ public class AllPlayerConfig {
 	private final PlayerMovementController myPlayerMovement;
 	private final List<PlayerConfig> notControlledPlayers;
 	private final CoordinatesCalculation coordinateCalculations;
-	private final World world;
 
 	public AllPlayerConfig(PlayerMovementController tabletControlledPlayer,
 			List<PlayerConfig> notControlledPlayers,
-			World world, CoordinatesCalculation coordinateCalculations) {
+			CoordinatesCalculation coordinateCalculations) {
 		this.myPlayerMovement = tabletControlledPlayer;
 		this.notControlledPlayers = notControlledPlayers;
-		this.world = world;
 		this.coordinateCalculations = coordinateCalculations;
 	}
 
@@ -39,15 +37,14 @@ public class AllPlayerConfig {
 		return list;
 	}
 
-	public List<PlayerMovementCalculation> getAllPlayerMovementCalculations() {
+	public List<PlayerMovementCalculation> getAllPlayerMovementCalculations(CollisionDetection collisionDetection, World world) {
 		List<PlayerMovementCalculation> list = new ArrayList<PlayerMovementCalculation>(
 				this.notControlledPlayers.size() + 1);
-		CollisionDetection colDetection = new CollisionDetection(this.world);
 		Player p = this.myPlayerMovement.getPlayer();
-		PlayerMovementCalculation playerMovementCalculation = createMovementCalculation(colDetection, p);
+		PlayerMovementCalculation playerMovementCalculation = createMovementCalculation(collisionDetection, p, world);
 		list.add(playerMovementCalculation);
 		for (PlayerConfig config : this.notControlledPlayers) {
-			list.add(createMovementCalculation(colDetection, config.getMovementController().getPlayer()));
+			list.add(createMovementCalculation(collisionDetection, config.getMovementController().getPlayer(), world));
 		}
 		return list;
 	}
@@ -61,9 +58,9 @@ public class AllPlayerConfig {
 		return allPlayers;
 	}
 
-	public PlayerMovementCalculation createMovementCalculation(CollisionDetection colDetection, Player p) {
+	public PlayerMovementCalculation createMovementCalculation(CollisionDetection colDetection, Player p, World world) {
 		PlayerMovementCalculation playerMovementCalculation = new PlayerMovementCalculation(p, new GameObjectInteractor(colDetection,
-				this.world), colDetection);
+				world), colDetection);
 		return playerMovementCalculation;
 	}
 

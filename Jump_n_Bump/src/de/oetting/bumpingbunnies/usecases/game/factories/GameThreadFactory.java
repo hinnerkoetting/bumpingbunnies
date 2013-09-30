@@ -47,10 +47,11 @@ public class GameThreadFactory {
 				world.getSpawnPoints());
 		assignInitialSpawnpoints(spawnPointGenerator, world.getAllPlayer(), sendThreads);
 		UserInputStep userInputStep = new UserInputStep(movementServices);
-		List<PlayerMovementCalculation> playermovements = playerConfig.getAllPlayerMovementCalculations();
+		CollisionDetection colDetection = new CollisionDetection(world);
+		List<PlayerMovementCalculation> playermovements = playerConfig.getAllPlayerMovementCalculations(colDetection, world);
 		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
-		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world, playerConfig.getAllPlayers(),
-				spawnPointGenerator, reviver);
+		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, playerConfig.getAllPlayers(),
+				spawnPointGenerator, reviver, colDetection);
 		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, killChecker);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
@@ -89,10 +90,9 @@ public class GameThreadFactory {
 		return reviver;
 	}
 
-	private static BunnyKillChecker createKillChecker(List<? extends RemoteSender> sendThreads, Configuration conf, World world,
+	private static BunnyKillChecker createKillChecker(List<? extends RemoteSender> sendThreads, Configuration conf,
 			List<Player> allPlayers,
-			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver) {
-		CollisionDetection collisionDetection = new CollisionDetection(world);
+			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver, CollisionDetection collisionDetection) {
 		if (conf.isHost()) {
 			return new HostBunnyKillChecker(sendThreads, collisionDetection, allPlayers,
 					spawnPointGenerator, reviver);

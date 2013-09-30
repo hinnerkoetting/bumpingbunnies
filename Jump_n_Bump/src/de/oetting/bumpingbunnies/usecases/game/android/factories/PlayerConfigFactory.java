@@ -29,7 +29,7 @@ public class PlayerConfigFactory {
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
 				world, parameter.getConfiguration());
 		AllPlayerConfig config = new AllPlayerConfig(
-				myPlayerMovementController, otherPlayerconfigs, world, calculations);
+				myPlayerMovementController, otherPlayerconfigs, calculations);
 		return config;
 	}
 
