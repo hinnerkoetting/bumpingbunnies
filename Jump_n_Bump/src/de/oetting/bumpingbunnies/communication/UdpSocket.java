@@ -28,18 +28,6 @@ public class UdpSocket implements MySocket {
 		return this.address;
 	}
 
-	/**
-	 * use #send(String) instead
-	 */
-	@Deprecated
-	public void send(DatagramPacket packet) {
-		try {
-			this.socket.send(packet);
-		} catch (IOException e) {
-			throw new UdpException(e);
-		}
-	}
-
 	@Override
 	public void close() {
 		this.socket.close();

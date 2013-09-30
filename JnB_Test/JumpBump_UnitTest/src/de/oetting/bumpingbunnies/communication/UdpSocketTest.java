@@ -28,22 +28,9 @@ public class UdpSocketTest {
 	private InetAddress address;
 	private int port = 12345;
 
-	@Test
-	public void sendDatagram_thenDatagramIsSentViaSocket() throws IOException {
-		DatagramPacket datagram = createDatagram();
-		this.fixture.send(datagram);
-		verify(this.socket).send(datagram);
-	}
-
 	private DatagramPacket createDatagram() {
 		DatagramPacket datagram = new DatagramPacket(new byte[0], 0);
 		return datagram;
-	}
-
-	@Test(expected = UdpException.class)
-	public void sendDatagram_givenSocketFails_throwsUdpException() throws IOException {
-		givenSocketThrowsException();
-		this.fixture.send(createDatagram());
 	}
 
 	@Test
