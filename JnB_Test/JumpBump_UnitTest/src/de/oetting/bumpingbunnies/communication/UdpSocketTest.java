@@ -28,11 +28,6 @@ public class UdpSocketTest {
 	private InetAddress address;
 	private int port = 12345;
 
-	private DatagramPacket createDatagram() {
-		DatagramPacket datagram = new DatagramPacket(new byte[0], 0);
-		return datagram;
-	}
-
 	@Test
 	public void sendMessage_thenDatagramIsSentViaSocket() throws IOException {
 		sendMessage("message");

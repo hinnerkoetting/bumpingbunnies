@@ -114,8 +114,7 @@ public class GameActivity extends Activity {
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 		World world = WorldFactory.create(parameter.getConfiguration(), this);
 
-		this.allPlayerConfig = PlayerConfigFactory.create(parameter, world,
-				contentView);
+		this.allPlayerConfig = PlayerConfigFactory.create(parameter, world);
 		Player myPlayer = this.allPlayerConfig.getMyPlayer();
 		createRemoteSender();
 		List<StateSender> allStateSender = createSender(myPlayer);

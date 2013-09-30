@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.android.factories;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.RelativeCoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
@@ -21,8 +20,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 public class PlayerConfigFactory {
 
 	public static AllPlayerConfig create(GameStartParameter parameter,
-			World world, GameView gameView) {
-
+			World world) {
 		Player myPlayer = findMyPlayer(parameter);
 		world.addPlayer(myPlayer);
 		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
