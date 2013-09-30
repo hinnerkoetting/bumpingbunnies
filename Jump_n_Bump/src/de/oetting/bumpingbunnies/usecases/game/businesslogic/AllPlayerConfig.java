@@ -5,7 +5,6 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
-import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
@@ -17,13 +16,11 @@ public class AllPlayerConfig {
 
 	private final PlayerMovementController myPlayerMovement;
 	private final List<PlayerConfig> notControlledPlayers;
-	private final CoordinatesCalculation coordinateCalculations;
 
 	public AllPlayerConfig(PlayerMovementController tabletControlledPlayer,
 			List<PlayerConfig> notControlledPlayers) {
 		this.myPlayerMovement = tabletControlledPlayer;
 		this.notControlledPlayers = notControlledPlayers;
-		this.coordinateCalculations = this.coordinateCalculations;
 	}
 
 	public List<PlayerMovementController> getAllPlayerMovementControllers() {
