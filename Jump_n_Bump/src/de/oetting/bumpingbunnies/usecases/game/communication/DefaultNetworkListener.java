@@ -2,8 +2,9 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 public abstract class DefaultNetworkListener<T> implements NetworkListener {
 
@@ -18,7 +19,8 @@ public abstract class DefaultNetworkListener<T> implements NetworkListener {
 	}
 
 	@Override
-	public void newMessage(String message) {
+	public void newMessage(JsonWrapper wrapper) {
+		String message = wrapper.getMessage();
 		LOGGER.debug("received message %s", message);
 		receiveMessage(this.parser.parseMessage(message, this.clazz));
 	}

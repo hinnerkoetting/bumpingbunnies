@@ -1,13 +1,14 @@
 package de.oetting.bumpingbunnies.communication.messageInterface;
 
 import de.oetting.bumpingbunnies.usecases.game.communication.DefaultNetworkListener;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageMetadata;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageMetadata;
 
 public abstract class MessageReceiverTemplate<T> implements MessageInterface<T> {
 
-	private DefaultNetworkListener<T> listener;
+	private NetworkListener listener;
 
 	public MessageReceiverTemplate(NetworkToGameDispatcher dispatcher, MessageMetadata<T> msg) {
 		this(dispatcher, msg.getId(), msg.getClazz());
@@ -21,6 +22,11 @@ public abstract class MessageReceiverTemplate<T> implements MessageInterface<T> 
 				onReceiveMessage(object);
 			}
 		};
+		dispatcher.addObserver(messageId, this.listener);
+	}
+
+	public MessageReceiverTemplate(NetworkToGameDispatcher dispatcher, NetworkListener listener, MessageId messageId) {
+		this.listener = listener;
 		dispatcher.addObserver(messageId, this.listener);
 	}
 

@@ -75,7 +75,7 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	@Override
 	public void sendMessage(MessageId id, Object message) {
 		String json = this.parser.encodeMessage(message);
-		JsonWrapper wrapper = new JsonWrapper(id, json);
+		JsonWrapper wrapper = JsonWrapper.create(id, json);
 		sendMessage(wrapper);
 	}
 

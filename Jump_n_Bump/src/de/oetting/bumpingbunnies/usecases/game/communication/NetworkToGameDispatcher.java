@@ -1,6 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import android.util.SparseArray;
+import java.util.Map;
+import java.util.TreeMap;
+
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
@@ -13,11 +15,11 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkToGameDispatcher.class);
-	private final SparseArray<NetworkListener> listeners;
+	private final Map<Integer, NetworkListener> listeners;
 
 	public NetworkToGameDispatcher() {
 		super();
-		this.listeners = new SparseArray<NetworkListener>();
+		this.listeners = new TreeMap<Integer, NetworkListener>();
 	}
 
 	@Override
@@ -27,7 +29,7 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 			throw new NoListenerFound(wrapper.getId());
 		}
 		LOGGER.debug("Received message %s", wrapper.getMessage());
-		networkListener.newMessage(wrapper.getMessage());
+		networkListener.newMessage(wrapper);
 	}
 
 	public void addObserver(MessageId id, NetworkListener listener) {

@@ -46,7 +46,7 @@ public class ServerConnectionTest {
 
 	@Test
 	public void sendMessage_shouldSendReliableMessage() {
-		JsonWrapper message = new JsonWrapper(MessageId.SPAWN_POINT, "1");
+		JsonWrapper message = JsonWrapper.create(MessageId.SPAWN_POINT, "1");
 		this.fixture.sendMessage(message);
 		thenMessageShouldBeSendOverTcp(message);
 	}

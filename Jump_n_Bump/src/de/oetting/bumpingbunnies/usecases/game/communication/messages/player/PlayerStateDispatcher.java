@@ -29,7 +29,9 @@ public class PlayerStateDispatcher extends MessageReceiverTemplate<PlayerStateMe
 		int playerId = state.getId();
 		PlayerFromNetworkInput playerInputService = this.inputServices.get(playerId);
 		if (playerInputService == null) {
-			LOGGER.warn("Received message for unknown player Ignore this for the time being. Player-id is: %d", playerId);
+			// this is probably caused by a bug in android because for some reason we also do receive messages we send from this device
+			// if the socket is bound to the remote device this should not happen
+			LOGGER.debug("Received message for unknown player Ignore this for the time being. Player-id is: %d", playerId);
 		} else {
 			playerInputService.sendNewMessage(message);
 		}

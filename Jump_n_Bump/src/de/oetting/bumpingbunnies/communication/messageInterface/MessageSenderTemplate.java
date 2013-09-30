@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageMetadata;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageMetadata;
 
 public abstract class MessageSenderTemplate<T> implements MessageInterface<T> {
 
@@ -30,7 +30,7 @@ public abstract class MessageSenderTemplate<T> implements MessageInterface<T> {
 
 	public void sendMessage(T message) {
 		String encoded = this.parser.encodeMessage(message);
-		this.networkSender.sendMessage(new JsonWrapper(this.messageId, encoded));
+		this.networkSender.sendMessage(JsonWrapper.create(this.messageId, encoded));
 	}
 
 }

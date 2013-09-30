@@ -45,6 +45,14 @@ public class UdpSocket implements MySocket {
 		this.socket.close();
 	}
 
+	@Deprecated
+	public void receive(DatagramPacket packet) {
+		try {
+			this.socket.receive(packet);
+		} catch (IOException e) {
+			throw new UdpException(e);
+		}
+	}
 
 	public static class UdpException extends RuntimeException {
 
