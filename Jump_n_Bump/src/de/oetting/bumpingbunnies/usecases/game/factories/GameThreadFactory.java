@@ -56,7 +56,7 @@ public class GameThreadFactory {
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode(),
-				createCameraPositionCalculator(playerConfig.getTabletControlledPlayer()));
+				createCameraPositionCalculator(playerConfig.getMyPlayer()));
 	}
 
 	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {

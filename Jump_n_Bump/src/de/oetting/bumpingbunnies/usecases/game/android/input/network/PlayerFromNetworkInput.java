@@ -15,9 +15,11 @@ public class PlayerFromNetworkInput implements InputService {
 
 	private PlayerState playerStateFromNetwork;
 	private final Player player;
+	private long latestCounter;
 
 	public PlayerFromNetworkInput(Player player) {
 		this.player = player;
+		this.latestCounter = -1;
 	}
 
 	@Override
@@ -41,8 +43,11 @@ public class PlayerFromNetworkInput implements InputService {
 		return this.playerStateFromNetwork != null;
 	}
 
-	public void newMessage(PlayerStateMessage message) {
-		this.playerStateFromNetwork = message.getPlayerState();
+	public void sendNewMessage(PlayerStateMessage message) {
+		if (message.getCounter() > this.latestCounter) {
+			this.playerStateFromNetwork = message.getPlayerState();
+			this.latestCounter = message.getCounter();
+		}
 	}
 
 }

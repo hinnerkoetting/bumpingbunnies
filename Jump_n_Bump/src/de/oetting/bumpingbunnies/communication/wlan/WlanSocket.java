@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
 
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
@@ -61,10 +63,18 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 
 	private UdpSocket createUdpSocket() {
 		try {
-			DatagramSocket dataSocket = new DatagramSocket(NetworkConstants.UDP_PORT);
-			dataSocket.setBroadcast(false);
-			return new UdpSocket(dataSocket, this.socket.getInetAddress(), NetworkConstants.UDP_PORT);
-		} catch (IOException e) {
+			Callable<UdpSocket> createSocketThread = new Callable<UdpSocket>() {
+
+				@Override
+				public UdpSocket call() throws Exception {
+					DatagramSocket dataSocket = new DatagramSocket(NetworkConstants.UDP_PORT);
+					dataSocket.setBroadcast(false);
+					dataSocket.connect(WlanSocket.this.socket.getInetAddress(), NetworkConstants.UDP_PORT);
+					return new UdpSocket(dataSocket, WlanSocket.this.socket.getInetAddress(), NetworkConstants.UDP_PORT);
+				}
+			};
+			return Executors.newSingleThreadExecutor().submit(createSocketThread).get();
+		} catch (Exception e) {
 			throw new SocketCreationException(e);
 		}
 	}

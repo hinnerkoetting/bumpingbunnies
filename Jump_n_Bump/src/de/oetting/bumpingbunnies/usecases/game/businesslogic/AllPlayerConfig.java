@@ -16,7 +16,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class AllPlayerConfig {
 
-	private final PlayerMovementController tabletControlledPlayer;
+	private final PlayerMovementController myPlayerMovement;
 	private final List<PlayerConfig> notControlledPlayers;
 	private final GameView gameView;
 	private final CoordinatesCalculation coordinateCalculations;
@@ -25,7 +25,7 @@ public class AllPlayerConfig {
 	public AllPlayerConfig(PlayerMovementController tabletControlledPlayer,
 			List<PlayerConfig> notControlledPlayers, GameView gameView,
 			World world, CoordinatesCalculation coordinateCalculations) {
-		this.tabletControlledPlayer = tabletControlledPlayer;
+		this.myPlayerMovement = tabletControlledPlayer;
 		this.notControlledPlayers = notControlledPlayers;
 		this.gameView = gameView;
 		this.world = world;
@@ -35,7 +35,7 @@ public class AllPlayerConfig {
 	public List<PlayerMovementController> getAllPlayerMovementControllers() {
 		List<PlayerMovementController> list = new ArrayList<PlayerMovementController>(
 				this.notControlledPlayers.size() + 1);
-		list.add(this.tabletControlledPlayer);
+		list.add(this.myPlayerMovement);
 		for (PlayerConfig config : this.notControlledPlayers) {
 			list.add(config.getMovementController());
 		}
@@ -46,7 +46,7 @@ public class AllPlayerConfig {
 		List<PlayerMovementCalculation> list = new ArrayList<PlayerMovementCalculation>(
 				this.notControlledPlayers.size() + 1);
 		CollisionDetection colDetection = new CollisionDetection(this.world);
-		Player p = this.tabletControlledPlayer.getPlayer();
+		Player p = this.myPlayerMovement.getPlayer();
 		PlayerMovementCalculation playerMovementCalculation = createMovementCalculation(colDetection, p);
 		list.add(playerMovementCalculation);
 		for (PlayerConfig config : this.notControlledPlayers) {
@@ -57,7 +57,7 @@ public class AllPlayerConfig {
 
 	public List<Player> getAllPlayers() {
 		List<Player> allPlayers = new ArrayList<Player>();
-		allPlayers.add(this.tabletControlledPlayer.getPlayer());
+		allPlayers.add(this.myPlayerMovement.getPlayer());
 		for (PlayerConfig config : this.notControlledPlayers) {
 			allPlayers.add(config.getMovementController().getPlayer());
 		}
@@ -91,12 +91,12 @@ public class AllPlayerConfig {
 		return resultReceiver;
 	}
 
-	public Player getTabletControlledPlayer() {
-		return this.tabletControlledPlayer.getPlayer();
+	public Player getMyPlayer() {
+		return this.myPlayerMovement.getPlayer();
 	}
 
 	public PlayerMovementController getTabletControlledPlayerMovement() {
-		return this.tabletControlledPlayer;
+		return this.myPlayerMovement;
 	}
 
 	public CoordinatesCalculation getCoordinateCalculations() {

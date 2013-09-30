@@ -119,7 +119,7 @@ public class GameActivity extends Activity {
 
 		this.allPlayerConfig = PlayerConfigFactory.create(parameter, world,
 				contentView);
-		Player myPlayer = this.allPlayerConfig.getTabletControlledPlayer();
+		Player myPlayer = this.allPlayerConfig.getMyPlayer();
 		createRemoteSender();
 		List<StateSender> allStateSender = createSender(myPlayer);
 		List<InputService> inputServices = initInputServices(world,

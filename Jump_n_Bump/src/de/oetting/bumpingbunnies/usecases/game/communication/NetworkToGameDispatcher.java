@@ -31,7 +31,7 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 	}
 
 	public void addObserver(MessageId id, NetworkListener listener) {
-		LOGGER.debug("Registering listener with id %d", id);
+		LOGGER.debug("Registering listener with id %d", id.ordinal());
 		this.listeners.put(id.ordinal(), listener);
 	}
 

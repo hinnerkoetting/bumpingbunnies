@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class GameNetworkSender implements StateSender {
 
-	private static final long currentMessageCounter = 0;
+	private static long currentMessageCounter = 0;
 	private final Player player;
 	private final RemoteConnection connection;
 
@@ -18,7 +18,7 @@ public class GameNetworkSender implements StateSender {
 
 	@Override
 	public void sendPlayerCoordinates() {
-		PlayerStateMessage message = new PlayerStateMessage(currentMessageCounter, this.player.getState());
+		PlayerStateMessage message = new PlayerStateMessage(currentMessageCounter++, this.player.getState());
 		this.connection.sendFast(MessageId.SEND_PLAYER_STATE, message);
 	}
 

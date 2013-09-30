@@ -1,9 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import java.io.IOException;
-
 import com.google.gson.Gson;
 
+import de.oetting.bumpingbunnies.communication.AbstractSocket.ReadFailed;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -33,14 +32,17 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 		while (!this.canceled) {
 			try {
 				oneRun();
-			} catch (IOException e) {
-				LOGGER.warn("IOException");
-				break;
+			} catch (ReadFailed e) {
+				if (this.canceled) {
+					return;
+				} else {
+					throw e;
+				}
 			}
 		}
 	}
 
-	void oneRun() throws IOException {
+	void oneRun() {
 		String input = this.socket.blockingReceive();
 		if (input == null) {
 			LOGGER.warn("Input was null.");

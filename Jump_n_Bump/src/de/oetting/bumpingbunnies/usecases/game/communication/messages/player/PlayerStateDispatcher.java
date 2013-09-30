@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.messages.player;
 
-import java.util.Map;
 import java.util.TreeMap;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageReceiverTemplate;
@@ -17,7 +16,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
  */
 public class PlayerStateDispatcher extends MessageReceiverTemplate<PlayerStateMessage> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerStateDispatcher.class);
-	private final Map<Integer, PlayerFromNetworkInput> inputServices;
+	private final TreeMap<Integer, PlayerFromNetworkInput> inputServices;
 
 	public PlayerStateDispatcher(NetworkToGameDispatcher dispatcher) {
 		super(dispatcher, MessageId.SEND_PLAYER_STATE, PlayerStateMessage.class);
@@ -30,13 +29,14 @@ public class PlayerStateDispatcher extends MessageReceiverTemplate<PlayerStateMe
 		int playerId = state.getId();
 		PlayerFromNetworkInput playerInputService = this.inputServices.get(playerId);
 		if (playerInputService == null) {
-			LOGGER.warn("Received message for unknown player Ignore this for the time being");
+			LOGGER.warn("Received message for unknown player Ignore this for the time being. Player-id is: %d", playerId);
 		} else {
-			playerInputService.newMessage(message);
+			playerInputService.sendNewMessage(message);
 		}
 	}
 
 	public void addInputService(int playerId, PlayerFromNetworkInput inputService) {
+		LOGGER.debug("Registering Player with id %d", playerId);
 		this.inputServices.put(playerId, inputService);
 	}
 
