@@ -29,8 +29,6 @@ public abstract class AbstractSocket implements MySocket {
 		}
 	}
 
-	// protected abstract OutputStream getOutputStream() throws IOException;
-
 	protected Writer createWriter(OutputStream os) {
 		try {
 			return new OutputStreamWriter(os);
