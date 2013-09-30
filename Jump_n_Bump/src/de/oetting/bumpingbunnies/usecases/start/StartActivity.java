@@ -154,8 +154,8 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 
 	@Override
 	public void onBackPressed() {
-		this.finish();
-		super.onBackPressed();
+		finish();
+		super.moveTaskToBack(true);
 	}
 
 }
