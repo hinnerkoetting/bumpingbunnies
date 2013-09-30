@@ -37,10 +37,9 @@ public class GameThreadFactory {
 	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
 			List<InputService> movementServices, List<StateSender> stateSender,
 			Context context, AllPlayerConfig playerConfig,
-			Configuration configuration) {
+			Configuration configuration, CoordinatesCalculation calculations) {
 		GameThreadState threadState = new GameThreadState();
 
-		CoordinatesCalculation calculations = playerConfig.getCoordinateCalculations();
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
 				configuration, calculations);
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
@@ -36,7 +37,7 @@ public abstract class AbstractPlayerInputServicesFactory<S extends InputService>
 		return (AbstractPlayerInputServicesFactory<S>) factorySingleton;
 	}
 
-	public abstract S createInputService(AllPlayerConfig config, Context context, GameView view);
+	public abstract S createInputService(AllPlayerConfig config, Context context, GameView view, CoordinatesCalculation calculations);
 
 	public abstract InputDispatcher<?> createInputDispatcher(S inputService);
 

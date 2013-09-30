@@ -8,6 +8,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchWithJumpInputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchWithJumpService;
@@ -18,10 +19,10 @@ public class TouchJumpInputServicesFactory extends
 
 	@Override
 	public TouchWithJumpService createInputService(AllPlayerConfig config,
-			Context context, GameView view) {
+			Context context, GameView view, CoordinatesCalculation calculations) {
 		TouchWithJumpService touchService = new TouchWithJumpService(
 				config.getTabletControlledPlayerMovement(),
-				config.getCoordinateCalculations());
+				calculations);
 		view.addOnSizeListener(touchService);
 		return touchService;
 	}

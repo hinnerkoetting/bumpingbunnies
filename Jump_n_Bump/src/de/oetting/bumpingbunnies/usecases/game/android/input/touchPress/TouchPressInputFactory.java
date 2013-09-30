@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchInputDispatcher;
@@ -14,10 +15,10 @@ public class TouchPressInputFactory extends
 
 	@Override
 	public TouchPressInputService createInputService(AllPlayerConfig config,
-			Context context, GameView view) {
+			Context context, GameView view, CoordinatesCalculation calculations) {
 		TouchPressInputService service = new TouchPressInputService(
 				config.getTabletControlledPlayerMovement(),
-				config.getCoordinateCalculations());
+				calculations);
 		view.addOnSizeListener(service);
 		return service;
 	}

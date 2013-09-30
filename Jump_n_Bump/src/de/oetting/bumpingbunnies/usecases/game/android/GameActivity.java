@@ -16,6 +16,8 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.RemoteConnection;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.RelativeCoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.factories.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
@@ -115,16 +117,17 @@ public class GameActivity extends Activity {
 		World world = WorldFactory.create(parameter.getConfiguration(), this);
 
 		this.allPlayerConfig = PlayerConfigFactory.create(parameter, world);
+		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(this.allPlayerConfig.getMyPlayer());
 		Player myPlayer = this.allPlayerConfig.getMyPlayer();
 		createRemoteSender();
 		List<StateSender> allStateSender = createSender(myPlayer);
 		List<InputService> inputServices = initInputServices(world,
 				this.allPlayerConfig,
-				this.sendThreads, parameter, contentView);
+				this.sendThreads, parameter, contentView, calculations);
 
 		this.gameThread = GameThreadFactory.create(this.sendThreads, world,
 				inputServices,
-				allStateSender, this, this.allPlayerConfig, parameter.getConfiguration());
+				allStateSender, this, this.allPlayerConfig, parameter.getConfiguration(), calculations);
 
 		contentView.addOnSizeListener(this.gameThread);
 	}
@@ -165,13 +168,13 @@ public class GameActivity extends Activity {
 
 	private List<InputService> initInputServices(
 			World world, AllPlayerConfig config,
-			List<? extends RemoteSender> allSender, GameStartParameter parameter, GameView view) {
+			List<? extends RemoteSender> allSender, GameStartParameter parameter, GameView view, CoordinatesCalculation calculations) {
 		AbstractPlayerInputServicesFactory.init(parameter.getConfiguration()
 				.getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
 				.getSingleton();
 
-		InputService touchService = myPlayerFactory.createInputService(config, this, view);
+		InputService touchService = myPlayerFactory.createInputService(config, this, view, calculations);
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 

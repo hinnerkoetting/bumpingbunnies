@@ -8,6 +8,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
@@ -17,7 +18,7 @@ public class AnalogInputFactory extends
 
 	@Override
 	public AnalogInputService createInputService(AllPlayerConfig config,
-			Context context, GameView view) {
+			Context context, GameView view, CoordinatesCalculation calculations) {
 		AnalogInputService touchService = new AnalogInputService(
 				config.getTabletControlledPlayerMovement());
 		return touchService;

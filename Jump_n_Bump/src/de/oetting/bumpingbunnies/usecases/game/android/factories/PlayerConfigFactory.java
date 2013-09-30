@@ -3,8 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.android.factories;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.usecases.game.android.calculation.RelativeCoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
@@ -23,19 +21,13 @@ public class PlayerConfigFactory {
 			World world) {
 		Player myPlayer = findMyPlayer(parameter);
 		world.addPlayer(myPlayer);
-		CoordinatesCalculation calculations = createCoordinateCalculations(myPlayer);
 		PlayerMovementController myPlayerMovementController = createMovementController(
 				myPlayer);
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
 				world, parameter.getConfiguration());
 		AllPlayerConfig config = new AllPlayerConfig(
-				myPlayerMovementController, otherPlayerconfigs, calculations);
+				myPlayerMovementController, otherPlayerconfigs);
 		return config;
-	}
-
-	private static CoordinatesCalculation createCoordinateCalculations(
-			Player myPlayer) {
-		return new RelativeCoordinatesCalculation(myPlayer);
 	}
 
 	private static List<PlayerConfig> findOtherPlayers(World world,

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchInputDispatcher;
@@ -14,10 +15,10 @@ public class TouchReleaseFactory extends
 
 	@Override
 	public TouchReleaseInputService createInputService(AllPlayerConfig config,
-			Context context, GameView view) {
+			Context context, GameView view, CoordinatesCalculation calculations) {
 		TouchReleaseInputService service = new TouchReleaseInputService(
 				config.getTabletControlledPlayerMovement(),
-				config.getCoordinateCalculations());
+				calculations);
 		view.addOnSizeListener(service);
 		return service;
 	}

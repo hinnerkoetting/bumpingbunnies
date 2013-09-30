@@ -20,11 +20,10 @@ public class AllPlayerConfig {
 	private final CoordinatesCalculation coordinateCalculations;
 
 	public AllPlayerConfig(PlayerMovementController tabletControlledPlayer,
-			List<PlayerConfig> notControlledPlayers,
-			CoordinatesCalculation coordinateCalculations) {
+			List<PlayerConfig> notControlledPlayers) {
 		this.myPlayerMovement = tabletControlledPlayer;
 		this.notControlledPlayers = notControlledPlayers;
-		this.coordinateCalculations = coordinateCalculations;
+		this.coordinateCalculations = this.coordinateCalculations;
 	}
 
 	public List<PlayerMovementController> getAllPlayerMovementControllers() {
@@ -91,10 +90,6 @@ public class AllPlayerConfig {
 
 	public PlayerMovementController getTabletControlledPlayerMovement() {
 		return this.myPlayerMovement;
-	}
-
-	public CoordinatesCalculation getCoordinateCalculations() {
-		return this.coordinateCalculations;
 	}
 
 }

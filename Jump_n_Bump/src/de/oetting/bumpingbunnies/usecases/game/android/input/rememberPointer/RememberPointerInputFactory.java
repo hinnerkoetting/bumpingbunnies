@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
+import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.PathFinder.PathFinderFactory;
@@ -17,7 +18,7 @@ public class RememberPointerInputFactory extends
 
 	@Override
 	public AbstractTouchService createInputService(AllPlayerConfig config,
-			Context context, GameView view) {
+			Context context, GameView view, CoordinatesCalculation calculations) {
 		PlayerMovementController tabletControlledPlayerMovement = config
 				.getTabletControlledPlayerMovement();
 		RememberPointerInputService touchService = new RememberPointerInputService(
@@ -25,7 +26,7 @@ public class RememberPointerInputFactory extends
 				PathFinderFactory
 						.createPathFinder(tabletControlledPlayerMovement
 								.getPlayer()),
-				config.getCoordinateCalculations());
+				calculations);
 		view.addOnSizeListener(touchService);
 		return touchService;
 	}
