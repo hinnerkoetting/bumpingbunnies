@@ -9,17 +9,19 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
+/**
+ * Waits for incoming Messages. Each incoming message is forwarded to the dispatcher where the appropriate handler should be called.
+ * 
+ */
 public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(NetworkReceiveThread.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkReceiveThread.class);
 	private final Gson gson;
 	private final IncomingNetworkDispatcher networkDispatcher;
 	private boolean canceled;
 	private MySocket socket;
 
-	public NetworkReceiveThread(Gson gson,
-			IncomingNetworkDispatcher networkDispatcher, MySocket socket) {
+	public NetworkReceiveThread(Gson gson, IncomingNetworkDispatcher networkDispatcher, MySocket socket) {
 		super("Network receive thread");
 		this.gson = gson;
 		this.networkDispatcher = networkDispatcher;
@@ -53,7 +55,7 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	private void dispatchMessage(String input) {
 		JsonWrapper wrapper = convertToObject(input);
 		if (wrapper == null) {
-			LOGGER.error("Wrapper null. Input was %s", input);
+			throw new ContentNotConvertedToWrapper(input);
 		}
 		dispatchMessage(wrapper);
 	}
@@ -82,6 +84,12 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	}
 
 	public static class InputIsNullException extends RuntimeException {
+	}
+
+	public static class ContentNotConvertedToWrapper extends RuntimeException {
+		public ContentNotConvertedToWrapper(String content) {
+			super(content);
+		}
 	}
 
 	public static class JsonConvertionException extends RuntimeException {
