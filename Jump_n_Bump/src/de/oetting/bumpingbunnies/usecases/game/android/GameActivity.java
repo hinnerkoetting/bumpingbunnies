@@ -44,12 +44,9 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
-import de.oetting.bumpingbunnies.util.SystemUiHider;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) with user interaction.
- * 
- * @see SystemUiHider
+ * Controls the bumping-bunnies game.
  */
 public class GameActivity extends Activity {
 	private GameThread gameThread;
@@ -124,7 +121,7 @@ public class GameActivity extends Activity {
 		List<StateSender> allStateSender = createSender(myPlayer);
 		List<InputService> inputServices = initInputServices(world,
 				this.allPlayerConfig,
-				this.sendThreads, parameter);
+				this.sendThreads, parameter, contentView);
 
 		this.gameThread = GameThreadFactory.create(this.sendThreads, world,
 				inputServices,
@@ -169,13 +166,13 @@ public class GameActivity extends Activity {
 
 	private List<InputService> initInputServices(
 			World world, AllPlayerConfig config,
-			List<? extends RemoteSender> allSender, GameStartParameter parameter) {
+			List<? extends RemoteSender> allSender, GameStartParameter parameter, GameView view) {
 		AbstractPlayerInputServicesFactory.init(parameter.getConfiguration()
 				.getInputConfiguration());
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = AbstractPlayerInputServicesFactory
 				.getSingleton();
 
-		InputService touchService = myPlayerFactory.createInputService(config, this);
+		InputService touchService = myPlayerFactory.createInputService(config, this, view);
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 

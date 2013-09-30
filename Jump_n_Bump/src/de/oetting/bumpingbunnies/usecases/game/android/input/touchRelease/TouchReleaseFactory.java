@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.touchRelease;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchInputDispatcher;
@@ -13,11 +14,11 @@ public class TouchReleaseFactory extends
 
 	@Override
 	public TouchReleaseInputService createInputService(AllPlayerConfig config,
-			Context context) {
+			Context context, GameView view) {
 		TouchReleaseInputService service = new TouchReleaseInputService(
 				config.getTabletControlledPlayerMovement(),
 				config.getCoordinateCalculations());
-		config.getGameView().addOnSizeListener(service);
+		view.addOnSizeListener(service);
 		return service;
 	}
 

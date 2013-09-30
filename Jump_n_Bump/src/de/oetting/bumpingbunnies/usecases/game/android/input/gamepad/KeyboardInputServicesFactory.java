@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
@@ -16,7 +17,7 @@ public class KeyboardInputServicesFactory extends
 
 	@Override
 	public GamepadInputService createInputService(AllPlayerConfig config,
-			Context context) {
+			Context context, GameView view) {
 		return new GamepadInputService(
 				config.getTabletControlledPlayerMovement());
 	}

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.VibrateOnceService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.VibratorService;
@@ -20,7 +21,7 @@ public class DistributedKeyboardFactory extends
 
 	@Override
 	public DistributedInputService createInputService(AllPlayerConfig config,
-			Context context) {
+			Context context, GameView view) {
 
 		VibratorService vibrator = createvibratorService(context);
 		return new DistributedInputService(

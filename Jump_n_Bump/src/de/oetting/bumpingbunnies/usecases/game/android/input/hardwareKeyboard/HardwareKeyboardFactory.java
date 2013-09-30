@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.hardwareKeyboard;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
@@ -12,7 +13,7 @@ public class HardwareKeyboardFactory extends
 
 	@Override
 	public HardwareKeyboardInputService createInputService(AllPlayerConfig config,
-			Context context) {
+			Context context, GameView view) {
 		return new HardwareKeyboardInputService(
 				config.getTabletControlledPlayerMovement());
 	}

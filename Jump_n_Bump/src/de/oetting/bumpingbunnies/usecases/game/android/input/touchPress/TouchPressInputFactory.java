@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.touchPress;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchInputDispatcher;
@@ -13,11 +14,11 @@ public class TouchPressInputFactory extends
 
 	@Override
 	public TouchPressInputService createInputService(AllPlayerConfig config,
-			Context context) {
+			Context context, GameView view) {
 		TouchPressInputService service = new TouchPressInputService(
 				config.getTabletControlledPlayerMovement(),
 				config.getCoordinateCalculations());
-		config.getGameView().addOnSizeListener(service);
+		view.addOnSizeListener(service);
 		return service;
 	}
 

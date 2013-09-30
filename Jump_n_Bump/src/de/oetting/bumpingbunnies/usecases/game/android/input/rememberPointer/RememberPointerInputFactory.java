@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.rememberPointer;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.PathFinder.PathFinderFactory;
@@ -16,7 +17,7 @@ public class RememberPointerInputFactory extends
 
 	@Override
 	public AbstractTouchService createInputService(AllPlayerConfig config,
-			Context context) {
+			Context context, GameView view) {
 		PlayerMovementController tabletControlledPlayerMovement = config
 				.getTabletControlledPlayerMovement();
 		RememberPointerInputService touchService = new RememberPointerInputService(
@@ -25,7 +26,7 @@ public class RememberPointerInputFactory extends
 						.createPathFinder(tabletControlledPlayerMovement
 								.getPlayer()),
 				config.getCoordinateCalculations());
-		config.getGameView().addOnSizeListener(touchService);
+		view.addOnSizeListener(touchService);
 		return touchService;
 	}
 

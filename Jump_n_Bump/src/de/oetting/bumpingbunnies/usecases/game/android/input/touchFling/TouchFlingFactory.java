@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.touchFling;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
@@ -14,11 +15,11 @@ public class TouchFlingFactory extends
 
 	@Override
 	public AbstractTouchService createInputService(AllPlayerConfig config,
-			Context context) {
+			Context context, GameView view) {
 		TouchFlingService service = new TouchFlingService(
 				config.getTabletControlledPlayerMovement(),
 				config.getCoordinateCalculations());
-		config.getGameView().addOnSizeListener(service);
+		view.addOnSizeListener(service);
 		return service;
 	}
 

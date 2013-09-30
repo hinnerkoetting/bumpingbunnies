@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.multiTouch;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
@@ -14,11 +15,11 @@ public class MultiTouchJumpServicesFactory extends
 
 	@Override
 	public AbstractTouchService createInputService(AllPlayerConfig config,
-			Context context) {
+			Context context, GameView view) {
 		MultiTouchInputService touchService = new MultiTouchInputService(
 				config.getTabletControlledPlayerMovement(),
 				config.getCoordinateCalculations());
-		config.getGameView().addOnSizeListener(touchService);
+		view.addOnSizeListener(touchService);
 		return touchService;
 	}
 

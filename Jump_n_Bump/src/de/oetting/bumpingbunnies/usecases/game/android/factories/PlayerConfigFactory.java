@@ -31,8 +31,7 @@ public class PlayerConfigFactory {
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
 				world, parameter.getConfiguration());
 		AllPlayerConfig config = new AllPlayerConfig(
-				myPlayerMovementController, otherPlayerconfigs, gameView,
-				world, calculations);
+				myPlayerMovementController, otherPlayerconfigs, world, calculations);
 		return config;
 	}
 
