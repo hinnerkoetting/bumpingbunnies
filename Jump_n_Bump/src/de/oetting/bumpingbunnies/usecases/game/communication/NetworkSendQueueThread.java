@@ -94,4 +94,11 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	public boolean usesThisSocket(MySocket socket) {
 		return this.socket.equals(socket);
 	}
+
+	@Override
+	public void sendMessageWithChecksum(MessageId id, Object message) {
+		String json = this.parser.encodeMessage(message);
+		JsonWrapper wrapper = JsonWrapper.createWithChecksum(id, json);
+		sendMessage(wrapper);
+	}
 }

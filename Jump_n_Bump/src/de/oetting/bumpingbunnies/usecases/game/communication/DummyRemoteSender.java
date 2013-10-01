@@ -27,4 +27,8 @@ public class DummyRemoteSender implements RemoteSender {
 	public void start() {
 	}
 
+	@Override
+	public void sendMessageWithChecksum(MessageId id, Object message) {
+	}
+
 }

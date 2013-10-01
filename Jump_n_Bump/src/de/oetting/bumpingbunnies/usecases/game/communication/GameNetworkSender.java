@@ -19,7 +19,7 @@ public class GameNetworkSender implements StateSender {
 	@Override
 	public void sendPlayerCoordinates() {
 		PlayerStateMessage message = new PlayerStateMessage(currentMessageCounter++, this.player.getState());
-		this.connection.sendFast(MessageId.SEND_PLAYER_STATE, message);
+		this.connection.sendMessageWithChecksum(MessageId.SEND_PLAYER_STATE, message);
 	}
 
 	@Override

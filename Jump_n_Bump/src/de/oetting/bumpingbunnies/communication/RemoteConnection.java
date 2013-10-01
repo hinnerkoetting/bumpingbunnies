@@ -50,4 +50,9 @@ public class RemoteConnection implements RemoteSender {
 		this.udpConnection.start();
 	}
 
+	@Override
+	public void sendMessageWithChecksum(MessageId id, Object message) {
+		this.udpConnection.sendMessageWithChecksum(id, message);
+	}
+
 }

@@ -15,6 +15,8 @@ public interface RemoteSender extends NetworkSender {
 
 	void sendMessage(MessageId id, Object message);
 
+	void sendMessageWithChecksum(MessageId id, Object message);
+
 	@Override
 	void sendMessage(JsonWrapper wrapper);
 
