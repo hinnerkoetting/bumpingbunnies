@@ -6,6 +6,7 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 
 public class AbstractTestPlayerMovementCalculation {
 
@@ -15,6 +16,8 @@ public class AbstractTestPlayerMovementCalculation {
 	protected GameObjectInteractor interactionService;
 	@Mock
 	protected CollisionDetection collisionDetection;
+	@Mock
+	protected MusicPlayer musicPlayer;
 
 	protected void givenAccelerationOnGroundIs(int acceleration) {
 		TestableGameObject playerStandsOn = new TestableGameObject();

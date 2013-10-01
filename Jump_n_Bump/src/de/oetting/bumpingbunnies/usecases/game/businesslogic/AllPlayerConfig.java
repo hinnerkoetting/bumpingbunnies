@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
@@ -11,6 +12,8 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispat
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class AllPlayerConfig {
 
@@ -33,14 +36,15 @@ public class AllPlayerConfig {
 		return list;
 	}
 
-	public List<PlayerMovementCalculation> getAllPlayerMovementCalculations(CollisionDetection collisionDetection, World world) {
+	public List<PlayerMovementCalculation> getAllPlayerMovementCalculations(CollisionDetection collisionDetection, World world,
+			Context context) {
 		List<PlayerMovementCalculation> list = new ArrayList<PlayerMovementCalculation>(
 				this.notControlledPlayers.size() + 1);
 		Player p = this.myPlayerMovement.getPlayer();
-		PlayerMovementCalculation playerMovementCalculation = createMovementCalculation(collisionDetection, p, world);
+		PlayerMovementCalculation playerMovementCalculation = createMovementCalculation(collisionDetection, p, world, context);
 		list.add(playerMovementCalculation);
 		for (PlayerConfig config : this.notControlledPlayers) {
-			list.add(createMovementCalculation(collisionDetection, config.getMovementController().getPlayer(), world));
+			list.add(createMovementCalculation(collisionDetection, config.getMovementController().getPlayer(), world, context));
 		}
 		return list;
 	}
@@ -54,9 +58,10 @@ public class AllPlayerConfig {
 		return allPlayers;
 	}
 
-	public PlayerMovementCalculation createMovementCalculation(CollisionDetection colDetection, Player p, World world) {
+	public PlayerMovementCalculation createMovementCalculation(CollisionDetection colDetection, Player p, World world, Context context) {
+		MusicPlayer musicPlayer = MusicPlayerFactory.createNormalJump(context);
 		PlayerMovementCalculation playerMovementCalculation = new PlayerMovementCalculation(p, new GameObjectInteractor(colDetection,
-				world), colDetection);
+				world), colDetection, musicPlayer);
 		return playerMovementCalculation;
 	}
 

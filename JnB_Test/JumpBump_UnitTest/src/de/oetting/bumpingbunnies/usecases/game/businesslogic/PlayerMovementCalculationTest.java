@@ -115,6 +115,6 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.player = new PlayerFactory(1).createPlayer(0, "player");
-		this.fixture = new PlayerMovementCalculation(this.player, this.interactionService, this.collisionDetection);
+		this.fixture = new PlayerMovementCalculation(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
 	}
 }

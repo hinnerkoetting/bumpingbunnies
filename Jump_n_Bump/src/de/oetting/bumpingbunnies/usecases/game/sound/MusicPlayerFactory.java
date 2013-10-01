@@ -10,6 +10,7 @@ public class MusicPlayerFactory {
 	public static MusicPlayer createBackground(Context context) {
 		MediaPlayer backgroundMusic = MediaPlayer.create(context, R.raw.bad_bunnies_2);
 		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(0.5f, 0.5f);
 		return create(backgroundMusic);
 	}
 
@@ -18,7 +19,11 @@ public class MusicPlayerFactory {
 	}
 
 	public static MusicPlayer createJumper(Context context) {
-		return create(MediaPlayer.create(context, R.raw.boing_test));
+		return create(MediaPlayer.create(context, R.raw.jumper));
+	}
+
+	public static MusicPlayer createNormalJump(Context context) {
+		return create(MediaPlayer.create(context, R.raw.normal_jump));
 	}
 
 	private static MusicPlayer create(MediaPlayer mediaplayer) {

@@ -6,6 +6,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 
 /**
  * Responsible for calculation the movement of players. Checks for collision, updates screen position.
@@ -17,13 +18,15 @@ public class PlayerMovementCalculation {
 	private final Player movedPlayer;
 	private final GameObjectInteractor interactionService;
 	private final CollisionDetection collisionDetection;
+	private final MusicPlayer jumpMusic;
 
 	public PlayerMovementCalculation(Player movedPlayer, GameObjectInteractor interactionService,
-			CollisionDetection collisionDetection) {
+			CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
 		super();
 		this.movedPlayer = movedPlayer;
 		this.interactionService = interactionService;
 		this.collisionDetection = collisionDetection;
+		this.jumpMusic = jumpMusic;
 	}
 
 	public void nextStep(long delta) {
@@ -73,7 +76,7 @@ public class PlayerMovementCalculation {
 
 	public void computeVerticalMovement() {
 		if (this.movedPlayer.isJumpingButtonPressed()) {
-			computeJumpingVerticalGravity();
+			handleJumpButtonPressed();
 		} else {
 			if (standsOnFixedObject()) {
 				this.movedPlayer.setAccelerationY(0);
@@ -83,9 +86,10 @@ public class PlayerMovementCalculation {
 		}
 	}
 
-	private void computeJumpingVerticalGravity() {
+	private void handleJumpButtonPressed() {
 		if (standsOnFixedObject()) {
 			setJumpMovement();
+			this.jumpMusic.start();
 		} else if (isInWater()) {
 			this.movedPlayer
 					.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_WATER);
