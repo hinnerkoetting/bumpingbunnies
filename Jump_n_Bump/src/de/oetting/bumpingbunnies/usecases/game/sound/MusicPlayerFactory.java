@@ -17,6 +17,10 @@ public class MusicPlayerFactory {
 		return create(MediaPlayer.create(context, R.raw.water));
 	}
 
+	public static MusicPlayer createJumper(Context context) {
+		return create(MediaPlayer.create(context, R.raw.boing_test));
+	}
+
 	private static MusicPlayer create(MediaPlayer mediaplayer) {
 		return new AndroidMusicPlayer(mediaplayer);
 	}

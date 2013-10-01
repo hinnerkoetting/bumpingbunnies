@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
-import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
@@ -52,7 +51,7 @@ public class WallFactory {
 	}
 
 	public static Jumper createJumperFromDouble(double x, double y,
-			double maxX, double maxY, MediaPlayer mediaPlayer, WorldProperties properties) {
+			double maxX, double maxY, MusicPlayer mediaPlayer, WorldProperties properties) {
 		return createJumper((int) (x * properties.getWorldWidth()),
 				(int) (y * properties.getWorldHeight()),
 				(int) (maxX * properties.getWorldWidth()),
@@ -67,8 +66,7 @@ public class WallFactory {
 				(int) (maxY * properties.getWorldHeight()), musicPlayer);
 	}
 
-	public static Jumper createJumper(long x, long y, long maxX, long maxY,
-			MediaPlayer mediaPlayer) {
+	public static Jumper createJumper(long x, long y, long maxX, long maxY, MusicPlayer mediaPlayer) {
 		int id = IdCounter.getNextId();
 		Jumper jumper = new Jumper(id, x, y, maxX, maxY, mediaPlayer);
 		return jumper;

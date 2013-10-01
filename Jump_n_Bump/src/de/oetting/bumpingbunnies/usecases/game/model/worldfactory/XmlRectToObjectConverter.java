@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
 
-import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
@@ -22,7 +21,7 @@ public class XmlRectToObjectConverter {
 				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties);
 	}
 
-	public static Jumper createJumper(XmlRect rect, MediaPlayer mediaPlayer, WorldProperties properties) {
+	public static Jumper createJumper(XmlRect rect, MusicPlayer mediaPlayer, WorldProperties properties) {
 		return WallFactory.createJumperFromDouble(rect.getMinX(),
 				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), mediaPlayer, properties);
 	}

@@ -10,9 +10,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
 import android.util.Xml;
-import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
@@ -33,7 +31,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	private boolean parsed;
 	private WorldProperties worldProperties = new WorldProperties();
 	private BitmapReader bitmapReader;
-	private MediaPlayer jumperMusic;
+	private MusicPlayer jumperMusic;
 	private MusicPlayer waterMusic;
 
 	public XmlWorldBuilder(int resourceId) {
@@ -46,7 +44,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		this.parsed = true;
 		InputStream worldXml = context.getResources().openRawResource(
 				this.resourceId);
-		this.jumperMusic = MediaPlayer.create(context, R.raw.boing_test);
+		this.jumperMusic = MusicPlayerFactory.createJumper(context);
 		this.waterMusic = MusicPlayerFactory.createWater(context);
 		readXmlFile(worldXml);
 	}
@@ -117,8 +115,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 
 	private void readJumper(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
-		Jumper jumper = XmlRectToObjectConverter
-				.createJumper(rect, this.jumperMusic, this.worldProperties);
+		Jumper jumper = XmlRectToObjectConverter.createJumper(rect, this.jumperMusic, this.worldProperties);
 		this.state.getAllJumper().add(jumper);
 	}
 

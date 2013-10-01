@@ -1,14 +1,14 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
 import android.graphics.Color;
-import android.media.MediaPlayer;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 
 public class Jumper extends FixedWorldObject {
 
-	private final MediaPlayer mediaPlayer;
+	private final MusicPlayer mediaPlayer;
 
 	public Jumper(int id, long minX, long minY, long maxX, long maxY,
-			MediaPlayer mediaPlayer) {
+			MusicPlayer mediaPlayer) {
 		super(id, minX, minY, maxX, maxY, Color.YELLOW);
 		this.mediaPlayer = mediaPlayer;
 	}
