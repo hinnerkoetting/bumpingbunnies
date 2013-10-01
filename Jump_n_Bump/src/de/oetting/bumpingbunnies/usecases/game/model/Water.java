@@ -3,19 +3,23 @@ package de.oetting.bumpingbunnies.usecases.game.model;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 
 public class Water implements GameObjectWithImage {
 
 	private final Rect rect;
+	private final MusicPlayer musicPlayer;
 	private Bitmap bitmap;
 
-	public Water(long minX, long minY, long maxX, long maxY) {
+	public Water(long minX, long minY, long maxX, long maxY, MusicPlayer musicPlayer) {
+		this.musicPlayer = musicPlayer;
 		this.rect = new Rect(minX, maxX, minY, maxY);
 	}
 
-	public Water(Rect rect) {
+	public Water(Rect rect, MusicPlayer musicPlayer) {
 		super();
 		this.rect = rect;
+		this.musicPlayer = musicPlayer;
 	}
 
 	@Override
@@ -59,12 +63,17 @@ public class Water implements GameObjectWithImage {
 		if (player.movementY() <= ModelConstants.PLAYER_SPEED_WATER) {
 			player.setExactMovementY(ModelConstants.PLAYER_SPEED_WATER);
 		}
-		// if (Math.abs(player.calculateNewMovementSpeedY()) <= ModelConstants.PLAYER_GRAVITY_WATER) {
-		// player.setAccelerationY(0);
-		// player.setExactMovementY(0);
-		// } else {
 		player.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WATER);
-		// }
+		if (isFirstTimeThePlayerHitsTheWater(player, collisionDetection)) {
+			this.musicPlayer.start();
+		}
+	}
+
+	/**
+	 * If the simulated player is in the water and the player is not in the water this is the first time the player hits the water.
+	 */
+	private boolean isFirstTimeThePlayerHitsTheWater(Player player, CollisionDetection collisionDetection) {
+		return !collisionDetection.collides(this, player);
 	}
 
 	@Override

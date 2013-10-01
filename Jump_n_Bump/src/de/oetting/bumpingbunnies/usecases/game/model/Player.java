@@ -341,8 +341,7 @@ public class Player implements GameObject {
 		return "Player [speedFaktor=" + this.speedFaktor + ", collisionHandling=" + this.collisionHandling + ", halfWidth="
 				+ this.halfWidth
 				+ ", halfHeight=" + this.halfHeight + ", id=" + this.id + ", name=" + this.name + ", state=" + this.state
-				+ ", simulatedObject="
-				+ this.simulatedObject + ", rect=" + this.rect + ", currentScreenX=" + this.currentScreenX + ", currentScreenY="
+				+ ", rect=" + this.rect + ", currentScreenX=" + this.currentScreenX + ", currentScreenY="
 				+ this.currentScreenY
 				+ ", horizontalMovementStatus=" + this.horizontalMovementStatus + "]";
 	}

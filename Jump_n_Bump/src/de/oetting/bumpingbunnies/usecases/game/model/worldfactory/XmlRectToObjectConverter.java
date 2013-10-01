@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 
 public class XmlRectToObjectConverter {
 
@@ -26,9 +27,9 @@ public class XmlRectToObjectConverter {
 				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), mediaPlayer, properties);
 	}
 
-	public static Water createWater(XmlRect rect, WorldProperties properties) {
+	public static Water createWater(XmlRect rect, WorldProperties properties, MusicPlayer musicPlayer) {
 		return WallFactory.createWaterFromDouble(rect.getMinX(),
-				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties);
+				rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties, musicPlayer);
 	}
 
 	public static SpawnPoint createSpawn(String x, String y, WorldProperties properties) {

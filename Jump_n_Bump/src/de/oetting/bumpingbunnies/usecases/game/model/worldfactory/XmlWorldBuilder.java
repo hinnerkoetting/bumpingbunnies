@@ -21,6 +21,8 @@ import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 
@@ -31,6 +33,8 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	private boolean parsed;
 	private WorldProperties worldProperties = new WorldProperties();
 	private BitmapReader bitmapReader;
+	private MediaPlayer jumperMusic;
+	private MusicPlayer waterMusic;
 
 	public XmlWorldBuilder(int resourceId) {
 		this.resourceId = resourceId;
@@ -42,13 +46,18 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		this.parsed = true;
 		InputStream worldXml = context.getResources().openRawResource(
 				this.resourceId);
-		MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.boing_test);
+		this.jumperMusic = MediaPlayer.create(context, R.raw.boing_test);
+		this.waterMusic = MusicPlayerFactory.createWater(context);
+		readXmlFile(worldXml);
+	}
+
+	private void readXmlFile(InputStream worldXml) {
 		try {
 			XmlPullParser parser = Xml.newPullParser();
 			parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 			parser.setInput(worldXml, "ISO-8859-1");
 			parser.nextTag();
-			fillXmlIntoState(parser, mediaPlayer);
+			fillXmlIntoState(parser);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -60,7 +69,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		}
 	}
 
-	private void fillXmlIntoState(XmlPullParser parser, MediaPlayer mediaPlayer)
+	private void fillXmlIntoState(XmlPullParser parser)
 			throws XmlPullParserException, IOException {
 
 		parser.require(XmlPullParser.START_TAG, null, WORLD);
@@ -68,12 +77,12 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 			if (parser.getEventType() != XmlPullParser.START_TAG) {
 				continue;
 			}
-			readContent(parser, mediaPlayer);
+			readContent(parser);
 		}
 
 	}
 
-	private void readContent(XmlPullParser parser, MediaPlayer mediaPlayer)
+	private void readContent(XmlPullParser parser)
 			throws XmlPullParserException, IOException {
 		String name = parser.getName();
 		if (XmlConstants.WALL.equals(name)) {
@@ -81,7 +90,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		} else if (XmlConstants.ICEWALL.equals(name)) {
 			readIcewall(parser);
 		} else if (XmlConstants.JUMPER.equals(name)) {
-			readJumper(parser, mediaPlayer);
+			readJumper(parser);
 		} else if (XmlConstants.SPAWNPOINT.equals(name)) {
 			readSpawnpoint(parser);
 		} else if (XmlConstants.WATER.equals(name)) {
@@ -95,7 +104,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	private void readWater(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
 		Water water = XmlRectToObjectConverter
-				.createWater(rect, this.worldProperties);
+				.createWater(rect, this.worldProperties, this.waterMusic);
 		this.state.getWaters().add(water);
 	}
 
@@ -106,10 +115,10 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 				XmlRectToObjectConverter.createSpawn(x, y, this.worldProperties));
 	}
 
-	private void readJumper(XmlPullParser parser, MediaPlayer mediaPlayer) {
+	private void readJumper(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
 		Jumper jumper = XmlRectToObjectConverter
-				.createJumper(rect, mediaPlayer, this.worldProperties);
+				.createJumper(rect, this.jumperMusic, this.worldProperties);
 		this.state.getAllJumper().add(jumper);
 	}
 

@@ -7,6 +7,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 
 public class WallFactory {
 
@@ -31,8 +32,8 @@ public class WallFactory {
 		return wall;
 	}
 
-	public static Water createWater(long x, long y, long maxX, long maxY) {
-		Water water = new Water(x, y, maxX, maxY);
+	public static Water createWater(long x, long y, long maxX, long maxY, MusicPlayer musicPlayer) {
+		Water water = new Water(x, y, maxX, maxY, musicPlayer);
 		return water;
 	}
 
@@ -58,12 +59,12 @@ public class WallFactory {
 				(int) (maxY * properties.getWorldHeight()), mediaPlayer);
 	}
 
-	public static Water createWaterFromDouble(double x, double y,
-			double maxX, double maxY, WorldProperties properties) {
+	public static Water createWaterFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties,
+			MusicPlayer musicPlayer) {
 		return createWater((int) (x * properties.getWorldWidth()),
 				(int) (y * properties.getWorldHeight()),
 				(int) (maxX * properties.getWorldWidth()),
-				(int) (maxY * properties.getWorldHeight()));
+				(int) (maxY * properties.getWorldHeight()), musicPlayer);
 	}
 
 	public static Jumper createJumper(long x, long y, long maxX, long maxY,

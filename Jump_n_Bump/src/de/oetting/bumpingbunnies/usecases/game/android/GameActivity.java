@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -44,6 +43,8 @@ import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
@@ -56,7 +57,7 @@ public class GameActivity extends Activity {
 	private InputDispatcher<?> inputDispatcher;
 	private List<NetworkReceiveThread> networkReceiveThreads;
 	private List<RemoteConnection> sendThreads = new ArrayList<RemoteConnection>();
-	private MediaPlayer backgroundMusic;
+	private MusicPlayer musicPlayer;
 	private AllPlayerConfig allPlayerConfig;
 
 	@Override
@@ -77,9 +78,7 @@ public class GameActivity extends Activity {
 	}
 
 	private void initGameSound() {
-		this.backgroundMusic = MediaPlayer.create(GameActivity.this,
-				R.raw.bad_bunnies_2);
-		this.backgroundMusic.setLooping(true);
+		this.musicPlayer = MusicPlayerFactory.createBackground(this);
 	}
 
 	private void startNetworkThreads() {
@@ -225,14 +224,14 @@ public class GameActivity extends Activity {
 		super.onResume();
 
 		this.gameThread.setRunning(true);
-		this.backgroundMusic.start();
+		this.musicPlayer.start();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		this.gameThread.setRunning(false);
-		this.backgroundMusic.pause();
+		this.musicPlayer.pauseBackground();
 	}
 
 	@Override
@@ -250,7 +249,7 @@ public class GameActivity extends Activity {
 		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
 			receiver.cancel();
 		}
-		this.backgroundMusic.stop();
+		this.musicPlayer.stopBackground();
 	}
 
 	@Override
