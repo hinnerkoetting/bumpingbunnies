@@ -1,7 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.objects;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class JsonWrapper {
 
@@ -65,14 +63,8 @@ public class JsonWrapper {
 		return new JsonWrapper(messageId, message, null);
 	}
 
-	public static JsonWrapper createWithChecksum(MessageId messageId, String message) {
-		try {
-			MessageDigest hashAlgorithm = MessageDigest.getInstance("MD5");
-			byte[] hash = hashAlgorithm.digest(message.getBytes());
-			return new JsonWrapper(messageId, message, hash);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
+	public static JsonWrapper createWithChecksum(MessageId messageId, String message, byte[] checksum) {
+		return new JsonWrapper(messageId, message, checksum);
 	}
 
 }

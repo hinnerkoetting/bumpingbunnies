@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.network;
 
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -13,6 +15,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
  */
 public class PlayerFromNetworkInput implements InputService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerFromNetworkInput.class);
 	private PlayerState playerStateFromNetwork;
 	private final Player player;
 	private long latestCounter;
@@ -23,7 +26,7 @@ public class PlayerFromNetworkInput implements InputService {
 	}
 
 	@Override
-	public void executeUserInput() {
+	public synchronized void executeUserInput() {
 		if (existsNewMessage()) {
 			copyStateFromNetwork();
 			deleteLatestMessage();
@@ -43,10 +46,12 @@ public class PlayerFromNetworkInput implements InputService {
 		return this.playerStateFromNetwork != null;
 	}
 
-	public void sendNewMessage(PlayerStateMessage message) {
+	public synchronized void sendNewMessage(PlayerStateMessage message) {
 		if (message.getCounter() > this.latestCounter) {
 			this.playerStateFromNetwork = message.getPlayerState();
 			this.latestCounter = message.getCounter();
+		} else {
+			LOGGER.info("throwing away message");
 		}
 	}
 

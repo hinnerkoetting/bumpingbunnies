@@ -1,14 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.messages.player;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.ChecksumComputation;
 import de.oetting.bumpingbunnies.usecases.game.communication.MessageParser;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
@@ -18,11 +17,13 @@ public class PlayerStateListener implements NetworkListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerStateListener.class);
 	private final MessageParser parser;
 	private final MessageReceiverTemplate<PlayerStateMessage> receiver;
+	private final ChecksumComputation checksumComputation;
 
 	public PlayerStateListener(MessageReceiverTemplate<PlayerStateMessage> receiver) {
 		super();
 		this.receiver = receiver;
 		this.parser = new MessageParser(new Gson());
+		this.checksumComputation = new ChecksumComputation();
 	}
 
 	@Override
@@ -41,10 +42,6 @@ public class PlayerStateListener implements NetworkListener {
 	}
 
 	private boolean isChecksumValid(JsonWrapper wrapper) throws NoSuchAlgorithmException {
-		String message = wrapper.getMessage();
-		byte[] checksum = wrapper.getOptionalChecksum();
-		MessageDigest digest = MessageDigest.getInstance("MD5");
-		byte[] shouldBeChecksum = digest.digest(message.getBytes());
-		return Arrays.equals(checksum, shouldBeChecksum);
+		return this.checksumComputation.validate(wrapper.getMessage(), wrapper.getOptionalChecksum());
 	}
 }

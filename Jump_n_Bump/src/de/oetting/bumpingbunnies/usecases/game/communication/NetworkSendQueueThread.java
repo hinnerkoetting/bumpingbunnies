@@ -24,6 +24,7 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	private final MySocket socket;
 	private final MessageParser parser;
 	private final GameActivity origin;
+	private final ChecksumComputation checksumComputation;
 
 	private boolean canceled;
 
@@ -33,6 +34,7 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 		this.parser = parser;
 		this.origin = origin;
 		this.messageQueue = new LinkedBlockingQueue<String>();
+		this.checksumComputation = new ChecksumComputation();
 	}
 
 	@Override
@@ -98,7 +100,7 @@ public class NetworkSendQueueThread extends Thread implements RemoteSender {
 	@Override
 	public void sendMessageWithChecksum(MessageId id, Object message) {
 		String json = this.parser.encodeMessage(message);
-		JsonWrapper wrapper = JsonWrapper.createWithChecksum(id, json);
+		JsonWrapper wrapper = JsonWrapper.createWithChecksum(id, json, this.checksumComputation.compute(json));
 		sendMessage(wrapper);
 	}
 }
