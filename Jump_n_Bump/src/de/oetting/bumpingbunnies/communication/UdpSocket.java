@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.charset.Charset;
 
 public class UdpSocket implements MySocket {
 
@@ -56,7 +57,8 @@ public class UdpSocket implements MySocket {
 	@Override
 	public void sendMessage(String message) {
 		try {
-			DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(), this.address, this.port);
+			DatagramPacket packet = new DatagramPacket(message.getBytes(Charset.forName("UTF-8")), message.length(), this.address,
+					this.port);
 			this.socket.send(packet);
 		} catch (IOException e) {
 			throw new UdpException(e);
@@ -67,7 +69,7 @@ public class UdpSocket implements MySocket {
 	public String blockingReceive() {
 		try {
 			this.socket.receive(this.receivingPacket);
-			return new String(this.receivingPacket.getData(), 0, this.receivingPacket.getLength());
+			return new String(this.receivingPacket.getData(), 0, this.receivingPacket.getLength(), Charset.forName("UTF-8"));
 		} catch (IOException e) {
 			throw new ReceiveFailure(e);
 		}

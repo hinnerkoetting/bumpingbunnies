@@ -6,9 +6,14 @@ package de.oetting.bumpingbunnies.usecases.game.model;
  */
 public class PlayerState implements GameObjectState<PlayerState> {
 
-	private MovingGameobjectState movementState;
-	private int score;
 	private final int id;
+	long centerX;
+	long centerY;
+	int movementX;
+	int movementY;
+	int accelerationX;
+	int accelerationY;
+	private int score;
 	/**
 	 * is bunny looking to the left (not necessarily moving left)
 	 */
@@ -18,55 +23,54 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	public PlayerState(int id) {
 		this.id = id;
-		this.movementState = new MovingGameobjectState();
 	}
 
 	public long getCenterX() {
-		return this.movementState.centerX;
+		return this.centerX;
 	}
 
 	public void setCenterX(long centerX) {
-		this.movementState.centerX = centerX;
+		this.centerX = centerX;
 	}
 
 	public long getCenterY() {
-		return this.movementState.centerY;
+		return this.centerY;
 	}
 
 	public void setCenterY(long centerY) {
-		this.movementState.centerY = centerY;
+		this.centerY = centerY;
 	}
 
 	public int getMovementX() {
-		return this.movementState.movementX;
+		return this.movementX;
 	}
 
 	public void setMovementX(int movementX) {
-		this.movementState.movementX = movementX;
+		this.movementX = movementX;
 	}
 
 	public int getMovementY() {
-		return this.movementState.movementY;
+		return this.movementY;
 	}
 
 	public void setMovementY(int movementY) {
-		this.movementState.movementY = movementY;
+		this.movementY = movementY;
 	}
 
 	public int getAccelerationX() {
-		return this.movementState.accelerationX;
+		return this.accelerationX;
 	}
 
 	public void setAccelerationX(int accelerationX) {
-		this.movementState.accelerationX = accelerationX;
+		this.accelerationX = accelerationX;
 	}
 
 	public int getAccelerationY() {
-		return this.movementState.accelerationY;
+		return this.accelerationY;
 	}
 
 	public void setAccelerationY(int accelerationY) {
-		this.movementState.accelerationY = accelerationY;
+		this.accelerationY = accelerationY;
 	}
 
 	public int getScore() {
@@ -107,12 +111,12 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	@Override
 	public void copyContentTo(PlayerState other) {
-		other.movementState.accelerationX = this.movementState.accelerationX;
-		other.movementState.accelerationY = this.movementState.accelerationY;
-		other.movementState.centerX = this.movementState.centerX;
-		other.movementState.centerY = this.movementState.centerY;
-		other.movementState.movementX = this.movementState.movementX;
-		other.movementState.movementY = this.movementState.movementY;
+		other.accelerationX = this.accelerationX;
+		other.accelerationY = this.accelerationY;
+		other.centerX = this.centerX;
+		other.centerY = this.centerY;
+		other.movementX = this.movementX;
+		other.movementY = this.movementY;
 		other.score = this.score;
 		other.facingLeft = this.facingLeft;
 		other.jumpingButtonPressed = this.jumpingButtonPressed;
@@ -121,9 +125,12 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	@Override
 	public String toString() {
-		return "PlayerState [movementState=" + this.movementState + ", score=" + this.score + ", id=" + this.id
-				+ ", facingLeft="
-				+ this.facingLeft + ", jumpingButtonPressed=" + this.jumpingButtonPressed + ", isDead=" + this.isDead + "]";
+		return "PlayerState [id=" + this.id + ", centerX=" + this.centerX + ", centerY=" + this.centerY + ", movementX=" + this.movementX
+				+ ", movementY="
+				+ this.movementY + ", accelerationX=" + this.accelerationX + ", accelerationY=" + this.accelerationY + ", score="
+				+ this.score
+				+ ", facingLeft=" + this.facingLeft + ", jumpingButtonPressed=" + this.jumpingButtonPressed + ", isDead=" + this.isDead
+				+ "]";
 	}
 
 }

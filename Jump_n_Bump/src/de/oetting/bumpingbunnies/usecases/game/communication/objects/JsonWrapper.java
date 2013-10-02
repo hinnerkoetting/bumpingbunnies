@@ -1,16 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.objects;
 
-
 public class JsonWrapper {
 
 	private final MessageId id;
 	private final String message;
-	private final byte[] optionalChecksum;
 
-	private JsonWrapper(MessageId id, String message, byte[] hash) {
+	private JsonWrapper(MessageId id, String message) {
 		this.id = id;
 		this.message = message;
-		this.optionalChecksum = hash;
 	}
 
 	public String getMessage() {
@@ -55,16 +52,8 @@ public class JsonWrapper {
 		return true;
 	}
 
-	public byte[] getOptionalChecksum() {
-		return this.optionalChecksum;
-	}
-
 	public static JsonWrapper create(MessageId messageId, String message) {
-		return new JsonWrapper(messageId, message, null);
-	}
-
-	public static JsonWrapper createWithChecksum(MessageId messageId, String message, byte[] checksum) {
-		return new JsonWrapper(messageId, message, checksum);
+		return new JsonWrapper(messageId, message);
 	}
 
 }
