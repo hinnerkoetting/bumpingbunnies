@@ -15,22 +15,17 @@ public class TouchReleaseInputService extends AbstractTouchService {
 	@Override
 	public void onMotionEvent(MotionEvent motionEvent) {
 		if (isTouchLeftToPlayer(motionEvent)) {
-			rememberMoveLeft();
+			moveLeft();
 		}
 		if (isTouchRightToPlayer(motionEvent)) {
-			rememberMoveRight();
+			moveRight();
 		}
 
 		if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-			rememberMoveUp();
+			moveUp();
 		} else {
-			rememberMoveDown();
+			moveDown();
 		}
-	}
-
-	@Override
-	public void executeUserInput() {
-		executeRememberedMovement();
 	}
 
 }

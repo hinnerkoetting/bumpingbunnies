@@ -17,12 +17,12 @@ public class TouchService extends LeftRightTouchService implements InputService 
 		super.onMotionEvent(motionEvent);
 		if (motionEvent.getAction() != MotionEvent.ACTION_UP) {
 			if (clickOnUpperHalf(motionEvent)) {
-				rememberMoveUp();
+				moveUp();
 			} else {
-				rememberMoveDown();
+				moveDown();
 			}
 		} else {
-			rememberMoveDown();
+			moveDown();
 		}
 
 	}

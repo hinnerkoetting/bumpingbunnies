@@ -5,57 +5,28 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementContr
 
 public class AnalogInputService extends AbstractControlledMovement {
 
-	private boolean isTouchUp;
-	private boolean isTouchDown;
-	private boolean isTouchLeft;
-	private boolean isTouchRight;
-
 	public AnalogInputService(PlayerMovementController playerMovement) {
 		super(playerMovement);
 	}
 
 	@Override
-	public void executeUserInput() {
-		if (this.isTouchDown) {
-			moveDown();
-		}
-		if (this.isTouchUp) {
-			moveUp();
-		}
-		if (this.isTouchLeft) {
-			moveLeft();
-		}
-		if (this.isTouchRight) {
-			moveRight();
-		}
-	}
-
-	@Override
 	public void reset() {
-		this.isTouchUp = false;
-		this.isTouchDown = false;
-		this.isTouchRight = false;
-		this.isTouchLeft = false;
 	}
 
 	public void onTouchUpperHalf() {
-		this.isTouchUp = true;
-		this.isTouchDown = false;
+		getPlayerMovement().tryMoveUp();
 	}
 
 	public void onTouchLowerHalf() {
-		this.isTouchUp = false;
-		this.isTouchDown = true;
+		getPlayerMovement().tryMoveDown();
 	}
 
 	public void onTouchRightHalf() {
-		this.isTouchRight = true;
-		this.isTouchLeft = false;
+		getPlayerMovement().tryMoveRight();
 	}
 
 	public void onTouchLeftHalf() {
-		this.isTouchRight = false;
-		this.isTouchLeft = true;
+		getPlayerMovement().tryMoveLeft();
 	}
 
 }

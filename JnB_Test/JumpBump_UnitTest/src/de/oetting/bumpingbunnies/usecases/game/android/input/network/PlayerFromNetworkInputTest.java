@@ -33,7 +33,7 @@ public class PlayerFromNetworkInputTest {
 	@Test
 	public void executeUserInput_thenThereShouldNotBeANewMessage() {
 		givenThereExistsNewMessage();
-		this.fixture.executeUserInput();
+		this.fixture.executeNextStep();
 		assertFalse(this.fixture.existsNewMessage());
 	}
 
@@ -43,7 +43,7 @@ public class PlayerFromNetworkInputTest {
 		PlayerState oldPlayerState = new PlayerState(0);
 		sendNewMessageWithCounter(2, newPlayerState);
 		sendNewMessageWithCounter(1, oldPlayerState);
-		this.fixture.executeUserInput();
+		this.fixture.executeNextStep();
 		verify(this.player).applyState(newPlayerState);
 	}
 

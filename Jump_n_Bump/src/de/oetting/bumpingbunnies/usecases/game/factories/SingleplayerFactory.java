@@ -20,7 +20,7 @@ public class SingleplayerFactory extends AbstractOtherPlayersFactory implements
 	}
 
 	@Override
-	public AbstractInputServiceFactory getInputServiceFactory() {
+	public OtherPlayerInputServiceFactory getInputServiceFactory() {
 		return this.aiModus.createAiModeFactoryClass();
 	}
 

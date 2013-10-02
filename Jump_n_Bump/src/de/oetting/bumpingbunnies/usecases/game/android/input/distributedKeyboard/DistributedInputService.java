@@ -26,10 +26,6 @@ public class DistributedInputService implements InputService,
 	}
 
 	@Override
-	public void executeUserInput() {
-	}
-
-	@Override
 	public boolean onButtonTouch(View v, MotionEvent event) {
 		boolean isPressed = event.getAction() != MotionEvent.ACTION_UP;
 		switch (v.getId()) {

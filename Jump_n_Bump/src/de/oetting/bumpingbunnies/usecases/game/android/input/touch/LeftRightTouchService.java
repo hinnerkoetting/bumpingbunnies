@@ -21,11 +21,6 @@ public class LeftRightTouchService extends AbstractTouchService {
 		}
 	}
 
-	@Override
-	public void executeUserInput() {
-		executeRememberedMovement();
-	}
-
 	protected double relativePointerPositionX(MotionEvent motionEvent) {
 		return -getMovedPlayer().getCenterX()
 				+ translateToGameXCoordinate(motionEvent);
@@ -37,9 +32,9 @@ public class LeftRightTouchService extends AbstractTouchService {
 
 	protected void moveLeftOrRight(MotionEvent motionEvent) {
 		if (isTouchLeftToPlayer(motionEvent)) {
-			rememberMoveLeft();
+			moveLeft();
 		} else if (isTouchRightToPlayer(motionEvent)) {
-			rememberMoveRight();
+			moveRight();
 		} else {
 			reset();
 		}

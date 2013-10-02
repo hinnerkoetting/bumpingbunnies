@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
@@ -35,7 +34,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 public class GameThreadFactory {
 
 	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
-			List<InputService> movementServices, List<StateSender> stateSender,
+			List<OtherPlayerInputService> movementServices, List<StateSender> stateSender,
 			Context context, AllPlayerConfig playerConfig,
 			Configuration configuration, CoordinatesCalculation calculations) {
 		GameThreadState threadState = new GameThreadState();

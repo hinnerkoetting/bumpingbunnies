@@ -6,7 +6,7 @@ import android.os.Parcelable;
 @SuppressLint("ParcelCreator")
 public abstract class AbstractOtherPlayersFactory implements Parcelable {
 
-	public abstract AbstractInputServiceFactory getInputServiceFactory();
+	public abstract OtherPlayerInputServiceFactory getInputServiceFactory();
 
 	protected AbstractOtherPlayersFactory() {
 	}

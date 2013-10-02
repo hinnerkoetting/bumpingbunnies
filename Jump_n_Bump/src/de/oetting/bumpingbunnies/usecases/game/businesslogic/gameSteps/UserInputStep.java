@@ -1,23 +1,22 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import java.util.Collections;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
+import de.oetting.bumpingbunnies.usecases.game.factories.OtherPlayerInputService;
 
 public class UserInputStep implements GameStepAction {
 
-	private final List<InputService> inputServices;
+	private final List<OtherPlayerInputService> inputServices;
 
-	public UserInputStep(List<InputService> inputServices) {
+	public UserInputStep(List<OtherPlayerInputService> inputServices) {
 		super();
-		this.inputServices = Collections.unmodifiableList(inputServices);
+		this.inputServices = inputServices;
 	}
 
 	@Override
 	public void executeNextStep(long deltaStepsSinceLastCall) {
-		for (InputService movementService : this.inputServices) {
-			movementService.executeUserInput();
+		for (OtherPlayerInputService movementService : this.inputServices) {
+			movementService.executeNextStep();
 		}
 	}
 

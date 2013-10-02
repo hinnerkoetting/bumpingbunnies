@@ -21,12 +21,12 @@ public class PointerInputService extends LeftRightTouchService {
 	public void onMotionEvent(MotionEvent motionEvent) {
 		super.onMotionEvent(motionEvent);
 		if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-			rememberMoveDown();
+			moveDown();
 		} else {
 			if (shouldBeReachedByJumping(motionEvent)) {
-				rememberMoveUp();
+				moveUp();
 			} else {
-				rememberMoveDown();
+				moveDown();
 			}
 		}
 	}

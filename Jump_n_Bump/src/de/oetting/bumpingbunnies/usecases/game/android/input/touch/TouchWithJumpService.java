@@ -13,9 +13,9 @@ public class TouchWithJumpService extends LeftRightTouchService {
 
 	public void onButtonTouchUp(MotionEvent event) {
 		if (event.getAction() != MotionEvent.ACTION_UP) {
-			rememberMoveUp();
+			moveUp();
 		} else {
-			rememberMoveDown();
+			moveDown();
 		}
 	}
 

@@ -21,15 +21,9 @@ public class TouchPressInputService extends AbstractTouchService {
 	}
 
 	@Override
-	public void executeUserInput() {
-		decideMoveLeftRight();
-		executeRememberedMovement();
-	}
-
-	@Override
 	public void onMotionEvent(MotionEvent motionEvent) {
 		if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-			rememberMoveDown();
+			moveDown();
 		} else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 			handleMotionDown(motionEvent);
 		} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
@@ -39,13 +33,13 @@ public class TouchPressInputService extends AbstractTouchService {
 
 	private void handleMotionPress(MotionEvent motionEvent) {
 		if (System.currentTimeMillis() - this.timeOfActionDown > 100) {
-			rememberMoveUp();
+			moveUp();
 		}
 		this.targetX = translateToGameXCoordinate(motionEvent);
 	}
 
 	private void handleMotionDown(MotionEvent motionEvent) {
-		rememberMoveDown();
+		moveDown();
 		this.timeOfActionDown = System.currentTimeMillis();
 		this.targetX = translateToGameXCoordinate(motionEvent);
 	}
@@ -54,9 +48,9 @@ public class TouchPressInputService extends AbstractTouchService {
 		LOGGER.verbose("target x: %f - player x %f", this.targetX,
 				getMovedPlayer().centerX());
 		if (this.targetX > getMovedPlayer().maxX()) {
-			rememberMoveRight();
+			moveRight();
 		} else if (this.targetX < getMovedPlayer().minX()) {
-			rememberMoveLeft();
+			moveLeft();
 		} else {
 			removeHorizontalMovement();
 		}

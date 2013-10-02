@@ -31,7 +31,7 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 	}
 
 	@Override
-	public AbstractInputServiceFactory getInputServiceFactory() {
+	public OtherPlayerInputServiceFactory getInputServiceFactory() {
 		return new NetworkInputServiceFactory();
 	}
 

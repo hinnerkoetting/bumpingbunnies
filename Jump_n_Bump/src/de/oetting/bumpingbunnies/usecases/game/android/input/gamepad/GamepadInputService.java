@@ -7,11 +7,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementContr
 
 public class GamepadInputService implements KeyboardInputService {
 
-	private boolean leftIsPressed;
-	private boolean rightIsPressed;
-	private boolean upIsPressed;
-	private boolean downIsPressed;
-
 	private PlayerMovementController playerMovement;
 
 	public GamepadInputService(PlayerMovementController playerMovement) {
@@ -19,51 +14,24 @@ public class GamepadInputService implements KeyboardInputService {
 	}
 
 	@Override
-	public void executeUserInput() {
-		handleHorizontalMovement();
-		handleVerticalMovement();
-	}
-
-	private void handleVerticalMovement() {
-		if (this.downIsPressed == this.upIsPressed) {
-			this.playerMovement.tryMoveDown();
-		}
-		if (this.downIsPressed) {
-			this.playerMovement.tryMoveDown();
-		}
-		if (this.upIsPressed) {
-			this.playerMovement.tryMoveUp();
-		}
-	}
-
-	private void handleHorizontalMovement() {
-		if (this.leftIsPressed == this.rightIsPressed) {
-			this.playerMovement.removeHorizontalMovement();
-		} else {
-			if (this.leftIsPressed) {
-				this.playerMovement.tryMoveLeft();
-			}
-			if (this.rightIsPressed) {
-				this.playerMovement.tryMoveRight();
-			}
-		}
-	}
-
-	@Override
 	public boolean onButtonTouch(View v, MotionEvent event) {
 		boolean isPressed = event.getAction() != MotionEvent.ACTION_UP;
+		if (!isPressed) {
+			this.playerMovement.removeMovement();
+			return true;
+		}
 		switch (v.getId()) {
 		case R.id.button_down:
-			this.downIsPressed = isPressed;
+			this.playerMovement.tryMoveDown();
 			break;
 		case R.id.button_up:
-			this.upIsPressed = isPressed;
+			this.playerMovement.tryMoveUp();
 			break;
 		case R.id.button_left:
-			this.leftIsPressed = isPressed;
+			this.playerMovement.tryMoveLeft();
 			break;
 		case R.id.button_right:
-			this.rightIsPressed = isPressed;
+			this.playerMovement.tryMoveRight();
 			break;
 		default:
 			return false;

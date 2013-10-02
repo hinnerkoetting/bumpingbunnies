@@ -13,10 +13,6 @@ public class HardwareKeyboardInputService implements InputService {
 		this.movementController = movementController;
 	}
 
-	@Override
-	public void executeUserInput() {
-	}
-
 	public boolean onKeyUp(int keyCode) {
 		if (keyCode == KeyEvent.KEYCODE_S) {
 			this.movementController.removeLeftMovement();

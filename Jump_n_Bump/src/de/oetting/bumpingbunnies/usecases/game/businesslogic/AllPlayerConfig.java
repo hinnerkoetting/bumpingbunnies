@@ -6,10 +6,10 @@ import java.util.List;
 import android.content.Context;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
+import de.oetting.bumpingbunnies.usecases.game.factories.OtherPlayerInputService;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
@@ -65,16 +65,16 @@ public class AllPlayerConfig {
 		return playerMovementCalculation;
 	}
 
-	public List<InputService> createOtherInputService(
+	public List<OtherPlayerInputService> createOtherInputService(
 			NetworkToGameDispatcher networkDispatcher) {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
-		List<InputService> resultReceiver = new ArrayList<InputService>(
+		List<OtherPlayerInputService> resultReceiver = new ArrayList<OtherPlayerInputService>(
 				allSockets.size());
 
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		for (PlayerConfig config : this.notControlledPlayers) {
-			InputService is = config.createInputService();
+			OtherPlayerInputService is = config.createInputService();
 			if (is instanceof PlayerFromNetworkInput) {
 				PlayerFromNetworkInput inputservice = (PlayerFromNetworkInput) is;
 				stateDispatcher.addInputService(config.getMovementController()

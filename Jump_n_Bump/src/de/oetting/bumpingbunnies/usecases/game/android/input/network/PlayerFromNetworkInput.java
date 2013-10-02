@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.network;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateMessage;
+import de.oetting.bumpingbunnies.usecases.game.factories.OtherPlayerInputService;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
@@ -13,7 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
  * 
  * 
  */
-public class PlayerFromNetworkInput implements InputService {
+public class PlayerFromNetworkInput implements OtherPlayerInputService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerFromNetworkInput.class);
 	private PlayerState playerStateFromNetwork;
@@ -26,7 +26,7 @@ public class PlayerFromNetworkInput implements InputService {
 	}
 
 	@Override
-	public synchronized void executeUserInput() {
+	public synchronized void executeNextStep() {
 		if (existsNewMessage()) {
 			copyStateFromNetwork();
 			deleteLatestMessage();

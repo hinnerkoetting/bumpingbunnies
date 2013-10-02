@@ -23,11 +23,11 @@ public class MultiTouchInputService extends LeftRightTouchService {
 	}
 
 	public void onMultiTouch() {
-		rememberMoveUp();
+		moveUp();
 	}
 
 	public void onMultiTouchRemoved() {
-		rememberMoveDown();
+		moveDown();
 	}
 
 }

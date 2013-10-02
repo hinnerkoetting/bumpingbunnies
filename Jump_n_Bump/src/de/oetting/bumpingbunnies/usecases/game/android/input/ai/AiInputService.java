@@ -4,12 +4,12 @@ import java.util.Random;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.factories.OtherPlayerInputService;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
-public class AiInputService implements InputService {
+public class AiInputService implements OtherPlayerInputService {
 
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(AiInputService.class);
@@ -35,7 +35,7 @@ public class AiInputService implements InputService {
 	}
 
 	@Override
-	public void executeUserInput() {
+	public void executeNextStep() {
 		this.otherPlayer = findNearestOtherPlayer();
 		this.counter++;
 		if (this.counter < this.nextdurationOfMovement) {
