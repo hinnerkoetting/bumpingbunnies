@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import java.util.Collections;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
@@ -34,7 +33,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
-		this.allPlayers = Collections.unmodifiableList(allPlayers);
+		this.allPlayers = allPlayers;
 	}
 
 	@Override

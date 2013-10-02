@@ -86,12 +86,4 @@ public class AllPlayerConfig {
 		return resultReceiver;
 	}
 
-	public Player getMyPlayer() {
-		return this.myPlayerMovement.getPlayer();
-	}
-
-	public PlayerMovement getTabletControlledPlayerMovement() {
-		return this.myPlayerMovement;
-	}
-
 }

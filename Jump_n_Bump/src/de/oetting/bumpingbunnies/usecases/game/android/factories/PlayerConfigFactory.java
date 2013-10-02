@@ -17,28 +17,27 @@ import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class PlayerConfigFactory {
 
-	public static AllPlayerConfig create(GameStartParameter parameter,
-			World world) {
+	public static PlayerMovement createMyPlayer(GameStartParameter parameter) {
 		Player myPlayer = findMyPlayer(parameter);
-		world.addPlayer(myPlayer);
 		PlayerMovement myPlayerMovementController = createMovementController(
 				myPlayer);
-		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
-				world, parameter.getConfiguration());
-		AllPlayerConfig config = new AllPlayerConfig(
-				myPlayerMovementController, otherPlayerconfigs);
+		return myPlayerMovementController;
+	}
+
+	public static AllPlayerConfig create(GameStartParameter parameter, World world, PlayerMovement myPlayer) {
+		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(parameter.getConfiguration(), world);
+		AllPlayerConfig config = new AllPlayerConfig(myPlayer, otherPlayerconfigs);
 		return config;
 	}
 
-	private static List<PlayerConfig> findOtherPlayers(World world,
-			Configuration configuration) {
+	private static List<PlayerConfig> findOtherPlayers(
+			Configuration configuration, World world) {
 		int speed = configuration.getGeneralSettings().getSpeedSetting();
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
 		PlayerFactory playerfactory = new PlayerFactory(speed);
 		for (OpponentConfiguration config : configuration.getOtherPlayers()) {
 			Player p = playerfactory.createPlayer(config.getPlayerId(),
 					config.getName());
-			world.addPlayer(p);
 			list.add(createPlayerConfig(p, world, config));
 		}
 		return list;

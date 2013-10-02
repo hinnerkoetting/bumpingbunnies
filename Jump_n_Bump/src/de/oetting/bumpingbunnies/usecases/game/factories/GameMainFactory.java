@@ -21,6 +21,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
@@ -59,9 +60,11 @@ public class GameMainFactory {
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
 		World world = WorldFactory.create(parameter.getConfiguration(), activity);
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
-		AllPlayerConfig allPlayerConfig = PlayerConfigFactory.create(parameter, world);
-		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(allPlayerConfig.getMyPlayer());
-		Player myPlayer = allPlayerConfig.getMyPlayer();
+		PlayerMovement myPlayerMovement = PlayerConfigFactory.createMyPlayer(parameter);
+		AllPlayerConfig allPlayerConfig = PlayerConfigFactory.create(parameter, world, myPlayerMovement);
+		Player myPlayer = myPlayerMovement.getPlayer();
+		addPlayersToWorld(world, allPlayerConfig, myPlayer);
+		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(myPlayer);
 		createRemoteSender(main, activity);
 		List<StateSender> allStateSender = createSender(main, myPlayer);
 		List<OtherPlayerInputService> inputServices = initInputServices(main, activity, world,
@@ -70,14 +73,21 @@ public class GameMainFactory {
 
 		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
 				inputServices,
-				allStateSender, activity, allPlayerConfig, parameter.getConfiguration(), calculations);
+				allStateSender, activity, allPlayerConfig, parameter.getConfiguration(), calculations, myPlayer);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
 
 		main.setAllPlayerConfig(allPlayerConfig);
 
-		main.setInputDispatcher(createInputDispatcher(activity, allPlayerConfig, parameter, calculations));
+		main.setInputDispatcher(createInputDispatcher(activity, allPlayerConfig, parameter, calculations, myPlayerMovement));
+	}
+
+	private static void addPlayersToWorld(World world, AllPlayerConfig allPlayerConfig, Player myPlayer) {
+		world.addPlayer(myPlayer);
+		for (Player p : allPlayerConfig.getAllPlayers()) {
+			world.addPlayer(p);
+		}
 	}
 
 	private static void createRemoteSender(GameMain main, GameActivity activity) {
@@ -129,11 +139,11 @@ public class GameMainFactory {
 	}
 
 	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, AllPlayerConfig config,
-			GameStartParameter parameter, CoordinatesCalculation calculations) {
+			GameStartParameter parameter, CoordinatesCalculation calculations, PlayerMovement myPlayerMovement) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
 				.getConfiguration().getInputConfiguration()
 				.createInputconfigurationClass();
-		InputService touchService = myPlayerFactory.createInputService(config.getTabletControlledPlayerMovement(), activity, calculations);
+		InputService touchService = myPlayerFactory.createInputService(myPlayerMovement, activity, calculations);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),

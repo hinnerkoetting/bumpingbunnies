@@ -148,4 +148,8 @@ public class PlayerMovementCalculation {
 		}
 
 	}
+
+	public boolean controlsThisPlayer(Player movedPlayer) {
+		return this.movedPlayer.equals(movedPlayer);
+	}
 }

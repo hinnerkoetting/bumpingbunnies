@@ -7,9 +7,9 @@ import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCa
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
@@ -30,13 +30,15 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameThreadFactory {
 
 	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
 			List<OtherPlayerInputService> movementServices, List<StateSender> stateSender,
 			Context context, AllPlayerConfig playerConfig,
-			Configuration configuration, CoordinatesCalculation calculations) {
+			Configuration configuration, CoordinatesCalculation calculations, Player myPlayer) {
 		GameThreadState threadState = new GameThreadState();
 
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
@@ -46,16 +48,24 @@ public class GameThreadFactory {
 		assignInitialSpawnpoints(spawnPointGenerator, world.getAllPlayer(), sendThreads);
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		CollisionDetection colDetection = new CollisionDetection(world);
-		List<PlayerMovementCalculation> playermovements = playerConfig.getAllPlayerMovementCalculations(colDetection, world, context);
 		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
 		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, playerConfig.getAllPlayers(),
 				spawnPointGenerator, reviver, colDetection);
-		BunnyMovementStep movementStep = new BunnyMovementStep(playermovements, killChecker);
+		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
+		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(playerConfig.getAllPlayers(), killChecker, factory);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode(),
-				createCameraPositionCalculator(playerConfig.getMyPlayer()));
+				createCameraPositionCalculator(myPlayer));
+	}
+
+	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context,
+			CollisionDetection collisionDetection,
+			World world) {
+		MusicPlayer musicPlayer = MusicPlayerFactory.createNormalJump(context);
+		return new PlayerMovementCalculationFactory(new GameObjectInteractor(collisionDetection,
+				world), collisionDetection, musicPlayer);
 	}
 
 	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
