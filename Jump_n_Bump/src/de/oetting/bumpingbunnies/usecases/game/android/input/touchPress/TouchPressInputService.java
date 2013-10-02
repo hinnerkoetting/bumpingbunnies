@@ -29,6 +29,7 @@ public class TouchPressInputService extends AbstractTouchService {
 		} else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
 			handleMotionPress(motionEvent);
 		}
+		decideMoveLeftRight();
 	}
 
 	private void handleMotionPress(MotionEvent motionEvent) {
