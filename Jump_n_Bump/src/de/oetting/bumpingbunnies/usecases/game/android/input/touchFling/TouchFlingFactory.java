@@ -20,7 +20,6 @@ public class TouchFlingFactory extends
 		TouchFlingService service = new TouchFlingService(
 				config.getTabletControlledPlayerMovement(),
 				calculations);
-		view.addOnSizeListener(service);
 		return service;
 	}
 

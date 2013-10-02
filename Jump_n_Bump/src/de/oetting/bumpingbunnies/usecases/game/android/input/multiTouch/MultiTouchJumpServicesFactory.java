@@ -20,7 +20,6 @@ public class MultiTouchJumpServicesFactory extends
 		MultiTouchInputService touchService = new MultiTouchInputService(
 				config.getTabletControlledPlayerMovement(),
 				calculations);
-		view.addOnSizeListener(touchService);
 		return touchService;
 	}
 

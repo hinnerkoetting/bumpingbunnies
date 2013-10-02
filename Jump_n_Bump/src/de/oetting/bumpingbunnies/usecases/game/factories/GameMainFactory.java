@@ -66,7 +66,7 @@ public class GameMainFactory {
 		List<StateSender> allStateSender = createSender(main, myPlayer);
 		List<OtherPlayerInputService> inputServices = initInputServices(main, activity, world,
 				allPlayerConfig,
-				main.getSendThreads(), parameter, contentView, calculations);
+				main.getSendThreads());
 
 		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
 				inputServices,
@@ -76,6 +76,8 @@ public class GameMainFactory {
 		contentView.addOnSizeListener(gameThread);
 
 		main.setAllPlayerConfig(allPlayerConfig);
+
+		main.setInputDispatcher(createInputDispatcher(activity, allPlayerConfig, contentView, parameter, calculations));
 	}
 
 	private static void createRemoteSender(GameMain main, GameActivity activity) {
@@ -114,25 +116,29 @@ public class GameMainFactory {
 
 	private static List<OtherPlayerInputService> initInputServices(GameMain main, GameActivity activity,
 			World world, AllPlayerConfig config,
-			List<? extends RemoteSender> allSender, GameStartParameter parameter, GameView view, CoordinatesCalculation calculations) {
-		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
-				.getConfiguration().getInputConfiguration()
-				.createInputconfigurationClass();
-
-		InputService touchService = myPlayerFactory.createInputService(config, activity, view, calculations);
+			List<? extends RemoteSender> allSender) {
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 
 		addAllNetworkListeners(activity, networkDispatcher, world);
-		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
-		main.setInputDispatcher(inputDispatcher);
 
-		createNetworkReceiveThreads(main, activity, networkDispatcher, allSender);
+		createNetworkReceiveThreads(main, networkDispatcher, allSender);
 		List<OtherPlayerInputService> inputServices = config.createOtherInputService(networkDispatcher);
+
+		return inputServices;
+	}
+
+	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, AllPlayerConfig config, GameView view,
+			GameStartParameter parameter, CoordinatesCalculation calculations) {
+		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
+				.getConfiguration().getInputConfiguration()
+				.createInputconfigurationClass();
+		InputService touchService = myPlayerFactory.createInputService(config, activity, view, calculations);
+		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),
 				inputDispatcher);
-		return inputServices;
+		return inputDispatcher;
 	}
 
 	private static void addAllNetworkListeners(GameActivity activity, NetworkToGameDispatcher networkDispatcher, World world) {
@@ -143,7 +149,7 @@ public class GameMainFactory {
 		new SpawnPointReceiver(networkDispatcher, world.getAllPlayer());
 	}
 
-	private static void createNetworkReceiveThreads(GameMain main, GameActivity activity,
+	private static void createNetworkReceiveThreads(GameMain main,
 			NetworkToGameDispatcher networkDispatcher,
 			List<? extends RemoteSender> allRemoteSender) {
 		List<MySocket> allSockets = SocketStorage.getSingleton()

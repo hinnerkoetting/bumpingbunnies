@@ -25,7 +25,6 @@ public class PointerInputServiceFactory extends
 				playerMovement,
 				PathFinderFactory.createPathFinder(playerMovement.getPlayer()),
 				calculations);
-		view.addOnSizeListener(touchService);
 		return touchService;
 	}
 

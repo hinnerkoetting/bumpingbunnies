@@ -44,9 +44,4 @@ public class TouchFlingService extends LeftRightTouchService {
 		}
 	}
 
-	@Override
-	public void setNewSize(int width, int height) {
-		super.setNewSize(width, height);
-	}
-
 }
