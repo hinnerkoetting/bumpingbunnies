@@ -25,7 +25,6 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	private final Drawer drawer;
 	private final GameStepController worldController;
 	private final GameThreadState state;
-	private final CameraPositionCalculation camCalculator;
 	private SurfaceHolder holder;
 
 	private boolean running;
@@ -35,12 +34,11 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	private int fpsLimitation;
 
 	public GameThread(Drawer drawer, GameStepController worldController,
-			GameThreadState gameThreadState, boolean altPixelMode, CameraPositionCalculation camCalculator) {
+			GameThreadState gameThreadState, boolean altPixelMode) {
 		super("Main Game Thread");
 		this.drawer = drawer;
 		this.worldController = worldController;
 		this.altPixelMode = altPixelMode;
-		this.camCalculator = camCalculator;
 		this.running = true;
 		this.isDrawingPossible = false;
 		this.state = gameThreadState;
@@ -62,7 +60,6 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 		while (!this.canceled) {
 			if (this.running && this.isDrawingPossible) {
 				if (!shouldStepGetSkipped()) {
-					this.camCalculator.updateScreenPosition();
 					nextWorldStep();
 					drawGame();
 					this.state.increaseFps();

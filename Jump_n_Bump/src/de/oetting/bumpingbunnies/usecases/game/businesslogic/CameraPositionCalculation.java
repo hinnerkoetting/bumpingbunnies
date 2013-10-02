@@ -1,9 +1,10 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.GameStepAction;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
-public class CameraPositionCalculation {
+public class CameraPositionCalculation implements GameStepAction {
 
 	protected static final int SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.STANDARD_WORLD_SIZE / 200;
 	private final Player movedPlayer;
@@ -20,7 +21,12 @@ public class CameraPositionCalculation {
 		this.lastUpdate = System.currentTimeMillis();
 	}
 
-	public void updateScreenPosition() {
+	@Override
+	public void executeNextStep(long deltaStepsSinceLastCall) {
+		updateScreenPosition();
+	}
+
+	void updateScreenPosition() {
 		long currentTime = System.currentTimeMillis();
 		if (!this.movedPlayer.isDead()) {
 			immediateUpdateScreenPosition();
@@ -58,4 +64,5 @@ public class CameraPositionCalculation {
 			this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCurrentScreenY() - maxScrollValueY);
 		}
 	}
+
 }

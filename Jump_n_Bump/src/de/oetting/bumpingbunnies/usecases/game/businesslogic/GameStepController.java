@@ -21,14 +21,16 @@ public class GameStepController {
 	// this remaining time is stored in this variable
 	// and used for the next cycle
 	private long remainingDeltaFromLastRun = 0;
+	private final CameraPositionCalculation cameraPositionCalculator;
 
 	public GameStepController(
 			UserInputStep userInputStep, BunnyMovementStep movements,
-			SendingCoordinatesStep sendingCoordinates, PlayerReviver reviver) {
+			SendingCoordinatesStep sendingCoordinates, PlayerReviver reviver, CameraPositionCalculation cameraPositionCalculator) {
 		this.userInputStep = userInputStep;
 		this.movements = movements;
 		this.sendingCoordinates = sendingCoordinates;
 		this.reviver = reviver;
+		this.cameraPositionCalculator = cameraPositionCalculator;
 	}
 
 	public void nextStep(long delta) {
@@ -39,6 +41,6 @@ public class GameStepController {
 		this.movements.executeNextStep(numberSteps);
 		this.sendingCoordinates.executeNextStep(numberSteps);
 		this.reviver.executeNextStep(numberSteps);
-
+		this.cameraPositionCalculator.executeNextStep(delta);
 	}
 }

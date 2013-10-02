@@ -55,9 +55,8 @@ public class GameThreadFactory {
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(playerConfig.getAllPlayers(), killChecker, factory);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
-				userInputStep, movementStep, sendCoordinates, reviver);
-		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode(),
-				createCameraPositionCalculator(myPlayer));
+				userInputStep, movementStep, sendCoordinates, reviver, createCameraPositionCalculator(myPlayer));
+		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
 	}
 
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context,
