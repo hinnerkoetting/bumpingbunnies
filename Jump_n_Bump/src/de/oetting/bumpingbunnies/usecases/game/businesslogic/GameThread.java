@@ -32,6 +32,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	private boolean isDrawingPossible;
 	private boolean canceled;
 	private final boolean altPixelMode;
+	private int fpsLimitation;
 
 	public GameThread(Drawer drawer, GameStepController worldController,
 			GameThreadState gameThreadState, boolean altPixelMode, CameraPositionCalculation camCalculator) {
@@ -43,6 +44,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 		this.running = true;
 		this.isDrawingPossible = false;
 		this.state = gameThreadState;
+		this.fpsLimitation = 30;
 	}
 
 	@Override
@@ -59,14 +61,22 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 		this.state.setLastRun(System.currentTimeMillis());
 		while (!this.canceled) {
 			if (this.running && this.isDrawingPossible) {
-				this.camCalculator.updateScreenPosition();
-				nextWorldStep();
-				drawGame();
-				this.state.increaseFps();
+				if (!shouldStepGetSkipped()) {
+					this.camCalculator.updateScreenPosition();
+					nextWorldStep();
+					drawGame();
+					this.state.increaseFps();
+				}
 			} else {
 				sleep(100);
 			}
 		}
+	}
+
+	private boolean shouldStepGetSkipped() {
+		long millisecondsSinceLastRun = System.currentTimeMillis() - this.state.getLastRun();
+		int milliPerSecond = 1000;
+		return millisecondsSinceLastRun < milliPerSecond / this.fpsLimitation;
 	}
 
 	private void nextWorldStep() throws InterruptedException {
@@ -75,6 +85,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 		if (delta > 10) {
 			this.state.setLastRun(currentTime);
 			if (delta > 1000) {
+				LOGGER.warn("skipping frames");
 				return;
 			}
 			LOGGER.debug("Delta %d", delta);
