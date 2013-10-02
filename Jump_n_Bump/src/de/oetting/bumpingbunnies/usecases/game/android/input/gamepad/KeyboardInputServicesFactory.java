@@ -7,20 +7,18 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class KeyboardInputServicesFactory extends
 		AbstractPlayerInputServicesFactory<GamepadInputService> {
 
 	@Override
-	public GamepadInputService createInputService(AllPlayerConfig config,
-			Context context, GameView view, CoordinatesCalculation calculations) {
-		return new GamepadInputService(
-				config.getTabletControlledPlayerMovement());
+	public GamepadInputService createInputService(PlayerMovement movement,
+			Context context, CoordinatesCalculation calculations) {
+		return new GamepadInputService(movement);
 	}
 
 	@Override

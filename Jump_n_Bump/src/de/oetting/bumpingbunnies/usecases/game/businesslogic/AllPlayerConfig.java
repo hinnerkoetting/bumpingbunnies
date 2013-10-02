@@ -17,17 +17,17 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class AllPlayerConfig {
 
-	private final PlayerMovementController myPlayerMovement;
+	private final PlayerMovement myPlayerMovement;
 	private final List<PlayerConfig> notControlledPlayers;
 
-	public AllPlayerConfig(PlayerMovementController tabletControlledPlayer,
+	public AllPlayerConfig(PlayerMovement tabletControlledPlayer,
 			List<PlayerConfig> notControlledPlayers) {
 		this.myPlayerMovement = tabletControlledPlayer;
 		this.notControlledPlayers = notControlledPlayers;
 	}
 
-	public List<PlayerMovementController> getAllPlayerMovementControllers() {
-		List<PlayerMovementController> list = new ArrayList<PlayerMovementController>(
+	public List<PlayerMovement> getAllPlayerMovementControllers() {
+		List<PlayerMovement> list = new ArrayList<PlayerMovement>(
 				this.notControlledPlayers.size() + 1);
 		list.add(this.myPlayerMovement);
 		for (PlayerConfig config : this.notControlledPlayers) {
@@ -90,7 +90,7 @@ public class AllPlayerConfig {
 		return this.myPlayerMovement.getPlayer();
 	}
 
-	public PlayerMovementController getTabletControlledPlayerMovement() {
+	public PlayerMovement getTabletControlledPlayerMovement() {
 		return this.myPlayerMovement;
 	}
 

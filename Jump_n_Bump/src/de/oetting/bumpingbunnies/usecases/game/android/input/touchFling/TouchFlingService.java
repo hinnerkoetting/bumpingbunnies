@@ -3,14 +3,14 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.touchFling;
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.LeftRightTouchService;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class TouchFlingService extends LeftRightTouchService {
 
 	private double lastTouchedHeight;
 	private double lastTouchedWidht;
 
-	public TouchFlingService(PlayerMovementController playerMovement,
+	public TouchFlingService(PlayerMovement playerMovement,
 			CoordinatesCalculation coordinateCalculations) {
 		super(playerMovement, coordinateCalculations);
 	}

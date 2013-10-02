@@ -124,10 +124,10 @@ public class GameMain {
 	}
 
 	public ResultWrapper extractPlayerScores() {
-		List<PlayerMovementController> playermovements = getAllPlayerConfig().getAllPlayerMovementControllers();
+		List<PlayerMovement> playermovements = getAllPlayerConfig().getAllPlayerMovementControllers();
 		List<ResultPlayerEntry> players = new ArrayList<ResultPlayerEntry>(
 				playermovements.size());
-		for (PlayerMovementController movement : playermovements) {
+		for (PlayerMovement movement : playermovements) {
 			Player player = movement.getPlayer();
 			ResultPlayerEntry entry = new ResultPlayerEntry(player.getName(), player
 					.getScore(), movement.getPlayer().getColor());

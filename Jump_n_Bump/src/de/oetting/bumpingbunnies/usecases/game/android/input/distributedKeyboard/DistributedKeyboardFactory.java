@@ -8,25 +8,22 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.VibrateOnceService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.VibratorService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.gamepad.KeyboardDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class DistributedKeyboardFactory extends
 		AbstractPlayerInputServicesFactory<DistributedInputService> {
 
 	@Override
-	public DistributedInputService createInputService(AllPlayerConfig config,
-			Context context, GameView view, CoordinatesCalculation calculations) {
-
+	public DistributedInputService createInputService(PlayerMovement movement,
+			Context context, CoordinatesCalculation calculations) {
 		VibratorService vibrator = createvibratorService(context);
-		return new DistributedInputService(
-				config.getTabletControlledPlayerMovement(), vibrator);
+		return new DistributedInputService(movement, vibrator);
 	}
 
 	private VibratorService createvibratorService(Context context) {

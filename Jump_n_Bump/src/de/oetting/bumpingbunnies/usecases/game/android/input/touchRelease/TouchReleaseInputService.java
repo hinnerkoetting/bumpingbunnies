@@ -3,11 +3,11 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.touchRelease;
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class TouchReleaseInputService extends AbstractTouchService {
 
-	public TouchReleaseInputService(PlayerMovementController playerMovement,
+	public TouchReleaseInputService(PlayerMovement playerMovement,
 			CoordinatesCalculation coordinateCalculations) {
 		super(playerMovement, coordinateCalculations);
 	}

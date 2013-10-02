@@ -77,7 +77,7 @@ public class GameMainFactory {
 
 		main.setAllPlayerConfig(allPlayerConfig);
 
-		main.setInputDispatcher(createInputDispatcher(activity, allPlayerConfig, contentView, parameter, calculations));
+		main.setInputDispatcher(createInputDispatcher(activity, allPlayerConfig, parameter, calculations));
 	}
 
 	private static void createRemoteSender(GameMain main, GameActivity activity) {
@@ -128,12 +128,12 @@ public class GameMainFactory {
 		return inputServices;
 	}
 
-	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, AllPlayerConfig config, GameView view,
+	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, AllPlayerConfig config,
 			GameStartParameter parameter, CoordinatesCalculation calculations) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
 				.getConfiguration().getInputConfiguration()
 				.createInputconfigurationClass();
-		InputService touchService = myPlayerFactory.createInputService(config, activity, view, calculations);
+		InputService touchService = myPlayerFactory.createInputService(config.getTabletControlledPlayerMovement(), activity, calculations);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),

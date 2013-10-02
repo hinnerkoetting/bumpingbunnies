@@ -6,7 +6,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
@@ -21,7 +21,7 @@ public class PlayerConfigFactory {
 			World world) {
 		Player myPlayer = findMyPlayer(parameter);
 		world.addPlayer(myPlayer);
-		PlayerMovementController myPlayerMovementController = createMovementController(
+		PlayerMovement myPlayerMovementController = createMovementController(
 				myPlayer);
 		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(
 				world, parameter.getConfiguration());
@@ -48,13 +48,13 @@ public class PlayerConfigFactory {
 			OpponentConfiguration configuration) {
 		AbstractOtherPlayersFactory otherPlayerFactory = configuration
 				.getFactory();
-		PlayerMovementController movementcontroller = createMovementController(
+		PlayerMovement movementcontroller = createMovementController(
 				player);
 		return new PlayerConfig(otherPlayerFactory, movementcontroller, world,
 				configuration);
 	}
 
-	private static PlayerMovementController createMovementController(Player p) {
+	private static PlayerMovement createMovementController(Player p) {
 		return PlayerMovementFactory.create(p);
 	}
 

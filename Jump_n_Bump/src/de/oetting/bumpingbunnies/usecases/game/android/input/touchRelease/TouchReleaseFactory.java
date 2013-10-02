@@ -3,23 +3,21 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.touchRelease;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchInputDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class TouchReleaseFactory extends
 		AbstractPlayerInputServicesFactory<TouchReleaseInputService> {
 
 	@Override
-	public TouchReleaseInputService createInputService(AllPlayerConfig config,
-			Context context, GameView view, CoordinatesCalculation calculations) {
+	public TouchReleaseInputService createInputService(PlayerMovement movement,
+			Context context, CoordinatesCalculation calculations) {
 		TouchReleaseInputService service = new TouchReleaseInputService(
-				config.getTabletControlledPlayerMovement(),
+				movement,
 				calculations);
-		view.addOnSizeListener(service);
 		return service;
 	}
 

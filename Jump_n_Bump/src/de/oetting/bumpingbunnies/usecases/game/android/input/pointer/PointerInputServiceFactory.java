@@ -3,27 +3,23 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.pointer;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.PathFinder.PathFinderFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchInputDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class PointerInputServiceFactory extends
 		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public AbstractTouchService createInputService(AllPlayerConfig config,
-			Context context, GameView view, CoordinatesCalculation calculations) {
-		PlayerMovementController playerMovement = config
-				.getTabletControlledPlayerMovement();
+	public AbstractTouchService createInputService(PlayerMovement movement,
+			Context context, CoordinatesCalculation calculations) {
 		PointerInputService touchService = new PointerInputService(
-				playerMovement,
-				PathFinderFactory.createPathFinder(playerMovement.getPlayer()),
+				movement,
+				PathFinderFactory.createPathFinder(movement.getPlayer()),
 				calculations);
 		return touchService;
 	}

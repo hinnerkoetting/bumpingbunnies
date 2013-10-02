@@ -12,7 +12,7 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -101,17 +101,17 @@ public class GameActivity extends Activity {
 	}
 
 	private List<Player> getAllPlayers() {
-		List<PlayerMovementController> playermovements = this.main.getAllPlayerConfig().getAllPlayerMovementControllers();
+		List<PlayerMovement> playermovements = this.main.getAllPlayerConfig().getAllPlayerMovementControllers();
 		List<Player> players = new ArrayList<Player>(playermovements.size());
-		for (PlayerMovementController movement : playermovements) {
+		for (PlayerMovement movement : playermovements) {
 			players.add(movement.getPlayer());
 		}
 		return players;
 	}
 
 	public void applyPlayers(List<Player> storedPlayers) {
-		List<PlayerMovementController> playermovements = this.main.getAllPlayerConfig().getAllPlayerMovementControllers();
-		for (PlayerMovementController movement : playermovements) {
+		List<PlayerMovement> playermovements = this.main.getAllPlayerConfig().getAllPlayerMovementControllers();
+		for (PlayerMovement movement : playermovements) {
 			for (Player storedPlayer : storedPlayers) {
 				if (movement.getPlayer().id() == storedPlayer.id()) {
 					movement.getPlayer().applyStateTo(storedPlayer);

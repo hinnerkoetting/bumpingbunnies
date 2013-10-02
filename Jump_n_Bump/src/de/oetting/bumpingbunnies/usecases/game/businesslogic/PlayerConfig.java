@@ -10,11 +10,11 @@ public class PlayerConfig {
 
 	private final OpponentConfiguration configuration;
 	private final AbstractOtherPlayersFactory otherPlayerFactory;
-	private final PlayerMovementController movementController;
+	private final PlayerMovement movementController;
 	private final World world;
 
 	public PlayerConfig(AbstractOtherPlayersFactory otherPlayerFactory,
-			PlayerMovementController movementController, World world,
+			PlayerMovement movementController, World world,
 			OpponentConfiguration configuration) {
 		super();
 		this.otherPlayerFactory = otherPlayerFactory;
@@ -23,7 +23,7 @@ public class PlayerConfig {
 		this.configuration = configuration;
 	}
 
-	public PlayerMovementController getMovementController() {
+	public PlayerMovement getMovementController() {
 		return this.movementController;
 	}
 

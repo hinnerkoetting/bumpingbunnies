@@ -17,7 +17,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerMovementControllerTest {
 
-	private PlayerMovementController fixture;
+	private PlayerMovement fixture;
 
 	private Player movedPlayer;
 	@Mock
@@ -86,6 +86,6 @@ public class PlayerMovementControllerTest {
 	@Before
 	public void beforeEveryTest() {
 		this.movedPlayer = new Player(-1, "any", 1);
-		this.fixture = new PlayerMovementController(this.movedPlayer);
+		this.fixture = new PlayerMovement(this.movedPlayer);
 	}
 }

@@ -4,13 +4,13 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
-public class PlayerMovementController {
+public class PlayerMovement {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerMovementController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerMovement.class);
 
 	private final Player movedPlayer;
 
-	public PlayerMovementController(Player movedPlayer) {
+	public PlayerMovement(Player movedPlayer) {
 		this.movedPlayer = movedPlayer;
 	}
 

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.factories.OtherPlayerInputService;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -16,7 +16,7 @@ public class AiInputService implements OtherPlayerInputService {
 
 	private Player otherPlayer;
 	private final Player player;
-	private final PlayerMovementController playerMovement;
+	private final PlayerMovement playerMovement;
 	private boolean rememberMoveLeft;
 	private boolean rememberMoveRight;
 	private int counter = 0;
@@ -26,7 +26,7 @@ public class AiInputService implements OtherPlayerInputService {
 
 	private final World world;
 
-	public AiInputService(PlayerMovementController playerMovement, World world) {
+	public AiInputService(PlayerMovement playerMovement, World world) {
 		this.playerMovement = playerMovement;
 		this.world = world;
 		this.player = playerMovement.getPlayer();

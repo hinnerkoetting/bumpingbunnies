@@ -3,22 +3,21 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.multiTouch;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import de.oetting.bumpingbunnies.usecases.game.android.GameView;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.TouchInputDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class MultiTouchJumpServicesFactory extends
 		AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public AbstractTouchService createInputService(AllPlayerConfig config,
-			Context context, GameView view, CoordinatesCalculation calculations) {
+	public AbstractTouchService createInputService(PlayerMovement movement,
+			Context context, CoordinatesCalculation calculations) {
 		MultiTouchInputService touchService = new MultiTouchInputService(
-				config.getTabletControlledPlayerMovement(),
+				movement,
 				calculations);
 		return touchService;
 	}

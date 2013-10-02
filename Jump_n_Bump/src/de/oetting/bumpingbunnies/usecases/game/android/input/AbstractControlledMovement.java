@@ -1,13 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input;
 
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public abstract class AbstractControlledMovement implements InputService {
 
-	private PlayerMovementController playerMovement;
+	private PlayerMovement playerMovement;
 
-	public AbstractControlledMovement(PlayerMovementController playerMovement) {
+	public AbstractControlledMovement(PlayerMovement playerMovement) {
 		this.playerMovement = playerMovement;
 	}
 
@@ -15,7 +15,7 @@ public abstract class AbstractControlledMovement implements InputService {
 		this.playerMovement.removeMovement();
 	}
 
-	protected PlayerMovementController getPlayerMovement() {
+	protected PlayerMovement getPlayerMovement() {
 		return this.playerMovement;
 	}
 
