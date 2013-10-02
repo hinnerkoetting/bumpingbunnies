@@ -9,56 +9,18 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.communication.MySocket;
-import de.oetting.bumpingbunnies.communication.RemoteConnection;
-import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
-import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.usecases.game.android.calculation.RelativeCoordinatesCalculation;
-import de.oetting.bumpingbunnies.usecases.game.android.factories.PlayerConfigFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
-import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementController;
-import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
-import de.oetting.bumpingbunnies.usecases.game.factories.GameThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.WorldFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
-import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
 /**
  * Controls the bumping-bunnies game.
  */
 public class GameActivity extends Activity {
-	private GameThread gameThread;
-
-	private InputDispatcher<?> inputDispatcher;
-	private List<NetworkReceiveThread> networkReceiveThreads;
-	private List<RemoteConnection> sendThreads = new ArrayList<RemoteConnection>();
-	private MusicPlayer musicPlayer;
-	private AllPlayerConfig allPlayerConfig;
+	private GameMain main;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,26 +30,21 @@ public class GameActivity extends Activity {
 
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
+		this.main = GameMainFactory.create(this);
 		registerScreenTouchListener(contentView);
-		initGame();
-		contentView.setGameThread(this.gameThread);
+
 		conditionalRestoreState();
-		startNetworkThreads();
-		this.gameThread.start();
-		initGameSound();
 	}
 
-	private void initGameSound() {
-		this.musicPlayer = MusicPlayerFactory.createBackground(this);
-	}
+	private void registerScreenTouchListener(final GameView contentView) {
+		contentView.setOnTouchListener(new OnTouchListener() {
 
-	private void startNetworkThreads() {
-		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
-			receiver.start();
-		}
-		for (RemoteSender sender : this.sendThreads) {
-			sender.start();
-		}
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return GameActivity.this.main.ontouch(event);
+
+			}
+		});
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
@@ -98,163 +55,31 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	private void registerScreenTouchListener(final GameView contentView) {
-		contentView.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return GameActivity.this.inputDispatcher
-						.dispatchGameTouch(event);
-			}
-		});
-	}
-
-	private void initGame() {
-		GameStartParameter parameter = (GameStartParameter) getIntent()
-				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
-		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
-		World world = WorldFactory.create(parameter.getConfiguration(), this);
-
-		this.allPlayerConfig = PlayerConfigFactory.create(parameter, world);
-		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(this.allPlayerConfig.getMyPlayer());
-		Player myPlayer = this.allPlayerConfig.getMyPlayer();
-		createRemoteSender();
-		List<StateSender> allStateSender = createSender(myPlayer);
-		List<InputService> inputServices = initInputServices(world,
-				this.allPlayerConfig,
-				this.sendThreads, parameter, contentView, calculations);
-
-		this.gameThread = GameThreadFactory.create(this.sendThreads, world,
-				inputServices,
-				allStateSender, this, this.allPlayerConfig, parameter.getConfiguration(), calculations);
-
-		contentView.addOnSizeListener(this.gameThread);
-	}
-
-	private void createRemoteSender() {
-		List<MySocket> allSockets = SocketStorage.getSingleton()
-				.getAllSockets();
-		List<RemoteConnection> resultSender = new ArrayList<RemoteConnection>(
-				allSockets.size());
-		for (MySocket socket : allSockets) {
-			RemoteConnection serverConnection = createServerConnection(socket);
-			resultSender.add(serverConnection);
-		}
-		this.sendThreads = resultSender;
-	}
-
-	public RemoteConnection createServerConnection(MySocket socket) {
-		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, this);
-		NetworkSendQueueThread udpConnection = createUdpConnection(socket);
-
-		RemoteConnection serverConnection = new RemoteConnection(tcpConnection, udpConnection);
-		return serverConnection;
-	}
-
-	private NetworkSendQueueThread createUdpConnection(MySocket socket) {
-		MySocket fastSocket = socket.createFastConnection();
-		return NetworkSendQueueThreadFactory.create(fastSocket, this);
-	}
-
-	private List<StateSender> createSender(Player myPlayer) {
-		List<StateSender> resultSender = new ArrayList<StateSender>(
-				this.sendThreads.size());
-		for (RemoteConnection rs : this.sendThreads) {
-			resultSender.add(new GameNetworkSender(myPlayer, rs));
-		}
-		return resultSender;
-	}
-
-	private List<InputService> initInputServices(
-			World world, AllPlayerConfig config,
-			List<? extends RemoteSender> allSender, GameStartParameter parameter, GameView view, CoordinatesCalculation calculations) {
-		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
-				.getConfiguration().getInputConfiguration()
-				.createInputconfigurationClass();
-
-		InputService touchService = myPlayerFactory.createInputService(config, this, view, calculations);
-
-		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
-
-		addAllNetworkListeners(networkDispatcher, world);
-		this.inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
-		createNetworkReceiveThreads(networkDispatcher, allSender);
-		List<InputService> inputServices = config.createOtherInputService(networkDispatcher);
-		inputServices.add(touchService);
-		myPlayerFactory.insertGameControllerViews(
-				(ViewGroup) findViewById(R.id.game_root), getLayoutInflater(),
-				this.inputDispatcher);
-		return inputServices;
-	}
-
 	public void stopGame() {
-		shutdownAllThreads();
-		startResultScreen();
-	}
-
-	private void addAllNetworkListeners(NetworkToGameDispatcher networkDispatcher, World world) {
-		new StopGameReceiver(networkDispatcher, this);
-		new PlayerIsDeadReceiver(networkDispatcher, world.getAllPlayer());
-		new PlayerScoreReceiver(networkDispatcher, world.getAllPlayer());
-		new PlayerIsRevivedReceiver(networkDispatcher, world.getAllPlayer());
-		new SpawnPointReceiver(networkDispatcher, world.getAllPlayer());
-	}
-
-	private void createNetworkReceiveThreads(
-			NetworkToGameDispatcher networkDispatcher,
-			List<? extends RemoteSender> allRemoteSender) {
-		List<MySocket> allSockets = SocketStorage.getSingleton()
-				.getAllSockets();
-		this.networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
-		for (MySocket socket : allSockets) {
-			NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory
-					.createGameNetworkReceiver(socket, allRemoteSender,
-							networkDispatcher);
-			NetworkReceiveThread udpReceiveThread = NetworkReceiverDispatcherThreadFactory
-					.createGameNetworkReceiver(socket.createFastConnection(), allRemoteSender,
-							networkDispatcher);
-
-			this.networkReceiveThreads.add(tcpReceiveThread);
-			this.networkReceiveThreads.add(udpReceiveThread);
-		}
+		this.main.stop(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		this.gameThread.setRunning(true);
-		this.musicPlayer.start();
+		this.main.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		this.gameThread.setRunning(false);
-		this.musicPlayer.pauseBackground();
+		this.main.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		shutdownAllThreads();
-		SocketStorage.getSingleton().closeExistingSocket();
-	}
-
-	public void shutdownAllThreads() {
-		this.gameThread.cancel();
-		for (RemoteSender sender : this.sendThreads) {
-			sender.cancel();
-		}
-		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
-			receiver.cancel();
-		}
-		this.musicPlayer.stopBackground();
+		this.main.destroy();
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		boolean isKeyProcessed = GameActivity.this.inputDispatcher.dispatchOnKeyDown(keyCode, event);
+		boolean isKeyProcessed = GameActivity.this.main.getInputDispatcher().dispatchOnKeyDown(keyCode, event);
 		if (!isKeyProcessed) {
 			return super.onKeyDown(keyCode, event);
 		}
@@ -263,7 +88,7 @@ public class GameActivity extends Activity {
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		boolean isKeyProcessed = GameActivity.this.inputDispatcher.dispatchOnKeyUp(keyCode, event);
+		boolean isKeyProcessed = GameActivity.this.main.getInputDispatcher().dispatchOnKeyUp(keyCode, event);
 		if (!isKeyProcessed) {
 			return super.onKeyUp(keyCode, event);
 		}
@@ -276,9 +101,8 @@ public class GameActivity extends Activity {
 	}
 
 	private List<Player> getAllPlayers() {
-		List<PlayerMovementController> playermovements = this.allPlayerConfig.getAllPlayerMovementControllers();
-		List<Player> players = new ArrayList<Player>(
-				playermovements.size());
+		List<PlayerMovementController> playermovements = this.main.getAllPlayerConfig().getAllPlayerMovementControllers();
+		List<Player> players = new ArrayList<Player>(playermovements.size());
 		for (PlayerMovementController movement : playermovements) {
 			players.add(movement.getPlayer());
 		}
@@ -286,7 +110,7 @@ public class GameActivity extends Activity {
 	}
 
 	public void applyPlayers(List<Player> storedPlayers) {
-		List<PlayerMovementController> playermovements = this.allPlayerConfig.getAllPlayerMovementControllers();
+		List<PlayerMovementController> playermovements = this.main.getAllPlayerConfig().getAllPlayerMovementControllers();
 		for (PlayerMovementController movement : playermovements) {
 			for (Player storedPlayer : storedPlayers) {
 				if (movement.getPlayer().id() == storedPlayer.id()) {
@@ -296,36 +120,14 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	public ResultWrapper extractPlayerScores() {
-		List<PlayerMovementController> playermovements = this.allPlayerConfig.getAllPlayerMovementControllers();
-		List<ResultPlayerEntry> players = new ArrayList<ResultPlayerEntry>(
-				playermovements.size());
-		for (PlayerMovementController movement : playermovements) {
-			Player player = movement.getPlayer();
-			ResultPlayerEntry entry = new ResultPlayerEntry(player.getName(), player
-					.getScore(), movement.getPlayer().getColor());
-			players.add(entry);
-		}
-		return new ResultWrapper(players);
-	}
-
 	@Override
 	public void onBackPressed() {
 		sendStopMessage();
-		startResultScreen();
-	}
-
-	private void startResultScreen() {
-		ActivityLauncher.startResult(this, extractResult());
+		this.main.startResultScreen(this);
 	}
 
 	private void sendStopMessage() {
-		for (RemoteSender rs : this.sendThreads) {
-			new StopGameSender(rs).sendMessage("");
-		}
+		this.main.sendStopMessage();
 	}
 
-	private ResultWrapper extractResult() {
-		return extractPlayerScores();
-	}
 }
