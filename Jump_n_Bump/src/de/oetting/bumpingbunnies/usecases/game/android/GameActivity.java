@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.android;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -12,7 +11,6 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -101,20 +99,15 @@ public class GameActivity extends Activity {
 	}
 
 	private List<Player> getAllPlayers() {
-		List<PlayerMovement> playermovements = this.main.getAllPlayerConfig().getAllPlayerMovementControllers();
-		List<Player> players = new ArrayList<Player>(playermovements.size());
-		for (PlayerMovement movement : playermovements) {
-			players.add(movement.getPlayer());
-		}
-		return players;
+		return this.main.getAllPlayerConfig().getAllPlayers();
 	}
 
 	public void applyPlayers(List<Player> storedPlayers) {
-		List<PlayerMovement> playermovements = this.main.getAllPlayerConfig().getAllPlayerMovementControllers();
-		for (PlayerMovement movement : playermovements) {
+		List<Player> existingPlayers = this.main.getAllPlayerConfig().getAllPlayers();
+		for (Player p : existingPlayers) {
 			for (Player storedPlayer : storedPlayers) {
-				if (movement.getPlayer().id() == storedPlayer.id()) {
-					movement.getPlayer().applyStateTo(storedPlayer);
+				if (p.id() == storedPlayer.id()) {
+					p.applyStateTo(storedPlayer);
 				}
 			}
 		}

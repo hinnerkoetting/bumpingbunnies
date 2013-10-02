@@ -63,7 +63,7 @@ public class GameMainFactory {
 		PlayerMovement myPlayerMovement = PlayerConfigFactory.createMyPlayer(parameter);
 		AllPlayerConfig allPlayerConfig = PlayerConfigFactory.create(parameter, world, myPlayerMovement);
 		Player myPlayer = myPlayerMovement.getPlayer();
-		addPlayersToWorld(world, allPlayerConfig, myPlayer);
+		addPlayersToWorld(world, allPlayerConfig);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(myPlayer);
 		createRemoteSender(main, activity);
 		List<StateSender> allStateSender = createSender(main, myPlayer);
@@ -80,11 +80,10 @@ public class GameMainFactory {
 
 		main.setAllPlayerConfig(allPlayerConfig);
 
-		main.setInputDispatcher(createInputDispatcher(activity, allPlayerConfig, parameter, calculations, myPlayerMovement));
+		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
 	}
 
-	private static void addPlayersToWorld(World world, AllPlayerConfig allPlayerConfig, Player myPlayer) {
-		world.addPlayer(myPlayer);
+	private static void addPlayersToWorld(World world, AllPlayerConfig allPlayerConfig) {
 		for (Player p : allPlayerConfig.getAllPlayers()) {
 			world.addPlayer(p);
 		}
@@ -138,7 +137,7 @@ public class GameMainFactory {
 		return inputServices;
 	}
 
-	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, AllPlayerConfig config,
+	private static InputDispatcher<?> createInputDispatcher(GameActivity activity,
 			GameStartParameter parameter, CoordinatesCalculation calculations, PlayerMovement myPlayerMovement) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
 				.getConfiguration().getInputConfiguration()
