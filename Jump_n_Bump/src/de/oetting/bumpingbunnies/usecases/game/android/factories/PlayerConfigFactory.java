@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.android.factories;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
@@ -24,13 +23,7 @@ public class PlayerConfigFactory {
 		return myPlayerMovementController;
 	}
 
-	public static AllPlayerConfig create(GameStartParameter parameter, World world, PlayerMovement myPlayer) {
-		List<PlayerConfig> otherPlayerconfigs = findOtherPlayers(parameter.getConfiguration(), world);
-		AllPlayerConfig config = new AllPlayerConfig(myPlayer, otherPlayerconfigs);
-		return config;
-	}
-
-	private static List<PlayerConfig> findOtherPlayers(
+	public static List<PlayerConfig> findOtherPlayers(
 			Configuration configuration, World world) {
 		int speed = configuration.getGeneralSettings().getSpeedSetting();
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();

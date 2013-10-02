@@ -17,10 +17,11 @@ import de.oetting.bumpingbunnies.usecases.game.android.factories.PlayerConfigFac
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
+import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
@@ -30,6 +31,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreReceiver;
@@ -59,33 +61,33 @@ public class GameMainFactory {
 		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
 		World world = WorldFactory.create(parameter.getConfiguration(), activity);
+		main.setWorld(world);
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
 		PlayerMovement myPlayerMovement = PlayerConfigFactory.createMyPlayer(parameter);
-		AllPlayerConfig allPlayerConfig = PlayerConfigFactory.create(parameter, world, myPlayerMovement);
 		Player myPlayer = myPlayerMovement.getPlayer();
-		addPlayersToWorld(world, allPlayerConfig);
+		List<PlayerConfig> otherPlayers = PlayerConfigFactory.findOtherPlayers(parameter.getConfiguration(), world);
+		addPlayersToWorld(world, myPlayer, otherPlayers);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(myPlayer);
 		createRemoteSender(main, activity);
 		List<StateSender> allStateSender = createSender(main, myPlayer);
 		List<OtherPlayerInputService> inputServices = initInputServices(main, activity, world,
-				allPlayerConfig,
-				main.getSendThreads());
+				main.getSendThreads(), otherPlayers);
 
 		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
 				inputServices,
-				allStateSender, activity, allPlayerConfig, parameter.getConfiguration(), calculations, myPlayer);
+				allStateSender, activity, parameter.getConfiguration(), calculations, myPlayer);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
 
-		main.setAllPlayerConfig(allPlayerConfig);
-
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
 	}
 
-	private static void addPlayersToWorld(World world, AllPlayerConfig allPlayerConfig) {
-		for (Player p : allPlayerConfig.getAllPlayers()) {
-			world.addPlayer(p);
+	private static void addPlayersToWorld(World world, Player myPlayer, List<PlayerConfig> otherPlayers) {
+		world.addPlayer(myPlayer);
+
+		for (PlayerConfig pc : otherPlayers) {
+			world.addPlayer(pc.getMovementController().getPlayer());
 		}
 	}
 
@@ -124,17 +126,38 @@ public class GameMainFactory {
 	}
 
 	private static List<OtherPlayerInputService> initInputServices(GameMain main, GameActivity activity,
-			World world, AllPlayerConfig config,
-			List<? extends RemoteSender> allSender) {
+			World world,
+			List<? extends RemoteSender> allSender, List<PlayerConfig> otherPlayers) {
 
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 
 		addAllNetworkListeners(activity, networkDispatcher, world);
 
 		createNetworkReceiveThreads(main, networkDispatcher, allSender);
-		List<OtherPlayerInputService> inputServices = config.createOtherInputService(networkDispatcher);
+		List<OtherPlayerInputService> inputServices = createInputServicesForOtherPlayers(otherPlayers, networkDispatcher);
 
 		return inputServices;
+	}
+
+	private static List<OtherPlayerInputService> createInputServicesForOtherPlayers(List<PlayerConfig> otherPlayers,
+			NetworkToGameDispatcher networkDispatcher) {
+		List<MySocket> allSockets = SocketStorage.getSingleton()
+				.getAllSockets();
+		List<OtherPlayerInputService> resultReceiver = new ArrayList<OtherPlayerInputService>(
+				allSockets.size());
+
+		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
+		for (PlayerConfig config : otherPlayers) {
+			OtherPlayerInputService is = config.createInputService();
+			if (is instanceof PlayerFromNetworkInput) {
+				PlayerFromNetworkInput inputservice = (PlayerFromNetworkInput) is;
+				stateDispatcher.addInputService(config.getMovementController()
+						.getPlayer().id(), inputservice);
+			}
+
+			resultReceiver.add(is);
+		}
+		return resultReceiver;
 	}
 
 	private static InputDispatcher<?> createInputDispatcher(GameActivity activity,

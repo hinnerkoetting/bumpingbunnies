@@ -13,6 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThrea
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
@@ -24,7 +25,7 @@ public class GameMain {
 	private List<NetworkReceiveThread> networkReceiveThreads;
 	private List<RemoteConnection> sendThreads = new ArrayList<RemoteConnection>();
 	private MusicPlayer musicPlayer;
-	private AllPlayerConfig allPlayerConfig;
+	private World world;
 
 	public boolean ontouch(MotionEvent event) {
 		return this.inputDispatcher.dispatchGameTouch(event);
@@ -50,10 +51,6 @@ public class GameMain {
 		this.musicPlayer = musicPlayer;
 	}
 
-	public void setAllPlayerConfig(AllPlayerConfig allPlayerConfig) {
-		this.allPlayerConfig = allPlayerConfig;
-	}
-
 	public GameThread getGameThread() {
 		return this.gameThread;
 	}
@@ -74,8 +71,12 @@ public class GameMain {
 		return this.musicPlayer;
 	}
 
-	public AllPlayerConfig getAllPlayerConfig() {
-		return this.allPlayerConfig;
+	public World getWorld() {
+		return this.world;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
 	}
 
 	public void onResume() {
@@ -124,7 +125,7 @@ public class GameMain {
 	}
 
 	public ResultWrapper extractPlayerScores() {
-		List<Player> players = getAllPlayerConfig().getAllPlayers();
+		List<Player> players = this.world.getAllPlayer();
 		List<ResultPlayerEntry> resultEntries = new ArrayList<ResultPlayerEntry>(
 				players.size());
 		for (Player p : players) {
@@ -133,6 +134,17 @@ public class GameMain {
 			resultEntries.add(entry);
 		}
 		return new ResultWrapper(resultEntries);
+	}
+
+	public void restorePlayerStates(List<Player> players) {
+		List<Player> existingPlayers = this.world.getAllPlayer();
+		for (Player p : existingPlayers) {
+			for (Player storedPlayer : players) {
+				if (p.id() == storedPlayer.id()) {
+					p.applyStateTo(storedPlayer);
+				}
+			}
+		}
 	}
 
 }

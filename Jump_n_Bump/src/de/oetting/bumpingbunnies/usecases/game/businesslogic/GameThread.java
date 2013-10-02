@@ -20,8 +20,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 public class GameThread extends Thread implements SurfaceHolder.Callback,
 		GameScreenSizeChangeListener {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GameThread.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
 	private final Drawer drawer;
 	private final GameStepController worldController;
 	private final GameThreadState state;
@@ -149,4 +148,5 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	public void setNewSize(int width, int height) {
 		this.drawer.setNeedsUpdate(true);
 	}
+
 }

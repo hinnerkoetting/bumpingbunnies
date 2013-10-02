@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.AllPlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
@@ -37,7 +36,7 @@ public class GameThreadFactory {
 
 	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
 			List<OtherPlayerInputService> movementServices, List<StateSender> stateSender,
-			Context context, AllPlayerConfig playerConfig,
+			Context context,
 			Configuration configuration, CoordinatesCalculation calculations, Player myPlayer) {
 		GameThreadState threadState = new GameThreadState();
 
@@ -49,10 +48,10 @@ public class GameThreadFactory {
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		CollisionDetection colDetection = new CollisionDetection(world);
 		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
-		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, playerConfig.getAllPlayers(),
+		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world.getAllPlayer(),
 				spawnPointGenerator, reviver, colDetection);
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
-		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(playerConfig.getAllPlayers(), killChecker, factory);
+		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(world.getAllPlayer(), killChecker, factory);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver, createCameraPositionCalculator(myPlayer));

@@ -49,7 +49,7 @@ public class GameActivity extends Activity {
 	private void conditionalRestoreState() {
 		Object data = getLastNonConfigurationInstance();
 		if (data != null) {
-			applyPlayers((List<Player>) data);
+			this.main.restorePlayerStates((List<Player>) data);
 		}
 	}
 
@@ -99,18 +99,7 @@ public class GameActivity extends Activity {
 	}
 
 	private List<Player> getAllPlayers() {
-		return this.main.getAllPlayerConfig().getAllPlayers();
-	}
-
-	public void applyPlayers(List<Player> storedPlayers) {
-		List<Player> existingPlayers = this.main.getAllPlayerConfig().getAllPlayers();
-		for (Player p : existingPlayers) {
-			for (Player storedPlayer : storedPlayers) {
-				if (p.id() == storedPlayer.id()) {
-					p.applyStateTo(storedPlayer);
-				}
-			}
-		}
+		return this.main.getWorld().getAllPlayer();
 	}
 
 	@Override
