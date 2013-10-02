@@ -28,6 +28,7 @@ public class Player implements GameObject {
 	private long currentScreenX;
 	private long currentScreenY;
 	private HorizontalMovementStatus horizontalMovementStatus;
+	private int color;
 
 	public Player(int id, String name, int speedFaktor) {
 		this.name = name;
@@ -193,7 +194,11 @@ public class Player implements GameObject {
 
 	@Override
 	public int getColor() {
-		return this.state.getColor();
+		return this.color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
 	}
 
 	public long centerX() {

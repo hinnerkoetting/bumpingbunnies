@@ -8,7 +8,6 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	private MovingGameobjectState movementState;
 	private int score;
-	private int color;
 	private final int id;
 	/**
 	 * is bunny looking to the left (not necessarily moving left)
@@ -78,14 +77,6 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.score = score;
 	}
 
-	public int getColor() {
-		return this.color;
-	}
-
-	public void setColor(int color) {
-		this.color = color;
-	}
-
 	public int getId() {
 		return this.id;
 	}
@@ -122,7 +113,6 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		other.movementState.centerY = this.movementState.centerY;
 		other.movementState.movementX = this.movementState.movementX;
 		other.movementState.movementY = this.movementState.movementY;
-		other.color = this.color;
 		other.score = this.score;
 		other.facingLeft = this.facingLeft;
 		other.jumpingButtonPressed = this.jumpingButtonPressed;
@@ -131,7 +121,7 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	@Override
 	public String toString() {
-		return "PlayerState [movementState=" + this.movementState + ", score=" + this.score + ", color=" + this.color + ", id=" + this.id
+		return "PlayerState [movementState=" + this.movementState + ", score=" + this.score + ", id=" + this.id
 				+ ", facingLeft="
 				+ this.facingLeft + ", jumpingButtonPressed=" + this.jumpingButtonPressed + ", isDead=" + this.isDead + "]";
 	}

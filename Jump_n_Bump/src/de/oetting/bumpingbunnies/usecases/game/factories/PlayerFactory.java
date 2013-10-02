@@ -33,7 +33,7 @@ public class PlayerFactory {
 		// TODO: get from spawnpoints
 		state.setCenterX((int) (id * 0.35 * ModelConstants.STANDARD_WORLD_SIZE));
 		state.setCenterY((int) (0.99 * ModelConstants.STANDARD_WORLD_SIZE));
-		state.setColor(getColor(id));
+		p.setColor(getColor(id));
 		p.calculateRect();
 		return p;
 	}
