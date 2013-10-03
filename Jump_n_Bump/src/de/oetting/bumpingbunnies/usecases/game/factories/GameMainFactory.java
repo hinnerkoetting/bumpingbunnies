@@ -77,7 +77,7 @@ public class GameMainFactory {
 
 		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
 				inputServices,
-				allStateSender, activity, parameter.getConfiguration(), calculations, myPlayer, cameraPositionCalculation);
+				allStateSender, activity, parameter.getConfiguration(), calculations, cameraPositionCalculation);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);

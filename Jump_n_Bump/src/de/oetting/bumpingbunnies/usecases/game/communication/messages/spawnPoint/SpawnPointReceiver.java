@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageReceiverTemplate;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerSearcher;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ResetToScorePoint;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -24,6 +23,6 @@ public class SpawnPointReceiver extends MessageReceiverTemplate<SpawnPointMessag
 	}
 
 	private Player findPlayer(SpawnPointMessage message) {
-		return PlayerSearcher.findPlayer(this.world.getAllPlayer(), message.getPlayerId());
+		return this.world.findPlayer(message.getPlayerId());
 	}
 }

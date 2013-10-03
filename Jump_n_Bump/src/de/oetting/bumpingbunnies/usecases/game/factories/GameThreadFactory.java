@@ -37,7 +37,7 @@ public class GameThreadFactory {
 	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
 			List<OtherPlayerInputService> movementServices, List<StateSender> stateSender,
 			Context context,
-			Configuration configuration, CoordinatesCalculation calculations, Player myPlayer,
+			Configuration configuration, CoordinatesCalculation calculations,
 			CameraPositionCalculation cameraPositionCalculator) {
 		GameThreadState threadState = new GameThreadState();
 

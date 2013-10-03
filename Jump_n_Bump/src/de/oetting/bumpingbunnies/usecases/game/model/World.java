@@ -21,18 +21,16 @@ public class World implements ObjectProvider {
 	private List<SpawnPoint> spawnPoints;
 	private List<Water> waters;
 	private WorldObjectsBuilder factory;
-	private final Context context;
 
-	public World(WorldObjectsBuilder factory, Context context) {
+	public World(WorldObjectsBuilder factory) {
 		super();
 		this.factory = factory;
-		this.context = context;
 		this.allPlayer = new ArrayList<Player>();
 		this.allObjects = new LinkedList<GameObjectWithImage>();
 	}
 
-	public void buildWorld() {
-		this.factory.build(this.context);
+	public void buildWorld(Context context) {
+		this.factory.build(context);
 		this.allObjects.clear();
 		this.allPlayer.clear();
 		this.allWalls = new LinkedList<Wall>(this.factory.getAllWalls());
@@ -62,6 +60,15 @@ public class World implements ObjectProvider {
 		return this.allPlayer;
 	}
 
+	public Player findPlayer(int id) {
+		for (Player p : this.allPlayer) {
+			if (p.id() == id) {
+				return p;
+			}
+		}
+		throw new PlayerDoesNotExist();
+	}
+
 	@Override
 	public List<Wall> getAllWalls() {
 		return this.allWalls;
@@ -88,6 +95,9 @@ public class World implements ObjectProvider {
 	@Override
 	public List<Water> getAllWaters() {
 		return this.waters;
+	}
+
+	public class PlayerDoesNotExist extends RuntimeException {
 	}
 
 }

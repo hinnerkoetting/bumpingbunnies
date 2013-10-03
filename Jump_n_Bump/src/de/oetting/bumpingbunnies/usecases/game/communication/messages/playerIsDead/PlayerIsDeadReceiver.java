@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageReceiverTemplate;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerSearcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -22,6 +21,6 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDead> 
 	}
 
 	private Player findPlayer(PlayerIsDead message) {
-		return PlayerSearcher.findPlayer(this.world.getAllPlayer(), message.getIdOfDeadPlayer());
+		return this.world.findPlayer(message.getIdOfDeadPlayer());
 	}
 }
