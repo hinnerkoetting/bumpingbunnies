@@ -37,7 +37,8 @@ public class GameThreadFactory {
 	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
 			List<OtherPlayerInputService> movementServices, List<StateSender> stateSender,
 			Context context,
-			Configuration configuration, CoordinatesCalculation calculations, Player myPlayer) {
+			Configuration configuration, CoordinatesCalculation calculations, Player myPlayer,
+			CameraPositionCalculation cameraPositionCalculator) {
 		GameThreadState threadState = new GameThreadState();
 
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
@@ -54,7 +55,7 @@ public class GameThreadFactory {
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(world.getAllPlayer(), killChecker, factory);
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
 		GameStepController worldController = new GameStepController(
-				userInputStep, movementStep, sendCoordinates, reviver, createCameraPositionCalculator(myPlayer));
+				userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
 	}
 
@@ -64,10 +65,6 @@ public class GameThreadFactory {
 		MusicPlayer musicPlayer = MusicPlayerFactory.createNormalJump(context);
 		return new PlayerMovementCalculationFactory(new GameObjectInteractor(collisionDetection,
 				world), collisionDetection, musicPlayer);
-	}
-
-	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
-		return new CameraPositionCalculation(player);
 	}
 
 	private static void assignInitialSpawnpoints(SpawnPointGenerator spGenerator, List<Player> allPlayers,

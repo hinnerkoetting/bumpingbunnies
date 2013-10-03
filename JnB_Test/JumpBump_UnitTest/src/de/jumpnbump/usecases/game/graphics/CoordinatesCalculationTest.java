@@ -11,11 +11,12 @@ import org.mockito.MockitoAnnotations;
 import android.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.RelativeCoordinatesCalculation;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class CoordinatesCalculationTest {
 
-	private Player player;
+	private CameraPositionCalculation camPosition;
 	@Mock
 	private Paint paint;
 	private CoordinatesCalculation fixture;
@@ -77,15 +78,15 @@ public class CoordinatesCalculationTest {
 	}
 
 	private void givenPlayerAtPosition(int x, int y) {
-		this.player.setCurrentScreenX(x);
-		this.player.setCurrentScreenY(y);
+		this.camPosition.setCurrentScreenX(x);
+		this.camPosition.setCurrentScreenY(y);
 	}
 
 	@Before
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
-		this.player = new Player(-1, "", 1);
-		this.fixture = new RelativeCoordinatesCalculation(this.player);
+		this.camPosition = new CameraPositionCalculation(new Player(-1, "", 1));
+		this.fixture = new RelativeCoordinatesCalculation(this.camPosition);
 		this.fixture.updateCanvas(1000, 1000);
 	}
 }

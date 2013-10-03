@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
@@ -67,7 +68,8 @@ public class GameMainFactory {
 		Player myPlayer = myPlayerMovement.getPlayer();
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.findOtherPlayers(parameter.getConfiguration(), world);
 		addPlayersToWorld(world, myPlayer, otherPlayers);
-		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(myPlayer);
+		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
+		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
 		createRemoteSender(main, activity);
 		List<StateSender> allStateSender = createSender(main, myPlayer);
 		List<OtherPlayerInputService> inputServices = initInputServices(main, activity, world,
@@ -75,12 +77,16 @@ public class GameMainFactory {
 
 		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
 				inputServices,
-				allStateSender, activity, parameter.getConfiguration(), calculations, myPlayer);
+				allStateSender, activity, parameter.getConfiguration(), calculations, myPlayer, cameraPositionCalculation);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
 
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
+	}
+
+	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
+		return new CameraPositionCalculation(player);
 	}
 
 	private static void addPlayersToWorld(World world, Player myPlayer, List<PlayerConfig> otherPlayers) {

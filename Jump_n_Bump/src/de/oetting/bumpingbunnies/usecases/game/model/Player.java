@@ -24,9 +24,6 @@ public class Player implements GameObject {
 	private Player simulatedObject;
 
 	private Rect rect;
-	// cooordinates which are centered in screen
-	private long currentScreenX;
-	private long currentScreenY;
 	private HorizontalMovementStatus horizontalMovementStatus;
 	private int color;
 
@@ -299,22 +296,6 @@ public class Player implements GameObject {
 		return this.state.isDead();
 	}
 
-	public long getCurrentScreenX() {
-		return this.currentScreenX;
-	}
-
-	public long getCurrentScreenY() {
-		return this.currentScreenY;
-	}
-
-	public void setCurrentScreenX(long currentScreenX) {
-		this.currentScreenX = currentScreenX;
-	}
-
-	public void setCurrentScreenY(long currentScreenY) {
-		this.currentScreenY = currentScreenY;
-	}
-
 	public int getSpeedFaktor() {
 		return this.speedFaktor;
 	}
@@ -341,18 +322,18 @@ public class Player implements GameObject {
 		return HorizontalMovementStatus.MOVING_LEFT.equals(this.horizontalMovementStatus);
 	}
 
+	public boolean isJumpingButtonPressed() {
+		return this.state.isJumpingButtonPressed();
+	}
+
 	@Override
 	public String toString() {
 		return "Player [speedFaktor=" + this.speedFaktor + ", collisionHandling=" + this.collisionHandling + ", halfWidth="
 				+ this.halfWidth
 				+ ", halfHeight=" + this.halfHeight + ", id=" + this.id + ", name=" + this.name + ", state=" + this.state
-				+ ", rect=" + this.rect + ", currentScreenX=" + this.currentScreenX + ", currentScreenY="
-				+ this.currentScreenY
-				+ ", horizontalMovementStatus=" + this.horizontalMovementStatus + "]";
-	}
-
-	public boolean isJumpingButtonPressed() {
-		return this.state.isJumpingButtonPressed();
+				+ ", simulatedObject="
+				+ this.simulatedObject + ", rect=" + this.rect + ", horizontalMovementStatus=" + this.horizontalMovementStatus + ", color="
+				+ this.color + "]";
 	}
 
 }

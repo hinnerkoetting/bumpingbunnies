@@ -1,17 +1,17 @@
 package de.oetting.bumpingbunnies.usecases.game.android.calculation;
 
 import android.view.MotionEvent;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 
 public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 
-	private final Player targetPlayer;
+	private CameraPositionCalculation cameraPositionCalculation;
 	private int zoom;
 	private int width;
 	private int height;
 
-	public RelativeCoordinatesCalculation(Player player) {
-		this.targetPlayer = player;
+	public RelativeCoordinatesCalculation(CameraPositionCalculation cameraPositionCalculation) {
+		this.cameraPositionCalculation = cameraPositionCalculation;
 	}
 
 	@Override
@@ -57,11 +57,11 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 	}
 
 	public long getCurrentCenterX() {
-		return this.targetPlayer.getCurrentScreenX();
+		return this.cameraPositionCalculation.getCurrentScreenX();
 	}
 
 	public long getCurrentCenterY() {
-		return this.targetPlayer.getCurrentScreenY();
+		return this.cameraPositionCalculation.getCurrentScreenY();
 	}
 
 }

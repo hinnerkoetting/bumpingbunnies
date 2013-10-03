@@ -9,8 +9,8 @@ public class CameraPositionCalculation implements GameStepAction {
 	protected static final int SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.STANDARD_WORLD_SIZE / 200;
 	private final Player movedPlayer;
 
-	private int currentScreenX;
-	private int currentScreenY;
+	private long currentScreenX;
+	private long currentScreenY;
 	private long lastUpdate;
 
 	public CameraPositionCalculation(Player movedPlayer) {
@@ -38,8 +38,8 @@ public class CameraPositionCalculation implements GameStepAction {
 	}
 
 	private void immediateUpdateScreenPosition() {
-		this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCenterX());
-		this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCenterY());
+		this.currentScreenX = this.movedPlayer.getCenterX();
+		this.currentScreenY = this.movedPlayer.getCenterY();
 	}
 
 	/**
@@ -47,22 +47,38 @@ public class CameraPositionCalculation implements GameStepAction {
 	 */
 	protected void smoothlyUpdateScreenPosition(int delta) {
 		int diffBetweenPlayerAndScreenX = (int) (-
-				this.movedPlayer.getCurrentScreenX() + this.movedPlayer.getCenterX());
-		int diffBetweenPlayerAndScreenY = (int) (this.movedPlayer.getCenterY() - this.movedPlayer.getCurrentScreenY());
+				this.currentScreenX + this.movedPlayer.getCenterX());
+		int diffBetweenPlayerAndScreenY = (int) (this.movedPlayer.getCenterY() - this.currentScreenY);
 		int maxScrollValueX = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta
 				* Math.signum(diffBetweenPlayerAndScreenX));
 		int maxScrollValueY = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta
 				* Math.signum(diffBetweenPlayerAndScreenY));
 		if (Math.abs(diffBetweenPlayerAndScreenX) <= Math.abs(maxScrollValueX)) {
-			this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCenterX());
+			this.currentScreenX = this.movedPlayer.getCenterX();
 		} else {
-			this.movedPlayer.setCurrentScreenX(this.movedPlayer.getCurrentScreenX() - maxScrollValueX);
+			this.currentScreenX = this.currentScreenX - maxScrollValueX;
 		}
 		if (Math.abs(diffBetweenPlayerAndScreenY) <= Math.abs(maxScrollValueY)) {
-			this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCenterY());
+			this.currentScreenY = this.movedPlayer.getCenterY();
 		} else {
-			this.movedPlayer.setCurrentScreenY(this.movedPlayer.getCurrentScreenY() - maxScrollValueY);
+			this.currentScreenY = this.currentScreenY - maxScrollValueY;
 		}
+	}
+
+	public long getCurrentScreenX() {
+		return this.currentScreenX;
+	}
+
+	public long getCurrentScreenY() {
+		return this.currentScreenY;
+	}
+
+	public void setCurrentScreenX(int currentScreenX) {
+		this.currentScreenX = currentScreenX;
+	}
+
+	public void setCurrentScreenY(int currentScreenY) {
+		this.currentScreenY = currentScreenY;
 	}
 
 }

@@ -21,15 +21,15 @@ public class CameraPositionCalculationTest {
 		this.player.setCenterX(100);
 		this.player.setCenterY(100);
 		this.fixture.updateScreenPosition();
-		assertEquals(100, this.player.getCurrentScreenX());
-		assertEquals(100, this.player.getCurrentScreenY());
+		assertEquals(100, this.fixture.getCurrentScreenX());
+		assertEquals(100, this.fixture.getCurrentScreenY());
 	}
 
 	@Test
 	public void smoothUpdateCoordinats_givenScreenInOnPlayer_doesNotChangeScreen() {
 		smoothUpdate();
-		assertEquals(0, this.player.getCurrentScreenX());
-		assertEquals(0, this.player.getCurrentScreenY());
+		assertEquals(0, this.fixture.getCurrentScreenX());
+		assertEquals(0, this.fixture.getCurrentScreenY());
 	}
 
 	@Test
@@ -37,8 +37,8 @@ public class CameraPositionCalculationTest {
 		this.player.setCenterX(SCROLLING_WHILE_PLAYER_IS_DEAD / 2);
 		this.player.setCenterY(SCROLLING_WHILE_PLAYER_IS_DEAD / 2);
 		smoothUpdate();
-		assertEquals(this.player.getCenterX(), this.player.getCurrentScreenX());
-		assertEquals(this.player.getCenterY(), this.player.getCurrentScreenY());
+		assertEquals(this.player.getCenterX(), this.fixture.getCurrentScreenX());
+		assertEquals(this.player.getCenterY(), this.fixture.getCurrentScreenY());
 	}
 
 	@Test
@@ -46,8 +46,8 @@ public class CameraPositionCalculationTest {
 		this.player.setCenterX(SCROLLING_WHILE_PLAYER_IS_DEAD);
 		this.player.setCenterY(SCROLLING_WHILE_PLAYER_IS_DEAD);
 		smoothUpdate();
-		assertEquals(this.player.getCenterX(), this.player.getCurrentScreenX());
-		assertEquals(this.player.getCenterY(), this.player.getCurrentScreenY());
+		assertEquals(this.player.getCenterX(), this.fixture.getCurrentScreenX());
+		assertEquals(this.player.getCenterY(), this.fixture.getCurrentScreenY());
 	}
 
 	@Test
@@ -56,8 +56,8 @@ public class CameraPositionCalculationTest {
 		this.player.setCenterY(SCROLLING_WHILE_PLAYER_IS_DEAD * 2);
 		smoothUpdate();
 		// why is this negative?
-		assertEquals(-SCROLLING_WHILE_PLAYER_IS_DEAD, this.player.getCurrentScreenX());
-		assertEquals(-SCROLLING_WHILE_PLAYER_IS_DEAD, this.player.getCurrentScreenY());
+		assertEquals(-SCROLLING_WHILE_PLAYER_IS_DEAD, this.fixture.getCurrentScreenX());
+		assertEquals(-SCROLLING_WHILE_PLAYER_IS_DEAD, this.fixture.getCurrentScreenY());
 	}
 
 	public void smoothUpdate() {
