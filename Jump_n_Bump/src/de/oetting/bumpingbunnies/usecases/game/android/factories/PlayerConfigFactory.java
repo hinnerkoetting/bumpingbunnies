@@ -11,6 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfigurati
 import de.oetting.bumpingbunnies.usecases.game.factories.AbstractOtherPlayersFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerMovementFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
@@ -30,7 +31,7 @@ public class PlayerConfigFactory {
 		PlayerFactory playerfactory = new PlayerFactory(speed);
 		for (OpponentConfiguration config : configuration.getOtherPlayers()) {
 			Player p = playerfactory.createPlayer(config.getPlayerId(),
-					config.getName());
+					config.getName(), config.getOpponent());
 			list.add(createPlayerConfig(p, world, config));
 		}
 		return list;
@@ -56,6 +57,6 @@ public class PlayerConfigFactory {
 		PlayerFactory playerfactory = new PlayerFactory(speed);
 		return playerfactory.createPlayer(gameParameter.getPlayerId(),
 				gameParameter.getConfiguration().getLocalPlayerSettings()
-						.getPlayerName());
+						.getPlayerName(), new Opponent("LOCAL-PLAYER"));
 	}
 }

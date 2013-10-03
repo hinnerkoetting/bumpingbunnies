@@ -45,7 +45,6 @@ public class GameThreadFactory {
 				configuration, calculations);
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
 				world.getSpawnPoints());
-		assignInitialSpawnpoints(spawnPointGenerator, world.getAllPlayer(), sendThreads);
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		CollisionDetection colDetection = new CollisionDetection(world);
 		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
@@ -53,7 +52,7 @@ public class GameThreadFactory {
 				spawnPointGenerator, reviver, colDetection);
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(world.getAllPlayer(), killChecker, factory);
-		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender);
+		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender, null);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());

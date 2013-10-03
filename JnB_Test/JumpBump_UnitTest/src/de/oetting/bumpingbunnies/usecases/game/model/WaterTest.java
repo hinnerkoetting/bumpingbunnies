@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -52,6 +53,6 @@ public class WaterTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.fixture = new Water(new Rect(), this.waterMusic);
-		this.player = new Player(0, "", 1);
+		this.player = createDummyPlayer();
 	}
 }

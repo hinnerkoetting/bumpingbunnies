@@ -41,7 +41,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 		this.running = true;
 		this.isDrawingPossible = false;
 		this.state = gameThreadState;
-		this.fpsLimitation = 30;
+		this.fpsLimitation = 29;
 	}
 
 	@Override
@@ -151,6 +151,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 
 	public void addJoinListener(GameMain gameMain) {
 		this.worldController.addJoinListener(gameMain);
+		gameMain.addJoinListener(this.drawer);
 	}
 
 }

@@ -38,6 +38,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRe
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameReceiver;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
@@ -108,17 +109,17 @@ public class GameMainFactory {
 		List<RemoteConnection> resultSender = new ArrayList<RemoteConnection>(
 				allSockets.size());
 		for (MySocket socket : allSockets) {
-			RemoteConnection serverConnection = createServerConnection(activity, socket);
+			RemoteConnection serverConnection = createServerConnection(activity, socket, socket.getOwner());
 			resultSender.add(serverConnection);
 		}
 		main.setSendThreads(resultSender);
 	}
 
-	public static RemoteConnection createServerConnection(GameActivity activity, MySocket socket) {
+	public static RemoteConnection createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {
 		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, activity);
 		NetworkSendQueueThread udpConnection = createUdpConnection(activity, socket);
 
-		RemoteConnection serverConnection = new RemoteConnection(tcpConnection, udpConnection);
+		RemoteConnection serverConnection = new RemoteConnection(tcpConnection, udpConnection, opponent);
 		return serverConnection;
 	}
 

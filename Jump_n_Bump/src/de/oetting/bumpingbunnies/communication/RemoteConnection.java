@@ -4,15 +4,19 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThr
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class RemoteConnection implements RemoteSender {
 
 	private final RemoteSender tcpConnection;
 	private final RemoteSender udpConnection;
+	private final Opponent owner;
 
-	public RemoteConnection(NetworkSendQueueThread tcpConnection, RemoteSender udpConnection) {
+	public RemoteConnection(NetworkSendQueueThread tcpConnection, RemoteSender udpConnection, Opponent owner) {
 		this.tcpConnection = tcpConnection;
 		this.udpConnection = udpConnection;
+		this.owner = owner;
 	}
 
 	public void sendReliable(MessageId messageId, Object message) {
@@ -53,6 +57,10 @@ public class RemoteConnection implements RemoteSender {
 	@Override
 	public void sendMessageWithChecksum(MessageId id, Object message) {
 		this.udpConnection.sendMessageWithChecksum(id, message);
+	}
+
+	public boolean isConnectionToPlayer(Player p) {
+		return this.owner.equals(p);
 	}
 
 }

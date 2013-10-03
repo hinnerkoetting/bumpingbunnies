@@ -6,18 +6,22 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
 
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+
 public class UdpSocket implements MySocket {
 
 	private final DatagramSocket socket;
 	private final InetAddress address;
 	private final int port;
-	private DatagramPacket receivingPacket;
+	private final Opponent owner;
+	private final DatagramPacket receivingPacket;
 
-	public UdpSocket(DatagramSocket socket, InetAddress address, int port) {
+	public UdpSocket(DatagramSocket socket, InetAddress address, int port, Opponent owner) {
 		super();
 		this.socket = socket;
 		this.address = address;
 		this.port = port;
+		this.owner = owner;
 		this.receivingPacket = new DatagramPacket(new byte[1024], 1024);
 	}
 
@@ -84,5 +88,10 @@ public class UdpSocket implements MySocket {
 		public ReceiveFailure(Exception e) {
 			super(e);
 		}
+	}
+
+	@Override
+	public Opponent getOwner() {
+		return this.owner;
 	}
 }

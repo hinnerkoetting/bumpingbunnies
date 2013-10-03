@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
@@ -40,13 +41,13 @@ public class GameMainTest {
 	}
 
 	private void whenPlayerJoins() {
-		this.fixture.playerJoins(new Player(0, "", 1));
+		this.fixture.playerJoins(createDummyPlayer());
 	}
 
 	@Test
 	public void playerLeaves_shouldNotifyListener() {
 		this.fixture.addJoinListener(this.listener);
-		Player p = new Player(0, "", 1);
+		Player p = createDummyPlayer();
 		givenPlayerExists(p);
 		whenPlayerLeaves(p);
 		verifyThatListenerIsNotifiedAboutLeaving(p);
@@ -54,7 +55,7 @@ public class GameMainTest {
 
 	@Test
 	public void playerLeaves_thenPlayerShouldBeRemovedFromPlayerList() {
-		Player p = new Player(0, "", 1);
+		Player p = createDummyPlayer();
 		givenPlayerExists(p);
 		assertNumberOfPlayers(1);
 		whenPlayerLeaves(p);

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createPlayerAtPosition;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -13,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
-import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
@@ -23,8 +23,8 @@ public class InteractionServiceTest {
 	private CollisionDetection collisionDetection;
 	@Mock
 	private ObjectProvider objectProvider;
+
 	// private Wall otherGameObject;
-	private PlayerFactory playerFactory = new PlayerFactory(1);
 
 	@Test
 	public void interaction_givenPlayerCollidesWithWallOnRight_playerShouldHave0MovementX() {
@@ -38,7 +38,7 @@ public class InteractionServiceTest {
 
 	@Test
 	public void interaction_givenPlayerDoesNotCollide_playerShouldRetainMovementX() {
-		Player player = this.playerFactory.createPlayerAtPosition(0, 0);
+		Player player = createPlayerAtPosition(0, 0);
 		player.setMovementX(1);
 		whenPlayerInteractsWithWorld(player);
 		assertEquals(1, player.movementX(), 0.001);
@@ -166,13 +166,13 @@ public class InteractionServiceTest {
 	}
 
 	private Player givenPlayerAt00WithYMovement(int movementY) {
-		Player player = this.playerFactory.createPlayerAtPosition(0, 0);
+		Player player = createPlayerAtPosition(0, 0);
 		player.setMovementY(movementY);
 		return player;
 	}
 
 	private Player givenPlayerAt00WithXMovement(int movementX) {
-		Player player = this.playerFactory.createPlayerAtPosition(0, 0);
+		Player player = createPlayerAtPosition(0, 0);
 		player.setMovementX(movementX);
 		return player;
 	}

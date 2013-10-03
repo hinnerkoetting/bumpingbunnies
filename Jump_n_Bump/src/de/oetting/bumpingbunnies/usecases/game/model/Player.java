@@ -26,10 +26,12 @@ public class Player implements GameObject {
 	private Rect rect;
 	private HorizontalMovementStatus horizontalMovementStatus;
 	private int color;
+	private final Opponent opponent;
 
-	public Player(int id, String name, int speedFaktor) {
+	public Player(int id, String name, int speedFaktor, Opponent opponent) {
 		this.name = name;
 		this.speedFaktor = speedFaktor;
+		this.opponent = opponent;
 		this.rect = new Rect();
 		this.state = new PlayerState(id);
 		this.id = id;
@@ -40,8 +42,8 @@ public class Player implements GameObject {
 		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
 	}
 
-	public Player(Player simulatedObject, int id, String name, int speedFaktor) {
-		this(id, name, speedFaktor);
+	public Player(Player simulatedObject, int id, String name, int speedFaktor, Opponent opponent) {
+		this(id, name, speedFaktor, opponent);
 		this.simulatedObject = simulatedObject;
 	}
 
@@ -324,6 +326,10 @@ public class Player implements GameObject {
 
 	public boolean isJumpingButtonPressed() {
 		return this.state.isJumpingButtonPressed();
+	}
+
+	public boolean belongsToOwner(Opponent opponent) {
+		return opponent.equals(this.opponent);
 	}
 
 	@Override

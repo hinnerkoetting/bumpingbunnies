@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class BluetoothServerDevice implements ServerDevice {
 
@@ -22,7 +23,7 @@ public class BluetoothServerDevice implements ServerDevice {
 		try {
 			BluetoothSocket socket = this.device
 					.createRfcommSocketToServiceRecord(NetworkConstants.MY_UUID);
-			return new MyBluetoothSocket(socket);
+			return new MyBluetoothSocket(socket, new Opponent("bluetoothclient"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 /**
  * Can be stored through parcelables.
@@ -42,18 +43,21 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(this.index);
+		dest.writeParcelable(getOwner(), flags);
 	}
 
 	public StorableSocket(Parcel in) throws IOException {
-		this(in.readInt());
+		this(in.readInt(), new Opponent(in));
 	}
 
-	public StorableSocket(int index) throws IOException {
+	public StorableSocket(int index, Opponent opponent) throws IOException {
+		super(opponent);
 		this.index = index;
 		this.cachedSocket = SocketStorage.getSingleton().getSocket(index);
 	}
 
-	public StorableSocket(MySocket original, int index) throws IOException {
+	public StorableSocket(MySocket original, int index, Opponent opponent) throws IOException {
+		super(opponent);
 		this.index = index;
 		this.cachedSocket = original;
 	}

@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.networkRoom;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class RoomEntry {
 	private final PlayerProperties playerProperties;
@@ -36,5 +37,9 @@ public class RoomEntry {
 	public String toString() {
 		return this.playerProperties.getPlayerId() + " "
 				+ this.playerProperties.getPlayerName();
+	}
+
+	public Opponent createOponent() {
+		return this.socket.getOwner();
 	}
 }

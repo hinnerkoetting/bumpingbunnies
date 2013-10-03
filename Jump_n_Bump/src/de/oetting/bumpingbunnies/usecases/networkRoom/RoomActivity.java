@@ -226,7 +226,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 					otherPlayer.getSocket(), otherPlayer.getSocketIndex());
 
 			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(
-					factory, otherPlayer.getPlayerProperties());
+					factory, otherPlayer.getPlayerProperties(), otherPlayer.createOponent());
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;

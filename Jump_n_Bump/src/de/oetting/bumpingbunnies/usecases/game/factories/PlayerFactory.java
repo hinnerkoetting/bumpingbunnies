@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.graphics.Color;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
@@ -17,17 +18,17 @@ public class PlayerFactory {
 		this.speed = speed;
 	}
 
-	public List<Player> createAllPlayers(int number, String name) {
+	public List<Player> createAllPlayers(int number, String name, Opponent opponent) {
 		List<Player> allPlayers = new LinkedList<Player>();
 		for (int i = 0; i < number; i++) {
-			allPlayers.add(createPlayer(i, name));
+			allPlayers.add(createPlayer(i, name, opponent));
 		}
 		return allPlayers;
 	}
 
-	public Player createPlayer(int id, String name) {
-		Player p = new Player(new Player(id, name, this.speed), id, name,
-				this.speed);
+	public Player createPlayer(int id, String name, Opponent opponent) {
+		Player p = new Player(new Player(id, name, this.speed, opponent), id, name,
+				this.speed, opponent);
 		PlayerState state = p.getState();
 		p.setDead(true);
 		// TODO: get from spawnpoints
@@ -71,11 +72,4 @@ public class PlayerFactory {
 		return 0xFF000000 + baseColor;
 	}
 
-	public Player createPlayerAtPosition(int x, int y) {
-		Player p = new Player(new Player(-1, "", this.speed), -1, "",
-				this.speed);
-		p.setCenterX(x);
-		p.setCenterY(y);
-		return p;
-	}
 }

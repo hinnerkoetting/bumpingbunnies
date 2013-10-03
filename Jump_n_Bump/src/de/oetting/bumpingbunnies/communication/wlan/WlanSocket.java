@@ -11,6 +11,7 @@ import de.oetting.bumpingbunnies.communication.AbstractSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.UdpSocket;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class WlanSocket extends AbstractSocket implements MySocket {
 
@@ -18,11 +19,13 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 	private SocketAddress address;
 	private UdpSocket udpSocket;
 
-	public WlanSocket(Socket socket) throws IOException {
+	public WlanSocket(Socket socket, Opponent owner) throws IOException {
+		super(owner);
 		this.socket = socket;
 	}
 
-	public WlanSocket(Socket socket, SocketAddress address) throws IOException {
+	public WlanSocket(Socket socket, SocketAddress address, Opponent owner) throws IOException {
+		super(owner);
 		this.socket = socket;
 		this.address = address;
 	}
@@ -63,7 +66,7 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 		try {
 			DatagramSocket dataSocket = new DatagramSocket(NetworkConstants.UDP_PORT);
 			dataSocket.setBroadcast(false);
-			return new UdpSocket(dataSocket, this.socket.getInetAddress(), NetworkConstants.UDP_PORT);
+			return new UdpSocket(dataSocket, this.socket.getInetAddress(), NetworkConstants.UDP_PORT, getOwner());
 		} catch (IOException e) {
 			throw new SocketCreationException(e);
 		}

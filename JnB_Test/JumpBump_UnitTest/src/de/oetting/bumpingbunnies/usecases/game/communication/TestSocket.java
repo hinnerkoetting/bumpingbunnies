@@ -6,6 +6,7 @@ import java.io.OutputStream;
 
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class TestSocket extends AbstractSocket {
 
@@ -13,6 +14,7 @@ public class TestSocket extends AbstractSocket {
 	private final InputStream is;
 
 	public TestSocket(OutputStream os, InputStream is) {
+		super(new Opponent("test"));
 		this.os = os;
 		this.is = is;
 	}

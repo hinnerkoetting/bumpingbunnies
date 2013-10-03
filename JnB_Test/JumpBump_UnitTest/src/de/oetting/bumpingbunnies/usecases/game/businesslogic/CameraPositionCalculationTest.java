@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import static de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation.SCROLLING_WHILE_PLAYER_IS_DEAD;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
@@ -66,7 +67,7 @@ public class CameraPositionCalculationTest {
 
 	@Before
 	public void beforeEveryTest() {
-		this.player = new Player(-1, "any", 1);
+		this.player = createDummyPlayer();
 		this.fixture = new CameraPositionCalculation(this.player);
 
 	}

@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class WlanServerSocket implements
 		de.oetting.bumpingbunnies.communication.ServerSocket {
@@ -19,7 +20,7 @@ public class WlanServerSocket implements
 	@Override
 	public MySocket accept() throws IOException {
 		Socket socket = this.serverSocket.accept();
-		return new WlanSocket(socket);
+		return new WlanSocket(socket, new Opponent("server" + this.serverSocket.getInetAddress().getHostAddress()));
 	}
 
 	@Override

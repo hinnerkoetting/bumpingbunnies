@@ -43,7 +43,7 @@ public class NetworkFactory extends AbstractOtherPlayersFactory implements
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		try {
-			StorableSocket storeSocket = new StorableSocket(this.socket, this.index);
+			StorableSocket storeSocket = new StorableSocket(this.socket, this.index, this.socket.getOwner());
 			storeSocket.writeToParcel(dest, flags);
 			dest.writeInt(this.index);
 		} catch (IOException e) {

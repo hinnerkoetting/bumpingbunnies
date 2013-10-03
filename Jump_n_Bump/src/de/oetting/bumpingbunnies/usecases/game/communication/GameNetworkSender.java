@@ -23,8 +23,8 @@ public class GameNetworkSender implements StateSender {
 	}
 
 	@Override
-	public RemoteSender getRemoteSender() {
-		return this.connection;
+	public boolean sendsStateToPlayer(Player p) {
+		return this.connection.isConnectionToPlayer(p);
 	}
 
 }

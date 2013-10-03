@@ -41,7 +41,7 @@ public class PlayerMovementWithHigherSpeedTest extends AbstractTestPlayerMovemen
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.player = new PlayerFactory(speed).createPlayer(0, "player");
+		this.player = new PlayerFactory(speed).createPlayer(0, "player", null);
 		this.fixture = new PlayerMovementCalculation(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
 	}
 }

@@ -11,7 +11,6 @@ import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
 public class World implements ObjectProvider {
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
 	private List<GameObjectWithImage> allObjects;
 	private List<Wall> allWalls;

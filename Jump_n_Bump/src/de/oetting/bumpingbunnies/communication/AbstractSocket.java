@@ -9,11 +9,18 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public abstract class AbstractSocket implements MySocket {
 
+	private final Opponent owner;
 	private Writer writer;
 	private BufferedReader reader;
+
+	public AbstractSocket(Opponent owner) {
+		super();
+		this.owner = owner;
+	}
 
 	@Override
 	public void sendMessage(String message) {
@@ -65,4 +72,8 @@ public abstract class AbstractSocket implements MySocket {
 		}
 	}
 
+	@Override
+	public Opponent getOwner() {
+		return this.owner;
+	}
 }

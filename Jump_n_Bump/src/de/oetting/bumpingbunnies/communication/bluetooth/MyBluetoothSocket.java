@@ -8,12 +8,14 @@ import android.bluetooth.BluetoothSocket;
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
 import de.oetting.bumpingbunnies.communication.MethodNotImplemented;
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 
 	private final BluetoothSocket socket;
 
-	public MyBluetoothSocket(BluetoothSocket socket) throws IOException {
+	public MyBluetoothSocket(BluetoothSocket socket, Opponent opponent) throws IOException {
+		super(opponent);
 		this.socket = socket;
 	}
 
