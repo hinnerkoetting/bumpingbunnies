@@ -24,7 +24,7 @@ public class GameNetworkSender implements StateSender {
 
 	@Override
 	public boolean sendsStateToPlayer(Player p) {
-		return this.connection.isConnectionToPlayer(p);
+		return this.connection.isConnectionToPlayer(p.getOpponent());
 	}
 
 }

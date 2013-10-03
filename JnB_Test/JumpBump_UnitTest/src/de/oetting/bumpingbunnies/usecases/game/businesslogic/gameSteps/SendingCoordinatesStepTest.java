@@ -7,9 +7,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -25,12 +22,11 @@ public class SendingCoordinatesStepTest {
 	private StateSender stateSender;
 	@Mock
 	private StateSenderFactory factory;
-	private List<StateSender> stateSenders;
 
 	@Test
 	public void playerJoins_shouldAddNewStateSender() {
 		this.fixture.newPlayerJoined(createDummyPlayer());
-		assertThat(this.stateSenders, hasSize(1));
+		assertThat(this.fixture.getStateSender(), hasSize(1));
 	}
 
 	@Test
@@ -38,7 +34,7 @@ public class SendingCoordinatesStepTest {
 		Player player = createDummyPlayer();
 		givenStateSenderForPlayerDoesExist(player);
 		whenPlayerLeaves(player);
-		assertThat(this.stateSenders, hasSize(0));
+		assertThat(this.fixture.getStateSender(), hasSize(0));
 	}
 
 	@Test(expected = SendingCoordinatesStep.PlayerDoesNotExist.class)
@@ -58,8 +54,7 @@ public class SendingCoordinatesStepTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.stateSenders = new ArrayList<>();
-		this.fixture = new SendingCoordinatesStep(this.stateSenders, this.factory);
+		this.fixture = new SendingCoordinatesStep(this.factory);
 		when(this.factory.create(any(Player.class))).thenReturn(this.stateSender);
 	}
 }

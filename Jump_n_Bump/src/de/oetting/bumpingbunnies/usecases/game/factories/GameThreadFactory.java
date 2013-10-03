@@ -4,11 +4,14 @@ import java.util.List;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.usecases.game.android.factories.businessLogic.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
@@ -38,7 +41,7 @@ public class GameThreadFactory {
 			List<OtherPlayerInputService> movementServices, List<StateSender> stateSender,
 			Context context,
 			Configuration configuration, CoordinatesCalculation calculations,
-			CameraPositionCalculation cameraPositionCalculator) {
+			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer, List<PlayerConfig> otherPlayers) {
 		GameThreadState threadState = new GameThreadState();
 
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
@@ -52,10 +55,18 @@ public class GameThreadFactory {
 				spawnPointGenerator, reviver, colDetection);
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(world.getAllPlayer(), killChecker, factory);
-		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSender, null);
+		SendingCoordinatesStep sendCoordinates = createSendCoordinatesStep(main, myPlayer, otherPlayers);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
+	}
+
+	private static SendingCoordinatesStep createSendCoordinatesStep(GameMain main, Player myPlayer, List<PlayerConfig> otherPlayers) {
+		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(new AndroidStateSenderFactory(main, myPlayer));
+		for (PlayerConfig pc : otherPlayers) {
+			sendCoordinates.newPlayerJoined(pc.getMovementController().getPlayer());
+		}
+		return sendCoordinates;
 	}
 
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context,

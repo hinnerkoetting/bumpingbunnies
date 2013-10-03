@@ -12,6 +12,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -169,6 +170,31 @@ public class GameMain {
 
 	public void addJoinListener() {
 		this.gameThread.addJoinListener(this);
+	}
+
+	public RemoteConnection findConnection(Opponent opponent) {
+		RemoteConnection rc = findConnectionOrNull(opponent);
+		if (rc == null) {
+			throw new ConnectionDoesNotExist();
+		} else {
+			return rc;
+		}
+	}
+
+	public boolean existsRemoteConnection(Opponent opponent) {
+		return findConnectionOrNull(opponent) != null;
+	}
+
+	private RemoteConnection findConnectionOrNull(Opponent opponent) {
+		for (RemoteConnection rc : this.sendThreads) {
+			if (rc.isConnectionToPlayer(opponent)) {
+				return rc;
+			}
+		}
+		return null;
+	}
+
+	public class ConnectionDoesNotExist extends RuntimeException {
 	}
 
 }

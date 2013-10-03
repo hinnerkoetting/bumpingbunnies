@@ -6,11 +6,9 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import android.graphics.Bitmap;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.BitmapResizer;
 
 @RunWith(RobolectricTestRunner.class)

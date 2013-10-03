@@ -5,7 +5,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class RemoteConnection implements RemoteSender {
 
@@ -59,8 +58,8 @@ public class RemoteConnection implements RemoteSender {
 		this.udpConnection.sendMessageWithChecksum(id, message);
 	}
 
-	public boolean isConnectionToPlayer(Player p) {
-		return this.owner.equals(p);
+	public boolean isConnectionToPlayer(Opponent opponent) {
+		return this.owner.equals(opponent);
 	}
 
 }

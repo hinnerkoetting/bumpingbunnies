@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -12,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.communication.RemoteConnection;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
@@ -60,6 +63,24 @@ public class GameMainTest {
 		assertNumberOfPlayers(1);
 		whenPlayerLeaves(p);
 		assertNumberOfPlayers(0);
+	}
+
+	@Test(expected = GameMain.ConnectionDoesNotExist.class)
+	public void findConnection_givenOpponenDoesNotExist_shouldThrowException() {
+		this.fixture.findConnection(OpponentFactory.createDummy());
+	}
+
+	@Test
+	public void findConnection_givenConnectionDoesExist_shouldReturnConnection() {
+		Opponent opponent = new Opponent("opponent");
+		givenOpponentHasConnection(opponent);
+		RemoteConnection connection = this.fixture.findConnection(opponent);
+		assertNotNull(connection);
+	}
+
+	private void givenOpponentHasConnection(Opponent opponent) {
+		RemoteConnection connection = new RemoteConnection(null, null, opponent);
+		this.fixture.getSendThreads().add(connection);
 	}
 
 	private void assertNumberOfPlayers(int number) {

@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
@@ -12,13 +13,10 @@ public class SendingCoordinatesStep implements GameStepAction, PlayerJoinListene
 	private final List<StateSender> stateSender;
 	private final StateSenderFactory senderFactory;
 
-	public SendingCoordinatesStep(List<StateSender> stateSender, StateSenderFactory senderFactory) {
+	public SendingCoordinatesStep(StateSenderFactory senderFactory) {
 		super();
-		this.stateSender = stateSender;
+		this.stateSender = new LinkedList<StateSender>();
 		this.senderFactory = senderFactory;
-		if (senderFactory == null) {
-			throw new IllegalArgumentException();
-		}
 	}
 
 	@Override
@@ -47,6 +45,10 @@ public class SendingCoordinatesStep implements GameStepAction, PlayerJoinListene
 			}
 		}
 		throw new PlayerDoesNotExist();
+	}
+
+	List<StateSender> getStateSender() {
+		return this.stateSender;
 	}
 
 	public class PlayerDoesNotExist extends RuntimeException {

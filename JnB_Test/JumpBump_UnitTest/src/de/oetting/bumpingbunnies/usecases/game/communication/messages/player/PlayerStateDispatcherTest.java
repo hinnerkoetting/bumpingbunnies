@@ -7,16 +7,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
-@RunWith(RobolectricTestRunner.class)
 public class PlayerStateDispatcherTest {
 
 	private PlayerStateDispatcher fixture;

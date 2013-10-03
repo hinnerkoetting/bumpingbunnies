@@ -65,7 +65,7 @@ public class World implements ObjectProvider {
 				return p;
 			}
 		}
-		throw new PlayerDoesNotExist();
+		throw new PlayerDoesNotExist(id);
 	}
 
 	@Override
@@ -97,6 +97,9 @@ public class World implements ObjectProvider {
 	}
 
 	public class PlayerDoesNotExist extends RuntimeException {
+		public PlayerDoesNotExist(int playerId) {
+			super("Id not found: " + playerId);
+		}
 	}
 
 }

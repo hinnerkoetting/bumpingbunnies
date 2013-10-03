@@ -234,10 +234,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	public void addPlayerEntry(MySocket socket,
 			PlayerProperties playerProperties, int socketIndex) {
-		int playerId = playerProperties.getPlayerId();
-		LOGGER.info("adding player info %d", playerId);
-		RoomEntry entry = new RoomEntry(new PlayerProperties(playerId,
-				playerProperties.getPlayerName()), socket, socketIndex);
+		LOGGER.info("adding player info %d", playerProperties.getPlayerId());
+		RoomEntry entry = new RoomEntry(playerProperties, socket, socketIndex);
 		addPlayerEntry(entry);
 	}
 

@@ -332,6 +332,10 @@ public class Player implements GameObject {
 		return opponent.equals(this.opponent);
 	}
 
+	public Opponent getOpponent() {
+		return this.opponent;
+	}
+
 	@Override
 	public String toString() {
 		return "Player [speedFaktor=" + this.speedFaktor + ", collisionHandling=" + this.collisionHandling + ", halfWidth="
