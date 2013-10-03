@@ -169,6 +169,7 @@ public class GameMainFactory {
 		return resultReceiver;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static InputDispatcher<?> createInputDispatcher(GameActivity activity,
 			GameStartParameter parameter, CoordinatesCalculation calculations, PlayerMovement myPlayerMovement) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter

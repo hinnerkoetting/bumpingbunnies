@@ -14,7 +14,6 @@ import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.BitmapRes
 @RunWith(RobolectricTestRunner.class)
 public class AnimationImplTest {
 
-	private AnimationImpl fixture;
 	@Mock
 	private BitmapResizer resizer;
 
@@ -25,7 +24,7 @@ public class AnimationImplTest {
 
 	private void createAnimation(int numberOfPictures, int timeBetweenPicture) {
 		List<Bitmap> pictures = createNumberOfPictures(numberOfPictures);
-		this.fixture = new AnimationImpl(pictures, timeBetweenPicture, this.resizer);
+		new AnimationImpl(pictures, timeBetweenPicture, this.resizer);
 	}
 
 	private List<Bitmap> createNumberOfPictures(int number) {
