@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import android.graphics.Color;
 import android.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class FpsDrawer implements Drawable {
 
@@ -30,5 +31,10 @@ public class FpsDrawer implements Drawable {
 
 	@Override
 	public void updateGraphics(CanvasDelegate canvas) {
+	}
+
+	@Override
+	public boolean drawsPlayer(Player p) {
+		return false;
 	}
 }

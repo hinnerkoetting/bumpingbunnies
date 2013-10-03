@@ -6,8 +6,14 @@ import java.util.List;
 import android.graphics.Canvas;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
-public class Drawer {
+/**
+ * draws all game elements
+ * 
+ */
+public class Drawer implements PlayerJoinListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Drawer.class);
 	private List<Drawable> allDrawables;
@@ -53,6 +59,30 @@ public class Drawer {
 
 	public void setNeedsUpdate(boolean b) {
 		this.needsUpdate = b;
+	}
+
+	@Override
+	public void newPlayerJoined(Player p) {
+		Drawable playerDrawer = this.factory.createPlayerDrawable(p);
+		this.allDrawables.add(playerDrawer);
+	}
+
+	@Override
+	public void playerLeftTheGame(Player p) {
+		Drawable drawer = findDrawerPlayable(p);
+		this.allDrawables.remove(drawer);
+	}
+
+	private Drawable findDrawerPlayable(Player p) {
+		for (Drawable d : this.allDrawables) {
+			if (d.drawsPlayer(p)) {
+				return d;
+			}
+		}
+		throw new PlayerDoesNotExist();
+	}
+
+	public class PlayerDoesNotExist extends RuntimeException {
 	}
 
 }

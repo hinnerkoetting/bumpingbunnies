@@ -57,4 +57,9 @@ public class PlayerDrawer implements Drawable {
 		}
 	}
 
+	@Override
+	public boolean drawsPlayer(Player p) {
+		return this.player.equals(p);
+	}
+
 }

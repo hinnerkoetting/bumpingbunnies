@@ -149,4 +149,8 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 		this.drawer.setNeedsUpdate(true);
 	}
 
+	public void addJoinListener(GameMain gameMain) {
+		this.worldController.addJoinListener(gameMain);
+	}
+
 }

@@ -91,4 +91,8 @@ public class DrawablesFactory {
 	private Drawable createFps() {
 		return new FpsDrawer(this.threadState);
 	}
+
+	public Drawable createPlayerDrawable(Player p) {
+		return PlayerDrawerFactory.create(p, this.resources);
+	}
 }

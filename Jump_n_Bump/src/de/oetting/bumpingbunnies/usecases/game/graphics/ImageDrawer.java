@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.BitmapResizer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class ImageDrawer implements Drawable {
 
@@ -34,6 +35,11 @@ public class ImageDrawer implements Drawable {
 		int height = (int) (canvas.transformX(this.object.maxY()) - canvas
 				.transformX(this.object.minY()));
 		this.resizedbitmap = this.resizer.resize(this.originalBbitmap, width, height);
+	}
+
+	@Override
+	public boolean drawsPlayer(Player p) {
+		return false;
 	}
 
 }

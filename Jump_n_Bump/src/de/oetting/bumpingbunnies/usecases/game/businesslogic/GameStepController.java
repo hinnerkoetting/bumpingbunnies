@@ -43,4 +43,8 @@ public class GameStepController {
 		this.reviver.executeNextStep(numberSteps);
 		this.cameraPositionCalculator.executeNextStep(delta);
 	}
+
+	public void addJoinListener(GameMain gameMain) {
+		gameMain.addJoinListener(this.movements);
+	}
 }

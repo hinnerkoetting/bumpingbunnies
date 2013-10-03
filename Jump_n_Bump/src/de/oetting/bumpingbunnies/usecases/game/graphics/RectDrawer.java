@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import android.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class RectDrawer implements Drawable {
 
@@ -23,5 +24,10 @@ public class RectDrawer implements Drawable {
 
 	@Override
 	public void updateGraphics(CanvasDelegate canvas) {
+	}
+
+	@Override
+	public boolean drawsPlayer(Player p) {
+		return false;
 	}
 }

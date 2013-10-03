@@ -13,6 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThrea
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
@@ -26,6 +27,12 @@ public class GameMain {
 	private List<RemoteConnection> sendThreads = new ArrayList<RemoteConnection>();
 	private MusicPlayer musicPlayer;
 	private World world;
+	private PlayerJoinObservable playerObservable;
+
+	public GameMain() {
+		super();
+		this.playerObservable = new PlayerJoinObservable();
+	}
 
 	public boolean ontouch(MotionEvent event) {
 		return this.inputDispatcher.dispatchGameTouch(event);
@@ -145,6 +152,23 @@ public class GameMain {
 				}
 			}
 		}
+	}
+
+	public void playerJoins(Player player) {
+		this.world.getAllPlayer().add(player);
+		this.playerObservable.playerJoined(player);
+	}
+
+	public void addJoinListener(PlayerJoinListener listener) {
+		this.playerObservable.addListener(listener);
+	}
+
+	public void playerLeaves(Player p) {
+		this.playerObservable.playerLeft(p);
+	}
+
+	public void addJoinListener() {
+		this.gameThread.addJoinListener(this);
 	}
 
 }

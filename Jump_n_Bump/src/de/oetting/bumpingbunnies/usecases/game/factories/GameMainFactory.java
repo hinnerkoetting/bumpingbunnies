@@ -55,7 +55,12 @@ public class GameMainFactory {
 		startNetworkThreads(main);
 		main.getGameThread().start();
 		initGameSound(main, activity);
+		addJoinListener(main);
 		return main;
+	}
+
+	private static void addJoinListener(GameMain main) {
+		main.addJoinListener();
 	}
 
 	private static void initGame(GameMain main, GameActivity activity) {
