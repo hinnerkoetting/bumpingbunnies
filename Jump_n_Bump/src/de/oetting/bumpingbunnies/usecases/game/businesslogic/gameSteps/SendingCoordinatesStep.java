@@ -46,7 +46,10 @@ public class SendingCoordinatesStep implements GameStepAction, PlayerJoinListene
 				return ss;
 			}
 		}
-		return null;
+		throw new PlayerDoesNotExist();
+	}
+
+	public class PlayerDoesNotExist extends RuntimeException {
 	}
 
 }

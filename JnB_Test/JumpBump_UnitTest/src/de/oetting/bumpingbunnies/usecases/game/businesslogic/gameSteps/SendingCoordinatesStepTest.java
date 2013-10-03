@@ -41,6 +41,11 @@ public class SendingCoordinatesStepTest {
 		assertThat(this.stateSenders, hasSize(0));
 	}
 
+	@Test(expected = SendingCoordinatesStep.PlayerDoesNotExist.class)
+	public void playerLeaves_givenPlayerDoesNotExist_shouldThrowException() {
+		whenPlayerLeaves(createDummyPlayer());
+	}
+
 	private void whenPlayerLeaves(Player player) {
 		this.fixture.playerLeftTheGame(player);
 	}

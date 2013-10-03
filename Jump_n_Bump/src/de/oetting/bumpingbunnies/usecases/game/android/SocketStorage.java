@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 public class SocketStorage {
 
@@ -24,18 +24,6 @@ public class SocketStorage {
 
 	public SocketStorage() {
 		this.sockets = new ArrayList<MySocket>();
-	}
-
-	@Deprecated
-	public MySocket getSocket() {
-		return this.sockets.get(0);
-	}
-
-	@Deprecated
-	public void setSocket(MySocket socket) {
-		closeExistingSocket();
-		this.sockets.clear();
-		this.sockets.add(socket);
 	}
 
 	public MySocket getSocket(int index) {
