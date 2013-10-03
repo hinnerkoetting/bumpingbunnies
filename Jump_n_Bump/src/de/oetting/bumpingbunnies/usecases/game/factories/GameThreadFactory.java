@@ -49,7 +49,7 @@ public class GameThreadFactory {
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		CollisionDetection colDetection = new CollisionDetection(world);
 		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
-		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world.getAllPlayer(),
+		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world,
 				spawnPointGenerator, reviver, colDetection);
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(world.getAllPlayer(), killChecker, factory);
@@ -94,10 +94,10 @@ public class GameThreadFactory {
 	}
 
 	private static BunnyKillChecker createKillChecker(List<? extends RemoteSender> sendThreads, Configuration conf,
-			List<Player> allPlayers,
+			World world,
 			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver, CollisionDetection collisionDetection) {
 		if (conf.isHost()) {
-			return new HostBunnyKillChecker(sendThreads, collisionDetection, allPlayers,
+			return new HostBunnyKillChecker(sendThreads, collisionDetection, world,
 					spawnPointGenerator, reviver);
 		} else {
 			return new ClientBunnyKillChecker();

@@ -13,6 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
+import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 /**
  * Host logic what should be done when a bunny jumps on another bunny.
@@ -21,24 +22,24 @@ import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	private final CollisionDetection collisionDetection;
-	private final List<Player> allPlayers;
+	private final World world;
 	private final SpawnPointGenerator spawnPointGenerator;
 	private final List<? extends RemoteSender> sendThreads;
 	private final PlayerReviver reviver;
 
-	public HostBunnyKillChecker(List<? extends RemoteSender> sendThreads, CollisionDetection collisionDetection, List<Player> allPlayers,
+	public HostBunnyKillChecker(List<? extends RemoteSender> sendThreads, CollisionDetection collisionDetection, World world,
 			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver) {
 		super();
 		this.sendThreads = sendThreads;
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
-		this.allPlayers = allPlayers;
+		this.world = world;
 	}
 
 	@Override
 	public void checkForJumpedPlayers() {
-		for (Player player : this.allPlayers) {
+		for (Player player : this.world.getAllPlayer()) {
 			Player playerUnder = this.collisionDetection.findPlayerThisPlayerIsStandingOn(player);
 			if (playerUnder != null) {
 				handleJumpedPlayer(playerUnder, player);
@@ -85,7 +86,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	@Override
 	public void checkForPlayerOutsideOfGameZone() {
-		for (Player p : this.allPlayers) {
+		for (Player p : this.world.getAllPlayer()) {
 			if (OutsideOfPlayZoneChecker.outsideOfGameZone(p)) {
 				handlePlayerOutOfPlayZone(p);
 			}
