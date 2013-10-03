@@ -43,7 +43,7 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(this.index);
-		dest.writeParcelable(getOwner(), flags);
+		getOwner().writeToParcel(dest, flags);
 	}
 
 	public StorableSocket(Parcel in) throws IOException {
@@ -74,5 +74,9 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	@Override
 	public MySocket createFastConnection() {
 		return this;
+	}
+
+	int getIndex() {
+		return this.index;
 	}
 }

@@ -11,7 +11,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
@@ -41,13 +40,14 @@ public class GameThreadFactory {
 			List<OtherPlayerInputService> movementServices, List<StateSender> stateSender,
 			Context context,
 			Configuration configuration, CoordinatesCalculation calculations,
-			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer, List<PlayerConfig> otherPlayers) {
+			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer, List<Player> otherPlayers) {
 		GameThreadState threadState = new GameThreadState();
 
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
 				configuration, calculations);
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
 				world.getSpawnPoints());
+		assignSpawnPoints(sendThreads, myPlayer, otherPlayers, spawnPointGenerator);
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		CollisionDetection colDetection = new CollisionDetection(world);
 		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
@@ -61,10 +61,17 @@ public class GameThreadFactory {
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
 	}
 
-	private static SendingCoordinatesStep createSendCoordinatesStep(GameMain main, Player myPlayer, List<PlayerConfig> otherPlayers) {
+	private static void assignSpawnPoints(List<? extends RemoteSender> sendThreads, Player myPlayer, List<Player> otherPlayers,
+			SpawnPointGenerator spawnPointGenerator) {
+		assignInitialSpawnpoints(spawnPointGenerator, otherPlayers, sendThreads);
+		SpawnPoint nextSpawnPoint = spawnPointGenerator.nextSpawnPoint();
+		ResetToScorePoint.resetPlayerToSpawnPoint(nextSpawnPoint, myPlayer);
+	}
+
+	private static SendingCoordinatesStep createSendCoordinatesStep(GameMain main, Player myPlayer, List<Player> otherPlayers) {
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(new AndroidStateSenderFactory(main, myPlayer));
-		for (PlayerConfig pc : otherPlayers) {
-			sendCoordinates.newPlayerJoined(pc.getMovementController().getPlayer());
+		for (Player p : otherPlayers) {
+			sendCoordinates.newPlayerJoined(p);
 		}
 		return sendCoordinates;
 	}

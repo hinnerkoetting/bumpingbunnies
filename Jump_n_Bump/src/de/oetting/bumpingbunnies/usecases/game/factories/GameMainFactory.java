@@ -84,12 +84,20 @@ public class GameMainFactory {
 		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
 				inputServices,
 				allStateSender, activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main, myPlayer,
-				otherPlayers);
+				extractOtherPlayers(otherPlayers));
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
 
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
+	}
+
+	private static List<Player> extractOtherPlayers(List<PlayerConfig> otherPlayers) {
+		List<Player> players = new ArrayList<Player>(otherPlayers.size());
+		for (PlayerConfig pc : otherPlayers) {
+			players.add(pc.getMovementController().getPlayer());
+		}
+		return players;
 	}
 
 	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
