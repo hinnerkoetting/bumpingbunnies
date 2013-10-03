@@ -24,12 +24,10 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
@@ -77,13 +75,12 @@ public class GameMainFactory {
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
 		createRemoteSender(main, activity);
-		List<StateSender> allStateSender = createSender(main, myPlayer);
 		List<OtherPlayerInputService> inputServices = initInputServices(main, activity, world,
 				main.getSendThreads(), otherPlayers);
 
 		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
 				inputServices,
-				allStateSender, activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main, myPlayer,
+				activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main, myPlayer,
 				extractOtherPlayers(otherPlayers));
 		main.setGameThread(gameThread);
 
@@ -135,15 +132,6 @@ public class GameMainFactory {
 	private static NetworkSendQueueThread createUdpConnection(GameActivity activity, MySocket socket) {
 		MySocket fastSocket = socket.createFastConnection();
 		return NetworkSendQueueThreadFactory.create(fastSocket, activity);
-	}
-
-	private static List<StateSender> createSender(GameMain main, Player myPlayer) {
-		List<StateSender> resultSender = new ArrayList<StateSender>(
-				main.getSendThreads().size());
-		for (RemoteConnection rs : main.getSendThreads()) {
-			resultSender.add(new GameNetworkSender(myPlayer, rs));
-		}
-		return resultSender;
 	}
 
 	private static List<OtherPlayerInputService> initInputServices(GameMain main, GameActivity activity,

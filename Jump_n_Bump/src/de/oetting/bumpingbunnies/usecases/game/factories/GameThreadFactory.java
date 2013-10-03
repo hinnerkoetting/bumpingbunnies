@@ -22,7 +22,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInput
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.ListSpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointMessage;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
@@ -37,7 +36,7 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameThreadFactory {
 
 	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
-			List<OtherPlayerInputService> movementServices, List<StateSender> stateSender,
+			List<OtherPlayerInputService> movementServices,
 			Context context,
 			Configuration configuration, CoordinatesCalculation calculations,
 			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer, List<Player> otherPlayers) {
