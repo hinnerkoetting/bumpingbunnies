@@ -29,4 +29,8 @@ public interface CanvasDelegate {
 
 	float transformX(long x);
 
+	int getOriginalWidth();
+
+	int getOriginalHeight();
+
 }

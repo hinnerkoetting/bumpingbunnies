@@ -6,6 +6,9 @@ import java.util.List;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
@@ -18,21 +21,30 @@ public class DrawablesFactory {
 	private final World world;
 	private final GameThreadState threadState;
 	private final Resources resources;
+	private boolean drawBackground;
 
 	public DrawablesFactory(World world, GameThreadState threadState,
-			Resources resources) {
+			Resources resources, boolean drawBackground) {
 		this.world = world;
 		this.threadState = threadState;
 		this.resources = resources;
+		this.drawBackground = drawBackground;
 	}
 
 	public List<Drawable> createAllDrawables() {
 		List<Drawable> allDrawables = new LinkedList<Drawable>();
+		allDrawables.add(createBackground());
 		allDrawables.addAll(createAllPlayers());
 		allDrawables.addAll(createWalls());
 		allDrawables.addAll(createAllScores());
 		allDrawables.add(createFps());
 		return allDrawables;
+	}
+
+	private Drawable createBackground() {
+		Bitmap background = BitmapFactory.decodeResource(this.resources, R.drawable.hintergrund2);
+		Drawable bg = new BackgroundDrawer(background, new SimpleBitmapResizer(), this.drawBackground);
+		return bg;
 	}
 
 	private Collection<? extends Drawable> createWalls() {

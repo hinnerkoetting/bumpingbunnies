@@ -175,10 +175,10 @@ public class GameMainFactory {
 
 	private static void addAllNetworkListeners(GameActivity activity, NetworkToGameDispatcher networkDispatcher, World world) {
 		new StopGameReceiver(networkDispatcher, activity);
-		new PlayerIsDeadReceiver(networkDispatcher, world.getAllPlayer());
-		new PlayerScoreReceiver(networkDispatcher, world.getAllPlayer());
-		new PlayerIsRevivedReceiver(networkDispatcher, world.getAllPlayer());
-		new SpawnPointReceiver(networkDispatcher, world.getAllPlayer());
+		new PlayerIsDeadReceiver(networkDispatcher, world);
+		new PlayerScoreReceiver(networkDispatcher, world);
+		new PlayerIsRevivedReceiver(networkDispatcher, world);
+		new SpawnPointReceiver(networkDispatcher, world);
 	}
 
 	private static void createNetworkReceiveThreads(GameMain main,

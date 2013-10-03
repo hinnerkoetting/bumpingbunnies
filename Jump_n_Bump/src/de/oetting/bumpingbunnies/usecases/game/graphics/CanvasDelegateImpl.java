@@ -89,4 +89,15 @@ public class CanvasDelegateImpl implements CanvasDelegate {
 	public void drawImageDirect(Bitmap bitmap, int left, int top, Paint paint) {
 		this.canvas.drawBitmap(bitmap, left, top, paint);
 	}
+
+	@Override
+	public int getOriginalWidth() {
+		return this.width;
+	}
+
+	@Override
+	public int getOriginalHeight() {
+		return this.heigth;
+	}
+
 }
