@@ -64,7 +64,7 @@ public class GameThreadFactory {
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
 				world.getSpawnPoints());
 		assignSpawnPoints(sendThreads, myPlayer, extractOtherPlayers(otherPlayers), spawnPointGenerator);
-		UserInputStep userInputStep = new UserInputStep(inputServices);
+		UserInputStep userInputStep = new UserInputStep(inputServices, null);
 		CollisionDetection colDetection = new CollisionDetection(world);
 		PlayerReviver reviver = new PlayerReviver(sendThreads);
 		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world,
