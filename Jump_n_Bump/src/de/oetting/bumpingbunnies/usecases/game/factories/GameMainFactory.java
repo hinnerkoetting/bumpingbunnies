@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import de.oetting.bumpingbunnies.usecases.game.android.factories.PlayerConfigFac
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
@@ -26,16 +24,8 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -74,13 +64,10 @@ public class GameMainFactory {
 
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
-		List<OtherPlayerInputService> inputServices = initInputServices(main, activity, world,
-				main.getSendThreads(), otherPlayers);
 
 		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
-				inputServices,
 				activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main, myPlayer,
-				extractOtherPlayers(otherPlayers));
+				otherPlayers, activity);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
@@ -88,14 +75,6 @@ public class GameMainFactory {
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
 		addJoinListener(main);
 		addPlayersToWorld(main, world.getAllPlayer());
-	}
-
-	private static List<Player> extractOtherPlayers(List<PlayerConfig> otherPlayers) {
-		List<Player> players = new ArrayList<Player>(otherPlayers.size());
-		for (PlayerConfig pc : otherPlayers) {
-			players.add(pc.getMovementController().getPlayer());
-		}
-		return players;
 	}
 
 	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
@@ -121,41 +100,6 @@ public class GameMainFactory {
 		return NetworkSendQueueThreadFactory.create(fastSocket, activity);
 	}
 
-	private static List<OtherPlayerInputService> initInputServices(GameMain main, GameActivity activity,
-			World world,
-			List<? extends RemoteSender> allSender, List<PlayerConfig> otherPlayers) {
-
-		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
-
-		addAllNetworkListeners(activity, networkDispatcher, world);
-
-		createNetworkReceiveThreads(main, networkDispatcher, allSender);
-		List<OtherPlayerInputService> inputServices = createInputServicesForOtherPlayers(otherPlayers, networkDispatcher);
-
-		return inputServices;
-	}
-
-	private static List<OtherPlayerInputService> createInputServicesForOtherPlayers(List<PlayerConfig> otherPlayers,
-			NetworkToGameDispatcher networkDispatcher) {
-		List<MySocket> allSockets = SocketStorage.getSingleton()
-				.getAllSockets();
-		List<OtherPlayerInputService> resultReceiver = new ArrayList<OtherPlayerInputService>(
-				allSockets.size());
-
-		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
-		for (PlayerConfig config : otherPlayers) {
-			OtherPlayerInputService is = config.createInputService();
-			if (is instanceof PlayerFromNetworkInput) {
-				PlayerFromNetworkInput inputservice = (PlayerFromNetworkInput) is;
-				stateDispatcher.addInputService(config.getMovementController()
-						.getPlayer().id(), inputservice);
-			}
-
-			resultReceiver.add(is);
-		}
-		return resultReceiver;
-	}
-
 	@SuppressWarnings("unchecked")
 	private static InputDispatcher<?> createInputDispatcher(GameActivity activity,
 			GameStartParameter parameter, CoordinatesCalculation calculations, PlayerMovement myPlayerMovement) {
@@ -168,34 +112,6 @@ public class GameMainFactory {
 				(ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),
 				inputDispatcher);
 		return inputDispatcher;
-	}
-
-	private static void addAllNetworkListeners(GameActivity activity, NetworkToGameDispatcher networkDispatcher, World world) {
-		new StopGameReceiver(networkDispatcher, activity);
-		new PlayerIsDeadReceiver(networkDispatcher, world);
-		new PlayerScoreReceiver(networkDispatcher, world);
-		new PlayerIsRevivedReceiver(networkDispatcher, world);
-		new SpawnPointReceiver(networkDispatcher, world);
-	}
-
-	private static void createNetworkReceiveThreads(GameMain main,
-			NetworkToGameDispatcher networkDispatcher,
-			List<? extends RemoteSender> allRemoteSender) {
-		List<MySocket> allSockets = SocketStorage.getSingleton()
-				.getAllSockets();
-		List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
-		for (MySocket socket : allSockets) {
-			NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory
-					.createGameNetworkReceiver(socket, allRemoteSender,
-							networkDispatcher);
-			NetworkReceiveThread udpReceiveThread = NetworkReceiverDispatcherThreadFactory
-					.createGameNetworkReceiver(socket.createFastConnection(), allRemoteSender,
-							networkDispatcher);
-
-			networkReceiveThreads.add(tcpReceiveThread);
-			networkReceiveThreads.add(udpReceiveThread);
-		}
-		main.setNetworkReceiveThreads(networkReceiveThreads);
 	}
 
 	private static void startNetworkThreads(GameMain main) {
