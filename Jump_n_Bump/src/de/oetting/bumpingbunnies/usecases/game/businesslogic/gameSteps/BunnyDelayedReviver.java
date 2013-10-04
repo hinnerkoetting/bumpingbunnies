@@ -13,8 +13,7 @@ public class BunnyDelayedReviver extends Thread {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostBunnyKillChecker.class);
 	public static final int KILL_TIME_MILLISECONDS = 1000;
 	/**
-	 * make sure that player does accidentally not stay dead for too long on
-	 * client
+	 * make sure that player does accidentally not stay dead for too long on client
 	 */
 	public static final int KILL_TIME_CLIENT_MILLISECONDS = 2500;
 	private final Player player;

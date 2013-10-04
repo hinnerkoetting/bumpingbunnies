@@ -201,8 +201,8 @@ public class GameMain {
 		this.playerObservable.playerLeft(p);
 	}
 
-	public void addJoinListener() {
-		this.gameThread.addJoinListener(this);
+	public void addAllJoinListeners() {
+		this.gameThread.addAllJoinListeners(this);
 	}
 
 	public RemoteConnection findConnection(Opponent opponent) {

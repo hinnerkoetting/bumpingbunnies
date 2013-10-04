@@ -59,7 +59,7 @@ public class GameMainFactory {
 	}
 
 	private static void addJoinListener(GameMain main) {
-		main.addJoinListener();
+		main.addAllJoinListeners();
 	}
 
 	private static void initGame(GameMain main, GameActivity activity) {
@@ -88,9 +88,6 @@ public class GameMainFactory {
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
 		addJoinListener(main);
 		addPlayersToWorld(main, world.getAllPlayer());
-		if (parameter.getConfiguration().isHost()) {
-			main.getGameThread().revivePlayers(world.getAllPlayer());
-		}
 	}
 
 	private static List<Player> extractOtherPlayers(List<PlayerConfig> otherPlayers) {
