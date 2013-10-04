@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.view.ViewGroup;
@@ -88,10 +87,9 @@ public class GameMainFactory {
 
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
 		addJoinListener(main);
-		addPlayersToWorld(main, myPlayer, otherPlayers);
+		addPlayersToWorld(main, world.getAllPlayer());
 		if (parameter.getConfiguration().isHost()) {
-			main.getGameThread().revivePlayers(Arrays.asList(myPlayer));
-			main.getGameThread().revivePlayers(extractOtherPlayers(otherPlayers));
+			main.getGameThread().revivePlayers(world.getAllPlayer());
 		}
 	}
 
@@ -107,11 +105,9 @@ public class GameMainFactory {
 		return new CameraPositionCalculation(player);
 	}
 
-	private static void addPlayersToWorld(GameMain main, Player myPlayer, List<PlayerConfig> otherPlayers) {
-		main.playerJoins(myPlayer);
-
-		for (PlayerConfig pc : otherPlayers) {
-			main.playerJoins(pc.getMovementController().getPlayer());
+	private static void addPlayersToWorld(GameMain main, List<Player> players) {
+		for (Player p : players) {
+			main.playerJoins(p);
 		}
 	}
 

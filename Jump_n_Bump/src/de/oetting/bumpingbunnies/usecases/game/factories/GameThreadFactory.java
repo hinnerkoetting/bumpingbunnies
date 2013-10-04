@@ -49,13 +49,13 @@ public class GameThreadFactory {
 		assignSpawnPoints(sendThreads, myPlayer, otherPlayers, spawnPointGenerator);
 		UserInputStep userInputStep = new UserInputStep(movementServices);
 		CollisionDetection colDetection = new CollisionDetection(world);
-		PlayerReviver reviver = createReviver(sendThreads, world.getAllPlayer(), configuration);
+		PlayerReviver reviver = new PlayerReviver(sendThreads);
 		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world,
 				spawnPointGenerator, reviver, colDetection);
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory);
 		// Sending Coordinates Strep
-		SendingCoordinatesStep sendCoordinates = createSendCoordinatesStep(main, myPlayer, otherPlayers);
+		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(new AndroidStateSenderFactory(main, myPlayer));
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
@@ -66,12 +66,6 @@ public class GameThreadFactory {
 		assignInitialSpawnpoints(spawnPointGenerator, otherPlayers, sendThreads);
 		SpawnPoint nextSpawnPoint = spawnPointGenerator.nextSpawnPoint();
 		ResetToScorePoint.resetPlayerToSpawnPoint(nextSpawnPoint, myPlayer);
-	}
-
-	private static SendingCoordinatesStep createSendCoordinatesStep(GameMain main, Player myPlayer, List<Player> otherPlayers) {
-		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(new AndroidStateSenderFactory(main, myPlayer));
-
-		return sendCoordinates;
 	}
 
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context,
@@ -96,11 +90,6 @@ public class GameThreadFactory {
 		for (RemoteSender sender : sendThreads) {
 			new SpawnPointSender(sender).sendMessage(message);
 		}
-	}
-
-	private static PlayerReviver createReviver(List<? extends RemoteSender> sendThreads, List<Player> list, Configuration configuration) {
-		PlayerReviver reviver = new PlayerReviver(sendThreads);
-		return reviver;
 	}
 
 	private static BunnyKillChecker createKillChecker(List<? extends RemoteSender> sendThreads, Configuration conf,
