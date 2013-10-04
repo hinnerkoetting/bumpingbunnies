@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.RemoteConnection;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
+import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -22,6 +25,7 @@ import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
 public class GameMain {
 
+	private final SocketStorage sockets;
 	private GameThread gameThread;
 	private InputDispatcher<?> inputDispatcher;
 	private List<NetworkReceiveThread> networkReceiveThreads;
@@ -29,9 +33,12 @@ public class GameMain {
 	private MusicPlayer musicPlayer;
 	private World world;
 	private PlayerJoinObservable playerObservable;
+	private GameActivity activity;
 
-	public GameMain() {
+	public GameMain(GameActivity activity, SocketStorage sockets) {
 		super();
+		this.activity = activity;
+		this.sockets = sockets;
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
@@ -99,7 +106,7 @@ public class GameMain {
 
 	public void destroy() {
 		shutdownAllThreads();
-		SocketStorage.getSingleton().closeExistingSocket();
+		this.sockets.closeExistingSocket();
 	}
 
 	public void shutdownAllThreads() {
@@ -158,6 +165,30 @@ public class GameMain {
 	public void playerJoins(Player player) {
 		this.world.getAllPlayer().add(player);
 		this.playerObservable.playerJoined(player);
+		addSendThread(player);
+	}
+
+	private void addSendThread(Player player) {
+		RemoteConnection rc = createSendThread(player);
+		this.sendThreads.add(rc);
+	}
+
+	private RemoteConnection createSendThread(Player player) {
+		MySocket socket = this.sockets.findSocket(player.getOpponent());
+		return createServerConnection(this.activity, socket, player.getOpponent());
+	}
+
+	public RemoteConnection createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {
+		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, activity);
+		NetworkSendQueueThread udpConnection = createUdpConnection(activity, socket);
+
+		RemoteConnection serverConnection = new RemoteConnection(tcpConnection, udpConnection, opponent);
+		return serverConnection;
+	}
+
+	private NetworkSendQueueThread createUdpConnection(GameActivity activity, MySocket socket) {
+		MySocket fastSocket = socket.createFastConnection();
+		return NetworkSendQueueThreadFactory.create(fastSocket, activity);
 	}
 
 	public void addJoinListener(PlayerJoinListener listener) {

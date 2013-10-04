@@ -45,7 +45,7 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
-		GameMain main = new GameMain();
+		GameMain main = new GameMain(activity, SocketStorage.getSingleton());
 		initGame(main, activity);
 
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
@@ -71,10 +71,9 @@ public class GameMainFactory {
 		PlayerMovement myPlayerMovement = PlayerConfigFactory.createMyPlayer(parameter);
 		Player myPlayer = myPlayerMovement.getPlayer();
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.findOtherPlayers(parameter.getConfiguration(), world);
-		addPlayersToWorld(world, myPlayer, otherPlayers);
+		addPlayersToWorld(main, myPlayer, otherPlayers);
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
-		createRemoteSender(main, activity);
 		List<OtherPlayerInputService> inputServices = initInputServices(main, activity, world,
 				main.getSendThreads(), otherPlayers);
 
@@ -101,24 +100,12 @@ public class GameMainFactory {
 		return new CameraPositionCalculation(player);
 	}
 
-	private static void addPlayersToWorld(World world, Player myPlayer, List<PlayerConfig> otherPlayers) {
-		world.addPlayer(myPlayer);
+	private static void addPlayersToWorld(GameMain main, Player myPlayer, List<PlayerConfig> otherPlayers) {
+		main.playerJoins(myPlayer);
 
 		for (PlayerConfig pc : otherPlayers) {
-			world.addPlayer(pc.getMovementController().getPlayer());
+			main.playerJoins(pc.getMovementController().getPlayer());
 		}
-	}
-
-	private static void createRemoteSender(GameMain main, GameActivity activity) {
-		List<MySocket> allSockets = SocketStorage.getSingleton()
-				.getAllSockets();
-		List<RemoteConnection> resultSender = new ArrayList<RemoteConnection>(
-				allSockets.size());
-		for (MySocket socket : allSockets) {
-			RemoteConnection serverConnection = createServerConnection(activity, socket, socket.getOwner());
-			resultSender.add(serverConnection);
-		}
-		main.setSendThreads(resultSender);
 	}
 
 	public static RemoteConnection createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {

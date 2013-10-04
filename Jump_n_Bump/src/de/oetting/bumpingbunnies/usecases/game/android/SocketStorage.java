@@ -7,6 +7,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class SocketStorage {
 
@@ -37,6 +38,15 @@ public class SocketStorage {
 		this.sockets.clear();
 	}
 
+	public MySocket findSocket(Opponent opponent) {
+		for (MySocket s : this.sockets) {
+			if (s.getOwner().equals(opponent)) {
+				return s;
+			}
+		}
+		throw new OpponentDoesNotExist();
+	}
+
 	private void closeOneSocket(MySocket socket) {
 		try {
 			LOGGER.info("close connection");
@@ -54,5 +64,8 @@ public class SocketStorage {
 
 	public List<MySocket> getAllSockets() {
 		return Collections.unmodifiableList(this.sockets);
+	}
+
+	public static class OpponentDoesNotExist extends RuntimeException {
 	}
 }

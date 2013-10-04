@@ -53,7 +53,7 @@ public class GameThreadFactory {
 		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world,
 				spawnPointGenerator, reviver, colDetection);
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
-		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(world.getAllPlayer(), killChecker, factory);
+		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory);
 		SendingCoordinatesStep sendCoordinates = createSendCoordinatesStep(main, myPlayer, otherPlayers);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);

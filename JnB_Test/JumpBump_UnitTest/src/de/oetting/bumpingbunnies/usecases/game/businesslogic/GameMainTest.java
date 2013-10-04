@@ -7,13 +7,20 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.RemoteConnection;
+import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
+import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -24,6 +31,9 @@ public class GameMainTest {
 	private GameMain fixture;
 	@Mock
 	private PlayerJoinListener listener;
+	private List<RemoteConnection> sendThreads;
+	@Mock
+	private SocketStorage sockets;
 
 	@Test
 	public void playerJoins_shouldNotifyListener() {
@@ -83,6 +93,13 @@ public class GameMainTest {
 		this.fixture.getSendThreads().add(connection);
 	}
 
+	@Test
+	public void playerJoins_shouldAddNewSendThread() {
+		assertThat(this.sendThreads, hasSize(0));
+		this.fixture.playerJoins(TestPlayerFactory.createDummyPlayer());
+		assertThat(this.sendThreads, hasSize(1));
+	}
+
 	private void assertNumberOfPlayers(int number) {
 		assertThat(this.fixture.getWorld().getAllPlayer(), hasSize(number));
 	}
@@ -103,7 +120,10 @@ public class GameMainTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new GameMain();
+		this.fixture = new GameMain(mock(GameActivity.class), this.sockets);
+		this.sendThreads = new ArrayList<>();
 		this.fixture.setWorld(new World(mock((WorldObjectsBuilder.class))));
+		this.fixture.setSendThreads(this.sendThreads);
+		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 	}
 }

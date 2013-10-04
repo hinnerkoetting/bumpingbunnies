@@ -4,11 +4,14 @@ import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFa
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import de.oetting.bumpingbunnies.communication.RemoteConnection;
+import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
+import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyStateSender;
@@ -43,7 +46,7 @@ public class AndroidStateSenderFactoryTest {
 	@Before
 	public void beforeEveryTest() {
 		this.myPlayer = createDummyPlayer();
-		this.main = new GameMain();
+		this.main = new GameMain(mock(GameActivity.class), mock(SocketStorage.class));
 		this.factory = new AndroidStateSenderFactory(this.main, this.myPlayer);
 	}
 }
