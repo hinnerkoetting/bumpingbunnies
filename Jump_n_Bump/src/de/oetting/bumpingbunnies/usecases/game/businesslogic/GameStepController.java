@@ -1,9 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
+import java.util.List;
+
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.PlayerReviver;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 /**
  * Calls all components which should be executed during the regular game loop.
@@ -47,5 +50,11 @@ public class GameStepController {
 	public void addJoinListener(GameMain gameMain) {
 		gameMain.addJoinListener(this.movements);
 		gameMain.addJoinListener(this.sendingCoordinates);
+	}
+
+	public void revivePlayers(List<Player> players) {
+		for (Player p : players) {
+			this.reviver.revivePlayerLater(p);
+		}
 	}
 }

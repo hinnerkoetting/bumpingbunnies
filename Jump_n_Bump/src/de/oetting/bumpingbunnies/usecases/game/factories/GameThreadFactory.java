@@ -54,6 +54,7 @@ public class GameThreadFactory {
 				spawnPointGenerator, reviver, colDetection);
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory);
+		// Sending Coordinates Strep
 		SendingCoordinatesStep sendCoordinates = createSendCoordinatesStep(main, myPlayer, otherPlayers);
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);
@@ -69,9 +70,7 @@ public class GameThreadFactory {
 
 	private static SendingCoordinatesStep createSendCoordinatesStep(GameMain main, Player myPlayer, List<Player> otherPlayers) {
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(new AndroidStateSenderFactory(main, myPlayer));
-		for (Player p : otherPlayers) {
-			sendCoordinates.newPlayerJoined(p);
-		}
+
 		return sendCoordinates;
 	}
 
@@ -101,11 +100,6 @@ public class GameThreadFactory {
 
 	private static PlayerReviver createReviver(List<? extends RemoteSender> sendThreads, List<Player> list, Configuration configuration) {
 		PlayerReviver reviver = new PlayerReviver(sendThreads);
-		if (configuration.isHost()) {
-			for (Player p : list) {
-				reviver.revivePlayerLater(p);
-			}
-		} // all players are revived by a message from the host
 		return reviver;
 	}
 

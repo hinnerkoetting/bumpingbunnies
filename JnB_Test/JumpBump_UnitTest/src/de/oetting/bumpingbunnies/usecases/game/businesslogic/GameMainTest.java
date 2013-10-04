@@ -94,10 +94,27 @@ public class GameMainTest {
 	}
 
 	@Test
-	public void playerJoins_shouldAddNewSendThread() {
+	public void playerJoins_givenRemotePlayer_shouldAddNewSendThread() {
 		assertThat(this.sendThreads, hasSize(0));
+		givenIsRemotePlayer();
 		this.fixture.playerJoins(TestPlayerFactory.createDummyPlayer());
 		assertThat(this.sendThreads, hasSize(1));
+	}
+
+	private void givenIsRemotePlayer() {
+		when(this.sockets.existsSocket(any(Opponent.class))).thenReturn(true);
+	}
+
+	@Test
+	public void playerJoins_givenAiPlayer_thenNoNewSendThreadShouldBeAdded() {
+		assertThat(this.sendThreads, hasSize(0));
+		givenIsAiPlayer();
+		this.fixture.playerJoins(TestPlayerFactory.createDummyPlayer());
+		assertThat(this.sendThreads, hasSize(0));
+	}
+
+	private void givenIsAiPlayer() {
+		when(this.sockets.existsSocket(any(Opponent.class))).thenReturn(false);
 	}
 
 	private void assertNumberOfPlayers(int number) {

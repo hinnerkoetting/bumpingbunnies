@@ -164,8 +164,10 @@ public class GameMain {
 
 	public void playerJoins(Player player) {
 		this.world.getAllPlayer().add(player);
+		if (this.sockets.existsSocket(player.getOpponent())) {
+			addSendThread(player);
+		}
 		this.playerObservable.playerJoined(player);
-		addSendThread(player);
 	}
 
 	private void addSendThread(Player player) {

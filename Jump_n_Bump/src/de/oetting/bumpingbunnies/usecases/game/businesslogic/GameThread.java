@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
+import java.util.List;
+
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.view.SurfaceHolder;
@@ -7,6 +9,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 /**
  * All game logic and drawing of the game is executed in this thread.<br>
@@ -152,6 +155,11 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	public void addJoinListener(GameMain gameMain) {
 		this.worldController.addJoinListener(gameMain);
 		gameMain.addJoinListener(this.drawer);
+	}
+
+	public void revivePlayers(List<Player> players) {
+		this.worldController.revivePlayers(players);
+
 	}
 
 }

@@ -35,11 +35,11 @@ public class Player implements GameObject {
 		this.rect = new Rect();
 		this.state = new PlayerState(id);
 		this.id = id;
-		calculateRect();
 		this.halfHeight = ModelConstants.PLAYER_HEIGHT / 2;
 		this.halfWidth = ModelConstants.PLAYER_WIDTH / 2;
 		this.collisionHandling = new CollisionHandling();
 		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
+		calculateRect();
 	}
 
 	public Player(Player simulatedObject, int id, String name, int speedFaktor, Opponent opponent) {

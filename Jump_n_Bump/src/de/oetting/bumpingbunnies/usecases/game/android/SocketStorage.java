@@ -39,12 +39,12 @@ public class SocketStorage {
 	}
 
 	public MySocket findSocket(Opponent opponent) {
-		for (MySocket s : this.sockets) {
-			if (s.getOwner().equals(opponent)) {
-				return s;
-			}
+		MySocket socket = findSocketOrNull(opponent);
+		if (socket == null) {
+			throw new OpponentDoesNotExist();
+		} else {
+			return socket;
 		}
-		throw new OpponentDoesNotExist();
 	}
 
 	private void closeOneSocket(MySocket socket) {
@@ -64,6 +64,19 @@ public class SocketStorage {
 
 	public List<MySocket> getAllSockets() {
 		return Collections.unmodifiableList(this.sockets);
+	}
+
+	public boolean existsSocket(Opponent opponent) {
+		return findSocketOrNull(opponent) != null;
+	}
+
+	private MySocket findSocketOrNull(Opponent opponent) {
+		for (MySocket s : this.sockets) {
+			if (s.getOwner().equals(opponent)) {
+				return s;
+			}
+		}
+		return null;
 	}
 
 	public static class OpponentDoesNotExist extends RuntimeException {
