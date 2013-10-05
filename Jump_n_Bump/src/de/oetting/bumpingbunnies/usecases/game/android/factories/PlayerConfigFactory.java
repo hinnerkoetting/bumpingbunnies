@@ -5,24 +5,20 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.PlayerMovementFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerConfigFactory {
 
-	public static PlayerMovement createMyPlayer(GameStartParameter parameter) {
-		Player myPlayer = findMyPlayer(parameter);
-		PlayerMovement myPlayerMovementController = createMovementController(myPlayer);
-		return myPlayerMovementController;
+	public static Player createMyPlayer(GameStartParameter parameter) {
+		return findMyPlayer(parameter);
 	}
 
-	public static List<PlayerConfig> findOtherPlayers(
+	public static List<PlayerConfig> createOtherPlayers(
 			Configuration configuration) {
 		int speed = configuration.getGeneralSettings().getSpeedSetting();
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
@@ -37,12 +33,7 @@ public class PlayerConfigFactory {
 	private static PlayerConfig createPlayerConfig(Player player,
 			OpponentConfiguration configuration) {
 		AiModus aiMode = configuration.getAiMode();
-		PlayerMovement movementcontroller = createMovementController(player);
-		return new PlayerConfig(aiMode, movementcontroller, configuration);
-	}
-
-	private static PlayerMovement createMovementController(Player p) {
-		return PlayerMovementFactory.create(p);
+		return new PlayerConfig(aiMode, player, configuration);
 	}
 
 	private static Player findMyPlayer(GameStartParameter gameParameter) {

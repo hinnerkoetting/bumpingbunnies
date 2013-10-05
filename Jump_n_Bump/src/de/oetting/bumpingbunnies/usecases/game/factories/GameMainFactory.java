@@ -36,11 +36,14 @@ public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
 		GameMain main = new GameMain(activity, SocketStorage.getSingleton());
-		initGame(main, activity);
+		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
+				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
+		initGame(main, activity, parameter);
 
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
 		contentView.setGameThread(main.getGameThread());
-
+		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
+		addPlayersToWorld(main, otherPlayers);
 		startNetworkThreads(main);
 		main.getGameThread().start();
 		initGameSound(main, activity);
@@ -52,15 +55,12 @@ public class GameMainFactory {
 		main.addAllJoinListeners();
 	}
 
-	private static void initGame(GameMain main, GameActivity activity) {
-		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
-				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
+	private static void initGame(GameMain main, GameActivity activity, GameStartParameter parameter) {
+
 		World world = WorldFactory.create(parameter.getConfiguration(), activity);
 		main.setWorld(world);
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
-		PlayerMovement myPlayerMovement = PlayerConfigFactory.createMyPlayer(parameter);
-		Player myPlayer = myPlayerMovement.getPlayer();
-		List<PlayerConfig> otherPlayers = PlayerConfigFactory.findOtherPlayers(parameter.getConfiguration());
+		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
@@ -72,19 +72,21 @@ public class GameMainFactory {
 
 		contentView.addOnSizeListener(gameThread);
 
-		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
+		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayer));
 		addJoinListener(main);
-		addPlayersToWorld(main, myPlayer, otherPlayers);
+
+		main.playerJoins(myPlayer);
+
 	}
 
 	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
 		return new CameraPositionCalculation(player);
 	}
 
-	private static void addPlayersToWorld(GameMain main, Player myPlayer, List<PlayerConfig> players) {
-		main.playerJoins(myPlayer);
+	private static void addPlayersToWorld(GameMain main, List<PlayerConfig> players) {
+
 		for (PlayerConfig pc : players) {
-			main.playerJoins(pc.getMovementController().getPlayer());
+			main.playerJoins(pc.getPlayer());
 		}
 	}
 
@@ -103,11 +105,11 @@ public class GameMainFactory {
 
 	@SuppressWarnings("unchecked")
 	private static InputDispatcher<?> createInputDispatcher(GameActivity activity,
-			GameStartParameter parameter, CoordinatesCalculation calculations, PlayerMovement myPlayerMovement) {
+			GameStartParameter parameter, CoordinatesCalculation calculations, Player myPlayer) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
 				.getConfiguration().getInputConfiguration()
 				.createInputconfigurationClass();
-		InputService touchService = myPlayerFactory.createInputService(myPlayerMovement, activity, calculations);
+		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, calculations);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		myPlayerFactory.insertGameControllerViews(
 				(ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),

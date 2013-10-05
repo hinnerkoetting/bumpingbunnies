@@ -2,23 +2,24 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerConfig {
 	private final OpponentConfiguration configuration;
 	private final AiModus aiModus;
-	private final PlayerMovement movementController;
+	private final Player player;
 
 	public PlayerConfig(AiModus aiModus,
-			PlayerMovement movementController,
+			Player player,
 			OpponentConfiguration configuration) {
 		super();
 		this.aiModus = aiModus;
-		this.movementController = movementController;
+		this.player = player;
 		this.configuration = configuration;
 	}
 
-	public PlayerMovement getMovementController() {
-		return this.movementController;
+	public Player getPlayer() {
+		return this.player;
 	}
 
 	public AiModus getAiModus() {
