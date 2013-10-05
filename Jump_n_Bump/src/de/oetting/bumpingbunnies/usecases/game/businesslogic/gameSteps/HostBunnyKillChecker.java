@@ -71,9 +71,6 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	private void revivePlayerDelayed(final Player player) {
 		this.reviver.revivePlayerLater(player);
-		// new BunnyDelayedReviver(player,
-		// BunnyDelayedReviver.KILL_TIME_MILLISECONDS,
-		// this.sendThreads).start();
 	}
 
 	@Override

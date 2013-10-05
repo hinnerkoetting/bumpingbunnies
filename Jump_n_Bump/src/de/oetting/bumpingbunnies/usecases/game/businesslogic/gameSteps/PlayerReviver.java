@@ -9,6 +9,8 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerReviver implements GameStepAction {
 
+	private static final int KILL_TIME_MILLISECONDS = 1000;
+
 	private final List<PlayerReviveEntry> reviveEntries;
 	private final NetworkSendControl sendControl;
 
@@ -45,7 +47,7 @@ public class PlayerReviver implements GameStepAction {
 	}
 
 	public void revivePlayerLater(Player player) {
-		this.reviveEntries.add(new PlayerReviveEntry(System.currentTimeMillis() + BunnyDelayedReviver.KILL_TIME_MILLISECONDS, player));
+		this.reviveEntries.add(new PlayerReviveEntry(System.currentTimeMillis() + KILL_TIME_MILLISECONDS, player));
 	}
 
 }

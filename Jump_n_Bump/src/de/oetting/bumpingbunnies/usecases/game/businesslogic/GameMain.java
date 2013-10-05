@@ -60,10 +60,6 @@ public class GameMain {
 		return this.inputDispatcher;
 	}
 
-	public MusicPlayer getMusicPlayer() {
-		return this.musicPlayer;
-	}
-
 	public World getWorld() {
 		return this.world;
 	}
@@ -175,7 +171,7 @@ public class GameMain {
 		return null;
 	}
 
-	public class ConnectionDoesNotExist extends RuntimeException {
+	public static class ConnectionDoesNotExist extends RuntimeException {
 	}
 
 }
