@@ -22,7 +22,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
@@ -118,9 +117,6 @@ public class GameMainFactory {
 	}
 
 	private static void startNetworkThreads(GameMain main) {
-		for (NetworkReceiveThread receiver : main.getNetworkReceiveThreads()) {
-			receiver.start();
-		}
 		for (RemoteSender sender : main.getSendThreads()) {
 			sender.start();
 		}

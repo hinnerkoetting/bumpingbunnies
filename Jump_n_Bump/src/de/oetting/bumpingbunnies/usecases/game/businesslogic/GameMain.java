@@ -10,7 +10,6 @@ import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
@@ -72,10 +71,6 @@ public class GameMain {
 
 	public InputDispatcher<?> getInputDispatcher() {
 		return this.inputDispatcher;
-	}
-
-	public List<NetworkReceiveThread> getNetworkReceiveThreads() {
-		return this.receiveControl.getNetworkReceiveThreads();
 	}
 
 	public List<RemoteConnection> getSendThreads() {
