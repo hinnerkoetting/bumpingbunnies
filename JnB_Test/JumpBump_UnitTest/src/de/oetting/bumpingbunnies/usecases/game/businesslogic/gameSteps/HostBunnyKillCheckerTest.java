@@ -9,16 +9,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -32,6 +30,8 @@ public class HostBunnyKillCheckerTest {
 	private SpawnPointGenerator spawnGenerator;
 	@Mock
 	private PlayerReviver reviver;
+	@Mock
+	private NetworkSendControl sendControl;
 
 	@Test
 	public void playerJoins_thenPlayerIsDead() {
@@ -66,8 +66,8 @@ public class HostBunnyKillCheckerTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new HostBunnyKillChecker(new ArrayList<ThreadedNetworkSender>(), mock(CollisionDetection.class), this.world,
-				this.spawnGenerator, this.reviver);
+		this.fixture = new HostBunnyKillChecker(mock(CollisionDetection.class), this.world,
+				this.spawnGenerator, this.reviver, this.sendControl);
 		givenNextSpawnPointIsAt(0, 0);
 	}
 }

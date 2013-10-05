@@ -29,18 +29,18 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
-		GameMain main = new GameMain(SocketStorage.getSingleton(), new NetworkSendControl(new RemoteConnectionFactory(activity,
-				SocketStorage.getSingleton())));
+		NetworkSendControl sendControl = new NetworkSendControl(new RemoteConnectionFactory(activity,
+				SocketStorage.getSingleton()));
+		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl);
 		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
-		initGame(main, activity, parameter);
+		GameThread gameThread = initGame(main, activity, parameter, sendControl);
 
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
-		contentView.setGameThread(main.getGameThread());
+		contentView.setGameThread(gameThread);
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 		addPlayersToWorld(main, otherPlayers);
-		// startNetworkThreads(main);
-		main.getGameThread().start();
+		gameThread.start();
 		initGameSound(main, activity);
 
 		return main;
@@ -50,7 +50,7 @@ public class GameMainFactory {
 		main.addAllJoinListeners();
 	}
 
-	private static void initGame(GameMain main, GameActivity activity, GameStartParameter parameter) {
+	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl) {
 
 		World world = WorldFactory.create(parameter.getConfiguration(), activity);
 		main.setWorld(world);
@@ -60,9 +60,9 @@ public class GameMainFactory {
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
 
-		GameThread gameThread = GameThreadFactory.create(main.getSendThreads(), world,
+		GameThread gameThread = GameThreadFactory.create(world,
 				activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main, myPlayer,
-				activity);
+				activity, sendControl);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
@@ -71,7 +71,7 @@ public class GameMainFactory {
 		addJoinListener(main);
 
 		main.playerJoins(myPlayer);
-
+		return gameThread;
 	}
 
 	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {

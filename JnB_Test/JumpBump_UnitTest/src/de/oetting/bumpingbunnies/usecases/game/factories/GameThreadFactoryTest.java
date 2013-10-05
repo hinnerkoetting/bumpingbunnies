@@ -30,13 +30,13 @@ public class GameThreadFactoryTest {
 		when(builder.createSpawnPoints()).thenReturn(Arrays.asList(new SpawnPoint(0, 0)));
 		World w = new World(builder);
 		w.buildWorld(mock(Context.class));
-		GameThreadFactory.create(null, w, mock(Context.class),
+		GameThreadFactory.create(w, mock(Context.class),
 				TestConfigurationFactory.createDummyHost(),
 				mock(CoordinatesCalculation.class), null, new GameMain(
 						null,
 						new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class)))),
 				TestPlayerFactory.createOpponentPlayer(),
-				null);
+				null, null);
 	}
 
 }

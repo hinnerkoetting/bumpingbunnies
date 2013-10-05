@@ -16,6 +16,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteracto
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkReceiveControl;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
@@ -26,7 +27,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInput
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.ListSpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedReceiver;
@@ -43,15 +43,15 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameThreadFactory {
 
-	public static GameThread create(List<? extends ThreadedNetworkSender> sendThreads, World world,
+	public static GameThread create(World world,
 			Context context,
 			Configuration configuration, CoordinatesCalculation calculations,
 			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer,
-			GameActivity activity) {
+			GameActivity activity, NetworkSendControl sendControl) {
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		List<OpponentInput> inputServices = initInputServices(main, activity, world,
-				networkDispatcher);
+				networkDispatcher, sendControl);
 		GameThreadState threadState = new GameThreadState();
 
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
@@ -60,9 +60,9 @@ public class GameThreadFactory {
 				world.getSpawnPoints());
 		UserInputStep userInputStep = new UserInputStep(inputServices, createInputServiceFactory(world, stateDispatcher));
 		CollisionDetection colDetection = new CollisionDetection(world);
-		PlayerReviver reviver = new PlayerReviver(sendThreads);
-		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world,
-				spawnPointGenerator, reviver, colDetection);
+		PlayerReviver reviver = new PlayerReviver(sendControl);
+		BunnyKillChecker killChecker = createKillChecker(configuration, world,
+				spawnPointGenerator, reviver, colDetection, sendControl);
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory);
 		// Sending Coordinates Strep
@@ -77,11 +77,11 @@ public class GameThreadFactory {
 	}
 
 	private static List<OpponentInput> initInputServices(GameMain main, GameActivity activity,
-			World world, NetworkToGameDispatcher networkDispatcher) {
+			World world, NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl) {
 
 		addAllNetworkListeners(activity, networkDispatcher, world);
 
-		createNetworkReceiveThreads(main, networkDispatcher);
+		createNetworkReceiveThreads(main, networkDispatcher, sendControl);
 		List<OpponentInput> inputServices = createInputServicesForOtherPlayers();
 
 		return inputServices;
@@ -96,13 +96,15 @@ public class GameThreadFactory {
 	}
 
 	private static void createNetworkReceiveThreads(GameMain main,
-			NetworkToGameDispatcher networkDispatcher) {
-		NetworkReceiveControl receiveControl = createNetworkReceiveControl(main, networkDispatcher);
+			NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl) {
+		NetworkReceiveControl receiveControl = createNetworkReceiveControl(networkDispatcher, sendControl);
 		main.setReceiveControl(receiveControl);
 	}
 
-	private static NetworkReceiveControl createNetworkReceiveControl(GameMain main, NetworkToGameDispatcher networkDispatcher) {
-		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(SocketStorage.getSingleton(), main, networkDispatcher);
+	private static NetworkReceiveControl createNetworkReceiveControl(NetworkToGameDispatcher networkDispatcher,
+			NetworkSendControl sendControl) {
+		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(SocketStorage.getSingleton(), networkDispatcher,
+				sendControl);
 		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory);
 		return receiveControl;
 	}
@@ -124,12 +126,13 @@ public class GameThreadFactory {
 				world), collisionDetection, musicPlayer);
 	}
 
-	private static BunnyKillChecker createKillChecker(List<? extends ThreadedNetworkSender> sendThreads, Configuration conf,
+	private static BunnyKillChecker createKillChecker(Configuration conf,
 			World world,
-			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver, CollisionDetection collisionDetection) {
+			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver, CollisionDetection collisionDetection,
+			NetworkSendControl sendControl) {
 		if (conf.isHost()) {
-			return new HostBunnyKillChecker(sendThreads, collisionDetection, world,
-					spawnPointGenerator, reviver);
+			return new HostBunnyKillChecker(collisionDetection, world,
+					spawnPointGenerator, reviver, sendControl);
 		} else {
 			return new ClientBunnyKillChecker();
 		}

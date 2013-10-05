@@ -7,6 +7,9 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,6 +23,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyStateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -33,6 +37,7 @@ public class AndroidStateSenderFactoryTest {
 	private SocketStorage sockets;
 	@Mock
 	private GameActivity activity;
+	private List<ThreadedNetworkSender> sendThreads;
 
 	@Test
 	public void create_givenThereExistsRemoteConnectionForPlayer_shouldCreateNetworkStateSender() {
@@ -43,7 +48,7 @@ public class AndroidStateSenderFactoryTest {
 	}
 
 	private void givenThereExistsRemoteConnection(Player remotePlayer) {
-		this.main.getSendThreads().add(new DividedNetworkSender(null, null, remotePlayer.getOpponent()));
+		this.sendThreads.add(new DividedNetworkSender(null, null, remotePlayer.getOpponent()));
 	}
 
 	@Test
@@ -56,8 +61,9 @@ public class AndroidStateSenderFactoryTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.myPlayer = createOpponentPlayer();
+		this.sendThreads = new LinkedList<>();
 		this.main = new GameMain(mock(SocketStorage.class), new NetworkSendControl(new RemoteConnectionFactory(
-				this.activity, this.sockets)));
+				this.activity, this.sockets), this.sendThreads));
 		this.factory = new AndroidStateSenderFactory(this.main, this.myPlayer);
 	}
 }

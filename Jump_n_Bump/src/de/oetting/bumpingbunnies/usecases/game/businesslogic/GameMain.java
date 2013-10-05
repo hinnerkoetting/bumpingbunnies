@@ -56,20 +56,8 @@ public class GameMain {
 		this.musicPlayer = musicPlayer;
 	}
 
-	public GameThread getGameThread() {
-		return this.gameThread;
-	}
-
 	public InputDispatcher<?> getInputDispatcher() {
 		return this.inputDispatcher;
-	}
-
-	public NetworkSendControl getSendControl() {
-		return this.sendControl;
-	}
-
-	public List<ThreadedNetworkSender> getSendThreads() {
-		return this.sendControl.getSendThreads();
 	}
 
 	public MusicPlayer getMusicPlayer() {

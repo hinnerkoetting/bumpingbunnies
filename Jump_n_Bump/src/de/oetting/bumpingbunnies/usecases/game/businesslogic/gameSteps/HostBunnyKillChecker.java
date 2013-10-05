@@ -1,16 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import java.util.List;
-
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDead;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreMessage;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointMessage;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -24,17 +20,17 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final CollisionDetection collisionDetection;
 	private final World world;
 	private final SpawnPointGenerator spawnPointGenerator;
-	private final List<? extends ThreadedNetworkSender> sendThreads;
+	private final NetworkSendControl sendControl;
 	private final PlayerReviver reviver;
 
-	public HostBunnyKillChecker(List<? extends ThreadedNetworkSender> sendThreads, CollisionDetection collisionDetection, World world,
-			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver) {
+	public HostBunnyKillChecker(CollisionDetection collisionDetection, World world,
+			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver, NetworkSendControl sendControl) {
 		super();
-		this.sendThreads = sendThreads;
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
 		this.world = world;
+		this.sendControl = sendControl;
 	}
 
 	@Override
@@ -63,18 +59,14 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
 		PlayerIsDead killedMessage = new PlayerIsDead(playerKilled.id());
 
-		for (ThreadedNetworkSender sender : this.sendThreads) {
-			new PlayerIsDeadSender(sender).sendMessage(killedMessage);
-			new SpawnPointSender(sender).sendMessage(new SpawnPointMessage(spawnPoint, playerKilled.id()));
-		}
+		this.sendControl.sendMessage(MessageId.PLAYER_IS_DEAD_MESSAGE, killedMessage);
+		this.sendControl.sendMessage(MessageId.SPAWN_POINT, new SpawnPointMessage(spawnPoint, playerKilled.id()));
 	}
 
 	private void increaseScore(Player playerTop) {
 		playerTop.increaseScore(1);
 		PlayerScoreMessage newScoreMessage = new PlayerScoreMessage(playerTop.id(), playerTop.getScore());
-		for (ThreadedNetworkSender sender : this.sendThreads) {
-			new PlayerScoreSender(sender).sendMessage(newScoreMessage);
-		}
+		this.sendControl.sendMessage(MessageId.PLAYER_SCORE_UPDATE, newScoreMessage);
 	}
 
 	private void revivePlayerDelayed(final Player player) {

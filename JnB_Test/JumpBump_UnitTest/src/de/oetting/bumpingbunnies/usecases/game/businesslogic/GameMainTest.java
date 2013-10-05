@@ -96,7 +96,7 @@ public class GameMainTest {
 
 	private void givenOpponentHasConnection(Opponent opponent) {
 		DividedNetworkSender connection = new DividedNetworkSender(null, null, opponent);
-		this.fixture.getSendThreads().add(connection);
+		this.sendThreads.add(connection);
 	}
 
 	@Test

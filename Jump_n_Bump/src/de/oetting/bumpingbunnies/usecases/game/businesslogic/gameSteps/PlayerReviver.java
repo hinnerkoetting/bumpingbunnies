@@ -3,25 +3,26 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedSender;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
+import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerReviver implements GameStepAction {
 
 	private final List<PlayerReviveEntry> reviveEntries;
-	private final List<? extends ThreadedNetworkSender> senderList;
+	private final NetworkSendControl sendControl;
 
-	public PlayerReviver(List<? extends ThreadedNetworkSender> senderList) {
+	public PlayerReviver(NetworkSendControl sendControl) {
 		super();
-		this.senderList = senderList;
+		this.sendControl = sendControl;
 		this.reviveEntries = new LinkedList<PlayerReviveEntry>();
 	}
 
-	public PlayerReviver(List<? extends ThreadedNetworkSender> senderList, List<PlayerReviveEntry> reviveEntries) {
+	public PlayerReviver(List<PlayerReviveEntry> reviveEntries,
+			NetworkSendControl sendControl) {
 		super();
-		this.senderList = senderList;
 		this.reviveEntries = reviveEntries;
+		this.sendControl = sendControl;
 	}
 
 	@Override
@@ -40,9 +41,7 @@ public class PlayerReviver implements GameStepAction {
 	private void revivePlayer(PlayerReviveEntry entry) {
 		Player player = entry.getPlayer();
 		player.setDead(false);
-		for (ThreadedNetworkSender sender : this.senderList) {
-			new PlayerIsRevivedSender(sender).sendMessage(player.id());
-		}
+		this.sendControl.sendMessage(MessageId.PLAYER_IS_REVIVED, player.id());
 	}
 
 	public void revivePlayerLater(Player player) {
