@@ -23,7 +23,7 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 	}
 
 	@Override
-	public void dispatchPlayerState(JsonWrapper wrapper) {
+	public void dispatchMessage(JsonWrapper wrapper) {
 		NetworkListener networkListener = this.listeners.get(wrapper.getId().ordinal());
 		if (networkListener == null) {
 			throw new NoListenerFound(wrapper.getId());

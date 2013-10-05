@@ -1,27 +1,25 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 
-import java.util.List;
-
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToOtherClientsDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 
 public class NetworkReceiverDispatcherThreadFactory {
 
 	public static NetworkReceiveThread createGameNetworkReceiver(
-			MySocket socket, List<? extends ThreadedNetworkSender> allRemoteSender,
-			NetworkToGameDispatcher networkDispatcher) {
+			MySocket socket,
+			NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl) {
 
 		// create a new dispatcher which will dispatch incoming events to all
 		// other clients connected to this device.
 		NetworkToOtherClientsDispatcher otherClientsDispatcher = new NetworkToOtherClientsDispatcher(
-				allRemoteSender, socket, networkDispatcher);
+				socket, networkDispatcher, sendControl);
 		return createNetworkReceiver(socket, otherClientsDispatcher);
 	}
 

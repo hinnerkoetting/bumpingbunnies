@@ -4,8 +4,6 @@ import java.util.List;
 
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
@@ -23,10 +21,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
@@ -45,7 +40,7 @@ public class GameMainFactory {
 		contentView.setGameThread(main.getGameThread());
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 		addPlayersToWorld(main, otherPlayers);
-		startNetworkThreads(main);
+		// startNetworkThreads(main);
 		main.getGameThread().start();
 		initGameSound(main, activity);
 
@@ -89,19 +84,6 @@ public class GameMainFactory {
 		for (PlayerConfig pc : players) {
 			main.playerJoins(pc.getPlayer());
 		}
-	}
-
-	public static DividedNetworkSender createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {
-		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, activity);
-		NetworkSendQueueThread udpConnection = createUdpConnection(activity, socket);
-
-		DividedNetworkSender serverConnection = new DividedNetworkSender(tcpConnection, udpConnection, opponent);
-		return serverConnection;
-	}
-
-	private static NetworkSendQueueThread createUdpConnection(GameActivity activity, MySocket socket) {
-		MySocket fastSocket = socket.createFastConnection();
-		return NetworkSendQueueThreadFactory.create(fastSocket, activity);
 	}
 
 	@SuppressWarnings("unchecked")

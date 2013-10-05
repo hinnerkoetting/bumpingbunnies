@@ -22,7 +22,7 @@ public class NetworkToGameDispatcherTest {
 
 	@Test(expected = NetworkToGameDispatcher.NoListenerFound.class)
 	public void dispatchPlayerState_givenNoListenerIsRegistered_shouldThrowException() {
-		this.fixture.dispatchPlayerState(createPlayerStateMessage());
+		this.fixture.dispatchMessage(createPlayerStateMessage());
 	}
 
 	private JsonWrapper createPlayerStateMessage() {
@@ -32,7 +32,7 @@ public class NetworkToGameDispatcherTest {
 	@Test
 	public void dispatchPlayerState_givenListenerIsRegistered_thenListenerShouldReceiveState() {
 		this.fixture.addObserver(MessageId.SEND_PLAYER_STATE, this.listener);
-		this.fixture.dispatchPlayerState(createPlayerStateMessage());
+		this.fixture.dispatchMessage(createPlayerStateMessage());
 		verify(this.listener).newMessage(any(JsonWrapper.class));
 	}
 

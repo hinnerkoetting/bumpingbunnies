@@ -1,8 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import java.util.List;
-
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 /**
@@ -12,26 +11,22 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper
 public class NetworkToOtherClientsDispatcher implements
 		IncomingNetworkDispatcher {
 
-	private final List<? extends ThreadedNetworkSender> sendQueues;
 	private final NetworkToGameDispatcher gameDispatcher;
 	private final MySocket incomingSocket;
+	private final NetworkSendControl sendControl;
 
-	public NetworkToOtherClientsDispatcher(List<? extends ThreadedNetworkSender> sendQueues,
-			MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher) {
+	public NetworkToOtherClientsDispatcher(
+			MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher, NetworkSendControl sendControl) {
 		super();
-		this.sendQueues = sendQueues;
 		this.incomingSocket = incomingSocket;
 		this.gameDispatcher = gameDispatcher;
+		this.sendControl = sendControl;
 	}
 
 	@Override
-	public void dispatchPlayerState(JsonWrapper wrapper) {
-		for (ThreadedNetworkSender queue : this.sendQueues) {
-			if (!queue.usesThisSocket(this.incomingSocket)) {
-				queue.sendMessage(wrapper);
-			}
-		}
-		this.gameDispatcher.dispatchPlayerState(wrapper);
+	public void dispatchMessage(JsonWrapper wrapper) {
+		this.sendControl.sendMessageExceptToOneSocket(wrapper, this.incomingSocket);
+		this.gameDispatcher.dispatchMessage(wrapper);
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	}
 
 	private void dispatchMessage(JsonWrapper wrapper) {
-		this.networkDispatcher.dispatchPlayerState(wrapper);
+		this.networkDispatcher.dispatchMessage(wrapper);
 	}
 
 	private JsonWrapper convertToObject(String input) {

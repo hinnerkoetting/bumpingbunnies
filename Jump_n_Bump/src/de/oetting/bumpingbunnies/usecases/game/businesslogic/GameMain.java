@@ -70,6 +70,10 @@ public class GameMain {
 		return this.inputDispatcher;
 	}
 
+	public NetworkSendControl getSendControl() {
+		return this.sendControl;
+	}
+
 	public List<ThreadedNetworkSender> getSendThreads() {
 		return this.sendControl.getSendThreads();
 	}
@@ -155,7 +159,7 @@ public class GameMain {
 	public void playerJoins(Player player) {
 		this.world.getAllPlayer().add(player);
 		if (this.sockets.existsSocket(player.getOpponent())) {
-			addSendThread(player);
+			// addSendThread(player);
 		}
 		this.playerObservable.playerJoined(player);
 	}
@@ -192,6 +196,7 @@ public class GameMain {
 	}
 
 	public void addAllJoinListeners() {
+		addJoinListener(this.sendControl); // send control must be the first
 		this.gameThread.addAllJoinListeners(this);
 		addJoinListener(this.receiveControl);
 	}

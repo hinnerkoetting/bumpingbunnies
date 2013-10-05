@@ -58,7 +58,7 @@ public class NetworkReceiveThreadTest {
 	}
 
 	private void thenDispatcherIsCalledWithObject(JsonWrapper wrapper) {
-		verify(this.networkDispatcher).dispatchPlayerState(wrapper);
+		verify(this.networkDispatcher).dispatchMessage(wrapper);
 	}
 
 	@Before
