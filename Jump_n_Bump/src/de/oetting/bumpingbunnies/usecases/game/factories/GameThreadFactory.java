@@ -15,13 +15,11 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.PlayerReviver;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ResetToScorePoint;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.ListSpawnPointGenerator;
@@ -34,15 +32,12 @@ import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.Pla
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointMessage;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
@@ -52,7 +47,7 @@ public class GameThreadFactory {
 	public static GameThread create(List<? extends RemoteSender> sendThreads, World world,
 			Context context,
 			Configuration configuration, CoordinatesCalculation calculations,
-			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer, List<PlayerConfig> otherPlayers,
+			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer,
 			GameActivity activity) {
 		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
@@ -82,14 +77,6 @@ public class GameThreadFactory {
 	private static OpponentInputFactory createInputServiceFactory(GameMain main, World world,
 			PlayerStateDispatcher stateDispatcher) {
 		return new OpponentInputFactoryImpl(main, world, stateDispatcher);
-	}
-
-	private static List<Player> extractOtherPlayers(List<PlayerConfig> otherPlayers) {
-		List<Player> players = new ArrayList<Player>(otherPlayers.size());
-		for (PlayerConfig pc : otherPlayers) {
-			players.add(pc.getMovementController().getPlayer());
-		}
-		return players;
 	}
 
 	private static List<OpponentInput> initInputServices(GameMain main, GameActivity activity,
@@ -141,35 +128,12 @@ public class GameThreadFactory {
 		return resultReceiver;
 	}
 
-	private static void assignSpawnPoints(List<? extends RemoteSender> sendThreads, Player myPlayer, List<Player> otherPlayers,
-			SpawnPointGenerator spawnPointGenerator) {
-		assignInitialSpawnpoints(spawnPointGenerator, otherPlayers, sendThreads);
-		SpawnPoint nextSpawnPoint = spawnPointGenerator.nextSpawnPoint();
-		ResetToScorePoint.resetPlayerToSpawnPoint(nextSpawnPoint, myPlayer);
-	}
-
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context,
 			CollisionDetection collisionDetection,
 			World world) {
 		MusicPlayer musicPlayer = MusicPlayerFactory.createNormalJump(context);
 		return new PlayerMovementCalculationFactory(new GameObjectInteractor(collisionDetection,
 				world), collisionDetection, musicPlayer);
-	}
-
-	private static void assignInitialSpawnpoints(SpawnPointGenerator spGenerator, List<Player> allPlayers,
-			List<? extends RemoteSender> sendThreads) {
-		for (Player p : allPlayers) {
-			SpawnPoint nextSpawnPoint = spGenerator.nextSpawnPoint();
-			ResetToScorePoint.resetPlayerToSpawnPoint(nextSpawnPoint, p);
-			notifyAllClientsAboutSpawnpoints(sendThreads, nextSpawnPoint, p);
-		}
-	}
-
-	private static void notifyAllClientsAboutSpawnpoints(List<? extends RemoteSender> sendThreads, SpawnPoint spawnpoint, Player player) {
-		SpawnPointMessage message = new SpawnPointMessage(spawnpoint, player.id());
-		for (RemoteSender sender : sendThreads) {
-			new SpawnPointSender(sender).sendMessage(message);
-		}
 	}
 
 	private static BunnyKillChecker createKillChecker(List<? extends RemoteSender> sendThreads, Configuration conf,
