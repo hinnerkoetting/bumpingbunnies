@@ -28,7 +28,7 @@ public class GameMain {
 	private final SocketStorage sockets;
 	private GameThread gameThread;
 	private InputDispatcher<?> inputDispatcher;
-	private List<NetworkReceiveThread> networkReceiveThreads;
+	private NetworkReceiveControl receiveControl;
 	private List<RemoteConnection> sendThreads = new ArrayList<RemoteConnection>();
 	private MusicPlayer musicPlayer;
 	private World world;
@@ -55,7 +55,9 @@ public class GameMain {
 	}
 
 	public void setNetworkReceiveThreads(List<NetworkReceiveThread> networkReceiveThreads) {
-		this.networkReceiveThreads = networkReceiveThreads;
+		NetworkReceiveControl receiveControl = new NetworkReceiveControl();
+		receiveControl.setNetworkReceiveThreads(networkReceiveThreads);
+		this.receiveControl = receiveControl;
 	}
 
 	public void setSendThreads(List<RemoteConnection> sendThreads) {
@@ -75,7 +77,7 @@ public class GameMain {
 	}
 
 	public List<NetworkReceiveThread> getNetworkReceiveThreads() {
-		return this.networkReceiveThreads;
+		return this.receiveControl.getNetworkReceiveThreads();
 	}
 
 	public List<RemoteConnection> getSendThreads() {
@@ -114,9 +116,7 @@ public class GameMain {
 		for (RemoteSender sender : this.sendThreads) {
 			sender.cancel();
 		}
-		for (NetworkReceiveThread receiver : this.networkReceiveThreads) {
-			receiver.cancel();
-		}
+		this.receiveControl.shutDownThreads();
 		this.musicPlayer.stopBackground();
 	}
 

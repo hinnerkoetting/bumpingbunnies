@@ -7,26 +7,30 @@ import android.os.Parcelable;
 @SuppressLint("ParcelCreator")
 public class Opponent implements Parcelable {
 
+	public enum OpponentType {
+		MY_PLAYER, AI, WLAN, BLUETOOTH
+	}
+
 	private final String identifier;
-	private final boolean myPlayer;
+	private final OpponentType type;
 
 	public static Opponent createMyPlayer(String identifier) {
-		return new Opponent(identifier, true);
+		return new Opponent(identifier, OpponentType.MY_PLAYER);
 	}
 
-	public static Opponent createOpponent(String identifier) {
-		return new Opponent(identifier, false);
+	public static Opponent createOpponent(String identifier, OpponentType type) {
+		return new Opponent(identifier, type);
 	}
 
-	private Opponent(String identifier, boolean myPlayer) {
+	private Opponent(String identifier, OpponentType type) {
 		super();
 		this.identifier = identifier;
-		this.myPlayer = myPlayer;
+		this.type = type;
 	}
 
 	public Opponent(Parcel in) {
 		this.identifier = in.readString();
-		this.myPlayer = in.readInt() == 1;
+		this.type = OpponentType.valueOf(in.readString());
 	}
 
 	public String getIdentifier() {
@@ -34,7 +38,11 @@ public class Opponent implements Parcelable {
 	}
 
 	public boolean isMyPlayer() {
-		return this.myPlayer;
+		return OpponentType.MY_PLAYER == this.type;
+	}
+
+	public OpponentType getType() {
+		return this.type;
 	}
 
 	@Override
@@ -45,7 +53,7 @@ public class Opponent implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.identifier);
-		dest.writeInt(this.myPlayer ? 1 : 0);
+		dest.writeString(this.type.toString());
 	}
 
 	@Override
@@ -53,6 +61,7 @@ public class Opponent implements Parcelable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((this.identifier == null) ? 0 : this.identifier.hashCode());
+		result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
 		return result;
 	}
 
@@ -73,6 +82,9 @@ public class Opponent implements Parcelable {
 				return false;
 			}
 		} else if (!this.identifier.equals(other.identifier)) {
+			return false;
+		}
+		if (this.type != other.type) {
 			return false;
 		}
 		return true;

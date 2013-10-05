@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.UdpSocket.UdpException;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 
 public class UdpSocketTest {
 
@@ -119,6 +119,6 @@ public class UdpSocketTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new UdpSocket(this.socket, this.address, this.port, Opponent.createOpponent("any"));
+		this.fixture = new UdpSocket(this.socket, this.address, this.port, TestOpponentFactory.createDummyOpponent());
 	}
 }

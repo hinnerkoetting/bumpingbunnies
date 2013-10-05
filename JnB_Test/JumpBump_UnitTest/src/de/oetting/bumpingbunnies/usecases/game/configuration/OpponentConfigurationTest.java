@@ -10,6 +10,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
 
 @RunWith(RobolectricTestRunner.class)
 public class OpponentConfigurationTest {
@@ -34,6 +35,7 @@ public class OpponentConfigurationTest {
 		assertThat(configuration.getPlayerId(), is(equalTo(1)));
 		assertThat(configuration.getOpponent().getIdentifier(), is(equalTo("opponent")));
 		assertThat(configuration.getOpponent().isMyPlayer(), is(true));
+		assertThat(configuration.getOpponent().getType(), is(equalTo(OpponentType.MY_PLAYER)));
 	}
 
 	public OpponentConfiguration createOpponentConfiguration() {

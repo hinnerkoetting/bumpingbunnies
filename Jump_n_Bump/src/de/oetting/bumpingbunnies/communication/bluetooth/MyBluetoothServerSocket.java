@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.ServerSocket;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
 
 public class MyBluetoothServerSocket implements ServerSocket {
 
@@ -19,7 +20,7 @@ public class MyBluetoothServerSocket implements ServerSocket {
 	@Override
 	public MySocket accept() throws IOException {
 		BluetoothSocket btSocket = this.socket.accept();
-		return new MyBluetoothSocket(btSocket, Opponent.createOpponent("bluetoothserver"));
+		return new MyBluetoothSocket(btSocket, Opponent.createOpponent("bluetoothserver", OpponentType.BLUETOOTH));
 	}
 
 	@Override

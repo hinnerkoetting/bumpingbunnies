@@ -14,6 +14,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
 
 public class SendBroadcastFactory {
 
@@ -75,6 +76,7 @@ public class SendBroadcastFactory {
 		DatagramSocket socket = new DatagramSocket(
 				NetworkConstants.BROADCAST_PORT);
 		socket.setBroadcast(true);
-		return new UdpSocket(socket, address, NetworkConstants.BROADCAST_PORT, Opponent.createOpponent("UDP" + address.getHostAddress()));
+		return new UdpSocket(socket, address, NetworkConstants.BROADCAST_PORT, Opponent.createOpponent("UDP" + address.getHostAddress(),
+				OpponentType.WLAN));
 	}
 }

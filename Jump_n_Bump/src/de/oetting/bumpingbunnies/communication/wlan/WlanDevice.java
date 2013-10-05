@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
 
 public class WlanDevice implements ServerDevice {
 
@@ -24,7 +25,7 @@ public class WlanDevice implements ServerDevice {
 			Socket socket = new Socket();
 			SocketAddress address = new InetSocketAddress(adress,
 					NetworkConstants.WLAN_PORT);
-			return new WlanSocket(socket, address, Opponent.createOpponent("wlan" + adress));
+			return new WlanSocket(socket, address, Opponent.createOpponent("wlan" + adress, OpponentType.WLAN));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
