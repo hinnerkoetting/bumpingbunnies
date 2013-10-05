@@ -49,6 +49,8 @@ public class GameStepController {
 		gameMain.addJoinListener(this.sendingCoordinates);
 		gameMain.addJoinListener(this.reviver);
 		gameMain.addJoinListener(this.userInputStep);
+		gameMain.addJoinListener(this.reviver);
+		this.movements.addAllJoinListeners(gameMain);
 	}
 
 }

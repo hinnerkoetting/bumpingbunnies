@@ -64,7 +64,7 @@ public class GameThreadFactory {
 				configuration, calculations);
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
 				world.getSpawnPoints());
-		assignSpawnPoints(sendThreads, myPlayer, extractOtherPlayers(otherPlayers), spawnPointGenerator);
+		// assignSpawnPoints(sendThreads, myPlayer, extractOtherPlayers(otherPlayers), spawnPointGenerator);
 		UserInputStep userInputStep = new UserInputStep(inputServices, createInputServiceFactory(main, world, stateDispatcher));
 		CollisionDetection colDetection = new CollisionDetection(world);
 		PlayerReviver reviver = new PlayerReviver(sendThreads);

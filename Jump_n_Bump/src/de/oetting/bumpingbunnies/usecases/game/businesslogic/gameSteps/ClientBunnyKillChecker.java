@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class ClientBunnyKillChecker implements BunnyKillChecker {
 
@@ -17,5 +18,13 @@ public class ClientBunnyKillChecker implements BunnyKillChecker {
 
 	@Override
 	public void checkForPlayerOutsideOfGameZone() {
+	}
+
+	@Override
+	public void newPlayerJoined(Player p) {
+	}
+
+	@Override
+	public void playerLeftTheGame(Player p) {
 	}
 }

@@ -1,6 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-public interface BunnyKillChecker {
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
+
+public interface BunnyKillChecker extends PlayerJoinListener {
 
 	void checkForJumpedPlayers();
 

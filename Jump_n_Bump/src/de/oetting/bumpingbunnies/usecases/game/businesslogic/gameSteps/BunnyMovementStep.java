@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerMovementCalculationFactory;
@@ -47,6 +48,10 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 	public void playerLeftTheGame(Player p) {
 		PlayerMovementCalculation movementCalculation = findPlayerMovementCalculation(p);
 		this.playermovements.remove(movementCalculation);
+	}
+
+	public void addAllJoinListeners(GameMain main) {
+		main.addJoinListener(this.killChecker);
 	}
 
 	private PlayerMovementCalculation findPlayerMovementCalculation(Player p) {

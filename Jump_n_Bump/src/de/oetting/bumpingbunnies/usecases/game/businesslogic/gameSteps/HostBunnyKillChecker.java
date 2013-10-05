@@ -99,4 +99,15 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		resetCoordinate(killedPlayer);
 		revivePlayerDelayed(killedPlayer);
 	}
+
+	@Override
+	public void newPlayerJoined(Player p) {
+		killPlayer(p);
+		revivePlayerDelayed(p);
+		resetCoordinate(p);
+	}
+
+	@Override
+	public void playerLeftTheGame(Player p) {
+	}
 }
