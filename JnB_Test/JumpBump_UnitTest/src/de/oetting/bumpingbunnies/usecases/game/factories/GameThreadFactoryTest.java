@@ -33,7 +33,7 @@ public class GameThreadFactoryTest {
 		GameThreadFactory.create(null, w, mock(Context.class),
 				TestConfigurationFactory.createDummyHost(),
 				mock(CoordinatesCalculation.class), null, new GameMain(
-						null, null,
+						null,
 						new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class)))),
 				TestPlayerFactory.createOpponentPlayer(),
 				null);

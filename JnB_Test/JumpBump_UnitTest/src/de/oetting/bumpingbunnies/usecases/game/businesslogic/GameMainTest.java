@@ -2,6 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
@@ -17,13 +19,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
+import de.oetting.bumpingbunnies.usecases.game.communication.DummyRemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
@@ -108,11 +112,12 @@ public class GameMainTest {
 	}
 
 	@Test
-	public void playerJoins_givenAiPlayer_thenNoNewSendThreadShouldBeAdded() {
+	public void playerJoins_forAiPlayer_shouldCreateNewDummyNetworkSender() {
 		assertThat(this.sendThreads, hasSize(0));
 		givenIsAiPlayer();
-		this.fixture.playerJoins(TestPlayerFactory.createOpponentPlayer());
-		assertThat(this.sendThreads, hasSize(0));
+		this.fixture.playerJoins(TestPlayerFactory.createOpponentPlayer(OpponentType.AI));
+		assertThat(this.sendThreads, hasSize(1));
+		assertThat(this.sendThreads.get(0), is(instanceOf(DummyRemoteSender.class)));
 	}
 
 	private void givenIsAiPlayer() {
@@ -140,9 +145,17 @@ public class GameMainTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
-		this.fixture = new GameMain(mock(GameActivity.class), this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class),
+		this.fixture = new GameMain(this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class),
 				this.sendThreads));
 		this.fixture.setWorld(new World(mock((WorldObjectsBuilder.class))));
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
+		NetworkSendControl networkSendControl = createNetworkSendControl();
+		this.fixture.addJoinListener(networkSendControl);
+	}
+
+	private NetworkSendControl createNetworkSendControl() {
+		NetworkSendControl networkSendControl = new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class),
+				mock(SocketStorage.class)), this.sendThreads);
+		return networkSendControl;
 	}
 }

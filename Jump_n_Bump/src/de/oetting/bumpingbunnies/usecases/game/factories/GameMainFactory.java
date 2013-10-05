@@ -21,7 +21,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
@@ -30,7 +29,7 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
-		GameMain main = new GameMain(activity, SocketStorage.getSingleton(), new NetworkSendControl(new RemoteConnectionFactory(activity,
+		GameMain main = new GameMain(SocketStorage.getSingleton(), new NetworkSendControl(new RemoteConnectionFactory(activity,
 				SocketStorage.getSingleton())));
 		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
@@ -98,12 +97,6 @@ public class GameMainFactory {
 				(ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),
 				inputDispatcher);
 		return inputDispatcher;
-	}
-
-	private static void startNetworkThreads(GameMain main) {
-		for (ThreadedNetworkSender sender : main.getSendThreads()) {
-			sender.start();
-		}
 	}
 
 	private static void initGameSound(GameMain main, GameActivity activity) {

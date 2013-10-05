@@ -56,7 +56,7 @@ public class AndroidStateSenderFactoryTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.myPlayer = createOpponentPlayer();
-		this.main = new GameMain(mock(GameActivity.class), mock(SocketStorage.class), new NetworkSendControl(new RemoteConnectionFactory(
+		this.main = new GameMain(mock(SocketStorage.class), new NetworkSendControl(new RemoteConnectionFactory(
 				this.activity, this.sockets)));
 		this.factory = new AndroidStateSenderFactory(this.main, this.myPlayer);
 	}

@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.view.MotionEvent;
-import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -32,11 +28,9 @@ public class GameMain {
 	private MusicPlayer musicPlayer;
 	private World world;
 	private PlayerJoinObservable playerObservable;
-	private GameActivity activity;
 
-	public GameMain(GameActivity activity, SocketStorage sockets, NetworkSendControl sendControl) {
+	public GameMain(SocketStorage sockets, NetworkSendControl sendControl) {
 		super();
-		this.activity = activity;
 		this.sockets = sockets;
 		this.sendControl = sendControl;
 		this.playerObservable = new PlayerJoinObservable();
@@ -158,33 +152,7 @@ public class GameMain {
 
 	public void playerJoins(Player player) {
 		this.world.getAllPlayer().add(player);
-		if (this.sockets.existsSocket(player.getOpponent())) {
-			// addSendThread(player);
-		}
 		this.playerObservable.playerJoined(player);
-	}
-
-	private void addSendThread(Player player) {
-		DividedNetworkSender rc = createSendThread(player);
-		this.sendControl.getSendThreads().add(rc);
-	}
-
-	private DividedNetworkSender createSendThread(Player player) {
-		MySocket socket = this.sockets.findSocket(player.getOpponent());
-		return createServerConnection(this.activity, socket, player.getOpponent());
-	}
-
-	public DividedNetworkSender createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {
-		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, activity);
-		NetworkSendQueueThread udpConnection = createUdpConnection(activity, socket);
-
-		DividedNetworkSender serverConnection = new DividedNetworkSender(tcpConnection, udpConnection, opponent);
-		return serverConnection;
-	}
-
-	private NetworkSendQueueThread createUdpConnection(GameActivity activity, MySocket socket) {
-		MySocket fastSocket = socket.createFastConnection();
-		return NetworkSendQueueThreadFactory.create(fastSocket, activity);
 	}
 
 	public void addJoinListener(PlayerJoinListener listener) {
