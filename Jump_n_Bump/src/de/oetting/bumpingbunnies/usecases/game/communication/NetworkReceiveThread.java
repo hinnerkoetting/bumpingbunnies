@@ -7,6 +7,7 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 /**
  * Waits for incoming Messages. Each incoming message is forwarded to the dispatcher where the appropriate handler should be called.
@@ -95,5 +96,9 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 		public JsonConvertionException(Exception e) {
 			super(e);
 		}
+	}
+
+	public boolean belongsToPlayer(Player player) {
+		return player.getOpponent().equals(this.socket.getOwner());
 	}
 }

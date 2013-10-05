@@ -54,9 +54,7 @@ public class GameMain {
 		this.inputDispatcher = inputDispatcher;
 	}
 
-	public void setNetworkReceiveThreads(List<NetworkReceiveThread> networkReceiveThreads) {
-		NetworkReceiveControl receiveControl = new NetworkReceiveControl();
-		receiveControl.setNetworkReceiveThreads(networkReceiveThreads);
+	public void setReceiveControl(NetworkReceiveControl receiveControl) {
 		this.receiveControl = receiveControl;
 	}
 

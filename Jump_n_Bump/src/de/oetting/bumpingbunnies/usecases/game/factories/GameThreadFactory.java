@@ -15,6 +15,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStepController;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ClientBunnyKillChecker;
@@ -116,7 +117,16 @@ public class GameThreadFactory {
 			networkReceiveThreads.add(tcpReceiveThread);
 			networkReceiveThreads.add(udpReceiveThread);
 		}
-		main.setNetworkReceiveThreads(networkReceiveThreads);
+		NetworkReceiveControl receiveControl = createNetworkReceiveControl(main, networkDispatcher, networkReceiveThreads);
+		main.setReceiveControl(receiveControl);
+	}
+
+	private static NetworkReceiveControl createNetworkReceiveControl(GameMain main, NetworkToGameDispatcher networkDispatcher,
+			List<NetworkReceiveThread> networkReceiveThreads) {
+		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(SocketStorage.getSingleton(), main, networkDispatcher);
+		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory);
+		receiveControl.setNetworkReceiveThreads(networkReceiveThreads);
+		return receiveControl;
 	}
 
 	private static List<OpponentInput> createInputServicesForOtherPlayers() {
