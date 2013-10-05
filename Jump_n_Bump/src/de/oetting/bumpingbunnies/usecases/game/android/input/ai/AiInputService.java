@@ -5,11 +5,11 @@ import java.util.Random;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.factories.OtherPlayerInputService;
+import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInput;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
-public class AiInputService implements OtherPlayerInputService {
+public class AiInputService implements OpponentInput {
 
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(AiInputService.class);

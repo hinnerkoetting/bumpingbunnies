@@ -1,8 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.graphics.Color;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
@@ -16,14 +13,6 @@ public class PlayerFactory {
 	public PlayerFactory(int speed) {
 		super();
 		this.speed = speed;
-	}
-
-	public List<Player> createAllPlayers(int number, String name, Opponent opponent) {
-		List<Player> allPlayers = new LinkedList<Player>();
-		for (int i = 0; i < number; i++) {
-			allPlayers.add(createPlayer(i, name, opponent));
-		}
-		return allPlayers;
 	}
 
 	public Player createPlayer(int id, String name, Opponent opponent) {

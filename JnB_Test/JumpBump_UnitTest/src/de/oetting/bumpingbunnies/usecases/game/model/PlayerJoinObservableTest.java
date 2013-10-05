@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -21,14 +21,14 @@ public class PlayerJoinObservableTest {
 	@Test
 	public void playerJoins_givenObserverWasAddedBefore_shouldNotifyListener() {
 		this.observable.addListener(this.listener);
-		this.observable.playerJoined(createDummyPlayer());
+		this.observable.playerJoined(createOpponentPlayer());
 		thenObserverShouldBeNotifiedAboutJoin();
 	}
 
 	@Test
 	public void playerLeft_givenObserverWasAddedBefore_shouldNotifyListener() {
 		this.observable.addListener(this.listener);
-		this.observable.playerLeft(createDummyPlayer());
+		this.observable.playerLeft(createOpponentPlayer());
 		thenObserverShouldBeNotifiedAboutLeaving();
 	}
 

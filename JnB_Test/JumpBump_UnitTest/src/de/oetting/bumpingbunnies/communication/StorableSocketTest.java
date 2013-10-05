@@ -26,7 +26,7 @@ public class StorableSocketTest {
 	@Test
 	public void testParcelling() throws IOException {
 		int index = storeOriginalSocket();
-		StorableSocket storedSocket = new StorableSocket(this.socket, index, new Opponent("opponent"));
+		StorableSocket storedSocket = new StorableSocket(this.socket, index, Opponent.createMyPlayer("player"));
 		checkValues(storedSocket, index);
 		StorableSocket after = serializeAndDeserialize(storedSocket);
 		checkValues(after, index);
@@ -48,7 +48,8 @@ public class StorableSocketTest {
 
 	private void checkValues(StorableSocket storedSocket, int index) {
 		assertThat(storedSocket.getStoredSocket(), is(equalTo(this.socket)));
-		assertThat(storedSocket.getOwner().getIdentifier(), is(equalTo("opponent")));
+		assertThat(storedSocket.getOwner().getIdentifier(), is(equalTo("player")));
+		assertThat(storedSocket.getOwner().isMyPlayer(), is(true));
 		assertThat(storedSocket.getIndex(), is(equalTo(index)));
 	}
 }

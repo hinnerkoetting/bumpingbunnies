@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
-public interface OtherPlayerInputService {
+public interface OpponentInput {
 
 	void executeNextStep();
 }

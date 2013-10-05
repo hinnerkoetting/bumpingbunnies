@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.android.factories.businessLogic;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -27,9 +27,9 @@ public class AndroidStateSenderFactoryTest {
 
 	@Test
 	public void create_givenThereExistsRemoteConnectionForPlayer_shouldCreateNetworkStateSender() {
-		Player remotePlayer = TestPlayerFactory.createDummyPlayer();
+		Player remotePlayer = TestPlayerFactory.createOpponentPlayer();
 		givenThereExistsRemoteConnection(remotePlayer);
-		StateSender stateSender = this.factory.create(createDummyPlayer());
+		StateSender stateSender = this.factory.create(createOpponentPlayer());
 		assertThat(stateSender, is(instanceOf(GameNetworkSender.class)));
 	}
 
@@ -39,13 +39,13 @@ public class AndroidStateSenderFactoryTest {
 
 	@Test
 	public void create_givenThereExistsNoRemoteConnectionForPlayer_shouldCreateDummyNetworkSender() {
-		StateSender stateSender = this.factory.create(createDummyPlayer());
+		StateSender stateSender = this.factory.create(createOpponentPlayer());
 		assertThat(stateSender, is(instanceOf(DummyStateSender.class)));
 	}
 
 	@Before
 	public void beforeEveryTest() {
-		this.myPlayer = createDummyPlayer();
+		this.myPlayer = createOpponentPlayer();
 		this.main = new GameMain(mock(GameActivity.class), mock(SocketStorage.class));
 		this.factory = new AndroidStateSenderFactory(this.main, this.myPlayer);
 	}

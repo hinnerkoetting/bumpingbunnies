@@ -24,7 +24,7 @@ public class WlanDevice implements ServerDevice {
 			Socket socket = new Socket();
 			SocketAddress address = new InetSocketAddress(adress,
 					NetworkConstants.WLAN_PORT);
-			return new WlanSocket(socket, address, new Opponent("wlan" + adress));
+			return new WlanSocket(socket, address, Opponent.createOpponent("wlan" + adress));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

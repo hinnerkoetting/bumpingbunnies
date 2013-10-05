@@ -3,27 +3,27 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
-import de.oetting.bumpingbunnies.usecases.game.factories.NewOtherPlayerInputServiceFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.OtherPlayerInputService;
+import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInputFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInput;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class UserInputStep implements GameStepAction, PlayerJoinListener {
 
-	private final List<OtherPlayerInputService> inputServices;
-	private final NewOtherPlayerInputServiceFactory factory;
+	private final List<OpponentInput> inputServices;
+	private final OpponentInputFactory factory;
 
-	public UserInputStep(List<OtherPlayerInputService> inputServices, NewOtherPlayerInputServiceFactory factory) {
+	public UserInputStep(List<OpponentInput> inputServices, OpponentInputFactory factory) {
 		super();
 		this.inputServices = inputServices;
 		this.factory = factory;
 		if (factory == null) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("not implemented");
 		}
 	}
 
 	@Override
 	public void executeNextStep(long deltaStepsSinceLastCall) {
-		for (OtherPlayerInputService movementService : this.inputServices) {
+		for (OpponentInput movementService : this.inputServices) {
 			movementService.executeNextStep();
 		}
 	}

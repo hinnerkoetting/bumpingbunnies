@@ -9,7 +9,6 @@ import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.factories.businessLogic.AndroidStateSenderFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
@@ -55,8 +54,10 @@ public class GameThreadFactory {
 			Configuration configuration, CoordinatesCalculation calculations,
 			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer, List<PlayerConfig> otherPlayers,
 			GameActivity activity) {
-		List<OtherPlayerInputService> inputServices = initInputServices(main, activity, world,
-				main.getSendThreads(), otherPlayers);
+		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
+		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
+		List<OpponentInput> inputServices = initInputServices(main, activity, world,
+				main.getSendThreads(), networkDispatcher);
 		GameThreadState threadState = new GameThreadState();
 
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
@@ -64,7 +65,7 @@ public class GameThreadFactory {
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
 				world.getSpawnPoints());
 		assignSpawnPoints(sendThreads, myPlayer, extractOtherPlayers(otherPlayers), spawnPointGenerator);
-		UserInputStep userInputStep = new UserInputStep(inputServices, null);
+		UserInputStep userInputStep = new UserInputStep(inputServices, createInputServiceFactory(main, world, stateDispatcher));
 		CollisionDetection colDetection = new CollisionDetection(world);
 		PlayerReviver reviver = new PlayerReviver(sendThreads);
 		BunnyKillChecker killChecker = createKillChecker(sendThreads, configuration, world,
@@ -78,6 +79,11 @@ public class GameThreadFactory {
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
 	}
 
+	private static OpponentInputFactory createInputServiceFactory(GameMain main, World world,
+			PlayerStateDispatcher stateDispatcher) {
+		return new OpponentInputFactoryImpl(main, world, stateDispatcher);
+	}
+
 	private static List<Player> extractOtherPlayers(List<PlayerConfig> otherPlayers) {
 		List<Player> players = new ArrayList<Player>(otherPlayers.size());
 		for (PlayerConfig pc : otherPlayers) {
@@ -86,16 +92,14 @@ public class GameThreadFactory {
 		return players;
 	}
 
-	private static List<OtherPlayerInputService> initInputServices(GameMain main, GameActivity activity,
+	private static List<OpponentInput> initInputServices(GameMain main, GameActivity activity,
 			World world,
-			List<? extends RemoteSender> allSender, List<PlayerConfig> otherPlayers) {
-
-		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
+			List<? extends RemoteSender> allSender, NetworkToGameDispatcher networkDispatcher) {
 
 		addAllNetworkListeners(activity, networkDispatcher, world);
 
 		createNetworkReceiveThreads(main, networkDispatcher, allSender);
-		List<OtherPlayerInputService> inputServices = createInputServicesForOtherPlayers(otherPlayers, networkDispatcher);
+		List<OpponentInput> inputServices = createInputServicesForOtherPlayers();
 
 		return inputServices;
 	}
@@ -128,24 +132,12 @@ public class GameThreadFactory {
 		main.setNetworkReceiveThreads(networkReceiveThreads);
 	}
 
-	private static List<OtherPlayerInputService> createInputServicesForOtherPlayers(List<PlayerConfig> otherPlayers,
-			NetworkToGameDispatcher networkDispatcher) {
+	private static List<OpponentInput> createInputServicesForOtherPlayers() {
 		List<MySocket> allSockets = SocketStorage.getSingleton()
 				.getAllSockets();
-		List<OtherPlayerInputService> resultReceiver = new ArrayList<OtherPlayerInputService>(
+		List<OpponentInput> resultReceiver = new ArrayList<OpponentInput>(
 				allSockets.size());
 
-		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
-		for (PlayerConfig config : otherPlayers) {
-			OtherPlayerInputService is = config.createInputService();
-			if (is instanceof PlayerFromNetworkInput) {
-				PlayerFromNetworkInput inputservice = (PlayerFromNetworkInput) is;
-				stateDispatcher.addInputService(config.getMovementController()
-						.getPlayer().id(), inputservice);
-			}
-
-			resultReceiver.add(is);
-		}
 		return resultReceiver;
 	}
 

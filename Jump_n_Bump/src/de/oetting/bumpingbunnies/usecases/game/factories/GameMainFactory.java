@@ -60,7 +60,7 @@ public class GameMainFactory {
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
 		PlayerMovement myPlayerMovement = PlayerConfigFactory.createMyPlayer(parameter);
 		Player myPlayer = myPlayerMovement.getPlayer();
-		List<PlayerConfig> otherPlayers = PlayerConfigFactory.findOtherPlayers(parameter.getConfiguration(), world);
+		List<PlayerConfig> otherPlayers = PlayerConfigFactory.findOtherPlayers(parameter.getConfiguration());
 
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
@@ -74,16 +74,17 @@ public class GameMainFactory {
 
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayerMovement));
 		addJoinListener(main);
-		addPlayersToWorld(main, world.getAllPlayer());
+		addPlayersToWorld(main, myPlayer, otherPlayers);
 	}
 
 	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
 		return new CameraPositionCalculation(player);
 	}
 
-	private static void addPlayersToWorld(GameMain main, List<Player> players) {
-		for (Player p : players) {
-			main.playerJoins(p);
+	private static void addPlayersToWorld(GameMain main, Player myPlayer, List<PlayerConfig> players) {
+		main.playerJoins(myPlayer);
+		for (PlayerConfig pc : players) {
+			main.playerJoins(pc.getMovementController().getPlayer());
 		}
 	}
 

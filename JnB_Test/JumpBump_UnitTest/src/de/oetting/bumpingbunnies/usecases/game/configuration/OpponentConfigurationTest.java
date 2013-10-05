@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.configuration;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -10,8 +9,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.usecases.game.factories.SingleplayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.ai.NoAiInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 @RunWith(RobolectricTestRunner.class)
@@ -32,14 +29,15 @@ public class OpponentConfigurationTest {
 	}
 
 	private void checkValues(OpponentConfiguration configuration) {
-		assertThat(configuration.getFactory().getInputServiceFactory(), is(instanceOf(NoAiInputFactory.class)));
+		assertThat(configuration.getAiMode(), is(equalTo(AiModus.OFF)));
 		assertThat(configuration.getName(), is(equalTo("name")));
 		assertThat(configuration.getPlayerId(), is(equalTo(1)));
 		assertThat(configuration.getOpponent().getIdentifier(), is(equalTo("opponent")));
+		assertThat(configuration.getOpponent().isMyPlayer(), is(true));
 	}
 
 	public OpponentConfiguration createOpponentConfiguration() {
-		return new OpponentConfiguration(new SingleplayerFactory(AiModus.OFF), new PlayerProperties(1, "name"), new Opponent(
+		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), Opponent.createMyPlayer(
 				"opponent"));
 	}
 }

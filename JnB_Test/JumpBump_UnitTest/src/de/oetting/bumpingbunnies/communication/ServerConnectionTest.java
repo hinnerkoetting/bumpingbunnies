@@ -12,11 +12,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class ServerConnectionTest {
 
@@ -96,7 +96,7 @@ public class ServerConnectionTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new RemoteConnection(this.tcpConnection, this.udpConnection, new Opponent("any"));
+		this.fixture = new RemoteConnection(this.tcpConnection, this.udpConnection, TestOpponentFactory.createDummyOpponent());
 	}
 
 }

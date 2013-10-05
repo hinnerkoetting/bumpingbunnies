@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.junit.Assert.assertThat;
 
 import org.hamcrest.core.IsSame;
@@ -27,7 +27,7 @@ public class WorldTest {
 
 	@Test
 	public void findPlayer_givenPlayerDoesExist_returnsThisPlayer() {
-		Player p = createDummyPlayer();
+		Player p = createOpponentPlayer();
 		addPlayer(p);
 		Player foundPlayer = this.fixture.findPlayer(0);
 		assertThat(p, new IsSame<>(foundPlayer));

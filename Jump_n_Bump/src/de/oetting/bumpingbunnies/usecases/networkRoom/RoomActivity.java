@@ -35,13 +35,13 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
+import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.game.factories.NetworkFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
@@ -222,11 +222,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>(
 				this.playersAA.getCount() - 1);
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
-			NetworkFactory factory = new NetworkFactory(
-					otherPlayer.getSocket(), otherPlayer.getSocketIndex());
+			AiModus aiMode = AiModus.NORMAL;
 
 			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(
-					factory, otherPlayer.getPlayerProperties(), otherPlayer.createOponent());
+					aiMode, otherPlayer.getPlayerProperties(), otherPlayer.createOponent());
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;

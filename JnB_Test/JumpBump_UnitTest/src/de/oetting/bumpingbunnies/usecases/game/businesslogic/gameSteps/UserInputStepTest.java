@@ -12,15 +12,15 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.NewOtherPlayerInputServiceFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.OtherPlayerInputService;
+import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInputFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInput;
 
 public class UserInputStepTest {
 
 	private UserInputStep fixture;
-	private List<OtherPlayerInputService> inputServices = new LinkedList<OtherPlayerInputService>();
+	private List<OpponentInput> inputServices = new LinkedList<OpponentInput>();
 	@Mock
-	private NewOtherPlayerInputServiceFactory factory;
+	private OpponentInputFactory factory;
 
 	@Test
 	public void playerJoins_shouldAddNewInputService() {
@@ -34,7 +34,7 @@ public class UserInputStepTest {
 	}
 
 	private void whenPlayerJoins() {
-		this.fixture.newPlayerJoined(TestPlayerFactory.createDummyPlayer());
+		this.fixture.newPlayerJoined(TestPlayerFactory.createOpponentPlayer());
 	}
 
 	@Before

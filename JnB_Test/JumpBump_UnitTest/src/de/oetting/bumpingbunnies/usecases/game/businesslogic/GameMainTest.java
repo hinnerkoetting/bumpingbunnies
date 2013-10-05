@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -54,13 +54,13 @@ public class GameMainTest {
 	}
 
 	private void whenPlayerJoins() {
-		this.fixture.playerJoins(createDummyPlayer());
+		this.fixture.playerJoins(createOpponentPlayer());
 	}
 
 	@Test
 	public void playerLeaves_shouldNotifyListener() {
 		this.fixture.addJoinListener(this.listener);
-		Player p = createDummyPlayer();
+		Player p = createOpponentPlayer();
 		givenPlayerExists(p);
 		whenPlayerLeaves(p);
 		verifyThatListenerIsNotifiedAboutLeaving(p);
@@ -68,7 +68,7 @@ public class GameMainTest {
 
 	@Test
 	public void playerLeaves_thenPlayerShouldBeRemovedFromPlayerList() {
-		Player p = createDummyPlayer();
+		Player p = createOpponentPlayer();
 		givenPlayerExists(p);
 		assertNumberOfPlayers(1);
 		whenPlayerLeaves(p);
@@ -77,12 +77,12 @@ public class GameMainTest {
 
 	@Test(expected = GameMain.ConnectionDoesNotExist.class)
 	public void findConnection_givenOpponenDoesNotExist_shouldThrowException() {
-		this.fixture.findConnection(OpponentFactory.createDummy());
+		this.fixture.findConnection(TestOpponentFactory.createDummyOpponent());
 	}
 
 	@Test
 	public void findConnection_givenConnectionDoesExist_shouldReturnConnection() {
-		Opponent opponent = new Opponent("opponent");
+		Opponent opponent = TestOpponentFactory.createDummyOpponent();
 		givenOpponentHasConnection(opponent);
 		RemoteConnection connection = this.fixture.findConnection(opponent);
 		assertNotNull(connection);
@@ -97,7 +97,7 @@ public class GameMainTest {
 	public void playerJoins_givenRemotePlayer_shouldAddNewSendThread() {
 		assertThat(this.sendThreads, hasSize(0));
 		givenIsRemotePlayer();
-		this.fixture.playerJoins(TestPlayerFactory.createDummyPlayer());
+		this.fixture.playerJoins(TestPlayerFactory.createOpponentPlayer());
 		assertThat(this.sendThreads, hasSize(1));
 	}
 
@@ -109,7 +109,7 @@ public class GameMainTest {
 	public void playerJoins_givenAiPlayer_thenNoNewSendThreadShouldBeAdded() {
 		assertThat(this.sendThreads, hasSize(0));
 		givenIsAiPlayer();
-		this.fixture.playerJoins(TestPlayerFactory.createDummyPlayer());
+		this.fixture.playerJoins(TestPlayerFactory.createOpponentPlayer());
 		assertThat(this.sendThreads, hasSize(0));
 	}
 

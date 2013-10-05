@@ -12,7 +12,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.sound.AndroidMusicPlayer;
 public class MusicPlayerFactory {
 
 	public static MusicPlayer createBackground(Context context) {
-		MediaPlayer music1 = MediaPlayer.create(context, R.raw.bunny_poppig2);
+		MediaPlayer music1 = MediaPlayer.create(context, R.raw.bunny_poppig_schnell);
 		music1.setVolume(0.5f, 0.5f);
 		MediaPlayer music2 = MediaPlayer.create(context, R.raw.bad_bunnies_2);
 		music2.setVolume(0.5f, 0.5f);

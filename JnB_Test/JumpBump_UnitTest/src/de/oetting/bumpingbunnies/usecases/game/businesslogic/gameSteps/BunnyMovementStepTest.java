@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -48,7 +48,7 @@ public class BunnyMovementStepTest {
 
 	@Test
 	public void addPlayer_thenPlayerMovementShouldBeCalcuatedDuringExecutestep() {
-		Player newPlayer = createDummyPlayer();
+		Player newPlayer = createOpponentPlayer();
 		whenAddingNewPlayer(newPlayer);
 		whenExecutingNextStep();
 		thenPlayerIsMoved(newPlayer);
@@ -56,7 +56,7 @@ public class BunnyMovementStepTest {
 
 	@Test(expected = BunnyMovementStep.PlayerDoesNotExist.class)
 	public void removePlayer_givenPlayerDoesNotExist_shouldthrowException() {
-		Player p = createDummyPlayer();
+		Player p = createOpponentPlayer();
 		whenRemovingPlayer(p);
 	}
 
@@ -94,7 +94,7 @@ public class BunnyMovementStepTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		initMovementFactory();
-		this.movedPlayer = createDummyPlayer();
+		this.movedPlayer = createOpponentPlayer();
 		this.fixture = new BunnyMovementStep(this.killChecker, this.calculationFactory);
 		this.fixture.newPlayerJoined(this.movedPlayer);
 	}

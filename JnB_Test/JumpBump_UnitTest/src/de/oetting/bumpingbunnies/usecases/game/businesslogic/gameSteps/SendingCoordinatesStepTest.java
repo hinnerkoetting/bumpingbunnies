@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
@@ -25,13 +25,13 @@ public class SendingCoordinatesStepTest {
 
 	@Test
 	public void playerJoins_shouldAddNewStateSender() {
-		this.fixture.newPlayerJoined(createDummyPlayer());
+		this.fixture.newPlayerJoined(createOpponentPlayer());
 		assertThat(this.fixture.getStateSender(), hasSize(1));
 	}
 
 	@Test
 	public void playerLeaves_shouldRemoveStateSender() {
-		Player player = createDummyPlayer();
+		Player player = createOpponentPlayer();
 		givenStateSenderForPlayerDoesExist(player);
 		whenPlayerLeaves(player);
 		assertThat(this.fixture.getStateSender(), hasSize(0));
@@ -39,7 +39,7 @@ public class SendingCoordinatesStepTest {
 
 	@Test(expected = SendingCoordinatesStep.PlayerDoesNotExist.class)
 	public void playerLeaves_givenPlayerDoesNotExist_shouldThrowException() {
-		whenPlayerLeaves(createDummyPlayer());
+		whenPlayerLeaves(createOpponentPlayer());
 	}
 
 	private void whenPlayerLeaves(Player player) {

@@ -12,31 +12,43 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.usecases.game.android.input.ai.AiInputService;
+import de.oetting.bumpingbunnies.usecases.game.android.input.ai.DummyInputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
-public class OtherPlayerInputFactoryImplTest {
+public class OpponentInputFactoryImplTest {
 
-	private OtherPlayerInputFactoryImpl fixture;
+	private OpponentInputFactoryImpl fixture;
 	@Mock
 	private GameMain main;
 	@Mock
 	private World world;
+	@Mock
+	private PlayerStateDispatcher dispatcher;
 
 	@Test
 	public void create_givenRemotePlayer_shouldCreateNetworkInputService() {
 		givenIsRemotePlayer();
-		OtherPlayerInputService inputService = this.fixture.create(TestPlayerFactory.createDummyPlayer());
+		OpponentInput inputService = this.fixture.create(TestPlayerFactory.createOpponentPlayer());
 		assertThat(inputService, is(instanceOf(PlayerFromNetworkInput.class)));
 	}
 
 	@Test
 	public void create_givenLocalPlayer_shouldCreateAiInput() {
-		OtherPlayerInputService inputService = this.fixture.create(TestPlayerFactory.createDummyPlayer());
+		OpponentInput inputService = this.fixture.create(TestPlayerFactory.createOpponentPlayer());
 		assertThat(inputService, is(instanceOf(AiInputService.class)));
+	}
+
+	@Test
+	public void create_givenIsMyPlayer_shouldCreateDummyInput() {
+		Player p = TestPlayerFactory.createMyPlayer();
+		OpponentInput inputService = this.fixture.create(p);
+		assertThat(inputService, is(instanceOf(DummyInputService.class)));
 	}
 
 	private void givenIsRemotePlayer() {
@@ -46,6 +58,6 @@ public class OtherPlayerInputFactoryImplTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new OtherPlayerInputFactoryImpl(this.main, this.world);
+		this.fixture = new OpponentInputFactoryImpl(this.main, this.world, this.dispatcher);
 	}
 }

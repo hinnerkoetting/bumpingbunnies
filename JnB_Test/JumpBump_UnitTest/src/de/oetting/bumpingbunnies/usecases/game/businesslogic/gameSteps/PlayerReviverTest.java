@@ -21,7 +21,7 @@ public class PlayerReviverTest {
 	@Test
 	public void playerJoins_shouldAddReviveMessage() {
 		assertThat(this.reviveEntries, hasSize(0));
-		this.fixture.newPlayerJoined(TestPlayerFactory.createDummyPlayer());
+		this.fixture.newPlayerJoined(TestPlayerFactory.createOpponentPlayer());
 		assertThat(this.reviveEntries, hasSize(1));
 	}
 

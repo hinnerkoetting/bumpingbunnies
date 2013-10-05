@@ -119,6 +119,6 @@ public class UdpSocketTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new UdpSocket(this.socket, this.address, this.port, new Opponent("any"));
+		this.fixture = new UdpSocket(this.socket, this.address, this.port, Opponent.createOpponent("any"));
 	}
 }

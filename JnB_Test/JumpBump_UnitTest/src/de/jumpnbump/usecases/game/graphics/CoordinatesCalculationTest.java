@@ -1,6 +1,6 @@
 package de.jumpnbump.usecases.game.graphics;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -85,7 +85,7 @@ public class CoordinatesCalculationTest {
 	@Before
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
-		this.camPosition = new CameraPositionCalculation(createDummyPlayer());
+		this.camPosition = new CameraPositionCalculation(createOpponentPlayer());
 		this.fixture = new RelativeCoordinatesCalculation(this.camPosition);
 		this.fixture.updateCanvas(1000, 1000);
 	}

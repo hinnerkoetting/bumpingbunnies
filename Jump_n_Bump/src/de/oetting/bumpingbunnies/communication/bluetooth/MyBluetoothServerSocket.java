@@ -19,7 +19,7 @@ public class MyBluetoothServerSocket implements ServerSocket {
 	@Override
 	public MySocket accept() throws IOException {
 		BluetoothSocket btSocket = this.socket.accept();
-		return new MyBluetoothSocket(btSocket, new Opponent("bluetoothserver"));
+		return new MyBluetoothSocket(btSocket, Opponent.createOpponent("bluetoothserver"));
 	}
 
 	@Override

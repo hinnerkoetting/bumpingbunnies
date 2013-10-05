@@ -5,12 +5,16 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class TestPlayerFactory {
 
-	public static Player createDummyPlayer() {
-		return new Player(0, "", 1, new Opponent("test"));
+	public static Player createMyPlayer() {
+		return new Player(0, "", 1, Opponent.createMyPlayer("test"));
+	}
+
+	public static Player createOpponentPlayer() {
+		return new Player(0, "", 1, Opponent.createOpponent("test"));
 	}
 
 	public static Player createPlayerAtPosition(int x, int y) {
-		Opponent opponent = new Opponent("test");
+		Opponent opponent = Opponent.createOpponent("test");
 		Player p = new Player(new Player(-1, "", 1, opponent), -1, "",
 				1, opponent);
 		p.setCenterX(x);

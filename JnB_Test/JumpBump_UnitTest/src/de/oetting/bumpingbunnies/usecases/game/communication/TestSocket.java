@@ -14,7 +14,7 @@ public class TestSocket extends AbstractSocket {
 	private final InputStream is;
 
 	public TestSocket(OutputStream os, InputStream is) {
-		super(new Opponent("test"));
+		super(Opponent.createOpponent("test"));
 		this.os = os;
 		this.is = is;
 	}

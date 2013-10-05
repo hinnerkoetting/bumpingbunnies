@@ -12,7 +12,6 @@ import org.junit.Test;
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Rect;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
@@ -115,7 +114,7 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.player = new PlayerFactory(1).createPlayer(0, "player", new Opponent("any"));
+		this.player = new PlayerFactory(1).createPlayer(0, "player", TestOpponentFactory.createDummyOpponent());
 		this.fixture = new PlayerMovementCalculation(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
 	}
 }

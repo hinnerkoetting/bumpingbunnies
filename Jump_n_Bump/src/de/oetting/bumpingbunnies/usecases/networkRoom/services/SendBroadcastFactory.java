@@ -75,6 +75,6 @@ public class SendBroadcastFactory {
 		DatagramSocket socket = new DatagramSocket(
 				NetworkConstants.BROADCAST_PORT);
 		socket.setBroadcast(true);
-		return new UdpSocket(socket, address, NetworkConstants.BROADCAST_PORT, new Opponent("UDP" + address.getHostAddress()));
+		return new UdpSocket(socket, address, NetworkConstants.BROADCAST_PORT, Opponent.createOpponent("UDP" + address.getHostAddress()));
 	}
 }

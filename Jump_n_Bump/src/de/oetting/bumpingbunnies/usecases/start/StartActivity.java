@@ -29,7 +29,6 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationGenerator;
-import de.oetting.bumpingbunnies.usecases.game.factories.SingleplayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsDao;
@@ -98,10 +97,10 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		int numberPlayer = settings.getNumberPlayer();
 		List<OpponentConfiguration> list = new ArrayList<OpponentConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
-			Opponent opponent = new Opponent("AI + " + i);
-			list.add(new OpponentConfiguration(new SingleplayerFactory(
-					findSelectedAiMode()), new PlayerProperties(i, "Player "
-					+ i), opponent));
+			Opponent opponent = Opponent.createOpponent("AI + " + i);
+			list.add(new OpponentConfiguration(
+					findSelectedAiMode(), new PlayerProperties(i, "Player "
+							+ i), opponent));
 		}
 		return list;
 	}

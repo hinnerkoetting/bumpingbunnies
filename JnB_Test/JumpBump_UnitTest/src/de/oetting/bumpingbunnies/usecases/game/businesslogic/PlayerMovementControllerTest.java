@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -86,7 +86,7 @@ public class PlayerMovementControllerTest {
 
 	@Before
 	public void beforeEveryTest() {
-		this.movedPlayer = createDummyPlayer();
+		this.movedPlayer = createOpponentPlayer();
 		this.fixture = new PlayerMovement(this.movedPlayer);
 	}
 }

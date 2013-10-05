@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createDummyPlayer;
+import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -35,7 +35,7 @@ public class DrawerTest {
 
 	@Test
 	public void playerLeaves_thenPlayerDrawableShouldNotBeDrawn() {
-		this.player = createDummyPlayer();
+		this.player = createOpponentPlayer();
 		givenPlayerDrawableDoesExist(this.player);
 		whenPlayerLeaves(this.player);
 		this.fixture.draw(mock(Canvas.class));
@@ -44,7 +44,7 @@ public class DrawerTest {
 
 	@Test(expected = Drawer.PlayerDoesNotExist.class)
 	public void playerLeaves_givenPlayerDoesNotExist_shouldThrowException() {
-		this.player = createDummyPlayer();
+		this.player = createOpponentPlayer();
 		whenPlayerLeaves(this.player);
 	}
 
@@ -65,7 +65,7 @@ public class DrawerTest {
 	}
 
 	private void whenPlayerJoins() {
-		this.player = createDummyPlayer();
+		this.player = createOpponentPlayer();
 		this.fixture.newPlayerJoined(this.player);
 	}
 
