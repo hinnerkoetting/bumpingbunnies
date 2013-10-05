@@ -201,6 +201,7 @@ public class GameMain {
 
 	public void addAllJoinListeners() {
 		this.gameThread.addAllJoinListeners(this);
+		addJoinListener(this.receiveControl);
 	}
 
 	public RemoteConnection findConnection(Opponent opponent) {

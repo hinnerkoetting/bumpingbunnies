@@ -117,15 +117,13 @@ public class GameThreadFactory {
 			networkReceiveThreads.add(tcpReceiveThread);
 			networkReceiveThreads.add(udpReceiveThread);
 		}
-		NetworkReceiveControl receiveControl = createNetworkReceiveControl(main, networkDispatcher, networkReceiveThreads);
+		NetworkReceiveControl receiveControl = createNetworkReceiveControl(main, networkDispatcher);
 		main.setReceiveControl(receiveControl);
 	}
 
-	private static NetworkReceiveControl createNetworkReceiveControl(GameMain main, NetworkToGameDispatcher networkDispatcher,
-			List<NetworkReceiveThread> networkReceiveThreads) {
+	private static NetworkReceiveControl createNetworkReceiveControl(GameMain main, NetworkToGameDispatcher networkDispatcher) {
 		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(SocketStorage.getSingleton(), main, networkDispatcher);
 		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory);
-		receiveControl.setNetworkReceiveThreads(networkReceiveThreads);
 		return receiveControl;
 	}
 
