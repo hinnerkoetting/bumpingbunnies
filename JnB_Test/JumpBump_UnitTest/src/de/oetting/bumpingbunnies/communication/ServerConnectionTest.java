@@ -14,27 +14,27 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 public class ServerConnectionTest {
 
-	private RemoteConnection fixture;
+	private DividedNetworkSender fixture;
 	@Mock
 	private NetworkSendQueueThread tcpConnection;
 	@Mock
-	private RemoteSender udpConnection;
+	private ThreadedNetworkSender udpConnection;
 
 	@Test
 	public void sendReliable_shouldSendMessageOverTcp() {
-		this.fixture.sendReliable(MessageId.SPAWN_POINT, "1");
+		this.fixture.sendMessage(MessageId.SPAWN_POINT, "1");
 		thenMessageShouldBeSendOverTcp(MessageId.SPAWN_POINT, "1");
 	}
 
 	@Test
 	public void sendFast_shouldSendMessageOverUdp() {
-		this.fixture.sendFast(MessageId.SEND_PLAYER_STATE, "1");
+		this.fixture.sendMessageFast(MessageId.SEND_PLAYER_STATE, "1");
 		thenMessageShouldBeSendOverUdp(MessageId.SEND_PLAYER_STATE, "1");
 	}
 
@@ -96,7 +96,7 @@ public class ServerConnectionTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new RemoteConnection(this.tcpConnection, this.udpConnection, TestOpponentFactory.createDummyOpponent());
+		this.fixture = new DividedNetworkSender(this.tcpConnection, this.udpConnection, TestOpponentFactory.createDummyOpponent());
 	}
 
 }

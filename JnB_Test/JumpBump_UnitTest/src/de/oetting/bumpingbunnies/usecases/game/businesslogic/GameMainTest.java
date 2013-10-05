@@ -18,9 +18,11 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
-import de.oetting.bumpingbunnies.communication.RemoteConnection;
+import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
+import de.oetting.bumpingbunnies.usecases.game.factories.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -31,7 +33,7 @@ public class GameMainTest {
 	private GameMain fixture;
 	@Mock
 	private PlayerJoinListener listener;
-	private List<RemoteConnection> sendThreads;
+	private List<ThreadedNetworkSender> sendThreads;
 	@Mock
 	private SocketStorage sockets;
 
@@ -84,12 +86,12 @@ public class GameMainTest {
 	public void findConnection_givenConnectionDoesExist_shouldReturnConnection() {
 		Opponent opponent = TestOpponentFactory.createDummyOpponent();
 		givenOpponentHasConnection(opponent);
-		RemoteConnection connection = this.fixture.findConnection(opponent);
+		ThreadedNetworkSender connection = this.fixture.findConnection(opponent);
 		assertNotNull(connection);
 	}
 
 	private void givenOpponentHasConnection(Opponent opponent) {
-		RemoteConnection connection = new RemoteConnection(null, null, opponent);
+		DividedNetworkSender connection = new DividedNetworkSender(null, null, opponent);
 		this.fixture.getSendThreads().add(connection);
 	}
 
@@ -137,10 +139,10 @@ public class GameMainTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new GameMain(mock(GameActivity.class), this.sockets);
 		this.sendThreads = new ArrayList<>();
+		this.fixture = new GameMain(mock(GameActivity.class), this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class),
+				this.sendThreads));
 		this.fixture.setWorld(new World(mock((WorldObjectsBuilder.class))));
-		this.fixture.setSendThreads(this.sendThreads);
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 	}
 }

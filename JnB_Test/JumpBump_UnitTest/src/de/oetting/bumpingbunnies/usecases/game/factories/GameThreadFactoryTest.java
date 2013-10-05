@@ -10,8 +10,11 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
+import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.TestConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
@@ -30,7 +33,9 @@ public class GameThreadFactoryTest {
 		GameThreadFactory.create(null, w, mock(Context.class),
 				TestConfigurationFactory.createDummyHost(),
 				mock(CoordinatesCalculation.class), null, new GameMain(
-						null, null), TestPlayerFactory.createOpponentPlayer(),
+						null, null,
+						new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class)))),
+				TestPlayerFactory.createOpponentPlayer(),
 				null);
 	}
 

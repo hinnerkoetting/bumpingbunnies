@@ -10,12 +10,12 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThrea
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToOtherClientsDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 
 public class NetworkReceiverDispatcherThreadFactory {
 
 	public static NetworkReceiveThread createGameNetworkReceiver(
-			MySocket socket, List<? extends RemoteSender> allRemoteSender,
+			MySocket socket, List<? extends ThreadedNetworkSender> allRemoteSender,
 			NetworkToGameDispatcher networkDispatcher) {
 
 		// create a new dispatcher which will dispatch incoming events to all

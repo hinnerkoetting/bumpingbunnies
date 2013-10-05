@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDead;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreMessage;
@@ -24,10 +24,10 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final CollisionDetection collisionDetection;
 	private final World world;
 	private final SpawnPointGenerator spawnPointGenerator;
-	private final List<? extends RemoteSender> sendThreads;
+	private final List<? extends ThreadedNetworkSender> sendThreads;
 	private final PlayerReviver reviver;
 
-	public HostBunnyKillChecker(List<? extends RemoteSender> sendThreads, CollisionDetection collisionDetection, World world,
+	public HostBunnyKillChecker(List<? extends ThreadedNetworkSender> sendThreads, CollisionDetection collisionDetection, World world,
 			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver) {
 		super();
 		this.sendThreads = sendThreads;
@@ -63,7 +63,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
 		PlayerIsDead killedMessage = new PlayerIsDead(playerKilled.id());
 
-		for (RemoteSender sender : this.sendThreads) {
+		for (ThreadedNetworkSender sender : this.sendThreads) {
 			new PlayerIsDeadSender(sender).sendMessage(killedMessage);
 			new SpawnPointSender(sender).sendMessage(new SpawnPointMessage(spawnPoint, playerKilled.id()));
 		}
@@ -72,7 +72,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private void increaseScore(Player playerTop) {
 		playerTop.increaseScore(1);
 		PlayerScoreMessage newScoreMessage = new PlayerScoreMessage(playerTop.id(), playerTop.getScore());
-		for (RemoteSender sender : this.sendThreads) {
+		for (ThreadedNetworkSender sender : this.sendThreads) {
 			new PlayerScoreSender(sender).sendMessage(newScoreMessage);
 		}
 	}

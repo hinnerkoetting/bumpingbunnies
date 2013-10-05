@@ -41,6 +41,10 @@ public class Opponent implements Parcelable {
 		return OpponentType.MY_PLAYER == this.type;
 	}
 
+	public boolean isLocalPlayer() {
+		return OpponentType.MY_PLAYER == this.type || OpponentType.AI == this.type;
+	}
+
 	public OpponentType getType() {
 		return this.type;
 	}

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
 import de.oetting.bumpingbunnies.communication.MySocket;
-import de.oetting.bumpingbunnies.communication.RemoteConnection;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
@@ -28,16 +28,17 @@ public class GameMain {
 	private GameThread gameThread;
 	private InputDispatcher<?> inputDispatcher;
 	private NetworkReceiveControl receiveControl;
-	private List<RemoteConnection> sendThreads = new ArrayList<RemoteConnection>();
+	private NetworkSendControl sendControl;
 	private MusicPlayer musicPlayer;
 	private World world;
 	private PlayerJoinObservable playerObservable;
 	private GameActivity activity;
 
-	public GameMain(GameActivity activity, SocketStorage sockets) {
+	public GameMain(GameActivity activity, SocketStorage sockets, NetworkSendControl sendControl) {
 		super();
 		this.activity = activity;
 		this.sockets = sockets;
+		this.sendControl = sendControl;
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
@@ -57,10 +58,6 @@ public class GameMain {
 		this.receiveControl = receiveControl;
 	}
 
-	public void setSendThreads(List<RemoteConnection> sendThreads) {
-		this.sendThreads = sendThreads;
-	}
-
 	public void setMusicPlayer(MusicPlayer musicPlayer) {
 		this.musicPlayer = musicPlayer;
 	}
@@ -73,8 +70,8 @@ public class GameMain {
 		return this.inputDispatcher;
 	}
 
-	public List<RemoteConnection> getSendThreads() {
-		return this.sendThreads;
+	public List<ThreadedNetworkSender> getSendThreads() {
+		return this.sendControl.getSendThreads();
 	}
 
 	public MusicPlayer getMusicPlayer() {
@@ -106,7 +103,7 @@ public class GameMain {
 
 	public void shutdownAllThreads() {
 		this.gameThread.cancel();
-		for (RemoteSender sender : this.sendThreads) {
+		for (ThreadedNetworkSender sender : this.sendControl.getSendThreads()) {
 			sender.cancel();
 		}
 		this.receiveControl.shutDownThreads();
@@ -123,7 +120,7 @@ public class GameMain {
 	}
 
 	public void sendStopMessage() {
-		for (RemoteSender rs : this.sendThreads) {
+		for (ThreadedNetworkSender rs : this.sendControl.getSendThreads()) {
 			new StopGameSender(rs).sendMessage("");
 		}
 	}
@@ -164,20 +161,20 @@ public class GameMain {
 	}
 
 	private void addSendThread(Player player) {
-		RemoteConnection rc = createSendThread(player);
-		this.sendThreads.add(rc);
+		DividedNetworkSender rc = createSendThread(player);
+		this.sendControl.getSendThreads().add(rc);
 	}
 
-	private RemoteConnection createSendThread(Player player) {
+	private DividedNetworkSender createSendThread(Player player) {
 		MySocket socket = this.sockets.findSocket(player.getOpponent());
 		return createServerConnection(this.activity, socket, player.getOpponent());
 	}
 
-	public RemoteConnection createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {
+	public DividedNetworkSender createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {
 		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, activity);
 		NetworkSendQueueThread udpConnection = createUdpConnection(activity, socket);
 
-		RemoteConnection serverConnection = new RemoteConnection(tcpConnection, udpConnection, opponent);
+		DividedNetworkSender serverConnection = new DividedNetworkSender(tcpConnection, udpConnection, opponent);
 		return serverConnection;
 	}
 
@@ -199,8 +196,8 @@ public class GameMain {
 		addJoinListener(this.receiveControl);
 	}
 
-	public RemoteConnection findConnection(Opponent opponent) {
-		RemoteConnection rc = findConnectionOrNull(opponent);
+	public ThreadedNetworkSender findConnection(Opponent opponent) {
+		ThreadedNetworkSender rc = findConnectionOrNull(opponent);
 		if (rc == null) {
 			throw new ConnectionDoesNotExist();
 		} else {
@@ -208,12 +205,8 @@ public class GameMain {
 		}
 	}
 
-	public boolean existsRemoteConnection(Opponent opponent) {
-		return findConnectionOrNull(opponent) != null;
-	}
-
-	private RemoteConnection findConnectionOrNull(Opponent opponent) {
-		for (RemoteConnection rc : this.sendThreads) {
+	private ThreadedNetworkSender findConnectionOrNull(Opponent opponent) {
+		for (ThreadedNetworkSender rc : this.sendControl.getSendThreads()) {
 			if (rc.isConnectionToPlayer(opponent)) {
 				return rc;
 			}

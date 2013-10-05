@@ -4,8 +4,8 @@ import java.util.List;
 
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
 import de.oetting.bumpingbunnies.communication.MySocket;
-import de.oetting.bumpingbunnies.communication.RemoteConnection;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
@@ -20,10 +20,11 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalcu
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -34,7 +35,8 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
-		GameMain main = new GameMain(activity, SocketStorage.getSingleton());
+		GameMain main = new GameMain(activity, SocketStorage.getSingleton(), new NetworkSendControl(new RemoteConnectionFactory(activity,
+				SocketStorage.getSingleton())));
 		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
 		initGame(main, activity, parameter);
@@ -89,11 +91,11 @@ public class GameMainFactory {
 		}
 	}
 
-	public static RemoteConnection createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {
+	public static DividedNetworkSender createServerConnection(GameActivity activity, MySocket socket, Opponent opponent) {
 		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, activity);
 		NetworkSendQueueThread udpConnection = createUdpConnection(activity, socket);
 
-		RemoteConnection serverConnection = new RemoteConnection(tcpConnection, udpConnection, opponent);
+		DividedNetworkSender serverConnection = new DividedNetworkSender(tcpConnection, udpConnection, opponent);
 		return serverConnection;
 	}
 
@@ -117,7 +119,7 @@ public class GameMainFactory {
 	}
 
 	private static void startNetworkThreads(GameMain main) {
-		for (RemoteSender sender : main.getSendThreads()) {
+		for (ThreadedNetworkSender sender : main.getSendThreads()) {
 			sender.start();
 		}
 	}

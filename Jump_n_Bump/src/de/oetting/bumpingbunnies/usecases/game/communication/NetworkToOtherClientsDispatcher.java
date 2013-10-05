@@ -12,11 +12,11 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper
 public class NetworkToOtherClientsDispatcher implements
 		IncomingNetworkDispatcher {
 
-	private final List<? extends RemoteSender> sendQueues;
+	private final List<? extends ThreadedNetworkSender> sendQueues;
 	private final NetworkToGameDispatcher gameDispatcher;
 	private final MySocket incomingSocket;
 
-	public NetworkToOtherClientsDispatcher(List<? extends RemoteSender> sendQueues,
+	public NetworkToOtherClientsDispatcher(List<? extends ThreadedNetworkSender> sendQueues,
 			MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher) {
 		super();
 		this.sendQueues = sendQueues;
@@ -26,7 +26,7 @@ public class NetworkToOtherClientsDispatcher implements
 
 	@Override
 	public void dispatchPlayerState(JsonWrapper wrapper) {
-		for (RemoteSender queue : this.sendQueues) {
+		for (ThreadedNetworkSender queue : this.sendQueues) {
 			if (!queue.usesThisSocket(this.incomingSocket)) {
 				queue.sendMessage(wrapper);
 			}

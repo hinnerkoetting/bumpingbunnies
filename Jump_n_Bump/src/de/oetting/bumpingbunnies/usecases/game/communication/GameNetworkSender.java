@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import de.oetting.bumpingbunnies.communication.RemoteConnection;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -9,9 +8,9 @@ public class GameNetworkSender implements StateSender {
 
 	private static long currentMessageCounter = 0;
 	private final Player player;
-	private final RemoteConnection connection;
+	private final ThreadedNetworkSender connection;
 
-	public GameNetworkSender(Player player, RemoteConnection networkThread) {
+	public GameNetworkSender(Player player, ThreadedNetworkSender networkThread) {
 		this.player = player;
 		this.connection = networkThread;
 	}
@@ -19,7 +18,7 @@ public class GameNetworkSender implements StateSender {
 	@Override
 	public void sendPlayerCoordinates() {
 		PlayerStateMessage message = new PlayerStateMessage(currentMessageCounter++, this.player.getState());
-		this.connection.sendMessageWithChecksum(MessageId.SEND_PLAYER_STATE, message);
+		this.connection.sendMessageFast(MessageId.SEND_PLAYER_STATE, message);
 	}
 
 	@Override

@@ -19,6 +19,23 @@ public class TestSocket extends AbstractSocket {
 		this.is = is;
 	}
 
+	public TestSocket() {
+		super(TestOpponentFactory.createDummyOpponent());
+		this.os = new OutputStream() {
+
+			@Override
+			public void write(int arg0) throws IOException {
+			}
+		};
+		this.is = new InputStream() {
+
+			@Override
+			public int read() throws IOException {
+				return 0;
+			}
+		};
+	}
+
 	@Override
 	public void close() throws IOException {
 

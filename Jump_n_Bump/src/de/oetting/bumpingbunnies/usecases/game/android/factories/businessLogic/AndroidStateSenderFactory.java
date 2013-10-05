@@ -23,13 +23,12 @@ public class AndroidStateSenderFactory implements StateSenderFactory {
 
 	@Override
 	public StateSender create(Player p) {
-		if (this.main.existsRemoteConnection(p.getOpponent())) {
-			LOGGER.info("Found network player. Creating gamenetworksender...");
-			return new GameNetworkSender(this.myPlayer, this.main.findConnection(p.getOpponent()));
-		}
-		else {
+		if (p.getOpponent().isLocalPlayer()) {
 			LOGGER.info("Found local player. DummyStateSender...");
 			return new DummyStateSender(p);
+		} else {
+			LOGGER.info("Found network player. Creating gamenetworksender...");
+			return new GameNetworkSender(this.myPlayer, this.main.findConnection(p.getOpponent()));
 		}
 	}
 

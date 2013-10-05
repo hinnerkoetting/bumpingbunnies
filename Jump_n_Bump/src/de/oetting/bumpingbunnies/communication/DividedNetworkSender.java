@@ -1,29 +1,25 @@
 package de.oetting.bumpingbunnies.communication;
 
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
-public class RemoteConnection implements RemoteSender {
+/**
+ * Consists of two connections. One is more stable, one is faster.
+ * 
+ */
+public class DividedNetworkSender implements ThreadedNetworkSender {
 
-	private final RemoteSender tcpConnection;
-	private final RemoteSender udpConnection;
+	private final ThreadedNetworkSender tcpConnection;
+	private final ThreadedNetworkSender udpConnection;
 	private final Opponent owner;
 
-	public RemoteConnection(NetworkSendQueueThread tcpConnection, RemoteSender udpConnection, Opponent owner) {
+	public DividedNetworkSender(NetworkSendQueueThread tcpConnection, ThreadedNetworkSender udpConnection, Opponent owner) {
 		this.tcpConnection = tcpConnection;
 		this.udpConnection = udpConnection;
 		this.owner = owner;
-	}
-
-	public void sendReliable(MessageId messageId, Object message) {
-		this.tcpConnection.sendMessage(messageId, message);
-	}
-
-	public void sendFast(MessageId messageId, Object message) {
-		this.udpConnection.sendMessage(messageId, message);
 	}
 
 	@Override
@@ -54,10 +50,11 @@ public class RemoteConnection implements RemoteSender {
 	}
 
 	@Override
-	public void sendMessageWithChecksum(MessageId id, Object message) {
-		this.udpConnection.sendMessageWithChecksum(id, message);
+	public void sendMessageFast(MessageId id, Object message) {
+		this.udpConnection.sendMessage(id, message);
 	}
 
+	@Override
 	public boolean isConnectionToPlayer(Opponent opponent) {
 		return this.owner.equals(opponent);
 	}

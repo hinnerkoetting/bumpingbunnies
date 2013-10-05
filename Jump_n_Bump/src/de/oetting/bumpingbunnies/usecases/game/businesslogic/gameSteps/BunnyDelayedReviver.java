@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.RemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -18,9 +18,9 @@ public class BunnyDelayedReviver extends Thread {
 	public static final int KILL_TIME_CLIENT_MILLISECONDS = 2500;
 	private final Player player;
 	private int duration;
-	private final List<RemoteSender> senderList;
+	private final List<ThreadedNetworkSender> senderList;
 
-	public BunnyDelayedReviver(Player player, int duration, List<RemoteSender> sender) {
+	public BunnyDelayedReviver(Player player, int duration, List<ThreadedNetworkSender> sender) {
 		super();
 		this.player = player;
 		this.duration = duration;
@@ -37,7 +37,7 @@ public class BunnyDelayedReviver extends Thread {
 
 	private void notifyClients() {
 		Integer playerId = this.player.id();
-		for (RemoteSender sender : this.senderList) {
+		for (ThreadedNetworkSender sender : this.senderList) {
 			new PlayerIsRevivedSender(sender).sendMessage(playerId);
 		}
 	}
