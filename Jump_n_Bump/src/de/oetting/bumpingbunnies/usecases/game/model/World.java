@@ -8,6 +8,7 @@ import android.content.Context;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
+import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
 public class World implements ObjectProvider {
@@ -102,4 +103,25 @@ public class World implements ObjectProvider {
 		}
 	}
 
+	public int getNextPlayerId() {
+		return findMaxPlayerId() + 1;
+	}
+
+	private int findMaxPlayerId() {
+		int maxId = -1;
+		for (Player p : this.allPlayer) {
+			if (p.id() > maxId) {
+				maxId = p.id();
+			}
+		}
+		return maxId;
+	}
+
+	public List<PlayerProperties> getPlayerProperties() {
+		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.allPlayer.size() - 1);
+		for (Player p : this.allPlayer) {
+			properties.add(new PlayerProperties(p.id(), p.getName()));
+		}
+		return properties;
+	}
 }

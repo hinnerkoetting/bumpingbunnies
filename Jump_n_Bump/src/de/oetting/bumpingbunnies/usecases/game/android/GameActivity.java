@@ -10,16 +10,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 
 /**
  * Controls the bumping-bunnies game.
  */
-public class GameActivity extends Activity implements AcceptsClientConnections {
+public class GameActivity extends Activity {
 	private GameMain main;
 
 	@Override
@@ -112,11 +110,6 @@ public class GameActivity extends Activity implements AcceptsClientConnections {
 
 	private void sendStopMessage() {
 		this.main.sendStopMessage();
-	}
-
-	@Override
-	public void clientConnectedSucessfull(MySocket socket) {
-		this.main.clientConnectedSuccessfull(socket);
 	}
 
 }

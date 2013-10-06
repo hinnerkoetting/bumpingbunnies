@@ -21,6 +21,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
+import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -36,9 +37,12 @@ public class GameMainFactory {
 		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
 
-		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, NewClientsAccepterFactory.create(parameter, activity));
+		World world = WorldFactory.create(parameter.getConfiguration(), activity);
+		NewClientsAccepter clientAccepter = createClientAccepter(activity, parameter, world);
+		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter);
+		clientAccepter.setMain(main);
 
-		GameThread gameThread = initGame(main, activity, parameter, sendControl);
+		GameThread gameThread = initGame(main, activity, parameter, sendControl, world);
 
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
 		contentView.setGameThread(gameThread);
@@ -51,13 +55,18 @@ public class GameMainFactory {
 		return main;
 	}
 
+	private static NewClientsAccepter createClientAccepter(GameActivity activity, GameStartParameter parameter, World world) {
+		return NewClientsAccepterFactory.create(parameter, activity, world);
+	}
+
 	private static void addJoinListener(GameMain main) {
 		main.addAllJoinListeners();
 	}
 
-	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl) {
+	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl,
+			World world) {
 		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
-		World world = WorldFactory.create(parameter.getConfiguration(), activity);
+
 		main.setWorld(world);
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
 

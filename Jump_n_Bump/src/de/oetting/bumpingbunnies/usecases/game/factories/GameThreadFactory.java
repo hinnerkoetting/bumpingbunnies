@@ -1,10 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
@@ -27,6 +23,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInput
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.ListSpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.usecases.game.communication.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsRevived.PlayerIsRevivedReceiver;
@@ -49,17 +46,16 @@ public class GameThreadFactory {
 			Configuration configuration, CoordinatesCalculation calculations,
 			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer,
 			GameActivity activity, NetworkSendControl sendControl) {
-		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
+		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
-		List<OpponentInput> inputServices = initInputServices(main, activity, world,
-				networkDispatcher, sendControl);
+		initInputServices(main, activity, world, networkDispatcher, sendControl);
 		GameThreadState threadState = new GameThreadState();
 
 		Drawer drawer = DrawerFactory.create(world, threadState, context,
 				configuration, calculations);
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(
 				world.getSpawnPoints());
-		UserInputStep userInputStep = new UserInputStep(inputServices, createInputServiceFactory(world, stateDispatcher));
+		UserInputStep userInputStep = new UserInputStep(createInputServiceFactory(world, stateDispatcher));
 		CollisionDetection colDetection = new CollisionDetection(world);
 		PlayerReviver reviver = new PlayerReviver(sendControl);
 		BunnyKillChecker killChecker = createKillChecker(configuration, world,
@@ -77,15 +73,10 @@ public class GameThreadFactory {
 		return new OpponentInputFactoryImpl(world, stateDispatcher);
 	}
 
-	private static List<OpponentInput> initInputServices(GameMain main, GameActivity activity,
+	private static void initInputServices(GameMain main, GameActivity activity,
 			World world, NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl) {
-
 		addAllNetworkListeners(activity, networkDispatcher, world);
-
 		createNetworkReceiveThreads(main, networkDispatcher, sendControl);
-		List<OpponentInput> inputServices = createInputServicesForOtherPlayers();
-
-		return inputServices;
 	}
 
 	private static void addAllNetworkListeners(GameActivity activity, NetworkToGameDispatcher networkDispatcher, World world) {
@@ -108,15 +99,6 @@ public class GameThreadFactory {
 				sendControl);
 		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory);
 		return receiveControl;
-	}
-
-	private static List<OpponentInput> createInputServicesForOtherPlayers() {
-		List<MySocket> allSockets = SocketStorage.getSingleton()
-				.getAllSockets();
-		List<OpponentInput> resultReceiver = new ArrayList<OpponentInput>(
-				allSockets.size());
-
-		return resultReceiver;
 	}
 
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context,

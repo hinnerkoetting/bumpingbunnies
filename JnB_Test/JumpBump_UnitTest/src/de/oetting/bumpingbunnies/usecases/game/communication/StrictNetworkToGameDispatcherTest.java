@@ -14,7 +14,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 @RunWith(RobolectricTestRunner.class)
-public class NetworkToGameDispatcherTest {
+public class StrictNetworkToGameDispatcherTest {
 
 	private NetworkToGameDispatcher fixture;
 	@Mock
@@ -39,6 +39,6 @@ public class NetworkToGameDispatcherTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new NetworkToGameDispatcher();
+		this.fixture = new StrictNetworkToGameDispatcher();
 	}
 }

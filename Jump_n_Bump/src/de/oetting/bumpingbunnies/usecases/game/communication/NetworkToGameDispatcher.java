@@ -5,14 +5,13 @@ import java.util.TreeMap;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 /**
  * Dispatches incoming traffic to registered listeners. If no listener is registered for an ID, an exception is thrown.
  * 
  */
-public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
+public abstract class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkToGameDispatcher.class);
 	private final Map<Integer, NetworkListener> listeners;
@@ -22,24 +21,18 @@ public class NetworkToGameDispatcher implements IncomingNetworkDispatcher {
 		this.listeners = new TreeMap<Integer, NetworkListener>();
 	}
 
-	@Override
-	public void dispatchMessage(JsonWrapper wrapper) {
-		NetworkListener networkListener = this.listeners.get(wrapper.getId().ordinal());
-		if (networkListener == null) {
-			throw new NoListenerFound(wrapper.getId());
-		}
-		LOGGER.debug("Received message %s", wrapper.getMessage());
-		networkListener.newMessage(wrapper);
-	}
-
 	public void addObserver(MessageId id, NetworkListener listener) {
 		LOGGER.debug("Registering listener with id %d", id.ordinal());
-		this.listeners.put(id.ordinal(), listener);
+		this.getListeners().put(id.ordinal(), listener);
 	}
 
 	@Override
 	public NetworkToGameDispatcher getNetworkToGameDispatcher() {
 		return this;
+	}
+
+	public Map<Integer, NetworkListener> getListeners() {
+		return listeners;
 	}
 
 	public static class NoListenerFound extends RuntimeException {

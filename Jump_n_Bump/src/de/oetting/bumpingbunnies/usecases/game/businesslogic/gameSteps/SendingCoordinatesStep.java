@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
@@ -15,7 +15,7 @@ public class SendingCoordinatesStep implements GameStepAction, PlayerJoinListene
 
 	public SendingCoordinatesStep(StateSenderFactory senderFactory) {
 		super();
-		this.stateSender = new LinkedList<StateSender>();
+		this.stateSender = new CopyOnWriteArrayList<StateSender>();
 		this.senderFactory = senderFactory;
 	}
 

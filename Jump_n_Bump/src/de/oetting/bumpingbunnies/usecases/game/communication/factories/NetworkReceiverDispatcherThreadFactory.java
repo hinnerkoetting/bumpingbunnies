@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
+import de.oetting.bumpingbunnies.usecases.game.communication.EasyNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
@@ -24,7 +25,8 @@ public class NetworkReceiverDispatcherThreadFactory {
 	}
 
 	public static NetworkReceiver createRoomNetworkReceiver(MySocket socket) {
-		NetworkToGameDispatcher networkDispatcher = new NetworkToGameDispatcher();
+		// in the room not all messages are registered wo the dispatcher must not throw exceptions
+		NetworkToGameDispatcher networkDispatcher = new EasyNetworkToGameDispatcher();
 		return createNetworkReceiver(socket, networkDispatcher);
 	}
 

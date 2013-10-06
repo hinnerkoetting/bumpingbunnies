@@ -12,8 +12,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
-import de.oetting.bumpingbunnies.usecases.networkRoom.RoomEntry;
+import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.otherPlayerId.OtherPlayerClientIdSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId.SendClientPlayerIdSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendLocalSettings.SendLocalSettingsReceiver;
@@ -22,12 +21,12 @@ public class ConnectionToClientService {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConnectionToClientService.class);
-	private final RoomActivity roomActivity;
+	private final AcceptsClientConnections roomActivity;
 	private final NetworkReceiver networkReceiver;
 	private final SocketStorage sockets;
 	private MySocket socket;
 
-	public ConnectionToClientService(RoomActivity roomActivity, NetworkReceiver networkReceiver, SocketStorage sockets) {
+	public ConnectionToClientService(AcceptsClientConnections roomActivity, NetworkReceiver networkReceiver, SocketStorage sockets) {
 		super();
 		this.roomActivity = roomActivity;
 		this.networkReceiver = networkReceiver;
@@ -63,26 +62,23 @@ public class ConnectionToClientService {
 	}
 
 	private void notifyExistingClients(PlayerProperties playerProperties) {
-		LOGGER.info("Notifying existing clients about new player with id %d",
-				playerProperties.getPlayerId());
-		List<RoomEntry> allOtherPlayers = this.roomActivity.getAllOtherPlayers();
-		for (RoomEntry otherPlayer : allOtherPlayers) {
-			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(otherPlayer.getSocket());
+		LOGGER.info("Notifying existing clients about new player with id %d", playerProperties.getPlayerId());
+		List<MySocket> allOtherPlayers = this.roomActivity.getAllOtherSockets();
+		for (MySocket otherPlayer : allOtherPlayers) {
+			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(otherPlayer);
 			new OtherPlayerClientIdSender(networkSender).sendMessage(playerProperties);
 		}
 	}
 
 	private void notifyAboutExistingPlayers(SimpleNetworkSender networkSender) {
 		LOGGER.info("Notifying new Player all existing players");
-		for (RoomEntry otherPlayer : this.roomActivity.getAllOtherPlayers()) {
+		for (PlayerProperties otherPlayer : this.roomActivity.getAllPlayersProperties()) {
 			informClientAboutPlayer(otherPlayer, networkSender);
 		}
-		informClientAboutPlayer(this.roomActivity.getMyself(), networkSender);
 	}
 
-	private void informClientAboutPlayer(RoomEntry player,
-			SimpleNetworkSender networkSender) {
-		new OtherPlayerClientIdSender(networkSender).sendMessage(player.getPlayerProperties());
+	private void informClientAboutPlayer(PlayerProperties player, SimpleNetworkSender networkSender) {
+		new OtherPlayerClientIdSender(networkSender).sendMessage(player);
 	}
 
 	private void sendClientPlayer(SimpleNetworkSender networkSender,

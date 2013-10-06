@@ -33,8 +33,8 @@ import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.communication.ConnectsToServer;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
@@ -214,7 +214,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
 		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory
-				.create(this, socket, new NetworkToGameDispatcher());
+				.create(this, socket, new StrictNetworkToGameDispatcher());
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 		enableStartButton();
@@ -233,8 +233,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		return otherPlayers;
 	}
 
-	public void addPlayerEntry(MySocket socket,
-			PlayerProperties playerProperties, int socketIndex) {
+	@Override
+	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
 		LOGGER.info("adding player info %d", playerProperties.getPlayerId());
 		RoomEntry entry = new RoomEntry(playerProperties, socket, socketIndex);
 		addPlayerEntry(entry);
@@ -362,16 +362,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 				ActivityLauncher.LOCAL_PLAYER_SETTINGS);
 	}
 
+	@Override
 	public int getNextPlayerId() {
 		return this.playerCounter++;
 	}
 
 	public List<RoomEntry> getAllOtherPlayers() {
 		return this.playersAA.getAllOtherPlayers();
-	}
-
-	public RoomEntry getMyself() {
-		return this.playersAA.getMyself();
 	}
 
 	@Override
@@ -402,6 +399,25 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 				Toast.makeText(RoomActivity.this, message, Toast.LENGTH_SHORT).show();
 			}
 		});
+	}
+
+	@Override
+	public List<PlayerProperties> getAllPlayersProperties() {
+		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.playersAA.getCount());
+		for (RoomEntry e : getAllOtherPlayers()) {
+			properties.add(e.getPlayerProperties());
+		}
+		properties.add(this.playersAA.getMyself().getPlayerProperties());
+		return properties;
+	}
+
+	@Override
+	public List<MySocket> getAllOtherSockets() {
+		List<MySocket> sockets = new ArrayList<MySocket>(this.playersAA.getCount());
+		for (RoomEntry e : getAllOtherPlayers()) {
+			sockets.add(e.getSocket());
+		}
+		return sockets;
 	}
 
 }

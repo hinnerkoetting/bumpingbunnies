@@ -1,10 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
-import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInput;
+import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class UserInputStep implements GameStepAction, PlayerJoinListener {
@@ -16,9 +17,12 @@ public class UserInputStep implements GameStepAction, PlayerJoinListener {
 		super();
 		this.inputServices = inputServices;
 		this.factory = factory;
-		if (factory == null) {
-			throw new IllegalStateException("not implemented");
-		}
+	}
+
+	public UserInputStep(OpponentInputFactory factory) {
+		super();
+		this.inputServices = new CopyOnWriteArrayList<OpponentInput>();
+		this.factory = factory;
 	}
 
 	@Override

@@ -24,6 +24,9 @@ public class AnimationImpl implements Animation {
 		this.resizer = bitmapResizer;
 		this.lastTimeSwitched = System.currentTimeMillis();
 		this.scaledPictures = new ArrayList<Bitmap>(pictures.size());
+		if (this.originalPictures.size() == 0) {
+			throw new NoImagesInAnimation();
+		}
 	}
 
 	@Override
@@ -37,8 +40,7 @@ public class AnimationImpl implements Animation {
 		drawCurrentImage(canvas, left, top, paint);
 	}
 
-	private void drawCurrentImage(CanvasDelegate canvas, long left, long top,
-			Paint paint) {
+	private void drawCurrentImage(CanvasDelegate canvas, long left, long top, Paint paint) {
 		canvas.drawImage(this.scaledPictures.get(this.currentIndex), left, top,
 				paint);
 	}
@@ -65,5 +67,8 @@ public class AnimationImpl implements Animation {
 			Bitmap resized = this.resizer.resize(original, width, height);
 			this.scaledPictures.add(resized);
 		}
+	}
+
+	public static class NoImagesInAnimation extends RuntimeException {
 	}
 }

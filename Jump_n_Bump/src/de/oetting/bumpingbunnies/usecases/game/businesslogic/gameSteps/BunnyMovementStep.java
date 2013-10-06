@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
@@ -24,7 +24,7 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 		super();
 		this.killChecker = killChecker;
 		this.calculationFactory = calculationFactory;
-		this.playermovements = new LinkedList<PlayerMovementCalculation>();
+		this.playermovements = new CopyOnWriteArrayList<PlayerMovementCalculation>();
 	}
 
 	@Override

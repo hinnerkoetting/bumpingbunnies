@@ -56,4 +56,9 @@ public class JsonWrapper {
 		return new JsonWrapper(messageId, message);
 	}
 
+	@Override
+	public String toString() {
+		return "JsonWrapper [id=" + this.id + ", message=" + this.message + "]";
+	}
+
 }

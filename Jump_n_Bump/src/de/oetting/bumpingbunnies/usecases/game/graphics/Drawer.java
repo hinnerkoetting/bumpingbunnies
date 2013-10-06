@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Canvas;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -20,17 +20,20 @@ public class Drawer implements PlayerJoinListener {
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;
 	private boolean needsUpdate;
+	private List<Drawable> drawablesWhichNeedToBeUpdated;
 
 	public Drawer(DrawablesFactory drawFactory, CanvasDelegate canvasDeleta) {
 		this.factory = drawFactory;
-		this.allDrawables = new LinkedList<Drawable>();
 		this.canvasDelegate = canvasDeleta;
 		this.needsUpdate = true;
+		this.allDrawables = new CopyOnWriteArrayList<Drawable>();
+		this.drawablesWhichNeedToBeUpdated = new CopyOnWriteArrayList<Drawable>();
 	}
 
 	public void buildAllDrawables() {
 		this.allDrawables.clear();
-		this.allDrawables.addAll(this.factory.createAllDrawables());
+		this.drawablesWhichNeedToBeUpdated.clear();
+		this.drawablesWhichNeedToBeUpdated.addAll(this.factory.createAllDrawables());
 		LOGGER.info("Added %d drawables", this.allDrawables.size());
 	}
 
@@ -50,11 +53,17 @@ public class Drawer implements PlayerJoinListener {
 		if (this.needsUpdate) {
 			this.canvasDelegate.updateDelegate(canvas);
 
-			for (Drawable d : this.allDrawables) {
-				d.updateGraphics(this.canvasDelegate);
-			}
 			this.needsUpdate = false;
 		}
+		updateDrawables();
+	}
+
+	private void updateDrawables() {
+		for (Drawable d : this.drawablesWhichNeedToBeUpdated) {
+			d.updateGraphics(this.canvasDelegate);
+		}
+		this.allDrawables.addAll(this.drawablesWhichNeedToBeUpdated);
+		this.drawablesWhichNeedToBeUpdated.clear();
 	}
 
 	public void setNeedsUpdate(boolean b) {
@@ -64,7 +73,7 @@ public class Drawer implements PlayerJoinListener {
 	@Override
 	public void newPlayerJoined(Player p) {
 		Drawable playerDrawer = this.factory.createPlayerDrawable(p);
-		this.allDrawables.add(playerDrawer);
+		this.drawablesWhichNeedToBeUpdated.add(playerDrawer);
 	}
 
 	@Override
