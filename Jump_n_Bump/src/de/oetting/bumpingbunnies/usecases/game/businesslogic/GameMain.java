@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
+import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -20,18 +21,20 @@ import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 public class GameMain {
 
 	private final SocketStorage sockets;
+	private final NetworkSendControl sendControl;
+	private final PlayerJoinObservable playerObservable;
+	private final NewClientsAccepter newClientsAccepter;
 	private GameThread gameThread;
 	private InputDispatcher<?> inputDispatcher;
 	private NetworkReceiveControl receiveControl;
-	private NetworkSendControl sendControl;
 	private MusicPlayer musicPlayer;
 	private World world;
-	private PlayerJoinObservable playerObservable;
 
-	public GameMain(SocketStorage sockets, NetworkSendControl sendControl) {
+	public GameMain(SocketStorage sockets, NetworkSendControl sendControl, NewClientsAccepter newClientsAccepter) {
 		super();
 		this.sockets = sockets;
 		this.sendControl = sendControl;
+		this.newClientsAccepter = newClientsAccepter;
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
@@ -80,6 +83,7 @@ public class GameMain {
 	public void destroy() {
 		shutdownAllThreads();
 		this.sockets.closeExistingSocket();
+		this.newClientsAccepter.cancel();
 	}
 
 	public void shutdownAllThreads() {

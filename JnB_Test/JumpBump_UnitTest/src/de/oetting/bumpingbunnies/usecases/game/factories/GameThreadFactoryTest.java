@@ -16,7 +16,9 @@ import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCa
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.TestConfigurationFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
@@ -34,7 +36,8 @@ public class GameThreadFactoryTest {
 				TestConfigurationFactory.createDummyHost(),
 				mock(CoordinatesCalculation.class), null, new GameMain(
 						null,
-						new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class)))),
+						new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class))),
+						new DummyNewClientsAccepter()),
 				TestPlayerFactory.createOpponentPlayer(),
 				null, null);
 	}

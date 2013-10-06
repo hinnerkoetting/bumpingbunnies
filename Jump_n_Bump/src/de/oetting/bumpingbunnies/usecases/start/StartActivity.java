@@ -30,7 +30,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
+import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsStorage;

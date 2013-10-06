@@ -21,6 +21,8 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
+import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
@@ -31,9 +33,9 @@ public class GameMainFactory {
 	public static GameMain create(GameActivity activity) {
 		NetworkSendControl sendControl = new NetworkSendControl(new RemoteConnectionFactory(activity,
 				SocketStorage.getSingleton()));
-		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl);
 		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
+		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, NewClientsAccepterFactory.create(parameter, activity));
 		GameThread gameThread = initGame(main, activity, parameter, sendControl);
 
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);

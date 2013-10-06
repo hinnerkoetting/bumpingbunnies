@@ -7,7 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.ServerSocket;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
+import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
 public class MyBluetoothServerSocket implements ServerSocket {
 

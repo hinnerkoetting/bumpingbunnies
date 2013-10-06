@@ -22,10 +22,11 @@ import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyRemoteSender;
+import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.factories.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
+import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
@@ -38,6 +39,8 @@ public class GameMainTest {
 	private List<ThreadedNetworkSender> sendThreads;
 	@Mock
 	private SocketStorage sockets;
+	@Mock
+	private NewClientsAccepter accepter;
 
 	@Test
 	public void playerJoins_shouldNotifyListener() {
@@ -126,7 +129,7 @@ public class GameMainTest {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
 		this.fixture = new GameMain(this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class),
-				this.sendThreads));
+				this.sendThreads), this.accepter);
 		this.fixture.setWorld(new World(mock((WorldObjectsBuilder.class))));
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 		NetworkSendControl networkSendControl = createNetworkSendControl();

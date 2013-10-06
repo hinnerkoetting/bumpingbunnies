@@ -10,7 +10,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
+import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
 @RunWith(RobolectricTestRunner.class)
 public class OpponentConfigurationTest {

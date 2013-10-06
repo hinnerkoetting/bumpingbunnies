@@ -7,10 +7,6 @@ import android.os.Parcelable;
 @SuppressLint("ParcelCreator")
 public class Opponent implements Parcelable {
 
-	public enum OpponentType {
-		MY_PLAYER, AI, WLAN, BLUETOOTH
-	}
-
 	private final String identifier;
 	private final OpponentType type;
 

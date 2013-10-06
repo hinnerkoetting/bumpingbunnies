@@ -22,8 +22,8 @@ import de.oetting.bumpingbunnies.usecases.game.communication.DummyStateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.factories.RemoteConnectionFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
+import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class AndroidStateSenderFactoryTest {

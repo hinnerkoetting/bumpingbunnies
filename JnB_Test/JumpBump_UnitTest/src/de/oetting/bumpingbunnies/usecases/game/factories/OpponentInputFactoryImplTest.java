@@ -14,7 +14,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.ai.DummyInputServic
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent.OpponentType;
+import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
