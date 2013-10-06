@@ -10,7 +10,6 @@ import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
@@ -151,27 +150,6 @@ public class GameMain {
 		addJoinListener(this.sendControl); // send control must be the first
 		this.gameThread.addAllJoinListeners(this);
 		addJoinListener(this.receiveControl);
-	}
-
-	public ThreadedNetworkSender findConnection(Opponent opponent) {
-		ThreadedNetworkSender rc = findConnectionOrNull(opponent);
-		if (rc == null) {
-			throw new ConnectionDoesNotExist();
-		} else {
-			return rc;
-		}
-	}
-
-	private ThreadedNetworkSender findConnectionOrNull(Opponent opponent) {
-		for (ThreadedNetworkSender rc : this.sendControl.getSendThreads()) {
-			if (rc.isConnectionToPlayer(opponent)) {
-				return rc;
-			}
-		}
-		return null;
-	}
-
-	public static class ConnectionDoesNotExist extends RuntimeException {
 	}
 
 }

@@ -4,7 +4,6 @@ import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFa
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.LinkedList;
@@ -17,7 +16,6 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyStateSender;
@@ -31,7 +29,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class AndroidStateSenderFactoryTest {
 
 	private AndroidStateSenderFactory factory;
-	private GameMain main;
+	private NetworkSendControl sendControl;
 	private Player myPlayer;
 	@Mock
 	private SocketStorage sockets;
@@ -62,8 +60,8 @@ public class AndroidStateSenderFactoryTest {
 		initMocks(this);
 		this.myPlayer = createOpponentPlayer();
 		this.sendThreads = new LinkedList<>();
-		this.main = new GameMain(mock(SocketStorage.class), new NetworkSendControl(new RemoteConnectionFactory(
-				this.activity, this.sockets), this.sendThreads));
-		this.factory = new AndroidStateSenderFactory(this.main, this.myPlayer);
+		this.sendControl = new NetworkSendControl(new RemoteConnectionFactory(
+				this.activity, this.sockets), this.sendThreads);
+		this.factory = new AndroidStateSenderFactory(this.sendControl, this.myPlayer);
 	}
 }

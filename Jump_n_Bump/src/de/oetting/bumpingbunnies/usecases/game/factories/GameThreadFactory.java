@@ -66,7 +66,7 @@ public class GameThreadFactory {
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, colDetection, world);
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory);
 		// Sending Coordinates Strep
-		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(new AndroidStateSenderFactory(main, myPlayer));
+		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(new AndroidStateSenderFactory(sendControl, myPlayer));
 		GameStepController worldController = new GameStepController(
 				userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);
 		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());

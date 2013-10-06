@@ -4,7 +4,6 @@ import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFa
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -19,7 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -79,24 +77,6 @@ public class GameMainTest {
 		assertNumberOfPlayers(1);
 		whenPlayerLeaves(p);
 		assertNumberOfPlayers(0);
-	}
-
-	@Test(expected = GameMain.ConnectionDoesNotExist.class)
-	public void findConnection_givenOpponenDoesNotExist_shouldThrowException() {
-		this.fixture.findConnection(TestOpponentFactory.createDummyOpponent());
-	}
-
-	@Test
-	public void findConnection_givenConnectionDoesExist_shouldReturnConnection() {
-		Opponent opponent = TestOpponentFactory.createDummyOpponent();
-		givenOpponentHasConnection(opponent);
-		ThreadedNetworkSender connection = this.fixture.findConnection(opponent);
-		assertNotNull(connection);
-	}
-
-	private void givenOpponentHasConnection(Opponent opponent) {
-		DividedNetworkSender connection = new DividedNetworkSender(null, null, opponent);
-		this.sendThreads.add(connection);
 	}
 
 	@Test
