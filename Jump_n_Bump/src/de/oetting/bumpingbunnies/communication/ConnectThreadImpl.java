@@ -2,18 +2,18 @@ package de.oetting.bumpingbunnies.communication;
 
 import java.io.IOException;
 
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.communication.ConnectsToServer;
 
 public class ConnectThreadImpl extends Thread implements ConnectThread {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConnectThreadImpl.class);
 	private final MySocket mmSocket;
-	private final RoomActivity activity;
+	private final ConnectsToServer activity;
 
-	public ConnectThreadImpl(MySocket mmSocket, RoomActivity activity) {
+	public ConnectThreadImpl(MySocket mmSocket, ConnectsToServer activity) {
 		super("Connect to Server thread");
 		this.activity = activity;
 		// Use a temporary object that is later assigned to mmSocket,
@@ -48,7 +48,6 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 	}
 
 	private void manageConnectedSocket() {
-
 		this.activity.connectToServerSuccesfull(this.mmSocket);
 		LOGGER.info("Connection accepted");
 	}

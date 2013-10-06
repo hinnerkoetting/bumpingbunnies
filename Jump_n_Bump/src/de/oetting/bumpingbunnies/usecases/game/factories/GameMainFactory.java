@@ -35,12 +35,15 @@ public class GameMainFactory {
 				SocketStorage.getSingleton()));
 		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
 				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
+
 		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, NewClientsAccepterFactory.create(parameter, activity));
+
 		GameThread gameThread = initGame(main, activity, parameter, sendControl);
 
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
 		contentView.setGameThread(gameThread);
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
+
 		addPlayersToWorld(main, otherPlayers);
 		gameThread.start();
 		initGameSound(main, activity);
@@ -53,11 +56,10 @@ public class GameMainFactory {
 	}
 
 	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl) {
-
+		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 		World world = WorldFactory.create(parameter.getConfiguration(), activity);
 		main.setWorld(world);
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
-		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
@@ -71,7 +73,6 @@ public class GameMainFactory {
 
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayer));
 		addJoinListener(main);
-
 		main.playerJoins(myPlayer);
 		return gameThread;
 	}

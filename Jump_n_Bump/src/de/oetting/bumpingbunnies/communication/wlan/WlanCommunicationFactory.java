@@ -8,7 +8,7 @@ public class WlanCommunicationFactory {
 
 	public static WlanCommunication create(RoomActivity origin) {
 		SocketFactory socketFactory = new WlanSocketFactory();
-		RemoteCommunicationImpl communication = new RemoteCommunicationImpl(
+		RemoteCommunicationImpl communication = new RemoteCommunicationImpl(origin, origin,
 				origin, socketFactory);
 		return new WlanCommunication(origin, communication);
 	}

@@ -32,6 +32,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
+import de.oetting.bumpingbunnies.usecases.game.communication.ConnectsToServer;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
@@ -54,8 +55,8 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.Connectio
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback,
-		ClientConnectedSuccesfullCallback,
-		ConnectionToServerSuccesfullCallback, OnBroadcastReceived {
+		AcceptsClientConnections,
+		ConnectionToServerSuccesfullCallback, OnBroadcastReceived, ConnectsToServer {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(RoomActivity.class);
@@ -151,6 +152,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		super.onDestroy();
 		this.connectedToServerService.cancel();
 		this.broadcastService.cancel();
+		this.remoteCommunication.closeOpenConnections();
 		for (ConnectionToClientService connectionToClient : this.connectionToClientServices) {
 			connectionToClient.cancel();
 		}
@@ -249,6 +251,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		});
 	}
 
+	@Override
 	public void connectionNotSuccesful(final String message) {
 		runOnUiThread(new Runnable() {
 

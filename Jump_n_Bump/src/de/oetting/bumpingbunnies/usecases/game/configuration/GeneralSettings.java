@@ -31,19 +31,22 @@ public class GeneralSettings implements Parcelable {
 	};
 
 	private final WorldConfiguration worldConfiguration;
-	private int speedSetting;
+	private final int speedSetting;
+	private final NetworkType networkType;
 
 	public GeneralSettings(WorldConfiguration worldConfiguration,
-			int speedSetting) {
+			int speedSetting, NetworkType networkType) {
 		super();
 		this.worldConfiguration = worldConfiguration;
 		this.speedSetting = speedSetting;
+		this.networkType = networkType;
 	}
 
 	public GeneralSettings(Parcel source) {
 		this.worldConfiguration = WorldConfiguration.valueOf(source
 				.readString());
 		this.speedSetting = source.readInt();
+		this.networkType = NetworkType.valueOf(source.readString());
 	}
 
 	@Override
@@ -55,14 +58,15 @@ public class GeneralSettings implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.worldConfiguration.toString());
 		dest.writeInt(this.speedSetting);
+		dest.writeString(this.networkType.toString());
 	}
 
 	public int getSpeedSetting() {
 		return this.speedSetting;
 	}
 
-	public void setSpeedSetting(int speedSetting) {
-		this.speedSetting = speedSetting;
+	public NetworkType getNetworkType() {
+		return this.networkType;
 	}
 
 	public WorldConfiguration getWorldConfiguration() {

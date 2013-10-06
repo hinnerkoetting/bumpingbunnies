@@ -24,13 +24,14 @@ public class ConnectionToClientService {
 			.getLogger(ConnectionToClientService.class);
 	private final RoomActivity roomActivity;
 	private final NetworkReceiver networkReceiver;
+	private final SocketStorage sockets;
 	private MySocket socket;
 
-	public ConnectionToClientService(RoomActivity roomActivity,
-			NetworkReceiver networkReceiver) {
+	public ConnectionToClientService(RoomActivity roomActivity, NetworkReceiver networkReceiver, SocketStorage sockets) {
 		super();
 		this.roomActivity = roomActivity;
 		this.networkReceiver = networkReceiver;
+		this.sockets = sockets;
 	}
 
 	public void onConnectToClient(MySocket socket) {
@@ -40,52 +41,43 @@ public class ConnectionToClientService {
 	}
 
 	private void addObserver() {
-		NetworkToGameDispatcher gameDispatcher = this.networkReceiver
-				.getGameDispatcher();
+		NetworkToGameDispatcher gameDispatcher = this.networkReceiver.getGameDispatcher();
 		new SendLocalSettingsReceiver(gameDispatcher, this);
 	}
 
 	public void onReceiveLocalPlayersettings(LocalPlayersettings message) {
 		ConnectionToClientService.this.networkReceiver.cancel();
-		manageConnectedClient(
-				ConnectionToClientService.this.socket,
-				message.getPlayerName());
+		manageConnectedClient(ConnectionToClientService.this.socket, message.getPlayerName());
+	}
+
+	private void manageConnectedClient(MySocket socket, String playerName) {
+		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket);
+		notifyAboutExistingPlayers(networkSender);
+
+		int nextPlayerId = getNextPlayerId();
+		PlayerProperties playerProperties = new PlayerProperties(nextPlayerId, playerName);
+		notifyExistingClients(playerProperties);
+		sendClientPlayer(networkSender, nextPlayerId);
+		int socketIndex = this.sockets.addSocket(socket);
+		this.roomActivity.addPlayerEntry(socket, playerProperties, socketIndex);
 	}
 
 	private void notifyExistingClients(PlayerProperties playerProperties) {
 		LOGGER.info("Notifying existing clients about new player with id %d",
 				playerProperties.getPlayerId());
-		List<RoomEntry> allOtherPlayers = this.roomActivity
-				.getAllOtherPlayers();
+		List<RoomEntry> allOtherPlayers = this.roomActivity.getAllOtherPlayers();
 		for (RoomEntry otherPlayer : allOtherPlayers) {
-			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
-					.createNetworkSender(otherPlayer.getSocket());
+			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(otherPlayer.getSocket());
 			new OtherPlayerClientIdSender(networkSender).sendMessage(playerProperties);
 		}
 	}
 
-	private void manageConnectedClient(MySocket socket, String playerName) {
-		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
-				.createNetworkSender(socket);
-		notifyAboutExistingPlayers(networkSender);
-
-		int nextPlayerId = getNextPlayerId();
-		PlayerProperties playerProperties = new PlayerProperties(nextPlayerId,
-				playerName);
-		notifyExistingClients(playerProperties);
-		sendClientPlayer(networkSender, nextPlayerId);
-		int socketIndex = SocketStorage.getSingleton().addSocket(socket);
-		this.roomActivity.addPlayerEntry(socket, playerProperties, socketIndex);
-	}
-
-	private void notifyAboutExistingPlayers(
-			SimpleNetworkSender networkSender) {
+	private void notifyAboutExistingPlayers(SimpleNetworkSender networkSender) {
 		LOGGER.info("Notifying new Player all existing players");
 		for (RoomEntry otherPlayer : this.roomActivity.getAllOtherPlayers()) {
 			informClientAboutPlayer(otherPlayer, networkSender);
 		}
 		informClientAboutPlayer(this.roomActivity.getMyself(), networkSender);
-
 	}
 
 	private void informClientAboutPlayer(RoomEntry player,

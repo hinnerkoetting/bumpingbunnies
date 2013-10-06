@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -154,6 +155,10 @@ public class GameMain {
 		addJoinListener(this.sendControl); // send control must be the first
 		this.gameThread.addAllJoinListeners(this);
 		addJoinListener(this.receiveControl);
+	}
+
+	public void clientConnectedSuccessfull(MySocket socket) {
+		this.newClientsAccepter.clientConnectedSucessfull(socket);
 	}
 
 }

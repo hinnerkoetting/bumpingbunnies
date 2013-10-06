@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.networkRoom.ClientConnectedSuccesfullCallback;
+import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 
 public class AcceptThreadImpl extends Thread implements AcceptThread {
 	private final ServerSocket mmServerSocket;
@@ -12,13 +12,13 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AcceptThreadImpl.class);
 
-	private final ClientConnectedSuccesfullCallback gameStarter;
+	private final AcceptsClientConnections acceptsConnections;
 	private boolean canceled;
 
 	public AcceptThreadImpl(ServerSocket serverSocket,
-			ClientConnectedSuccesfullCallback gameStarter) {
+			AcceptsClientConnections gameStarter) {
 		super("Host thread");
-		this.gameStarter = gameStarter;
+		this.acceptsConnections = gameStarter;
 		this.mmServerSocket = serverSocket;
 	}
 
@@ -47,7 +47,7 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 	}
 
 	private void manageConnectedSocket(MySocket socket) {
-		this.gameStarter.clientConnectedSucessfull(socket);
+		this.acceptsConnections.clientConnectedSucessfull(socket);
 		LOGGER.info("Connection accepeted");
 	}
 

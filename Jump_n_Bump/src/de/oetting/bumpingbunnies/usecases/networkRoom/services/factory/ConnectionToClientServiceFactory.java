@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.services.factory;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiveThreadFactory;
@@ -13,6 +14,6 @@ public class ConnectionToClientServiceFactory {
 			MySocket socket, NetworkToGameDispatcher dispatcher) {
 		NetworkReceiver receiver = NetworkReceiveThreadFactory.create(socket,
 				dispatcher);
-		return new ConnectionToClientService(origin, receiver);
+		return new ConnectionToClientService(origin, receiver, SocketStorage.getSingleton());
 	}
 }

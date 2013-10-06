@@ -11,7 +11,7 @@ public class TestConfigurationFactory {
 	public static Configuration createDummyHost() {
 		LocalSettings localSettings = new LocalSettings(InputConfiguration.ANALOG, 1, true, true);
 		GeneralSettings generalSettings = new GeneralSettings(
-				WorldConfiguration.CASTLE, 1);
+				WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
 		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL,
 				new PlayerProperties(0, "name"), Opponent.createOpponent("identifier", OpponentType.AI)));
 		LocalPlayersettings playerSettings = new LocalPlayersettings("name");

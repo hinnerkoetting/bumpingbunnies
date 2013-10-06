@@ -11,7 +11,7 @@ public class BluetoothCommunicationFactory {
 			RoomActivity origin) {
 		SocketFactory serverSocketFactory = new BluetoothSocketFactory(
 				btAdapter);
-		RemoteCommunicationImpl communication = new RemoteCommunicationImpl(
+		RemoteCommunicationImpl communication = new RemoteCommunicationImpl(origin, origin,
 				origin, serverSocketFactory);
 		return new BluetoothCommunication(origin, btAdapter, communication);
 	}

@@ -24,6 +24,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
@@ -132,7 +133,8 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	private GeneralSettings createGeneralSettings(SettingsEntity settings) {
 		WorldConfiguration world = findWorldConfiguration();
 		int speed = settings.getSpeed();
-		GeneralSettings generalSettings = new GeneralSettings(world, speed);
+		/** TODO */
+		GeneralSettings generalSettings = new GeneralSettings(world, speed, NetworkType.WLAN);
 		return generalSettings;
 	}
 
