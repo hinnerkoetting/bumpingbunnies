@@ -8,13 +8,17 @@ import java.net.Socket;
 import java.net.SocketAddress;
 
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
+import de.oetting.bumpingbunnies.communication.IORuntimeException;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.UdpSocket;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class WlanSocket extends AbstractSocket implements MySocket {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(WlanSocket.class);
 	private Socket socket;
 	private SocketAddress address;
 	private UdpSocket udpSocket;
@@ -36,12 +40,16 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 	}
 
 	@Override
-	public void connect() throws IOException {
+	public void connect() {
 		if (this.address == null) {
 			throw new IllegalStateException(
 					"Need to set address in constructor");
 		}
-		this.socket.connect(this.address);
+		try {
+			this.socket.connect(this.address);
+		} catch (IOException e) {
+			throw new IORuntimeException(e);
+		}
 	}
 
 	@Override
@@ -64,6 +72,7 @@ public class WlanSocket extends AbstractSocket implements MySocket {
 
 	private UdpSocket createUdpSocket() {
 		try {
+			LOGGER.info("Creating UDP socket on port %d", NetworkConstants.UDP_PORT);
 			DatagramSocket dataSocket = new DatagramSocket(NetworkConstants.UDP_PORT);
 			dataSocket.setBroadcast(false);
 			return new UdpSocket(dataSocket, this.socket.getInetAddress(), NetworkConstants.UDP_PORT, getOwner());

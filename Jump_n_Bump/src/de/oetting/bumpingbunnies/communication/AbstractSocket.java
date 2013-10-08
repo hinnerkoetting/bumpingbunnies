@@ -76,4 +76,5 @@ public abstract class AbstractSocket implements MySocket {
 	public Opponent getOwner() {
 		return this.owner;
 	}
+
 }

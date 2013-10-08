@@ -33,7 +33,7 @@ public class ListenForBroadcastsThread extends Thread {
 				oneRun();
 			} catch (Exception e) {
 				if (this.canceled) {
-					LOGGER.info("exception because socket was closed");
+					LOGGER.info("exception because socket was closed. But Thread was already canceled.");
 				} else {
 					LOGGER.error("exception because socket was closed");
 					displayErrorMessage();

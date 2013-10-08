@@ -54,6 +54,7 @@ public class SendBroadCastsThread extends Thread {
 	public void closeAllSockets() {
 		for (UdpSocket socket : this.broadcastSockets) {
 			try {
+				LOGGER.info("Closing Send-Broadcast socket");
 				socket.close();
 			} catch (Exception e) {
 				LOGGER.warn("Exception on closing broadcast socket "

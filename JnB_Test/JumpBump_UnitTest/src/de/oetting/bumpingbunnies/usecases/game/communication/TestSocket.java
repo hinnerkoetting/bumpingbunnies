@@ -42,8 +42,7 @@ public class TestSocket extends AbstractSocket {
 	}
 
 	@Override
-	public void connect() throws IOException {
-
+	public void connect() {
 	}
 
 	@Override

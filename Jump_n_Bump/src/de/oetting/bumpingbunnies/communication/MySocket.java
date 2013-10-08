@@ -8,7 +8,7 @@ public interface MySocket {
 
 	void close() throws IOException;
 
-	void connect() throws IOException;
+	void connect();
 
 	void sendMessage(String message);
 
@@ -20,4 +20,5 @@ public interface MySocket {
 	MySocket createFastConnection();
 
 	Opponent getOwner();
+
 }

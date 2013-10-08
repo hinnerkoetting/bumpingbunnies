@@ -49,7 +49,7 @@ public class SocketStorage {
 
 	private void closeOneSocket(MySocket socket) {
 		try {
-			LOGGER.info("close connection");
+			LOGGER.info("closing one socket");
 			socket.close();
 		} catch (Exception e) {
 			LOGGER.warn("Exception during closing socket: %s", e.getMessage());

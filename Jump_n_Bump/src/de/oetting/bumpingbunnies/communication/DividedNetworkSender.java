@@ -51,7 +51,7 @@ public class DividedNetworkSender implements ThreadedNetworkSender {
 
 	@Override
 	public void sendMessageFast(MessageId id, Object message) {
-		this.udpConnection.sendMessage(id, message);
+		this.tcpConnection.sendMessage(id, message);
 	}
 
 	@Override

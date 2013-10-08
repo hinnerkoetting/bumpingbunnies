@@ -26,7 +26,7 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	}
 
 	@Override
-	public void connect() throws IOException {
+	public void connect() {
 		this.cachedSocket.connect();
 	}
 

@@ -30,7 +30,7 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 			// Connect the device through the socket. This will block
 			// until it succeeds or throws an exception
 			this.mmSocket.connect();
-		} catch (IOException connectException) {
+		} catch (IORuntimeException connectException) {
 			this.activity.connectionNotSuccesful(connectException.getMessage());
 			LOGGER.warn("Exception during connect to server "
 					+ connectException.getMessage());
@@ -55,6 +55,7 @@ public class ConnectThreadImpl extends Thread implements ConnectThread {
 	@Override
 	public void close() {
 		try {
+			LOGGER.info("Closing Connect socket");
 			this.mmSocket.close();
 		} catch (IOException e) {
 			LOGGER.warn("Error von close", e);

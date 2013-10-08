@@ -76,6 +76,7 @@ public class SendBroadcastFactory {
 		DatagramSocket socket = new DatagramSocket(
 				NetworkConstants.BROADCAST_PORT);
 		socket.setBroadcast(true);
+		LOGGER.info("Creating UDP socket on port %d", NetworkConstants.BROADCAST_PORT);
 		return new UdpSocket(socket, address, NetworkConstants.BROADCAST_PORT, Opponent.createOpponent("UDP" + address.getHostAddress(),
 				OpponentType.WLAN));
 	}

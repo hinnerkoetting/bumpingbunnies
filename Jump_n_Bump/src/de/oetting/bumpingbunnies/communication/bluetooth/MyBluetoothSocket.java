@@ -6,6 +6,7 @@ import java.io.OutputStream;
 
 import android.bluetooth.BluetoothSocket;
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
+import de.oetting.bumpingbunnies.communication.IORuntimeException;
 import de.oetting.bumpingbunnies.communication.MethodNotImplemented;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
@@ -25,8 +26,12 @@ public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 	}
 
 	@Override
-	public void connect() throws IOException {
-		this.socket.connect();
+	public void connect() {
+		try {
+			this.socket.connect();
+		} catch (IOException e) {
+			throw new IORuntimeException(e);
+		}
 	}
 
 	@Override

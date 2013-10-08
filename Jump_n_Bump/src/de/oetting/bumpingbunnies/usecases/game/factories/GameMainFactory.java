@@ -51,7 +51,6 @@ public class GameMainFactory {
 		addPlayersToWorld(main, otherPlayers);
 		gameThread.start();
 		initGameSound(main, activity);
-
 		return main;
 	}
 

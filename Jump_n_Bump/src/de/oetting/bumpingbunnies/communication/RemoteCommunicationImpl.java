@@ -5,7 +5,6 @@ import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.ConnectsToServer;
 import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 
@@ -48,8 +47,8 @@ public class RemoteCommunicationImpl implements RemoteCommunication {
 	public void closeOpenConnections() {
 		LOGGER.info("Closing connections");
 		this.acceptThread.close();
-		this.connectThread.close();
-		SocketStorage.getSingleton().closeExistingSocket();
+		// this.connectThread.close();
+		// SocketStorage.getSingleton().closeExistingSocket();
 	}
 
 	@Override

@@ -85,11 +85,17 @@ public class ConnectionToServerService implements ConnectionToServer {
 	}
 
 	private void launchGame() {
+		if (this.generalSettingsFromNetwork == null) {
+			throw new GeneralSettingsWereNotYetReceived();
+		}
 		this.roomActivity.launchGame(this.generalSettingsFromNetwork, false);
 	}
 
 	@Override
 	public void cancel() {
 		this.networkReceiver.cancel();
+	}
+
+	public static class GeneralSettingsWereNotYetReceived extends RuntimeException {
 	}
 }

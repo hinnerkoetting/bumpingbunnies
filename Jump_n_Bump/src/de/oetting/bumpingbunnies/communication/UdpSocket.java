@@ -55,7 +55,7 @@ public class UdpSocket implements MySocket {
 	}
 
 	@Override
-	public void connect() throws IOException {
+	public void connect() {
 	}
 
 	@Override
@@ -94,4 +94,5 @@ public class UdpSocket implements MySocket {
 	public Opponent getOwner() {
 		return this.owner;
 	}
+
 }
