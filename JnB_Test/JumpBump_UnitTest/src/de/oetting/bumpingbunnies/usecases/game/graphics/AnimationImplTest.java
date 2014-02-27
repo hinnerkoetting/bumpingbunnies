@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import android.graphics.Bitmap;
+import de.oetting.bumpingbunnies.tests.IntegrationTest;
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.BitmapResizer;
 
+@Category(IntegrationTest.class)
 @RunWith(RobolectricTestRunner.class)
 public class AnimationImplTest {
 

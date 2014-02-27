@@ -6,11 +6,14 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
+@Category(UnitTest.class)
 @RunWith(MockitoJUnitRunner.class)
 public class CameraPositionCalculationTest {
 

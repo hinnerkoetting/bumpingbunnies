@@ -10,12 +10,15 @@ import java.io.OutputStream;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.tests.UnitTest;
 
+@Category(UnitTest.class)
 public class SimpleNetworkSenderTest {
 
 	private SimpleNetworkSender fixture;

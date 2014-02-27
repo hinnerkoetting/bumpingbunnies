@@ -11,9 +11,11 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
@@ -26,6 +28,7 @@ import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteCon
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
+@Category(UnitTest.class)
 public class AndroidStateSenderFactoryTest {
 
 	private AndroidStateSenderFactory factory;

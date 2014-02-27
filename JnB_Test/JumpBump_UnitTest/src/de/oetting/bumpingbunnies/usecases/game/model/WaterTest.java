@@ -8,11 +8,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 
+@Category(UnitTest.class)
 public class WaterTest {
 
 	private Water fixture;

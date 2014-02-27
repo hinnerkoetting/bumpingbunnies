@@ -11,9 +11,12 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import android.media.MediaPlayer;
+import de.oetting.bumpingbunnies.tests.UnitTest;
 
+@Category(UnitTest.class)
 public class MultiTrackMusicPlayerTest {
 
 	private MultiTrackMusicPlayer fixture;

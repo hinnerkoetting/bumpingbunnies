@@ -6,13 +6,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
+import de.oetting.bumpingbunnies.tests.IntegrationTest;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
+@Category(IntegrationTest.class)
 @RunWith(RobolectricTestRunner.class)
 public class StrictNetworkToGameDispatcherTest {
 

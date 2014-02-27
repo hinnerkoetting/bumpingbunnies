@@ -9,15 +9,19 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
+@Category(UnitTest.class)
 public class ServerConnectionTest {
 
 	private DividedNetworkSender fixture;
@@ -32,6 +36,7 @@ public class ServerConnectionTest {
 		thenMessageShouldBeSendOverTcp(MessageId.SPAWN_POINT, "1");
 	}
 
+	@Ignore("wird momentan über tcp gesendet")
 	@Test
 	public void sendFast_shouldSendMessageOverUdp() {
 		this.fixture.sendMessageFast(MessageId.SEND_PLAYER_STATE, "1");

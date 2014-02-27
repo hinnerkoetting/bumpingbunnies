@@ -16,9 +16,11 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyRemoteSender;
@@ -31,6 +33,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
+@Category(UnitTest.class)
 public class GameMainTest {
 
 	private GameMain fixture;

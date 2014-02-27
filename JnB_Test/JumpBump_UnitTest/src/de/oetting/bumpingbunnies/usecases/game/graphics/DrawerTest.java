@@ -10,11 +10,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import android.graphics.Canvas;
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
+@Category(UnitTest.class)
 public class DrawerTest {
 
 	private Drawer fixture;

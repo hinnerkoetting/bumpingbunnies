@@ -5,11 +5,14 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.tests.IntegrationTest;
 
+@Category(IntegrationTest.class)
 @RunWith(RobolectricTestRunner.class)
 public class GeneralSettingsTest {
 

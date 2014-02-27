@@ -8,13 +8,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Rect;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
+@Category(UnitTest.class)
 public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCalculation {
 
 	@Test

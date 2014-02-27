@@ -7,9 +7,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 
+@Category(UnitTest.class)
 public class PlayerMovementWithHigherSpeedTest extends AbstractTestPlayerMovementCalculation {
 
 	private static final int speed = 2;

@@ -7,8 +7,10 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.android.input.ai.AiInputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.ai.DummyInputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.network.PlayerFromNetworkInput;
@@ -18,6 +20,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
+@Category(UnitTest.class)
 public class OpponentInputFactoryImplTest {
 
 	private OpponentInputFactoryImpl fixture;

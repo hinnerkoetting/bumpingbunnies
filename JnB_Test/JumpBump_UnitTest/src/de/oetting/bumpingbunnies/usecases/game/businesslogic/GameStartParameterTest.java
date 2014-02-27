@@ -5,12 +5,15 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.tests.IntegrationTest;
 import de.oetting.bumpingbunnies.usecases.game.configuration.TestConfigurationFactory;
 
+@Category(IntegrationTest.class)
 @RunWith(RobolectricTestRunner.class)
 public class GameStartParameterTest {
 

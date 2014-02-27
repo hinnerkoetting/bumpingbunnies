@@ -12,6 +12,7 @@ import java.io.InputStream;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
@@ -20,8 +21,10 @@ import org.mockito.stubbing.Answer;
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
+@Category(UnitTest.class)
 public class NetworkReceiveThreadTest {
 
 	private NetworkReceiveThread fixture;

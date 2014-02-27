@@ -11,14 +11,17 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
+@Category(UnitTest.class)
 public class BunnyMovementStepTest {
 
 	private BunnyMovementStep fixture;

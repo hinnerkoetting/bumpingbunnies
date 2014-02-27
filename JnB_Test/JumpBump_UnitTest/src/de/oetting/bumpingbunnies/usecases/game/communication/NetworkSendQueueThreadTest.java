@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
@@ -21,8 +22,10 @@ import org.robolectric.RobolectricTestRunner;
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.tests.IntegrationTest;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 
+@Category(IntegrationTest.class)
 @RunWith(RobolectricTestRunner.class)
 public class NetworkSendQueueThreadTest {
 

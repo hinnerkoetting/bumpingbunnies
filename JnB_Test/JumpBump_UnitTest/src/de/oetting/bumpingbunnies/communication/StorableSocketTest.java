@@ -10,14 +10,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.tests.IntegrationTest;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.TestSocket;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
+@Category(IntegrationTest.class)
 @RunWith(RobolectricTestRunner.class)
 public class StorableSocketTest {
 

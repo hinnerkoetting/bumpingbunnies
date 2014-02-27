@@ -9,12 +9,15 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInput;
+import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInputFactory;
 
+@Category(UnitTest.class)
 public class UserInputStepTest {
 
 	private UserInputStep fixture;

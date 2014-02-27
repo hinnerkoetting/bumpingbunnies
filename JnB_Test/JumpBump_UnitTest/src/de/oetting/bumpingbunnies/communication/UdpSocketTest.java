@@ -15,11 +15,14 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.UdpSocket.UdpException;
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 
+@Category(UnitTest.class)
 public class UdpSocketTest {
 
 	private UdpSocket fixture;

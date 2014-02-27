@@ -6,11 +6,14 @@ import static org.junit.Assert.assertThat;
 import org.hamcrest.core.IsSame;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
+@Category(UnitTest.class)
 public class WorldTest {
 
 	private World fixture;

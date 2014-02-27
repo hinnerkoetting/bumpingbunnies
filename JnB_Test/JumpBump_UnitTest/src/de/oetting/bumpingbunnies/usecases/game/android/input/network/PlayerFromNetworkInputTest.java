@@ -7,12 +7,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
+@Category(UnitTest.class)
 public class PlayerFromNetworkInputTest {
 
 	private PlayerFromNetworkInput fixture;

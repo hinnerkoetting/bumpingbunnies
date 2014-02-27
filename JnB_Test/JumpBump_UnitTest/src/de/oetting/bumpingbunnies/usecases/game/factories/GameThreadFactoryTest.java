@@ -6,10 +6,12 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.tests.IntegrationTest;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
@@ -23,6 +25,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
+@Category(IntegrationTest.class)
 @RunWith(RobolectricTestRunner.class)
 public class GameThreadFactoryTest {
 

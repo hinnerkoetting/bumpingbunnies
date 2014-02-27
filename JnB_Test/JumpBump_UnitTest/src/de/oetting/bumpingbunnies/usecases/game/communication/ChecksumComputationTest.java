@@ -9,7 +9,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.tests.UnitTest;
+
+@Category(UnitTest.class)
 public class ChecksumComputationTest {
 
 	private ChecksumComputation fixture;
