@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
@@ -36,7 +35,7 @@ public class ServerConnectionTest {
 		thenMessageShouldBeSendOverTcp(MessageId.SPAWN_POINT, "1");
 	}
 
-	@Ignore("wird momentan über tcp gesendet")
+	// @Ignore("wird momentan über tcp gesendet")
 	@Test
 	public void sendFast_shouldSendMessageOverUdp() {
 		this.fixture.sendMessageFast(MessageId.SEND_PLAYER_STATE, "1");

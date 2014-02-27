@@ -46,7 +46,7 @@ public class UdpAndTcpNetworkSender implements NetworkSender {
 	@Override
 	public void sendMessageFast(MessageId id, Object message) {
 		// should be udp-connection but that does not work at the moment
-		this.tcpConnection.sendMessage(id, message);
+		this.udpConnection.sendMessage(id, message);
 	}
 
 	@Override

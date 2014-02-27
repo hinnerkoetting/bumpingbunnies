@@ -21,7 +21,7 @@ public class WlanServerSocket implements
 	@Override
 	public MySocket accept() throws IOException {
 		Socket socket = this.serverSocket.accept();
-		return new WlanSocket(socket, Opponent.createOpponent("server" + this.serverSocket.getInetAddress().getHostAddress(),
+		return new TCPSocket(socket, Opponent.createOpponent("server" + this.serverSocket.getInetAddress().getHostAddress(),
 				OpponentType.WLAN));
 	}
 

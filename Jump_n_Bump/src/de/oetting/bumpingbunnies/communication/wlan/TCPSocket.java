@@ -14,19 +14,19 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
-public class WlanSocket extends AbstractSocket implements MySocket {
+public class TCPSocket extends AbstractSocket implements MySocket {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(WlanSocket.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TCPSocket.class);
 	private Socket socket;
 	private SocketAddress address;
 
-	public WlanSocket(Socket socket, Opponent owner) {
+	public TCPSocket(Socket socket, Opponent owner) {
 		super(owner);
 		this.socket = socket;
 		LOGGER.info("Created WLAn Socket");
 	}
 
-	public WlanSocket(Socket socket, SocketAddress address, Opponent owner) throws IOException {
+	public TCPSocket(Socket socket, SocketAddress address, Opponent owner) throws IOException {
 		super(owner);
 		this.socket = socket;
 		this.address = address;
