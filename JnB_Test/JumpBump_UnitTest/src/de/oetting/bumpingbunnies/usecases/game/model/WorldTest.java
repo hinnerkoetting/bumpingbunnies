@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import android.content.Context;
 import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
@@ -20,8 +19,6 @@ public class WorldTest {
 
 	@Mock
 	private WorldObjectsBuilder worldBuilder;
-	@Mock
-	private Context context;
 
 	@Test(expected = World.PlayerDoesNotExist.class)
 	public void findPlayer_givenPlayerDoesNotExist_shouldThrowException() {

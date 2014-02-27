@@ -6,10 +6,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import android.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.RelativeCoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
@@ -17,8 +15,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalcu
 public class CoordinatesCalculationTest {
 
 	private CameraPositionCalculation camPosition;
-	@Mock
-	private Paint paint;
 	private CoordinatesCalculation fixture;
 
 	@Test

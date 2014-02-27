@@ -79,11 +79,6 @@ public class UdpSocket implements MySocket {
 		}
 	}
 
-	@Override
-	public MySocket createFastConnection() {
-		return this;
-	}
-
 	public static class ReceiveFailure extends RuntimeException {
 		public ReceiveFailure(Exception e) {
 			super(e);
@@ -93,6 +88,15 @@ public class UdpSocket implements MySocket {
 	@Override
 	public Opponent getOwner() {
 		return this.owner;
+	}
+
+	@Override
+	public boolean isFastSocketPossible() {
+		return false;
+	}
+
+	public boolean isOpen() {
+		return !this.socket.isClosed();
 	}
 
 }

@@ -25,8 +25,6 @@ public class PlayerMovementControllerTest {
 
 	private Player movedPlayer;
 	@Mock
-	private GameObjectInteractor interActionService;
-	@Mock
 	private CollisionDetection collisionDetection;
 
 	@Test

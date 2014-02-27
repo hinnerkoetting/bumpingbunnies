@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import de.oetting.bumpingbunnies.communication.AbstractSocket;
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 
 public class TestSocket extends AbstractSocket {
@@ -56,8 +55,8 @@ public class TestSocket extends AbstractSocket {
 	}
 
 	@Override
-	public MySocket createFastConnection() {
-		return this;
+	public boolean isFastSocketPossible() {
+		return false;
 	}
 
 }

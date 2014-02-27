@@ -71,12 +71,12 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 		throw new IllegalArgumentException("Storable socket does not support getOutputStream");
 	}
 
-	@Override
-	public MySocket createFastConnection() {
-		return this;
-	}
-
 	int getIndex() {
 		return this.index;
+	}
+
+	@Override
+	public boolean isFastSocketPossible() {
+		return false;
 	}
 }

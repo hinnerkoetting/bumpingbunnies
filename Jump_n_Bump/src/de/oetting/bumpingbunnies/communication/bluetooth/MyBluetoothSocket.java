@@ -9,15 +9,19 @@ import de.oetting.bumpingbunnies.communication.AbstractSocket;
 import de.oetting.bumpingbunnies.communication.IORuntimeException;
 import de.oetting.bumpingbunnies.communication.MethodNotImplemented;
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MyBluetoothSocket.class);
 	private final BluetoothSocket socket;
 
 	public MyBluetoothSocket(BluetoothSocket socket, Opponent opponent) throws IOException {
 		super(opponent);
 		this.socket = socket;
+		LOGGER.info("Created bluetooth socket");
 	}
 
 	@Override
@@ -50,8 +54,8 @@ public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 	}
 
 	@Override
-	public MySocket createFastConnection() {
-		return this;
+	public boolean isFastSocketPossible() {
+		return false;
 	}
 
 }
