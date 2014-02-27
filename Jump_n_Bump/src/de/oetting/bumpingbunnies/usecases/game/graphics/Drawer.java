@@ -80,15 +80,29 @@ public class Drawer implements PlayerJoinListener {
 	public void playerLeftTheGame(Player p) {
 		Drawable drawer = findDrawerPlayable(p);
 		this.allDrawables.remove(drawer);
+		this.drawablesWhichNeedToBeUpdated.remove(drawer);
 	}
 
 	private Drawable findDrawerPlayable(Player p) {
-		for (Drawable d : this.allDrawables) {
-			if (d.drawsPlayer(p)) {
-				return d;
+		Drawable drawablefromAll = findDrawerPlayable(this.allDrawables, p);
+		if (drawablefromAll != null) {
+			return drawablefromAll;
+		} else {
+			Drawable fromNeedsToBeUpdates = findDrawerPlayable(this.drawablesWhichNeedToBeUpdated, p);
+			if (fromNeedsToBeUpdates != null) {
+				return fromNeedsToBeUpdates;
 			}
 		}
 		throw new PlayerDoesNotExist();
+	}
+
+	private Drawable findDrawerPlayable(List<Drawable> drawables, Player search) {
+		for (Drawable d : drawables) {
+			if (d.drawsPlayer(search)) {
+				return d;
+			}
+		}
+		return null;
 	}
 
 	public class PlayerDoesNotExist extends RuntimeException {
