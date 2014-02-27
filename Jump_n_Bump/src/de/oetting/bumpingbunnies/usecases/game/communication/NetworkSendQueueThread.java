@@ -7,6 +7,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
@@ -18,7 +19,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
  * Messages are stored to a queue, The sender will send messages from this queue ony by one.
  * 
  */
-public class NetworkSendQueueThread extends Thread implements ThreadedNetworkSender {
+public class NetworkSendQueueThread extends Thread implements NetworkSender {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkSendQueueThread.class);
 	private final BlockingQueue<String> messageQueue;

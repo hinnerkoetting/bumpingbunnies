@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.communication;
 
+import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
@@ -10,13 +10,13 @@ import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
  * Consists of two connections. One is more stable, one is faster.
  * 
  */
-public class DividedNetworkSender implements ThreadedNetworkSender {
+public class UdpAndTcpNetworkSender implements NetworkSender {
 
-	private final ThreadedNetworkSender tcpConnection;
-	private final ThreadedNetworkSender udpConnection;
+	private final NetworkSender tcpConnection;
+	private final NetworkSender udpConnection;
 	private final Opponent owner;
 
-	public DividedNetworkSender(NetworkSendQueueThread tcpConnection, ThreadedNetworkSender udpConnection, Opponent owner) {
+	public UdpAndTcpNetworkSender(NetworkSendQueueThread tcpConnection, NetworkSender udpConnection, Opponent owner) {
 		this.tcpConnection = tcpConnection;
 		this.udpConnection = udpConnection;
 		this.owner = owner;
@@ -41,12 +41,6 @@ public class DividedNetworkSender implements ThreadedNetworkSender {
 	@Override
 	public boolean usesThisSocket(MySocket socket) {
 		return this.tcpConnection.usesThisSocket(socket);
-	}
-
-	@Override
-	public void start() {
-		this.tcpConnection.start();
-		this.udpConnection.start();
 	}
 
 	@Override

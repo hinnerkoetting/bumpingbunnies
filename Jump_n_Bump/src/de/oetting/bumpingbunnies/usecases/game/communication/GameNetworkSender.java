@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
+import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -8,9 +9,9 @@ public class GameNetworkSender implements StateSender {
 
 	private static long currentMessageCounter = 0;
 	private final Player player;
-	private final ThreadedNetworkSender connection;
+	private final NetworkSender connection;
 
-	public GameNetworkSender(Player player, ThreadedNetworkSender networkThread) {
+	public GameNetworkSender(Player player, NetworkSender networkThread) {
 		this.player = player;
 		this.connection = networkThread;
 	}

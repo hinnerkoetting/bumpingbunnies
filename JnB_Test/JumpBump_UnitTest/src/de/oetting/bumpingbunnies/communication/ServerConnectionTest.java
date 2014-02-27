@@ -14,21 +14,21 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 @Category(UnitTest.class)
 public class ServerConnectionTest {
 
-	private DividedNetworkSender fixture;
+	private UdpAndTcpNetworkSender fixture;
 	@Mock
 	private NetworkSendQueueThread tcpConnection;
 	@Mock
-	private ThreadedNetworkSender udpConnection;
+	private NetworkSender udpConnection;
 
 	@Test
 	public void sendReliable_shouldSendMessageOverTcp() {
@@ -75,13 +75,6 @@ public class ServerConnectionTest {
 		assertFalse(this.fixture.usesThisSocket(mock(MySocket.class)));
 	}
 
-	@Test
-	public void start_shouldStartTcpAndUdpConnection() {
-		this.fixture.start();
-		verify(this.tcpConnection).start();
-		verify(this.udpConnection).start();
-	}
-
 	private void givenTcpUsesSocket(boolean usesSocket) {
 		when(this.tcpConnection.usesThisSocket(any(MySocket.class))).thenReturn(usesSocket);
 	}
@@ -101,7 +94,7 @@ public class ServerConnectionTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new DividedNetworkSender(this.tcpConnection, this.udpConnection, TestOpponentFactory.createDummyOpponent());
+		this.fixture = new UdpAndTcpNetworkSender(this.tcpConnection, this.udpConnection, TestOpponentFactory.createDummyOpponent());
 	}
 
 }

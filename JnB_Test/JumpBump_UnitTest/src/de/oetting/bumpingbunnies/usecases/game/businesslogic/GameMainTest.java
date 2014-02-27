@@ -20,12 +20,12 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyRemoteSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
@@ -39,7 +39,7 @@ public class GameMainTest {
 	private GameMain fixture;
 	@Mock
 	private PlayerJoinListener listener;
-	private List<ThreadedNetworkSender> sendThreads;
+	private List<NetworkSender> sendThreads;
 	@Mock
 	private SocketStorage sockets;
 	@Mock

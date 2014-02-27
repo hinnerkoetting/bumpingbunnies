@@ -13,16 +13,15 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import com.google.gson.Gson;
-
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.tests.UnitTest;
+import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 
 @Category(UnitTest.class)
 public class SimpleNetworkSenderTest {
 
 	private SimpleNetworkSender fixture;
-	private Gson gson;
+	private MessageParser parser;
 	private MySocket socket;
 	@Mock
 	private OutputStream os;
@@ -41,8 +40,8 @@ public class SimpleNetworkSenderTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.gson = new Gson();
+		this.parser = MessageParserFactory.create();
 		this.socket = new TestSocket(this.os, null);
-		this.fixture = new SimpleNetworkSender(this.gson, this.socket);
+		this.fixture = new SimpleNetworkSender(this.parser, this.socket);
 	}
 }

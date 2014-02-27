@@ -5,12 +5,12 @@ import java.util.List;
 
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.stop.StopGameSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerJoinObservable;
@@ -89,7 +89,7 @@ public class GameMain {
 
 	public void shutdownAllThreads() {
 		this.gameThread.cancel();
-		for (ThreadedNetworkSender sender : this.sendControl.getSendThreads()) {
+		for (NetworkSender sender : this.sendControl.getSendThreads()) {
 			sender.cancel();
 		}
 		this.receiveControl.shutDownThreads();
@@ -106,7 +106,7 @@ public class GameMain {
 	}
 
 	public void sendStopMessage() {
-		for (ThreadedNetworkSender rs : this.sendControl.getSendThreads()) {
+		for (NetworkSender rs : this.sendControl.getSendThreads()) {
 			new StopGameSender(rs).sendMessage("");
 		}
 	}

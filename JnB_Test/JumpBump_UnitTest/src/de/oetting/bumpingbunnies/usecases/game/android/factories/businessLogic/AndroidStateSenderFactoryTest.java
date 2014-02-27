@@ -14,7 +14,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.DividedNetworkSender;
+import de.oetting.bumpingbunnies.communication.UdpAndTcpNetworkSender;
+import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.tests.UnitTest;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -23,7 +24,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyStateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.ThreadedNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -38,7 +38,7 @@ public class AndroidStateSenderFactoryTest {
 	private SocketStorage sockets;
 	@Mock
 	private GameActivity activity;
-	private List<ThreadedNetworkSender> sendThreads;
+	private List<NetworkSender> sendThreads;
 
 	@Test
 	public void create_givenThereExistsRemoteConnectionForPlayer_shouldCreateNetworkStateSender() {
@@ -49,7 +49,7 @@ public class AndroidStateSenderFactoryTest {
 	}
 
 	private void givenThereExistsRemoteConnection(Player remotePlayer) {
-		this.sendThreads.add(new DividedNetworkSender(null, null, remotePlayer.getOpponent()));
+		this.sendThreads.add(new UdpAndTcpNetworkSender(null, null, remotePlayer.getOpponent()));
 	}
 
 	@Test

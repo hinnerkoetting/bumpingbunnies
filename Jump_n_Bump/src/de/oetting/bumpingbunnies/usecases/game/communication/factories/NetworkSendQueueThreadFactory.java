@@ -9,6 +9,7 @@ public class NetworkSendQueueThreadFactory {
 	public static NetworkSendQueueThread create(MySocket socket, GameActivity activity) {
 		NetworkSendQueueThread thread = new NetworkSendQueueThread(socket,
 				MessageParserFactory.create(), activity);
+		thread.start();
 		return thread;
 	}
 
