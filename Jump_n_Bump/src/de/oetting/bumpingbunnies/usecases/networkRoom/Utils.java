@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
@@ -25,7 +26,7 @@ public class Utils {
 			if (intVal < 0x10) {
 				sbuf.append("0");
 			}
-			sbuf.append(Integer.toHexString(intVal).toUpperCase());
+			sbuf.append(Integer.toHexString(intVal).toUpperCase(Locale.ENGLISH));
 		}
 		return sbuf.toString();
 	}
@@ -138,7 +139,7 @@ public class Utils {
 						.getInetAddresses());
 				for (InetAddress addr : addrs) {
 					if (!addr.isLoopbackAddress()) {
-						String sAddr = addr.getHostAddress().toUpperCase();
+						String sAddr = addr.getHostAddress().toUpperCase(Locale.ENGLISH);
 						boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
 						if (useIPv4) {
 							if (isIPv4) {

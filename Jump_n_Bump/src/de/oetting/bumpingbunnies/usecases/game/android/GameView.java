@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 
 public class GameView extends SurfaceView {
 
-	private List<GameScreenSizeChangeListener> sizeListeners = new LinkedList<GameScreenSizeChangeListener>();;
+	private List<GameScreenSizeChangeListener> sizeListeners = new LinkedList<GameScreenSizeChangeListener>();
 
 	public GameView(Context context) {
 		super(context);
