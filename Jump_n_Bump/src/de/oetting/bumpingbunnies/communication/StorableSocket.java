@@ -21,7 +21,7 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	private MySocket cachedSocket;
 
 	@Override
-	public void close() throws IOException {
+	public void close() {
 		this.cachedSocket.close();
 	}
 

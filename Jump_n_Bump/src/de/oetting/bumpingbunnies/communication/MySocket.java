@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public interface MySocket {
 
-	void close() throws IOException;
+	void close();
 
 	void connect();
 
