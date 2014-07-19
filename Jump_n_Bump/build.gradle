@@ -1,0 +1,52 @@
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+    }
+}
+
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 20
+        versionCode 1
+        versionName "1.0"
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src']
+            manifest.srcFile 'AndroidManifest.xml'
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+
+
+
+dependencies {
+    //compile 'com.android.support:appcompat-v7:19.0.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
