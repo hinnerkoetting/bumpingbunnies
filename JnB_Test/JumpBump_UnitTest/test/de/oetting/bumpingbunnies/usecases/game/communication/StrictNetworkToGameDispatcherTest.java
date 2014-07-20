@@ -10,6 +10,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
@@ -17,6 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 18)
 public class StrictNetworkToGameDispatcherTest {
 
 	private NetworkToGameDispatcher fixture;

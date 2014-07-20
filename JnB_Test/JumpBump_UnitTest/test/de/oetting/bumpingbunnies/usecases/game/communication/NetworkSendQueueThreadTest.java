@@ -18,6 +18,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import com.google.gson.Gson;
 
@@ -27,6 +28,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 18)
 public class NetworkSendQueueThreadTest {
 
 	private NetworkSendQueueThread fixture;

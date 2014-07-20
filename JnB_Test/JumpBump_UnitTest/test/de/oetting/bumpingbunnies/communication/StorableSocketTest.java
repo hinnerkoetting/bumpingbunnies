@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
@@ -22,6 +23,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 18)
 public class StorableSocketTest {
 
 	private MySocket socket;
@@ -38,6 +40,8 @@ public class StorableSocketTest {
 	private StorableSocket serializeAndDeserialize(StorableSocket storedSocket) throws IOException {
 		Parcel parcel = Parcel.obtain();
 		storedSocket.writeToParcel(parcel, 0);
+
+        parcel.setDataPosition(0);
 		return new StorableSocket(parcel);
 	}
 

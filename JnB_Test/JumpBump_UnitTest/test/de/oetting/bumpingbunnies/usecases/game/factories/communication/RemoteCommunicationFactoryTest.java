@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
@@ -22,6 +23,7 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 18)
 public class RemoteCommunicationFactoryTest {
 
 	@Test

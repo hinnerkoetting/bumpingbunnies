@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
@@ -27,6 +28,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBu
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 18)
 public class GameThreadFactoryTest {
 
 	@Test
