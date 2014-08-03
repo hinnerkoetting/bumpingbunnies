@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.+'
+        'de.oetting.bumping-bunnies:Bunnies-Model:0.0.1-SNAPSHOT'
     }
 }
 
