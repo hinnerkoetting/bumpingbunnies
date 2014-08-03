@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.util.Xml;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.AndroidBitmap;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
@@ -129,7 +130,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 			IOException {
 		XmlRect rect = readRect(parser);
 		Wall wall = XmlRectToObjectConverter.createWall(rect, this.worldProperties);
-		wall.setBitmap(readBitmap(parser));
+		wall.setBitmap(new AndroidBitmap(readBitmap(parser)));
 		this.state.getAllWalls().add(wall);
 	}
 

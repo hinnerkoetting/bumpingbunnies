@@ -1,10 +1,9 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import android.graphics.Bitmap;
 
 public interface ImageContainer {
 
-	Bitmap getBitmap();
+	Image getBitmap();
 
-	void setBitmap(Bitmap b);
+	void setBitmap(Image b);
 }

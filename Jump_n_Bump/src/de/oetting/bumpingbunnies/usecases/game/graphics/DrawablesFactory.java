@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.SimpleBitmapResizer;
+import de.oetting.bumpingbunnies.usecases.game.model.AndroidBitmap;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
@@ -54,7 +55,8 @@ public class DrawablesFactory {
 
 			// TODO rework
 			if (w.maxX() - w.minX() > MIN_SIZE_FOR_DRAWER && w.maxY() - w.minY() > MIN_SIZE_FOR_DRAWER) {
-				Bitmap bitmap = w.getBitmap();
+				AndroidBitmap wrapper = (AndroidBitmap) w.getBitmap();
+				Bitmap bitmap = wrapper.getBitmap();
 				if (bitmap != null) {
 					allWalls.add(ImageDrawerFactory.create(bitmap, w));
 				} else {

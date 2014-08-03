@@ -9,7 +9,7 @@ public class Water implements GameObjectWithImage {
 
 	private final Rect rect;
 	private final MusicPlayer musicPlayer;
-	private Bitmap bitmap;
+	private Image bitmap;
 
 	public Water(long minX, long minY, long maxX, long maxY,
 			MusicPlayer musicPlayer) {
@@ -58,12 +58,12 @@ public class Water implements GameObjectWithImage {
 	}
 
 	@Override
-	public Bitmap getBitmap() {
+	public Image getBitmap() {
 		return this.bitmap;
 	}
 
 	@Override
-	public void setBitmap(Bitmap b) {
+	public void setBitmap(Image b) {
 		this.bitmap = b;
 	}
 

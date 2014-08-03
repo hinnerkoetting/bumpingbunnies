@@ -1,13 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import android.graphics.Bitmap;
 
 public abstract class FixedWorldObject implements GameObjectWithImage {
 
 	private int id;
 	private final Rect rect;
 	private final int color;
-	private Bitmap image;
+	private Image image;
 
 	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY,
 			int color) {
@@ -52,12 +51,12 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	}
 
 	@Override
-	public void setBitmap(Bitmap b) {
+	public void setBitmap(Image b) {
 		this.image = b;
 	}
 
 	@Override
-	public Bitmap getBitmap() {
+	public Image getBitmap() {
 		return this.image;
 	}
 }
