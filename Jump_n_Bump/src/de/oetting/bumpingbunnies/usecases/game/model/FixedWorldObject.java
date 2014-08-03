@@ -1,8 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
 import android.graphics.Bitmap;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 
 public abstract class FixedWorldObject implements GameObjectWithImage {
 
@@ -28,16 +26,6 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	public int getColor() {
 		return this.color;
 	}
-
-	// @Override
-	// public int centerX() {
-	// return (this.minX + this.maxX) / 2;
-	// }
-	//
-	// @Override
-	// public int centerY() {
-	// return (this.minY + this.maxY) / 2;
-	// }
 
 	@Override
 	public long minX() {

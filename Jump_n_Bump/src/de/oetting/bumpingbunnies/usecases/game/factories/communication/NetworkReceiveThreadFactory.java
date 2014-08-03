@@ -23,7 +23,7 @@ public class NetworkReceiveThreadFactory {
 	}
 
 	public List<NetworkReceiveThread> create(Player player) {
-		OpponentTypeFactory factory = player.getOpponent().getType().getFactory();
+		OpponentTypeFactory factory = new OpponentTypeFactoryFactory().createFactory(player.getOpponent().getType());
 		OpponentTypeReceiveFactory receiveFactory = factory.createReceiveFactory();
 		return receiveFactory.createReceiveThreadsForOnePlayer(this.sockets, player, this.networkDispatcher, this.sendControl);
 	}

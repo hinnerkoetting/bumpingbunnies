@@ -17,7 +17,7 @@ public class RemoteConnectionFactory {
 	}
 
 	public NetworkSender create(Player player) {
-		OpponentTypeFactory factory = player.getOpponent().getType().getFactory();
+		OpponentTypeFactory factory = new OpponentTypeFactoryFactory().createFactory(player.getOpponent().getType());
 		OpponentTypeSendFactory sendFactory = factory.createSendFactory();
 		return sendFactory.createNetworkSender(player, this.activity, this.sockets);
 	}
