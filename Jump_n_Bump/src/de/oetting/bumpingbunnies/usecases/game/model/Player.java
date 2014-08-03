@@ -2,8 +2,6 @@ package de.oetting.bumpingbunnies.usecases.game.model;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 
 public class Player implements GameObject {
 
@@ -13,7 +11,6 @@ public class Player implements GameObject {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
 	private final int speedFaktor;
-	private final CollisionHandling collisionHandling;
 
 	private final int halfWidth;
 	private final int halfHeight;
@@ -37,12 +34,12 @@ public class Player implements GameObject {
 		this.id = id;
 		this.halfHeight = ModelConstants.PLAYER_HEIGHT / 2;
 		this.halfWidth = ModelConstants.PLAYER_WIDTH / 2;
-		this.collisionHandling = new CollisionHandling();
 		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
 		calculateRect();
 	}
 
-	public Player(Player simulatedObject, int id, String name, int speedFaktor, Opponent opponent) {
+	public Player(Player simulatedObject, int id, String name, int speedFaktor,
+			Opponent opponent) {
 		this(id, name, speedFaktor, opponent);
 		this.simulatedObject = simulatedObject;
 	}
@@ -100,7 +97,8 @@ public class Player implements GameObject {
 	}
 
 	public void setAccelerationX(int accelerationX) {
-		this.state.setAccelerationX((int) (accelerationX * Math.pow(this.speedFaktor, 2)));
+		this.state.setAccelerationX((int) (accelerationX * Math.pow(
+				this.speedFaktor, 2)));
 	}
 
 	public int getAccelerationY() {
@@ -108,7 +106,8 @@ public class Player implements GameObject {
 	}
 
 	public void setAccelerationY(int accelerationY) {
-		this.state.setAccelerationY((int) (accelerationY * Math.pow(this.speedFaktor, 2)));
+		this.state.setAccelerationY((int) (accelerationY * Math.pow(
+				this.speedFaktor, 2)));
 	}
 
 	@Override
@@ -145,15 +144,16 @@ public class Player implements GameObject {
 	}
 
 	public int calculateNewMovementSpeedY() {
-		return this.state.getMovementY()
-				+ this.state.getAccelerationY();
+		return this.state.getMovementY() + this.state.getAccelerationY();
 	}
 
 	private int calculateNewMovementSpeedX() {
 		int newMovementSpeedX = this.state.getMovementX()
 				+ this.state.getAccelerationX();
-		if (Math.abs(newMovementSpeedX) > ModelConstants.MOVEMENT * this.speedFaktor) {
-			return (int) (Math.signum(newMovementSpeedX) * ModelConstants.MOVEMENT * this.speedFaktor);
+		if (Math.abs(newMovementSpeedX) > ModelConstants.MOVEMENT
+				* this.speedFaktor) {
+			return (int) (Math.signum(newMovementSpeedX)
+					* ModelConstants.MOVEMENT * this.speedFaktor);
 		} else {
 			return newMovementSpeedX;
 		}
@@ -215,9 +215,6 @@ public class Player implements GameObject {
 
 	@Override
 	public void interactWithPlayerOnTop(Player p) {
-		// PlayerState state = p.getState();
-		// state.setScore(state.getScore() + 1);
-		// resetPosition(this, p);
 	}
 
 	public GameObject simulateNextStepX() {
@@ -242,20 +239,6 @@ public class Player implements GameObject {
 	private void moveNextStepY() {
 		this.state.setCenterY(this.state.getCenterY()
 				+ this.state.getMovementY());
-	}
-
-	@Override
-	public void handleCollisionWithPlayer(Player player,
-			CollisionDetection collisionDetection) {
-		// collision with dead players is allowed
-		// but dead players are not able to jump-kil other players
-		this.collisionHandling.interactWith(player, this, collisionDetection);
-		if (!player.isDead() && !isDead()) {
-			GameObject simulatedNextStep = player.simulateNextStep();
-			if (collisionDetection.isExactlyOverObject(simulatedNextStep, this)) {
-				player.interactWithPlayerOnTop(this);
-			}
-		}
 	}
 
 	public boolean isFacingLeft() {
@@ -303,7 +286,8 @@ public class Player implements GameObject {
 	}
 
 	public boolean isTryingToRemoveHorizontalMovement() {
-		return HorizontalMovementStatus.NOT_MOVING_HORIZONTAL.equals(this.horizontalMovementStatus);
+		return HorizontalMovementStatus.NOT_MOVING_HORIZONTAL
+				.equals(this.horizontalMovementStatus);
 	}
 
 	public void setNotMoving() {
@@ -321,7 +305,8 @@ public class Player implements GameObject {
 	}
 
 	public boolean isMovingLeft() {
-		return HorizontalMovementStatus.MOVING_LEFT.equals(this.horizontalMovementStatus);
+		return HorizontalMovementStatus.MOVING_LEFT
+				.equals(this.horizontalMovementStatus);
 	}
 
 	public boolean isJumpingButtonPressed() {
@@ -338,12 +323,12 @@ public class Player implements GameObject {
 
 	@Override
 	public String toString() {
-		return "Player [speedFaktor=" + this.speedFaktor + ", collisionHandling=" + this.collisionHandling + ", halfWidth="
-				+ this.halfWidth
-				+ ", halfHeight=" + this.halfHeight + ", id=" + this.id + ", name=" + this.name + ", state=" + this.state
-				+ ", simulatedObject="
-				+ this.simulatedObject + ", rect=" + this.rect + ", horizontalMovementStatus=" + this.horizontalMovementStatus + ", color="
-				+ this.color + "]";
+		return "Player [speedFaktor=" + speedFaktor + ", halfWidth="
+				+ halfWidth + ", halfHeight=" + halfHeight + ", id=" + id
+				+ ", name=" + name + ", state=" + state + ", simulatedObject="
+				+ simulatedObject + ", rect=" + rect
+				+ ", horizontalMovementStatus=" + horizontalMovementStatus
+				+ ", color=" + color + ", opponent=" + opponent + "]";
 	}
 
 }

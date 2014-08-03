@@ -45,7 +45,7 @@ public class GameObjectInteractor {
 	private void interactWith(GameObject nextStep, Player player,
 			GameObject object) {
 		if (this.collisionDetection.collides(nextStep, object)) {
-			object.handleCollisionWithPlayer(player, this.collisionDetection);
+			new CollisionHandling().interactWith(player, object, collisionDetection);
 		}
 	}
 

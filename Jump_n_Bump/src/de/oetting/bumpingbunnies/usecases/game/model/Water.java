@@ -11,7 +11,8 @@ public class Water implements GameObjectWithImage {
 	private final MusicPlayer musicPlayer;
 	private Bitmap bitmap;
 
-	public Water(long minX, long minY, long maxX, long maxY, MusicPlayer musicPlayer) {
+	public Water(long minX, long minY, long maxX, long maxY,
+			MusicPlayer musicPlayer) {
 		this.musicPlayer = musicPlayer;
 		this.rect = new Rect(minX, maxX, minY, maxY);
 	}
@@ -57,26 +58,6 @@ public class Water implements GameObjectWithImage {
 	}
 
 	@Override
-	public void handleCollisionWithPlayer(Player player,
-			CollisionDetection collisionDetection) {
-		player.setExactMovementY((int) (player.movementY() * 0.99));
-		if (player.movementY() <= ModelConstants.PLAYER_SPEED_WATER) {
-			player.setExactMovementY(ModelConstants.PLAYER_SPEED_WATER);
-		}
-		player.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WATER);
-		if (isFirstTimeThePlayerHitsTheWater(player, collisionDetection)) {
-			this.musicPlayer.start();
-		}
-	}
-
-	/**
-	 * If the simulated player is in the water and the player is not in the water this is the first time the player hits the water.
-	 */
-	private boolean isFirstTimeThePlayerHitsTheWater(Player player, CollisionDetection collisionDetection) {
-		return !collisionDetection.collides(this, player);
-	}
-
-	@Override
 	public Bitmap getBitmap() {
 		return this.bitmap;
 	}
@@ -84,6 +65,10 @@ public class Water implements GameObjectWithImage {
 	@Override
 	public void setBitmap(Bitmap b) {
 		this.bitmap = b;
+	}
+
+	public void playMusic() {
+		this.musicPlayer.start();
 	}
 
 }

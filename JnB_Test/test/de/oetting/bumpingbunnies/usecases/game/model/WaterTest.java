@@ -13,14 +13,16 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
 
 @Category(UnitTests.class)
 public class WaterTest {
 
-	private Water fixture;
+	private CollisionHandling fixture;
 
 	private Player player;
+	private Water water;
 	@Mock
 	private CollisionDetection collisionDetection;
 	@Mock
@@ -34,7 +36,8 @@ public class WaterTest {
 	}
 
 	private void givenPlayerWasNotInWaterBefore() {
-		when(this.collisionDetection.collides(this.fixture, this.player)).thenReturn(false);
+		when(this.collisionDetection.collides(this.water, this.player))
+				.thenReturn(false);
 	}
 
 	@Test
@@ -45,17 +48,19 @@ public class WaterTest {
 	}
 
 	private void whenPlayerCollidesWithWater() {
-		this.fixture.handleCollisionWithPlayer(this.player, this.collisionDetection);
+		this.fixture.interactWith(player, water, this.collisionDetection);
 	}
 
 	private void givenPlayerWasInWaterBefore() {
-		when(this.collisionDetection.collides(this.fixture, this.player)).thenReturn(true);
+		when(this.collisionDetection.collides(this.water, this.player))
+				.thenReturn(true);
 	}
 
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new Water(new Rect(), this.waterMusic);
+		water = new Water(new Rect(), this.waterMusic);
+		this.fixture = new CollisionHandling();
 		this.player = createOpponentPlayer();
 	}
 }

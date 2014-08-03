@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game;
 
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -45,10 +44,6 @@ public class TestableGameObject implements GameObject {
 
 	@Override
 	public void interactWithPlayerOnTop(Player p) {
-	}
-
-	@Override
-	public void handleCollisionWithPlayer(Player player, CollisionDetection collisionDetection) {
 	}
 
 }

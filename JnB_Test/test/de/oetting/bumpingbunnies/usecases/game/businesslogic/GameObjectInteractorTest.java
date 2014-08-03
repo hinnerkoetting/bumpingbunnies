@@ -7,7 +7,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Arrays;
 
-import org.apache.maven.model.Model;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

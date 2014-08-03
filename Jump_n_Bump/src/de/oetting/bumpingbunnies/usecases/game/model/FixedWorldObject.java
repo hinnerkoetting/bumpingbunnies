@@ -9,7 +9,6 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	private int id;
 	private final Rect rect;
 	private final int color;
-	private final CollisionHandling collisionHandling;
 	private Bitmap image;
 
 	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY,
@@ -17,7 +16,6 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 		this.id = id;
 		this.rect = new Rect(minX, maxX, minY, maxY);
 		this.color = color;
-		this.collisionHandling = new CollisionHandling();
 		if (minX > maxX) {
 			throw new IllegalArgumentException("minX must be smaller than maxX");
 		}
@@ -63,12 +61,6 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 
 	public int id() {
 		return this.id;
-	}
-
-	@Override
-	public void handleCollisionWithPlayer(Player player,
-			CollisionDetection collisionDetection) {
-		this.collisionHandling.interactWith(player, this, collisionDetection);
 	}
 
 	@Override
