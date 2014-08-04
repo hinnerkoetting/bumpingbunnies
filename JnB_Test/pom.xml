@@ -57,5 +57,11 @@
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+			<artifactId>bunnies-core</artifactId>
+			<scope>test</scope>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
