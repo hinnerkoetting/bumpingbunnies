@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.oetting.bumpingbunnies.android.parcel.OpponentParceller;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 @SuppressLint("ParcelCreator")
@@ -21,7 +22,7 @@ public class OpponentConfiguration implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		this.otherPlayerState.writeToParcel(dest, flags);
 		dest.writeString(this.aiMode.toString());
-		this.opponent.writeToParcel(dest, flags);
+		new OpponentParceller().writeToParcel(opponent, dest);
 	}
 
 	public OpponentConfiguration(AiModus aiMode,
@@ -34,7 +35,7 @@ public class OpponentConfiguration implements Parcelable {
 	public OpponentConfiguration(Parcel in) {
 		this.otherPlayerState = new PlayerProperties(in);
 		this.aiMode = AiModus.valueOf(in.readString());
-		this.opponent = new Opponent(in);
+		this.opponent = new OpponentParceller().createFromParcel(in);
 	}
 
 	public AiModus getAiMode() {

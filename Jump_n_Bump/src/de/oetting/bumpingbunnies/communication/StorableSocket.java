@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.oetting.bumpingbunnies.android.parcel.OpponentParceller;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
@@ -43,11 +44,11 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(this.index);
-		getOwner().writeToParcel(dest, flags);
+		new OpponentParceller().writeToParcel(getOwner(), dest);
 	}
 
 	public StorableSocket(Parcel in) throws IOException {
-		this(in.readInt(), new Opponent(in));
+		this(in.readInt(), new OpponentParceller().createFromParcel(in));
 	}
 
 	public StorableSocket(int index, Opponent opponent) throws IOException {

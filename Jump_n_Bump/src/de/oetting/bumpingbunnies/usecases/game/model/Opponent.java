@@ -1,11 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import android.annotation.SuppressLint;
 import android.os.Parcel;
-import android.os.Parcelable;
 
-@SuppressLint("ParcelCreator")
-public class Opponent implements Parcelable {
+public class Opponent {
 
 	private final String identifier;
 	private final OpponentType type;
@@ -18,15 +15,10 @@ public class Opponent implements Parcelable {
 		return new Opponent(identifier, type);
 	}
 
-	private Opponent(String identifier, OpponentType type) {
+	public Opponent(String identifier, OpponentType type) {
 		super();
 		this.identifier = identifier;
 		this.type = type;
-	}
-
-	public Opponent(Parcel in) {
-		this.identifier = in.readString();
-		this.type = OpponentType.valueOf(in.readString());
 	}
 
 	public String getIdentifier() {
@@ -43,17 +35,6 @@ public class Opponent implements Parcelable {
 
 	public OpponentType getType() {
 		return this.type;
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(this.identifier);
-		dest.writeString(this.type.toString());
 	}
 
 	@Override
