@@ -1,7 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 public class Player implements GameObject {
 
@@ -9,7 +7,6 @@ public class Player implements GameObject {
 		MOVING_LEFT, MOVING_RIGHT, NOT_MOVING_HORIZONTAL
 	}
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
 	private final int speedFaktor;
 
 	private final int halfWidth;
@@ -60,7 +57,6 @@ public class Player implements GameObject {
 	public void setCenterX(long centerX) {
 		this.state.setCenterX(centerX);
 		calculateRect();
-		LOGGER.debug("%s %d", "set", centerX);
 	}
 
 	public long getCenterY() {

@@ -4,6 +4,9 @@ import java.util.List;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import de.oetting.bumpingbunnies.usecases.game.android.sound.AndroidMusicOnCompletionListener;
+import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
 
 public class MultiTrackMusicPlayer implements MusicPlayer, OnCompletionListener {
 
@@ -13,7 +16,7 @@ public class MultiTrackMusicPlayer implements MusicPlayer, OnCompletionListener 
 	public MultiTrackMusicPlayer(List<MusicPlayer> tracks) {
 		this.musicPlayer = tracks;
 		for (MusicPlayer mp : tracks) {
-			mp.setOnCompletionListener(this);
+			mp.setOnCompletionListener(new AndroidMusicOnCompletionListener(this));
 		}
 	}
 
@@ -54,6 +57,6 @@ public class MultiTrackMusicPlayer implements MusicPlayer, OnCompletionListener 
 	}
 
 	@Override
-	public void setOnCompletionListener(OnCompletionListener fixture) {
+	public void setOnCompletionListener(OnMusicCompletionListener listener) {
 	}
 }

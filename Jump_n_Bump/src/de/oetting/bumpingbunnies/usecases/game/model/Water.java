@@ -1,9 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 public class Water implements GameObjectWithImage {
 

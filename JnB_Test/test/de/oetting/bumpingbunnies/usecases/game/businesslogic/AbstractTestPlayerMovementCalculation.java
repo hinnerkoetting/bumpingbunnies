@@ -6,7 +6,7 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 public class AbstractTestPlayerMovementCalculation {
 

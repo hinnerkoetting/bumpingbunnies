@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.sound;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,9 +13,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.mockito.Matchers;
 
 import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.tests.UnitTests;
+import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
 
 @Category(UnitTests.class)
 public class MultiTrackMusicPlayerTest {
@@ -84,7 +88,7 @@ public class MultiTrackMusicPlayerTest {
 	public void create_shouldAddOnCompletionListener() {
 		MusicPlayer player = mock(MusicPlayer.class);
 		this.fixture = new MultiTrackMusicPlayer(Arrays.asList(player));
-		verify(player).setOnCompletionListener(this.fixture);
+		verify(player).setOnCompletionListener(any(OnMusicCompletionListener.class));
 	}
 
 	private void verifyThatPlayerIsStopped(MusicPlayer musicPlayer) {

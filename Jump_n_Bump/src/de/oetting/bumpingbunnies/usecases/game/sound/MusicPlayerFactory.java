@@ -8,6 +8,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.game.android.sound.AndroidMusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 public class MusicPlayerFactory {
 

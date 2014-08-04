@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 /**
  * Responsible for calculation the movement of players. Checks for collision, updates screen position.

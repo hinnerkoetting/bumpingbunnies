@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.dummy.sound;
 
-import android.media.MediaPlayer.OnCompletionListener;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
 
 public class DummyMusicPlayer implements MusicPlayer {
 
@@ -18,7 +18,7 @@ public class DummyMusicPlayer implements MusicPlayer {
 	}
 
 	@Override
-	public void setOnCompletionListener(OnCompletionListener fixture) {
+	public void setOnCompletionListener(OnMusicCompletionListener fixture) {
 	}
 
 }

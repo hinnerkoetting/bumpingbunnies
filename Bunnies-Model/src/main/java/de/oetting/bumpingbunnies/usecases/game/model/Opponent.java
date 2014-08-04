@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import android.os.Parcel;
 
 public class Opponent {
 

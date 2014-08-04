@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameObjectInteractor;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayer;
+import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 public class PlayerMovementCalculationFactory {
 
