@@ -6,4 +6,7 @@ public class Color {
 	public static final int GRAY = 0;
 	public static final int WATER_BLUE = 3;
 	public static final int WHITE = 4;
+	
+	
+	
 }

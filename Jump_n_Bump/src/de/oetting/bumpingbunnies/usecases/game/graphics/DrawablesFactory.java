@@ -56,8 +56,8 @@ public class DrawablesFactory {
 			// TODO rework
 			if (w.maxX() - w.minX() > MIN_SIZE_FOR_DRAWER && w.maxY() - w.minY() > MIN_SIZE_FOR_DRAWER) {
 				AndroidBitmap wrapper = (AndroidBitmap) w.getBitmap();
-				Bitmap bitmap = wrapper.getBitmap();
-				if (bitmap != null) {
+				if (wrapper != null && wrapper.getBitmap() != null) {
+					Bitmap bitmap = wrapper.getBitmap();
 					allWalls.add(ImageDrawerFactory.create(bitmap, w));
 				} else {
 					allWalls.add(new RectDrawer(w));

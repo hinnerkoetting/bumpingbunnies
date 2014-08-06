@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import java.awt.Color;
+import de.oetting.bumpingbunnies.color.Color;
+
 
 public class Wall extends FixedWorldObject implements ModelConstants {
 
@@ -9,7 +10,7 @@ public class Wall extends FixedWorldObject implements ModelConstants {
 	}
 
 	public Wall(int id, long minX, long minY, long maxX, long maxY) {
-		this(id, minX, minY, maxX, maxY, Color.GRAY.getRGB());
+		this(id, minX, minY, maxX, maxY, Color.GRAY);
 	}
 
 	@Override

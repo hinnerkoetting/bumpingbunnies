@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import java.awt.Color;
 
+import de.oetting.bumpingbunnies.color.Color;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 public class Jumper extends FixedWorldObject {
@@ -10,7 +10,7 @@ public class Jumper extends FixedWorldObject {
 
 	public Jumper(int id, long minX, long minY, long maxX, long maxY,
 			MusicPlayer mediaPlayer) {
-		super(id, minX, minY, maxX, maxY, Color.YELLOW.getRGB());
+		super(id, minX, minY, maxX, maxY, Color.YELLOW);
 		this.mediaPlayer = mediaPlayer;
 	}
 

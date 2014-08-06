@@ -42,6 +42,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 			.getLogger(StartActivity.class);
 	private SettingsStorage settingsDao;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

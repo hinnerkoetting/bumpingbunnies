@@ -161,7 +161,6 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 			return readBitmap(filename);
 		}
 		return null;
-
 	}
 
 	private Bitmap readBitmap(String fileName) {
