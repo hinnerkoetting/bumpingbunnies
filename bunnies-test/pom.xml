@@ -65,7 +65,10 @@
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-core</artifactId>
 			<scope>test</scope>
-			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+			<artifactId>bunnies-common</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -9,5 +9,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/bunnies-model"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/bunnies-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/bunnies-common"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
