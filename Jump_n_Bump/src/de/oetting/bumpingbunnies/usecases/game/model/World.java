@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.content.Context;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
@@ -29,8 +28,7 @@ public class World implements ObjectProvider {
 		this.allObjects = new LinkedList<GameObjectWithImage>();
 	}
 
-	public void buildWorld(Context context) {
-		this.factory.build(context);
+	public void buildWorld() {
 		this.allObjects.clear();
 		this.allPlayer.clear();
 		this.allWalls = new LinkedList<Wall>(this.factory.getAllWalls());

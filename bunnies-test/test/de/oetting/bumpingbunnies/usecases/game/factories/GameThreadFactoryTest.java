@@ -36,7 +36,7 @@ public class GameThreadFactoryTest {
 		WorldObjectsBuilder builder = mock(WorldObjectsBuilder.class);
 		when(builder.createSpawnPoints()).thenReturn(Arrays.asList(new SpawnPoint(0, 0)));
 		World w = new World(builder);
-		w.buildWorld(mock(Context.class));
+		w.buildWorld();
 		GameThreadFactory.create(w, mock(Context.class),
 				TestConfigurationFactory.createDummyHost(),
 				mock(CoordinatesCalculation.class), null, new GameMain(
