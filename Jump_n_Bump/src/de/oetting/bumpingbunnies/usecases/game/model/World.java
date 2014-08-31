@@ -19,24 +19,22 @@ public class World implements ObjectProvider {
 	private List<Player> allPlayer;
 	private List<SpawnPoint> spawnPoints;
 	private List<Water> waters;
-	private WorldObjectsBuilder factory;
 
-	public World(WorldObjectsBuilder factory) {
+	public World() {
 		super();
-		this.factory = factory;
 		this.allPlayer = new ArrayList<Player>();
 		this.allObjects = new LinkedList<GameObjectWithImage>();
 	}
 
-	public void buildWorld() {
+	public void buildWorld(WorldObjectsBuilder factory) {
 		this.allObjects.clear();
 		this.allPlayer.clear();
-		this.allWalls = new LinkedList<Wall>(this.factory.getAllWalls());
-		this.allIcyWalls = new LinkedList<IcyWall>(this.factory.getAllIcyWalls());
-		this.allJumpers = new LinkedList<Jumper>(this.factory.getAllJumpers());
-		this.waters = new LinkedList<Water>(this.factory.getAllWaters());
+		this.allWalls = new LinkedList<Wall>(factory.getAllWalls());
+		this.allIcyWalls = new LinkedList<IcyWall>(factory.getAllIcyWalls());
+		this.allJumpers = new LinkedList<Jumper>(factory.getAllJumpers());
+		this.waters = new LinkedList<Water>(factory.getAllWaters());
 		addToAllObjects();
-		this.spawnPoints = this.factory.createSpawnPoints();
+		this.spawnPoints = factory.createSpawnPoints();
 		LOGGER.info("Added %d objects and %d players", this.allObjects.size(),
 				this.allPlayer.size());
 	}
@@ -116,7 +114,8 @@ public class World implements ObjectProvider {
 	}
 
 	public List<PlayerProperties> getPlayerProperties() {
-		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.allPlayer.size() - 1);
+		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(
+				this.allPlayer.size() - 1);
 		for (Player p : this.allPlayer) {
 			properties.add(new PlayerProperties(p.id(), p.getName()));
 		}

@@ -35,16 +35,11 @@ public class GameThreadFactoryTest {
 	public void create_shouldNotThrowException() {
 		WorldObjectsBuilder builder = mock(WorldObjectsBuilder.class);
 		when(builder.createSpawnPoints()).thenReturn(Arrays.asList(new SpawnPoint(0, 0)));
-		World w = new World(builder);
-		w.buildWorld();
-		GameThreadFactory.create(w, mock(Context.class),
-				TestConfigurationFactory.createDummyHost(),
-				mock(CoordinatesCalculation.class), null, new GameMain(
-						null,
-						new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class))),
-						new DummyNewClientsAccepter()),
-				TestPlayerFactory.createOpponentPlayer(),
-				null, null);
+		World w = new World();
+		w.buildWorld(builder);
+		GameThreadFactory.create(w, mock(Context.class), TestConfigurationFactory.createDummyHost(), mock(CoordinatesCalculation.class),
+				null, new GameMain(null, new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class),
+						mock(SocketStorage.class))), new DummyNewClientsAccepter()), TestPlayerFactory.createOpponentPlayer(), null, null);
 	}
 
 }

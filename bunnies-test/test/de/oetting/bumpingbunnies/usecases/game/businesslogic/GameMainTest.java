@@ -32,7 +32,6 @@ import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
 @Category(UnitTests.class)
 public class GameMainTest {
@@ -132,9 +131,9 @@ public class GameMainTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
-		this.fixture = new GameMain(this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class),
-				this.sendThreads), this.accepter);
-		this.fixture.setWorld(new World(mock((WorldObjectsBuilder.class))));
+		this.fixture = new GameMain(this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class), this.sendThreads),
+				this.accepter);
+		this.fixture.setWorld(new World());
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 		NetworkSendControl networkSendControl = createNetworkSendControl();
 		this.fixture.addJoinListener(networkSendControl);

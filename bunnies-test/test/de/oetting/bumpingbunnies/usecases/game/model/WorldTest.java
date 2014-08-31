@@ -7,18 +7,13 @@ import org.hamcrest.core.IsSame;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
 @Category(UnitTests.class)
 public class WorldTest {
 
 	private World fixture;
-
-	@Mock
-	private WorldObjectsBuilder worldBuilder;
 
 	@Test(expected = World.PlayerDoesNotExist.class)
 	public void findPlayer_givenPlayerDoesNotExist_shouldThrowException() {
@@ -39,6 +34,6 @@ public class WorldTest {
 
 	@Before
 	public void beforeEveryTest() {
-		this.fixture = new World(this.worldBuilder);
+		this.fixture = new World();
 	}
 }

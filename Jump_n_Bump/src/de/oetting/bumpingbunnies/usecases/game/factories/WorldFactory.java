@@ -8,9 +8,8 @@ import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBu
 public class WorldFactory {
 
 	public static World create(Configuration configuration, Context context) {
-		WorldObjectsBuilder factory = configuration.getWorldConfiguration()
-				.createInputconfigurationClass();
-		World world = new World(factory);
+		WorldObjectsBuilder factory = configuration.getWorldConfiguration().createInputconfigurationClass();
+		World world = new World();
 		factory.build(context);
 		return world;
 	}
