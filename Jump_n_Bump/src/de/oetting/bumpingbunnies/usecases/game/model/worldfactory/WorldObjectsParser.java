@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
-public interface WorldObjectsBuilder {
+public interface WorldObjectsParser {
 
 	World build(Context context);
 
@@ -23,6 +23,6 @@ public interface WorldObjectsBuilder {
 
 	Collection<Water> getAllWaters();
 
-	List<SpawnPoint> createSpawnPoints();
+	List<SpawnPoint> getAllSpawnPoints();
 
 }

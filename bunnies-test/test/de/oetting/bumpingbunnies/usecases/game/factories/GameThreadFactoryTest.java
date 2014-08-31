@@ -24,7 +24,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.TestConfigurationFa
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
+import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsParser;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
@@ -33,10 +33,9 @@ public class GameThreadFactoryTest {
 
 	@Test
 	public void create_shouldNotThrowException() {
-		WorldObjectsBuilder builder = mock(WorldObjectsBuilder.class);
-		when(builder.createSpawnPoints()).thenReturn(Arrays.asList(new SpawnPoint(0, 0)));
+		WorldObjectsParser builder = mock(WorldObjectsParser.class);
+		when(builder.getAllSpawnPoints()).thenReturn(Arrays.asList(new SpawnPoint(0, 0)));
 		World w = new World();
-		w.buildWorld(builder);
 		GameThreadFactory.create(w, mock(Context.class), TestConfigurationFactory.createDummyHost(), mock(CoordinatesCalculation.class),
 				null, new GameMain(null, new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class),
 						mock(SocketStorage.class))), new DummyNewClientsAccepter()), TestPlayerFactory.createOpponentPlayer(), null, null);

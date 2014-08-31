@@ -24,7 +24,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
-public class XmlWorldParser implements WorldObjectsBuilder, XmlConstants {
+public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(XmlWorldParser.class);
 	private final int resourceId;
@@ -138,13 +138,12 @@ public class XmlWorldParser implements WorldObjectsBuilder, XmlConstants {
 	@Override
 	public World build(Context context) {
 		parse(context);
-		World world = new World();
-		world.buildWorld(this);
-		return world;
+		WorldFactory factory = new WorldFactory();
+		return factory.create(this, context);
 	}
 
 	@Override
-	public List<SpawnPoint> createSpawnPoints() {
+	public List<SpawnPoint> getAllSpawnPoints() {
 		if (!this.parsed) {
 			throw new IllegalStateException("You need to parse first");
 		}

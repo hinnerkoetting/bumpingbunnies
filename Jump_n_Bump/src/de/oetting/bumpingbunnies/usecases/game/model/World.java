@@ -1,48 +1,39 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsBuilder;
 
 public class World implements ObjectProvider {
-	private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
+
 	private List<GameObjectWithImage> allObjects;
 	private List<Wall> allWalls;
 	private List<IcyWall> allIcyWalls;
 	private List<Jumper> allJumpers;
 	private List<Player> allPlayer;
-	private List<SpawnPoint> spawnPoints;
-	private List<Water> waters;
+	private List<SpawnPoint> allSpawnPoints;
+	private List<Water> allWaters;
 
 	public World() {
 		super();
 		this.allPlayer = new ArrayList<Player>();
 		this.allObjects = new LinkedList<GameObjectWithImage>();
+		this.allWalls = new ArrayList<Wall>();
+		this.allIcyWalls = new LinkedList<IcyWall>();
+		this.allJumpers = new LinkedList<Jumper>();
+		this.allWaters = new LinkedList<Water>();
+		this.allSpawnPoints = new ArrayList<SpawnPoint>();
 	}
 
-	public void buildWorld(WorldObjectsBuilder factory) {
-		this.allObjects.clear();
-		this.allPlayer.clear();
-		this.allWalls = new LinkedList<Wall>(factory.getAllWalls());
-		this.allIcyWalls = new LinkedList<IcyWall>(factory.getAllIcyWalls());
-		this.allJumpers = new LinkedList<Jumper>(factory.getAllJumpers());
-		this.waters = new LinkedList<Water>(factory.getAllWaters());
-		addToAllObjects();
-		this.spawnPoints = factory.createSpawnPoints();
-		LOGGER.info("Added %d objects and %d players", this.allObjects.size(), this.allPlayer.size());
-	}
-
-	private void addToAllObjects() {
+	public void addToAllObjects() {
 		this.allObjects.addAll(this.allWalls);
 		this.allObjects.addAll(this.allIcyWalls);
 		this.allObjects.addAll(this.allJumpers);
-		this.allObjects.addAll(this.waters);
+		this.allObjects.addAll(this.allWaters);
 	}
 
 	@Override
@@ -70,7 +61,7 @@ public class World implements ObjectProvider {
 	}
 
 	public List<SpawnPoint> getSpawnPoints() {
-		return this.spawnPoints;
+		return this.allSpawnPoints;
 	}
 
 	public void addPlayer(Player p) {
@@ -89,7 +80,7 @@ public class World implements ObjectProvider {
 
 	@Override
 	public List<Water> getAllWaters() {
-		return this.waters;
+		return this.allWaters;
 	}
 
 	public class PlayerDoesNotExist extends RuntimeException {
@@ -118,5 +109,30 @@ public class World implements ObjectProvider {
 			properties.add(new PlayerProperties(p.id(), p.getName()));
 		}
 		return properties;
+	}
+
+	public void replaceAllWalls(Collection<Wall> walls) {
+		allWalls.clear();
+		allWalls.addAll(walls);
+	}
+
+	public void replaceAllIcyWalls(Collection<IcyWall> icyWalls) {
+		allIcyWalls.clear();
+		allIcyWalls.addAll(icyWalls);
+	}
+
+	public void replaceAllJumpers(Collection<Jumper> jumpers) {
+		allJumpers.clear();
+		allJumpers.addAll(jumpers);
+	}
+
+	public void replaceAllWaters(Collection<Water> newWaters) {
+		allWaters.clear();
+		allWaters.addAll(newWaters);
+	}
+
+	public void replaceAllSpawnPoints(List<SpawnPoint> newSpawnPoints) {
+		allSpawnPoints.clear();
+		allSpawnPoints.addAll(newSpawnPoints);
 	}
 }

@@ -11,10 +11,10 @@ import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
 
-public class XmlWorldBuilderTemplate implements WorldObjectsBuilder {
+public class XmlWorldParserTemplate implements WorldObjectsParser {
 	private XmlWorldParser worldBuilder;
 
-	public XmlWorldBuilderTemplate(int id) {
+	public XmlWorldParserTemplate(int id) {
 		this.worldBuilder = new XmlWorldParser(id);
 	}
 
@@ -39,8 +39,8 @@ public class XmlWorldBuilderTemplate implements WorldObjectsBuilder {
 	}
 
 	@Override
-	public List<SpawnPoint> createSpawnPoints() {
-		return this.worldBuilder.createSpawnPoints();
+	public List<SpawnPoint> getAllSpawnPoints() {
+		return this.worldBuilder.getAllSpawnPoints();
 	}
 
 	@Override

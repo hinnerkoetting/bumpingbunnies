@@ -26,18 +26,17 @@ import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClient
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
-		NetworkSendControl sendControl = new NetworkSendControl(new RemoteConnectionFactory(activity,
-				SocketStorage.getSingleton()));
-		GameStartParameter parameter = (GameStartParameter) activity.getIntent()
-				.getExtras().get(ActivityLauncher.GAMEPARAMETER);
+		NetworkSendControl sendControl = new NetworkSendControl(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
+		GameStartParameter parameter = (GameStartParameter) activity.getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER);
 
-		World world = WorldFactory.create(parameter.getConfiguration(), activity);
+		World world = createWorld(activity, parameter);
 		NewClientsAccepter clientAccepter = createClientAccepter(activity, parameter, world);
 		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter);
 		clientAccepter.setMain(main);
@@ -52,6 +51,11 @@ public class GameMainFactory {
 		gameThread.start();
 		initGameSound(main, activity);
 		return main;
+	}
+
+	private static World createWorld(GameActivity activity, GameStartParameter parameter) {
+		WorldObjectsParser factory = parameter.getConfiguration().getWorldConfiguration().createInputconfigurationClass();
+		return factory.build(activity);
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameActivity activity, GameStartParameter parameter, World world) {
@@ -72,9 +76,8 @@ public class GameMainFactory {
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
 
-		GameThread gameThread = GameThreadFactory.create(world,
-				activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main, myPlayer,
-				activity, sendControl);
+		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), calculations,
+				cameraPositionCalculation, main, myPlayer, activity, sendControl);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
@@ -97,15 +100,13 @@ public class GameMainFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static InputDispatcher<?> createInputDispatcher(GameActivity activity,
-			GameStartParameter parameter, CoordinatesCalculation calculations, Player myPlayer) {
+	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter,
+			CoordinatesCalculation calculations, Player myPlayer) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
-				.getConfiguration().getInputConfiguration()
-				.createInputconfigurationClass();
+				.getConfiguration().getInputConfiguration().createInputconfigurationClass();
 		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, calculations);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
-		myPlayerFactory.insertGameControllerViews(
-				(ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),
+		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),
 				inputDispatcher);
 		return inputDispatcher;
 	}
