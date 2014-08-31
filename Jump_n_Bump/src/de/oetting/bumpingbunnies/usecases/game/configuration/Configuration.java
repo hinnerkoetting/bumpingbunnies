@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParceller;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParceller;
 import de.oetting.bumpingbunnies.android.parcel.OpponentConfigurationParceller;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -39,7 +40,7 @@ public class Configuration implements Parcelable {
 
 	public Configuration(Parcel source) {
 		this.localSettings = new LocalSettingsParceller().createFromParcel(source);
-		this.generalSettings = new GeneralSettings(source);
+		this.generalSettings = new GeneralSettingsParceller().createFromParcel(source);
 		this.localPlayerSettings = new LocalPlayersettings(source);
 		this.host = source.readInt() == 1;
 		int numberOtherPlayer = source.readInt();
@@ -70,7 +71,7 @@ public class Configuration implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		new LocalSettingsParceller().writeToParcel(localSettings, dest);
-		this.generalSettings.writeToParcel(dest, flags);
+		new GeneralSettingsParceller().writeToParcel(generalSettings, dest);
 		this.localPlayerSettings.writeToParcel(dest, flags);
 		dest.writeInt(this.host ? 1 : 0);
 		dest.writeInt(this.otherPlayers.size());

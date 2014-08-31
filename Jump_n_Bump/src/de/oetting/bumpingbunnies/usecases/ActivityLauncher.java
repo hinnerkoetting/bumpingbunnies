@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases;
 
 import android.app.Activity;
 import android.content.Intent;
+import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
@@ -39,7 +40,7 @@ public class ActivityLauncher {
 			LocalPlayersettings localPlayerSettings) {
 		Intent intent = new Intent(origin, RoomActivity.class);
 		intent.putExtra(LOCAL_SETTINGS, new LocalSettingsParcelableWrapper(localSettings));
-		intent.putExtra(GENERAL_SETTINGS, generalSettings);
+		intent.putExtra(GENERAL_SETTINGS, new GeneralSettingsParcelableWrapper(generalSettings));
 		intent.putExtra(LOCAL_PLAYER_SETTINGS, localPlayerSettings);
 		origin.startActivity(intent);
 	}

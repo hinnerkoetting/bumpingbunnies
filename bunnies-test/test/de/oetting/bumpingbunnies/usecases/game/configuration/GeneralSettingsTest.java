@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParceller;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -28,9 +29,9 @@ public class GeneralSettingsTest {
 
 	private GeneralSettings serializeAndDeserialize(GeneralSettings settings) {
 		Parcel parcel = Parcel.obtain();
-		settings.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-		return new GeneralSettings(parcel);
+		new GeneralSettingsParceller().writeToParcel(settings, parcel);
+		parcel.setDataPosition(0);
+		return new GeneralSettingsParceller().createFromParcel(parcel);
 	}
 
 	private void checkValues(GeneralSettings settings) {
