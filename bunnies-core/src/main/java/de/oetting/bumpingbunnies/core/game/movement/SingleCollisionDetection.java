@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.core.game.movement;
 
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 

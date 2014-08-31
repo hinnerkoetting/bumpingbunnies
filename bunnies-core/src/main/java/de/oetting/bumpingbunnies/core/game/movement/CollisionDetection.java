@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.core.game.movement;
 
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
@@ -81,14 +81,11 @@ public class CollisionDetection {
 	}
 
 	public boolean isOverOrUnderObject(GameObject gameObject, GameObject other) {
-		return gameObject.minY() >= other.maxY()
-				|| gameObject.maxY() <= other.minY();
+		return gameObject.minY() >= other.maxY() || gameObject.maxY() <= other.minY();
 	}
 
-	public boolean isLeftOrRightToObject(GameObject targetObject,
-			GameObject other) {
-		return targetObject.minX() >= other.maxX()
-				|| targetObject.maxX() <= other.minX();
+	public boolean isLeftOrRightToObject(GameObject targetObject, GameObject other) {
+		return targetObject.minX() >= other.maxX() || targetObject.maxX() <= other.minX();
 	}
 
 	public boolean collides(GameObject gameObject, GameObject other) {

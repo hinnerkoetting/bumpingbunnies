@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.dummy.sound.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
