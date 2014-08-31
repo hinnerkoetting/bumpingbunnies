@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.SimpleBitmapResizer;
-import de.oetting.bumpingbunnies.usecases.game.model.AndroidBitmap;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;

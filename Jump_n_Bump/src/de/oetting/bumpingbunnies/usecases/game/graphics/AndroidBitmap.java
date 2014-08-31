@@ -1,5 +1,6 @@
-package de.oetting.bumpingbunnies.usecases.game.model;
+package de.oetting.bumpingbunnies.usecases.game.graphics;
 
+import de.oetting.bumpingbunnies.usecases.game.model.Image;
 import android.graphics.Bitmap;
 
 public class AndroidBitmap implements Image {

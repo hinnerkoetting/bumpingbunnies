@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.android.calculation;
 
 import android.view.MotionEvent;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 
 public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 

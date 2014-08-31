@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
+import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.RelativeCoordinatesCalculation;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CameraPositionCalculation;
 
 public class CoordinatesCalculationTest {
 
