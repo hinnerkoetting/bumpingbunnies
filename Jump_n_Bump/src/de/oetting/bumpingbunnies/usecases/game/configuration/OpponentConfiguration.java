@@ -1,42 +1,18 @@
 package de.oetting.bumpingbunnies.usecases.game.configuration;
 
-import android.annotation.SuppressLint;
-import android.os.Parcel;
-import android.os.Parcelable;
-import de.oetting.bumpingbunnies.android.parcel.OpponentParceller;
-import de.oetting.bumpingbunnies.android.parcel.PlayerPropertiesParceller;
 import de.oetting.bumpingbunnies.core.configuration.ai.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
-@SuppressLint("ParcelCreator")
-public class OpponentConfiguration implements Parcelable {
+public class OpponentConfiguration {
 
 	private final AiModus aiMode;
 	private final PlayerProperties otherPlayerState;
 	private final Opponent opponent;
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		new PlayerPropertiesParceller().writeToParcel(otherPlayerState, dest);
-		dest.writeString(this.aiMode.toString());
-		new OpponentParceller().writeToParcel(opponent, dest);
-	}
-
 	public OpponentConfiguration(AiModus aiMode, PlayerProperties otherPlayerState, Opponent opponent) {
 		this.aiMode = aiMode;
 		this.otherPlayerState = otherPlayerState;
 		this.opponent = opponent;
-	}
-
-	public OpponentConfiguration(Parcel in) {
-		this.otherPlayerState = new PlayerPropertiesParceller().createFromParcel(in);
-		this.aiMode = AiModus.valueOf(in.readString());
-		this.opponent = new OpponentParceller().createFromParcel(in);
 	}
 
 	public AiModus getAiMode() {
@@ -53,6 +29,10 @@ public class OpponentConfiguration implements Parcelable {
 
 	public Opponent getOpponent() {
 		return this.opponent;
+	}
+
+	public PlayerProperties getOtherPlayerState() {
+		return otherPlayerState;
 	}
 
 }

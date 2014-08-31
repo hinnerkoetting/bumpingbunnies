@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.oetting.bumpingbunnies.android.parcel.OpponentConfigurationParceller;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
@@ -17,8 +18,7 @@ public class Configuration implements Parcelable {
 			try {
 				return new Configuration(source);
 			} catch (RuntimeException e) {
-				LOGGER.error("Exception during reading configuration %s", e,
-						source.toString());
+				LOGGER.error("Exception during reading configuration %s", e, source.toString());
 
 				throw e;
 			}
@@ -42,16 +42,13 @@ public class Configuration implements Parcelable {
 		this.localPlayerSettings = new LocalPlayersettings(source);
 		this.host = source.readInt() == 1;
 		int numberOtherPlayer = source.readInt();
-		this.otherPlayers = new ArrayList<OpponentConfiguration>(
-				numberOtherPlayer);
+		this.otherPlayers = new ArrayList<OpponentConfiguration>(numberOtherPlayer);
 		for (int i = 0; i < numberOtherPlayer; i++) {
-			this.otherPlayers.add(new OpponentConfiguration(source));
+			this.otherPlayers.add(new OpponentConfigurationParceller().createFromParcel(source));
 		}
 	}
 
-	public Configuration(LocalSettings localSettings,
-			GeneralSettings generalSettings,
-			List<OpponentConfiguration> otherPlayers,
+	public Configuration(LocalSettings localSettings, GeneralSettings generalSettings, List<OpponentConfiguration> otherPlayers,
 			LocalPlayersettings localPlayersettings, boolean host) {
 		this.generalSettings = generalSettings;
 		this.otherPlayers = otherPlayers;
@@ -77,7 +74,7 @@ public class Configuration implements Parcelable {
 		dest.writeInt(this.host ? 1 : 0);
 		dest.writeInt(this.otherPlayers.size());
 		for (OpponentConfiguration otherPlayer : this.otherPlayers) {
-			otherPlayer.writeToParcel(dest, flags);
+			new OpponentConfigurationParceller().writeToParcel(otherPlayer, dest);
 		}
 	}
 

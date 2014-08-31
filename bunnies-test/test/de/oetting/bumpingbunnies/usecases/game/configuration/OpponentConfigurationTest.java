@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.android.parcel.OpponentConfigurationParceller;
 import de.oetting.bumpingbunnies.core.configuration.ai.AiModus;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
@@ -31,9 +32,9 @@ public class OpponentConfigurationTest {
 
 	private OpponentConfiguration serializeAndDeserialize(OpponentConfiguration configuration) {
 		Parcel parcel = Parcel.obtain();
-		configuration.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-		return new OpponentConfiguration(parcel);
+		new OpponentConfigurationParceller().writeToParcel(configuration, parcel);
+		parcel.setDataPosition(0);
+		return new OpponentConfigurationParceller().createFromParcel(parcel);
 	}
 
 	private void checkValues(OpponentConfiguration configuration) {
@@ -46,7 +47,6 @@ public class OpponentConfigurationTest {
 	}
 
 	public OpponentConfiguration createOpponentConfiguration() {
-		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), Opponent.createMyPlayer(
-				"opponent"));
+		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), Opponent.createMyPlayer("opponent"));
 	}
 }
