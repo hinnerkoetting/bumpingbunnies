@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.GameView;
@@ -25,7 +26,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;

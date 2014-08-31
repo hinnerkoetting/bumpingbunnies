@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class CollisionDetectionFactory {
 

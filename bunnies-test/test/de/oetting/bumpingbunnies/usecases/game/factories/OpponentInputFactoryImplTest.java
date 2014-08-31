@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.android.input.ai.AiInputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.ai.DummyInputService;
@@ -18,7 +19,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 @Category(UnitTests.class)
 public class OpponentInputFactoryImplTest {

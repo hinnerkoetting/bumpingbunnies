@@ -15,9 +15,9 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 @Category(UnitTests.class)
 public class WorldFactoryTest {

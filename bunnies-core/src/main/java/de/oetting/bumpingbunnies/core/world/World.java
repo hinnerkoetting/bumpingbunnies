@@ -1,12 +1,17 @@
-package de.oetting.bumpingbunnies.usecases.game.model;
+package de.oetting.bumpingbunnies.core.world;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.world.ObjectProvider;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
+import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
+import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
+import de.oetting.bumpingbunnies.usecases.game.model.Wall;
+import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
 public class World implements ObjectProvider {
 
@@ -101,14 +106,6 @@ public class World implements ObjectProvider {
 			}
 		}
 		return maxId;
-	}
-
-	public List<PlayerProperties> getPlayerProperties() {
-		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.allPlayer.size() - 1);
-		for (Player p : this.allPlayer) {
-			properties.add(new PlayerProperties(p.id(), p.getName()));
-		}
-		return properties;
 	}
 
 	public void replaceAllWalls(Collection<Wall> walls) {

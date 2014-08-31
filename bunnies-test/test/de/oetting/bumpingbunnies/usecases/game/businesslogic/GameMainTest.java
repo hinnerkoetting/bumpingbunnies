@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -31,7 +32,6 @@ import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteCon
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 @Category(UnitTests.class)
 public class GameMainTest {

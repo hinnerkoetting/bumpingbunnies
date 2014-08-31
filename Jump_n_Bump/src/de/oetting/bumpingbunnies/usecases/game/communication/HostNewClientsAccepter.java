@@ -1,10 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -14,7 +16,6 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
@@ -22,7 +23,8 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClien
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 
 /**
- * Controls logic which a host must fulfill. Sends Broadcast messages to send its IP for new clients, accepts connections from clients and adds them to the
+ * Controls logic which a host must fulfill. Sends Broadcast messages to send
+ * its IP for new clients, accepts connections from clients and adds them to the
  * game.
  * 
  */
@@ -63,8 +65,8 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void clientConnectedSucessfull(MySocket socket) {
-		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory
-				.create(this, socket, new StrictNetworkToGameDispatcher());
+		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory.create(this, socket,
+				new StrictNetworkToGameDispatcher());
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 	}
@@ -72,8 +74,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	@Override
 	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
 		Player player = new PlayerFactory(this.generalSettings.getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
-				playerProperties.getPlayerName(),
-				socket.getOwner());
+				playerProperties.getPlayerName(), socket.getOwner());
 		LOGGER.info("Player joins %s", player);
 		this.main.playerJoins(player);
 		signalPlayerToStartTheGame(socket);
@@ -92,7 +93,11 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public List<PlayerProperties> getAllPlayersProperties() {
-		return this.world.getPlayerProperties();
+		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.world.getAllPlayer().size());
+		for (Player p : world.getAllPlayer()) {
+			properties.add(new PlayerProperties(p.id(), p.getName()));
+		}
+		return properties;
 	}
 
 	@Override

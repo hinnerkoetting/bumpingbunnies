@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
 
 import android.content.Context;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
+import de.oetting.bumpingbunnies.core.world.World;
 
 public class WorldFactory {
 

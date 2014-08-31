@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.OutsideOfPlayZoneChecker;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionDetection;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
@@ -11,7 +12,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 /**
  * Host logic what should be done when a bunny jumps on another bunny.

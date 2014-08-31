@@ -8,13 +8,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.usecases.game.model.AndroidBitmap;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class DrawablesFactory {
 

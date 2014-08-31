@@ -1,13 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.communication.AcceptsClientConnectionsDelegate;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.communication.HostNewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
 
 public class NewClientsAccepterFactory {

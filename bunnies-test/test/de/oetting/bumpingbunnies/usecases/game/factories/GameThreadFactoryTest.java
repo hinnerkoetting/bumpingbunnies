@@ -12,6 +12,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -23,7 +24,6 @@ import de.oetting.bumpingbunnies.usecases.game.communication.DummyNewClientsAcce
 import de.oetting.bumpingbunnies.usecases.game.configuration.TestConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsParser;
 
 @Category(IntegrationTests.class)

@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 import android.content.Context;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.ClientBunnyKillChecker;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
@@ -35,7 +36,6 @@ import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkRe
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 

@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.graphics.CanvasDelegateImpl;
@@ -8,7 +9,6 @@ import de.oetting.bumpingbunnies.usecases.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class DrawerFactory {
 
