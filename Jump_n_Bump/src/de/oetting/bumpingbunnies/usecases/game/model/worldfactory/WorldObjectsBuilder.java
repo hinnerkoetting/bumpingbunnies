@@ -9,10 +9,11 @@ import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
+import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public interface WorldObjectsBuilder {
 
-	void build(Context context);
+	World build(Context context);
 
 	Collection<Wall> getAllWalls();
 

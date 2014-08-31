@@ -35,8 +35,7 @@ public class World implements ObjectProvider {
 		this.waters = new LinkedList<Water>(factory.getAllWaters());
 		addToAllObjects();
 		this.spawnPoints = factory.createSpawnPoints();
-		LOGGER.info("Added %d objects and %d players", this.allObjects.size(),
-				this.allPlayer.size());
+		LOGGER.info("Added %d objects and %d players", this.allObjects.size(), this.allPlayer.size());
 	}
 
 	private void addToAllObjects() {
@@ -114,8 +113,7 @@ public class World implements ObjectProvider {
 	}
 
 	public List<PlayerProperties> getPlayerProperties() {
-		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(
-				this.allPlayer.size() - 1);
+		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.allPlayer.size() - 1);
 		for (Player p : this.allPlayer) {
 			properties.add(new PlayerProperties(p.id(), p.getName()));
 		}

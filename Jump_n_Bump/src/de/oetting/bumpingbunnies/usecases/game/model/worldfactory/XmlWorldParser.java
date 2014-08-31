@@ -19,14 +19,14 @@ import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
+import de.oetting.bumpingbunnies.usecases.game.model.World;
 import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
-public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
+public class XmlWorldParser implements WorldObjectsBuilder, XmlConstants {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(XmlWorldBuilder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(XmlWorldParser.class);
 	private final int resourceId;
 	private XmlWorldBuilderState state;
 	private boolean parsed;
@@ -35,7 +35,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	private MusicPlayer jumperMusic;
 	private MusicPlayer waterMusic;
 
-	public XmlWorldBuilder(int resourceId) {
+	public XmlWorldParser(int resourceId) {
 		this.resourceId = resourceId;
 		this.state = new XmlWorldBuilderState();
 	}
@@ -43,8 +43,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	private void parse(Context context) {
 		this.bitmapReader = new BitmapReader(context.getResources());
 		this.parsed = true;
-		InputStream worldXml = context.getResources().openRawResource(
-				this.resourceId);
+		InputStream worldXml = context.getResources().openRawResource(this.resourceId);
 		this.jumperMusic = MusicPlayerFactory.createJumper(context);
 		this.waterMusic = MusicPlayerFactory.createWater(context);
 		readXmlFile(worldXml);
@@ -68,8 +67,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		}
 	}
 
-	private void fillXmlIntoState(XmlPullParser parser)
-			throws XmlPullParserException, IOException {
+	private void fillXmlIntoState(XmlPullParser parser) throws XmlPullParserException, IOException {
 
 		parser.require(XmlPullParser.START_TAG, null, WORLD);
 		while (parser.next() != XmlPullParser.END_DOCUMENT) {
@@ -81,8 +79,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 
 	}
 
-	private void readContent(XmlPullParser parser)
-			throws XmlPullParserException, IOException {
+	private void readContent(XmlPullParser parser) throws XmlPullParserException, IOException {
 		String name = parser.getName();
 		if (XmlConstants.WALL.equals(name)) {
 			readWall(parser);
@@ -94,24 +91,21 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 			readSpawnpoint(parser);
 		} else if (XmlConstants.WATER.equals(name)) {
 			readWater(parser);
-		}
-		else {
+		} else {
 			LOGGER.debug("Found tag %s", name);
 		}
 	}
 
 	private void readWater(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
-		Water water = XmlRectToObjectConverter
-				.createWater(rect, this.worldProperties, this.waterMusic);
+		Water water = XmlRectToObjectConverter.createWater(rect, this.worldProperties, this.waterMusic);
 		this.state.getWaters().add(water);
 	}
 
 	private void readSpawnpoint(XmlPullParser parser) {
 		String x = parser.getAttributeValue(null, X);
 		String y = parser.getAttributeValue(null, Y);
-		this.state.getSpawnPoints().add(
-				XmlRectToObjectConverter.createSpawn(x, y, this.worldProperties));
+		this.state.getSpawnPoints().add(XmlRectToObjectConverter.createSpawn(x, y, this.worldProperties));
 	}
 
 	private void readJumper(XmlPullParser parser) {
@@ -126,8 +120,7 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 		this.state.getAllIcyWalls().add(wall);
 	}
 
-	private void readWall(XmlPullParser parser) throws XmlPullParserException,
-			IOException {
+	private void readWall(XmlPullParser parser) throws XmlPullParserException, IOException {
 		XmlRect rect = readRect(parser);
 		Wall wall = XmlRectToObjectConverter.createWall(rect, this.worldProperties);
 		wall.setBitmap(new AndroidBitmap(readBitmap(parser)));
@@ -143,8 +136,11 @@ public class XmlWorldBuilder implements WorldObjectsBuilder, XmlConstants {
 	}
 
 	@Override
-	public void build(Context context) {
+	public World build(Context context) {
 		parse(context);
+		World world = new World();
+		world.buildWorld(this);
+		return world;
 	}
 
 	@Override

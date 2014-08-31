@@ -9,8 +9,6 @@ public class WorldFactory {
 
 	public static World create(Configuration configuration, Context context) {
 		WorldObjectsBuilder factory = configuration.getWorldConfiguration().createInputconfigurationClass();
-		World world = new World();
-		factory.build(context);
-		return world;
+		return factory.build(context);
 	}
 }

@@ -9,12 +9,13 @@ import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
+import de.oetting.bumpingbunnies.usecases.game.model.World;
 
 public class XmlWorldBuilderTemplate implements WorldObjectsBuilder {
-	private XmlWorldBuilder worldBuilder;
+	private XmlWorldParser worldBuilder;
 
 	public XmlWorldBuilderTemplate(int id) {
-		this.worldBuilder = new XmlWorldBuilder(id);
+		this.worldBuilder = new XmlWorldParser(id);
 	}
 
 	@Override
@@ -33,8 +34,8 @@ public class XmlWorldBuilderTemplate implements WorldObjectsBuilder {
 	}
 
 	@Override
-	public void build(Context context) {
-		this.worldBuilder.build(context);
+	public World build(Context context) {
+		return this.worldBuilder.build(context);
 	}
 
 	@Override
