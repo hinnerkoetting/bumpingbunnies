@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParceller;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -28,9 +29,9 @@ public class LocalSettingsTest {
 
 	private LocalSettings serializeAndDeserialize(LocalSettings settings) {
 		Parcel parcel = Parcel.obtain();
-		settings.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-		return new LocalSettings(parcel);
+		new LocalSettingsParceller().writeToParcel(settings, parcel);
+		parcel.setDataPosition(0);
+		return new LocalSettingsParceller().createFromParcel(parcel);
 	}
 
 	private void checkValues(LocalSettings settings) {

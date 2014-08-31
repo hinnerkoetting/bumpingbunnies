@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
@@ -54,12 +55,10 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.OnBroadcastReceiv
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
-public class RoomActivity extends Activity implements ConnectToServerCallback,
-		AcceptsClientConnections,
+public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections,
 		ConnectionToServerSuccesfullCallback, OnBroadcastReceived, ConnectsToServer {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RoomActivity.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
 	private BluetoothArrayAdapter listAdapter;
 
@@ -101,8 +100,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void switchToBluetooth() {
 		LOGGER.info("selected bluetooth");
-		this.remoteCommunication = BluetoothCommunicationFactory.create(
-				BluetoothAdapter.getDefaultAdapter(), this);
+		this.remoteCommunication = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this);
 	}
 
 	private void switchToWlan() {
@@ -125,10 +123,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	private void displayKnownHosts() {
-		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
-				.getDefaultAdapter();
-		Set<BluetoothDevice> pairedDevices = mBluetoothAdapter
-				.getBondedDevices();
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 		LOGGER.info("found %d devices", pairedDevices.size());
 		this.listAdapter.clear();
 		for (BluetoothDevice device : pairedDevices) {
@@ -190,8 +186,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		btButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					switchToBluetooth();
 				}
@@ -201,8 +196,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		wlanButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					switchToWlan();
 				}
@@ -213,21 +207,20 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
-		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory
-				.create(this, socket, new StrictNetworkToGameDispatcher());
+		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory.create(this, socket,
+				new StrictNetworkToGameDispatcher());
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 		enableStartButton();
 	}
 
 	private List<OpponentConfiguration> createOtherPlayerconfigurations() {
-		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>(
-				this.playersAA.getCount() - 1);
+		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>(this.playersAA.getCount() - 1);
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
 			AiModus aiMode = AiModus.NORMAL;
 
-			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(
-					aiMode, otherPlayer.getPlayerProperties(), otherPlayer.createOponent());
+			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(),
+					otherPlayer.createOponent());
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;
@@ -257,9 +250,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(getBaseContext(),
-						"Exception during connect. Game may still work. "
-								+ message, Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(getBaseContext(), "Exception during connect. Game may still work. " + message,
+						Toast.LENGTH_SHORT);
 				toast.show();
 			}
 		});
@@ -277,10 +269,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 			@Override
 			public void run() {
 				LocalPlayersettings settings = createLocalPlayerSettingsFromIntent();
-				PlayerProperties singlePlayerProperties = new PlayerProperties(
-						myPlayerId, settings.getPlayerName());
-				RoomActivity.this.playersAA.addMe(new SinglePlayerRoomEntry(
-						singlePlayerProperties));
+				PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
+				RoomActivity.this.playersAA.addMe(new SinglePlayerRoomEntry(singlePlayerProperties));
 				RoomActivity.this.playersAA.notifyDataSetChanged();
 			}
 		});
@@ -295,8 +285,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		this.connectedToServerService = new ConnectionToServerService(socket,
-				this);
+		this.connectedToServerService = new ConnectionToServerService(socket, this);
 		this.connectedToServerService.onConnectionToServer();
 	}
 
@@ -325,8 +314,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		SocketStorage singleton = SocketStorage.getSingleton();
 		GeneralSettings settings = createGeneralSettingsFromIntent();
 		for (MySocket socket : singleton.getAllSockets()) {
-			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
-					.createNetworkSender(socket);
+			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket);
 			new GameSettingSender(networkSender).sendMessage(settings);
 			new StartGameSender(networkSender).sendMessage("");
 		}
@@ -336,13 +324,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 		LocalSettings localSettings = createLocalSettingsFromIntent();
 		LocalPlayersettings localPlayerSettings = createLocalPlayerSettingsFromIntent();
-		int myPlayerId = this.playersAA.getMyself().getPlayerProperties()
-				.getPlayerId();
+		int myPlayerId = this.playersAA.getMyself().getPlayerProperties().getPlayerId();
 		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations();
-		Configuration config = new Configuration(localSettings,
-				generalSettings, otherPlayers, localPlayerSettings, asHost);
-		GameStartParameter parameter = GameParameterFactory.createParameter(
-				myPlayerId, config);
+		Configuration config = new Configuration(localSettings, generalSettings, otherPlayers, localPlayerSettings, asHost);
+		GameStartParameter parameter = GameParameterFactory.createParameter(myPlayerId, config);
 		sleep();
 		ActivityLauncher.launchGame(this, parameter);
 		finish();
@@ -356,18 +341,15 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	private LocalSettings createLocalSettingsFromIntent() {
-		return (LocalSettings) getIntent().getExtras().get(
-				ActivityLauncher.LOCAL_SETTINGS);
+		return ((LocalSettingsParcelableWrapper) getIntent().getExtras().get(ActivityLauncher.LOCAL_SETTINGS)).getLocalSettings();
 	}
 
 	private GeneralSettings createGeneralSettingsFromIntent() {
-		return (GeneralSettings) getIntent().getExtras().get(
-				ActivityLauncher.GENERAL_SETTINGS);
+		return (GeneralSettings) getIntent().getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
 	}
 
 	public LocalPlayersettings createLocalPlayerSettingsFromIntent() {
-		return (LocalPlayersettings) getIntent().getExtras().get(
-				ActivityLauncher.LOCAL_PLAYER_SETTINGS);
+		return (LocalPlayersettings) getIntent().getExtras().get(ActivityLauncher.LOCAL_PLAYER_SETTINGS);
 	}
 
 	@Override
