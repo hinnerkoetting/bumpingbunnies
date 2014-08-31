@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
+package de.oetting.bumpingbunnies.core.game.steps;
 
 /**
  * Runs during the main game.

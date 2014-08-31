@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 
 public class PlayerJoinObservable {
 

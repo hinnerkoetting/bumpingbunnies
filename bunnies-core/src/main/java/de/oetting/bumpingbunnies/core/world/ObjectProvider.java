@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game;
+package de.oetting.bumpingbunnies.core.world;
 
 import java.util.List;
 

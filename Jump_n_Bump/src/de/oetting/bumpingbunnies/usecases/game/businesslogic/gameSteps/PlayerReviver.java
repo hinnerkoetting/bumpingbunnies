@@ -3,6 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.game.steps.GameStepAction;
+import de.oetting.bumpingbunnies.core.game.steps.PlayerReviveEntry;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;

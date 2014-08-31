@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.ObjectProvider;
+import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

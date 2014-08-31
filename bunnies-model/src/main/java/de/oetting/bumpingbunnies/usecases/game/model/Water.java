@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import android.graphics.Color;
+import de.oetting.bumpingbunnies.color.Color;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 public class Water implements GameObjectWithImage {

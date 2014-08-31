@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
+package de.oetting.bumpingbunnies.core.game.steps;
 
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
