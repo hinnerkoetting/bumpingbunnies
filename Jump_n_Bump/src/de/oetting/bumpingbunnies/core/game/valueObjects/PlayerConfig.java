@@ -1,6 +1,6 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.core.game.valueObjects;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
+import de.oetting.bumpingbunnies.core.configuration.ai.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
+import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;

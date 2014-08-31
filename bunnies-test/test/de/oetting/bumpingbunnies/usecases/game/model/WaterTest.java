@@ -12,8 +12,8 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
+import de.oetting.bumpingbunnies.core.game.movement.CollisionHandling;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.CollisionHandling;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 @Category(UnitTests.class)

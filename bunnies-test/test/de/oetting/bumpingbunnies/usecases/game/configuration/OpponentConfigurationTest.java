@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.core.configuration.ai.AiModus;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;

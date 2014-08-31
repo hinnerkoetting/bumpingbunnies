@@ -3,9 +3,9 @@ package de.oetting.bumpingbunnies.usecases.game.android.factories;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.configuration.ai.AiModus;
+import de.oetting.bumpingbunnies.core.game.valueObjects.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerConfig;
-import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
