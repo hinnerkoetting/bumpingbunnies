@@ -10,6 +10,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.android.parcel.ConfigurationParceller;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -27,9 +28,9 @@ public class ConfigurationTest {
 
 	private Configuration serializeAndDeserialize(Configuration configuration) {
 		Parcel parcel = Parcel.obtain();
-		configuration.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-		return new Configuration(parcel);
+		new ConfigurationParceller().writeToParcel(configuration, parcel);
+		parcel.setDataPosition(0);
+		return new ConfigurationParceller().createFromParcel(parcel);
 	}
 
 	private Configuration createConfiguration() {

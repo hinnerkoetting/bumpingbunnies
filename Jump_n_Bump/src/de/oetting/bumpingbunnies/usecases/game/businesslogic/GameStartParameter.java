@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.oetting.bumpingbunnies.android.parcel.ConfigurationParceller;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 
 public class GameStartParameter implements Parcelable {
@@ -27,7 +28,7 @@ public class GameStartParameter implements Parcelable {
 	}
 
 	public GameStartParameter(Parcel source) {
-		this.configuration = new Configuration(source);
+		this.configuration = new ConfigurationParceller().createFromParcel(source);
 		this.playerId = source.readInt();
 	}
 
@@ -38,7 +39,7 @@ public class GameStartParameter implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		this.configuration.writeToParcel(dest, flags);
+		new ConfigurationParceller().writeToParcel(configuration, dest);
 		dest.writeInt(this.playerId);
 	}
 
