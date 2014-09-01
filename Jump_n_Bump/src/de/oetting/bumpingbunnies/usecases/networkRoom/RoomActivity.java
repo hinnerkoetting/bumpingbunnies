@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper;
+import de.oetting.bumpingbunnies.android.parcel.LocalPlayerSettingsParcellableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
 import de.oetting.bumpingbunnies.communication.MySocket;
@@ -40,7 +42,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.StrictNetworkToGame
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
@@ -268,7 +270,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 			@Override
 			public void run() {
-				LocalPlayersettings settings = createLocalPlayerSettingsFromIntent();
+				LocalPlayerSettings settings = createLocalPlayerSettingsFromIntent();
 				PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
 				RoomActivity.this.playersAA.addMe(new SinglePlayerRoomEntry(singlePlayerProperties));
 				RoomActivity.this.playersAA.notifyDataSetChanged();
@@ -323,7 +325,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	public void launchGame(GeneralSettings generalSettings, boolean asHost) {
 
 		LocalSettings localSettings = createLocalSettingsFromIntent();
-		LocalPlayersettings localPlayerSettings = createLocalPlayerSettingsFromIntent();
+		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettingsFromIntent();
 		int myPlayerId = this.playersAA.getMyself().getPlayerProperties().getPlayerId();
 		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations();
 		Configuration config = new Configuration(localSettings, generalSettings, otherPlayers, localPlayerSettings, asHost);
@@ -345,11 +347,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	private GeneralSettings createGeneralSettingsFromIntent() {
-		return (GeneralSettings) getIntent().getExtras().get(ActivityLauncher.GENERAL_SETTINGS);
+		return ((GeneralSettingsParcelableWrapper) getIntent().getExtras().get(ActivityLauncher.GENERAL_SETTINGS)).getSettings();
 	}
 
-	public LocalPlayersettings createLocalPlayerSettingsFromIntent() {
-		return (LocalPlayersettings) getIntent().getExtras().get(ActivityLauncher.LOCAL_PLAYER_SETTINGS);
+	public LocalPlayerSettings createLocalPlayerSettingsFromIntent() {
+		return ((LocalPlayerSettingsParcellableWrapper) getIntent().getExtras().get(ActivityLauncher.LOCAL_PLAYER_SETTINGS)).getSettings();
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class TestConfigurationFactory {
 				WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
 		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL,
 				new PlayerProperties(0, "name"), Opponent.createOpponent("identifier", OpponentType.AI)));
-		LocalPlayersettings playerSettings = new LocalPlayersettings("name");
+		LocalPlayerSettings playerSettings = new LocalPlayerSettings("name");
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, playerSettings, true);
 		return configuration;
 	}

@@ -10,7 +10,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.otherPlayerId.OtherPlayerClientIdSender;
@@ -44,7 +44,7 @@ public class ConnectionToClientService {
 		new SendLocalSettingsReceiver(gameDispatcher, this);
 	}
 
-	public void onReceiveLocalPlayersettings(LocalPlayersettings message) {
+	public void onReceiveLocalPlayersettings(LocalPlayerSettings message) {
 		ConnectionToClientService.this.networkReceiver.cancel();
 		manageConnectedClient(ConnectionToClientService.this.socket, message.getPlayerName());
 	}

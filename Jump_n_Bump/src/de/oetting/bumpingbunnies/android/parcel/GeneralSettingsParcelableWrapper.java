@@ -46,4 +46,8 @@ public class GeneralSettingsParcelableWrapper implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		new GeneralSettingsParceller().writeToParcel(settings, dest);
 	}
+
+	public GeneralSettings getSettings() {
+		return settings;
+	}
 }

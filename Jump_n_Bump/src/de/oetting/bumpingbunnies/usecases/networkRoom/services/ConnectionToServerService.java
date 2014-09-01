@@ -10,7 +10,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingsReceiver;
@@ -46,7 +46,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 	private void sendMyPlayerName() {
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
 				.createNetworkSender(this.socket);
-		LocalPlayersettings localPlayerSettings = this.roomActivity
+		LocalPlayerSettings localPlayerSettings = this.roomActivity
 				.createLocalPlayerSettingsFromIntent();
 		new SendLocalSettingsSender(networkSender).sendMessage(localPlayerSettings);
 	}

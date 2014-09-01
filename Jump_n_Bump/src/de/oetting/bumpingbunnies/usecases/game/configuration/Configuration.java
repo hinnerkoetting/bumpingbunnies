@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParceller;
+import de.oetting.bumpingbunnies.android.parcel.LocalPlayerSettingsParceller;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParceller;
 import de.oetting.bumpingbunnies.android.parcel.OpponentConfigurationParceller;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -35,13 +36,13 @@ public class Configuration implements Parcelable {
 	private final List<OpponentConfiguration> otherPlayers;
 	private final LocalSettings localSettings;
 	private final GeneralSettings generalSettings;
-	private final LocalPlayersettings localPlayerSettings;
+	private final LocalPlayerSettings localPlayerSettings;
 	private final boolean host;
 
 	public Configuration(Parcel source) {
 		this.localSettings = new LocalSettingsParceller().createFromParcel(source);
 		this.generalSettings = new GeneralSettingsParceller().createFromParcel(source);
-		this.localPlayerSettings = new LocalPlayersettings(source);
+		this.localPlayerSettings = new LocalPlayerSettingsParceller().createFromParcel(source);
 		this.host = source.readInt() == 1;
 		int numberOtherPlayer = source.readInt();
 		this.otherPlayers = new ArrayList<OpponentConfiguration>(numberOtherPlayer);
@@ -51,7 +52,7 @@ public class Configuration implements Parcelable {
 	}
 
 	public Configuration(LocalSettings localSettings, GeneralSettings generalSettings, List<OpponentConfiguration> otherPlayers,
-			LocalPlayersettings localPlayersettings, boolean host) {
+			LocalPlayerSettings localPlayersettings, boolean host) {
 		this.generalSettings = generalSettings;
 		this.otherPlayers = otherPlayers;
 		this.localSettings = localSettings;
@@ -72,7 +73,7 @@ public class Configuration implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		new LocalSettingsParceller().writeToParcel(localSettings, dest);
 		new GeneralSettingsParceller().writeToParcel(generalSettings, dest);
-		this.localPlayerSettings.writeToParcel(dest, flags);
+		new LocalPlayerSettingsParceller().writeToParcel(localPlayerSettings, dest);
 		dest.writeInt(this.host ? 1 : 0);
 		dest.writeInt(this.otherPlayers.size());
 		for (OpponentConfiguration otherPlayer : this.otherPlayers) {
@@ -100,7 +101,7 @@ public class Configuration implements Parcelable {
 		return this.generalSettings;
 	}
 
-	public LocalPlayersettings getLocalPlayerSettings() {
+	public LocalPlayerSettings getLocalPlayerSettings() {
 		return this.localPlayerSettings;
 	}
 

@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.android.parcel.LocalPlayerSettingsParceller;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -20,21 +21,21 @@ public class LocalPlayersettingsTest {
 
 	@Test
 	public void testParcelling() {
-		LocalPlayersettings settings = new LocalPlayersettings("name");
+		LocalPlayerSettings settings = new LocalPlayerSettings("name");
 		checkValues(settings);
-		LocalPlayersettings after = serializeAndDeserialize(settings);
+		LocalPlayerSettings after = serializeAndDeserialize(settings);
 		checkValues(after);
 	}
 
-	private void checkValues(LocalPlayersettings settings) {
+	private void checkValues(LocalPlayerSettings settings) {
 		assertThat(settings.getPlayerName(), is(equalTo("name")));
 	}
 
-	private LocalPlayersettings serializeAndDeserialize(LocalPlayersettings settings) {
+	private LocalPlayerSettings serializeAndDeserialize(LocalPlayerSettings settings) {
 		Parcel parcel = Parcel.obtain();
-		settings.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-		return new LocalPlayersettings(parcel);
+		new LocalPlayerSettingsParceller().writeToParcel(settings, parcel);
+		parcel.setDataPosition(0);
+		return new LocalPlayerSettingsParceller().createFromParcel(parcel);
 	}
 
 }

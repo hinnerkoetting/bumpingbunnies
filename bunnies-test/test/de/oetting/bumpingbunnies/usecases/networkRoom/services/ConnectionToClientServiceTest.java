@@ -21,7 +21,7 @@ import de.oetting.bumpingbunnies.usecases.game.communication.NetworkListener;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayersettings;
+import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
@@ -104,7 +104,7 @@ public class ConnectionToClientServiceTest {
 	}
 
 	private void whenClientSendsSettings() {
-		this.fixture.onReceiveLocalPlayersettings(new LocalPlayersettings("name"));
+		this.fixture.onReceiveLocalPlayersettings(new LocalPlayerSettings("name"));
 	}
 
 	@Before
