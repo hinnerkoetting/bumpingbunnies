@@ -100,11 +100,10 @@ public class GameMainFactory {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter, CoordinatesCalculation calculations,
 			Player myPlayer) {
-		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter.getConfiguration()
-				.getInputConfiguration().createInputconfigurationClass();
+		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = new InputConfigurationFactory().create(parameter.getConfiguration()
+				.getInputConfiguration());
 		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, calculations);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(), inputDispatcher);
