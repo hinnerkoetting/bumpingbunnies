@@ -19,7 +19,6 @@ import de.oetting.bumpingbunnies.sql.AsyncDatabaseCreation;
 import de.oetting.bumpingbunnies.sql.OnDatabaseCreation;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.configuration.AiModusGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
@@ -29,7 +28,6 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfigurati
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
