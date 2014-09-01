@@ -36,11 +36,9 @@ import de.oetting.bumpingbunnies.usecases.start.sql.SettingsStorage;
 
 public class StartActivity extends Activity implements OnDatabaseCreation {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(StartActivity.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StartActivity.class);
 	private SettingsStorage settingsDao;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,16 +57,13 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	/**
 	 * Call from Actitity
 	 */
-	@SuppressWarnings("unused")
 	public void onClickSingleplayer(View v) {
 		Configuration configuration = createConfiguration();
-		GameStartParameter parameter = GameParameterFactory
-				.createSingleplayerParameter(configuration);
+		GameStartParameter parameter = GameParameterFactory.createSingleplayerParameter(configuration);
 
 		launchGame(parameter);
 	}
 
-	@SuppressWarnings("unused")
 	public void onClickSettings(View v) {
 		ActivityLauncher.startSettings(this);
 	}
@@ -79,29 +74,23 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings(settings);
 		GeneralSettings generalSettings = createGeneralSettings(settings);
 		List<OpponentConfiguration> otherPlayers = createSpOtherPlayerConfiguration(settings);
-		return new Configuration(localSettings, generalSettings, otherPlayers,
-				localPlayerSettings, true);
+		return new Configuration(localSettings, generalSettings, otherPlayers, localPlayerSettings, true);
 	}
 
-	private LocalPlayerSettings createLocalPlayerSettings(
-			SettingsEntity settings) {
+	private LocalPlayerSettings createLocalPlayerSettings(SettingsEntity settings) {
 		return new LocalPlayerSettings(settings.getPlayerName());
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
-		return new LocalSettings(settings.getInputConfiguration(),
-				settings.getZoom(), settings.isBackground(), settings.isAltPixelformat());
+		return new LocalSettings(settings.getInputConfiguration(), settings.getZoom(), settings.isBackground(), settings.isAltPixelformat());
 	}
 
-	private List<OpponentConfiguration> createSpOtherPlayerConfiguration(
-			SettingsEntity settings) {
+	private List<OpponentConfiguration> createSpOtherPlayerConfiguration(SettingsEntity settings) {
 		int numberPlayer = settings.getNumberPlayer();
 		List<OpponentConfiguration> list = new ArrayList<OpponentConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
 			Opponent opponent = Opponent.createOpponent("AI + " + i, OpponentType.AI);
-			list.add(new OpponentConfiguration(
-					findSelectedAiMode(), new PlayerProperties(i, "Player "
-							+ i), opponent));
+			list.add(new OpponentConfiguration(findSelectedAiMode(), new PlayerProperties(i, "Player " + i), opponent));
 		}
 		return list;
 	}
@@ -115,14 +104,12 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		return AiModusGenerator.createFromRadioGroup(radioGroup);
 	}
 
-	@SuppressWarnings("unused")
 	public void onClickMultiplayer(View v) {
 		SettingsEntity settings = readSettingsFromDb();
 		LocalSettings localSettings = createLocalSettings(settings);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings(settings);
 		GeneralSettings generalSettings = createGeneralSettings(settings);
-		ActivityLauncher.startRoom(this, localSettings, generalSettings,
-				localPlayerSettings);
+		ActivityLauncher.startRoom(this, localSettings, generalSettings, localPlayerSettings);
 	}
 
 	private SettingsEntity readSettingsFromDb() {
@@ -139,8 +126,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 
 	private WorldConfiguration findWorldConfiguration() {
 		RadioGroup rg = (RadioGroup) findViewById(R.id.start_world_group);
-		return WorldConfigurationGenerator
-				.createWorldConfigurationFromRadioGroup(rg);
+		return WorldConfigurationGenerator.createWorldConfigurationFromRadioGroup(rg);
 	}
 
 	@Override

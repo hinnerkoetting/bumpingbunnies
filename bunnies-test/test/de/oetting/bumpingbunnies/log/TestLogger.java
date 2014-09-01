@@ -1,7 +1,5 @@
 package de.oetting.bumpingbunnies.log;
 
-import java.util.logging.Logger;
-
 public class TestLogger implements de.oetting.bumpingbunnies.logger.Logger {
 
 	private final Class<?> clazz;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.android.parcel.GameStartParameterParcelableWrapper;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.valueObjects.PlayerConfig;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -34,7 +35,8 @@ public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
 		NetworkSendControl sendControl = new NetworkSendControl(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
-		GameStartParameter parameter = (GameStartParameter) activity.getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER);
+		GameStartParameter parameter = ((GameStartParameterParcelableWrapper) activity.getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER))
+				.getParameter();
 
 		World world = createWorld(activity, parameter);
 		NewClientsAccepter clientAccepter = createClientAccepter(activity, parameter, world);
@@ -66,8 +68,7 @@ public class GameMainFactory {
 		main.addAllJoinListeners();
 	}
 
-	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl,
-			World world) {
+	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl, World world) {
 		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
 		main.setWorld(world);
@@ -76,8 +77,8 @@ public class GameMainFactory {
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
 
-		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), calculations,
-				cameraPositionCalculation, main, myPlayer, activity, sendControl);
+		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main,
+				myPlayer, activity, sendControl);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
@@ -100,14 +101,13 @@ public class GameMainFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter,
-			CoordinatesCalculation calculations, Player myPlayer) {
-		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
-				.getConfiguration().getInputConfiguration().createInputconfigurationClass();
+	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter, CoordinatesCalculation calculations,
+			Player myPlayer) {
+		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter.getConfiguration()
+				.getInputConfiguration().createInputconfigurationClass();
 		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, calculations);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
-		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),
-				inputDispatcher);
+		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(), inputDispatcher);
 		return inputDispatcher;
 	}
 

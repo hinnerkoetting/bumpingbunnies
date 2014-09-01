@@ -1,7 +1,5 @@
 package de.oetting.bumpingbunnies.communication;
 
-import java.io.IOException;
-
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public interface MySocket {
