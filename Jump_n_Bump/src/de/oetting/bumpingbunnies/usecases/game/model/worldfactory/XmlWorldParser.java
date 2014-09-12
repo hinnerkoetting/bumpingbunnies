@@ -10,8 +10,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
 import android.util.Xml;
+import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
@@ -21,7 +21,6 @@ import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 import de.oetting.bumpingbunnies.world.WorldProperties;
 import de.oetting.bumpingbunnies.worldCreation.XmlRect;
 import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
@@ -29,25 +28,25 @@ import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
 public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(XmlWorldParser.class);
-	private final int resourceId;
 	private XmlWorldBuilderState state;
 	private boolean parsed;
 	private WorldProperties worldProperties = new WorldProperties();
-	private BitmapReader bitmapReader;
 	private MusicPlayer jumperMusic;
 	private MusicPlayer waterMusic;
+	private ResourceProvider provider;
+	private int resourceId;
 
 	public XmlWorldParser(int resourceId) {
 		this.resourceId = resourceId;
 		this.state = new XmlWorldBuilderState();
 	}
 
-	private void parse(Context context) {
-		this.bitmapReader = new CachedBitmapReader(context.getResources());
+	private void parse(ResourceProvider provider, XmlReader xmlReader) {
+		this.provider = provider;
 		this.parsed = true;
-		InputStream worldXml = context.getResources().openRawResource(this.resourceId);
-		this.jumperMusic = MusicPlayerFactory.createJumper(context);
-		this.waterMusic = MusicPlayerFactory.createWater(context);
+		InputStream worldXml = xmlReader.openXmlStream();
+		this.jumperMusic = provider.readerJumperMusic();
+		this.waterMusic = provider.readWaterMusic();
 		readXmlFile(worldXml);
 	}
 
@@ -139,7 +138,8 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	@Override
 	public World build(Context context) {
-		parse(context);
+		parse(new AndroidResourceProvider(new CachedBitmapReader(new AndroidBitmapReader(context.getResources())), context),
+				new AndroidXmlReader(context, resourceId));
 		WorldFactory factory = new WorldFactory();
 		return factory.create(this, context);
 	}
@@ -161,7 +161,7 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 	}
 
 	private Image readBitmap(String fileName) {
-		return this.bitmapReader.readBitmap(fileName);
+		return provider.readBitmap(fileName);
 	}
 
 	@Override

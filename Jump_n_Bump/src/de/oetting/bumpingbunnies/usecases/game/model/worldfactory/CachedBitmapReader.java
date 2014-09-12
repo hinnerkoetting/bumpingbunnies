@@ -1,23 +1,18 @@
 package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
 
-import java.lang.reflect.Field;
 import java.util.WeakHashMap;
 
-import android.content.res.Resources;
-import android.graphics.BitmapFactory;
-import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
-import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidBitmap;
 import de.oetting.bumpingbunnies.usecases.game.model.Image;
 
 public class CachedBitmapReader implements BitmapReader {
 
 	private final WeakHashMap<String, Image> bitmapcache;
-	private final Resources resources;
+	private final BitmapReader delegatedReader;
 
-	public CachedBitmapReader(Resources resources) {
+	public CachedBitmapReader(BitmapReader delegatedReader) {
 		super();
-		this.resources = resources;
+		this.delegatedReader = delegatedReader;
 		this.bitmapcache = new WeakHashMap<String, Image>();
 	}
 
@@ -26,18 +21,9 @@ public class CachedBitmapReader implements BitmapReader {
 		if (this.bitmapcache.containsKey(filename)) {
 			return this.bitmapcache.get(filename);
 		}
-		Image bitmap = new AndroidBitmap(BitmapFactory.decodeResource(this.resources, getResourceId(filename)));
+		Image bitmap = delegatedReader.readBitmap(filename);
 		this.bitmapcache.put(filename, bitmap);
 		return bitmap;
 	}
 
-	private int getResourceId(String filename) {
-		try {
-			Class<?> res = R.drawable.class;
-			Field field = res.getField(filename);
-			return field.getInt(null);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
 }
