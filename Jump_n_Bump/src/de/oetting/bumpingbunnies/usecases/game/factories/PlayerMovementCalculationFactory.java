@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementCalculation;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 

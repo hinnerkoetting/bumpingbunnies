@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovementCalculation;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class FixedPositionPlayerMovementCalculation extends PlayerMovementCalculation {
