@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.TestWorldBuild
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.XmlClassicWorldBuilder;
 
-public class WorldconfigurationFactory {
+public class WorldConfigurationFactory {
 
 	public WorldObjectsParser createWorldParser(WorldConfiguration configuration) {
 		switch (configuration) {

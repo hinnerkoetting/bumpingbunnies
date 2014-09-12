@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.core.configuration.ai;
+package de.oetting.bumpingbunnies.usecases.game.configuration;
 
 public enum AiModus {
 	OFF, NORMAL;

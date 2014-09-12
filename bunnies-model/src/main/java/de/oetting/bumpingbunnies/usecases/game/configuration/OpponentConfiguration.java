@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.game.configuration;
 
-import de.oetting.bumpingbunnies.core.configuration.ai.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class OpponentConfiguration {

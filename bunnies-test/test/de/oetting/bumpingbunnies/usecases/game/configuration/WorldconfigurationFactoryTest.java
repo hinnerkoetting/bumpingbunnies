@@ -35,6 +35,6 @@ public class WorldconfigurationFactoryTest extends TestCase {
 	}
 
 	private WorldObjectsParser whenCreating(WorldConfiguration configuration) {
-		return new WorldconfigurationFactory().createWorldParser(configuration);
+		return new WorldConfigurationFactory().createWorldParser(configuration);
 	}
 }

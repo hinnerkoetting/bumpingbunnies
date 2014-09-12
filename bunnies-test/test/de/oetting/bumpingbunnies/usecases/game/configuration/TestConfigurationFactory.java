@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 import java.util.Arrays;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.configuration.ai.AiModus;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
