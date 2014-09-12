@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.start.sql;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import de.oetting.bumpingbunnies.configuration.gameStart.DefaultConfiguration;
+import de.oetting.bumpingbunnies.core.configuration.DefaultConfiguration;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;

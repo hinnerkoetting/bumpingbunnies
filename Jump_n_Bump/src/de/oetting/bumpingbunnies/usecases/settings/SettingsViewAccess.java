@@ -7,7 +7,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.configuration.gameStart.DefaultConfiguration;
+import de.oetting.bumpingbunnies.core.configuration.DefaultConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;

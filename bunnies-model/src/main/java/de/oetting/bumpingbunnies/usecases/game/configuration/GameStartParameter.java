@@ -1,7 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.configuration;
 
-
 public class GameStartParameter {
+
+	public static final int SINGPLE_PLAYER_ID = 0;
 
 	private final Configuration configuration;
 	private final int playerId;

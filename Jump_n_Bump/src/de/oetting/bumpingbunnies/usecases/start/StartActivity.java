@@ -11,7 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.RadioGroup;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.configuration.gameStart.GameParameterFactory;
+import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.sql.AsyncDatabaseCreation;

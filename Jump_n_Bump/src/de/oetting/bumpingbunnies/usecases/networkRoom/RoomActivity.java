@@ -29,7 +29,7 @@ import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
-import de.oetting.bumpingbunnies.configuration.gameStart.GameParameterFactory;
+import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
