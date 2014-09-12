@@ -1,14 +1,10 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
+package de.oetting.bumpingbunnies.core.game.steps;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
-import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
-import de.oetting.bumpingbunnies.core.game.steps.GameStepAction;
-import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
-import de.oetting.bumpingbunnies.usecases.game.factories.PlayerMovementCalculationFactory;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 /**
@@ -21,8 +17,7 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 	private final BunnyKillChecker killChecker;
 	private final PlayerMovementCalculationFactory calculationFactory;
 
-	public BunnyMovementStep(
-			BunnyKillChecker killChecker, PlayerMovementCalculationFactory calculationFactory) {
+	public BunnyMovementStep(BunnyKillChecker killChecker, PlayerMovementCalculationFactory calculationFactory) {
 		super();
 		this.killChecker = killChecker;
 		this.calculationFactory = calculationFactory;
@@ -33,7 +28,9 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 	public void executeNextStep(long deltaStepsSinceLastCall) {
 		for (PlayerMovementCalculation movement : this.playermovements) {
 			movement.nextStep(deltaStepsSinceLastCall);
-			// must be in this line otherwise kill checks will not work properly. the other player might move a bit and the bunny might not be exactly on top of
+			// must be in this line otherwise kill checks will not work
+			// properly. the other player might move a bit and the bunny might
+			// not be exactly on top of
 			// the other
 			this.killChecker.checkForJumpedPlayers();
 		}
@@ -52,7 +49,7 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 		this.playermovements.remove(movementCalculation);
 	}
 
-	public void addAllJoinListeners(GameMain main) {
+	public void addAllJoinListeners(JoinObserver main) {
 		main.addJoinListener(this.killChecker);
 	}
 

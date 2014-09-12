@@ -1,7 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
+import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
 
 public class BunnyMovementStepFactory {
 

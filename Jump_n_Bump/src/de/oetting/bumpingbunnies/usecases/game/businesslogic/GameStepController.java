@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.BunnyMovementStep;
+import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.PlayerReviver;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
@@ -24,9 +24,8 @@ public class GameStepController {
 	private long remainingDeltaFromLastRun = 0;
 	private final CameraPositionCalculation cameraPositionCalculator;
 
-	public GameStepController(
-			UserInputStep userInputStep, BunnyMovementStep movements,
-			SendingCoordinatesStep sendingCoordinates, PlayerReviver reviver, CameraPositionCalculation cameraPositionCalculator) {
+	public GameStepController(UserInputStep userInputStep, BunnyMovementStep movements, SendingCoordinatesStep sendingCoordinates,
+			PlayerReviver reviver, CameraPositionCalculation cameraPositionCalculator) {
 		this.userInputStep = userInputStep;
 		this.movements = movements;
 		this.sendingCoordinates = sendingCoordinates;

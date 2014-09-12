@@ -17,9 +17,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
+import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.factories.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @Category(UnitTests.class)

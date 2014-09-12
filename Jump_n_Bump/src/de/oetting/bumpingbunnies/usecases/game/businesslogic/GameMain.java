@@ -6,6 +6,7 @@ import java.util.List;
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
@@ -20,7 +21,7 @@ import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
-public class GameMain {
+public class GameMain implements JoinObserver {
 
 	private final SocketStorage sockets;
 	private final NetworkSendControl sendControl;
@@ -118,11 +119,9 @@ public class GameMain {
 
 	public ResultWrapper extractPlayerScores() {
 		List<Player> players = this.world.getAllPlayer();
-		List<ResultPlayerEntry> resultEntries = new ArrayList<ResultPlayerEntry>(
-				players.size());
+		List<ResultPlayerEntry> resultEntries = new ArrayList<ResultPlayerEntry>(players.size());
 		for (Player p : players) {
-			ResultPlayerEntry entry = new ResultPlayerEntry(p.getName(), p
-					.getScore(), p.getColor());
+			ResultPlayerEntry entry = new ResultPlayerEntry(p.getName(), p.getScore(), p.getColor());
 			resultEntries.add(entry);
 		}
 		return new ResultWrapper(resultEntries);
