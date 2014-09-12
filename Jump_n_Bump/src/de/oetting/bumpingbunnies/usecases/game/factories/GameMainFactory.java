@@ -23,6 +23,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
+import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -102,8 +103,8 @@ public class GameMainFactory {
 	@SuppressWarnings("unchecked")
 	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter,
 			CoordinatesCalculation calculations, Player myPlayer) {
-		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) parameter
-				.getConfiguration().getInputConfiguration().createInputconfigurationClass();
+		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) new InputConfigurationFactory()
+				.create(parameter.getConfiguration().getInputConfiguration());
 		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, calculations);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),

@@ -10,8 +10,8 @@ public class SettingsEntity {
 	private final boolean background;
 	private final boolean altPixelformat;
 
-	public SettingsEntity(InputConfiguration inputConfiguration, int zoom,
-			int numberPlayer, int speed, String playerName, boolean background, boolean altPixelFormat) {
+	public SettingsEntity(InputConfiguration inputConfiguration, int zoom, int numberPlayer, int speed, String playerName,
+			boolean background, boolean altPixelFormat) {
 		super();
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
