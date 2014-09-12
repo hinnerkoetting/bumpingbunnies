@@ -110,7 +110,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.remoteCommunication = WlanCommunicationFactory.create(this);
 	}
 
-	@SuppressWarnings("unused")
 	public void onClickKnownHosts(View v) {
 		displayKnownHosts();
 	}
@@ -134,7 +133,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public void onClickDiscovery(View v) {
 		this.listAdapter.clear();
 		this.broadcastService.listenForBroadCasts(this);
@@ -163,7 +161,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		enableButtons(false);
 	}
 
-	@SuppressWarnings("unused")
 	public void onClickMakeVisible(View v) {
 		startHostThread();
 	}
@@ -305,7 +302,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		return (Button) findViewById(R.id.room_start);
 	}
 
-	@SuppressWarnings("unused")
 	public void onClickStart(View v) {
 		notifyClientsAboutlaunch();
 		GeneralSettings generalSettings = createGeneralSettingsFromIntent();
@@ -376,7 +372,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	}
 
-	@SuppressWarnings("unused")
 	public void onClickConnect(View v) {
 		this.remoteCommunication.findServer(getInputIp());
 	}

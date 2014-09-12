@@ -13,7 +13,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.mockito.Matchers;
 
 import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.tests.UnitTests;

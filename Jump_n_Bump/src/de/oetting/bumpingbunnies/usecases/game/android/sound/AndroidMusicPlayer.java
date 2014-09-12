@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.android.sound;
 
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
 

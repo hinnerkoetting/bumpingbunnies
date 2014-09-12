@@ -106,7 +106,6 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		return AiModusGenerator.createFromRadioGroup(radioGroup);
 	}
 
-	@SuppressWarnings("unused")
 	public void onClickMultiplayer(View v) {
 		SettingsEntity settings = readSettingsFromDb();
 		LocalSettings localSettings = createLocalSettings(settings);
