@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
+package de.oetting.bumpingbunnies.worldCreation;
 
 import java.util.LinkedList;
 import java.util.List;

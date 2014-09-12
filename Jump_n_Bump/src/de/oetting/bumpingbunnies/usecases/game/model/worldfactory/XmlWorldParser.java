@@ -9,20 +9,22 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Xml;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidBitmap;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
+import de.oetting.bumpingbunnies.usecases.game.model.Image;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
-import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
+import de.oetting.bumpingbunnies.world.WorldProperties;
+import de.oetting.bumpingbunnies.worldCreation.XmlRect;
+import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
 
 public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 
@@ -41,7 +43,7 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 	}
 
 	private void parse(Context context) {
-		this.bitmapReader = new BitmapReader(context.getResources());
+		this.bitmapReader = new CachedBitmapReader(context.getResources());
 		this.parsed = true;
 		InputStream worldXml = context.getResources().openRawResource(this.resourceId);
 		this.jumperMusic = MusicPlayerFactory.createJumper(context);
@@ -123,7 +125,7 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private void readWall(XmlPullParser parser) throws XmlPullParserException, IOException {
 		XmlRect rect = readRect(parser);
 		Wall wall = XmlRectToObjectConverter.createWall(rect, this.worldProperties);
-		wall.setBitmap(new AndroidBitmap(readBitmap(parser)));
+		wall.setBitmap(readBitmap(parser));
 		this.state.getAllWalls().add(wall);
 	}
 
@@ -150,7 +152,7 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 		return this.state.getSpawnPoints();
 	}
 
-	private Bitmap readBitmap(XmlPullParser parser) {
+	private Image readBitmap(XmlPullParser parser) {
 		String filename = parser.getAttributeValue(null, IMAGE);
 		if (filename != null) {
 			return readBitmap(filename);
@@ -158,7 +160,7 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 		return null;
 	}
 
-	private Bitmap readBitmap(String fileName) {
+	private Image readBitmap(String fileName) {
 		return this.bitmapReader.readBitmap(fileName);
 	}
 

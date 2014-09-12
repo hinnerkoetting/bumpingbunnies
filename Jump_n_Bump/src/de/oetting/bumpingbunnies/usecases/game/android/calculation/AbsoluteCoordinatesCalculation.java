@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.android.calculation;
 
 import android.view.MotionEvent;
-import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
+import de.oetting.bumpingbunnies.world.WorldProperties;
 
 public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.dummy.sound;
+package de.oetting.bumpingbunnies.core.music;
 
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;

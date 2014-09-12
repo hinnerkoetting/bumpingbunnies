@@ -6,8 +6,9 @@ import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
-import de.oetting.bumpingbunnies.usecases.game.model.WorldProperties;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
+import de.oetting.bumpingbunnies.world.WorldProperties;
+import de.oetting.bumpingbunnies.worldCreation.XmlRect;
 
 public class XmlRectToObjectConverter {
 

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
+package de.oetting.bumpingbunnies.worldCreation;
 
 public class XmlRect {
 

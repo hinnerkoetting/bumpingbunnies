@@ -1,4 +1,6 @@
-package de.oetting.bumpingbunnies.usecases.game.model;
+package de.oetting.bumpingbunnies.world;
+
+import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 
 public class WorldProperties {
 
