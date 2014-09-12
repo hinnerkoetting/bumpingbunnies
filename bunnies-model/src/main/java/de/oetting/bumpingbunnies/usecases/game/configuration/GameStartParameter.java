@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.usecases.game.configuration;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 
 public class GameStartParameter {
 

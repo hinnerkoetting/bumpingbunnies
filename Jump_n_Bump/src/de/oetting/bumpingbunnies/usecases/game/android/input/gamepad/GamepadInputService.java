@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.gamepad;
 import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 
 public class GamepadInputService implements KeyboardInputService {
 

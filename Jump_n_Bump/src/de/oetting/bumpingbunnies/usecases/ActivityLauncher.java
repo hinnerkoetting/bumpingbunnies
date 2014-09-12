@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWra
 import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
+import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;

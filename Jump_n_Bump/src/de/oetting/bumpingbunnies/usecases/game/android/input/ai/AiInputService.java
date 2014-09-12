@@ -2,10 +2,10 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.ai;
 
 import java.util.Random;
 
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInput;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

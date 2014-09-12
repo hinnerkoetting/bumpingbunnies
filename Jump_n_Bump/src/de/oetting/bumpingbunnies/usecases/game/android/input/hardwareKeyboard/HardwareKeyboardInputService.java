@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.hardwareKeyboard;
 
 import android.view.KeyEvent;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class HardwareKeyboardInputService implements InputService {
 

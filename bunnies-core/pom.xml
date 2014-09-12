@@ -27,6 +27,10 @@
 			<groupId>de.oetting.bumping-bunnies</groupId>
 		</dependency>
 		<dependency>
+			<artifactId>bunnies-common</artifactId>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+		</dependency>
+		<dependency>
 			<artifactId>junit</artifactId>
 			<groupId>junit</groupId>
 		</dependency>

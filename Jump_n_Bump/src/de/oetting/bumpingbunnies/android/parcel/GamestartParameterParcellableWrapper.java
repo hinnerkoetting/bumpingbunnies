@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.android.parcel;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
+import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 
 public class GamestartParameterParcellableWrapper implements Parcelable {
 

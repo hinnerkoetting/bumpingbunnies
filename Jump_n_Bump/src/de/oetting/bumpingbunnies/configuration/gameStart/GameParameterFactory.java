@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.configuration.gameStart;
 
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 
 public class GameParameterFactory {
 

@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.analog;
 
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractControlledMovement;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class AnalogInputService extends AbstractControlledMovement {
 

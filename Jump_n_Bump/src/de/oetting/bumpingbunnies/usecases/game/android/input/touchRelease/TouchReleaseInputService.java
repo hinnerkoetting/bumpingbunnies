@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.touchRelease;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.AbstractTouchService;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 
 public class TouchReleaseInputService extends AbstractTouchService {
 
