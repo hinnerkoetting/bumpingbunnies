@@ -1,7 +1,5 @@
-package de.oetting.bumpingbunnies.core.game.valueObjects;
+package de.oetting.bumpingbunnies.usecases.game.configuration;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
-import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerConfig {
