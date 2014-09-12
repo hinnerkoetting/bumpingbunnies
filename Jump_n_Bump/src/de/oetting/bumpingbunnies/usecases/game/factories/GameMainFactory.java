@@ -24,6 +24,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.PlayerMovement;
 import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationFactory;
+import de.oetting.bumpingbunnies.usecases.game.configuration.WorldconfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -55,7 +56,8 @@ public class GameMainFactory {
 	}
 
 	private static World createWorld(GameActivity activity, GameStartParameter parameter) {
-		WorldObjectsParser factory = parameter.getConfiguration().getWorldConfiguration().createInputconfigurationClass();
+		WorldObjectsParser factory = new WorldconfigurationFactory()
+				.createWorldParser(parameter.getConfiguration().getWorldConfiguration());
 		return factory.build(activity);
 	}
 
