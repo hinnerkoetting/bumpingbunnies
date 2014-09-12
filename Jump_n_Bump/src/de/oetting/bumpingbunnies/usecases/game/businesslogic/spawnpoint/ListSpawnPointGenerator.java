@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint;
 
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 public class ListSpawnPointGenerator implements SpawnPointGenerator {

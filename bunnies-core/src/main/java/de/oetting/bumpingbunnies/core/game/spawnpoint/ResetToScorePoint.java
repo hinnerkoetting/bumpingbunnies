@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
+package de.oetting.bumpingbunnies.core.game.spawnpoint;
 
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 

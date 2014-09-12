@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.network;
 
+import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.player.PlayerStateMessage;
-import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInput;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 

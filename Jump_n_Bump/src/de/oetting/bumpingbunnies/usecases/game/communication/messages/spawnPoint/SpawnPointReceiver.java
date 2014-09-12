@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageReceiverTemplate;
+import de.oetting.bumpingbunnies.core.game.spawnpoint.ResetToScorePoint;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.ResetToScorePoint;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

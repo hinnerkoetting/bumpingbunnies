@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.ai;
 
-import de.oetting.bumpingbunnies.usecases.game.factories.OpponentInput;
+import de.oetting.bumpingbunnies.core.input.OpponentInput;
 
 public class DummyInputService implements OpponentInput {
 

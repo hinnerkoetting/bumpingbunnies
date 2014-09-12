@@ -1,11 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
+import de.oetting.bumpingbunnies.core.game.spawnpoint.ResetToScorePoint;
+import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.OutsideOfPlayZoneChecker;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerIsDead.PlayerIsDead;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.playerScoreUpdated.PlayerScoreMessage;
 import de.oetting.bumpingbunnies.usecases.game.communication.messages.spawnPoint.SpawnPointMessage;

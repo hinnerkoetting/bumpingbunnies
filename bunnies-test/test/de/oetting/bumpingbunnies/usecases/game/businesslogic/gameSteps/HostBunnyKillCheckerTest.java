@@ -15,11 +15,11 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
+import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
@@ -69,8 +69,8 @@ public class HostBunnyKillCheckerTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new HostBunnyKillChecker(mock(CollisionDetection.class), this.world,
-				this.spawnGenerator, this.reviver, this.sendControl);
+		this.fixture = new HostBunnyKillChecker(mock(CollisionDetection.class), this.world, this.spawnGenerator, this.reviver,
+				this.sendControl);
 		givenNextSpawnPointIsAt(0, 0);
 	}
 }

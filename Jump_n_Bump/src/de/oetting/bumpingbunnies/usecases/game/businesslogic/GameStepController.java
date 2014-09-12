@@ -2,9 +2,9 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
+import de.oetting.bumpingbunnies.core.input.UserInputStep;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.PlayerReviver;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.UserInputStep;
 
 /**
  * Calls all components which should be executed during the regular game loop.
