@@ -1,6 +1,6 @@
-package de.oetting.bumpingbunnies.usecases.game.factories;
+package de.oetting.bumpingbunnies.core.game.player;
 
-import android.graphics.Color;
+import de.oetting.bumpingbunnies.color.Color;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -16,8 +16,7 @@ public class PlayerFactory {
 	}
 
 	public Player createPlayer(int id, String name, Opponent opponent) {
-		Player p = new Player(new Player(id, name, this.speed, opponent), id, name,
-				this.speed, opponent);
+		Player p = new Player(new Player(id, name, this.speed, opponent), id, name, this.speed, opponent);
 		PlayerState state = p.getState();
 		p.setDead(true);
 		// TODO: get from spawnpoints

@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.factories.PlayerFactory;
 
 @Category(UnitTests.class)
 public class PlayerMovementWithHigherSpeedTest extends AbstractTestPlayerMovementCalculation {
