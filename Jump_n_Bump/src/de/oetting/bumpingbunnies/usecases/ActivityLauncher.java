@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases;
 
 import android.app.Activity;
 import android.content.Intent;
+import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
@@ -27,7 +28,7 @@ public class ActivityLauncher {
 
 	public static void launchGame(Activity origin, GameStartParameter parameter) {
 		Intent intent = new Intent(origin, GameActivity.class);
-		intent.putExtra(GAMEPARAMETER, parameter);
+		intent.putExtra(GAMEPARAMETER, new GamestartParameterParcellableWrapper(parameter));
 		origin.startActivity(intent);
 	}
 

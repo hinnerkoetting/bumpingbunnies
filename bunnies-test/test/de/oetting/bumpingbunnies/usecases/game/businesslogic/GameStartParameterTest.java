@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.android.parcel.GameStartParameterParceller;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.configuration.TestConfigurationFactory;
 
@@ -29,9 +30,9 @@ public class GameStartParameterTest {
 
 	private GameStartParameter serializeAndDeserialize(GameStartParameter parameter) {
 		Parcel parcel = Parcel.obtain();
-		parameter.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-		return new GameStartParameter(parcel);
+		new GameStartParameterParceller().writeToParcel(parameter, parcel);
+		parcel.setDataPosition(0);
+		return new GameStartParameterParceller().createFromParcel(parcel);
 	}
 
 	private void checkValues(GameStartParameter parameter) {

@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -14,7 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsPa
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.XmlClassicWorldBuilder;
 
 @Category(IntegrationTests.class)
-public class WorldconfigurationFactoryTest extends TestCase {
+public class WorldconfigurationFactoryTest {
 
 	@Test
 	public void create_classis_returnsClassicWorldBuilder() {

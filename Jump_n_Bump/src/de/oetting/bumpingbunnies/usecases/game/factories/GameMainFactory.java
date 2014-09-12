@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.valueObjects.PlayerConfig;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -36,7 +37,8 @@ public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
 		NetworkSendControl sendControl = new NetworkSendControl(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
-		GameStartParameter parameter = (GameStartParameter) activity.getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER);
+		GameStartParameter parameter = ((GamestartParameterParcellableWrapper) activity.getIntent().getExtras()
+				.get(ActivityLauncher.GAMEPARAMETER)).getParameter();
 
 		World world = createWorld(activity, parameter);
 		NewClientsAccepter clientAccepter = createClientAccepter(activity, parameter, world);
