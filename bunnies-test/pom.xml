@@ -6,10 +6,9 @@
 		<groupId>de.oetting.bumping-bunnies</groupId>
 		<artifactId>bumping-bunnies-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../bumping-bunnies-parent/pom.xml</relativePath>
 	</parent>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>test</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -58,7 +57,7 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-core</artifactId>
@@ -67,6 +66,10 @@
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+			<artifactId>bunnies-android</artifactId>
 		</dependency>
 	</dependencies>
 </project>

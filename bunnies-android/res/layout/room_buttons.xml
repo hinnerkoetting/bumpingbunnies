@@ -1,0 +1,65 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <Button
+        android:id="@+id/room_host"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickMakeVisible"
+        android:text="@string/make_visible" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/start_remote_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bluetooth" />
+
+        <RadioButton
+            android:id="@+id/start_remote_wlan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wlan" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/room_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickKnownHosts"
+            android:text="@string/known_hosts" />
+
+        <Button
+            android:id="@+id/room_find"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickDiscovery"
+            android:text="@string/find_devices" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/room_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/ip" />
+        <Button  android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickConnect"
+            android:text="@string/connect" />
+    </LinearLayout>
+
+</merge>

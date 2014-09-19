@@ -6,7 +6,6 @@
 		<groupId>de.oetting.bumping-bunnies</groupId>
 		<artifactId>bumping-bunnies-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../bumping-bunnies-parent/pom.xml</relativePath>
 	</parent>
 	<build>
 		<plugins>

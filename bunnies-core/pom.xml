@@ -6,7 +6,6 @@
 		<groupId>de.oetting.bumping-bunnies</groupId>
 		<artifactId>bumping-bunnies-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../bumping-bunnies-parent/pom.xml</relativePath>
 	</parent>
 	<build>
 		<plugins>
@@ -25,6 +24,12 @@
 		<dependency>
 			<artifactId>bunnies-model</artifactId>
 			<groupId>de.oetting.bumping-bunnies</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>bunnies-model</artifactId>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+			<scope>test</scope>
+			<type>test-jar</type>
 		</dependency>
 		<dependency>
 			<artifactId>bunnies-common</artifactId>

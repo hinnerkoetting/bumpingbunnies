@@ -1,0 +1,88 @@
+<xsd:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://world.bunnies.de"
+	targetNamespace="http://world.bunnies.de" elementFormDefault="qualified">
+
+	<xsd:simpleType name="value">
+		<xsd:restriction base="xsd:double">
+			<xsd:minInclusive value="-0.00001" />
+			<xsd:maxInclusive value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Rectangle">
+		<xsd:attribute name="minX" use="required" type="value" />
+		<xsd:attribute name="minY" use="required" type="value" />
+		<xsd:attribute name="maxX" use="required" type="value" />
+		<xsd:attribute name="maxY" use="required" type="value" />
+	</xsd:complexType>
+	<xsd:complexType name="RectangleWithImage">
+		<xsd:complexContent>
+			<xsd:extension base="Rectangle">
+				<xsd:attribute name="image" type="xsd:string"
+					use="optional"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="world">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="walls" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="wall" minOccurs="0" maxOccurs="unbounded"
+								type="RectangleWithImage" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="icewalls" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="icewall" minOccurs="0" maxOccurs="unbounded"
+								type="RectangleWithImage">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="jumpers" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="jumper" minOccurs="0" maxOccurs="unbounded"
+								type="RectangleWithImage">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="spawnpoints">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="spawnpoint" minOccurs="4"
+								maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:attribute name="x" use="required" type="value" />
+									<xsd:attribute name="y" use="required" type="value" />
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="waters" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="water" minOccurs="0" maxOccurs="unbounded"
+								type="RectangleWithImage">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="backgrounds" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="background" minOccurs="0" maxOccurs="unbounded"
+								type="RectangleWithImage">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

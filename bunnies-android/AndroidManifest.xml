@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.oetting.bumpingbunnies"
+    android:installLocation="auto"
+    android:versionCode="44"
+    android:versionName="0.4.4" >
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="20" />
+
+    <application
+        android:name="de.oetting.bumpingbunnies.usecases.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="de.oetting.bumpingbunnies.usecases.game.android.GameActivity"
+            android:configChanges="keyboardHidden"
+            android:label="@string/app_name_solo"
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:label="@string/app_name_room"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="de.oetting.bumpingbunnies.usecases.start.StartActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="de.oetting.bumpingbunnies.usecases.resultScreen.ResultActivity"
+            android:label="@string/result"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="de.oetting.bumpingbunnies.usecases.settings.SettingsActivity"
+            android:label="@string/settings"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape" />
+    </application>
+
+</manifest>

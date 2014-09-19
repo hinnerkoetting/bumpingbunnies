@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.logger;
 
+import java.io.InputStream;
 import java.util.Properties;
 
 public class LoggerFactory {
@@ -18,7 +19,13 @@ public class LoggerFactory {
 	private static void createBridge() {
 		try {
 			Properties properties = new Properties();
-			properties.load(LoggerFactory.class.getResourceAsStream("/de/oetting/bumpingbunnies/log/logging.properties"));
+			InputStream inputStream = LoggerFactory.class.getResourceAsStream("/de/oetting/bumpingbunnies/log/logging.properties");
+			if (inputStream == null) {
+				System.err.println("Konnte Logger nicht lesen.");
+				bridge = new NoopLoggerFactoryBridge();
+				return;
+			}
+			properties.load(inputStream);
 			Class<?> clazz = Class.forName(properties.getProperty("logger"));
 			bridge = (LoggerFactoryBridge) clazz.newInstance();
 		} catch (Exception e) {
