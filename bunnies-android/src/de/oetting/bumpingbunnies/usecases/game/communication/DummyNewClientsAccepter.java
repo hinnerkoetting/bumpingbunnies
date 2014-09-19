@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 

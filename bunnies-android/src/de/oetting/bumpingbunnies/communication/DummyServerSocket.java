@@ -2,6 +2,8 @@ package de.oetting.bumpingbunnies.communication;
 
 import java.io.IOException;
 
+import de.oetting.bumpingbunnies.core.networking.MySocket;
+
 public class DummyServerSocket implements ServerSocket {
 
 	@Override

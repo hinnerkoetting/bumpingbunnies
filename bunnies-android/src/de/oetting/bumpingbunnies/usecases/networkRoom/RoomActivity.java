@@ -24,12 +24,12 @@ import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper
 import de.oetting.bumpingbunnies.android.parcel.LocalPlayerSettingsParcellableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;

@@ -4,8 +4,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;

@@ -3,10 +3,12 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.communication.AbstractSocket.ReadFailed;
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.IncomingNetworkDispatcher;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
+import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 /**

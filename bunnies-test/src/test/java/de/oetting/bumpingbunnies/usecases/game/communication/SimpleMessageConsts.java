@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
+import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.networking.MessageId;
 
 public class SimpleMessageConsts {
 

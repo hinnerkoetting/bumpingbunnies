@@ -19,9 +19,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;

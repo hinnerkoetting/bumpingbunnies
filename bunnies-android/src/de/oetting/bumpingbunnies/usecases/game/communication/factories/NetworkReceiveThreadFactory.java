@@ -2,9 +2,9 @@ package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 
 public class NetworkReceiveThreadFactory {
 

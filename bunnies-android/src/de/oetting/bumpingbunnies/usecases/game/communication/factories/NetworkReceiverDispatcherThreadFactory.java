@@ -2,13 +2,13 @@ package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.IncomingNetworkDispatcher;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.communication.EasyNetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToOtherClientsDispatcher;
 
 public class NetworkReceiverDispatcherThreadFactory {

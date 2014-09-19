@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame;
 
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageMetadata;
+import de.oetting.bumpingbunnies.model.networking.MessageId;
+import de.oetting.bumpingbunnies.model.networking.MessageMetadata;
 
 public class StartGameMessage extends MessageMetadata<String> {
 

@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.steps.GameStepAction;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
+import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.businessLogic.StateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

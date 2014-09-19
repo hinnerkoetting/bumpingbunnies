@@ -16,9 +16,11 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
+import de.oetting.bumpingbunnies.core.game.steps.HostBunnyKillChecker;
+import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
+import de.oetting.bumpingbunnies.core.networking.MessageSender;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
@@ -34,7 +36,7 @@ public class HostBunnyKillCheckerTest {
 	@Mock
 	private PlayerReviver reviver;
 	@Mock
-	private NetworkSendControl sendControl;
+	private MessageSender sendControl;
 
 	@Test
 	public void playerJoins_thenPlayerIsDead() {
@@ -69,8 +71,7 @@ public class HostBunnyKillCheckerTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new HostBunnyKillChecker(mock(CollisionDetection.class), this.world, this.spawnGenerator, this.reviver,
-				this.sendControl);
+		this.fixture = new HostBunnyKillChecker(mock(CollisionDetection.class), this.world, this.spawnGenerator, this.reviver, this.sendControl);
 		givenNextSpawnPointIsAt(0, 0);
 	}
 }

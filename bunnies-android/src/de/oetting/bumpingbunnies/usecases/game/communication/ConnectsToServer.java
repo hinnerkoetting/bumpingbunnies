@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 
 public interface ConnectsToServer {
 

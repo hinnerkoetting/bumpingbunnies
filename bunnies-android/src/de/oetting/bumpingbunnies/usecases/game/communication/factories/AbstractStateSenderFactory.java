@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 
-import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
+import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

@@ -14,11 +14,12 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 @Category(UnitTests.class)
 public class ServerConnectionTest {

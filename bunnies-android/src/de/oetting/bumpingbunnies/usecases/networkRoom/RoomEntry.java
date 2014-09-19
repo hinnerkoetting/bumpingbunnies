@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 

@@ -6,13 +6,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.MessageParser;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 /**

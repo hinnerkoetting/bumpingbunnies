@@ -12,9 +12,11 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import de.oetting.bumpingbunnies.core.networking.NetworkListener;
+import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

@@ -20,9 +20,10 @@ import org.mockito.stubbing.Answer;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.IncomingNetworkDispatcher;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.JsonWrapper;
 
 @Category(UnitTests.class)
 public class NetworkReceiveThreadTest {

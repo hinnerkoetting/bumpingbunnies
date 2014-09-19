@@ -2,12 +2,12 @@ package de.oetting.bumpingbunnies.usecases.networkRoom.services;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;

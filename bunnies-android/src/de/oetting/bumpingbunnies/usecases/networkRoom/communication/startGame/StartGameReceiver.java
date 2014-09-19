@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame;
 
-import de.oetting.bumpingbunnies.communication.messageInterface.MessageReceiverTemplate;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.MessageReceiverTemplate;
+import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 
 public class StartGameReceiver extends MessageReceiverTemplate<String> {

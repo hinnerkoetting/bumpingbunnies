@@ -16,6 +16,7 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
@@ -23,7 +24,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyStateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;

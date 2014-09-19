@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;

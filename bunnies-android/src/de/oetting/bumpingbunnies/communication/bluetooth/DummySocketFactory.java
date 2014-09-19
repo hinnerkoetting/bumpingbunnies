@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.communication.bluetooth;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
 import de.oetting.bumpingbunnies.communication.ServerSocket;
 import de.oetting.bumpingbunnies.communication.SocketFactory;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 
 public class DummySocketFactory implements SocketFactory {
 

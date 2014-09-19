@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageSenderTemplate;
+import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.objects.MessageId;
 
 public class SendClientPlayerIdSender extends MessageSenderTemplate<Integer> {
 

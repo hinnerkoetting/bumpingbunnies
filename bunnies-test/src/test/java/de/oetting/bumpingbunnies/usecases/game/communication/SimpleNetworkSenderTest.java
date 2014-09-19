@@ -13,7 +13,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
+import de.oetting.bumpingbunnies.core.networking.MessageParser;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 

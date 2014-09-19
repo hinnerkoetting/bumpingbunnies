@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -17,7 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 /**
  * Controls the bumping-bunnies game.
  */
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements GameStopper {
 	private GameMain main;
 
 	@Override

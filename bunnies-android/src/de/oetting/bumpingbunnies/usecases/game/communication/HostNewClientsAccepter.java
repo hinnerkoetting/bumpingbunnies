@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.MySocket;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
