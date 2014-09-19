@@ -1,4 +1,6 @@
 import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -6,11 +8,13 @@ import de.jumpnbump.usecases.viewer.Viewer.Viewer;
 
 public class Main {
 
+	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+
 	public static void main(String[] args) throws FileNotFoundException {
 		try {
 			openViewer(args);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Fehler", e);
 			JOptionPane.showMessageDialog(null, "Could not open:\n" + e.getMessage());
 		}
 	}

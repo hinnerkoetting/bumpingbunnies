@@ -10,15 +10,14 @@ import android.widget.Toast;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.RemoteCommunicationImpl;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class BluetoothCommunication implements RemoteCommunication {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(BluetoothCommunication.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothCommunication.class);
 	private final BluetoothAdapter mBluetoothAdapter;
 	private BroadcastReceiver mReceiver;
 	private boolean discoveryRunning;
@@ -26,9 +25,7 @@ public class BluetoothCommunication implements RemoteCommunication {
 	private RemoteCommunicationImpl commonBehaviour;
 	private final RoomActivity origin;
 
-	public BluetoothCommunication(RoomActivity origin,
-			BluetoothAdapter mBluetoothAdapter,
-			RemoteCommunicationImpl commonBehaviour) {
+	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, RemoteCommunicationImpl commonBehaviour) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
 		this.commonBehaviour = commonBehaviour;
@@ -39,10 +36,8 @@ public class BluetoothCommunication implements RemoteCommunication {
 		LOGGER.info("Starting server");
 		boolean bluetoothWorking = checkBluetoothSettings();
 		if (bluetoothWorking) {
-			Intent discoverableIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-			discoverableIntent.putExtra(
-					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 			this.origin.startActivity(discoverableIntent);
 			closeOpenConnections();
 			this.commonBehaviour.startServer();
@@ -71,7 +66,7 @@ public class BluetoothCommunication implements RemoteCommunication {
 			// because of some bt discovery bug
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error("Fehler beim BT Connect", e);
 		}
 		this.commonBehaviour.connectToServer(device);
 	}
@@ -80,16 +75,13 @@ public class BluetoothCommunication implements RemoteCommunication {
 	public boolean activate() {
 		LOGGER.info("Activating Bluetooth");
 		if (this.mBluetoothAdapter == null) {
-			Toast makeText = Toast.makeText(this.origin,
-					"Bluetooth not supported", Toast.LENGTH_LONG);
+			Toast makeText = Toast.makeText(this.origin, "Bluetooth not supported", Toast.LENGTH_LONG);
 			makeText.show();
 			return false;
 		} else {
 			if (!this.mBluetoothAdapter.isEnabled()) {
-				Intent enableBtIntent = new Intent(
-						BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				this.origin.startActivityForResult(enableBtIntent,
-						RoomActivity.REQUEST_BT_ENABLE);
+				Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				this.origin.startActivityForResult(enableBtIntent, RoomActivity.REQUEST_BT_ENABLE);
 			}
 			return true;
 		}
@@ -114,12 +106,10 @@ public class BluetoothCommunication implements RemoteCommunication {
 			this.mReceiver = createBroadCastReceiver();
 			registerReceiver();
 		}
-		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
-				.getDefaultAdapter();
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		boolean result = mBluetoothAdapter.startDiscovery();
 		if (!result) {
-			Toast t = Toast.makeText(this.origin, "Could not start discovery",
-					Toast.LENGTH_LONG);
+			Toast t = Toast.makeText(this.origin, "Could not start discovery", Toast.LENGTH_LONG);
 			t.show();
 		}
 	}
@@ -127,10 +117,8 @@ public class BluetoothCommunication implements RemoteCommunication {
 	private void registerReceiver() {
 		LOGGER.info("Register Receivers");
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-		IntentFilter filterStop = new IntentFilter(
-				BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		IntentFilter filterStart = new IntentFilter(
-				BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+		IntentFilter filterStop = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+		IntentFilter filterStart = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
 
 		this.origin.registerReceiver(this.mReceiver, filterStop);
 		this.origin.registerReceiver(this.mReceiver, filter);
@@ -160,8 +148,7 @@ public class BluetoothCommunication implements RemoteCommunication {
 
 	private void handleNewDeviceFound(Intent intent) {
 		// Get the BluetoothDevice object from the Intent
-		BluetoothDevice device = intent
-				.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+		BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 		// Add the name and address to an array adapter to show in a
 		// ListView
 		BluetoothCommunication.this.origin.addServer(device);
