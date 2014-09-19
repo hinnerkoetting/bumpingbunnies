@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input;
 
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
+import de.oetting.bumpingbunnies.core.input.AbstractControlledMovement;
 import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 
 public abstract class AbstractTouchService extends AbstractControlledMovement {

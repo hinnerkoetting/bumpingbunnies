@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input;
 
+import de.oetting.bumpingbunnies.core.input.InputService;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;

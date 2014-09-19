@@ -4,9 +4,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
+import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.VibratorService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.gamepad.KeyboardInputService;
 

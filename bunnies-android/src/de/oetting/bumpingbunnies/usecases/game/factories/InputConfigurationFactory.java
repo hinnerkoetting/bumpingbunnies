@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputService;
+import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.usecases.game.android.input.analog.AnalogInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.distributedKeyboard.DistributedKeyboardFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
