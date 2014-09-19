@@ -24,6 +24,7 @@ public class ActivityLauncher {
 	public static final String GENERAL_SETTINGS = "GENERAL_SETTINGS";
 	public static final String LOCAL_PLAYER_SETTINGS = "LOCAL_PLAYER_SETTINGS";
 	public static final String RESULT = "RESULT";
+	
 
 	public static void launchGame(Activity origin, GameStartParameter parameter) {
 		Intent intent = new Intent(origin, GameActivity.class);

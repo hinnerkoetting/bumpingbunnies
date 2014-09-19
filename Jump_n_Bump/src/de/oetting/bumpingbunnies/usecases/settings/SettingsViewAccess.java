@@ -9,7 +9,6 @@ import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.configuration.DefaultConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationGenerator;
 import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.usecases.start.android.ProgressBarValueChanger;
 import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConverter;
@@ -32,8 +31,7 @@ public class SettingsViewAccess {
 		initNumberPlayer();
 		initSpeed();
 		initZoom();
-		SettingsEntity defaultEntity = DefaultConfiguration
-				.createDefaultEntity();
+		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity();
 		fillView(defaultEntity);
 	}
 
@@ -54,8 +52,7 @@ public class SettingsViewAccess {
 
 	public InputConfiguration getInputConfiguration() {
 		RadioGroup inputRG = findInputConfigurationRadioGroup();
-		return InputConfigurationGenerator
-				.createInputConfigurationFromRadioGroup(inputRG);
+		return InputConfigurationGenerator.createInputConfigurationFromRadioGroup(inputRG);
 	}
 
 	public int getNumberOfPlayers() {
@@ -81,30 +78,24 @@ public class SettingsViewAccess {
 	private void initNumberPlayer() {
 		SeekBar numberPlayers = findNumberPlayerSeekbar();
 		int startValue = 0;
-		TextView view = (TextView) this.origin
-				.findViewById(R.id.settings_number_player_number);
-		numberPlayers.setOnSeekBarChangeListener(new ProgressBarValueChanger(
-				view, new ProgressToIntValueConverter(2), startValue));
+		TextView view = (TextView) this.origin.findViewById(R.id.settings_number_player_number);
+		numberPlayers.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(2), startValue));
 		numberPlayers.setProgress(startValue);
 	}
 
 	private void initSpeed() {
 		SeekBar speed = findSpeedSeekbar();
 		int startValue = 5;
-		TextView view = (TextView) this.origin
-				.findViewById(R.id.settings_speed);
-		speed.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
-				new ProgressToIntValueConverter(5), startValue));
+		TextView view = (TextView) this.origin.findViewById(R.id.settings_speed);
+		speed.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(5), startValue));
 		speed.setProgress(startValue);
 	}
 
 	private void initZoom() {
 		SeekBar zoom = findZoomSeekbar();
 		int startValue = 4;
-		TextView view = (TextView) this.origin
-				.findViewById(R.id.settings_zoom_number);
-		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
-				new ProgressToIntValueConverter(1), 4));
+		TextView view = (TextView) this.origin.findViewById(R.id.settings_zoom_number);
+		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(1), 4));
 		zoom.setProgress(startValue);
 	}
 
@@ -130,10 +121,8 @@ public class SettingsViewAccess {
 
 	private void fillInputConfiguration(SettingsEntity settings) {
 		RadioGroup inputconfiguration = findInputConfiguration();
-		InputConfiguration storedInputConfiguration = settings
-				.getInputConfiguration();
-		InputConfigurationGenerator.selectInputConfiguration(
-				storedInputConfiguration, inputconfiguration);
+		InputConfiguration storedInputConfiguration = settings.getInputConfiguration();
+		InputConfigurationGenerator.selectInputConfiguration(storedInputConfiguration, inputconfiguration);
 	}
 
 	public void setBackgroundChecked(boolean b) {
@@ -154,8 +143,7 @@ public class SettingsViewAccess {
 		String name = getName();
 		boolean background = isBackgroundChecked();
 		boolean isAltPixelFormat = isAltPixelformatChecked();
-		return new SettingsEntity(inputConfiguration, zoom, numberPlayer,
-				speed, name, background, isAltPixelFormat);
+		return new SettingsEntity(inputConfiguration, zoom, numberPlayer, speed, name, background, isAltPixelFormat);
 	}
 
 	private String getName() {

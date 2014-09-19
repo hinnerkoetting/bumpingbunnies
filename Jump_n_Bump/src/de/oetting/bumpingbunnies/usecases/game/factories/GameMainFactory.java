@@ -7,6 +7,7 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+//hinnerkoetting@bitbucket.org/hinnerkoetting/bumping-bunnies.git
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;

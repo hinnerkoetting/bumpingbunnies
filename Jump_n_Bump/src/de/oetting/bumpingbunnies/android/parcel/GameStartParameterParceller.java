@@ -7,9 +7,9 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 public class GameStartParameterParceller implements Parceller<GameStartParameter> {
 
 	@Override
-	public void writeToParcel(GameStartParameter startParameter, Parcel dest) {
-		new ConfigurationParceller().writeToParcel(startParameter.getConfiguration(), dest);
-		dest.writeInt(startParameter.getPlayerId());
+	public void writeToParcel(GameStartParameter input, Parcel parcel) {
+		new ConfigurationParceller().writeToParcel(input.getConfiguration(), parcel);
+		parcel.writeInt(input.getPlayerId());
 	}
 
 	@Override
