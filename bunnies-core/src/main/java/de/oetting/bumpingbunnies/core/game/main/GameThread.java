@@ -1,11 +1,11 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.core.game.main;
 
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
+import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
+import de.oetting.bumpingbunnies.core.graphics.GameScreenSizeChangeListener;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidObjectsDrawer;
-import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 
 /**
  * All game logic and drawing of the game is executed in this thread.<br>
@@ -110,7 +110,7 @@ public class GameThread extends Thread implements GameScreenSizeChangeListener {
 		this.drawer.setNeedsUpdate(true);
 	}
 
-	public void addAllJoinListeners(GameMain gameMain) {
+	public void addAllJoinListeners(JoinObserver gameMain) {
 		this.worldController.addAllJoinListeners(gameMain);
 		gameMain.addJoinListener(this.drawer);
 	}

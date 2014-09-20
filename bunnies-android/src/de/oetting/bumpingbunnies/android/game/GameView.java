@@ -7,8 +7,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameScreenSizeChangeListener;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
+import de.oetting.bumpingbunnies.core.game.main.GameThread;
+import de.oetting.bumpingbunnies.core.graphics.GameScreenSizeChangeListener;
 
 public class GameView extends SurfaceView {
 

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.model;
+package de.oetting.bumpingbunnies.core.game.main;
 
 public class GameThreadState {
 

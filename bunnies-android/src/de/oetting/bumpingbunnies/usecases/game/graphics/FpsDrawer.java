@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
+import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class FpsDrawer implements Drawable {
