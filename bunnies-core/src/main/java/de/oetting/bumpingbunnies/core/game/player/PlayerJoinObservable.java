@@ -1,9 +1,10 @@
-package de.oetting.bumpingbunnies.usecases.game.model;
+package de.oetting.bumpingbunnies.core.game.player;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerJoinObservable {
 
