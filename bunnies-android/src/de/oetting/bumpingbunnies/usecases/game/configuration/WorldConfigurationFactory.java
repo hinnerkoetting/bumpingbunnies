@@ -1,8 +1,9 @@
 package de.oetting.bumpingbunnies.usecases.game.configuration;
 
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
+import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.CastleWorldbuilder;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.TestWorldBuilder;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.XmlClassicWorldBuilder;
 
 public class WorldConfigurationFactory {

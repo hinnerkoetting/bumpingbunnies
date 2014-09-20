@@ -19,6 +19,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.pointer.PointerInpu
 import de.oetting.bumpingbunnies.usecases.game.android.input.touchFling.TouchFlingFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touchPress.TouchPressInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touchRelease.TouchReleaseFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.InputConfigurationFactory;
 
 @Category(UnitTests.class)
 public class InputConfigurationFactoryTest {

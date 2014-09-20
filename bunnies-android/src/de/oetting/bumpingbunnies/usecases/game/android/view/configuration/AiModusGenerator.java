@@ -1,8 +1,9 @@
-package de.oetting.bumpingbunnies.usecases.game.configuration;
+package de.oetting.bumpingbunnies.usecases.game.android.view.configuration;
 
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
 
 public class AiModusGenerator {
 	public static AiModus createFromRadioGroup(RadioGroup group) {

@@ -14,8 +14,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import android.content.Context;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
 
@@ -24,8 +24,6 @@ public class WorldFactoryTest {
 
 	@Mock
 	private WorldObjectsParser parser;
-	@Mock
-	private Context context;
 
 	@Test
 	public void create_emptyWorld_returnsEmptyWorld() {
@@ -52,7 +50,7 @@ public class WorldFactoryTest {
 	}
 
 	private World whenCreating() {
-		return new WorldFactory().create(parser, context);
+		return new WorldFactory().create(parser);
 	}
 
 	private void thenWorldIsEmpty(World world) {

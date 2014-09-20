@@ -14,23 +14,25 @@ import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
-//hinnerkoetting@bitbucket.org/hinnerkoetting/bumping-bunnies.git
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsParser;
+import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.AndroidBitmapReader;
+import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.AndroidResourceProvider;
+import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.AndroidXmlReader;
+import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.CachedBitmapReader;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
@@ -38,8 +40,8 @@ public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity) {
 		NetworkSendControl sendControl = new NetworkSendControl(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
-		GameStartParameter parameter = ((GamestartParameterParcellableWrapper) activity.getIntent().getExtras()
-				.get(ActivityLauncher.GAMEPARAMETER)).getParameter();
+		GameStartParameter parameter = ((GamestartParameterParcellableWrapper) activity.getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER))
+				.getParameter();
 
 		World world = createWorld(activity, parameter);
 		NewClientsAccepter clientAccepter = createClientAccepter(activity, parameter, world);
@@ -59,9 +61,9 @@ public class GameMainFactory {
 	}
 
 	private static World createWorld(GameActivity activity, GameStartParameter parameter) {
-		WorldObjectsParser factory = new WorldConfigurationFactory()
-				.createWorldParser(parameter.getConfiguration().getWorldConfiguration());
-		return factory.build(activity);
+		WorldObjectsParser factory = new WorldConfigurationFactory().createWorldParser(parameter.getConfiguration().getWorldConfiguration());
+		return factory.build(new AndroidResourceProvider(new CachedBitmapReader(new AndroidBitmapReader(activity.getResources())), activity),
+				new AndroidXmlReader(activity, factory.getResourceId()));
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameActivity activity, GameStartParameter parameter, World world) {
@@ -72,8 +74,7 @@ public class GameMainFactory {
 		main.addAllJoinListeners();
 	}
 
-	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl,
-			World world) {
+	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl, World world) {
 		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
 		main.setWorld(world);
@@ -82,8 +83,8 @@ public class GameMainFactory {
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 		RelativeCoordinatesCalculation calculations = new RelativeCoordinatesCalculation(cameraPositionCalculation);
 
-		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), calculations,
-				cameraPositionCalculation, main, myPlayer, activity, sendControl);
+		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main,
+				myPlayer, activity, sendControl);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
@@ -105,15 +106,13 @@ public class GameMainFactory {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter,
-			CoordinatesCalculation calculations, Player myPlayer) {
+	private static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter, CoordinatesCalculation calculations,
+			Player myPlayer) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = (AbstractPlayerInputServicesFactory<InputService>) new InputConfigurationFactory()
 				.create(parameter.getConfiguration().getInputConfiguration());
 		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, calculations);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
-		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(),
-				inputDispatcher);
+		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(), inputDispatcher);
 		return inputDispatcher;
 	}
 

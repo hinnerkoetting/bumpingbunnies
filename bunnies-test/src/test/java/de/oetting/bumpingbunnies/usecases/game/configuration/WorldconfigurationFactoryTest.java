@@ -6,10 +6,10 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.CastleWorldbuilder;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.TestWorldBuilder;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.XmlClassicWorldBuilder;
 
 @Category(IntegrationTests.class)

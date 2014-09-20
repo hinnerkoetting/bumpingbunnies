@@ -8,10 +8,11 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.content.Context;
 import android.util.Xml;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
@@ -137,11 +138,10 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 	}
 
 	@Override
-	public World build(Context context) {
-		parse(new AndroidResourceProvider(new CachedBitmapReader(new AndroidBitmapReader(context.getResources())), context),
-				new AndroidXmlReader(context, resourceId));
+	public World build(ResourceProvider provider, XmlReader xmlReader) {
+		parse(provider, xmlReader);
 		WorldFactory factory = new WorldFactory();
-		return factory.create(this, context);
+		return factory.create(this);
 	}
 
 	@Override
@@ -183,4 +183,9 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 	public Collection<Water> getAllWaters() {
 		return this.state.getWaters();
 	}
+
+	public int getResourceId() {
+		return resourceId;
+	}
+
 }

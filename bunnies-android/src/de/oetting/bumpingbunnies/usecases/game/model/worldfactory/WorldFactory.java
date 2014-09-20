@@ -1,11 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
 
-import android.content.Context;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 
 public class WorldFactory {
 
-	public World create(WorldObjectsParser parser, Context context) {
+	public World create(WorldObjectsParser parser) {
 		World world = new World();
 		world.replaceAllWalls(parser.getAllWalls());
 		world.replaceAllIcyWalls(parser.getAllIcyWalls());

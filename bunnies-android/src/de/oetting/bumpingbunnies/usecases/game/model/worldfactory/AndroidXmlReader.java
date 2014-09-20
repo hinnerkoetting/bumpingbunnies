@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
 
 import java.io.InputStream;
 
+import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import android.content.Context;
 
 public class AndroidXmlReader implements XmlReader {
