@@ -1,11 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.services.factory;
 
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiver;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiveThreadFactory;
-import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
 
 public class ConnectionToClientServiceFactory {

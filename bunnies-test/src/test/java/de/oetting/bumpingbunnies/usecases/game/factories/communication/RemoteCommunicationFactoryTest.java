@@ -15,11 +15,11 @@ import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunication;
+import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
-import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

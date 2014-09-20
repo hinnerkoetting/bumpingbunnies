@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.android.game.GameView;
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidBitmapReader;
@@ -20,13 +19,14 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordina
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
+import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
-import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
@@ -91,7 +91,7 @@ public class GameMainFactory {
 
 		main.setInputDispatcher(createInputDispatcher(activity, parameter, calculations, myPlayer));
 		addJoinListener(main);
-		main.playerJoins(myPlayer);
+		main.newPlayerJoined(myPlayer);
 		return gameThread;
 	}
 
@@ -102,7 +102,7 @@ public class GameMainFactory {
 	private static void addPlayersToWorld(GameMain main, List<PlayerConfig> players) {
 
 		for (PlayerConfig pc : players) {
-			main.playerJoins(pc.getPlayer());
+			main.newPlayerJoined(pc.getPlayer());
 		}
 	}
 

@@ -20,17 +20,15 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyRemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
@@ -67,7 +65,7 @@ public class GameMainTest {
 	}
 
 	private void whenPlayerJoins() {
-		this.fixture.playerJoins(createOpponentPlayer());
+		this.fixture.newPlayerJoined(createOpponentPlayer());
 	}
 
 	@Test
@@ -92,7 +90,7 @@ public class GameMainTest {
 	public void playerJoins_givenRemotePlayer_shouldAddNewSendThread() {
 		assertThat(this.sendThreads, hasSize(0));
 		givenIsRemotePlayer();
-		this.fixture.playerJoins(TestPlayerFactory.createOpponentPlayer());
+		this.fixture.newPlayerJoined(TestPlayerFactory.createOpponentPlayer());
 		assertThat(this.sendThreads, hasSize(1));
 	}
 
@@ -104,7 +102,7 @@ public class GameMainTest {
 	public void playerJoins_forAiPlayer_shouldCreateNewDummyNetworkSender() {
 		assertThat(this.sendThreads, hasSize(0));
 		givenIsAiPlayer();
-		this.fixture.playerJoins(TestPlayerFactory.createOpponentPlayer(OpponentType.AI));
+		this.fixture.newPlayerJoined(TestPlayerFactory.createOpponentPlayer(OpponentType.AI));
 		assertThat(this.sendThreads, hasSize(1));
 		assertThat(this.sendThreads.get(0), is(instanceOf(DummyRemoteSender.class)));
 	}
@@ -126,7 +124,7 @@ public class GameMainTest {
 	}
 
 	private void whenPlayerLeaves(Player p) {
-		this.fixture.playerLeaves(p);
+		this.fixture.playerLeftTheGame(p);
 		this.fixture.getWorld().getAllPlayer().remove(p);
 	}
 
@@ -134,8 +132,7 @@ public class GameMainTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
-		this.fixture = new GameMain(this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class), this.sendThreads),
-				this.accepter);
+		this.fixture = new GameMain(this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class), this.sendThreads), this.accepter);
 		this.fixture.setWorld(new World());
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 		NetworkSendControl networkSendControl = createNetworkSendControl();
@@ -143,8 +140,8 @@ public class GameMainTest {
 	}
 
 	private NetworkSendControl createNetworkSendControl() {
-		NetworkSendControl networkSendControl = new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class),
-				mock(SocketStorage.class)), this.sendThreads);
+		NetworkSendControl networkSendControl = new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class)),
+				this.sendThreads);
 		return networkSendControl;
 	}
 }

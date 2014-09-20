@@ -15,11 +15,11 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.communication.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;

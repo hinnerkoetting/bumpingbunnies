@@ -1,6 +1,7 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking.receive;
 
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public interface NetworkReceiver {
 
@@ -9,5 +10,7 @@ public interface NetworkReceiver {
 	void start();
 
 	NetworkToGameDispatcher getGameDispatcher();
+
+	boolean belongsToPlayer(Player p);
 
 }

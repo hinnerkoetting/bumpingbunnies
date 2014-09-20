@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.communication.MessageSenderToNetworkDelegate;
@@ -30,6 +29,7 @@ import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.input.UserInputStep;
 import de.oetting.bumpingbunnies.core.input.factory.OpponentInputFactoryImpl;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsRevived.PlayerIsRevivedReceiver;

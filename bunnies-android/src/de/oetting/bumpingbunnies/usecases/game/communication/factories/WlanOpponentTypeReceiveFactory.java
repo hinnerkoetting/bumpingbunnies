@@ -3,10 +3,11 @@ package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.OpponentTypeReceiveFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -14,11 +15,10 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactory {
 
 	@Override
-	public List<NetworkReceiveThread> createReceiveThreadsForOnePlayer(SocketStorage sockets, Player player,
-			NetworkToGameDispatcher networkDispatcher,
+	public List<NetworkReceiver> createReceiveThreadsForOnePlayer(SocketStorage sockets, Player player, NetworkToGameDispatcher networkDispatcher,
 			NetworkSendControl sendControl) {
 		MySocket socket = sockets.findSocket(player.getOpponent());
-		List<NetworkReceiveThread> networkReceiveThreads = new ArrayList<NetworkReceiveThread>();
+		List<NetworkReceiver> networkReceiveThreads = new ArrayList<NetworkReceiver>();
 		networkReceiveThreads.add(createNormalSocketNetworkReceiver(networkDispatcher, sendControl, socket));
 		if (socket.isFastSocketPossible()) {
 			networkReceiveThreads.add(createFastSocketReceiveThread(networkDispatcher, sendControl, socket));
@@ -26,18 +26,14 @@ public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactor
 		return networkReceiveThreads;
 	}
 
-	private NetworkReceiveThread createFastSocketReceiveThread(NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl,
-			MySocket socket) {
+	private NetworkReceiveThread createFastSocketReceiveThread(NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl, MySocket socket) {
 		MySocket fastSocket = new FastSocketFactory().create(socket, socket.getOwner());
 		NetworkReceiveThread udpReceiveThread = createNormalSocketNetworkReceiver(networkDispatcher, sendControl, fastSocket);
 		return udpReceiveThread;
 	}
 
-	private NetworkReceiveThread createNormalSocketNetworkReceiver(NetworkToGameDispatcher networkDispatcher,
-			NetworkSendControl sendControl, MySocket socket) {
-		NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory
-				.createGameNetworkReceiver(socket,
-						networkDispatcher, sendControl);
+	private NetworkReceiveThread createNormalSocketNetworkReceiver(NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl, MySocket socket) {
+		NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory.createGameNetworkReceiver(socket, networkDispatcher, sendControl);
 		return tcpReceiveThread;
 	}
 }

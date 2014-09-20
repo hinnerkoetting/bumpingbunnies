@@ -1,10 +1,10 @@
 package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.communication.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.OpponentTypeSendFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;

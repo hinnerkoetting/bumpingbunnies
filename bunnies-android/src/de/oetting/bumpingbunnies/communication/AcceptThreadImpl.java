@@ -2,10 +2,10 @@ package de.oetting.bumpingbunnies.communication;
 
 import java.io.IOException;
 
+import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 
 public class AcceptThreadImpl extends Thread implements AcceptThread {
 	private final ServerSocket mmServerSocket;

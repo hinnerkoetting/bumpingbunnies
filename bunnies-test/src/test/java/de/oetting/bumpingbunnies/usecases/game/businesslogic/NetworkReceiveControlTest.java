@@ -17,6 +17,7 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.communication.NetworkReceiveControl;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkReceiveThreadFactory;
@@ -26,7 +27,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class NetworkReceiveControlTest {
 
 	private NetworkReceiveControl fixture;
-	private List<NetworkReceiveThread> receiveThreads = new LinkedList<>();
+	private List<NetworkReceiver> receiveThreads = new LinkedList<>();
 	@Mock
 	private NetworkReceiveThread thread1;
 	@Mock

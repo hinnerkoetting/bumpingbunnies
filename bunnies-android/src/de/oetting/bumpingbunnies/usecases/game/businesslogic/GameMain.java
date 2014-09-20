@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.communication.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.communication.NetworkSendControl;
@@ -14,17 +13,18 @@ import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
-import de.oetting.bumpingbunnies.usecases.game.communication.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
-public class GameMain implements JoinObserver {
+public class GameMain implements JoinObserver, PlayerJoinListener {
 
 	private final SocketStorage sockets;
 	private final NetworkSendControl sendControl;
@@ -141,17 +141,8 @@ public class GameMain implements JoinObserver {
 		}
 	}
 
-	public void playerJoins(Player player) {
-		this.world.getAllPlayer().add(player);
-		this.playerObservable.playerJoined(player);
-	}
-
 	public void addJoinListener(PlayerJoinListener listener) {
 		this.playerObservable.addListener(listener);
-	}
-
-	public void playerLeaves(Player p) {
-		this.playerObservable.playerLeft(p);
 	}
 
 	public void addAllJoinListeners() {
@@ -162,6 +153,18 @@ public class GameMain implements JoinObserver {
 
 	public void clientConnectedSuccessfull(MySocket socket) {
 		this.newClientsAccepter.clientConnectedSucessfull(socket);
+	}
+
+	@Override
+	public void newPlayerJoined(Player player) {
+		this.world.getAllPlayer().add(player);
+		this.playerObservable.playerJoined(player);
+	}
+
+	@Override
+	public void playerLeftTheGame(Player p) {
+		world.getAllPlayer().remove(p);
+		this.playerObservable.playerLeft(p);
 	}
 
 }

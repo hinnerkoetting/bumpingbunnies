@@ -93,7 +93,7 @@ public class GameThread extends Thread implements GameScreenSizeChangeListener {
 	}
 
 	private void drawGame() {
-
+		drawer.draw();
 	}
 
 	public void setRunning(boolean b) {

@@ -13,9 +13,9 @@ import org.robolectric.annotation.Config;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;

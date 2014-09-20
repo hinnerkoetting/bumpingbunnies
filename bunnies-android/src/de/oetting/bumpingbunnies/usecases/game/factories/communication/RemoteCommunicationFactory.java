@@ -11,11 +11,11 @@ import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothSocketFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.DummySocketFactory;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunication;
 import de.oetting.bumpingbunnies.communication.wlan.WlanSocketFactory;
+import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
-import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;
 
 public class RemoteCommunicationFactory {
 

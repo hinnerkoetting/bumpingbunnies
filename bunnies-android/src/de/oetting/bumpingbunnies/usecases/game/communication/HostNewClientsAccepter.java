@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
@@ -35,11 +36,10 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private final RemoteCommunication remoteCommunication;
 	private final World world;
 	private final GeneralSettings generalSettings;
-	private GameMain main;
+	private PlayerJoinListener mainJoinListener;
 	private List<ConnectionToClientService> connectionToClientServices;
 
-	public HostNewClientsAccepter(BroadcastService broadcaster, RemoteCommunication remoteCommunication, World world,
-			GeneralSettings generalSettings) {
+	public HostNewClientsAccepter(BroadcastService broadcaster, RemoteCommunication remoteCommunication, World world, GeneralSettings generalSettings) {
 		super();
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
@@ -65,8 +65,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void clientConnectedSucessfull(MySocket socket) {
-		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory.create(this, socket,
-				new StrictNetworkToGameDispatcher());
+		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher());
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 	}
@@ -76,7 +75,8 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 		Player player = new PlayerFactory(this.generalSettings.getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
 				playerProperties.getPlayerName(), socket.getOwner());
 		LOGGER.info("Player joins %s", player);
-		this.main.playerJoins(player);
+		mainJoinListener.newPlayerJoined(player);
+		this.mainJoinListener.newPlayerJoined(player);
 		signalPlayerToStartTheGame(socket);
 	}
 
@@ -106,8 +106,8 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	}
 
 	@Override
-	public void setMain(GameMain main) {
-		this.main = main;
+	public void setMain(PlayerJoinListener main) {
+		this.mainJoinListener = main;
 	}
 
 }

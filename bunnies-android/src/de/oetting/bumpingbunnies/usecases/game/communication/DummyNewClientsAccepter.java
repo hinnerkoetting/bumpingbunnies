@@ -3,8 +3,9 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
+import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 
 public class DummyNewClientsAccepter implements NewClientsAccepter {
@@ -41,7 +42,7 @@ public class DummyNewClientsAccepter implements NewClientsAccepter {
 	}
 
 	@Override
-	public void setMain(GameMain main) {
+	public void setMain(PlayerJoinListener main) {
 	}
 
 }
