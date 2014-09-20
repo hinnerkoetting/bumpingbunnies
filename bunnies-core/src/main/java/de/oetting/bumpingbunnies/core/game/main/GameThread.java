@@ -4,6 +4,7 @@ import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.GameScreenSizeChangeListener;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
@@ -121,6 +122,11 @@ public class GameThread extends Thread implements GameScreenSizeChangeListener {
 	@Deprecated
 	public Drawer getDrawer() {
 		return drawer;
+	}
+
+	public World getWorld() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

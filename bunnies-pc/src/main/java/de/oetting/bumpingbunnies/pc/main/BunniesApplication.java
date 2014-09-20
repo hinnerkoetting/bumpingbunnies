@@ -1,19 +1,23 @@
 package de.oetting.bumpingbunnies.pc.main;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
 public class BunniesApplication extends Application implements Runnable {
+
+	private static Logger LOGGER = LoggerFactory.getLogger(BunniesApplication.class);
+	private static World world;
+	private static CoordinatesCalculation coordinatesCalculation;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -21,34 +25,39 @@ public class BunniesApplication extends Application implements Runnable {
 		Scene scene = new Scene(root, 800, 600, Color.BLACK);
 		primaryStage.setScene(scene);
 
-		Timeline timeline = new Timeline();
 		Group circles = new Group();
-		for (int i = 0; i < 30; i++) {
-			Circle circle = new Circle(150, Color.web("white", 0.05));
-			circle.setStrokeType(StrokeType.OUTSIDE);
-			circle.setStroke(Color.web("white", 0.16));
-			circle.setStrokeWidth(4);
-			circles.getChildren().add(circle);
+		for (Player player : world.getAllPlayer()) {
+			Rectangle rectangle = new Rectangle((int) player.minX(), (int) player.minY(), (int) (player.maxX() - player.minX()),
+					(int) (player.maxY() - player.minY()));
+			circles.getChildren().add(rectangle);
 		}
-		root.getChildren().add(circles);
-		for (Node circle : circles.getChildren()) {
-			timeline.getKeyFrames().addAll(new KeyFrame(Duration.ZERO, // set
-																		// start
-																		// position
-																		// at 0
-					new KeyValue(circle.translateXProperty(), Math.random() * 800), new KeyValue(circle.translateYProperty(), Math.random() * 600)),
-					new KeyFrame(new Duration(40000), // set end position at 40s
-							new KeyValue(circle.translateXProperty(), Math.random() * 800), new KeyValue(circle.translateYProperty(), Math.random() * 600)));
+		for (Wall wall : world.getAllWalls()) {
+			int screenCoordinateX = coordinatesCalculation.getScreenCoordinateX(wall.minX());
+			int screenCoordinateY = coordinatesCalculation.getScreenCoordinateY(wall.minY());
+			int width = coordinatesCalculation.getScreenCoordinateX(wall.maxX() - wall.minX());
+			int height = coordinatesCalculation.getScreenCoordinateY(-wall.minY() + wall.maxY());
+			LOGGER.info("%d, %d, %d, %d", screenCoordinateX, screenCoordinateY, width, height);
+			Rectangle rectangle = new Rectangle(screenCoordinateX, screenCoordinateY, width, height);
+			rectangle.setStrokeWidth(4);
+			rectangle.setFill(Color.AQUA);
+			circles.getChildren().add(rectangle);
 		}
-		// play 40s of animation
-		timeline.play();
 
+		root.getChildren().add(circles);
 		primaryStage.show();
 	}
 
 	@Override
 	public void run() {
 		launch();
+	}
+
+	public static void setWorld(World newWorld) {
+		world = newWorld;
+	}
+
+	public static void setCoordinatesCalculation(CoordinatesCalculation coordinatesCalculation) {
+		BunniesApplication.coordinatesCalculation = coordinatesCalculation;
 	}
 
 }

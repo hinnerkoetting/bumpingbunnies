@@ -17,7 +17,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-		</plugins> 
+		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
@@ -26,11 +26,16 @@
 		</dependency>
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
-			<artifactId>bunnies-model</artifactId> 
+			<artifactId>bunnies-model</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId> 
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
 		</dependency>
 	</dependencies>
 </project>
