@@ -3,10 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.android.input.InputDispatcher;
-import de.oetting.bumpingbunnies.communication.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
@@ -16,6 +13,7 @@ import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -31,7 +29,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 	private final PlayerJoinObservable playerObservable;
 	private final NewClientsAccepter newClientsAccepter;
 	private GameThread gameThread;
-	private InputDispatcher<?> inputDispatcher;
+
 	private NetworkReceiveControl receiveControl;
 	private MusicPlayer musicPlayer;
 	private World world;
@@ -44,16 +42,8 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
-	public boolean ontouch(MotionEvent event) {
-		return this.inputDispatcher.dispatchGameTouch(event);
-	}
-
 	public void setGameThread(GameThread gameThread) {
 		this.gameThread = gameThread;
-	}
-
-	public void setInputDispatcher(InputDispatcher<?> inputDispatcher) {
-		this.inputDispatcher = inputDispatcher;
 	}
 
 	public void setReceiveControl(NetworkReceiveControl receiveControl) {
@@ -62,10 +52,6 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 
 	public void setMusicPlayer(MusicPlayer musicPlayer) {
 		this.musicPlayer = musicPlayer;
-	}
-
-	public InputDispatcher<?> getInputDispatcher() {
-		return this.inputDispatcher;
 	}
 
 	public World getWorld() {
@@ -141,6 +127,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 		}
 	}
 
+	@Override
 	public void addJoinListener(PlayerJoinListener listener) {
 		this.playerObservable.addListener(listener);
 	}

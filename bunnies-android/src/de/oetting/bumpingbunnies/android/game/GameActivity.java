@@ -10,8 +10,13 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.android.input.InputDispatcher;
+import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
+import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
+import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -19,7 +24,9 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
  * Controls the bumping-bunnies game.
  */
 public class GameActivity extends Activity implements GameStopper {
+
 	private GameMain main;
+	private InputDispatcher<?> inputDispatcher;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +36,10 @@ public class GameActivity extends Activity implements GameStopper {
 
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
-		this.main = GameMainFactory.create(this);
+		GameStartParameter parameter = ((GamestartParameterParcellableWrapper) getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER)).getParameter();
+		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
+		this.main = GameMainFactory.create(this, parameter, myPlayer);
+		inputDispatcher = GameMainFactory.createInputDispatcher(this, parameter, myPlayer);
 		registerScreenTouchListener(contentView);
 
 		conditionalRestoreState();
@@ -40,8 +50,7 @@ public class GameActivity extends Activity implements GameStopper {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				return GameActivity.this.main.ontouch(event);
-
+				return inputDispatcher.dispatchGameTouch(event);
 			}
 		});
 	}
@@ -54,6 +63,7 @@ public class GameActivity extends Activity implements GameStopper {
 		}
 	}
 
+	@Override
 	public void stopGame() {
 		this.main.stop(this);
 	}
@@ -78,7 +88,7 @@ public class GameActivity extends Activity implements GameStopper {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		boolean isKeyProcessed = GameActivity.this.main.getInputDispatcher().dispatchOnKeyDown(keyCode, event);
+		boolean isKeyProcessed = inputDispatcher.dispatchOnKeyDown(keyCode, event);
 		if (!isKeyProcessed) {
 			return super.onKeyDown(keyCode, event);
 		}
@@ -87,7 +97,7 @@ public class GameActivity extends Activity implements GameStopper {
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		boolean isKeyProcessed = GameActivity.this.main.getInputDispatcher().dispatchOnKeyUp(keyCode, event);
+		boolean isKeyProcessed = inputDispatcher.dispatchOnKeyUp(keyCode, event);
 		if (!isKeyProcessed) {
 			return super.onKeyUp(keyCode, event);
 		}

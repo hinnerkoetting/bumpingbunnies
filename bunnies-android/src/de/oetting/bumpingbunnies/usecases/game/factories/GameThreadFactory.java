@@ -5,7 +5,6 @@ import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.communication.MessageSenderToNetworkDelegate;
-import de.oetting.bumpingbunnies.communication.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
@@ -36,6 +35,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.playerIsRevived.Playe
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.communication.StrictNetworkToGameDispatcher;

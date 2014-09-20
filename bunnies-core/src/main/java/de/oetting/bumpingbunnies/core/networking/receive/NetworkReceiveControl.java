@@ -1,26 +1,24 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.receive;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class NetworkReceiveControl implements PlayerJoinListener {
 
 	private List<NetworkReceiver> networkReceiveThreads;
-	private NetworkReceiveThreadFactory factory;
+	private NetworkReceiverFactory factory;
 
-	public NetworkReceiveControl(NetworkReceiveThreadFactory factory) {
+	public NetworkReceiveControl(NetworkReceiverFactory factory) {
 		super();
 		this.factory = factory;
 		this.networkReceiveThreads = new CopyOnWriteArrayList<NetworkReceiver>();
 	}
 
-	public NetworkReceiveControl(NetworkReceiveThreadFactory factory, List<NetworkReceiver> networkReceiveThreads) {
+	public NetworkReceiveControl(NetworkReceiverFactory factory, List<NetworkReceiver> networkReceiveThreads) {
 		super();
 		this.factory = factory;
 		this.networkReceiveThreads = networkReceiveThreads;
