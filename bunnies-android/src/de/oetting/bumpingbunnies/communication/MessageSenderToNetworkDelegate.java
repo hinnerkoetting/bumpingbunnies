@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.communication;
 
 import de.oetting.bumpingbunnies.core.networking.MessageSender;
+import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 
 public class MessageSenderToNetworkDelegate implements MessageSender {

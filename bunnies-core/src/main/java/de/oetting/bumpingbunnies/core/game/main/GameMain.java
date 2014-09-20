@@ -1,26 +1,20 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.core.game.main;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
-import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
-import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
 public class GameMain implements JoinObserver, PlayerJoinListener {
 
@@ -87,33 +81,14 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 		this.musicPlayer.stopBackground();
 	}
 
-	public void stop(GameActivity activity) {
+	public void stop() {
 		shutdownAllThreads();
-		startResultScreen(activity);
-	}
-
-	public void startResultScreen(GameActivity activity) {
-		ActivityLauncher.startResult(activity, extractResult());
 	}
 
 	public void sendStopMessage() {
 		for (NetworkSender rs : this.sendControl.getSendThreads()) {
 			new StopGameSender(rs).sendMessage("");
 		}
-	}
-
-	private ResultWrapper extractResult() {
-		return extractPlayerScores();
-	}
-
-	public ResultWrapper extractPlayerScores() {
-		List<Player> players = this.world.getAllPlayer();
-		List<ResultPlayerEntry> resultEntries = new ArrayList<ResultPlayerEntry>(players.size());
-		for (Player p : players) {
-			ResultPlayerEntry entry = new ResultPlayerEntry(p.getName(), p.getScore(), p.getColor());
-			resultEntries.add(entry);
-		}
-		return new ResultWrapper(resultEntries);
 	}
 
 	public void restorePlayerStates(List<Player> players) {

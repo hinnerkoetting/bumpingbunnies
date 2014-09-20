@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.communication;
 
+import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.core.networking.StateSenderFactory;
 import de.oetting.bumpingbunnies.logger.Logger;

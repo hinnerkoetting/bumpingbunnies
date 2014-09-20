@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;

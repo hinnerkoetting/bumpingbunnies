@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.android.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,12 +15,14 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
+import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
+import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
 /**
  * Controls the bumping-bunnies game.
@@ -66,7 +69,22 @@ public class GameActivity extends Activity implements GameStopper {
 
 	@Override
 	public void stopGame() {
-		this.main.stop(this);
+		this.main.stop();
+		ActivityLauncher.startResult(this, extractResult());
+	}
+
+	private ResultWrapper extractResult() {
+		return extractPlayerScores();
+	}
+
+	public ResultWrapper extractPlayerScores() {
+		List<Player> players = main.getWorld().getAllPlayer();
+		List<ResultPlayerEntry> resultEntries = new ArrayList<ResultPlayerEntry>(players.size());
+		for (Player p : players) {
+			ResultPlayerEntry entry = new ResultPlayerEntry(p.getName(), p.getScore(), p.getColor());
+			resultEntries.add(entry);
+		}
+		return new ResultWrapper(resultEntries);
 	}
 
 	@Override
@@ -117,7 +135,7 @@ public class GameActivity extends Activity implements GameStopper {
 	@Override
 	public void onBackPressed() {
 		sendStopMessage();
-		this.main.startResultScreen(this);
+		ActivityLauncher.startResult(this, extractResult());
 	}
 
 	private void sendStopMessage() {
