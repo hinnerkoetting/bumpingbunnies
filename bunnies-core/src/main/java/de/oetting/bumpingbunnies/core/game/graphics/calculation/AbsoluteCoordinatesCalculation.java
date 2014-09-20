@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.android.calculation;
+package de.oetting.bumpingbunnies.core.game.graphics.calculation;
 
-import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.world.WorldProperties;
 
 public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
@@ -22,8 +21,7 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 
 	@Override
 	public int getGameCoordinateY(float touchY) {
-		return (int) (this.properties.getWorldHeight() - this.properties.getWorldHeight()
-				/ this.height);
+		return (int) (this.properties.getWorldHeight() - this.properties.getWorldHeight() / this.height);
 	}
 
 	@Override
@@ -45,8 +43,8 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 	}
 
 	@Override
-	public boolean isClickOnUpperHalf(MotionEvent motionEvent) {
-		return motionEvent.getY() > 0.5 * this.height;
+	public boolean isClickOnUpperHalf(int yCoordinate) {
+		return yCoordinate > 0.5 * this.height;
 	}
 
 }

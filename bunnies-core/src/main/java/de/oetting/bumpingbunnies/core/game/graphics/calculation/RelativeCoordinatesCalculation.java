@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.android.calculation;
+package de.oetting.bumpingbunnies.core.game.graphics.calculation;
 
-import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 
 public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
@@ -27,8 +26,7 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 
 	@Override
 	public int getGameCoordinateX(float touchX) {
-		return (int) (this.zoom * touchX + (getCurrentCenterX() - this.width
-				/ 2 * this.zoom));
+		return (int) (this.zoom * touchX + (getCurrentCenterX() - this.width / 2 * this.zoom));
 	}
 
 	@Override
@@ -38,22 +36,19 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 
 	@Override
 	public int getScreenCoordinateX(long gameX) {
-		int res = (int) (this.width
-				/ 2
-				+ (gameX - getCurrentCenterX()) / this.zoom);
+		int res = (int) (this.width / 2 + (gameX - getCurrentCenterX()) / this.zoom);
 		return res;
 	}
 
 	@Override
 	public int getScreenCoordinateY(long gameY) {
-		int res = (int) (this.height / 2
-				- (((+gameY - getCurrentCenterY())) / this.zoom));
+		int res = (int) (this.height / 2 - (((+gameY - getCurrentCenterY())) / this.zoom));
 		return res;
 	}
 
 	@Override
-	public boolean isClickOnUpperHalf(MotionEvent motionEvent) {
-		return getGameCoordinateY(motionEvent.getY()) > getCurrentCenterY();
+	public boolean isClickOnUpperHalf(int yCoordinate) {
+		return getGameCoordinateY(yCoordinate) > getCurrentCenterY();
 	}
 
 	public long getCurrentCenterX() {

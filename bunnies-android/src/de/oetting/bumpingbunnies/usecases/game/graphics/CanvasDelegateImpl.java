@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 
 public class CanvasDelegateImpl implements CanvasDelegate {
 

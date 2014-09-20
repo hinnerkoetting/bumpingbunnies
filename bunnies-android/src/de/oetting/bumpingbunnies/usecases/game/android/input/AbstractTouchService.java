@@ -1,16 +1,15 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.AbstractControlledMovement;
-import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 
 public abstract class AbstractTouchService extends AbstractControlledMovement {
 
 	private final CoordinatesCalculation calculations;
 
-	public AbstractTouchService(PlayerMovement playerMovement,
-			CoordinatesCalculation calculations) {
+	public AbstractTouchService(PlayerMovement playerMovement, CoordinatesCalculation calculations) {
 		super(playerMovement);
 		this.calculations = calculations;
 	}
@@ -28,19 +27,17 @@ public abstract class AbstractTouchService extends AbstractControlledMovement {
 	}
 
 	public boolean isTouchRightToPlayer(MotionEvent motionEvent) {
-		return getMovedPlayer().getCenterX()
-				- translateToGameXCoordinate(motionEvent) < 0;
+		return getMovedPlayer().getCenterX() - translateToGameXCoordinate(motionEvent) < 0;
 	}
 
 	public boolean isTouchLeftToPlayer(MotionEvent motionEvent) {
-		return getMovedPlayer().getCenterX()
-				- translateToGameXCoordinate(motionEvent) > 0;
+		return getMovedPlayer().getCenterX() - translateToGameXCoordinate(motionEvent) > 0;
 		// double touchX = translateToGameXCoordinate(motionEvent);
 		// return touchX < getMovedPlayer().minX();
 	}
 
-	public boolean clickOnUpperHalf(MotionEvent motionEvent) {
-		return this.calculations.isClickOnUpperHalf(motionEvent);
+	public boolean clickOnUpperHalf(int yCoordinate) {
+		return this.calculations.isClickOnUpperHalf(yCoordinate);
 	}
 
 }

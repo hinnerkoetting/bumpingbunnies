@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.android.input.touchFling;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.android.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.LeftRightTouchService;
 
 public class TouchFlingService extends LeftRightTouchService {

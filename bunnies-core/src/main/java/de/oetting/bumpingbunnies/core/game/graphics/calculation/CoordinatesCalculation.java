@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.android.calculation;
+package de.oetting.bumpingbunnies.core.game.graphics.calculation;
 
-import android.view.MotionEvent;
 
 public interface CoordinatesCalculation {
 
@@ -16,5 +15,5 @@ public interface CoordinatesCalculation {
 
 	void setZoom(int zoom);
 
-	boolean isClickOnUpperHalf(MotionEvent motionEvent);
+	boolean isClickOnUpperHalf(int yCoordinate);
 }
