@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.factories;
+package de.oetting.bumpingbunnies.core.worldCreation;
 
 public class IdCounter {
 

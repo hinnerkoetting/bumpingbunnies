@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
-import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
+import de.oetting.bumpingbunnies.core.worldCreation.WallFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 
 public class CollisionDetectionTest {

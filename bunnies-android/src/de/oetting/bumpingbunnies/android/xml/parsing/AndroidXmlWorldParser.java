@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
+package de.oetting.bumpingbunnies.android.xml.parsing;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,10 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.util.Xml;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.WorldFactory;
+import de.oetting.bumpingbunnies.core.worldCreation.XmlRectToObjectConverter;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -26,9 +29,9 @@ import de.oetting.bumpingbunnies.world.WorldProperties;
 import de.oetting.bumpingbunnies.worldCreation.XmlRect;
 import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
 
-public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
+public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(XmlWorldParser.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidXmlWorldParser.class);
 	private XmlWorldBuilderState state;
 	private boolean parsed;
 	private WorldProperties worldProperties = new WorldProperties();
@@ -37,7 +40,7 @@ public class XmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private ResourceProvider provider;
 	private int resourceId;
 
-	public XmlWorldParser(int resourceId) {
+	public AndroidXmlWorldParser(int resourceId) {
 		this.resourceId = resourceId;
 		this.state = new XmlWorldBuilderState();
 	}

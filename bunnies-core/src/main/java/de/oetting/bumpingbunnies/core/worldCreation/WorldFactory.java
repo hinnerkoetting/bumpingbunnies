@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
+package de.oetting.bumpingbunnies.core.worldCreation;
 
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;

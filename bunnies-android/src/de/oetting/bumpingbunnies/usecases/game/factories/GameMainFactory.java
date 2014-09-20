@@ -9,6 +9,9 @@ import de.oetting.bumpingbunnies.android.game.GameView;
 import de.oetting.bumpingbunnies.android.game.SocketStorage;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
+import de.oetting.bumpingbunnies.android.xml.parsing.AndroidBitmapReader;
+import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
+import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlReader;
 import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
@@ -17,6 +20,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordina
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
@@ -29,10 +33,6 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationF
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.AndroidBitmapReader;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.AndroidResourceProvider;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.AndroidXmlReader;
-import de.oetting.bumpingbunnies.usecases.game.model.worldfactory.CachedBitmapReader;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 

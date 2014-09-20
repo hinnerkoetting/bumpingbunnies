@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
+package de.oetting.bumpingbunnies.android.xml.parsing;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;

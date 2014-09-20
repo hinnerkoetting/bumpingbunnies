@@ -15,9 +15,10 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.WallFactory;
+import de.oetting.bumpingbunnies.core.worldCreation.WorldFactory;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.factories.WallFactory;
 
 @Category(UnitTests.class)
 public class WorldFactoryTest {

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.model.worldfactory;
+package de.oetting.bumpingbunnies.android.xml.parsing;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,11 +13,12 @@ import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
-public class XmlWorldParserTemplate implements WorldObjectsParser {
-	private XmlWorldParser worldBuilder;
+public class AndroidXmlWorldParserTemplate implements WorldObjectsParser {
 
-	public XmlWorldParserTemplate(int resourceId) {
-		this.worldBuilder = new XmlWorldParser(resourceId);
+	private WorldObjectsParser worldBuilder;
+
+	public AndroidXmlWorldParserTemplate(int resourceId) {
+		this.worldBuilder = new AndroidXmlWorldParser(resourceId);
 	}
 
 	@Override

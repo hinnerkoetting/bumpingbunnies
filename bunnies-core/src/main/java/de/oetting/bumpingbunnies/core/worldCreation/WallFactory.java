@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.factories;
+package de.oetting.bumpingbunnies.core.worldCreation;
 
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
@@ -12,16 +12,12 @@ public class WallFactory {
 
 	public static Wall createWall(int x, int y) {
 		int id = IdCounter.getNextId();
-		Wall wall = new Wall(id, x, y, ModelConstants.WALL_WIDTH,
-				ModelConstants.WALL_HEIGHT);
+		Wall wall = new Wall(id, x, y, ModelConstants.WALL_WIDTH, ModelConstants.WALL_HEIGHT);
 		return wall;
 	}
 
-	public static Wall createWallFromDouble(double x, double y, double maxX,
-			double maxY, WorldProperties properties) {
-		return createWall((int) (x * properties.getWorldWidth()),
-				(int) (y * properties.getWorldHeight()),
-				(int) (maxX * properties.getWorldWidth()),
+	public static Wall createWallFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties) {
+		return createWall((int) (x * properties.getWorldWidth()), (int) (y * properties.getWorldHeight()), (int) (maxX * properties.getWorldWidth()),
 				(int) (maxY * properties.getWorldHeight()));
 	}
 
@@ -36,11 +32,8 @@ public class WallFactory {
 		return water;
 	}
 
-	public static IcyWall createIceWallFromDouble(double x, double y,
-			double maxX, double maxY, WorldProperties properties) {
-		return createIceWall((int) (x * properties.getWorldWidth()),
-				(int) (y * properties.getWorldHeight()),
-				(int) (maxX * properties.getWorldWidth()),
+	public static IcyWall createIceWallFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties) {
+		return createIceWall((int) (x * properties.getWorldWidth()), (int) (y * properties.getWorldHeight()), (int) (maxX * properties.getWorldWidth()),
 				(int) (maxY * properties.getWorldHeight()));
 	}
 
@@ -50,19 +43,13 @@ public class WallFactory {
 		return wall;
 	}
 
-	public static Jumper createJumperFromDouble(double x, double y,
-			double maxX, double maxY, MusicPlayer mediaPlayer, WorldProperties properties) {
-		return createJumper((int) (x * properties.getWorldWidth()),
-				(int) (y * properties.getWorldHeight()),
-				(int) (maxX * properties.getWorldWidth()),
+	public static Jumper createJumperFromDouble(double x, double y, double maxX, double maxY, MusicPlayer mediaPlayer, WorldProperties properties) {
+		return createJumper((int) (x * properties.getWorldWidth()), (int) (y * properties.getWorldHeight()), (int) (maxX * properties.getWorldWidth()),
 				(int) (maxY * properties.getWorldHeight()), mediaPlayer);
 	}
 
-	public static Water createWaterFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties,
-			MusicPlayer musicPlayer) {
-		return createWater((int) (x * properties.getWorldWidth()),
-				(int) (y * properties.getWorldHeight()),
-				(int) (maxX * properties.getWorldWidth()),
+	public static Water createWaterFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties, MusicPlayer musicPlayer) {
+		return createWater((int) (x * properties.getWorldWidth()), (int) (y * properties.getWorldHeight()), (int) (maxX * properties.getWorldWidth()),
 				(int) (maxY * properties.getWorldHeight()), musicPlayer);
 	}
 
