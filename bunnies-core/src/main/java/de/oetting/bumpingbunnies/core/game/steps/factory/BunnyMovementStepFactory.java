@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.factories;
+package de.oetting.bumpingbunnies.core.game.steps.factory;
 
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;

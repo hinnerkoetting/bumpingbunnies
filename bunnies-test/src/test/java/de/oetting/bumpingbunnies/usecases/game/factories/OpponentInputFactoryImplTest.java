@@ -11,6 +11,7 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
+import de.oetting.bumpingbunnies.core.input.factory.OpponentInputFactoryImpl;
 import de.oetting.bumpingbunnies.core.networking.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;

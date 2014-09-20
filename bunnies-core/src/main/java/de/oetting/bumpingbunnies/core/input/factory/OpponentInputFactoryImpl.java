@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.factories;
+package de.oetting.bumpingbunnies.core.input.factory;
 
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
