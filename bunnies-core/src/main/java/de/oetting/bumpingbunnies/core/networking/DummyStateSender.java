@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking;
 
-import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class DummyStateSender implements StateSender {

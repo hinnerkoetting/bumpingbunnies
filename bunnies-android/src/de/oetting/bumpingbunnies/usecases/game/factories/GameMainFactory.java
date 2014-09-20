@@ -12,7 +12,8 @@ import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlReader;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
@@ -76,10 +77,9 @@ public class GameMainFactory {
 		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
 
 		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
-		RelativeCoordinatesCalculation calculations = createCoordinatesCalculation(cameraPositionCalculation);
 
-		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), calculations, cameraPositionCalculation, main,
-				myPlayer, activity, sendControl);
+		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), cameraPositionCalculation, main, myPlayer, activity,
+				sendControl);
 		main.setGameThread(gameThread);
 
 		contentView.addOnSizeListener(gameThread);
@@ -105,16 +105,12 @@ public class GameMainFactory {
 		return inputDispatcher;
 	}
 
-	private static RelativeCoordinatesCalculation createCoordinatesCalculation(Player player) {
-		return createCoordinatesCalculation(createCameraPositionCalculator(player));
+	private static CoordinatesCalculation createCoordinatesCalculation(Player myPlayer) {
+		return CoordinatesCalculationFactory.createCoordinatesCalculation(myPlayer);
 	}
 
-	private static RelativeCoordinatesCalculation createCoordinatesCalculation(CameraPositionCalculation cameraPositionCalculation) {
-		return new RelativeCoordinatesCalculation(cameraPositionCalculation);
-	}
-
-	private static CameraPositionCalculation createCameraPositionCalculator(Player player) {
-		return new CameraPositionCalculation(player);
+	private static CameraPositionCalculation createCameraPositionCalculator(Player myPlayer) {
+		return CoordinatesCalculationFactory.createCameraPositionCalculator(myPlayer);
 	}
 
 	private static void initGameSound(GameMain main, GameActivity activity) {

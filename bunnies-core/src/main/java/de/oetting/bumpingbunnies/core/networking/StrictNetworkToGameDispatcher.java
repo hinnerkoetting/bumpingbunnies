@@ -1,7 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking;
 
-import de.oetting.bumpingbunnies.core.networking.NetworkListener;
-import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
@@ -12,7 +10,7 @@ import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
  */
 public class StrictNetworkToGameDispatcher extends NetworkToGameDispatcher {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(EasyNetworkToGameDispatcher.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StrictNetworkToGameDispatcher.class);
 
 	@Override
 	public void dispatchMessage(JsonWrapper wrapper) {

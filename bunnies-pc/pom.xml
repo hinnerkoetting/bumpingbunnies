@@ -28,5 +28,9 @@
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-model</artifactId> 
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId> 
+		</dependency>
 	</dependencies>
 </project>
