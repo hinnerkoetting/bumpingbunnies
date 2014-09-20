@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Canvas;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -13,16 +14,16 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
  * draws all game elements
  * 
  */
-public class Drawer implements PlayerJoinListener {
+public class AndroidObjectsDrawer implements PlayerJoinListener, ObjectsDrawer {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Drawer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidObjectsDrawer.class);
 	private List<Drawable> allDrawables;
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;
 	private boolean needsUpdate;
 	private List<Drawable> drawablesWhichNeedToBeUpdated;
 
-	public Drawer(DrawablesFactory drawFactory, CanvasDelegate canvasDeleta) {
+	public AndroidObjectsDrawer(DrawablesFactory drawFactory, CanvasDelegate canvasDeleta) {
 		this.factory = drawFactory;
 		this.canvasDelegate = canvasDeleta;
 		this.needsUpdate = true;

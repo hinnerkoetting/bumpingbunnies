@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.BitmapResizer;
+import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.BitmapResizer;
 
 public class AnimationImpl implements Animation {
 

@@ -1,44 +1,39 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import android.graphics.Canvas;
-import android.graphics.PixelFormat;
-import android.view.SurfaceHolder;
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
+import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
+import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidObjectsDrawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 
 /**
  * All game logic and drawing of the game is executed in this thread.<br>
  * During each loop it will: <li>
  * It will call the {@link GameStepController} for gamelogic.</li> <br>
- * <li>The {@link Drawer} is called to draw</li><br>
+ * <li>The {@link AndroidObjectsDrawer} is called to draw</li><br>
  * <li>It will handle fps</li
  * 
  * 
  */
-public class GameThread extends Thread implements SurfaceHolder.Callback, GameScreenSizeChangeListener {
+public class GameThread extends Thread implements GameScreenSizeChangeListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
-	private final Drawer drawer;
+
 	private final GameStepController worldController;
 	private final GameThreadState state;
-	private SurfaceHolder holder;
 
 	private boolean running;
-	private boolean isDrawingPossible;
 	private boolean canceled;
-	private final boolean altPixelMode;
+
+	private final Drawer drawer;
 	private int fpsLimitation;
 
-	public GameThread(Drawer drawer, GameStepController worldController, GameThreadState gameThreadState, boolean altPixelMode) {
+	public GameThread(Drawer drawer, GameStepController worldController, GameThreadState gameThreadState) {
 		super("Main Game Thread");
 		this.drawer = drawer;
 		this.worldController = worldController;
-		this.altPixelMode = altPixelMode;
 		this.running = true;
-		this.isDrawingPossible = false;
 		this.state = gameThreadState;
 		this.fpsLimitation = 29;
 	}
@@ -56,7 +51,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback, GameSc
 		LOGGER.info("start game thread");
 		this.state.setLastRun(System.currentTimeMillis());
 		while (!this.canceled) {
-			if (this.running && this.isDrawingPossible) {
+			if (this.running) {
 				if (!shouldStepGetSkipped()) {
 					nextWorldStep();
 					drawGame();
@@ -98,44 +93,12 @@ public class GameThread extends Thread implements SurfaceHolder.Callback, GameSc
 	}
 
 	private void drawGame() {
-		Canvas lockCanvas = this.holder.lockCanvas();
-		try {
-			if (lockCanvas != null) {
-				synchronized (this.holder) {
-					this.drawer.draw(lockCanvas);
-				}
-			}
-		} finally {
-			if (lockCanvas != null) {
-				this.holder.unlockCanvasAndPost(lockCanvas);
-			}
-		}
+
 	}
 
 	public void setRunning(boolean b) {
 		this.running = b;
 		LOGGER.info("Running " + b);
-	}
-
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-	}
-
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		this.holder = holder;
-		if (this.altPixelMode) {
-			holder.setFormat(PixelFormat.OPAQUE);
-		} else {
-			holder.setFormat(PixelFormat.RGBA_8888);
-		}
-		this.isDrawingPossible = true;
-		LOGGER.info("Surface created");
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		this.isDrawingPossible = false;
 	}
 
 	public void cancel() {
@@ -150,6 +113,14 @@ public class GameThread extends Thread implements SurfaceHolder.Callback, GameSc
 	public void addAllJoinListeners(GameMain gameMain) {
 		this.worldController.addAllJoinListeners(gameMain);
 		gameMain.addJoinListener(this.drawer);
+	}
+
+	/**
+	 * Coupling to android
+	 */
+	@Deprecated
+	public Drawer getDrawer() {
+		return drawer;
 	}
 
 }

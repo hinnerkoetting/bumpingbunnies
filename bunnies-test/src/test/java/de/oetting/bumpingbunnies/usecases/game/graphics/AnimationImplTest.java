@@ -11,8 +11,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.graphics.Bitmap;
+import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.BitmapResizer;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.BitmapResizer;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

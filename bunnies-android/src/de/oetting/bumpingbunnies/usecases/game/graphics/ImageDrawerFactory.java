@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import android.graphics.Bitmap;
-import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.SimpleBitmapResizer;
+import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 
 public class ImageDrawerFactory {

@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.android.game.SocketStorage;
+import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.communication.MessageSenderToNetworkDelegate;
 import de.oetting.bumpingbunnies.communication.NetworkReceiveControl;
@@ -23,6 +24,7 @@ import de.oetting.bumpingbunnies.core.game.steps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
 import de.oetting.bumpingbunnies.core.game.steps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.core.game.steps.factory.BunnyMovementStepFactory;
+import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.input.UserInputStep;
 import de.oetting.bumpingbunnies.core.input.factory.OpponentInputFactoryImpl;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
@@ -38,7 +40,7 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 import de.oetting.bumpingbunnies.usecases.game.communication.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkReceiveThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
+import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidObjectsDrawer;
 import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
@@ -53,7 +55,7 @@ public class GameThreadFactory {
 		initInputServices(main, activity, world, networkDispatcher, sendControl);
 		GameThreadState threadState = new GameThreadState();
 
-		Drawer drawer = DrawerFactory.create(world, threadState, context, configuration, calculations);
+		AndroidObjectsDrawer drawer = DrawerFactory.create(world, threadState, context, configuration, calculations);
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(world.getSpawnPoints());
 		UserInputStep userInputStep = new UserInputStep(createInputServiceFactory(world, stateDispatcher));
 		CollisionDetection colDetection = new CollisionDetection(world);
@@ -64,7 +66,13 @@ public class GameThreadFactory {
 		// Sending Coordinates Strep
 		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(new AndroidStateSenderFactory(sendControl, myPlayer));
 		GameStepController worldController = new GameStepController(userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);
-		return new GameThread(drawer, worldController, threadState, configuration.getLocalSettings().isAltPixelMode());
+		return createGameThread(configuration, threadState, drawer, worldController);
+	}
+
+	private static GameThread createGameThread(Configuration configuration, GameThreadState threadState, AndroidObjectsDrawer objectsDrawer,
+			GameStepController worldController) {
+		Drawer drawer = new AndroidDrawer(objectsDrawer, configuration.getLocalSettings().isAltPixelMode());
+		return new GameThread(drawer, worldController, threadState);
 	}
 
 	private static OpponentInputFactory createInputServiceFactory(World world, PlayerStateDispatcher stateDispatcher) {

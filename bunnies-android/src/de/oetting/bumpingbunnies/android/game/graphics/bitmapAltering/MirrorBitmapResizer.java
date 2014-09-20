@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering;
+package de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;

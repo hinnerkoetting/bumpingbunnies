@@ -4,8 +4,8 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.MirrorBitmapResizer;
-import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.SimpleBitmapResizer;
+import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.MirrorBitmapResizer;
+import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
 
 public class AnimationWithMirror implements Animation, MirroredAnimation {
 

@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 @Category(UnitTests.class)
 public class DrawerTest {
 
-	private Drawer fixture;
+	private AndroidObjectsDrawer fixture;
 	@Mock
 	private DrawablesFactory factory;
 	@Mock
@@ -45,7 +45,7 @@ public class DrawerTest {
 		thenDrawableIsNotDrawn();
 	}
 
-	@Test(expected = Drawer.PlayerDoesNotExist.class)
+	@Test(expected = AndroidObjectsDrawer.PlayerDoesNotExist.class)
 	public void playerLeaves_givenPlayerDoesNotExist_shouldThrowException() {
 		this.player = createOpponentPlayer();
 		whenPlayerLeaves(this.player);
@@ -75,7 +75,7 @@ public class DrawerTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new Drawer(this.factory, this.canvas);
+		this.fixture = new AndroidObjectsDrawer(this.factory, this.canvas);
 		when(this.factory.createPlayerDrawable(any(Player.class))).thenReturn(this.playerDrawable);
 		when(this.playerDrawable.drawsPlayer(any(Player.class))).thenReturn(true);
 	}

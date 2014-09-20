@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
+import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameScreenSizeChangeListener;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
 
@@ -26,7 +27,7 @@ public class GameView extends SurfaceView {
 	}
 
 	public void setGameThread(GameThread gameThread) {
-		getHolder().addCallback(gameThread);
+		getHolder().addCallback((AndroidDrawer) gameThread.getDrawer());
 	}
 
 	public void addOnSizeListener(GameScreenSizeChangeListener listener) {

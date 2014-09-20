@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
-import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidBitmap;
+import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImage;
 import de.oetting.bumpingbunnies.usecases.game.model.Image;
 
 public class AndroidBitmapReader implements BitmapReader {
@@ -20,7 +20,7 @@ public class AndroidBitmapReader implements BitmapReader {
 
 	@Override
 	public Image readBitmap(String filename) {
-		Image bitmap = new AndroidBitmap(BitmapFactory.decodeResource(this.resources, getResourceId(filename)));
+		Image bitmap = new AndroidImage(BitmapFactory.decodeResource(this.resources, getResourceId(filename)));
 		return bitmap;
 	}
 

@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.graphics.bitmapAltering.BitmapResizer;
+import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.BitmapResizer;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class BackgroundDrawer implements Drawable {
