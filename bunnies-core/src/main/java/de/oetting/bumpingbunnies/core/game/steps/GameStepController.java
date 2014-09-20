@@ -1,10 +1,7 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.core.game.steps;
 
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
-import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
-import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
 import de.oetting.bumpingbunnies.core.input.UserInputStep;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps.SendingCoordinatesStep;
 
 /**
  * Calls all components which should be executed during the regular game loop.
@@ -24,8 +21,8 @@ public class GameStepController {
 	private long remainingDeltaFromLastRun = 0;
 	private final CameraPositionCalculation cameraPositionCalculator;
 
-	public GameStepController(UserInputStep userInputStep, BunnyMovementStep movements, SendingCoordinatesStep sendingCoordinates,
-			PlayerReviver reviver, CameraPositionCalculation cameraPositionCalculator) {
+	public GameStepController(UserInputStep userInputStep, BunnyMovementStep movements, SendingCoordinatesStep sendingCoordinates, PlayerReviver reviver,
+			CameraPositionCalculation cameraPositionCalculator) {
 		this.userInputStep = userInputStep;
 		this.movements = movements;
 		this.sendingCoordinates = sendingCoordinates;
@@ -44,7 +41,7 @@ public class GameStepController {
 		this.cameraPositionCalculator.executeNextStep(delta);
 	}
 
-	public void addAllJoinListeners(GameMain gameMain) {
+	public void addAllJoinListeners(JoinObserver gameMain) {
 		gameMain.addJoinListener(this.movements);
 		gameMain.addJoinListener(this.sendingCoordinates);
 		gameMain.addJoinListener(this.userInputStep);

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
+package de.oetting.bumpingbunnies.core.game.steps;
 
 import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.hasSize;
@@ -13,8 +13,8 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.networking.StateSender;
+import de.oetting.bumpingbunnies.core.networking.StateSenderFactory;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.factories.businessLogic.StateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @Category(UnitTests.class)

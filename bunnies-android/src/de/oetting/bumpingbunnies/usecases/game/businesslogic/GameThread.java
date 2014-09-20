@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.view.SurfaceHolder;
+import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.graphics.Drawer;
@@ -17,8 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.GameThreadState;
  * 
  * 
  */
-public class GameThread extends Thread implements SurfaceHolder.Callback,
-		GameScreenSizeChangeListener {
+public class GameThread extends Thread implements SurfaceHolder.Callback, GameScreenSizeChangeListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
 	private final Drawer drawer;
@@ -32,8 +32,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	private final boolean altPixelMode;
 	private int fpsLimitation;
 
-	public GameThread(Drawer drawer, GameStepController worldController,
-			GameThreadState gameThreadState, boolean altPixelMode) {
+	public GameThread(Drawer drawer, GameStepController worldController, GameThreadState gameThreadState, boolean altPixelMode) {
 		super("Main Game Thread");
 		this.drawer = drawer;
 		this.worldController = worldController;
@@ -119,8 +118,7 @@ public class GameThread extends Thread implements SurfaceHolder.Callback,
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 	}
 
 	@Override

@@ -1,12 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.game.android.factories.businessLogic;
 
 import de.oetting.bumpingbunnies.core.networking.StateSender;
+import de.oetting.bumpingbunnies.core.networking.StateSenderFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyStateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.factories.businessLogic.StateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class AndroidStateSenderFactory implements StateSenderFactory {
