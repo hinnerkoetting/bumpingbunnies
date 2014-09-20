@@ -10,7 +10,7 @@
 
     <!-- width and height may be overwritten programmatically to achieve squared size -->
 
-    <de.oetting.bumpingbunnies.usecases.game.android.GameView
+    <de.oetting.bumpingbunnies.android.game.GameView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

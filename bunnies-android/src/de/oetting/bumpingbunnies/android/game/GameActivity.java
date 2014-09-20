@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.android;
+package de.oetting.bumpingbunnies.android.game;
 
 import java.util.List;
 

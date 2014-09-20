@@ -22,10 +22,10 @@ import org.robolectric.annotation.Config;
 
 import com.google.gson.Gson;
 
+import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.core.networking.MessageParser;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

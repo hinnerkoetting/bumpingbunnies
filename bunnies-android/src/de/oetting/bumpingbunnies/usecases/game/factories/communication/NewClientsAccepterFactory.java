@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
+import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.communication.AcceptsClientConnectionsDelegate;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.communication.HostNewClientsAccepter;

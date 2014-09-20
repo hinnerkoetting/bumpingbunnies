@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.sql;
+package de.oetting.bumpingbunnies.android.sql;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

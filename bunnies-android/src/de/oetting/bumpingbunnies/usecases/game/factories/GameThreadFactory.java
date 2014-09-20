@@ -1,6 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.android.game.GameActivity;
+import de.oetting.bumpingbunnies.android.game.SocketStorage;
+import de.oetting.bumpingbunnies.communication.MessageSenderToNetworkDelegate;
+import de.oetting.bumpingbunnies.communication.NetworkReceiveControl;
+import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
@@ -25,14 +30,9 @@ import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.Pl
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
-import de.oetting.bumpingbunnies.usecases.game.android.SocketStorage;
 import de.oetting.bumpingbunnies.usecases.game.android.factories.businessLogic.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameThread;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.MessageSenderToNetworkDelegate;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkReceiveControl;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.NetworkSendControl;
 import de.oetting.bumpingbunnies.usecases.game.communication.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkReceiveThreadFactory;

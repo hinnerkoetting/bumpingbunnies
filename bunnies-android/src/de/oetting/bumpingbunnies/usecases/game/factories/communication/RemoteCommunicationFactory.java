@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
 import android.bluetooth.BluetoothAdapter;
+import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.RemoteCommunicationImpl;
@@ -12,7 +13,6 @@ import de.oetting.bumpingbunnies.communication.wlan.WlanCommunication;
 import de.oetting.bumpingbunnies.communication.wlan.WlanSocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.GameActivity;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
 import de.oetting.bumpingbunnies.usecases.networkRoom.AcceptsClientConnections;

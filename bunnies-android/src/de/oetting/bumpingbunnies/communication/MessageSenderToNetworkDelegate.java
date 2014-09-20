@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.communication;
 
 import de.oetting.bumpingbunnies.core.networking.MessageSender;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
