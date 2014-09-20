@@ -13,8 +13,9 @@ import org.robolectric.annotation.Config;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
@@ -23,7 +24,6 @@ import de.oetting.bumpingbunnies.usecases.game.businesslogic.GameMain;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.TestConfigurationFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 @Category(IntegrationTests.class)
@@ -36,9 +36,9 @@ public class GameThreadFactoryTest {
 		WorldObjectsParser builder = mock(WorldObjectsParser.class);
 		when(builder.getAllSpawnPoints()).thenReturn(Arrays.asList(new SpawnPoint(0, 0)));
 		World w = new World();
-		GameThreadFactory.create(w, mock(Context.class), TestConfigurationFactory.createDummyHost(), mock(CoordinatesCalculation.class),
-				null, new GameMain(null, new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class),
-						mock(SocketStorage.class))), new DummyNewClientsAccepter()), TestPlayerFactory.createOpponentPlayer(), null, null);
+		GameThreadFactory.create(w, mock(Context.class), TestConfigurationFactory.createDummyHost(), mock(CoordinatesCalculation.class), null, new GameMain(
+				null, new NetworkMessageDistributor(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class))), new DummyNewClientsAccepter()),
+				TestPlayerFactory.createOpponentPlayer(), null, null);
 	}
 
 }

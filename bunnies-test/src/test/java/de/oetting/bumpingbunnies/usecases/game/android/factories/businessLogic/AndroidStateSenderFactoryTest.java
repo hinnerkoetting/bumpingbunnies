@@ -16,16 +16,16 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
-import de.oetting.bumpingbunnies.communication.UdpAndTcpNetworkSender;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StateSender;
+import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.DummyStateSender;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -33,7 +33,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class AndroidStateSenderFactoryTest {
 
 	private AndroidStateSenderFactory factory;
-	private NetworkSendControl sendControl;
+	private NetworkMessageDistributor sendControl;
 	private Player myPlayer;
 	@Mock
 	private SocketStorage sockets;
@@ -64,7 +64,7 @@ public class AndroidStateSenderFactoryTest {
 		initMocks(this);
 		this.myPlayer = createOpponentPlayer();
 		this.sendThreads = new LinkedList<>();
-		this.sendControl = new NetworkSendControl(new RemoteConnectionFactory(
+		this.sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(
 				this.activity, this.sockets), this.sendThreads);
 		this.factory = new AndroidStateSenderFactory(this.sendControl, this.myPlayer);
 	}

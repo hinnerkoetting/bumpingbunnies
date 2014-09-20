@@ -7,24 +7,28 @@ import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.MessageParser;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.MessageParserFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
-public class NetworkSendControl implements PlayerJoinListener {
+/**
+ * Distributes Messages to all clients.
+ *
+ */
+public class NetworkMessageDistributor implements PlayerJoinListener {
 
 	private final List<NetworkSender> sendThreads;
 	private final RemoteConnectionFactory factory;
 	private final MessageParser messageParser;
 
-	public NetworkSendControl(RemoteConnectionFactory factory) {
+	public NetworkMessageDistributor(RemoteConnectionFactory factory) {
 		this(factory, new CopyOnWriteArrayList<NetworkSender>());
 	}
 
-	public NetworkSendControl(RemoteConnectionFactory factory, List<NetworkSender> sendThreads) {
+	public NetworkMessageDistributor(RemoteConnectionFactory factory, List<NetworkSender> sendThreads) {
 		super();
 		this.factory = factory;
 		this.sendThreads = sendThreads;

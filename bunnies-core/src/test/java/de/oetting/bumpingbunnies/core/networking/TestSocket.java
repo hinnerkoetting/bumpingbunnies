@@ -1,10 +1,10 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.oetting.bumpingbunnies.communication.AbstractSocket;
+import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 
 public class TestSocket extends AbstractSocket {

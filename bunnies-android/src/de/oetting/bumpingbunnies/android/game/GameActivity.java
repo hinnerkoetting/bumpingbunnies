@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
@@ -123,4 +124,16 @@ public class GameActivity extends Activity implements GameStopper {
 		this.main.sendStopMessage();
 	}
 
+	@Override
+	public void onDisconnect() {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				String message = getString(R.string.disconnected);
+				Toast.makeText(GameActivity.this, message, Toast.LENGTH_LONG).show();
+				stopGame();
+			}
+		});
+	}
 }

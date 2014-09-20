@@ -18,8 +18,8 @@ import org.robolectric.annotation.Config;
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.communication.TestSocket;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 @Category(IntegrationTests.class)

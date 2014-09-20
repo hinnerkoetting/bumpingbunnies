@@ -11,10 +11,10 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class AndroidStateSenderFactory implements StateSenderFactory {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidStateSenderFactory.class);
-	private final NetworkSendControl sendControl;
+	private final NetworkMessageDistributor sendControl;
 	private final Player myPlayer;
 
-	public AndroidStateSenderFactory(NetworkSendControl sendControl, Player myPlayer) {
+	public AndroidStateSenderFactory(NetworkMessageDistributor sendControl, Player myPlayer) {
 		super();
 		this.sendControl = sendControl;
 		this.myPlayer = myPlayer;

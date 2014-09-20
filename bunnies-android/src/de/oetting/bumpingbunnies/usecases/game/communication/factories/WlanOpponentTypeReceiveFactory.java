@@ -3,7 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.networking.FastSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
@@ -16,7 +17,7 @@ public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactor
 
 	@Override
 	public List<NetworkReceiver> createReceiveThreadsForOnePlayer(SocketStorage sockets, Player player, NetworkToGameDispatcher networkDispatcher,
-			NetworkSendControl sendControl) {
+			NetworkMessageDistributor sendControl) {
 		MySocket socket = sockets.findSocket(player.getOpponent());
 		List<NetworkReceiver> networkReceiveThreads = new ArrayList<NetworkReceiver>();
 		networkReceiveThreads.add(createNormalSocketNetworkReceiver(networkDispatcher, sendControl, socket));
@@ -26,13 +27,13 @@ public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactor
 		return networkReceiveThreads;
 	}
 
-	private NetworkReceiveThread createFastSocketReceiveThread(NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl, MySocket socket) {
+	private NetworkReceiveThread createFastSocketReceiveThread(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, MySocket socket) {
 		MySocket fastSocket = new FastSocketFactory().create(socket, socket.getOwner());
 		NetworkReceiveThread udpReceiveThread = createNormalSocketNetworkReceiver(networkDispatcher, sendControl, fastSocket);
 		return udpReceiveThread;
 	}
 
-	private NetworkReceiveThread createNormalSocketNetworkReceiver(NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl, MySocket socket) {
+	private NetworkReceiveThread createNormalSocketNetworkReceiver(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, MySocket socket) {
 		NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory.createGameNetworkReceiver(socket, networkDispatcher, sendControl);
 		return tcpReceiveThread;
 	}

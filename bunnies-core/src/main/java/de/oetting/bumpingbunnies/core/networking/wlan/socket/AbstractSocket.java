@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.wlan.socket;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import de.oetting.bumpingbunnies.core.networking.MySocket;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
+import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public abstract class AbstractSocket implements MySocket {

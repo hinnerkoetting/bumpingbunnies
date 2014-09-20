@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication.wlan;
+package de.oetting.bumpingbunnies.core.networking.wlan.socket;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,9 +7,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-import de.oetting.bumpingbunnies.communication.AbstractSocket;
-import de.oetting.bumpingbunnies.communication.IORuntimeException;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.exceptions.IORuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
@@ -34,19 +33,18 @@ public class TCPSocket extends AbstractSocket implements MySocket {
 	}
 
 	@Override
-	public void close()  {
-        try {
-            this.socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public void close() {
+		try {
+			this.socket.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
 	public void connect() {
 		if (this.address == null) {
-			throw new IllegalStateException(
-					"Need to set address in constructor");
+			throw new IllegalStateException("Need to set address in constructor");
 		}
 		try {
 			this.socket.connect(this.address);

@@ -6,9 +6,9 @@ import java.net.DatagramSocket;
 import android.app.Activity;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class BroadcastService {

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.udp;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.oetting.bumpingbunnies.communication.wlan.TCPSocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
+import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 public class UdpSocketFactory {

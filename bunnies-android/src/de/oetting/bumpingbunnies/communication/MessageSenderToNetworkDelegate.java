@@ -5,9 +5,9 @@ import de.oetting.bumpingbunnies.model.networking.MessageId;
 
 public class MessageSenderToNetworkDelegate implements MessageSender {
 
-	private final NetworkSendControl sendControl;
+	private final NetworkMessageDistributor sendControl;
 
-	public MessageSenderToNetworkDelegate(NetworkSendControl sendControl) {
+	public MessageSenderToNetworkDelegate(NetworkMessageDistributor sendControl) {
 		super();
 		this.sendControl = sendControl;
 	}

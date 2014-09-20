@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
@@ -12,29 +12,25 @@ public class OpponentTypeFactoryFactoryTest {
 
 	@Test
 	public void createFactory_myPlayer() {
-		OpponentTypeFactory factory = new OpponentTypeFactoryFactory()
-				.createFactory(OpponentType.MY_PLAYER);
+		OpponentTypeFactory factory = new OpponentTypeReceiveFactoryFactory().createReceiveFactory(OpponentType.MY_PLAYER);
 		assertThat(factory, instanceOf(MyPlayerOpponentTypeFactory.class));
 	}
 
 	@Test
 	public void createFactory_ai() {
-		OpponentTypeFactory factory = new OpponentTypeFactoryFactory()
-				.createFactory(OpponentType.AI);
+		OpponentTypeFactory factory = new OpponentTypeReceiveFactoryFactory().createReceiveFactory(OpponentType.AI);
 		assertThat(factory, instanceOf(AiOpponentTypeFactory.class));
 	}
 
 	@Test
 	public void createFactory_wlan() {
-		OpponentTypeFactory factory = new OpponentTypeFactoryFactory()
-				.createFactory(OpponentType.WLAN);
+		OpponentTypeFactory factory = new OpponentTypeReceiveFactoryFactory().createReceiveFactory(OpponentType.WLAN);
 		assertThat(factory, instanceOf(WlanOpponentTypeFactory.class));
 	}
 
 	@Test
 	public void createFactory_bluetooth() {
-		OpponentTypeFactory factory = new OpponentTypeFactoryFactory()
-				.createFactory(OpponentType.BLUETOOTH);
+		OpponentTypeFactory factory = new OpponentTypeReceiveFactoryFactory().createReceiveFactory(OpponentType.BLUETOOTH);
 		assertThat(factory, instanceOf(BluetoothOpponentTypeFactory.class));
 	}
 

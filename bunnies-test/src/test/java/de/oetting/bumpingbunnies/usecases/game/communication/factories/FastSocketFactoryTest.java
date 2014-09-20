@@ -10,10 +10,11 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import de.oetting.bumpingbunnies.communication.UdpSocket;
-import de.oetting.bumpingbunnies.communication.UdpSocketFactory;
-import de.oetting.bumpingbunnies.communication.wlan.TCPSocket;
+import de.oetting.bumpingbunnies.core.networking.FastSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
+import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import static org.hamcrest.Matchers.instanceOf;

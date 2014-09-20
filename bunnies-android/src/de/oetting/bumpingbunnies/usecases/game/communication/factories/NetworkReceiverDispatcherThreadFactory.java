@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.communication.factories;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
@@ -15,7 +15,7 @@ public class NetworkReceiverDispatcherThreadFactory {
 
 	public static NetworkReceiveThread createGameNetworkReceiver(
 			MySocket socket,
-			NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl) {
+			NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
 
 		// create a new dispatcher which will dispatch incoming events to all
 		// other clients connected to this device.

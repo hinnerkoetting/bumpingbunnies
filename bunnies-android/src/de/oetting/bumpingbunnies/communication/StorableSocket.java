@@ -10,6 +10,7 @@ import android.os.Parcelable;
 import de.oetting.bumpingbunnies.android.parcel.OpponentParceller;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 /**

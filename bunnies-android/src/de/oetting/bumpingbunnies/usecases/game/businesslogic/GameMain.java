@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
@@ -25,7 +25,7 @@ import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 public class GameMain implements JoinObserver, PlayerJoinListener {
 
 	private final SocketStorage sockets;
-	private final NetworkSendControl sendControl;
+	private final NetworkMessageDistributor sendControl;
 	private final PlayerJoinObservable playerObservable;
 	private final NewClientsAccepter newClientsAccepter;
 	private GameThread gameThread;
@@ -34,7 +34,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 	private MusicPlayer musicPlayer;
 	private World world;
 
-	public GameMain(SocketStorage sockets, NetworkSendControl sendControl, NewClientsAccepter newClientsAccepter) {
+	public GameMain(SocketStorage sockets, NetworkMessageDistributor sendControl, NewClientsAccepter newClientsAccepter) {
 		super();
 		this.sockets = sockets;
 		this.sendControl = sendControl;

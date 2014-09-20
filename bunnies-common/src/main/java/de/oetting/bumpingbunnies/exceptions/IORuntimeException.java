@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.exceptions;
 
 public class IORuntimeException extends RuntimeException {
 

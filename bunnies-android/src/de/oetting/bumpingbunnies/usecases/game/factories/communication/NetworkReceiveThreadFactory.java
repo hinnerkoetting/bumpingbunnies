@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
@@ -13,9 +13,9 @@ public class NetworkReceiveThreadFactory implements NetworkReceiverFactory {
 
 	private final SocketStorage sockets;
 	private final NetworkToGameDispatcher networkDispatcher;
-	private final NetworkSendControl sendControl;
+	private final NetworkMessageDistributor sendControl;
 
-	public NetworkReceiveThreadFactory(SocketStorage sockets, NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl) {
+	public NetworkReceiveThreadFactory(SocketStorage sockets, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
 		super();
 		this.sockets = sockets;
 		this.sendControl = sendControl;
@@ -24,7 +24,7 @@ public class NetworkReceiveThreadFactory implements NetworkReceiverFactory {
 
 	@Override
 	public List<NetworkReceiver> create(Player player) {
-		OpponentTypeFactory factory = new OpponentTypeFactoryFactory().createFactory(player.getOpponent().getType());
+		OpponentTypeFactory factory = new OpponentTypeReceiveFactoryFactory().createReceiveFactory(player.getOpponent().getType());
 		OpponentTypeReceiveFactory receiveFactory = factory.createReceiveFactory();
 		return receiveFactory.createReceiveThreadsForOnePlayer(this.sockets, player, this.networkDispatcher, this.sendControl);
 	}

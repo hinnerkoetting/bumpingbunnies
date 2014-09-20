@@ -10,7 +10,7 @@ import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidBitmapReader;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlReader;
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
@@ -28,7 +29,6 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
@@ -36,7 +36,7 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer) {
-		NetworkSendControl sendControl = new NetworkSendControl(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
+		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
 
 		World world = createWorld(activity, parameter);
 		NewClientsAccepter clientAccepter = createClientAccepter(activity, parameter, world);
@@ -69,7 +69,7 @@ public class GameMainFactory {
 		main.addAllJoinListeners();
 	}
 
-	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkSendControl sendControl, World world,
+	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
 			Player myPlayer) {
 
 		main.setWorld(world);

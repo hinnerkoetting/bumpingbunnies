@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.UdpSocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 

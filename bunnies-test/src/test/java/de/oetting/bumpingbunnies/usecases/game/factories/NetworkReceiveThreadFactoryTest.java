@@ -16,13 +16,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
-import de.oetting.bumpingbunnies.communication.UdpSocketFactory;
-import de.oetting.bumpingbunnies.communication.wlan.TCPSocket;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
+import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkReceiveThreadFactory;
@@ -38,7 +38,7 @@ public class NetworkReceiveThreadFactoryTest {
 	@Mock
 	private NetworkToGameDispatcher networkDispatcher;
 	@Mock
-	private NetworkSendControl sendControl;
+	private NetworkMessageDistributor sendControl;
 
 	@Test
 	public void create_forMyPlayer_shouldNotReturnAnyThread() {

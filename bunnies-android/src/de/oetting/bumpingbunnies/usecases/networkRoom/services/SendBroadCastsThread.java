@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.networkRoom.services;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.UdpSocket;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 

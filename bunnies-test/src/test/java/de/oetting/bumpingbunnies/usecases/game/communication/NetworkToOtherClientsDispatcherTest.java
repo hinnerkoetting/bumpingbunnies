@@ -15,14 +15,14 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 
 @Category(UnitTests.class)
 public class NetworkToOtherClientsDispatcherTest {
@@ -34,7 +34,7 @@ public class NetworkToOtherClientsDispatcherTest {
 	@Mock
 	private NetworkToGameDispatcher gameDispatcher;
 
-	private NetworkSendControl sendControl;
+	private NetworkMessageDistributor sendControl;
 
 	@Test
 	public void dispatchMessage_shouldDispatchMessageToGame() {
@@ -63,7 +63,7 @@ public class NetworkToOtherClientsDispatcherTest {
 		MockitoAnnotations.initMocks(this);
 		NetworkSender networkSender = createSenderForIncomingSocket();
 		this.sendQueues.add(networkSender);
-		this.sendControl = new NetworkSendControl(mock(RemoteConnectionFactory.class), this.sendQueues);
+		this.sendControl = new NetworkMessageDistributor(mock(RemoteConnectionFactory.class), this.sendQueues);
 		this.fixture = new NetworkToOtherClientsDispatcher(this.incomingSocket, this.gameDispatcher, this.sendControl);
 	}
 

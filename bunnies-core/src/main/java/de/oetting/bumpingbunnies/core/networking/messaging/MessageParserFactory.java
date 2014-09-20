@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.communication.factories;
+package de.oetting.bumpingbunnies.core.networking.messaging;
 
 import com.google.gson.Gson;
 

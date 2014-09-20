@@ -20,16 +20,16 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.communication.DummyRemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -132,15 +132,15 @@ public class GameMainTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
-		this.fixture = new GameMain(this.sockets, new NetworkSendControl(mock(RemoteConnectionFactory.class), this.sendThreads), this.accepter);
+		this.fixture = new GameMain(this.sockets, new NetworkMessageDistributor(mock(RemoteConnectionFactory.class), this.sendThreads), this.accepter);
 		this.fixture.setWorld(new World());
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
-		NetworkSendControl networkSendControl = createNetworkSendControl();
+		NetworkMessageDistributor networkSendControl = createNetworkSendControl();
 		this.fixture.addJoinListener(networkSendControl);
 	}
 
-	private NetworkSendControl createNetworkSendControl() {
-		NetworkSendControl networkSendControl = new NetworkSendControl(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class)),
+	private NetworkMessageDistributor createNetworkSendControl() {
+		NetworkMessageDistributor networkSendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class)),
 				this.sendThreads);
 		return networkSendControl;
 	}

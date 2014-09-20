@@ -1,11 +1,10 @@
 package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
-import de.oetting.bumpingbunnies.usecases.game.factories.WlanOpponentTypeFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
-public class OpponentTypeFactoryFactory {
+public class OpponentTypeReceiveFactoryFactory {
 
-	public OpponentTypeFactory createFactory(OpponentType type) {
+	public OpponentTypeFactory createReceiveFactory(OpponentType type) {
 		switch (type) {
 		case AI:
 			return new AiOpponentTypeFactory();
@@ -14,8 +13,17 @@ public class OpponentTypeFactoryFactory {
 		case MY_PLAYER:
 			return new MyPlayerOpponentTypeFactory();
 		case WLAN:
-			return new WlanOpponentTypeFactory();
+			return createWlanFactory();
 		}
 		throw new IllegalArgumentException("Unknown type: " + type);
 	}
+
+	private OpponentTypeFactory createWlanFactory() {
+		try {
+			return (OpponentTypeFactory) Class.forName("de.oetting.bumpingbunnies.usecases.game.factories.WlanOpponentTypeFactory").newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

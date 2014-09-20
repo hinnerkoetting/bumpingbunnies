@@ -17,17 +17,17 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.UdpAndTcpNetworkSender;
-import de.oetting.bumpingbunnies.communication.UdpSocketFactory;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.communication.wlan.TCPSocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkSendQueueThread;
+import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.TestSocket;
+import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
+import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
+import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.DummyRemoteSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.usecases.game.communication.TestSocket;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 

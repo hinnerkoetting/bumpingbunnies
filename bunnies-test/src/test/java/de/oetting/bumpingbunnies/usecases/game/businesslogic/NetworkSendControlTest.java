@@ -16,18 +16,18 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
-import de.oetting.bumpingbunnies.communication.UdpAndTcpNetworkSender;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @Category(UnitTests.class)
 public class NetworkSendControlTest {
 
-	private NetworkSendControl fixture;
+	private NetworkMessageDistributor fixture;
 	private List<NetworkSender> sendThreads;
 	@Mock
 	private RemoteConnectionFactory factory;
@@ -39,7 +39,7 @@ public class NetworkSendControlTest {
 		assertThat(this.sendThreads, hasSize(1));
 	}
 
-	@Test(expected = NetworkSendControl.ConnectionDoesNotExist.class)
+	@Test(expected = NetworkMessageDistributor.ConnectionDoesNotExist.class)
 	public void findConnection_givenOpponenDoesNotExist_shouldThrowException() {
 		this.fixture.findConnection(TestOpponentFactory.createDummyOpponent());
 	}
@@ -65,7 +65,7 @@ public class NetworkSendControlTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.sendThreads = new LinkedList<>();
-		this.fixture = new NetworkSendControl(this.factory, this.sendThreads);
+		this.fixture = new NetworkMessageDistributor(this.factory, this.sendThreads);
 		when(this.factory.create(any(Player.class))).thenReturn(mock(NetworkSender.class));
 	}
 }

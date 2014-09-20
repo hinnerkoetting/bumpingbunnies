@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking;
 
-import static de.oetting.bumpingbunnies.usecases.game.communication.SimpleMessageConsts.CONVERTED_MESSAGE;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
@@ -15,28 +14,22 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.core.networking.MessageParser;
-import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.ByteArrayStartMatcher;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
-@RunWith(RobolectricTestRunner.class)
-@Config(emulateSdk = 18)
 public class NetworkSendQueueThreadTest {
 
 	private NetworkSendQueueThread fixture;
 	private MySocket socket;
 	private MessageParser parser = new MessageParser(new Gson());
 	@Mock
-	private GameActivity origin;
+	private GameStopper origin;
 	@Mock
 	private OutputStream os;
 
@@ -44,7 +37,7 @@ public class NetworkSendQueueThreadTest {
 	public void sendNextMessage_givenOneMessageInQueue_shouldWriteThisMessage() throws IOException, InterruptedException {
 		addMessageToQueue();
 		whenRun();
-		thenMessageIsWritten(CONVERTED_MESSAGE);
+		thenMessageIsWritten(SimpleMessageConsts.CONVERTED_MESSAGE);
 	}
 
 	@Ignore
@@ -63,7 +56,7 @@ public class NetworkSendQueueThreadTest {
 	}
 
 	private void thenGameIsNotified() {
-		verify(this.origin).runOnUiThread(any(Runnable.class));
+		verify(this.origin).onDisconnect();
 	}
 
 	private void givenWriteFails() throws IOException {
@@ -79,7 +72,8 @@ public class NetworkSendQueueThreadTest {
 	}
 
 	private void thenMessageIsWritten(String message) throws IOException {
-		verify(this.os).write(byteArrayThatStartsWith(message), eq(0), eq(message.length() + 1)); // newline character
+		verify(this.os).write(byteArrayThatStartsWith(message), eq(0), eq(message.length() + 1)); // newline
+																									// character
 	}
 
 	private byte[] byteArrayThatStartsWith(final String msg) {

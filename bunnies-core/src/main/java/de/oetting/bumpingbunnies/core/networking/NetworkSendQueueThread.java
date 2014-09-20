@@ -1,15 +1,11 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking;
 
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import android.widget.Toast;
-import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.MessageParser;
-import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
@@ -17,7 +13,8 @@ import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 /**
- * Messages are stored to a queue, The sender will send messages from this queue ony by one.
+ * Messages are stored to a queue, The sender will send messages from this queue
+ * ony by one.
  * 
  */
 public class NetworkSendQueueThread extends Thread implements NetworkSender {
@@ -26,11 +23,11 @@ public class NetworkSendQueueThread extends Thread implements NetworkSender {
 	private final BlockingQueue<String> messageQueue;
 	private final MySocket socket;
 	private final MessageParser parser;
-	private final GameActivity origin;
+	private final GameStopper origin;
 
 	private boolean canceled;
 
-	public NetworkSendQueueThread(MySocket socket, MessageParser parser, GameActivity origin) {
+	public NetworkSendQueueThread(MySocket socket, MessageParser parser, GameStopper origin) {
 		super("Network send thread");
 		this.socket = socket;
 		this.parser = parser;
@@ -64,15 +61,7 @@ public class NetworkSendQueueThread extends Thread implements NetworkSender {
 	}
 
 	private void endGameOnError() {
-		this.origin.runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				String message = NetworkSendQueueThread.this.origin.getString(R.string.disconnected);
-				Toast.makeText(NetworkSendQueueThread.this.origin, message, Toast.LENGTH_LONG).show();
-				NetworkSendQueueThread.this.origin.stopGame();
-			}
-		});
+		origin.onDisconnect();
 	}
 
 	@Override

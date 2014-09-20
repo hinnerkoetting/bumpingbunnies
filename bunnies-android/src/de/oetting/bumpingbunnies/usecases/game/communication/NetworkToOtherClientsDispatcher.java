@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
@@ -15,10 +15,10 @@ public class NetworkToOtherClientsDispatcher implements
 
 	private final NetworkToGameDispatcher gameDispatcher;
 	private final MySocket incomingSocket;
-	private final NetworkSendControl sendControl;
+	private final NetworkMessageDistributor sendControl;
 
 	public NetworkToOtherClientsDispatcher(
-			MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher, NetworkSendControl sendControl) {
+			MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher, NetworkMessageDistributor sendControl) {
 		super();
 		this.incomingSocket = incomingSocket;
 		this.gameDispatcher = gameDispatcher;

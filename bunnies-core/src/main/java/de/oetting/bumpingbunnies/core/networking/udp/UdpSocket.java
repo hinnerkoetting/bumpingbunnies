@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.udp;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

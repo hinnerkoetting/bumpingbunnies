@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.communication.MessageSenderToNetworkDelegate;
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
+import de.oetting.bumpingbunnies.communication.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
@@ -49,7 +49,7 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameThreadFactory {
 
 	public static GameThread create(World world, Context context, Configuration configuration, CoordinatesCalculation calculations,
-			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer, GameActivity activity, NetworkSendControl sendControl) {
+			CameraPositionCalculation cameraPositionCalculator, GameMain main, Player myPlayer, GameActivity activity, NetworkMessageDistributor sendControl) {
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		initInputServices(main, activity, world, networkDispatcher, sendControl);
@@ -80,7 +80,7 @@ public class GameThreadFactory {
 	}
 
 	private static void initInputServices(GameMain main, GameActivity activity, World world, NetworkToGameDispatcher networkDispatcher,
-			NetworkSendControl sendControl) {
+			NetworkMessageDistributor sendControl) {
 		addAllNetworkListeners(activity, networkDispatcher, world);
 		createNetworkReceiveThreads(main, networkDispatcher, sendControl);
 	}
@@ -93,12 +93,12 @@ public class GameThreadFactory {
 		new SpawnPointReceiver(networkDispatcher, world);
 	}
 
-	private static void createNetworkReceiveThreads(GameMain main, NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl) {
+	private static void createNetworkReceiveThreads(GameMain main, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
 		NetworkReceiveControl receiveControl = createNetworkReceiveControl(networkDispatcher, sendControl);
 		main.setReceiveControl(receiveControl);
 	}
 
-	private static NetworkReceiveControl createNetworkReceiveControl(NetworkToGameDispatcher networkDispatcher, NetworkSendControl sendControl) {
+	private static NetworkReceiveControl createNetworkReceiveControl(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
 		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(SocketStorage.getSingleton(), networkDispatcher, sendControl);
 		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory);
 		return receiveControl;
@@ -110,7 +110,7 @@ public class GameThreadFactory {
 	}
 
 	private static BunnyKillChecker createKillChecker(Configuration conf, World world, SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver,
-			CollisionDetection collisionDetection, NetworkSendControl sendControl) {
+			CollisionDetection collisionDetection, NetworkMessageDistributor sendControl) {
 		if (conf.isHost()) {
 			return new HostBunnyKillChecker(collisionDetection, world, spawnPointGenerator, reviver, new MessageSenderToNetworkDelegate(sendControl));
 		} else {
