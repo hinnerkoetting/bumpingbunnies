@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.android.input;
+package de.oetting.bumpingbunnies.android.input;
 
 public class DummyVibrator implements VibratorService {
 

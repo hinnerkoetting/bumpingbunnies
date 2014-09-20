@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.android.input;
+package de.oetting.bumpingbunnies.android.input;
 
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;

@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.touch;
 import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
+import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 
 public class TouchWithJumpInputDispatcher extends
 		InputDispatcher<TouchWithJumpService> {

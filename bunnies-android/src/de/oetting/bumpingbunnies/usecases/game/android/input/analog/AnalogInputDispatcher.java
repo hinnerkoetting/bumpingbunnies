@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.analog;
 
 import android.view.MotionEvent;
 import android.view.View;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
+import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 
 public class AnalogInputDispatcher extends InputDispatcher<AnalogInputService> {
 

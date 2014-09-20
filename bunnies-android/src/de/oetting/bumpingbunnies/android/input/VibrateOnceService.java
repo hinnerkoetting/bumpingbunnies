@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.android.input;
+package de.oetting.bumpingbunnies.android.input;
 
 import android.os.Vibrator;
 import android.util.SparseArray;

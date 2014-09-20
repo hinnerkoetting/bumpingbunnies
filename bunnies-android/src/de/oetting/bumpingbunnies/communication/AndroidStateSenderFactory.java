@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.android.factories.businessLogic;
+package de.oetting.bumpingbunnies.communication;
 
-import de.oetting.bumpingbunnies.communication.NetworkSendControl;
 import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.core.networking.StateSenderFactory;
 import de.oetting.bumpingbunnies.logger.Logger;

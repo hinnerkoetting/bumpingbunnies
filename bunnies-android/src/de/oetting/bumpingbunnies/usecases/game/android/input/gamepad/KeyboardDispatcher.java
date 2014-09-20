@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.android.input.gamepad;
 
 import android.view.MotionEvent;
 import android.view.View;
-import de.oetting.bumpingbunnies.usecases.game.android.input.InputDispatcher;
+import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 
 public class KeyboardDispatcher extends InputDispatcher<KeyboardInputService> {
 
