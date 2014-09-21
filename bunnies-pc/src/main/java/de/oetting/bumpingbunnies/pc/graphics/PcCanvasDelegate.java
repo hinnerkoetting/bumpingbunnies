@@ -57,8 +57,8 @@ public class PcCanvasDelegate implements CanvasDelegate {
 		graphicsContext2D.setFill(paintConverter.convert(paint));
 		int leftInPixel = (int) transformX(left);
 		int topInPixel = (int) transformY(top);
-		int width = (int) transformX(right - left);
-		int height = (int) transformY(top - bottom);
+		int width = (int) (transformX(right) - transformX(left));
+		int height = (int) (transformY(bottom) - transformY(top));
 		graphicsContext2D.fillRect(leftInPixel, topInPixel, width, height);
 	}
 

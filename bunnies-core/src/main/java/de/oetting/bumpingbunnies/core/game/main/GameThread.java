@@ -28,6 +28,7 @@ public class GameThread extends Thread {
 
 	public GameThread(GameStepController worldController, GameThreadState gameThreadState) {
 		super("Main Game Thread");
+		setDaemon(true);
 		this.worldController = worldController;
 		this.running = true;
 		this.state = gameThreadState;

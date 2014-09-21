@@ -24,7 +24,7 @@ public class YCoordinateInverterCalculation implements CoordinatesCalculation {
 
 	@Override
 	public int getScreenCoordinateY(long gameY) {
-		return screenHeight - delegate.getScreenCoordinateY(gameY);
+		return delegate.getScreenCoordinateY(gameY);
 	}
 
 	@Override
