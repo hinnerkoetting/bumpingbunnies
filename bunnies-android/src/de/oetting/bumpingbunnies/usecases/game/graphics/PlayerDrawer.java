@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;

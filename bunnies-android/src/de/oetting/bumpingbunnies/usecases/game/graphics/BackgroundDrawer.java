@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import android.graphics.Color;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.Image;

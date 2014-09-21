@@ -14,6 +14,8 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
+import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -21,9 +23,9 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 @Category(UnitTests.class)
 public class DrawerTest {
 
-	private AndroidObjectsDrawer fixture;
+	private ObjectsDrawer fixture;
 	@Mock
-	private DrawablesFactory factory;
+	private AndroidDrawablesFactory factory;
 	@Mock
 	private Drawable playerDrawable;
 	@Mock
@@ -46,7 +48,7 @@ public class DrawerTest {
 		thenDrawableIsNotDrawn();
 	}
 
-	@Test(expected = AndroidObjectsDrawer.PlayerDoesNotExist.class)
+	@Test(expected = ObjectsDrawer.PlayerDoesNotExist.class)
 	public void playerLeaves_givenPlayerDoesNotExist_shouldThrowException() {
 		this.player = createOpponentPlayer();
 		whenPlayerLeaves(this.player);
@@ -76,7 +78,7 @@ public class DrawerTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new AndroidObjectsDrawer(this.factory, this.canvas);
+		this.fixture = new ObjectsDrawer(this.factory, this.canvas);
 		when(this.factory.createPlayerDrawable(any(Player.class))).thenReturn(this.playerDrawable);
 		when(this.playerDrawable.drawsPlayer(any(Player.class))).thenReturn(true);
 	}

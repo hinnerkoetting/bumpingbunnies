@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
@@ -27,7 +28,6 @@ import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.factories.DrawerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
-import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidObjectsDrawer;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
@@ -59,7 +59,7 @@ public class GameActivity extends Activity implements GameStopper {
 
 		registerScreenTouchListener(contentView);
 
-		AndroidObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, this, parameter.getConfiguration(), calculations);
+		ObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, this, parameter.getConfiguration(), calculations);
 		AndroidDrawer drawer = new AndroidDrawer(objectsDrawer, parameter.getConfiguration().getLocalSettings().isAltPixelMode());
 		contentView.setCallback(drawer);
 		drawThread = new AndroidDrawThread(drawer);

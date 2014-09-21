@@ -5,11 +5,10 @@ import java.util.List;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.core.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
-public class PcObjectsDrawer implements PlayerJoinListener, ObjectsDrawer {
+public class PcObjectsDrawer implements PlayerJoinListener {
 
 	private List<Wall> walls;
 	private CanvasCoordinatesTranslation canvasTranslation;

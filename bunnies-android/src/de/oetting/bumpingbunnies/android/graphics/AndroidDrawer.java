@@ -3,11 +3,11 @@ package de.oetting.bumpingbunnies.android.graphics;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.view.SurfaceHolder;
+import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidObjectsDrawer;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
@@ -15,11 +15,11 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidDrawer.class);
 
 	private SurfaceHolder holder;
-	private final AndroidObjectsDrawer objectsDrawer;
+	private final ObjectsDrawer objectsDrawer;
 	private boolean isDrawingPossible;
 	private final boolean altPixelMode;
 
-	public AndroidDrawer(AndroidObjectsDrawer objectsDrawer, boolean altPixelMode) {
+	public AndroidDrawer(ObjectsDrawer objectsDrawer, boolean altPixelMode) {
 		super();
 		this.objectsDrawer = objectsDrawer;
 		this.altPixelMode = altPixelMode;

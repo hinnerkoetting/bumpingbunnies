@@ -9,13 +9,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
+import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
+import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
-public class DrawablesFactory {
+public class AndroidDrawablesFactory implements DrawablesFactory {
 
 	private static final int MIN_SIZE_FOR_DRAWER = ModelConstants.MAX_VALUE / 100000;
 	private final World world;
@@ -23,13 +25,14 @@ public class DrawablesFactory {
 	private final Resources resources;
 	private boolean drawBackground;
 
-	public DrawablesFactory(World world, GameThreadState threadState, Resources resources, boolean drawBackground) {
+	public AndroidDrawablesFactory(World world, GameThreadState threadState, Resources resources, boolean drawBackground) {
 		this.world = world;
 		this.threadState = threadState;
 		this.resources = resources;
 		this.drawBackground = drawBackground;
 	}
 
+	@Override
 	public List<Drawable> createAllDrawables() {
 		List<Drawable> allDrawables = new LinkedList<Drawable>();
 		allDrawables.add(createBackground());
@@ -92,6 +95,7 @@ public class DrawablesFactory {
 		return new FpsDrawer(this.threadState);
 	}
 
+	@Override
 	public Drawable createPlayerDrawable(Player p) {
 		return PlayerDrawerFactory.create(p, this.resources);
 	}
