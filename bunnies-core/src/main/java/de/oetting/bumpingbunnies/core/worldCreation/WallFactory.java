@@ -10,9 +10,9 @@ import de.oetting.bumpingbunnies.world.WorldProperties;
 
 public class WallFactory {
 
-	public static Wall createWall(int x, int y) {
+	public static Wall createWall(long x, long y) {
 		int id = IdCounter.getNextId();
-		Wall wall = new Wall(id, x, y, ModelConstants.WALL_WIDTH, ModelConstants.WALL_HEIGHT);
+		Wall wall = new Wall(id, x, y, x + ModelConstants.WALL_WIDTH, y + ModelConstants.WALL_HEIGHT);
 		return wall;
 	}
 

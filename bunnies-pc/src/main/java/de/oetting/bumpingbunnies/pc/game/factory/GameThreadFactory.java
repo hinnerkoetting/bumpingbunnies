@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDis
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.pc.game.network.PcStateSenderFactory;
-import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
+import de.oetting.bumpingbunnies.pc.graphics.DummyDrawer;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -36,7 +36,7 @@ public class GameThreadFactory {
 		GameStepController stepController = GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, senderFactory, sendControl,
 				configuration);
 
-		return new GameThread(new PcDrawer(), stepController, new GameThreadState());
+		return new GameThread(new DummyDrawer(), stepController, new GameThreadState());
 	}
 
 	private PlayerMovementCalculationFactory createFactory(World world) {
