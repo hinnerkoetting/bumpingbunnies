@@ -10,6 +10,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
@@ -118,8 +119,9 @@ public class BunniesMain extends Application {
 	private static GameThread createGameThread(World world, CoordinatesCalculation coordinatesCalculation) {
 
 		Configuration configuration = createConfiguration();
-		return new GameThreadFactory().create(coordinatesCalculation, world, new NoopGameStopper(), configuration,
-				new PlayerFactory(1).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER)));
+		Player myPlayer = new PlayerFactory(1).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER));
+		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
+		return new GameThreadFactory().create(coordinatesCalculation, world, new NoopGameStopper(), configuration, myPlayer, cameraCalculation);
 
 	}
 

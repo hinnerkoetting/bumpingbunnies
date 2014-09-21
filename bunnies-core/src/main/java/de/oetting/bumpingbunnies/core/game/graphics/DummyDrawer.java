@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.pc.graphics;
+package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;

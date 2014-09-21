@@ -20,23 +20,22 @@ import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDis
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.pc.game.network.PcStateSenderFactory;
-import de.oetting.bumpingbunnies.pc.graphics.DummyDrawer;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class GameThreadFactory {
 
-	public GameThread create(CoordinatesCalculation coordinatesCalculation, World world, GameStopper gameStopper, Configuration configuration, Player myPlayer) {
+	public GameThread create(CoordinatesCalculation coordinatesCalculation, World world, GameStopper gameStopper, Configuration configuration, Player myPlayer,
+			CameraPositionCalculation cameraCalculation) {
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		PlayerMovementCalculationFactory factory = createFactory(world);
 		StateSenderFactory senderFactory = new PcStateSenderFactory();
-		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(gameStopper, SocketStorage.getSingleton()));
 		GameStepController stepController = GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, senderFactory, sendControl,
 				configuration);
 
-		return new GameThread(new DummyDrawer(), stepController, new GameThreadState());
+		return new GameThread(stepController, new GameThreadState());
 	}
 
 	private PlayerMovementCalculationFactory createFactory(World world) {

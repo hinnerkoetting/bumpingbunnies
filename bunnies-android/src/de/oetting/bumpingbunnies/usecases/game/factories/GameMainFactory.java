@@ -5,7 +5,6 @@ import java.util.List;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.android.game.GameView;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidBitmapReader;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
@@ -13,9 +12,9 @@ import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlReader;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
+import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
@@ -36,7 +35,8 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameMainFactory {
 
-	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer) {
+	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer, GameThreadState threadState,
+			CameraPositionCalculation cameraCalclation) {
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
 
 		World world = createWorld(activity, parameter);
@@ -44,10 +44,8 @@ public class GameMainFactory {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter);
 		clientAccepter.setMain(main);
 
-		GameThread gameThread = initGame(main, activity, parameter, sendControl, world, myPlayer);
+		GameThread gameThread = initGame(main, activity, parameter, sendControl, world, myPlayer, threadState, cameraCalclation);
 
-		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
-		contentView.setGameThread(gameThread);
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 
 		addPlayersToWorld(main, otherPlayers);
@@ -71,18 +69,13 @@ public class GameMainFactory {
 	}
 
 	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
-			Player myPlayer) {
+			Player myPlayer, GameThreadState threadState, CameraPositionCalculation cameraPositionCalculation) {
 
 		main.setWorld(world);
-		final GameView contentView = (GameView) activity.findViewById(R.id.fullscreen_content);
-
-		CameraPositionCalculation cameraPositionCalculation = createCameraPositionCalculator(myPlayer);
 
 		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), cameraPositionCalculation, main, myPlayer, activity,
-				sendControl);
+				sendControl, threadState);
 		main.setGameThread(gameThread);
-
-		contentView.addOnSizeListener(gameThread);
 
 		addJoinListener(main);
 		main.newPlayerJoined(myPlayer);
@@ -96,21 +89,14 @@ public class GameMainFactory {
 		}
 	}
 
-	public static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter, Player myPlayer) {
+	public static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter, Player myPlayer,
+			CoordinatesCalculation coordinatesCalculation) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = new InputConfigurationFactory().create(parameter.getConfiguration()
 				.getInputConfiguration());
-		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, createCoordinatesCalculation(myPlayer));
+		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, coordinatesCalculation);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(), inputDispatcher);
 		return inputDispatcher;
-	}
-
-	private static CoordinatesCalculation createCoordinatesCalculation(Player myPlayer) {
-		return CoordinatesCalculationFactory.createCoordinatesCalculation(myPlayer);
-	}
-
-	private static CameraPositionCalculation createCameraPositionCalculator(Player myPlayer) {
-		return CoordinatesCalculationFactory.createCameraPositionCalculator(myPlayer);
 	}
 
 	private static void initGameSound(GameMain main, GameActivity activity) {

@@ -40,6 +40,16 @@
 					<extractDuplicates>true</extractDuplicates>
 				</configuration>
 				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>
+							deploy
+						</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<pluginManagement>
@@ -101,8 +111,6 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>4.1.1.4</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

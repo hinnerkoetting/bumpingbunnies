@@ -43,16 +43,14 @@ public class CameraPositionCalculation implements GameStepAction {
 	}
 
 	/**
-	 * we want to smoothly move to the players position if he is dead. This will avoid fast jumps because of next spawnpoint.
+	 * we want to smoothly move to the players position if he is dead. This will
+	 * avoid fast jumps because of next spawnpoint.
 	 */
-	protected void smoothlyUpdateScreenPosition(int delta) {
-		int diffBetweenPlayerAndScreenX = (int) (-
-				this.currentScreenX + this.movedPlayer.getCenterX());
+	public void smoothlyUpdateScreenPosition(int delta) {
+		int diffBetweenPlayerAndScreenX = (int) (-this.currentScreenX + this.movedPlayer.getCenterX());
 		int diffBetweenPlayerAndScreenY = (int) (this.movedPlayer.getCenterY() - this.currentScreenY);
-		int maxScrollValueX = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta
-				* Math.signum(diffBetweenPlayerAndScreenX));
-		int maxScrollValueY = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta
-				* Math.signum(diffBetweenPlayerAndScreenY));
+		int maxScrollValueX = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta * Math.signum(diffBetweenPlayerAndScreenX));
+		int maxScrollValueY = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta * Math.signum(diffBetweenPlayerAndScreenY));
 		if (Math.abs(diffBetweenPlayerAndScreenX) <= Math.abs(maxScrollValueX)) {
 			this.currentScreenX = this.movedPlayer.getCenterX();
 		} else {

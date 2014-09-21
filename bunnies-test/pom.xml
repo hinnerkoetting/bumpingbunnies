@@ -36,6 +36,7 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
 			<version>1.3</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -55,7 +56,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-core</artifactId>
@@ -63,11 +64,11 @@
 			<type>test-jar</type>
 		</dependency>
 		<dependency>
-			<groupId>de.oetting.bumping-bunnies</groupId> 
+			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>de.oetting.bumping-bunnies</groupId> 
+			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-model</artifactId>
 			<scope>test</scope>
 			<type>test-jar</type>
@@ -79,6 +80,10 @@
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-android</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
 		</dependency>
 	</dependencies>
 </project>

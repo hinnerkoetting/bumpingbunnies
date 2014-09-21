@@ -2,9 +2,6 @@ package de.oetting.bumpingbunnies.core.game.main;
 
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
-import de.oetting.bumpingbunnies.core.graphics.Drawer;
-import de.oetting.bumpingbunnies.core.graphics.GameScreenSizeChangeListener;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
@@ -17,7 +14,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
  * 
  * 
  */
-public class GameThread extends Thread implements GameScreenSizeChangeListener {
+public class GameThread extends Thread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
 
@@ -27,12 +24,10 @@ public class GameThread extends Thread implements GameScreenSizeChangeListener {
 	private boolean running;
 	private boolean canceled;
 
-	private final Drawer drawer;
 	private int fpsLimitation;
 
-	public GameThread(Drawer drawer, GameStepController worldController, GameThreadState gameThreadState) {
+	public GameThread(GameStepController worldController, GameThreadState gameThreadState) {
 		super("Main Game Thread");
-		this.drawer = drawer;
 		this.worldController = worldController;
 		this.running = true;
 		this.state = gameThreadState;
@@ -55,7 +50,6 @@ public class GameThread extends Thread implements GameScreenSizeChangeListener {
 			if (this.running) {
 				if (!shouldStepGetSkipped()) {
 					nextWorldStep();
-					drawGame();
 					this.state.increaseFps();
 				}
 			} else {
@@ -93,10 +87,6 @@ public class GameThread extends Thread implements GameScreenSizeChangeListener {
 		return currentTime - this.state.getLastFpsReset() > 1000;
 	}
 
-	private void drawGame() {
-		drawer.draw();
-	}
-
 	public void setRunning(boolean b) {
 		this.running = b;
 		LOGGER.info("Running " + b);
@@ -106,27 +96,9 @@ public class GameThread extends Thread implements GameScreenSizeChangeListener {
 		this.canceled = true;
 	}
 
-	@Override
-	public void setNewSize(int width, int height) {
-		this.drawer.setNeedsUpdate(true);
-	}
-
 	public void addAllJoinListeners(JoinObserver gameMain) {
 		this.worldController.addAllJoinListeners(gameMain);
-		gameMain.addJoinListener(this.drawer);
-	}
 
-	/**
-	 * Coupling to android
-	 */
-	@Deprecated
-	public Drawer getDrawer() {
-		return drawer;
-	}
-
-	public World getWorld() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
