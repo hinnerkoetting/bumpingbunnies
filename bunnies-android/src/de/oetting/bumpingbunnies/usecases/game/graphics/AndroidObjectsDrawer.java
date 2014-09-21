@@ -3,8 +3,9 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import android.graphics.Canvas;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -38,7 +39,7 @@ public class AndroidObjectsDrawer implements PlayerJoinListener, ObjectsDrawer {
 		LOGGER.info("Added %d drawables", this.allDrawables.size());
 	}
 
-	public void draw(Canvas canvas) {
+	public void draw(CanvasWrapper canvas) {
 		LOGGER.verbose("drawing...");
 		update(canvas);
 		drawEverything();
@@ -50,7 +51,7 @@ public class AndroidObjectsDrawer implements PlayerJoinListener, ObjectsDrawer {
 		}
 	}
 
-	private void update(Canvas canvas) {
+	private void update(CanvasWrapper canvas) {
 		if (this.needsUpdate) {
 			this.canvasDelegate.updateDelegate(canvas);
 

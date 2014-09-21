@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import android.graphics.Paint;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -18,8 +19,7 @@ public class RectDrawer implements Drawable {
 	@Override
 	public void draw(CanvasDelegate canvas) {
 		this.paint.setColor(this.object.getColor());
-		canvas.drawRect(this.object.minX(), this.object.maxY(),
-				this.object.maxX(), this.object.minY(), this.paint);
+		canvas.drawRect(this.object.minX(), this.object.maxY(), this.object.maxX(), this.object.minY(), this.paint);
 	}
 
 	@Override

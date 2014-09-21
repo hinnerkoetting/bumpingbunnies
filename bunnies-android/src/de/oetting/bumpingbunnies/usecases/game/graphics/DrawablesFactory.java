@@ -23,8 +23,7 @@ public class DrawablesFactory {
 	private final Resources resources;
 	private boolean drawBackground;
 
-	public DrawablesFactory(World world, GameThreadState threadState,
-			Resources resources, boolean drawBackground) {
+	public DrawablesFactory(World world, GameThreadState threadState, Resources resources, boolean drawBackground) {
 		this.world = world;
 		this.threadState = threadState;
 		this.resources = resources;
@@ -43,7 +42,7 @@ public class DrawablesFactory {
 
 	private Drawable createBackground() {
 		Bitmap background = BitmapFactory.decodeResource(this.resources, R.drawable.hintergrund2);
-		Drawable bg = new BackgroundDrawer(background, new SimpleBitmapResizer(), this.drawBackground);
+		Drawable bg = new BackgroundDrawer(new AndroidImage(background), new SimpleBitmapResizer(), this.drawBackground);
 		return bg;
 	}
 

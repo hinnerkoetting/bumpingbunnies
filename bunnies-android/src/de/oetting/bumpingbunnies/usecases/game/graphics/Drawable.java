@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public interface Drawable {

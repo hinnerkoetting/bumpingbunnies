@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import android.graphics.Paint;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class ScoreDrawer implements Drawable {
@@ -23,8 +24,7 @@ public class ScoreDrawer implements Drawable {
 	@Override
 	public void draw(CanvasDelegate canvas) {
 		int score = this.player.getScore();
-		canvas.drawTextRelativeToScreen(Integer.toString(score),
-				this.scoreX, this.scoreY, this.paint);
+		canvas.drawTextRelativeToScreen(Integer.toString(score), this.scoreX, this.scoreY, this.paint);
 	}
 
 	@Override

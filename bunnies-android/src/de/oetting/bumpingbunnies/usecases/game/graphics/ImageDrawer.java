@@ -1,20 +1,21 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import android.graphics.Bitmap;
-import android.graphics.Paint;
-import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.BitmapResizer;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
+import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.Image;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class ImageDrawer implements Drawable {
 
-	private final Bitmap originalBbitmap;
+	private final Image originalBbitmap;
 	private final GameObject object;
 	private final Paint paint;
-	private final BitmapResizer resizer;
-	private Bitmap resizedbitmap;
+	private final ImageResizer resizer;
+	private Image resizedbitmap;
 
-	public ImageDrawer(Bitmap bitmap, GameObject object, BitmapResizer resizer) {
+	public ImageDrawer(Image bitmap, GameObject object, ImageResizer resizer) {
 		super();
 		this.originalBbitmap = bitmap;
 		this.object = object;
@@ -30,10 +31,8 @@ public class ImageDrawer implements Drawable {
 
 	@Override
 	public void updateGraphics(CanvasDelegate canvas) {
-		int width = (int) (canvas.transformX(this.object.maxX()) - canvas
-				.transformX(this.object.minX()));
-		int height = (int) (canvas.transformX(this.object.maxY()) - canvas
-				.transformX(this.object.minY()));
+		int width = (int) (canvas.transformX(this.object.maxX()) - canvas.transformX(this.object.minX()));
+		int height = (int) (canvas.transformX(this.object.maxY()) - canvas.transformX(this.object.minY()));
 		this.resizedbitmap = this.resizer.resize(this.originalBbitmap, width, height);
 	}
 

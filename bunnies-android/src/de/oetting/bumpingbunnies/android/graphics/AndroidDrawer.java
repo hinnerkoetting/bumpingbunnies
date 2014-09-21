@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.android.graphics;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.view.SurfaceHolder;
+import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -31,7 +32,7 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 			try {
 				if (lockCanvas != null) {
 					synchronized (this.holder) {
-						this.objectsDrawer.draw(lockCanvas);
+						this.objectsDrawer.draw(new CanvasWrapper(lockCanvas));
 					}
 				}
 			} finally {

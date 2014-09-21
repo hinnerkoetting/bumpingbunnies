@@ -1,8 +1,9 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import android.graphics.Color;
-import android.graphics.Paint;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
+import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class FpsDrawer implements Drawable {
@@ -24,8 +25,7 @@ public class FpsDrawer implements Drawable {
 	@Override
 	public void draw(CanvasDelegate canvas) {
 		int fpsCount = this.state.getLastFpsCount();
-		canvas.drawTextRelativeToScreen(String.format("FPS: %d", fpsCount),
-				this.x, this.y, this.paint);
+		canvas.drawTextRelativeToScreen(String.format("FPS: %d", fpsCount), this.x, this.y, this.paint);
 
 	}
 

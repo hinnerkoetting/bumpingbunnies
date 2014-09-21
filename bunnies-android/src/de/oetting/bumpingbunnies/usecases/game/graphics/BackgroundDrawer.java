@@ -1,20 +1,21 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
-import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.BitmapResizer;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
+import de.oetting.bumpingbunnies.core.graphics.Paint;
+import de.oetting.bumpingbunnies.usecases.game.model.Image;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class BackgroundDrawer implements Drawable {
 
-	private final Bitmap originalBbitmap;
+	private final Image originalBbitmap;
 	private final Paint paint;
-	private final BitmapResizer resizer;
-	private Bitmap resizedbitmap;
+	private final ImageResizer resizer;
+	private Image resizedbitmap;
 	private final boolean draw;
 
-	public BackgroundDrawer(Bitmap bitmap, BitmapResizer resizer, boolean draw) {
+	public BackgroundDrawer(Image bitmap, ImageResizer resizer, boolean draw) {
 		super();
 		this.originalBbitmap = bitmap;
 		this.resizer = resizer;

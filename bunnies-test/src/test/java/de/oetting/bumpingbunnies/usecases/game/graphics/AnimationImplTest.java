@@ -11,8 +11,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.graphics.Bitmap;
-import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.BitmapResizer;
+import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
+import de.oetting.bumpingbunnies.usecases.game.model.Image;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
@@ -20,7 +21,7 @@ import de.oetting.bumpingbunnies.tests.IntegrationTests;
 public class AnimationImplTest {
 
 	@Mock
-	private BitmapResizer resizer;
+	private ImageResizer resizer;
 
 	@Test
 	public void test() {
@@ -28,14 +29,14 @@ public class AnimationImplTest {
 	}
 
 	private void createAnimation(int numberOfPictures, int timeBetweenPicture) {
-		List<Bitmap> pictures = createNumberOfPictures(numberOfPictures);
+		List<Image> pictures = createNumberOfPictures(numberOfPictures);
 		new AnimationImpl(pictures, timeBetweenPicture, this.resizer);
 	}
 
-	private List<Bitmap> createNumberOfPictures(int number) {
-		List<Bitmap> bitmaps = new ArrayList<>();
+	private List<Image> createNumberOfPictures(int number) {
+		List<Image> bitmaps = new ArrayList<>();
 		for (int i = 0; i < number; i++) {
-			Bitmap bitmap = Bitmap.createBitmap(0, 0, null);
+			Image bitmap = new AndroidImage(Bitmap.createBitmap(0, 0, null));
 			bitmaps.add(bitmap);
 		}
 		return bitmaps;

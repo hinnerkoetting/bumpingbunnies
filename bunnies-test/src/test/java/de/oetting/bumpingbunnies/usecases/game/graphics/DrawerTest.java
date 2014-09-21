@@ -13,7 +13,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import android.graphics.Canvas;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -32,7 +33,7 @@ public class DrawerTest {
 	@Test
 	public void playerJoins_thenPlayerDrawableShouldBeDrawn() {
 		whenPlayerJoins();
-		this.fixture.draw(mock(Canvas.class));
+		this.fixture.draw(mock(CanvasWrapper.class));
 		thenNewDrawableIsDrawn();
 	}
 
@@ -41,7 +42,7 @@ public class DrawerTest {
 		this.player = createOpponentPlayer();
 		givenPlayerDrawableDoesExist(this.player);
 		whenPlayerLeaves(this.player);
-		this.fixture.draw(mock(Canvas.class));
+		this.fixture.draw(mock(CanvasWrapper.class));
 		thenDrawableIsNotDrawn();
 	}
 

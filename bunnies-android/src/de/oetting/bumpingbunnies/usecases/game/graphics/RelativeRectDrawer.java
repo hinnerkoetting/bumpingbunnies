@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import android.graphics.Paint;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class RelativeRectDrawer implements Drawable {
@@ -11,8 +12,7 @@ public class RelativeRectDrawer implements Drawable {
 	private final double maxX;
 	private final double maxY;
 
-	public RelativeRectDrawer(double minX, double minY, double maxX,
-			double maxY, int color) {
+	public RelativeRectDrawer(double minX, double minY, double maxX, double maxY, int color) {
 		this.minX = minX;
 		this.minY = minY;
 		this.maxX = maxX;
@@ -23,8 +23,7 @@ public class RelativeRectDrawer implements Drawable {
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
-		canvas.drawRectRelativeToScreen(this.minX, this.minY, this.maxX,
-				this.maxY, this.paint);
+		canvas.drawRectRelativeToScreen(this.minX, this.minY, this.maxX, this.maxY, this.paint);
 	}
 
 	@Override
