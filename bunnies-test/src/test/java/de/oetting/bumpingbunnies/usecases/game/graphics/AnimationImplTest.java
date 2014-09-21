@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.graphics.Bitmap;
+import de.oetting.bumpingbunnies.core.game.graphics.AnimationImpl;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.model.Image;

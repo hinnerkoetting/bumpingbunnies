@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.graphics;
+package de.oetting.bumpingbunnies.core.game.graphics;
 
 public abstract class ConditionalMirroredAnimation extends ConditionalAnimation implements MirroredAnimation {
 

@@ -1,9 +1,8 @@
-package de.oetting.bumpingbunnies.usecases.game.graphics;
+package de.oetting.bumpingbunnies.core.game.graphics;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.Image;

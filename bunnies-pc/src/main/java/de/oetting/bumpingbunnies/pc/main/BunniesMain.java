@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
@@ -23,9 +24,9 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.pc.game.factory.GameThreadFactory;
-import de.oetting.bumpingbunnies.pc.graphics.CanvasCoordinatesTranslation;
+import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
+import de.oetting.bumpingbunnies.pc.graphics.PcDrawablesFactory;
 import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
-import de.oetting.bumpingbunnies.pc.graphics.PcObjectsDrawer;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.NoopResourceProvider;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
@@ -107,8 +108,8 @@ public class BunniesMain extends Application {
 	}
 
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation) {
-		drawer = new PcDrawer(
-				new PcObjectsDrawer(world.getAllWalls(), new CanvasCoordinatesTranslation(coordinatesCalculation, canvas.getGraphicsContext2D())), canvas);
+		ObjectsDrawer objectsDrawer = new ObjectsDrawer(new PcDrawablesFactory(world), new PcCanvasDelegate(coordinatesCalculation));
+		drawer = new PcDrawer(objectsDrawer, canvas);
 	}
 
 	private static World createWorld() {

@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.graphics;
+package de.oetting.bumpingbunnies.core.game.graphics;
 
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 
 public abstract class ConditionalAnimation implements Animation {
