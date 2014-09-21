@@ -7,8 +7,14 @@
 		<artifactId>bumping-bunnies-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
+	<properties>
+		<android.sdk.path>/home/hinni/develop/android-studio/sdk</android.sdk.path>
+	</properties>
+	<packaging>apk</packaging>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -18,29 +24,28 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>build-helper-maven-plugin</artifactId> 
+				<version>1.7</version> <executions> <execution> <id>add-source</id> <phase>generate-sources</phase> 
+				<goals> <goal>add-source</goal> </goals> <configuration> <sources> <source>gen</source> 
+				</sources> </configuration> </execution> </executions> </plugin> -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>gen</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>android-maven-plugin</artifactId>
+				<version>3.8.2</version>
+				<configuration>
+					<sdk>
+						<platform>20</platform>
+					</sdk>
+					<undeployBeforeDeploy>true</undeployBeforeDeploy>
+					<extractDuplicates>true</extractDuplicates>
+				</configuration>
+				<extensions>true</extensions>
 			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -71,6 +76,7 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -96,6 +102,7 @@
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 			<version>4.1.1.4</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
