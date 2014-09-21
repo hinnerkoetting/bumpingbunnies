@@ -32,7 +32,7 @@ public class GameThread extends Thread {
 		this.worldController = worldController;
 		this.running = true;
 		this.state = gameThreadState;
-		this.fpsLimitation = 100;
+		this.fpsLimitation = 29;
 	}
 
 	@Override

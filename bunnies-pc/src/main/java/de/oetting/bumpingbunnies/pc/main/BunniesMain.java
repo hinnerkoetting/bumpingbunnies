@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
@@ -59,23 +57,49 @@ public class BunniesMain extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Canvas canvas = new Canvas(800, 600);
+		Canvas canvas = new Canvas(1000, 600);
+		createPanel(primaryStage, canvas);
+		buildGame(canvas);
+		startRandering();
+	}
+
+	private void createPanel(Stage primaryStage, Canvas canvas) {
+		FlowPane root = new FlowPane();
+		Scene scene = new Scene(root, 800, 600, Color.WHITESMOKE);
+		primaryStage.setScene(scene);
+		root.getChildren().add(canvas);
+		resizeCanvasWhenPanelGetsResised(canvas, root);
+		primaryStage.show();
+
+		primaryStage.setOnCloseRequest(event -> Platform.exit());
+	}
+
+	private void resizeCanvasWhenPanelGetsResised(Canvas canvas, FlowPane root) {
+		root.widthProperty().addListener((event) -> canvas.setWidth(root.getWidth()));
+		root.heightProperty().addListener((event) -> canvas.setHeight(root.getHeight()));
+	}
+
+	private void buildGame(Canvas canvas) {
 		final World world = createWorld();
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
-		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation(800, 600, worldProperties));
-		coordinatesCalculation.updateCanvas(800, 600);
+		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation((int) canvas.getWidth(),
+				(int) canvas.getHeight(), worldProperties));
+		changeSizeInCoordinatesCalculationWhenScreenChanges(canvas, coordinatesCalculation);
 		GameThreadState gameThreadState = new GameThreadState();
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
 		GameThread gamethread = createGameThread(world, coordinatesCalculation, gameThreadState);
 		gamethread.start();
+	}
 
-		Group root = new Group();
-		Scene scene = new Scene(root, 800, 600, Color.BLACK);
-		primaryStage.setScene(scene);
+	private void changeSizeInCoordinatesCalculationWhenScreenChanges(Canvas canvas, CoordinatesCalculation coordinatesCalculation) {
+		canvas.widthProperty().addListener(
+				(observable, oldValue, newValue) -> coordinatesCalculation.updateCanvas(newValue.intValue(), (int) canvas.getHeight()));
+		canvas.heightProperty().addListener(
+				(observable, oldValue, newValue) -> coordinatesCalculation.updateCanvas((int) canvas.getWidth(), newValue.intValue()));
+	}
 
-		root.getChildren().add(canvas);
-		primaryStage.show();
+	private void startRandering() {
 		new AnimationTimer() {
 
 			@Override
@@ -83,14 +107,6 @@ public class BunniesMain extends Application {
 				drawer.draw();
 			}
 		}.start();
-
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-			@Override
-			public void handle(WindowEvent event) {
-				Platform.exit();
-			}
-		});
 	}
 
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
