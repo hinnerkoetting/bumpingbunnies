@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.pc.main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
@@ -9,9 +8,12 @@ import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.NoopGameStopper;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.core.worldCreation.WallFactory;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.pc.game.factory.GameThreadFactory;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
+import de.oetting.bumpingbunnies.pc.worldcreation.parser.NoopResourceProvider;
+import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
@@ -27,8 +29,7 @@ import de.oetting.bumpingbunnies.world.WorldProperties;
 public class BunniesMain {
 
 	public static void main(String[] args) {
-		World world = new World();
-		world.replaceAllWalls(Arrays.asList(WallFactory.createWall(0, 0, ModelConstants.STANDARD_WORLD_SIZE / 10, ModelConstants.STANDARD_WORLD_SIZE / 10)));
+		World world = createWorld();
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation(800, 600, worldProperties));
 		coordinatesCalculation.updateCanvas(800, 600);
@@ -38,6 +39,11 @@ public class BunniesMain {
 		BunniesApplication app = new BunniesApplication();
 		gamethread.start();
 		startApplication(app);
+	}
+
+	private static World createWorld() {
+		XmlReader reader = new ClasspathXmlreader(World.class.getResourceAsStream("/worlds/classic.xml"));
+		return new PcWorldObjectsParser().build(new NoopResourceProvider(), reader);
 	}
 
 	private static GameThread createGameThread(World world, CoordinatesCalculation coordinatesCalculation) {
