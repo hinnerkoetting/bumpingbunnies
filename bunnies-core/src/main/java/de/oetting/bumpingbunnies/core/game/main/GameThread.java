@@ -32,7 +32,7 @@ public class GameThread extends Thread {
 		this.worldController = worldController;
 		this.running = true;
 		this.state = gameThreadState;
-		this.fpsLimitation = 29;
+		this.fpsLimitation = 100;
 	}
 
 	@Override
@@ -51,7 +51,6 @@ public class GameThread extends Thread {
 			if (this.running) {
 				if (!shouldStepGetSkipped()) {
 					nextWorldStep();
-					this.state.increaseFps();
 				}
 			} else {
 				sleep(100);
@@ -61,7 +60,7 @@ public class GameThread extends Thread {
 
 	private boolean shouldStepGetSkipped() {
 		long millisecondsSinceLastRun = System.currentTimeMillis() - this.state.getLastRun();
-		int milliPerSecond = 1000;
+		double milliPerSecond = 1000.0;
 		return millisecondsSinceLastRun < milliPerSecond / this.fpsLimitation;
 	}
 
@@ -79,6 +78,7 @@ public class GameThread extends Thread {
 				this.state.resetFps(currentTime);
 			}
 			this.worldController.nextStep(delta);
+			this.state.increaseFps();
 		} else {
 			sleep(10 - delta);
 		}
