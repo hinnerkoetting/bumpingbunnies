@@ -12,12 +12,12 @@ public class PcDrawer implements Drawer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PcDrawer.class);
 	private final ObjectsDrawer objectsDrawer;
-	private final CanvasWrapper canvas;
+	private final CanvasWrapper canvasWrapper;
 
 	public PcDrawer(ObjectsDrawer objectsDrawer, Canvas canvas) {
 		super();
 		this.objectsDrawer = objectsDrawer;
-		this.canvas = new CanvasWrapper(canvas);
+		this.canvasWrapper = new CanvasWrapper(canvas);
 	}
 
 	@Override
@@ -32,9 +32,9 @@ public class PcDrawer implements Drawer {
 
 	@Override
 	public void draw() {
-		// canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(),
-		// canvas.getHeight());
-		objectsDrawer.draw(canvas);
+		Canvas canvas = (Canvas) canvasWrapper.getCanvasImpl();
+		canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		objectsDrawer.draw(canvasWrapper);
 	}
 
 	@Override

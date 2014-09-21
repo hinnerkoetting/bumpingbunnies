@@ -24,11 +24,9 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawColor(int color) {
+	public void drawColor(Paint color) {
 		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
-		java.awt.Color awtColor = new java.awt.Color(color);
-		javafx.scene.paint.Color paint = new javafx.scene.paint.Color(awtColor.getRed(), awtColor.getGreen(), awtColor.getBlue(), awtColor.getAlpha());
-		graphicsContext2D.setFill(paint);
+		graphicsContext2D.setFill(paintConverter.convert(color));
 		graphicsContext2D.fill();
 	}
 
@@ -48,14 +46,20 @@ public class PcCanvasDelegate implements CanvasDelegate {
 
 	@Override
 	public void drawTextRelativeToScreen(String text, double x, double y, Paint paint) {
-		drawTextRelativeToScreen(text, x, y, paint);
+		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
+		graphicsContext2D.setStroke(paintConverter.convert(paint));
+		graphicsContext2D.strokeText(text, (int) (x * getOriginalWidth()), (int) (y * getOriginalHeight()));
 	}
 
 	@Override
 	public void drawRect(long left, long top, long right, long bottom, Paint paint) {
 		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 		graphicsContext2D.setFill(paintConverter.convert(paint));
-		graphicsContext2D.fillRect(transformX(left), transformY(top), transformX(right - left), transformY(bottom - top));
+		int leftInPixel = (int) transformX(left);
+		int topInPixel = (int) transformY(top);
+		int width = (int) transformX(right - left);
+		int height = (int) transformY(top - bottom);
+		graphicsContext2D.fillRect(leftInPixel, topInPixel, width, height);
 	}
 
 	@Override
@@ -74,13 +78,13 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public float transformY(long y) {
-		return coordinatesCalculation.getScreenCoordinateY(y);
+	public float transformX(long x) {
+		return coordinatesCalculation.getScreenCoordinateX(x);
 	}
 
 	@Override
-	public float transformX(long x) {
-		return coordinatesCalculation.getScreenCoordinateY(x);
+	public float transformY(long y) {
+		return coordinatesCalculation.getScreenCoordinateY(y);
 	}
 
 	@Override

@@ -28,8 +28,8 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawColor(int color) {
-		this.canvas.drawColor(color);
+	public void drawColor(Paint color) {
+		this.canvas.drawColor(color.getColor());
 	}
 
 	@Override

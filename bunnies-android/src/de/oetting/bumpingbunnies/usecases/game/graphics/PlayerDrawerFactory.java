@@ -12,6 +12,7 @@ import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.MirrorBitm
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.core.game.graphics.AnimationWithMirrorFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ConditionalMirroredAnimation;
+import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawer;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.usecases.game.model.Image;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;

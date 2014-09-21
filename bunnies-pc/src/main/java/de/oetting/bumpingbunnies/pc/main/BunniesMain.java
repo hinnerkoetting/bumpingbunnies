@@ -8,13 +8,13 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
+import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.NoopGameStopper;
@@ -61,41 +61,16 @@ public class BunniesMain extends Application {
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation(800, 600, worldProperties));
 		coordinatesCalculation.updateCanvas(800, 600);
+		GameThreadState gameThreadState = new GameThreadState();
+		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
-		initDrawer(canvas, world, coordinatesCalculation);
-
-		GameThread gamethread = createGameThread(world, coordinatesCalculation);
+		GameThread gamethread = createGameThread(world, coordinatesCalculation, gameThreadState);
 		gamethread.start();
 
 		Group root = new Group();
 		Scene scene = new Scene(root, 800, 600, Color.BLACK);
 		primaryStage.setScene(scene);
 
-		Group circles = new Group();
-		for (Player player : world.getAllPlayer()) {
-			Rectangle rectangle = new Rectangle((int) player.minX(), (int) player.minY(), (int) (player.maxX() - player.minX()),
-					(int) (player.maxY() - player.minY()));
-			circles.getChildren().add(rectangle);
-		}
-		// for (Wall wall : world.getAllWalls()) {
-		// int screenCoordinateX =
-		// coordinatesCalculation.getScreenCoordinateX(wall.minX());
-		// int screenCoordinateY =
-		// coordinatesCalculation.getScreenCoordinateY(wall.minY());
-		// int width = coordinatesCalculation.getScreenCoordinateX(wall.maxX() -
-		// wall.minX());
-		// int height = coordinatesCalculation.getScreenCoordinateY(-wall.minY()
-		// + wall.maxY());
-		// LOGGER.info("%d, %d, %d, %d", screenCoordinateX, screenCoordinateY,
-		// width, height);
-		// Rectangle rectangle = new Rectangle(screenCoordinateX,
-		// screenCoordinateY, width, height);
-		// rectangle.setStrokeWidth(4);
-		// rectangle.setFill(Color.AQUA);
-		// circles.getChildren().add(rectangle);
-		// }
-
-		// root.getChildren().add(circles);
 		root.getChildren().add(canvas);
 		primaryStage.show();
 		new AnimationTimer() {
@@ -107,9 +82,10 @@ public class BunniesMain extends Application {
 		}.start();
 	}
 
-	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation) {
-		ObjectsDrawer objectsDrawer = new ObjectsDrawer(new PcDrawablesFactory(world), new PcCanvasDelegate(coordinatesCalculation));
+	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
+		ObjectsDrawer objectsDrawer = new ObjectsDrawer(new PcDrawablesFactory(world, gameThreadState), new PcCanvasDelegate(coordinatesCalculation));
 		drawer = new PcDrawer(objectsDrawer, canvas);
+		objectsDrawer.buildAllDrawables();
 	}
 
 	private static World createWorld() {
@@ -117,12 +93,13 @@ public class BunniesMain extends Application {
 		return new PcWorldObjectsParser().build(new NoopResourceProvider(), reader);
 	}
 
-	private static GameThread createGameThread(World world, CoordinatesCalculation coordinatesCalculation) {
+	private static GameThread createGameThread(World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
 
 		Configuration configuration = createConfiguration();
 		Player myPlayer = new PlayerFactory(1).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER));
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		return new GameThreadFactory().create(coordinatesCalculation, world, new NoopGameStopper(), configuration, myPlayer, cameraCalculation);
+		return new GameThreadFactory()
+				.create(coordinatesCalculation, world, new NoopGameStopper(), configuration, myPlayer, cameraCalculation, gameThreadState);
 
 	}
 

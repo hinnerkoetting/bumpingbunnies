@@ -8,7 +8,7 @@ public interface CanvasDelegate {
 
 	void updateDelegate(CanvasWrapper canvas);
 
-	void drawColor(int color);
+	void drawColor(Paint paint);
 
 	void drawLine(int startX, int startY, int stopX, int stopY, Paint paint);
 

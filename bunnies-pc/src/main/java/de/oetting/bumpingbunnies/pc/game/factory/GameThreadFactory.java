@@ -26,7 +26,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class GameThreadFactory {
 
 	public GameThread create(CoordinatesCalculation coordinatesCalculation, World world, GameStopper gameStopper, Configuration configuration, Player myPlayer,
-			CameraPositionCalculation cameraCalculation) {
+			CameraPositionCalculation cameraCalculation, GameThreadState gameThreadState) {
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		PlayerMovementCalculationFactory factory = createFactory(world);
@@ -35,7 +35,7 @@ public class GameThreadFactory {
 		GameStepController stepController = GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, senderFactory, sendControl,
 				configuration);
 
-		return new GameThread(stepController, new GameThreadState());
+		return new GameThread(stepController, gameThreadState);
 	}
 
 	private PlayerMovementCalculationFactory createFactory(World world) {

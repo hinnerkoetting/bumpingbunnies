@@ -29,7 +29,7 @@ public class BackgroundDrawer implements Drawable {
 		if (this.draw) {
 			canvas.drawImageDirect(this.resizedbitmap, 0, 0, this.paint);
 		} else {
-			canvas.drawColor(Color.WHITE);
+			canvas.drawColor(new Paint(Color.WHITE));
 		}
 	}
 

@@ -1,8 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.graphics;
+package de.oetting.bumpingbunnies.core.game.graphics;
 
-import android.graphics.Color;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
-import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -19,7 +16,7 @@ public class FpsDrawer implements Drawable {
 		this.x = 0.05;
 		this.y = 0.05;
 		this.paint = new Paint();
-		this.paint.setColor(Color.BLACK);
+		this.paint.setColor(Paint.LIGHT_GRAY);
 		this.paint.setTextSize(30);
 	}
 
