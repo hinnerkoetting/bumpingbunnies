@@ -11,9 +11,8 @@ import de.oetting.bumpingbunnies.core.game.graphics.FpsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.RectDrawer;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 
 public class PcDrawablesFactory implements DrawablesFactory {
 
@@ -30,24 +29,18 @@ public class PcDrawablesFactory implements DrawablesFactory {
 		FpsDrawer fpsDrawer = new FpsDrawer(gameThreadState);
 
 		List<Drawable> drawables = new ArrayList<Drawable>();
-		drawables.addAll( createAllWallDrawables());
-		drawables.addAll( createAllIceWallDrawables());
+		drawables.addAll(createAllDrawables(world.getAllWalls()));
+		drawables.addAll(createAllDrawables(world.getAllIcyWalls()));
+		drawables.addAll(createAllDrawables(world.getAllJumper()));
+		drawables.addAll(createAllDrawables(world.getAllWaters()));
 		drawables.add(fpsDrawer);
 		return drawables;
 	}
 
-	private List<RectDrawer> createAllWallDrawables() {
+	private List<RectDrawer> createAllDrawables(List<? extends GameObject> objects) {
 		List<RectDrawer> drawers = new LinkedList<RectDrawer>();
-		for (Wall wall : world.getAllWalls()) {
-			RectDrawer rectDrawer = new RectDrawer(wall);
-			drawers.add(rectDrawer);
-		}
-		return drawers;
-	}
-	private List<RectDrawer> createAllIceWallDrawables() {
-		List<RectDrawer> drawers = new LinkedList<RectDrawer>();
-		for (IcyWall wall : world.getAllIcyWalls()) {
-			RectDrawer rectDrawer = new RectDrawer(wall);
+		for (GameObject object : objects) {
+			RectDrawer rectDrawer = new RectDrawer(object);
 			drawers.add(rectDrawer);
 		}
 		return drawers;
