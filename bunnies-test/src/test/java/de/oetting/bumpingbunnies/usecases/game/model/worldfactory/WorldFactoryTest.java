@@ -17,14 +17,14 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.WallFactory;
 import de.oetting.bumpingbunnies.core.worldCreation.WorldFactory;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.tests.UnitTests;
+import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
 
 @Category(UnitTests.class)
 public class WorldFactoryTest {
 
 	@Mock
-	private WorldObjectsParser parser;
+	private XmlWorldBuilderState parserState;
 
 	@Test
 	public void create_emptyWorld_returnsEmptyWorld() {
@@ -47,11 +47,11 @@ public class WorldFactoryTest {
 	}
 
 	private void givenParserHasOneWall() {
-		when(parser.getAllWalls()).thenReturn(Arrays.asList(WallFactory.createWall(0, 0)));
+		when(parserState.getAllWalls()).thenReturn(Arrays.asList(WallFactory.createWall(0, 0)));
 	}
 
 	private World whenCreating() {
-		return new WorldFactory().create(parser);
+		return new WorldFactory().create(parserState);
 	}
 
 	private void thenWorldIsEmpty(World world) {

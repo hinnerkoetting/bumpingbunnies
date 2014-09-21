@@ -132,4 +132,11 @@ public class World implements ObjectProvider {
 		allSpawnPoints.clear();
 		allSpawnPoints.addAll(newSpawnPoints);
 	}
+
+	@Override
+	public String toString() {
+		return "World [allObjects=" + allObjects + ", allWalls=" + allWalls + ", allIcyWalls=" + allIcyWalls + ", allJumpers=" + allJumpers + ", allPlayer="
+				+ allPlayer + ", allSpawnPoints=" + allSpawnPoints + ", allWaters=" + allWaters + "]";
+	}
+
 }

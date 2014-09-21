@@ -2,8 +2,6 @@ package de.oetting.bumpingbunnies.android.xml.parsing;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -21,7 +19,6 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Image;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
@@ -103,7 +100,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private void readWater(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
-		Water water = XmlRectToObjectConverter.createWater(rect, this.worldProperties, this.waterMusic);
+		Water water = XmlRectToObjectConverter.createWater(rect, this.waterMusic, this.worldProperties);
 		this.state.getWaters().add(water);
 	}
 
@@ -144,15 +141,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	public World build(ResourceProvider provider, XmlReader xmlReader) {
 		parse(provider, xmlReader);
 		WorldFactory factory = new WorldFactory();
-		return factory.create(this);
-	}
-
-	@Override
-	public List<SpawnPoint> getAllSpawnPoints() {
-		if (!this.parsed) {
-			throw new IllegalStateException("You need to parse first");
-		}
-		return this.state.getSpawnPoints();
+		return factory.create(state);
 	}
 
 	private Image readBitmap(XmlPullParser parser) {
@@ -168,25 +157,6 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	}
 
 	@Override
-	public Collection<Wall> getAllWalls() {
-		return this.state.getAllWalls();
-	}
-
-	@Override
-	public Collection<IcyWall> getAllIcyWalls() {
-		return this.state.getAllIcyWalls();
-	}
-
-	@Override
-	public Collection<Jumper> getAllJumpers() {
-		return this.state.getAllJumper();
-	}
-
-	@Override
-	public Collection<Water> getAllWaters() {
-		return this.state.getWaters();
-	}
-
 	public int getResourceId() {
 		return resourceId;
 	}

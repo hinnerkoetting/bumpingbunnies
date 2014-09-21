@@ -23,7 +23,7 @@ public class XmlRectToObjectConverter {
 		return WallFactory.createJumperFromDouble(rect.getMinX(), rect.getMinY(), rect.getMaxX(), rect.getMaxY(), mediaPlayer, properties);
 	}
 
-	public static Water createWater(XmlRect rect, WorldProperties properties, MusicPlayer musicPlayer) {
+	public static Water createWater(XmlRect rect, MusicPlayer musicPlayer, WorldProperties properties) {
 		return WallFactory.createWaterFromDouble(rect.getMinX(), rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties, musicPlayer);
 	}
 
