@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
@@ -33,9 +34,11 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.pc.game.factory.GameThreadFactory;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
-import de.oetting.bumpingbunnies.pc.graphics.PcDrawablesFactory;
 import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcBackgroundDrawableFactory;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawableFactory;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableFactory;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.NoopResourceProvider;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
@@ -142,7 +145,9 @@ public class BunniesMain extends Application {
 	}
 
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
-		ObjectsDrawer objectsDrawer = new ObjectsDrawer(new PcDrawablesFactory(world, gameThreadState), new PcCanvasDelegate(coordinatesCalculation));
+		DefaultDrawablesFactory factory = new DefaultDrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
+				new PcGameObjectDrawableFactory(), new PcPlayerDrawableFactory());
+		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, new PcCanvasDelegate(coordinatesCalculation));
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
 	}

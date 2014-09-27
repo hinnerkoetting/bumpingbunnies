@@ -13,12 +13,15 @@ import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.FpsDrawer;
+import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.RectDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.ScoreDrawer;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvier;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -29,6 +32,7 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 	private final World world;
 	private final GameThreadState threadState;
 	private final Resources resources;
+	private final PlayerDrawerFactory playerFactory;
 	private boolean drawBackground;
 
 	public AndroidDrawablesFactory(World world, GameThreadState threadState, Resources resources, boolean drawBackground) {
@@ -36,6 +40,8 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 		this.threadState = threadState;
 		this.resources = resources;
 		this.drawBackground = drawBackground;
+		this.playerFactory = new PlayerDrawerFactory(new AndroidPlayerImagesProvier(new PlayerImagesReader()), new AndroidImagesColoror(),
+				new AndroidImagesMirrorer());
 	}
 
 	@Override
@@ -44,7 +50,7 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 		List<Drawable> allDrawables = new LinkedList<Drawable>();
 		allDrawables.add(createBackground(screenWidth, screenHeight));
 		allDrawables.addAll(createAllPlayers(canvas));
-		allDrawables.addAll(createWalls(canvas));
+		allDrawables.addAll(createStaticObjects(canvas));
 		allDrawables.addAll(createAllScores());
 		allDrawables.add(createFps());
 		return allDrawables;
@@ -52,12 +58,12 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 
 	private Drawable createBackground(int screenWidth, int screenHeight) {
 		Bitmap background = BitmapFactory.decodeResource(this.resources, R.drawable.hintergrund2);
-		ImageWrapper resizedImage = new SimpleBitmapResizer().resize(new ImageWrapper(background), screenWidth, screenHeight);
-		Drawable bg = new BackgroundDrawer(resizedImage, this.drawBackground);
+		Bitmap resizedImage = new SimpleBitmapResizer().resize(background, screenWidth, screenHeight);
+		Drawable bg = new BackgroundDrawer(new ImageWrapper(resizedImage), this.drawBackground);
 		return bg;
 	}
 
-	private Collection<? extends Drawable> createWalls(CanvasDelegate canvas) {
+	private Collection<? extends Drawable> createStaticObjects(CanvasDelegate canvas) {
 		List<Drawable> allWalls = new LinkedList<Drawable>();
 
 		for (GameObjectWithImage w : this.world.getAllObjects()) {
@@ -94,7 +100,9 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 	private List<Drawable> createAllPlayers(CanvasDelegate canvas) {
 		List<Drawable> players = new LinkedList<Drawable>();
 		for (Player p : this.world.getAllPlayer()) {
-			players.add(PlayerDrawerFactory.create(p, this.resources, canvas));
+			int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
+			int height = (int) (canvas.transformY(p.minY()) - canvas.transformY(p.maxY()));
+			players.add(playerFactory.create(width, height, p));
 		}
 		return players;
 	}
@@ -105,6 +113,8 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 
 	@Override
 	public Drawable createPlayerDrawable(Player p, CanvasDelegate canvas) {
-		return PlayerDrawerFactory.create(p, this.resources, canvas);
+		int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
+		int height = (int) (canvas.transformY(p.minY()) - canvas.transformY(p.maxY()));
+		return playerFactory.create(width, height, p);
 	}
 }

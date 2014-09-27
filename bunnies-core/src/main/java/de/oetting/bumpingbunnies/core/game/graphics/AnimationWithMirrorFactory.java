@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -11,8 +10,8 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class AnimationWithMirrorFactory {
 
 	public static ConditionalMirroredAnimation createRunningAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageResizer imageResizer, ImageResizer mirrorImageResizer, CanvasDelegate canvas) {
-		MirroredAnimation completeAnimation = createAnimation(player, pictures, timeBetweenPictures, imageResizer, mirrorImageResizer, canvas);
+			ImageMirroror mirroror) {
+		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
@@ -23,8 +22,8 @@ public class AnimationWithMirrorFactory {
 	}
 
 	public static ConditionalMirroredAnimation createFallingAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageResizer imageResizer, ImageResizer mirrorImageResizer, CanvasDelegate canvas) {
-		MirroredAnimation completeAnimation = createAnimation(player, pictures, timeBetweenPictures, imageResizer, mirrorImageResizer, canvas);
+			ImageMirroror mirroror) {
+		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
@@ -35,8 +34,8 @@ public class AnimationWithMirrorFactory {
 	}
 
 	public static ConditionalMirroredAnimation createJumpingAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageResizer imageResizer, ImageResizer mirrorImageResizer, CanvasDelegate canvas) {
-		MirroredAnimation completeAnimation = createAnimation(player, pictures, timeBetweenPictures, imageResizer, mirrorImageResizer, canvas);
+			ImageMirroror mirroror) {
+		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
@@ -47,8 +46,8 @@ public class AnimationWithMirrorFactory {
 	}
 
 	public static ConditionalMirroredAnimation createSittingAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageResizer imageResizer, ImageResizer mirrorImageResizer, CanvasDelegate canvas) {
-		MirroredAnimation completeAnimation = createAnimation(player, pictures, timeBetweenPictures, imageResizer, mirrorImageResizer, canvas);
+			ImageMirroror mirroror) {
+		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
@@ -59,8 +58,8 @@ public class AnimationWithMirrorFactory {
 	}
 
 	public static ConditionalMirroredAnimation createJumpingOnlyUpAnimation(final Player player, final List<ImageWrapper> pictures,
-			final int timeBetweenPictures, ImageResizer imageResizer, ImageResizer mirrorImageResizer, CanvasDelegate canvas) {
-		MirroredAnimation completeAnimation = createAnimation(player, pictures, timeBetweenPictures, imageResizer, mirrorImageResizer, canvas);
+			final int timeBetweenPictures, ImageMirroror mirroror) {
+		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
@@ -70,21 +69,26 @@ public class AnimationWithMirrorFactory {
 		};
 	}
 
-	private static MirroredAnimation createAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageResizer imageResizer, ImageResizer mirrorImageResizer, CanvasDelegate canvas) {
-		List<ImageWrapper> normalAnimation = createAnimation(pictures, imageResizer, canvas, player);
-		List<ImageWrapper> mirroredAnimation = createAnimation(pictures, mirrorImageResizer, canvas, player);
+	private static MirroredAnimation createAnimation(final List<ImageWrapper> pictures, final int timeBetweenPictures, ImageMirroror mirroror) {
+		List<ImageWrapper> normalAnimation = createAnimation(pictures);
+		List<ImageWrapper> mirroredAnimation = createMirroredAnimation(pictures, mirroror);
 		return create(new AnimationImpl(normalAnimation, timeBetweenPictures), new AnimationImpl(mirroredAnimation, timeBetweenPictures));
 	}
 
-	private static List<ImageWrapper> createAnimation(List<ImageWrapper> originalPictures, ImageResizer imageResizer, CanvasDelegate canvas, Player player) {
+	private static List<ImageWrapper> createAnimation(List<ImageWrapper> originalPictures) {
 		List<ImageWrapper> images = new ArrayList<ImageWrapper>(originalPictures.size());
 		for (int i = 0; i < originalPictures.size(); i++) {
 			ImageWrapper original = originalPictures.get(i);
-			int width = (int) (canvas.transformX(player.maxX()) - canvas.transformX(player.minX()));
-			int height = (int) (canvas.transformY(player.minY()) - canvas.transformY(player.maxY()));
-			ImageWrapper resized = imageResizer.resize(original, width, height);
-			images.add(resized);
+			images.add(original);
+		}
+		return images;
+	}
+
+	private static List<ImageWrapper> createMirroredAnimation(List<ImageWrapper> originalPictures, ImageMirroror mirrorer) {
+		List<ImageWrapper> images = new ArrayList<ImageWrapper>(originalPictures.size());
+		for (int i = 0; i < originalPictures.size(); i++) {
+			ImageWrapper original = originalPictures.get(i);
+			images.add(mirrorer.mirrorImage(original));
 		}
 		return images;
 	}
