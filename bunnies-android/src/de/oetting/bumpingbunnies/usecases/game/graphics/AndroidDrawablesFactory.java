@@ -53,7 +53,7 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 	private Drawable createBackground(int screenWidth, int screenHeight) {
 		Bitmap background = BitmapFactory.decodeResource(this.resources, R.drawable.hintergrund2);
 		ImageWrapper resizedImage = new SimpleBitmapResizer().resize(new ImageWrapper(background), screenWidth, screenHeight);
-		Drawable bg = new BackgroundDrawer(resizedImage, new SimpleBitmapResizer(), this.drawBackground);
+		Drawable bg = new BackgroundDrawer(resizedImage, this.drawBackground);
 		return bg;
 	}
 

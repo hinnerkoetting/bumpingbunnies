@@ -27,10 +27,6 @@ public class ImageDrawer implements Drawable {
 	}
 
 	@Override
-	public void updateGraphics(CanvasDelegate canvas) {
-	}
-
-	@Override
 	public boolean drawsPlayer(Player p) {
 		return false;
 	}

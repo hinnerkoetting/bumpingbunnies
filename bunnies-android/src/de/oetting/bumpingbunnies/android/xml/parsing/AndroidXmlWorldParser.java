@@ -30,7 +30,6 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidXmlWorldParser.class);
 	private XmlWorldBuilderState state;
-	private boolean parsed;
 	private WorldProperties worldProperties = new WorldProperties();
 	private MusicPlayer jumperMusic;
 	private MusicPlayer waterMusic;
@@ -44,7 +43,6 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private void parse(ResourceProvider provider, XmlReader xmlReader) {
 		this.provider = provider;
-		this.parsed = true;
 		InputStream worldXml = xmlReader.openXmlStream();
 		this.jumperMusic = provider.readerJumperMusic();
 		this.waterMusic = provider.readWaterMusic();
