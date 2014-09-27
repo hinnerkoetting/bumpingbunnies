@@ -30,12 +30,12 @@ public class DefaultDrawablesFactory implements DrawablesFactory {
 	}
 
 	@Override
-	public Collection<Drawable> createAllDrawables(CanvasDelegate canvas, int screenWidth, int screenHeight) {
+	public Collection<Drawable> createAllDrawables(CanvasDelegate canvas) {
 
 		List<Drawable> drawables = new ArrayList<Drawable>();
-		drawables.add(createBackground(screenWidth, screenHeight));
+		drawables.add(createBackground(canvas));
 		drawables.addAll(createAllPlayer(canvas));
-		drawables.addAll(createStaticObjects(screenWidth, screenHeight));
+		drawables.addAll(createStaticObjects(canvas));
 		drawables.addAll(createAllScores());
 		drawables.add(new FpsDrawer(gameThreadState));
 		return drawables;
@@ -43,8 +43,8 @@ public class DefaultDrawablesFactory implements DrawablesFactory {
 
 	private Collection<? extends Drawable> createAllPlayer(CanvasDelegate canvas) {
 		List<Drawable> players = new LinkedList<Drawable>();
-		for (Player p : this.world.getAllPlayer()) {
-			players.add(playerDrawableFactory.create(p, canvas));
+		for (Player player : this.world.getAllPlayer()) {
+			players.add(createPlayerDrawable(player, canvas));
 		}
 		return players;
 	}
@@ -64,30 +64,34 @@ public class DefaultDrawablesFactory implements DrawablesFactory {
 		return scores;
 	}
 
-	private List<Drawable> createStaticObjects(int screenWidth, int screenHeight) {
+	private List<Drawable> createStaticObjects(CanvasDelegate canvas) {
 		List<Drawable> drawables = new ArrayList<Drawable>();
-		drawables.addAll(createAllDrawables(world.getAllWalls(), screenWidth, screenHeight));
-		drawables.addAll(createAllDrawables(world.getAllIcyWalls(), screenWidth, screenHeight));
-		drawables.addAll(createAllDrawables(world.getAllJumper(), screenWidth, screenHeight));
-		drawables.addAll(createAllDrawables(world.getAllWaters(), screenWidth, screenHeight));
+		drawables.addAll(createAllDrawables(world.getAllWalls(), canvas));
+		drawables.addAll(createAllDrawables(world.getAllIcyWalls(), canvas));
+		drawables.addAll(createAllDrawables(world.getAllJumper(), canvas));
+		drawables.addAll(createAllDrawables(world.getAllWaters(), canvas));
 		return drawables;
 	}
 
-	private Drawable createBackground(int targetWidth, int targetHeight) {
-		return backgroundDrawableFactory.create(targetWidth, targetHeight);
+	private Drawable createBackground(CanvasDelegate canvas) {
+		return backgroundDrawableFactory.create(canvas.getOriginalWidth(), canvas.getOriginalHeight());
 	}
 
-	private List<Drawable> createAllDrawables(List<? extends GameObject> objects, int screenWidth, int screenHeight) {
+	private List<Drawable> createAllDrawables(List<? extends GameObject> objects, CanvasDelegate canvas) {
 		List<Drawable> drawers = new LinkedList<Drawable>();
-		for (GameObject object : objects) {
-			drawers.add(gameObjectDrawableFactory.create(object, screenWidth, screenHeight));
+		for (GameObject p : objects) {
+			int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
+			int height = (int) (canvas.transformY(p.minY()) - canvas.transformY(p.maxY()));
+			drawers.add(gameObjectDrawableFactory.create(p, width, height));
 		}
 		return drawers;
 	}
 
 	@Override
 	public Drawable createPlayerDrawable(Player p, CanvasDelegate canvas) {
-		throw new IllegalArgumentException("TODO");
+		int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
+		int height = (int) (canvas.transformY(p.minY()) - canvas.transformY(p.maxY()));
+		return playerDrawableFactory.create(p, width, height);
 	}
 
 }

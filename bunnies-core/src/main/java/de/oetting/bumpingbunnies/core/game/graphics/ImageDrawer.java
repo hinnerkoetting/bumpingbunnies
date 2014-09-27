@@ -16,7 +16,7 @@ public class ImageDrawer implements Drawable {
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
-		canvas.drawImage(image, 0, 0, this.paint);
+		canvas.drawImageDirect(image, 0, 0, this.paint);
 	}
 
 	@Override

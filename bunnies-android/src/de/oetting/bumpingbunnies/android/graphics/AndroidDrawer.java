@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
@@ -32,7 +33,7 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	public void draw() {
 		if (isDrawingPossible) {
 			Canvas lockCanvas = this.holder.lockCanvas();
-			CanvasWrapper canvas = new CanvasWrapper(lockCanvas);
+			CanvasWrapper canvas = new AndroidCanvasWrapper(lockCanvas);
 			try {
 				if (lockCanvas != null) {
 					synchronized (this.holder) {

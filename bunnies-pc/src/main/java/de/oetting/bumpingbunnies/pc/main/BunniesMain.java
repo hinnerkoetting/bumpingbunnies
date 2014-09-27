@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
@@ -64,6 +65,10 @@ public class BunniesMain extends Application {
 
 	private boolean errorHappened;
 
+	private GameThread gamethread;
+
+	private World world;
+
 	public static void main(String[] args) {
 
 		startApplication();
@@ -76,6 +81,7 @@ public class BunniesMain extends Application {
 		createPanel(primaryStage, canvas);
 		buildGame(canvas);
 		startRendering();
+		playerJoins();
 	}
 
 	private void createPanel(Stage primaryStage, Canvas canvas) {
@@ -106,7 +112,7 @@ public class BunniesMain extends Application {
 	}
 
 	private void buildGame(Canvas canvas) {
-		final World world = createWorld();
+		world = createWorld();
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation((int) canvas.getWidth(),
 				(int) canvas.getHeight(), worldProperties));
@@ -114,7 +120,7 @@ public class BunniesMain extends Application {
 		GameThreadState gameThreadState = new GameThreadState();
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
-		GameThread gamethread = createGameThread(world, coordinatesCalculation);
+		gamethread = createGameThread(world, coordinatesCalculation);
 		gamethread.start();
 	}
 
@@ -147,7 +153,7 @@ public class BunniesMain extends Application {
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
 		DefaultDrawablesFactory factory = new DefaultDrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
 				new PcGameObjectDrawableFactory(), new PcPlayerDrawableFactory());
-		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, new PcCanvasDelegate(coordinatesCalculation));
+		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, new CanvasCoordinateTranslator(new PcCanvasDelegate(), coordinatesCalculation));
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
 	}
@@ -198,4 +204,9 @@ public class BunniesMain extends Application {
 		dialog.show();
 	}
 
+	private void playerJoins() {
+		Player player = new PlayerFactory(1).createPlayer(1, "test", Opponent.createMyPlayer("test"));
+		world.addPlayer(player);
+		drawerThread.newPlayerJoined(player);
+	}
 }

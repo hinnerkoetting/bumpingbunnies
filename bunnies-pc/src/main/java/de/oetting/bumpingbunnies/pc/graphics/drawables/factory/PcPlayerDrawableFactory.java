@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.pc.graphics.drawables.factory;
 
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
@@ -16,7 +15,7 @@ public class PcPlayerDrawableFactory implements PlayerDrawableFactory {
 	}
 
 	@Override
-	public Drawable create(Player player, CanvasDelegate canvas) {
-		return factory.create(canvas.getOriginalWidth(), canvas.getOriginalHeight(), player);
+	public Drawable create(Player player, int playerWidth, int playerHeight) {
+		return factory.create(playerWidth, playerHeight, player);
 	}
 }

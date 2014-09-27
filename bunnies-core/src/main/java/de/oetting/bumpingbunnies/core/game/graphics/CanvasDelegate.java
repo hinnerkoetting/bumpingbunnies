@@ -10,9 +10,9 @@ public interface CanvasDelegate {
 
 	void drawColor(Paint paint);
 
-	void drawLine(int startX, int startY, int stopX, int stopY, Paint paint);
+	void drawLine(long startX, long startY, long stopX, long stopY, Paint paint);
 
-	void drawText(String text, int x, int y, Paint paint);
+	void drawText(String text, long x, long y, Paint paint);
 
 	void drawTextRelativeToScreen(String text, double x, double y, Paint paint);
 
@@ -22,11 +22,11 @@ public interface CanvasDelegate {
 
 	void drawImage(ImageWrapper bitmap, long left, long top, Paint paint);
 
-	void drawImageDirect(ImageWrapper bitmap, int left, int top, Paint paint);
+	void drawImageDirect(ImageWrapper bitmap, long left, long top, Paint paint);
 
-	float transformY(long y);
+	int transformY(long gameY);
 
-	float transformX(long x);
+	int transformX(long gameX);
 
 	int getOriginalWidth();
 

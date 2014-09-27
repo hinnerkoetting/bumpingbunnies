@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public interface DrawablesFactory {
 
-	Collection<Drawable> createAllDrawables(CanvasDelegate canvas, int screenWidth, int screenHeight);
+	Collection<Drawable> createAllDrawables(CanvasDelegate canvas);
 
 	Drawable createPlayerDrawable(Player p, CanvasDelegate canvas);
 

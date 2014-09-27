@@ -4,20 +4,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public class PcCanvasDelegate implements CanvasDelegate {
 
-	private final CoordinatesCalculation coordinatesCalculation;
 	private Canvas canvas;
 	private PaintConverter paintConverter = new PaintConverter();
-
-	public PcCanvasDelegate(CoordinatesCalculation coordinatesCalculation) {
-		this.coordinatesCalculation = coordinatesCalculation;
-	}
 
 	@Override
 	public void updateDelegate(CanvasWrapper canvasWrapper) {
@@ -32,17 +26,17 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawLine(int startX, int startY, int stopX, int stopY, Paint paint) {
+	public void drawLine(long startX, long startY, long stopX, long stopY, Paint paint) {
 		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 		graphicsContext2D.setStroke(paintConverter.convert(paint));
-		graphicsContext2D.strokeLine(transformX(startX), transformY(startY), transformX(stopX), transformY(stopY));
+		graphicsContext2D.strokeLine(startX, startY, stopX, stopY);
 	}
 
 	@Override
-	public void drawText(String text, int x, int y, Paint paint) {
+	public void drawText(String text, long x, long y, Paint paint) {
 		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 		graphicsContext2D.setStroke(paintConverter.convert(paint));
-		graphicsContext2D.strokeText(text, transformX(x), transformY(y));
+		graphicsContext2D.strokeText(text, x, y);
 	}
 
 	@Override
@@ -56,16 +50,19 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	public void drawRect(long left, long top, long right, long bottom, Paint paint) {
 		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 		graphicsContext2D.setFill(paintConverter.convert(paint));
-		int leftInPixel = (int) transformX(left);
-		int topInPixel = (int) transformY(top);
-		int width = (int) (transformX(right) - transformX(left));
-		int height = (int) (transformY(bottom) - transformY(top));
-		graphicsContext2D.fillRect(leftInPixel, topInPixel, width, height);
+		int width = (int) (right - left);
+		int height = (int) (bottom - top);
+		graphicsContext2D.fillRect(left, top, width, height);
 	}
 
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
 		drawRect((long) left, (long) top, (long) right, (long) bottom, paint);
+	}
+
+	@Override
+	public void drawImageDirect(ImageWrapper bitmap, long left, long top, Paint paint) {
+		drawImage(bitmap, left, top, paint);
 	}
 
 	@Override
@@ -76,18 +73,13 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawImageDirect(ImageWrapper bitmap, int left, int top, Paint paint) {
-		throw new IllegalArgumentException();
+	public int transformX(long x) {
+		throw new IllegalArgumentException("Not capable");
 	}
 
 	@Override
-	public float transformX(long x) {
-		return coordinatesCalculation.getScreenCoordinateX(x);
-	}
-
-	@Override
-	public float transformY(long y) {
-		return coordinatesCalculation.getScreenCoordinateY(y);
+	public int transformY(long y) {
+		throw new IllegalArgumentException("Not capable");
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import de.oetting.bumpingbunnies.core.game.graphics.factory.GameObjectDrawableFa
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 
 public class PcGameObjectDrawableFactory implements GameObjectDrawableFactory {
-
 	@Override
 	public Drawable create(GameObject object, int screenWidth, int screenHeight) {
 		return new RectDrawer(object);

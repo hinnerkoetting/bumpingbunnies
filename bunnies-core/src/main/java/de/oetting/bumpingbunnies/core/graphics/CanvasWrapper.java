@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.graphics;
 
-public class CanvasWrapper {
+public abstract class CanvasWrapper {
 
 	private final Object canvasImpl;
 
@@ -11,5 +11,9 @@ public class CanvasWrapper {
 	public Object getCanvasImpl() {
 		return canvasImpl;
 	}
+
+	public abstract int getCanvasWidth();
+
+	public abstract int getCanvasHeight();
 
 }

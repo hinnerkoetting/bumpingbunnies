@@ -45,10 +45,9 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 	}
 
 	@Override
-	public List<Drawable> createAllDrawables(CanvasDelegate canvas, int screenWidth, int screenHeight) {
-		LOGGER.info("Target Size is %d:%d ", screenWidth, screenHeight);
+	public List<Drawable> createAllDrawables(CanvasDelegate canvas) {
 		List<Drawable> allDrawables = new LinkedList<Drawable>();
-		allDrawables.add(createBackground(screenWidth, screenHeight));
+		allDrawables.add(createBackground(canvas));
 		allDrawables.addAll(createAllPlayers(canvas));
 		allDrawables.addAll(createStaticObjects(canvas));
 		allDrawables.addAll(createAllScores());
@@ -56,9 +55,9 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 		return allDrawables;
 	}
 
-	private Drawable createBackground(int screenWidth, int screenHeight) {
+	private Drawable createBackground(CanvasDelegate canvas) {
 		Bitmap background = BitmapFactory.decodeResource(this.resources, R.drawable.hintergrund2);
-		Bitmap resizedImage = new SimpleBitmapResizer().resize(background, screenWidth, screenHeight);
+		Bitmap resizedImage = new SimpleBitmapResizer().resize(background, canvas.getOriginalWidth(), canvas.getOriginalHeight());
 		Drawable bg = new BackgroundDrawer(new ImageWrapper(resizedImage), this.drawBackground);
 		return bg;
 	}

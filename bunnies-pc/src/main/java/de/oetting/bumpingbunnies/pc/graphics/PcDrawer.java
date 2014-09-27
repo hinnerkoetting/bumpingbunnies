@@ -4,13 +4,10 @@ import javafx.scene.canvas.Canvas;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PcDrawer implements Drawer {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PcDrawer.class);
 	private final ObjectsDrawer objectsDrawer;
 	private final CanvasWrapper canvasWrapper;
 	private boolean needsUpdate;
@@ -18,18 +15,19 @@ public class PcDrawer implements Drawer {
 	public PcDrawer(ObjectsDrawer objectsDrawer, Canvas canvas) {
 		super();
 		this.objectsDrawer = objectsDrawer;
-		this.canvasWrapper = new CanvasWrapper(canvas);
+		this.canvasWrapper = new PcCanvasWrapper(canvas);
 		needsUpdate = true;
 	}
 
 	@Override
 	public void newPlayerJoined(Player p) {
-		LOGGER.info("Player joined");
+		if (!needsUpdate)
+			objectsDrawer.newPlayerJoined(p);
 	}
 
 	@Override
 	public void playerLeftTheGame(Player p) {
-		LOGGER.info("Player left");
+		objectsDrawer.playerLeftTheGame(p);
 	}
 
 	@Override

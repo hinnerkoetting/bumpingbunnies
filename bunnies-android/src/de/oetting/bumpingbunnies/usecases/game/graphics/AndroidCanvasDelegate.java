@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
@@ -11,19 +10,13 @@ import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 public class AndroidCanvasDelegate implements CanvasDelegate {
 
 	private Canvas canvas;
-	private final CoordinatesCalculation calculations;
 	private int width;
 	private int heigth;
 	private PaintConverter paintConverter = new PaintConverter();
 
-	public AndroidCanvasDelegate(CoordinatesCalculation calculations) {
-		this.calculations = calculations;
-	}
-
 	@Override
 	public void updateDelegate(CanvasWrapper canvasWrapper) {
 		this.canvas = (Canvas) canvasWrapper.getCanvasImpl();
-		this.calculations.updateCanvas(canvas.getWidth(), canvas.getHeight());
 		this.heigth = canvas.getHeight();
 		this.width = canvas.getWidth();
 	}
@@ -34,39 +27,33 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawLine(int startX, int startY, int stopX, int stopY, Paint paint) {
-		this.canvas.drawLine(transformX(startX), transformY(startY), transformX(stopX), transformY(stopY), paintConverter.convert(paint));
+	public void drawLine(long startX, long startY, long stopX, long stopY, Paint paint) {
+		this.canvas.drawLine(startX, startY, stopX, stopY, paintConverter.convert(paint));
 	}
 
 	@Override
-	public void drawText(String text, int x, int y, Paint paint) {
-		this.canvas.drawText(text, transformX(x), transformY(y), paintConverter.convert(paint));
+	public void drawText(String text, long x, long y, Paint paint) {
+		this.canvas.drawText(text, x, y, paintConverter.convert(paint));
 	}
 
 	@Override
 	public void drawRect(long left, long top, long right, long bottom, Paint paint) {
-		this.canvas.drawRect(transformX(left), transformY(top), transformX(right), transformY(bottom), paintConverter.convert(paint));
+		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint));
 	}
 
 	@Override
 	public void drawImage(ImageWrapper bitmap, long left, long top, Paint paint) {
-		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), transformX(left), transformY(top), paintConverter.convert(paint));
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint));
 	}
 
-	/**
-	 * Using double as parameter to avoid buffer overflow
-	 */
 	@Override
-	public float transformX(long x) {
-		return this.calculations.getScreenCoordinateX(x);
+	public int transformX(long x) {
+		throw new IllegalArgumentException("Not capable");
 	}
 
-	/**
-	 * Using double as parameter to avoid buffer overflow
-	 */
 	@Override
-	public float transformY(long y) {
-		return this.calculations.getScreenCoordinateY(y);
+	public int transformY(long y) {
+		throw new IllegalArgumentException("Not capable");
 	}
 
 	@Override
@@ -82,7 +69,7 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawImageDirect(ImageWrapper bitmap, int left, int top, Paint paint) {
+	public void drawImageDirect(ImageWrapper bitmap, long left, long top, Paint paint) {
 		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint));
 	}
 

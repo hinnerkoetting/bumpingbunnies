@@ -1,6 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
@@ -17,7 +19,7 @@ public class DrawerFactory {
 		AndroidDrawablesFactory drawFactory = new AndroidDrawablesFactory(world, threadState, context.getResources(), configuration.getLocalSettings()
 				.isBackground());
 
-		AndroidCanvasDelegate canvasDelegate = new AndroidCanvasDelegate(calculations);
+		CanvasDelegate canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasDelegate(), calculations);
 		calculations.setZoom((ModelConstants.STANDARD_WORLD_SIZE / 7500 * configuration.getZoom()));
 
 		ObjectsDrawer drawer = new ObjectsDrawer(drawFactory, canvasDelegate);
