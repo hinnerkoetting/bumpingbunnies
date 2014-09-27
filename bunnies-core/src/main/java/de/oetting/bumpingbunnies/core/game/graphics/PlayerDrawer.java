@@ -47,11 +47,6 @@ public class PlayerDrawer implements Drawable {
 
 	@Override
 	public void updateGraphics(CanvasDelegate canvas) {
-		int width = (int) (canvas.transformX(this.player.maxX()) - canvas.transformX(this.player.minX()));
-		int height = (int) (canvas.transformX(this.player.maxY()) - canvas.transformX(this.player.minY()));
-		for (ConditionalAnimation ani : this.animations) {
-			ani.updateGraphics(canvas, width, height);
-		}
 	}
 
 	@Override

@@ -9,6 +9,8 @@ public class MirrorBitmapResizer implements ImageResizer {
 
 	@Override
 	public ImageWrapper resize(ImageWrapper original, int targetWidth, int targetHeigth) {
+		if (targetHeigth < 0 || targetWidth < 0)
+			throw new IllegalArgumentException(targetWidth + "/" + targetHeigth);
 		Bitmap scaled = Bitmap.createScaledBitmap((Bitmap) original.getBitmap(), targetWidth, targetHeigth, false);
 		Matrix mirror = new Matrix();
 		mirror.preScale(-1.0f, 1.0f);

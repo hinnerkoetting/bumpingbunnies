@@ -14,7 +14,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
@@ -26,12 +29,14 @@ import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
-import de.oetting.bumpingbunnies.tests.UnitTests;
+import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
-@Category(UnitTests.class)
+@Category(IntegrationTests.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 18)
 public class RemoteConnectionFactoryTest {
 
 	private RemoteConnectionFactory fixture;
@@ -76,9 +81,9 @@ public class RemoteConnectionFactoryTest {
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TestSocket());
 	}
 
-    @After
-    public void afterEveryTest() {
-        UdpSocketFactory.singleton().closeAndClearCreatedAdresses();
-    }
+	@After
+	public void afterEveryTest() {
+		UdpSocketFactory.singleton().closeAndClearCreatedAdresses();
+	}
 
 }

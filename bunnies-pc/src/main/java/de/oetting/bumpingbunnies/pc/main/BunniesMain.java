@@ -145,7 +145,6 @@ public class BunniesMain extends Application {
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(new PcDrawablesFactory(world, gameThreadState), new PcCanvasDelegate(coordinatesCalculation));
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
-		objectsDrawer.buildAllDrawables((int) canvas.getWidth(), (int) canvas.getHeight());
 	}
 
 	private static World createWorld() {

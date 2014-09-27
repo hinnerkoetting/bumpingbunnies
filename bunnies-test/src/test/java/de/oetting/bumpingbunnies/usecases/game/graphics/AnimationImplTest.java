@@ -6,13 +6,11 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.core.game.graphics.AnimationImpl;
-import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
@@ -21,9 +19,6 @@ import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 @Config(emulateSdk = 18)
 public class AnimationImplTest {
 
-	@Mock
-	private ImageResizer resizer;
-
 	@Test
 	public void test() {
 		createAnimation(1, 1);
@@ -31,7 +26,7 @@ public class AnimationImplTest {
 
 	private void createAnimation(int numberOfPictures, int timeBetweenPicture) {
 		List<ImageWrapper> pictures = createNumberOfPictures(numberOfPictures);
-		new AnimationImpl(pictures, timeBetweenPicture, this.resizer);
+		new AnimationImpl(pictures, timeBetweenPicture);
 	}
 
 	private List<ImageWrapper> createNumberOfPictures(int number) {

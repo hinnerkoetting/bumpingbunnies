@@ -27,7 +27,7 @@ public class BackgroundDrawer implements Drawable {
 	@Override
 	public void draw(CanvasDelegate canvas) {
 		if (this.draw) {
-			canvas.drawImageDirect(this.resizedbitmap, 0, 0, this.paint);
+			canvas.drawImageDirect(this.originalBbitmap, 0, 0, this.paint);
 		} else {
 			canvas.drawColor(new Paint(Color.WHITE));
 		}

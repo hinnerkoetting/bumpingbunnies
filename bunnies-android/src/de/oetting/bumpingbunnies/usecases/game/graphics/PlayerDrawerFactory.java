@@ -11,6 +11,7 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.MirrorBitmapResizer;
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.core.game.graphics.AnimationWithMirrorFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.ConditionalMirroredAnimation;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawer;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
@@ -19,20 +20,20 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PlayerDrawerFactory {
 
-	public static PlayerDrawer create(Player player, Resources resources) {
-		ImageResizer ImageWrapperResizer = new SimpleBitmapResizer();
+	public static PlayerDrawer create(Player player, Resources resources, CanvasDelegate canvas) {
+		ImageResizer imageWrapperResizer = new SimpleBitmapResizer();
 		ImageResizer mirrorImageWrapperResizer = new MirrorBitmapResizer();
 
 		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(player, createRunningAnimation(resources, player),
-				100, ImageWrapperResizer, mirrorImageWrapperResizer);
+				100, imageWrapperResizer, mirrorImageWrapperResizer, canvas);
 		ConditionalMirroredAnimation fallingAnimation = AnimationWithMirrorFactory.createFallingAnimation(player, createFallingAnimation(resources, player),
-				100, ImageWrapperResizer, mirrorImageWrapperResizer);
+				100, imageWrapperResizer, mirrorImageWrapperResizer, canvas);
 		ConditionalMirroredAnimation jumpingAnimation = AnimationWithMirrorFactory.createJumpingAnimation(player, createJumpingAnimation(resources, player),
-				100, ImageWrapperResizer, mirrorImageWrapperResizer);
+				100, imageWrapperResizer, mirrorImageWrapperResizer, canvas);
 		ConditionalMirroredAnimation sittingAnimation = AnimationWithMirrorFactory.createSittingAnimation(player, createSittingAnimation(resources, player),
-				100, ImageWrapperResizer, mirrorImageWrapperResizer);
+				100, imageWrapperResizer, mirrorImageWrapperResizer, canvas);
 		ConditionalMirroredAnimation jumpingOnlyUpAnimation = AnimationWithMirrorFactory.createJumpingOnlyUpAnimation(player,
-				createJumpingOnlyUpAnimation(resources, player), 100, ImageWrapperResizer, mirrorImageWrapperResizer);
+				createJumpingOnlyUpAnimation(resources, player), 100, imageWrapperResizer, mirrorImageWrapperResizer, canvas);
 		List<ConditionalMirroredAnimation> animations = Arrays.asList(runningAnimation, fallingAnimation, jumpingAnimation, sittingAnimation,
 				jumpingOnlyUpAnimation);
 		return new PlayerDrawer(player, animations);

@@ -19,20 +19,28 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	private boolean isDrawingPossible;
 	private final boolean altPixelMode;
 
+	private boolean needsUpdate;
+
 	public AndroidDrawer(ObjectsDrawer objectsDrawer, boolean altPixelMode) {
 		super();
 		this.objectsDrawer = objectsDrawer;
 		this.altPixelMode = altPixelMode;
+		needsUpdate = true;
 	}
 
 	@Override
 	public void draw() {
 		if (isDrawingPossible) {
 			Canvas lockCanvas = this.holder.lockCanvas();
+			CanvasWrapper canvas = new CanvasWrapper(lockCanvas);
 			try {
 				if (lockCanvas != null) {
 					synchronized (this.holder) {
-						this.objectsDrawer.draw(new CanvasWrapper(lockCanvas));
+						if (needsUpdate) {
+							objectsDrawer.buildAllDrawables(canvas, lockCanvas.getWidth(), lockCanvas.getHeight());
+							needsUpdate = false;
+						}
+						this.objectsDrawer.draw(canvas);
 					}
 				}
 			} finally {
@@ -62,12 +70,13 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		objectsDrawer.buildAllDrawables(width, height);
+		this.holder = holder;
+		needsUpdate = true;
 	}
 
 	@Override
 	public void setNeedsUpdate(boolean b) {
-		objectsDrawer.setNeedsUpdate(b);
+		this.needsUpdate = b;
 	}
 
 	@Override

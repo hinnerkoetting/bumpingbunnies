@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
-import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
@@ -13,28 +12,22 @@ public class ImageDrawer implements Drawable {
 	private final ImageWrapper originalBbitmap;
 	private final GameObject object;
 	private final Paint paint;
-	private final ImageResizer resizer;
-	private ImageWrapper resizedbitmap;
 
-	public ImageDrawer(ImageWrapper bitmap, GameObject object, ImageResizer resizer) {
+	public ImageDrawer(ImageWrapper bitmap, GameObject object) {
 		super();
 		this.originalBbitmap = bitmap;
 		this.object = object;
-		this.resizer = resizer;
 		this.paint = new Paint();
 		this.paint.setColor(object.getColor());
 	}
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
-		canvas.drawImage(this.resizedbitmap, this.object.minX(), this.object.maxY(), this.paint);
+		canvas.drawImage(this.originalBbitmap, this.object.minX(), this.object.maxY(), this.paint);
 	}
 
 	@Override
 	public void updateGraphics(CanvasDelegate canvas) {
-		int width = (int) (canvas.transformX(this.object.maxX()) - canvas.transformX(this.object.minX()));
-		int height = (int) (canvas.transformX(this.object.maxY()) - canvas.transformX(this.object.minY()));
-		this.resizedbitmap = this.resizer.resize(this.originalBbitmap, width, height);
 	}
 
 	@Override

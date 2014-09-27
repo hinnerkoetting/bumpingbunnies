@@ -1,12 +1,13 @@
 package de.oetting.bumpingbunnies.core.graphics;
 
+import de.oetting.bumpingbunnies.color.Color;
+
 public class Paint {
 
-	public static final int BLACK = 0x00000000;
-	public static final int LIGHT_GRAY = 0xAAAAAA00;
+	public static final int BLACK = 0xFF000000;
+	public static final int LIGHT_GRAY = 0xFFAAAAAA;
 
 	private int color;
-	private int alpha;
 	private float textSize;
 
 	public Paint(int color) {
@@ -14,6 +15,7 @@ public class Paint {
 	}
 
 	public Paint() {
+		this(Color.BLACK);
 	}
 
 	public int getColor() {
@@ -25,11 +27,11 @@ public class Paint {
 	}
 
 	public void setAlpha(int alpha) {
-		this.alpha = alpha;
+		color |= (alpha << 24);
 	}
 
 	public int getAlpha() {
-		return alpha;
+		return color >>> 24;
 	}
 
 	public float getTextSize() {

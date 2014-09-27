@@ -12,7 +12,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
@@ -23,13 +26,15 @@ import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
-import de.oetting.bumpingbunnies.tests.UnitTests;
+import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
-@Category(UnitTests.class)
+@Category(IntegrationTests.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 18)
 public class AndroidStateSenderFactoryTest {
 
 	private AndroidStateSenderFactory factory;
@@ -64,8 +69,7 @@ public class AndroidStateSenderFactoryTest {
 		initMocks(this);
 		this.myPlayer = createOpponentPlayer();
 		this.sendThreads = new LinkedList<>();
-		this.sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(
-				this.activity, this.sockets), this.sendThreads);
+		this.sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(this.activity, this.sockets), this.sendThreads);
 		this.factory = new AndroidStateSenderFactory(this.sendControl, this.myPlayer);
 	}
 }

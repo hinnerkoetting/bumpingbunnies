@@ -19,6 +19,7 @@ public class PcDrawer implements Drawer {
 		super();
 		this.objectsDrawer = objectsDrawer;
 		this.canvasWrapper = new CanvasWrapper(canvas);
+		needsUpdate = true;
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class PcDrawer implements Drawer {
 	public void draw() {
 		Canvas canvas = (Canvas) canvasWrapper.getCanvasImpl();
 		if (needsUpdate) {
-			objectsDrawer.buildAllDrawables((int) canvas.getWidth(), (int) canvas.getHeight());
+			objectsDrawer.buildAllDrawables(canvasWrapper, (int) canvas.getWidth(), (int) canvas.getHeight());
 			needsUpdate = false;
 		}
 		canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());

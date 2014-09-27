@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.FpsDrawer;
@@ -16,14 +17,15 @@ import de.oetting.bumpingbunnies.core.game.graphics.RectDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.ScoreDrawer;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class AndroidDrawablesFactory implements DrawablesFactory {
 
-	private static final int MIN_SIZE_FOR_DRAWER = ModelConstants.MAX_VALUE / 100000;
+	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidDrawablesFactory.class);
 	private final World world;
 	private final GameThreadState threadState;
 	private final Resources resources;
@@ -37,32 +39,35 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 	}
 
 	@Override
-	public List<Drawable> createAllDrawables(int screenWidth, int screenHeight) {
+	public List<Drawable> createAllDrawables(CanvasDelegate canvas, int screenWidth, int screenHeight) {
+		LOGGER.info("Target Size is %d:%d ", screenWidth, screenHeight);
 		List<Drawable> allDrawables = new LinkedList<Drawable>();
-		allDrawables.add(createBackground());
-		allDrawables.addAll(createAllPlayers());
-		allDrawables.addAll(createWalls());
+		allDrawables.add(createBackground(screenWidth, screenHeight));
+		allDrawables.addAll(createAllPlayers(canvas));
+		allDrawables.addAll(createWalls(canvas));
 		allDrawables.addAll(createAllScores());
 		allDrawables.add(createFps());
 		return allDrawables;
 	}
 
-	private Drawable createBackground() {
+	private Drawable createBackground(int screenWidth, int screenHeight) {
 		Bitmap background = BitmapFactory.decodeResource(this.resources, R.drawable.hintergrund2);
-		Drawable bg = new BackgroundDrawer(new ImageWrapper(background), new SimpleBitmapResizer(), this.drawBackground);
+		ImageWrapper resizedImage = new SimpleBitmapResizer().resize(new ImageWrapper(background), screenWidth, screenHeight);
+		Drawable bg = new BackgroundDrawer(resizedImage, new SimpleBitmapResizer(), this.drawBackground);
 		return bg;
 	}
 
-	private Collection<? extends Drawable> createWalls() {
+	private Collection<? extends Drawable> createWalls(CanvasDelegate canvas) {
 		List<Drawable> allWalls = new LinkedList<Drawable>();
 
 		for (GameObjectWithImage w : this.world.getAllObjects()) {
 
-			// TODO rework
-			if (w.maxX() - w.minX() > MIN_SIZE_FOR_DRAWER && w.maxY() - w.minY() > MIN_SIZE_FOR_DRAWER) {
-				if (w != null && w.getBitmap() != null) {
+			int width = (int) (canvas.transformX(w.maxX()) - canvas.transformX(w.minX()));
+			int height = (int) (canvas.transformY(w.minY()) - canvas.transformY(w.maxY()));
+			if (width > 0 && height > 0) {
+				if (w.getBitmap() != null) {
 					Bitmap bitmap = (Bitmap) w.getBitmap().getBitmap();
-					allWalls.add(ImageDrawerFactory.create(bitmap, w));
+					allWalls.add(ImageDrawerFactory.create(bitmap, w, width, height));
 				} else {
 					allWalls.add(new RectDrawer(w));
 				}
@@ -86,10 +91,10 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 		return scores;
 	}
 
-	private List<Drawable> createAllPlayers() {
+	private List<Drawable> createAllPlayers(CanvasDelegate canvas) {
 		List<Drawable> players = new LinkedList<Drawable>();
 		for (Player p : this.world.getAllPlayer()) {
-			players.add(PlayerDrawerFactory.create(p, this.resources));
+			players.add(PlayerDrawerFactory.create(p, this.resources, canvas));
 		}
 		return players;
 	}
@@ -99,7 +104,7 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 	}
 
 	@Override
-	public Drawable createPlayerDrawable(Player p) {
-		return PlayerDrawerFactory.create(p, this.resources);
+	public Drawable createPlayerDrawable(Player p, CanvasDelegate canvas) {
+		return PlayerDrawerFactory.create(p, this.resources, canvas);
 	}
 }

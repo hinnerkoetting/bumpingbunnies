@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javafx.scene.image.Image;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.FpsDrawer;
@@ -28,7 +29,7 @@ public class PcDrawablesFactory implements DrawablesFactory {
 	}
 
 	@Override
-	public Collection<Drawable> createAllDrawables(int screenWidth, int screenHeight) {
+	public Collection<Drawable> createAllDrawables(CanvasDelegate canvas, int screenWidth, int screenHeight) {
 		FpsDrawer fpsDrawer = new FpsDrawer(gameThreadState);
 
 		List<Drawable> drawables = new ArrayList<Drawable>();
@@ -56,8 +57,8 @@ public class PcDrawablesFactory implements DrawablesFactory {
 	}
 
 	@Override
-	public Drawable createPlayerDrawable(Player p) {
-		return null;
+	public Drawable createPlayerDrawable(Player p, CanvasDelegate canvas) {
+		throw new IllegalArgumentException("TODO");
 	}
 
 }

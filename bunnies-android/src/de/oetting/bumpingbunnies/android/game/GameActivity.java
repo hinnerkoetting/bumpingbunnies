@@ -125,6 +125,7 @@ public class GameActivity extends Activity implements GameStopper {
 	protected void onDestroy() {
 		super.onDestroy();
 		this.main.destroy();
+		drawThread.cancel();
 	}
 
 	@Override
