@@ -1,9 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-
 public interface ImageContainer {
 
-	Image getBitmap();
+	ImageWrapper getBitmap();
 
-	void setBitmap(Image b);
+	void setBitmap(ImageWrapper b);
 }

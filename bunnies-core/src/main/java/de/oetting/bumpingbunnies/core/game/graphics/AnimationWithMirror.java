@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public class AnimationWithMirror implements Animation, MirroredAnimation {
 
@@ -12,7 +12,7 @@ public class AnimationWithMirror implements Animation, MirroredAnimation {
 	private Animation leftMirroredAnimation;
 	private boolean drawNormal = true;
 
-	public AnimationWithMirror(List<Image> pictures, int timeBetweenPictures, ImageResizer imageResizer, ImageResizer mirrorImageResizer) {
+	public AnimationWithMirror(List<ImageWrapper> pictures, int timeBetweenPictures, ImageResizer imageResizer, ImageResizer mirrorImageResizer) {
 		this.normalAnimation = new AnimationImpl(pictures, timeBetweenPictures, imageResizer);
 		this.leftMirroredAnimation = new AnimationImpl(pictures, timeBetweenPictures, mirrorImageResizer);
 	}

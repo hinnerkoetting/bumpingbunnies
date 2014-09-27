@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public interface CanvasDelegate {
 
@@ -20,9 +20,9 @@ public interface CanvasDelegate {
 
 	void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint);
 
-	void drawImage(Image bitmap, long left, long top, Paint paint);
+	void drawImage(ImageWrapper bitmap, long left, long top, Paint paint);
 
-	void drawImageDirect(Image bitmap, int left, int top, Paint paint);
+	void drawImageDirect(ImageWrapper bitmap, int left, int top, Paint paint);
 
 	float transformY(long y);
 

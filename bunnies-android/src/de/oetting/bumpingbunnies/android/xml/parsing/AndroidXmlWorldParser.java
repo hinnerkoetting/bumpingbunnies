@@ -17,7 +17,7 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.Wall;
 import de.oetting.bumpingbunnies.usecases.game.model.Water;
@@ -144,7 +144,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		return factory.create(state);
 	}
 
-	private Image readBitmap(XmlPullParser parser) {
+	private ImageWrapper readBitmap(XmlPullParser parser) {
 		String filename = parser.getAttributeValue(null, IMAGE);
 		if (filename != null) {
 			return readBitmap(filename);
@@ -152,7 +152,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		return null;
 	}
 
-	private Image readBitmap(String fileName) {
+	private ImageWrapper readBitmap(String fileName) {
 		return provider.readBitmap(fileName);
 	}
 

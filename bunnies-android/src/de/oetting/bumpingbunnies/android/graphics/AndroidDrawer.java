@@ -62,6 +62,7 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		objectsDrawer.buildAllDrawables(width, height);
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.core.graphics;
 
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public interface ImageResizer {
 
-	Image resize(Image original, int targetWidth, int targetHeiht);
+	ImageWrapper resize(ImageWrapper original, int targetWidth, int targetHeiht);
 }

@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
@@ -19,6 +24,7 @@ import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
+import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.NoopGameStopper;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
@@ -49,7 +55,11 @@ public class BunniesMain extends Application {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(BunniesMain.class);
 
-	private Drawer drawerThread;
+	private Drawer drawerThread = new NoopDrawer();
+
+	private Stage primaryStage;
+
+	private boolean errorHappened;
 
 	public static void main(String[] args) {
 
@@ -58,6 +68,7 @@ public class BunniesMain extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
 		Canvas canvas = new Canvas(1000, 600);
 		createPanel(primaryStage, canvas);
 		buildGame(canvas);
@@ -76,8 +87,19 @@ public class BunniesMain extends Application {
 	}
 
 	private void resizeCanvasWhenPanelGetsResised(Canvas canvas, FlowPane root) {
-		root.widthProperty().addListener((event) -> canvas.setWidth(root.getWidth()));
-		root.heightProperty().addListener((event) -> canvas.setHeight(root.getHeight()));
+		root.widthProperty().addListener((event) -> updateWidth(canvas, root));
+		root.heightProperty().addListener((event) -> updateHeight(canvas, root));
+	}
+
+	private void updateWidth(Canvas canvas, FlowPane root) {
+		canvas.setWidth(root.getWidth());
+		drawerThread.setNeedsUpdate(true);
+	}
+
+	private void updateHeight(Canvas canvas, FlowPane root) {
+		canvas.setHeight(root.getHeight());
+		drawerThread.setNeedsUpdate(true);
+
 	}
 
 	private void buildGame(Canvas canvas) {
@@ -105,8 +127,17 @@ public class BunniesMain extends Application {
 
 			@Override
 			public void handle(long now) {
-				drawerThread.draw();
+				try {
+					if (!errorHappened) {
+						drawerThread.draw();
+					}
+				} catch (Exception e) {
+					errorHappened = true;
+					LOGGER.error("", e);
+					showTechnicalError();
+				}
 			}
+
 		}.start();
 	}
 
@@ -114,7 +145,7 @@ public class BunniesMain extends Application {
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(new PcDrawablesFactory(world, gameThreadState), new PcCanvasDelegate(coordinatesCalculation));
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
-		objectsDrawer.buildAllDrawables();
+		objectsDrawer.buildAllDrawables((int) canvas.getWidth(), (int) canvas.getHeight());
 	}
 
 	private static World createWorld() {
@@ -141,6 +172,26 @@ public class BunniesMain extends Application {
 
 	private static void startApplication() {
 		launch();
+	}
+
+	private void showTechnicalError() {
+		final Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.initOwner(primaryStage);
+		VBox dialogVbox = new VBox(20);
+		javafx.scene.control.Button button = new javafx.scene.control.Button("Ok");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				Platform.exit();
+			}
+		});
+		dialogVbox.getChildren().add(new Text("Ein technischer Fehler ist aufgetreten."));
+		dialogVbox.getChildren().add(button);
+		Scene dialogScene = new Scene(dialogVbox, 300, 200);
+		dialog.setScene(dialogScene);
+		dialog.show();
 	}
 
 }

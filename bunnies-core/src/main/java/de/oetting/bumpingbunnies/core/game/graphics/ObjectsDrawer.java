@@ -30,10 +30,10 @@ public class ObjectsDrawer implements PlayerJoinListener {
 		this.drawablesWhichNeedToBeUpdated = new CopyOnWriteArrayList<Drawable>();
 	}
 
-	public void buildAllDrawables() {
+	public void buildAllDrawables(int screenWidth, int screenHeight) {
 		this.allDrawables.clear();
 		this.drawablesWhichNeedToBeUpdated.clear();
-		this.drawablesWhichNeedToBeUpdated.addAll(this.factory.createAllDrawables());
+		this.drawablesWhichNeedToBeUpdated.addAll(this.factory.createAllDrawables(screenWidth, screenHeight));
 		LOGGER.info("Added %d drawables", this.allDrawables.size());
 	}
 

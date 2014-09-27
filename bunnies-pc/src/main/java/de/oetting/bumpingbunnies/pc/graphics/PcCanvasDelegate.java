@@ -2,11 +2,12 @@ package de.oetting.bumpingbunnies.pc.graphics;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public class PcCanvasDelegate implements CanvasDelegate {
 
@@ -68,12 +69,14 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawImage(Image bitmap, long left, long top, Paint paint) {
-		throw new IllegalArgumentException();
+	public void drawImage(ImageWrapper bitmap, long left, long top, Paint paint) {
+		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
+		Image image = (Image) bitmap.getBitmap();
+		graphicsContext2D.drawImage(image, left, top);
 	}
 
 	@Override
-	public void drawImageDirect(Image bitmap, int left, int top, Paint paint) {
+	public void drawImageDirect(ImageWrapper bitmap, int left, int top, Paint paint) {
 		throw new IllegalArgumentException();
 	}
 

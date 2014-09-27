@@ -17,6 +17,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.ScoreDrawer;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
@@ -36,7 +37,7 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 	}
 
 	@Override
-	public List<Drawable> createAllDrawables() {
+	public List<Drawable> createAllDrawables(int screenWidth, int screenHeight) {
 		List<Drawable> allDrawables = new LinkedList<Drawable>();
 		allDrawables.add(createBackground());
 		allDrawables.addAll(createAllPlayers());
@@ -48,7 +49,7 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 
 	private Drawable createBackground() {
 		Bitmap background = BitmapFactory.decodeResource(this.resources, R.drawable.hintergrund2);
-		Drawable bg = new BackgroundDrawer(new AndroidImage(background), new SimpleBitmapResizer(), this.drawBackground);
+		Drawable bg = new BackgroundDrawer(new ImageWrapper(background), new SimpleBitmapResizer(), this.drawBackground);
 		return bg;
 	}
 
@@ -59,9 +60,8 @@ public class AndroidDrawablesFactory implements DrawablesFactory {
 
 			// TODO rework
 			if (w.maxX() - w.minX() > MIN_SIZE_FOR_DRAWER && w.maxY() - w.minY() > MIN_SIZE_FOR_DRAWER) {
-				AndroidImage wrapper = (AndroidImage) w.getBitmap();
-				if (wrapper != null && wrapper.getBitmap() != null) {
-					Bitmap bitmap = wrapper.getBitmap();
+				if (w != null && w.getBitmap() != null) {
+					Bitmap bitmap = (Bitmap) w.getBitmap().getBitmap();
 					allWalls.add(ImageDrawerFactory.create(bitmap, w));
 				} else {
 					allWalls.add(new RectDrawer(w));

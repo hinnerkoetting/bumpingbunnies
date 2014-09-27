@@ -13,6 +13,7 @@ public class PcDrawer implements Drawer {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PcDrawer.class);
 	private final ObjectsDrawer objectsDrawer;
 	private final CanvasWrapper canvasWrapper;
+	private boolean needsUpdate;
 
 	public PcDrawer(ObjectsDrawer objectsDrawer, Canvas canvas) {
 		super();
@@ -33,12 +34,17 @@ public class PcDrawer implements Drawer {
 	@Override
 	public void draw() {
 		Canvas canvas = (Canvas) canvasWrapper.getCanvasImpl();
+		if (needsUpdate) {
+			objectsDrawer.buildAllDrawables((int) canvas.getWidth(), (int) canvas.getHeight());
+			needsUpdate = false;
+		}
 		canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		objectsDrawer.draw(canvasWrapper);
 	}
 
 	@Override
 	public void setNeedsUpdate(boolean b) {
+		this.needsUpdate = b;
 	}
 
 }

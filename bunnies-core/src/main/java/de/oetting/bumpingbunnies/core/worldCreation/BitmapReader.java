@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.core.worldCreation;
 
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public interface BitmapReader {
 
-	public abstract Image readBitmap(String filename);
+	ImageWrapper readBitmap(String filename);
 
 }

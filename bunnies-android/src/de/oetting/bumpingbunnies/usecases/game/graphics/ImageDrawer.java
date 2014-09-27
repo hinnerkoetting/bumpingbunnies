@@ -5,18 +5,18 @@ import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class ImageDrawer implements Drawable {
 
-	private final Image originalBbitmap;
+	private final ImageWrapper originalBbitmap;
 	private final GameObject object;
 	private final Paint paint;
 	private final ImageResizer resizer;
-	private Image resizedbitmap;
+	private ImageWrapper resizedbitmap;
 
-	public ImageDrawer(Image bitmap, GameObject object, ImageResizer resizer) {
+	public ImageDrawer(ImageWrapper bitmap, GameObject object, ImageResizer resizer) {
 		super();
 		this.originalBbitmap = bitmap;
 		this.object = object;

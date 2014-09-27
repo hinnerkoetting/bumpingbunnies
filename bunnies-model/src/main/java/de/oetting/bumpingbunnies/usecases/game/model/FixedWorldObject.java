@@ -1,15 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-
 public abstract class FixedWorldObject implements GameObjectWithImage {
 
 	private int id;
 	private final Rect rect;
 	private final int color;
-	private Image image;
+	private ImageWrapper image;
 
-	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY,
-			int color) {
+	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY, int color) {
 		this.id = id;
 		this.rect = new Rect(minX, maxX, minY, maxY);
 		this.color = color;
@@ -51,12 +49,12 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	}
 
 	@Override
-	public void setBitmap(Image b) {
+	public void setBitmap(ImageWrapper b) {
 		this.image = b;
 	}
 
 	@Override
-	public Image getBitmap() {
+	public ImageWrapper getBitmap() {
 		return this.image;
 	}
 }

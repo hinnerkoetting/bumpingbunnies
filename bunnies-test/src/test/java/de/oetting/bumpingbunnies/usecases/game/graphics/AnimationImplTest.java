@@ -14,7 +14,7 @@ import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.core.game.graphics.AnimationImpl;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
@@ -30,14 +30,14 @@ public class AnimationImplTest {
 	}
 
 	private void createAnimation(int numberOfPictures, int timeBetweenPicture) {
-		List<Image> pictures = createNumberOfPictures(numberOfPictures);
+		List<ImageWrapper> pictures = createNumberOfPictures(numberOfPictures);
 		new AnimationImpl(pictures, timeBetweenPicture, this.resizer);
 	}
 
-	private List<Image> createNumberOfPictures(int number) {
-		List<Image> bitmaps = new ArrayList<>();
+	private List<ImageWrapper> createNumberOfPictures(int number) {
+		List<ImageWrapper> bitmaps = new ArrayList<>();
 		for (int i = 0; i < number; i++) {
-			Image bitmap = new AndroidImage(Bitmap.createBitmap(0, 0, null));
+			ImageWrapper bitmap = new ImageWrapper(Bitmap.createBitmap(0, 0, null));
 			bitmaps.add(bitmap);
 		}
 		return bitmaps;

@@ -5,24 +5,24 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public class AnimationImpl implements Animation {
 
-	protected final List<Image> originalPictures;
+	protected final List<ImageWrapper> originalPictures;
 	private final int timeBetweenPictures;
-	protected List<Image> scaledPictures;
+	protected List<ImageWrapper> scaledPictures;
 	private long lastTimeSwitched;
 	private int currentIndex;
 	private ImageResizer resizer;
 	private boolean movingIndexUp = true;
 
-	public AnimationImpl(List<Image> pictures, int timeBetweenPictures, ImageResizer bitmapResizer) {
+	public AnimationImpl(List<ImageWrapper> pictures, int timeBetweenPictures, ImageResizer bitmapResizer) {
 		this.originalPictures = pictures;
 		this.timeBetweenPictures = timeBetweenPictures;
 		this.resizer = bitmapResizer;
 		this.lastTimeSwitched = System.currentTimeMillis();
-		this.scaledPictures = new ArrayList<Image>(pictures.size());
+		this.scaledPictures = new ArrayList<ImageWrapper>(pictures.size());
 		if (this.originalPictures.size() == 0) {
 			throw new NoImagesInAnimation();
 		}
@@ -61,8 +61,8 @@ public class AnimationImpl implements Animation {
 	public void updateGraphics(CanvasDelegate canvas, int width, int height) {
 		this.scaledPictures.clear();
 		for (int i = 0; i < this.originalPictures.size(); i++) {
-			Image original = this.originalPictures.get(i);
-			Image resized = this.resizer.resize(original, width, height);
+			ImageWrapper original = this.originalPictures.get(i);
+			ImageWrapper resized = this.resizer.resize(original, width, height);
 			this.scaledPictures.add(resized);
 		}
 	}

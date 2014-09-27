@@ -1,11 +1,12 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.Image;
+import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public class AndroidCanvasDelegate implements CanvasDelegate {
 
@@ -48,9 +49,8 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawImage(Image bitmap, long left, long top, Paint paint) {
-		AndroidImage androidImage = (AndroidImage) bitmap;
-		this.canvas.drawBitmap(androidImage.getBitmap(), transformX(left), transformY(top), paintConverter.convert(paint));
+	public void drawImage(ImageWrapper bitmap, long left, long top, Paint paint) {
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), transformX(left), transformY(top), paintConverter.convert(paint));
 	}
 
 	/**
@@ -82,9 +82,8 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	}
 
 	@Override
-	public void drawImageDirect(Image bitmap, int left, int top, Paint paint) {
-		AndroidImage androidImage = (AndroidImage) bitmap;
-		this.canvas.drawBitmap(androidImage.getBitmap(), left, top, paintConverter.convert(paint));
+	public void drawImageDirect(ImageWrapper bitmap, int left, int top, Paint paint) {
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint));
 	}
 
 	@Override
