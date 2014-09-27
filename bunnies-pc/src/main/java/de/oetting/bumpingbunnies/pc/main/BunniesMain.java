@@ -75,7 +75,7 @@ public class BunniesMain extends Application {
 		Canvas canvas = new Canvas(1000, 600);
 		createPanel(primaryStage, canvas);
 		buildGame(canvas);
-		startRandering();
+		startRendering();
 	}
 
 	private void createPanel(Stage primaryStage, Canvas canvas) {
@@ -125,7 +125,7 @@ public class BunniesMain extends Application {
 				(observable, oldValue, newValue) -> coordinatesCalculation.updateCanvas((int) canvas.getWidth(), newValue.intValue()));
 	}
 
-	private void startRandering() {
+	private void startRendering() {
 		new AnimationTimer() {
 
 			@Override
