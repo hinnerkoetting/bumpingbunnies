@@ -6,7 +6,6 @@ import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
-import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
@@ -33,7 +32,7 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameThreadFactory {
 
 	public static GameThread create(World world, Context context, Configuration configuration, CameraPositionCalculation cameraPositionCalculator,
-			GameMain main, Player myPlayer, GameActivity activity, NetworkMessageDistributor sendControl, GameThreadState threadState) {
+			GameMain main, Player myPlayer, GameActivity activity, NetworkMessageDistributor sendControl) {
 
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
@@ -44,11 +43,11 @@ public class GameThreadFactory {
 		// Sending Coordinates Strep
 		GameStepController worldController = GameStepControllerFactory.create(cameraPositionCalculator, world, stateDispatcher, factory,
 				new AndroidStateSenderFactory(sendControl, myPlayer), sendControl, configuration);
-		return createGameThread(threadState, worldController);
+		return createGameThread(worldController);
 	}
 
-	private static GameThread createGameThread(GameThreadState threadState, GameStepController worldController) {
-		return new GameThread(worldController, threadState);
+	private static GameThread createGameThread(GameStepController worldController) {
+		return new GameThread(worldController);
 	}
 
 	private static void initInputServices(GameMain main, GameActivity activity, World world, NetworkToGameDispatcher networkDispatcher,

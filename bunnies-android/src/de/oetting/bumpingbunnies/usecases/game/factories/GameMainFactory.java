@@ -14,7 +14,6 @@ import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
-import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
@@ -35,8 +34,7 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameMainFactory {
 
-	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer, GameThreadState threadState,
-			CameraPositionCalculation cameraCalclation) {
+	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer, CameraPositionCalculation cameraCalclation) {
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
 
 		World world = createWorld(activity, parameter);
@@ -44,7 +42,7 @@ public class GameMainFactory {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter);
 		clientAccepter.setMain(main);
 
-		GameThread gameThread = initGame(main, activity, parameter, sendControl, world, myPlayer, threadState, cameraCalclation);
+		GameThread gameThread = initGame(main, activity, parameter, sendControl, world, myPlayer, cameraCalclation);
 
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 
@@ -69,12 +67,12 @@ public class GameMainFactory {
 	}
 
 	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
-			Player myPlayer, GameThreadState threadState, CameraPositionCalculation cameraPositionCalculation) {
+			Player myPlayer, CameraPositionCalculation cameraPositionCalculation) {
 
 		main.setWorld(world);
 
 		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), cameraPositionCalculation, main, myPlayer, activity,
-				sendControl, threadState);
+				sendControl);
 		main.setGameThread(gameThread);
 
 		addJoinListener(main);

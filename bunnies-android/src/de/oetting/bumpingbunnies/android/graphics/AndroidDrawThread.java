@@ -1,13 +1,14 @@
 package de.oetting.bumpingbunnies.android.graphics;
 
+import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.GameScreenSizeChangeListener;
 
 public class AndroidDrawThread extends Thread implements GameScreenSizeChangeListener {
 
-	private final AndroidDrawer drawer;
+	private final Drawer drawer;
 	private boolean canceled;
 
-	public AndroidDrawThread(AndroidDrawer drawer) {
+	public AndroidDrawThread(Drawer drawer) {
 		super();
 		this.drawer = drawer;
 	}

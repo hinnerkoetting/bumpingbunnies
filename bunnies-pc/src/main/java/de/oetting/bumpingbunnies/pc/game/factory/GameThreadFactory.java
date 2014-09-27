@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.pc.game.factory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
-import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
@@ -26,7 +25,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 public class GameThreadFactory {
 
 	public GameThread create(CoordinatesCalculation coordinatesCalculation, World world, GameStopper gameStopper, Configuration configuration, Player myPlayer,
-			CameraPositionCalculation cameraCalculation, GameThreadState gameThreadState) {
+			CameraPositionCalculation cameraCalculation) {
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		PlayerMovementCalculationFactory factory = createFactory(world);
@@ -35,7 +34,7 @@ public class GameThreadFactory {
 		GameStepController stepController = GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, senderFactory, sendControl,
 				configuration);
 
-		return new GameThread(stepController, gameThreadState);
+		return new GameThread(stepController);
 	}
 
 	private PlayerMovementCalculationFactory createFactory(World world) {

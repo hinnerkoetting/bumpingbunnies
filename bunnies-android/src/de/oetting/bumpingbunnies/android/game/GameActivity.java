@@ -23,6 +23,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalcu
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
+import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
@@ -53,7 +54,7 @@ public class GameActivity extends Activity implements GameStopper {
 		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 		GameThreadState threadState = new GameThreadState();
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		this.main = GameMainFactory.create(this, parameter, myPlayer, threadState, cameraCalculation);
+		this.main = GameMainFactory.create(this, parameter, myPlayer, cameraCalculation);
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation);
 		inputDispatcher = GameMainFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 
@@ -62,7 +63,7 @@ public class GameActivity extends Activity implements GameStopper {
 		ObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, this, parameter.getConfiguration(), calculations);
 		AndroidDrawer drawer = new AndroidDrawer(objectsDrawer, parameter.getConfiguration().getLocalSettings().isAltPixelMode());
 		contentView.setCallback(drawer);
-		drawThread = new AndroidDrawThread(drawer);
+		drawThread = new AndroidDrawThread(new DrawerFpsCounter(drawer, threadState));
 		drawThread.start();
 		main.addJoinListener(drawer);
 		contentView.addOnSizeListener(drawThread);

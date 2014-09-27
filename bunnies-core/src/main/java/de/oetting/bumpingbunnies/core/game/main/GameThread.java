@@ -19,20 +19,23 @@ public class GameThread extends Thread {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
 
 	private final GameStepController worldController;
-	private final GameThreadState state;
+	private final ThreadLoop loop;
 
 	private boolean running;
 	private boolean canceled;
 
-	private int fpsLimitation;
-
-	public GameThread(GameStepController worldController, GameThreadState gameThreadState) {
+	public GameThread(GameStepController worldController) {
 		super("Main Game Thread");
 		setDaemon(true);
 		this.worldController = worldController;
 		this.running = true;
-		this.state = gameThreadState;
-		this.fpsLimitation = 29;
+		loop = new ThreadLoop(new OneLoopStep() {
+
+			@Override
+			public void nextStep(long delta) {
+				GameThread.this.worldController.nextStep(delta);
+			}
+		}, 29);
 	}
 
 	@Override
@@ -46,46 +49,13 @@ public class GameThread extends Thread {
 
 	private void internalRun() throws InterruptedException {
 		LOGGER.info("start game thread");
-		this.state.setLastRun(System.currentTimeMillis());
 		while (!this.canceled) {
 			if (this.running) {
-				if (!shouldStepGetSkipped()) {
-					nextWorldStep();
-				}
+				loop.nextStep();
 			} else {
 				sleep(100);
 			}
 		}
-	}
-
-	private boolean shouldStepGetSkipped() {
-		long millisecondsSinceLastRun = System.currentTimeMillis() - this.state.getLastRun();
-		double milliPerSecond = 1000.0;
-		return millisecondsSinceLastRun < milliPerSecond / this.fpsLimitation;
-	}
-
-	private void nextWorldStep() throws InterruptedException {
-		long currentTime = System.currentTimeMillis();
-		long delta = currentTime - this.state.getLastRun();
-		if (delta > 10) {
-			this.state.setLastRun(currentTime);
-			if (delta > 1000) {
-				LOGGER.warn("skipping frames");
-				return;
-			}
-			LOGGER.debug("Delta %d", delta);
-			if (isLastResetOneSecondAgo(currentTime)) {
-				this.state.resetFps(currentTime);
-			}
-			this.worldController.nextStep(delta);
-			this.state.increaseFps();
-		} else {
-			sleep(10 - delta);
-		}
-	}
-
-	private boolean isLastResetOneSecondAgo(long currentTime) {
-		return currentTime - this.state.getLastFpsReset() > 1000;
 	}
 
 	public void setRunning(boolean b) {

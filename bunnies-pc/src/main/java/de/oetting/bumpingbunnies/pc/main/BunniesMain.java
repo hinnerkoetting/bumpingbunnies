@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
+import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.NoopGameStopper;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
@@ -48,7 +49,7 @@ public class BunniesMain extends Application {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(BunniesMain.class);
 
-	private Drawer drawer;
+	private Drawer drawerThread;
 
 	public static void main(String[] args) {
 
@@ -88,7 +89,7 @@ public class BunniesMain extends Application {
 		GameThreadState gameThreadState = new GameThreadState();
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
-		GameThread gamethread = createGameThread(world, coordinatesCalculation, gameThreadState);
+		GameThread gamethread = createGameThread(world, coordinatesCalculation);
 		gamethread.start();
 	}
 
@@ -104,14 +105,15 @@ public class BunniesMain extends Application {
 
 			@Override
 			public void handle(long now) {
-				drawer.draw();
+				drawerThread.draw();
 			}
 		}.start();
 	}
 
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(new PcDrawablesFactory(world, gameThreadState), new PcCanvasDelegate(coordinatesCalculation));
-		drawer = new PcDrawer(objectsDrawer, canvas);
+		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
+		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
 		objectsDrawer.buildAllDrawables();
 	}
 
@@ -120,13 +122,12 @@ public class BunniesMain extends Application {
 		return new PcWorldObjectsParser().build(new NoopResourceProvider(), reader);
 	}
 
-	private static GameThread createGameThread(World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
+	private static GameThread createGameThread(World world, CoordinatesCalculation coordinatesCalculation) {
 
 		Configuration configuration = createConfiguration();
 		Player myPlayer = new PlayerFactory(1).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER));
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		return new GameThreadFactory()
-				.create(coordinatesCalculation, world, new NoopGameStopper(), configuration, myPlayer, cameraCalculation, gameThreadState);
+		return new GameThreadFactory().create(coordinatesCalculation, world, new NoopGameStopper(), configuration, myPlayer, cameraCalculation);
 
 	}
 
