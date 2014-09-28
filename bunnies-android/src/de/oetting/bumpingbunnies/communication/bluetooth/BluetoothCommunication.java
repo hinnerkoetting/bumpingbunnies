@@ -9,7 +9,7 @@ import android.content.IntentFilter;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.ConnectionEstablisher;
-import de.oetting.bumpingbunnies.communication.ServerDevice;
+import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;

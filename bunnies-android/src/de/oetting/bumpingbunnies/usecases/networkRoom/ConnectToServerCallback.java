@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
-import de.oetting.bumpingbunnies.communication.ServerDevice;
+import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 
 public interface ConnectToServerCallback {
 

@@ -1,7 +1,7 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.sockets;
 
 import de.oetting.bumpingbunnies.core.networking.MySocket;
-import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
+import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 
 public interface SocketFactory {
 

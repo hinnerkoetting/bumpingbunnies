@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.communication.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import de.oetting.bumpingbunnies.communication.ConnectionEstablisher;
-import de.oetting.bumpingbunnies.communication.SocketFactory;
+import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class BluetoothCommunicationFactory {

@@ -5,13 +5,12 @@ import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
-import de.oetting.bumpingbunnies.communication.SocketFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothSocketFactory;
-import de.oetting.bumpingbunnies.communication.bluetooth.DummySocketFactory;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunication;
 import de.oetting.bumpingbunnies.communication.wlan.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
+import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
@@ -24,6 +23,7 @@ public class RemoteCommunicationFactory {
 	public static RemoteCommunication create(GameActivity activity, AcceptsClientConnections newClientsAccepter, GeneralSettings settings) {
 		SocketFactory factory = createSocketFactory(settings);
 		ConnectionEstablisher rci = new ConnectionEstablisher(newClientsAccepter, null/**
+		 * 
 		 * 
 		 * TODO not needed
 		 */
@@ -39,8 +39,7 @@ public class RemoteCommunicationFactory {
 			LOGGER.info("Creating bluetooth socket factory");
 			return new BluetoothSocketFactory(BluetoothAdapter.getDefaultAdapter());
 		} else {
-			LOGGER.info("Creating dummy socket factory");
-			return new DummySocketFactory();
+			throw new IllegalArgumentException("Unknown host type " + settings.getNetworkType());
 		}
 	}
 

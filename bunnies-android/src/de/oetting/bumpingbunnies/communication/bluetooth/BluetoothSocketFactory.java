@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
-import de.oetting.bumpingbunnies.communication.ServerDevice;
-import de.oetting.bumpingbunnies.communication.SocketFactory;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
+import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
+import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 
 public class BluetoothSocketFactory implements SocketFactory {
 
