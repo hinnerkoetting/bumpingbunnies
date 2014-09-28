@@ -44,7 +44,9 @@ import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
+import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
 import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientService;
+import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -57,9 +59,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections, ConnectionToServerSuccesfullCallback,

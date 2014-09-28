@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking.server;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,16 +14,13 @@ import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
-import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientService;
-import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
+import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 
 /**
  * Controls logic which a host must fulfill. Sends Broadcast messages to send

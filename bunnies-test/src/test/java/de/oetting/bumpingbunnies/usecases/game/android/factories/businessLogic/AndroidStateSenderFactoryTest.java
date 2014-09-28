@@ -26,9 +26,9 @@ import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StateSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
+import de.oetting.bumpingbunnies.core.networking.sender.GameNetworkSender;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.GameNetworkSender;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

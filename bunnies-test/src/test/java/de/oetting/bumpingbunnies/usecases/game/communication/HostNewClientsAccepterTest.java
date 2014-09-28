@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.server.HostNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;

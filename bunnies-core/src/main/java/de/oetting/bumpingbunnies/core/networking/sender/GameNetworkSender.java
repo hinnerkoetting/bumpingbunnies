@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking.sender;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.StateSender;

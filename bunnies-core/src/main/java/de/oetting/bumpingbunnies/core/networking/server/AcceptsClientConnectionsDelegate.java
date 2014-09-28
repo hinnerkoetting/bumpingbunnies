@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking.server;
 
 import java.util.List;
 
