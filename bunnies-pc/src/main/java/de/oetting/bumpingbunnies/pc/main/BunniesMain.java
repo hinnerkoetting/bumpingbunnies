@@ -82,8 +82,9 @@ public class BunniesMain extends Application {
 		this.primaryStage = primaryStage;
 		Canvas canvas = new Canvas(1000, 600);
 		createPanel(primaryStage, canvas);
-		Player myPlayer = new PlayerFactory(20).createPlayer(1, "Player1", new Opponent("", OpponentType.MY_PLAYER));
-		Player secondPlayer = new PlayerFactory(20).createPlayer(2, "Player2", new Opponent("", OpponentType.MY_PLAYER));
+		PlayerFactory playerFactory = new PlayerFactory(25);
+		Player myPlayer = playerFactory.createPlayer(1, "Player1", new Opponent("", OpponentType.MY_PLAYER));
+		Player secondPlayer = playerFactory.createPlayer(6, "Player2", new Opponent("", OpponentType.MY_PLAYER));
 		buildGame(canvas, myPlayer);
 		playerJoins(myPlayer);
 		playerJoins(secondPlayer);

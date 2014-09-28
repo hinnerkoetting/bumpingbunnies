@@ -12,8 +12,7 @@ public class PcImageMirroror implements ImageMirroror {
 		Image fxImage = (Image) image.getBitmap();
 		ImageView imageView = new ImageView(fxImage);
 		imageView.setScaleX(-1);
-		Image coloredImage = imageView.getImage();
-		return new ImageWrapper(coloredImage);
+		return new ImageFromViewExtractor().extractToWrapper(imageView);
 	}
 
 }
