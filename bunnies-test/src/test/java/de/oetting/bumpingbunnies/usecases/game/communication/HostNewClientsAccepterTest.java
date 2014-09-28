@@ -15,7 +15,7 @@ import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.NetworkBroadcaster;
 
 @Category(UnitTests.class)
 public class HostNewClientsAccepterTest {
@@ -24,7 +24,7 @@ public class HostNewClientsAccepterTest {
 	@Mock
 	private ConnectionEstablisher remoteCommunication;
 	@Mock
-	private BroadcastService broadcaster;
+	private NetworkBroadcaster broadcaster;
 	@Mock
 	private World world;
 

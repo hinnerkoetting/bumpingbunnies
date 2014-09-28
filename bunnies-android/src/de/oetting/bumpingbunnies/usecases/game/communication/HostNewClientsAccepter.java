@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 
@@ -33,14 +33,14 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.Connectio
 public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostNewClientsAccepter.class);
-	private final BroadcastService broadcaster;
+	private final NetworkBroadcaster broadcaster;
 	private final ConnectionEstablisher remoteCommunication;
 	private final World world;
 	private final GeneralSettings generalSettings;
 	private PlayerJoinListener mainJoinListener;
 	private List<ConnectionToClientService> connectionToClientServices;
 
-	public HostNewClientsAccepter(BroadcastService broadcaster, ConnectionEstablisher remoteCommunication, World world, GeneralSettings generalSettings) {
+	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, GeneralSettings generalSettings) {
 		super();
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;

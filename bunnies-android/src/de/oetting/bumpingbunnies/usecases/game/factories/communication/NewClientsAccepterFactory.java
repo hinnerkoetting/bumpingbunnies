@@ -8,23 +8,31 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.communication.AcceptsClientConnectionsDelegate;
 import de.oetting.bumpingbunnies.usecases.game.communication.HostNewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.NetworkBroadcaster;
 
 public class NewClientsAccepterFactory {
 
 	public static NewClientsAccepter create(GameStartParameter parameter, GameActivity origin, World world) {
-		NewClientsAccepter accepter = createClientAccepter(parameter, origin, world);
-		accepter.start();
+		final NewClientsAccepter accepter = createClientAccepter(parameter, origin, world);
+		startAsynchronous(accepter);
 		return accepter;
+	}
+
+	private static void startAsynchronous(final NewClientsAccepter accepter) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				accepter.start();
+			}
+		}).start();
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, GameActivity origin, World world) {
 		if (parameter.getConfiguration().isHost()) {
 			AcceptsClientConnectionsDelegate delegate = new AcceptsClientConnectionsDelegate();
-			BroadcastService bcs = new BroadcastService(origin);
-			ConnectionEstablisher rc = RemoteCommunicationFactory.create(
-					origin, delegate, parameter
-							.getConfiguration().getGeneralSettings());
+			NetworkBroadcaster bcs = new NetworkBroadcaster(origin);
+			ConnectionEstablisher rc = ConnectionEstablisherFactory.create(origin, delegate, parameter.getConfiguration().getGeneralSettings());
 			NewClientsAccepter accepter = new HostNewClientsAccepter(bcs, rc, world, parameter.getConfiguration().getGeneralSettings());
 			delegate.setAccepter(accepter);
 			return accepter;

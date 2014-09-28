@@ -11,28 +11,21 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
-public class BroadcastService {
+public class NetworkBroadcaster {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BroadcastService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkBroadcaster.class);
 	private final Activity origin;
 	private SendBroadCastsThread sendBroadcastsThread;
 	private ListenForBroadcastsThread broadcastThread;
 
-	public BroadcastService(Activity origin) {
+	public NetworkBroadcaster(Activity origin) {
 		this.origin = origin;
 	}
 
 	public void startRegularServerBroadcast() {
 		cancel();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				BroadcastService.this.sendBroadcastsThread = SendBroadcastFactory
-						.create();
-				BroadcastService.this.sendBroadcastsThread.start();
-			}
-		}).start();
+		NetworkBroadcaster.this.sendBroadcastsThread = SendBroadcastFactory.create();
+		NetworkBroadcaster.this.sendBroadcastsThread.start();
 	}
 
 	public void cancel() {
@@ -54,12 +47,10 @@ public class BroadcastService {
 			public void run() {
 				try {
 					LOGGER.info("Searching for host...");
-					DatagramSocket socket = new DatagramSocket(
-							NetworkConstants.BROADCAST_PORT);
+					DatagramSocket socket = new DatagramSocket(NetworkConstants.BROADCAST_PORT);
 
-					BroadcastService.this.broadcastThread = new ListenForBroadcastsThread(
-							socket, room);
-					BroadcastService.this.broadcastThread.start();
+					NetworkBroadcaster.this.broadcastThread = new ListenForBroadcastsThread(socket, room);
+					NetworkBroadcaster.this.broadcastThread.start();
 				} catch (BindException e) {
 					displayErrorAddressInUse();
 					LOGGER.warn("Error when trying to search for host", e);
@@ -86,7 +77,7 @@ public class BroadcastService {
 
 			@Override
 			public void run() {
-				Toast.makeText(BroadcastService.this.origin, message, Toast.LENGTH_SHORT).show();
+				Toast.makeText(NetworkBroadcaster.this.origin, message, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

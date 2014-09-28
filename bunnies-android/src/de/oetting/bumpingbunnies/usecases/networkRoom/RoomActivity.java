@@ -51,11 +51,11 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfigurati
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.BroadcastService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
+import de.oetting.bumpingbunnies.usecases.networkRoom.services.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
@@ -69,7 +69,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private ConnectionEstablisher remoteCommunication;
 	private RoomArrayAdapter playersAA;
-	private BroadcastService broadcastService;
+	private NetworkBroadcaster broadcastService;
 
 	private int playerCounter = 0;
 	private ConnectionToServer connectedToServerService;
@@ -87,7 +87,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		initRoom();
 		displayDefaultIp();
 		this.connectedToServerService = new DummyConnectionToServer();
-		this.broadcastService = new BroadcastService(this);
+		this.broadcastService = new NetworkBroadcaster(this);
 	}
 
 	private void displayDefaultIp() {
@@ -197,7 +197,17 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.remoteCommunication.startThreadToAcceptClients();
 		enableButtons(false);
 		createNewRoom(myPlayerId);
-		this.broadcastService.startRegularServerBroadcast();
+		startBroadCast();
+	}
+
+	private void startBroadCast() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				broadcastService.startRegularServerBroadcast();
+			}
+		}).start();
 	}
 
 	private void enableButtons(boolean enable) {

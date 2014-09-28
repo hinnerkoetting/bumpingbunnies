@@ -15,20 +15,13 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
 
-public class RemoteCommunicationFactory {
+public class ConnectionEstablisherFactory {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RemoteCommunicationFactory.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionEstablisherFactory.class);
 
 	public static ConnectionEstablisher create(GameActivity activity, AcceptsClientConnections newClientsAccepter, GeneralSettings settings) {
 		SocketFactory factory = createSocketFactory(settings);
 		DefaultConnectionEstablisher rci = new DefaultConnectionEstablisher(newClientsAccepter, null/**
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
 		 * 
 		 * TODO not needed
 		 */

@@ -27,14 +27,14 @@ public class RemoteCommunicationFactoryTest {
 
 	@Test
 	public void create_forWlanPlayer_shouldreturnDefaultRemoteCommunication() {
-		ConnectionEstablisher rc = RemoteCommunicationFactory.create(mock(GameActivity.class), mock(AcceptsClientConnections.class), new GeneralSettings(
+		ConnectionEstablisher rc = ConnectionEstablisherFactory.create(mock(GameActivity.class), mock(AcceptsClientConnections.class), new GeneralSettings(
 				WorldConfiguration.CASTLE, 1, NetworkType.WLAN));
 		assertThat(rc, is(instanceOf(ConnectionEstablisher.class)));
 	}
 
 	@Test
 	public void create_forBluetoothPlayer_shouldReturnBluetoothCommunication() {
-		ConnectionEstablisher rc = RemoteCommunicationFactory.create(mock(GameActivity.class), mock(AcceptsClientConnections.class), new GeneralSettings(
+		ConnectionEstablisher rc = ConnectionEstablisherFactory.create(mock(GameActivity.class), mock(AcceptsClientConnections.class), new GeneralSettings(
 				WorldConfiguration.CASTLE, 1, NetworkType.BLUETOOTH));
 		assertThat(rc, is(instanceOf(BluetoothCommunication.class)));
 	}
