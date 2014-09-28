@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.communication;
 
 public interface RemoteCommunication {
 
-	void startServer();
+	void startThreadToAcceptClients();
 
 	void closeOpenConnections();
 

@@ -192,7 +192,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void startHostThread() {
 		this.playerCounter = 0;
 		int myPlayerId = getNextPlayerId();
-		this.remoteCommunication.startServer();
+		this.remoteCommunication.startThreadToAcceptClients();
 		enableButtons(false);
 		createNewRoom(myPlayerId);
 		this.broadcastService.startRegularServerBroadcast();

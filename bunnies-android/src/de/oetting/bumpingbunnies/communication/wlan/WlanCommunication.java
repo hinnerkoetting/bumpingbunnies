@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.communication.wlan;
 
-import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
@@ -9,16 +9,15 @@ public class WlanCommunication implements RemoteCommunication {
 	private ConnectionEstablisher commonRemoteCommunication;
 	private RoomActivity origin;
 
-	public WlanCommunication(RoomActivity origin,
-			ConnectionEstablisher commonRemoteCommunication) {
+	public WlanCommunication(RoomActivity origin, ConnectionEstablisher commonRemoteCommunication) {
 		super();
 		this.origin = origin;
 		this.commonRemoteCommunication = commonRemoteCommunication;
 	}
 
 	@Override
-	public void startServer() {
-		this.commonRemoteCommunication.startServer();
+	public void startThreadToAcceptClients() {
+		this.commonRemoteCommunication.startThreadToAcceptClients();
 	}
 
 	@Override
@@ -33,7 +32,7 @@ public class WlanCommunication implements RemoteCommunication {
 
 	@Override
 	public boolean activate() {
-		return this.commonRemoteCommunication.activate();
+		return true;
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class BluetoothCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void startServer() {
+	public void startThreadToAcceptClients() {
 		LOGGER.info("Starting server");
 		boolean bluetoothWorking = checkBluetoothSettings();
 		if (bluetoothWorking) {
@@ -40,7 +40,7 @@ public class BluetoothCommunication implements RemoteCommunication {
 			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 			this.origin.startActivity(discoverableIntent);
 			closeOpenConnections();
-			this.commonBehaviour.startServer();
+			this.commonBehaviour.startThreadToAcceptClients();
 		}
 	}
 

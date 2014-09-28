@@ -6,13 +6,13 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.ConnectsToServer;
 
-public class ConnectThreadImpl extends Thread implements ConnectThread {
+public class DefaultConnectThread extends Thread implements ConnectThread {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectThreadImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConnectThread.class);
 	private final MySocket mmSocket;
 	private final ConnectsToServer activity;
 
-	public ConnectThreadImpl(MySocket mmSocket, ConnectsToServer activity) {
+	public DefaultConnectThread(MySocket mmSocket, ConnectsToServer activity) {
 		super("Connect to Server thread");
 		this.activity = activity;
 		// Use a temporary object that is later assigned to mmSocket,

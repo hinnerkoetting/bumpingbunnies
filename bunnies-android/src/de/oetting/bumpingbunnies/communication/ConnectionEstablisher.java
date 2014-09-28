@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.ConnectsToServer;
 
-public class ConnectionEstablisher implements RemoteCommunication {
+public class ConnectionEstablisher {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionEstablisher.class);
 	private final SocketFactory serverSocketFactory;
 	private final AcceptsClientConnections acceptsClientConnections;
@@ -17,40 +17,29 @@ public class ConnectionEstablisher implements RemoteCommunication {
 		this.acceptsClientConnections = acceptsClientConnections;
 		this.connectsToServer = connectsToServer;
 		this.serverSocketFactory = serverSocketFactory;
-		this.acceptThread = new DummyAcceptThread();
-		this.connectThread = new DummyConnectThread();
+		this.acceptThread = null;
+		this.connectThread = null;
 	}
 
-	@Override
-	public void startServer() {
+	public void startThreadToAcceptClients() {
 		LOGGER.info("Starting server");
-		closeOpenConnections();
-		this.acceptThread = new AcceptThreadImpl(this.serverSocketFactory.create(), this.acceptsClientConnections);
-		this.acceptThread.start();
+		if (acceptThread != null) {
+			this.acceptThread = new AcceptThreadImpl(this.serverSocketFactory.create(), this.acceptsClientConnections);
+			this.acceptThread.start();
+		}
 	}
 
-	@Override
 	public void closeOpenConnections() {
 		LOGGER.info("Closing connections");
 		this.acceptThread.close();
+		this.acceptThread = null;
 		// this.connectThread.close();
 		// SocketStorage.getSingleton().closeExistingSocket();
 	}
 
-	@Override
 	public void connectToServer(final ServerDevice device) {
-		ConnectionEstablisher.this.connectThread = new ConnectThreadImpl(ConnectionEstablisher.this.serverSocketFactory.createClientSocket(device),
-				ConnectionEstablisher.this.connectsToServer);
-		ConnectionEstablisher.this.connectThread.start();
-	}
-
-	@Override
-	public boolean activate() {
-		return true;
-	}
-
-	@Override
-	public void findServer(String address) {
+		connectThread = new DefaultConnectThread(serverSocketFactory.createClientSocket(device), connectsToServer);
+		connectThread.start();
 	}
 
 }

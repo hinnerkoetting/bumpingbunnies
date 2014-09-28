@@ -52,7 +52,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	@Override
 	public void start() {
 		this.broadcaster.startRegularServerBroadcast();
-		this.remoteCommunication.startServer();
+		this.remoteCommunication.startThreadToAcceptClients();
 	}
 
 	@Override

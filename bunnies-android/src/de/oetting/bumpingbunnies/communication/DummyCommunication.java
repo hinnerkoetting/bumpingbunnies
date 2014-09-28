@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.communication;
 public class DummyCommunication implements RemoteCommunication {
 
 	@Override
-	public void startServer() {
+	public void startThreadToAcceptClients() {
 	}
 
 	@Override

@@ -10,15 +10,13 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 public class AcceptThreadImpl extends Thread implements AcceptThread {
 	private final ServerSocket mmServerSocket;
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AcceptThreadImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AcceptThreadImpl.class);
 
 	private final AcceptsClientConnections acceptsConnections;
 	private boolean canceled;
 
-	public AcceptThreadImpl(ServerSocket serverSocket,
-			AcceptsClientConnections gameStarter) {
-		super("Host thread");
+	public AcceptThreadImpl(ServerSocket serverSocket, AcceptsClientConnections gameStarter) {
+		super("Accepts requests from Clients");
 		this.acceptsConnections = gameStarter;
 		this.mmServerSocket = serverSocket;
 	}
@@ -26,19 +24,10 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 	@Override
 	public void run() {
 		LOGGER.info("Start Server Thread");
-		MySocket socket = null;
-		// Keep listening until exception occurs or a socket is returned
 		while (true) {
 			try {
-				socket = this.mmServerSocket.accept();
-
-				// If a connection was accepted
-				if (socket != null) {
-					// Do work to manage the connection (in a separate thread)
-					manageConnectedSocket(socket);
-				} else {
-					LOGGER.info("Socket == null ???");
-				}
+				MySocket socket = this.mmServerSocket.accept();
+				manageConnectedSocket(socket);
 			} catch (IOException e) {
 				if (!this.canceled) {
 					throw new RuntimeException(e);
@@ -49,7 +38,7 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 
 	private void manageConnectedSocket(MySocket socket) {
 		this.acceptsConnections.clientConnectedSucessfull(socket);
-		LOGGER.info("Connection accepeted");
+		LOGGER.info("Connection accepted");
 	}
 
 	@Override
@@ -58,7 +47,7 @@ public class AcceptThreadImpl extends Thread implements AcceptThread {
 			this.canceled = true;
 			this.mmServerSocket.close();
 		} catch (IOException e) {
-			LOGGER.warn("Error von close", e);
+			LOGGER.warn("Error on close", e);
 		}
 	}
 }
