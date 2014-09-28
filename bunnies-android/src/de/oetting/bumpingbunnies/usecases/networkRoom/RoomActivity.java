@@ -26,7 +26,9 @@ import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
+import de.oetting.bumpingbunnies.communication.wlan.WlanCommunication;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
+import de.oetting.bumpingbunnies.communication.wlan.WlanDevice;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.ConnectsToServer;
@@ -394,7 +396,18 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	public void onClickConnect(View v) {
-		this.remoteCommunication.findServer(getInputIp());
+		if (remoteCommunication instanceof WlanCommunication) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					WlanDevice device = new WlanDevice(getInputIp());
+					remoteCommunication.connectToServer(device);
+				}
+			}).start();
+		} else {
+			this.remoteCommunication.searchServer();
+		}
 	}
 
 	@Override

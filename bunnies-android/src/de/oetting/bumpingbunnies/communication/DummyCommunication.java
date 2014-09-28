@@ -22,7 +22,7 @@ public class DummyCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void findServer(String address) {
+	public void searchServer() {
 	}
 
 }

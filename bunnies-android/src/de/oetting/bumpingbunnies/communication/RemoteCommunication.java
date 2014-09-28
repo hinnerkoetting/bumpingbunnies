@@ -12,9 +12,6 @@ public interface RemoteCommunication {
 
 	boolean activate();
 
-	/**
-	 * TODO: Temp
-	 */
-	void findServer(String address);
+	void searchServer();
 
 }

@@ -9,6 +9,6 @@ public class WlanCommunicationFactory {
 	public static WlanCommunication create(RoomActivity origin) {
 		SocketFactory socketFactory = new WlanSocketFactory();
 		ConnectionEstablisher communication = new ConnectionEstablisher(origin, origin, socketFactory);
-		return new WlanCommunication(origin, communication);
+		return new WlanCommunication(communication);
 	}
 }

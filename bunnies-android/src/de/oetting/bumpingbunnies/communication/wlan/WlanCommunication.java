@@ -3,15 +3,12 @@ package de.oetting.bumpingbunnies.communication.wlan;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
-import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class WlanCommunication implements RemoteCommunication {
-	private ConnectionEstablisher commonRemoteCommunication;
-	private RoomActivity origin;
 
-	public WlanCommunication(RoomActivity origin, ConnectionEstablisher commonRemoteCommunication) {
-		super();
-		this.origin = origin;
+	private ConnectionEstablisher commonRemoteCommunication;
+
+	public WlanCommunication(ConnectionEstablisher commonRemoteCommunication) {
 		this.commonRemoteCommunication = commonRemoteCommunication;
 	}
 
@@ -36,14 +33,6 @@ public class WlanCommunication implements RemoteCommunication {
 	}
 
 	@Override
-	public void findServer(String address) {
-		// TEMP
-		try {
-			WlanDevice device = new WlanDevice(address);
-			this.origin.startConnectToServer(device);
-			// this.commonRemoteCommunication.findServer();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	public void searchServer() {
 	}
 }

@@ -25,6 +25,8 @@ public class RemoteCommunicationFactory {
 		ConnectionEstablisher rci = new ConnectionEstablisher(newClientsAccepter, null/**
 		 * 
 		 * 
+		 * 
+		 * 
 		 * TODO not needed
 		 */
 		, factory);
@@ -46,8 +48,7 @@ public class RemoteCommunicationFactory {
 	private static RemoteCommunication createRemotCommunication(ConnectionEstablisher rci, GeneralSettings settings) {
 		if (settings.getNetworkType().equals(NetworkType.WLAN)) {
 			LOGGER.info("Creating Wlan communication");
-			return new WlanCommunication(null /** TODO */
-			, rci);
+			return new WlanCommunication(rci);
 		} else if (settings.getNetworkType().equals(NetworkType.BLUETOOTH)) {
 			LOGGER.info("Creating bluetooth communication");
 			return new BluetoothCommunication(null /** TODO */
