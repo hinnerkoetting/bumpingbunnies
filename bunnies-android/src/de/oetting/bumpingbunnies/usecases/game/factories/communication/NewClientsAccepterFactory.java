@@ -3,11 +3,11 @@ package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 import de.oetting.bumpingbunnies.core.networking.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.communication.AcceptsClientConnectionsDelegate;
 import de.oetting.bumpingbunnies.usecases.game.communication.HostNewClientsAccepter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.NetworkBroadcaster;
 
 public class NewClientsAccepterFactory {
 

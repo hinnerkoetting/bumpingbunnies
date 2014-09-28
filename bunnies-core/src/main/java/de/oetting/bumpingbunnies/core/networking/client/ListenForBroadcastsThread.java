@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.services;
+package de.oetting.bumpingbunnies.core.networking.client;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

@@ -1,12 +1,13 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.services;
+package de.oetting.bumpingbunnies.core.networking.server;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
+import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
+import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class NetworkBroadcaster {
 
@@ -31,7 +32,7 @@ public class NetworkBroadcaster {
 		}
 	}
 
-	public void listenForBroadCasts(final RoomActivity room) throws SocketException {
+	public void listenForBroadCasts(final OnBroadcastReceived room) throws SocketException {
 		cancel();
 		LOGGER.info("Searching for host...");
 		DatagramSocket socket = new DatagramSocket(NetworkConstants.BROADCAST_PORT);

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.services;
+package de.oetting.bumpingbunnies.core.networking.server;
 
 import java.util.List;
 
@@ -8,8 +8,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 public class SendBroadCastsThread extends Thread {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SendBroadCastsThread.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SendBroadCastsThread.class);
 	private static final int BROASTCAST_SLEEP = 1000;
 	private boolean canceled;
 	private final List<UdpSocket> broadcastSockets;
@@ -57,8 +56,7 @@ public class SendBroadCastsThread extends Thread {
 				LOGGER.info("Closing Send-Broadcast socket");
 				socket.close();
 			} catch (Exception e) {
-				LOGGER.warn("Exception on closing broadcast socket "
-						+ e.toString());
+				LOGGER.warn("Exception on closing broadcast socket " + e.toString());
 			}
 		}
 

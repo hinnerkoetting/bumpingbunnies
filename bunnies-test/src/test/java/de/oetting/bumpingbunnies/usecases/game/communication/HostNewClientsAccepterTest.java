@@ -10,12 +10,12 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.NetworkBroadcaster;
 
 @Category(UnitTests.class)
 public class HostNewClientsAccepterTest {

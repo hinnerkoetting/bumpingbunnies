@@ -36,7 +36,9 @@ import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StrictNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
@@ -56,8 +58,6 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClien
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.NetworkBroadcaster;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
