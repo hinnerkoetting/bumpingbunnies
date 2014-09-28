@@ -35,7 +35,7 @@ public class GameThread extends Thread {
 			public void nextStep(long delta) {
 				GameThread.this.worldController.nextStep(delta);
 			}
-		}, 29);
+		}, 100);
 	}
 
 	@Override

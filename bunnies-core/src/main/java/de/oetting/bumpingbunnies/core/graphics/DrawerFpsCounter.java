@@ -22,7 +22,7 @@ public class DrawerFpsCounter implements Drawer {
 			public void nextStep(long delta) {
 				DrawerFpsCounter.this.drawer.draw();
 			}
-		}, 30, state);
+		}, 60, state);
 	}
 
 	@Override
