@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.communication.factories;
+package de.oetting.bumpingbunnies.core.networking.messaging.receiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.OpponentTypeReceiveFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactory {
@@ -34,7 +33,8 @@ public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactor
 		return udpReceiveThread;
 	}
 
-	private NetworkReceiveThread createNormalSocketNetworkReceiver(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, MySocket socket) {
+	private NetworkReceiveThread createNormalSocketNetworkReceiver(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
+			MySocket socket) {
 		NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory.createGameNetworkReceiver(socket, networkDispatcher, sendControl);
 		return tcpReceiveThread;
 	}
