@@ -16,11 +16,11 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.communication.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @Category(UnitTests.class)

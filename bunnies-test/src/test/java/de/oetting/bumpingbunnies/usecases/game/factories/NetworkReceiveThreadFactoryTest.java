@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import de.oetting.bumpingbunnies.communication.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
@@ -28,7 +29,6 @@ import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 

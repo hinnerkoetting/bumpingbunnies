@@ -6,6 +6,7 @@ import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidBitmapReader;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlReader;
+import de.oetting.bumpingbunnies.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
@@ -20,7 +21,6 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 

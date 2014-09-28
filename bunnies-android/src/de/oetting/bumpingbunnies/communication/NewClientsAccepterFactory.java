@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.factories.communication;
+package de.oetting.bumpingbunnies.communication;
 
 import de.oetting.bumpingbunnies.core.networking.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;

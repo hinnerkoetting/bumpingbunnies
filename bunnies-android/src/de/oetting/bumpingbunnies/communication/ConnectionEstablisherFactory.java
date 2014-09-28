@@ -1,7 +1,6 @@
-package de.oetting.bumpingbunnies.usecases.game.factories.communication;
+package de.oetting.bumpingbunnies.communication;
 
 import android.bluetooth.BluetoothAdapter;
-import de.oetting.bumpingbunnies.communication.DummyCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothSocketFactory;
 import de.oetting.bumpingbunnies.communication.wlan.WlanSocketFactory;

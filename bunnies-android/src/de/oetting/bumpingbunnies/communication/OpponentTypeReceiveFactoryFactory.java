@@ -1,5 +1,9 @@
-package de.oetting.bumpingbunnies.usecases.game.factories.communication;
+package de.oetting.bumpingbunnies.communication;
 
+import de.oetting.bumpingbunnies.core.networking.receive.AiOpponentTypeFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.MyPlayerOpponentTypeFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.OpponentTypeFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.communication.BluetoothOpponentTypeFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
 public class OpponentTypeReceiveFactoryFactory {

@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import de.oetting.bumpingbunnies.communication.ConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;

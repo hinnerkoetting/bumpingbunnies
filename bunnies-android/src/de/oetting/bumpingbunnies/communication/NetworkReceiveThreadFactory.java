@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.factories.communication;
+package de.oetting.bumpingbunnies.communication;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.OpponentTypeReceiveFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.OpponentTypeFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class NetworkReceiveThreadFactory implements NetworkReceiverFactory {

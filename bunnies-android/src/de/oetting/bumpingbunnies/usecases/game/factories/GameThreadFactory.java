@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
+import de.oetting.bumpingbunnies.communication.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
@@ -24,7 +25,6 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameReceiver
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
-import de.oetting.bumpingbunnies.usecases.game.factories.communication.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.factories.communication;
+package de.oetting.bumpingbunnies.core.networking.receive;
 
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.OpponentTypeReceiveFactory;
 
