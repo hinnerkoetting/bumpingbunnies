@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.client;
 
 import de.oetting.bumpingbunnies.core.networking.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.networking.MySocket;

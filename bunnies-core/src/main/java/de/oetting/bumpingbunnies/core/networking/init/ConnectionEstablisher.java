@@ -1,9 +1,9 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.init;
 
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.networking.ServerDevice;
-import de.oetting.bumpingbunnies.core.networking.init.AcceptThread;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectToServerThread;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;

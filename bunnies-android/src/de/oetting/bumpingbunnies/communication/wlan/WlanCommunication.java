@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.communication.wlan;
 
-import de.oetting.bumpingbunnies.communication.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.networking.ServerDevice;
+import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class WlanCommunication implements RemoteCommunication {
