@@ -82,11 +82,21 @@ public class BunniesMain extends Application {
 		this.primaryStage = primaryStage;
 		Canvas canvas = new Canvas(1000, 600);
 		createPanel(primaryStage, canvas);
-		Player myPlayer = new PlayerFactory(20).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER));
+		Player myPlayer = new PlayerFactory(20).createPlayer(1, "Player1", new Opponent("", OpponentType.MY_PLAYER));
+		Player secondPlayer = new PlayerFactory(20).createPlayer(2, "Player2", new Opponent("", OpponentType.MY_PLAYER));
 		buildGame(canvas, myPlayer);
+		playerJoins(myPlayer);
+		playerJoins(secondPlayer);
 		startRendering();
-		inputDispatcher = new PcInputDispatcher(new ConfigurableKeyboardInputService(KeyCode.A.getName(), KeyCode.D.getName(), KeyCode.W.getName(),
-				new PlayerMovement(myPlayer)));
+		inputDispatcher = new PcInputDispatcher();
+		inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.A.getName(), KeyCode.D.getName(), KeyCode.W.getName(), new PlayerMovement(
+				myPlayer)));
+		inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.LEFT.getName(), KeyCode.RIGHT.getName(), KeyCode.UP.getName(),
+				new PlayerMovement(secondPlayer)));
+	}
+
+	private void playerJoins(Player myPlayer) {
+		gameMain.newPlayerJoined(myPlayer);
 	}
 
 	private void createPanel(Stage primaryStage, Canvas canvas) {
@@ -143,7 +153,6 @@ public class BunniesMain extends Application {
 		gameMain = new GameMainFactory().create(cameraCalculation, world, configuration);
 		gameMain.addAllJoinListeners();
 		gameMain.addJoinListener(drawerThread);
-		gameMain.newPlayerJoined(myPlayer);
 	}
 
 	private void changeSizeInCoordinatesCalculationWhenScreenChanges(Canvas canvas, CoordinatesCalculation coordinatesCalculation) {

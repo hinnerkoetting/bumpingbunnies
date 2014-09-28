@@ -1,21 +1,30 @@
 package de.oetting.bumpingbunnies.pc.game.input;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.input.KeyCode;
 import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputService;
 
 public class PcInputDispatcher {
 
-	private final ConfigurableKeyboardInputService inputService;
+	private final List<ConfigurableKeyboardInputService> inputServices;
 
-	public PcInputDispatcher(ConfigurableKeyboardInputService inputService) {
-		this.inputService = inputService;
+	public PcInputDispatcher() {
+		inputServices = new ArrayList<>();
 	}
 
-	public boolean dispatchOnKeyDown(KeyCode keyCode) {
-		return inputService.onKeyDown(keyCode.getName());
+	public void dispatchOnKeyDown(KeyCode keyCode) {
+		for (ConfigurableKeyboardInputService inputService : inputServices)
+			inputService.onKeyDown(keyCode.getName());
 	}
 
-	public boolean dispatchOnKeyUp(KeyCode keyCode) {
-		return inputService.onKeyUp(keyCode.getName());
+	public void dispatchOnKeyUp(KeyCode keyCode) {
+		for (ConfigurableKeyboardInputService inputService : inputServices)
+			inputService.onKeyUp(keyCode.getName());
+	}
+
+	public void addInputService(ConfigurableKeyboardInputService inputService) {
+		inputServices.add(inputService);
 	}
 }
