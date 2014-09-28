@@ -53,7 +53,7 @@ public class GameThreadFactory {
 	private static void initInputServices(GameMain main, GameActivity activity, World world, NetworkToGameDispatcher networkDispatcher,
 			NetworkMessageDistributor sendControl) {
 		addAllNetworkListeners(activity, networkDispatcher, world);
-		createNetworkReceiveThreads(main, networkDispatcher, sendControl);
+		main.setReceiveControl(createNetworkReceiveThreads(networkDispatcher, sendControl));
 	}
 
 	private static void addAllNetworkListeners(GameActivity activity, NetworkToGameDispatcher networkDispatcher, World world) {
@@ -64,9 +64,8 @@ public class GameThreadFactory {
 		new SpawnPointReceiver(networkDispatcher, world);
 	}
 
-	private static void createNetworkReceiveThreads(GameMain main, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
-		NetworkReceiveControl receiveControl = createNetworkReceiveControl(networkDispatcher, sendControl);
-		main.setReceiveControl(receiveControl);
+	private static NetworkReceiveControl createNetworkReceiveThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
+		return createNetworkReceiveControl(networkDispatcher, sendControl);
 	}
 
 	private static NetworkReceiveControl createNetworkReceiveControl(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {

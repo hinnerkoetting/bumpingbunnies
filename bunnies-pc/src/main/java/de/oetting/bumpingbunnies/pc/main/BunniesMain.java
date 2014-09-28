@@ -21,19 +21,18 @@ import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.game.main.GameThread;
+import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.NoopGameStopper;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.pc.game.factory.GameThreadFactory;
+import de.oetting.bumpingbunnies.pc.game.GameMainFactory;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
 import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
@@ -65,7 +64,7 @@ public class BunniesMain extends Application {
 
 	private boolean errorHappened;
 
-	private GameThread gamethread;
+	private GameMain gameMain;
 
 	private World world;
 
@@ -81,7 +80,6 @@ public class BunniesMain extends Application {
 		createPanel(primaryStage, canvas);
 		buildGame(canvas);
 		startRendering();
-		playerJoins();
 	}
 
 	private void createPanel(Stage primaryStage, Canvas canvas) {
@@ -120,8 +118,13 @@ public class BunniesMain extends Application {
 		GameThreadState gameThreadState = new GameThreadState();
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
-		gamethread = createGameThread(world, coordinatesCalculation);
-		gamethread.start();
+		Player myPlayer = new PlayerFactory(1).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER));
+		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
+		Configuration configuration = createConfiguration();
+		gameMain = new GameMainFactory().create(cameraCalculation, world, configuration);
+		gameMain.addAllJoinListeners();
+		gameMain.addJoinListener(drawerThread);
+		gameMain.newPlayerJoined(myPlayer);
 	}
 
 	private void changeSizeInCoordinatesCalculationWhenScreenChanges(Canvas canvas, CoordinatesCalculation coordinatesCalculation) {
@@ -163,15 +166,6 @@ public class BunniesMain extends Application {
 		return new PcWorldObjectsParser().build(new NoopResourceProvider(), reader);
 	}
 
-	private static GameThread createGameThread(World world, CoordinatesCalculation coordinatesCalculation) {
-
-		Configuration configuration = createConfiguration();
-		Player myPlayer = new PlayerFactory(1).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER));
-		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		return new GameThreadFactory().create(coordinatesCalculation, world, new NoopGameStopper(), configuration, myPlayer, cameraCalculation);
-
-	}
-
 	private static Configuration createConfiguration() {
 		LocalSettings localSettings = new LocalSettings(InputConfiguration.DISTRIBUTED_KEYBOARD, 1, true, false);
 		GeneralSettings generalSettings = new GeneralSettings(WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
@@ -204,9 +198,4 @@ public class BunniesMain extends Application {
 		dialog.show();
 	}
 
-	private void playerJoins() {
-		Player player = new PlayerFactory(1).createPlayer(1, "test", Opponent.createMyPlayer("test"));
-		world.addPlayer(player);
-		drawerThread.newPlayerJoined(player);
-	}
 }

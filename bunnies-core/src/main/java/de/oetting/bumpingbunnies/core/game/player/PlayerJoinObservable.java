@@ -32,6 +32,8 @@ public class PlayerJoinObservable {
 	}
 
 	public void addListener(PlayerJoinListener listener) {
+		if (listener == null)
+			throw new NullPointerException();
 		this.listeners.add(listener);
 	}
 }

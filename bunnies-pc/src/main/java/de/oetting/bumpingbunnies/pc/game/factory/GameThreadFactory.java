@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.pc.game.factory;
 
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
@@ -20,12 +19,10 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.pc.game.network.PcStateSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class GameThreadFactory {
 
-	public GameThread create(CoordinatesCalculation coordinatesCalculation, World world, GameStopper gameStopper, Configuration configuration, Player myPlayer,
-			CameraPositionCalculation cameraCalculation) {
+	public GameThread create(World world, GameStopper gameStopper, Configuration configuration, CameraPositionCalculation cameraCalculation) {
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		PlayerMovementCalculationFactory factory = createFactory(world);

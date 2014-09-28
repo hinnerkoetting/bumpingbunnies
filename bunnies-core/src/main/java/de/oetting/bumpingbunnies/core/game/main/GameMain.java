@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.game.main;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
@@ -22,17 +23,18 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 	private final NetworkMessageDistributor sendControl;
 	private final PlayerJoinObservable playerObservable;
 	private final NewClientsAccepter newClientsAccepter;
+	private final MusicPlayer musicPlayer;
 	private GameThread gameThread;
 
 	private NetworkReceiveControl receiveControl;
-	private MusicPlayer musicPlayer;
 	private World world;
 
-	public GameMain(SocketStorage sockets, NetworkMessageDistributor sendControl, NewClientsAccepter newClientsAccepter) {
+	public GameMain(SocketStorage sockets, NetworkMessageDistributor sendControl, NewClientsAccepter newClientsAccepter, MusicPlayer musicPlayer) {
 		super();
 		this.sockets = sockets;
 		this.sendControl = sendControl;
 		this.newClientsAccepter = newClientsAccepter;
+		this.musicPlayer = musicPlayer;
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
@@ -42,10 +44,6 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 
 	public void setReceiveControl(NetworkReceiveControl receiveControl) {
 		this.receiveControl = receiveControl;
-	}
-
-	public void setMusicPlayer(MusicPlayer musicPlayer) {
-		this.musicPlayer = musicPlayer;
 	}
 
 	public World getWorld() {
@@ -127,6 +125,17 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 	public void playerLeftTheGame(Player p) {
 		world.getAllPlayer().remove(p);
 		this.playerObservable.playerLeft(p);
+	}
+
+	public void validateInitialised() {
+		Guard.againstNull(sockets);
+		Guard.againstNull(sendControl);
+		Guard.againstNull(playerObservable);
+		Guard.againstNull(newClientsAccepter);
+		Guard.againstNull(gameThread);
+		Guard.againstNull(receiveControl);
+		Guard.againstNull(musicPlayer);
+		Guard.againstNull(world);
 	}
 
 }

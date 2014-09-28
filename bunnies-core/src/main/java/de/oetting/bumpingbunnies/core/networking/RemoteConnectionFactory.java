@@ -8,18 +8,18 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class RemoteConnectionFactory {
 
-	private final GameStopper activity;
+	private final GameStopper stopper;
 	private final SocketStorage sockets;
 
-	public RemoteConnectionFactory(GameStopper activity, SocketStorage sockets) {
+	public RemoteConnectionFactory(GameStopper stopper, SocketStorage sockets) {
 		super();
-		this.activity = activity;
+		this.stopper = stopper;
 		this.sockets = sockets;
 	}
 
 	public NetworkSender create(Player player) {
 		OpponentTypeSendFactory sendFactory = new OpponentTypeSendFactoryFactory().createSendFactory(player.getOpponent().getType());
-		return sendFactory.createNetworkSender(player, this.activity, this.sockets);
+		return sendFactory.createNetworkSender(player, this.stopper, this.sockets);
 	}
 
 }

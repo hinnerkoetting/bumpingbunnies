@@ -23,6 +23,7 @@ import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
@@ -133,7 +134,8 @@ public class GameMainTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
-		this.fixture = new GameMain(this.sockets, new NetworkMessageDistributor(mock(RemoteConnectionFactory.class), this.sendThreads), this.accepter);
+		this.fixture = new GameMain(this.sockets, new NetworkMessageDistributor(mock(RemoteConnectionFactory.class), this.sendThreads), this.accepter,
+				new DummyMusicPlayer());
 		this.fixture.setWorld(new World());
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 		NetworkMessageDistributor networkSendControl = createNetworkSendControl();
@@ -141,8 +143,8 @@ public class GameMainTest {
 	}
 
 	private NetworkMessageDistributor createNetworkSendControl() {
-		NetworkMessageDistributor networkSendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(mock(GameActivity.class), mock(SocketStorage.class)),
-				this.sendThreads);
+		NetworkMessageDistributor networkSendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(mock(GameActivity.class),
+				mock(SocketStorage.class)), this.sendThreads);
 		return networkSendControl;
 	}
 }

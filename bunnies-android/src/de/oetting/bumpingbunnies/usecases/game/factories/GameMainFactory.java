@@ -29,7 +29,6 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameMainFactory {
@@ -39,7 +38,7 @@ public class GameMainFactory {
 
 		World world = createWorld(activity, parameter);
 		NewClientsAccepter clientAccepter = createClientAccepter(activity, parameter, world);
-		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter);
+		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter, MusicPlayerFactory.createBackground(activity));
 		clientAccepter.setMain(main);
 
 		GameThread gameThread = initGame(main, activity, parameter, sendControl, world, myPlayer, cameraCalclation);
@@ -48,7 +47,6 @@ public class GameMainFactory {
 
 		addPlayersToWorld(main, otherPlayers);
 		gameThread.start();
-		initGameSound(main, activity);
 		return main;
 	}
 
@@ -97,8 +95,4 @@ public class GameMainFactory {
 		return inputDispatcher;
 	}
 
-	private static void initGameSound(GameMain main, GameActivity activity) {
-		MusicPlayer musicPlayer = MusicPlayerFactory.createBackground(activity);
-		main.setMusicPlayer(musicPlayer);
-	}
 }
