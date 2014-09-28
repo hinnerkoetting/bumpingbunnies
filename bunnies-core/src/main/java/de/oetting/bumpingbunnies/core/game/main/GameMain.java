@@ -138,4 +138,8 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 		Guard.againstNull(world);
 	}
 
+	public void start() {
+		gameThread.start();
+	}
+
 }

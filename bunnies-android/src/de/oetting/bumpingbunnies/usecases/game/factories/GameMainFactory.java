@@ -41,12 +41,12 @@ public class GameMainFactory {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter, MusicPlayerFactory.createBackground(activity));
 		clientAccepter.setMain(main);
 
-		GameThread gameThread = initGame(main, activity, parameter, sendControl, world, myPlayer, cameraCalclation);
+		initGame(main, activity, parameter, sendControl, world, myPlayer, cameraCalclation);
 
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 
 		addPlayersToWorld(main, otherPlayers);
-		gameThread.start();
+		main.start();
 		return main;
 	}
 
@@ -64,7 +64,7 @@ public class GameMainFactory {
 		main.addAllJoinListeners();
 	}
 
-	private static GameThread initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
+	private static void initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
 			Player myPlayer, CameraPositionCalculation cameraPositionCalculation) {
 
 		main.setWorld(world);
@@ -75,7 +75,6 @@ public class GameMainFactory {
 
 		addJoinListener(main);
 		main.newPlayerJoined(myPlayer);
-		return gameThread;
 	}
 
 	private static void addPlayersToWorld(GameMain main, List<PlayerConfig> players) {

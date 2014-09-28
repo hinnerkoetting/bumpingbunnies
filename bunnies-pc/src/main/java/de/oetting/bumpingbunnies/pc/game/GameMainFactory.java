@@ -26,6 +26,7 @@ public class GameMainFactory {
 		main.setWorld(world);
 		main.setReceiveControl(new NetworkReceiveControl(new NoopNetworkReceiveFactory()));
 		main.validateInitialised();
+		main.start();
 		return main;
 	}
 
