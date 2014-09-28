@@ -24,7 +24,7 @@ public class ConnectionEstablisher {
 	public void startThreadToAcceptClients() {
 		LOGGER.info("Starting server");
 		if (acceptThread != null) {
-			this.acceptThread = new AcceptThreadImpl(this.serverSocketFactory.create(), this.acceptsClientConnections);
+			this.acceptThread = new AcceptThread(this.serverSocketFactory.create(), this.acceptsClientConnections);
 			this.acceptThread.start();
 		}
 	}
