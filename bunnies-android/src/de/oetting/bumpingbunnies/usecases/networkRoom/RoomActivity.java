@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
+import java.net.BindException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -87,7 +88,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		initRoom();
 		displayDefaultIp();
 		this.connectedToServerService = new DummyConnectionToServer();
-		this.broadcastService = new NetworkBroadcaster(this);
+		this.broadcastService = new NetworkBroadcaster();
 	}
 
 	private void displayDefaultIp() {
@@ -137,8 +138,42 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	public void onClickDiscovery(View v) {
-		this.listAdapter.clear();
-		this.broadcastService.listenForBroadCasts(this);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					listAdapter.clear();
+					broadcastService.listenForBroadCasts(RoomActivity.this);
+				} catch (BindException e) {
+					displayErrorAddressInUse();
+					LOGGER.warn("Error when trying to search for host", e);
+				} catch (Exception e) {
+					displayListenError();
+					LOGGER.warn("Error when trying to search for host", e);
+				}
+			}
+		}).start();
+	}
+
+	public void displayErrorAddressInUse() {
+		String addressInUse = getResources().getString(R.string.address_in_use);
+		displayMessage(addressInUse);
+	}
+
+	public void displayListenError() {
+		String unknownError = getResources().getString(R.string.unknown_error);
+		displayMessage(unknownError);
+	}
+
+	private void displayMessage(final String message) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				Toast.makeText(RoomActivity.this, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	private String getInputIp() {

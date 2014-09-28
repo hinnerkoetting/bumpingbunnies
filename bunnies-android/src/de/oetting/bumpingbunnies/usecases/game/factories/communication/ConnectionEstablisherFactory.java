@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
 import android.bluetooth.BluetoothAdapter;
-import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothSocketFactory;
@@ -19,9 +18,10 @@ public class ConnectionEstablisherFactory {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionEstablisherFactory.class);
 
-	public static ConnectionEstablisher create(GameActivity activity, AcceptsClientConnections newClientsAccepter, GeneralSettings settings) {
+	public static ConnectionEstablisher create(AcceptsClientConnections newClientsAccepter, GeneralSettings settings) {
 		SocketFactory factory = createSocketFactory(settings);
 		DefaultConnectionEstablisher rci = new DefaultConnectionEstablisher(newClientsAccepter, null/**
+		 * 
 		 * 
 		 * TODO not needed
 		 */

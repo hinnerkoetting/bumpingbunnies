@@ -1,11 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom.services;
 
-import java.net.BindException;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 
-import android.app.Activity;
-import android.widget.Toast;
-import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -14,18 +11,13 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 public class NetworkBroadcaster {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkBroadcaster.class);
-	private final Activity origin;
 	private SendBroadCastsThread sendBroadcastsThread;
 	private ListenForBroadcastsThread broadcastThread;
 
-	public NetworkBroadcaster(Activity origin) {
-		this.origin = origin;
-	}
-
 	public void startRegularServerBroadcast() {
 		cancel();
-		NetworkBroadcaster.this.sendBroadcastsThread = SendBroadcastFactory.create();
-		NetworkBroadcaster.this.sendBroadcastsThread.start();
+		sendBroadcastsThread = SendBroadcastFactory.create();
+		sendBroadcastsThread.start();
 	}
 
 	public void cancel() {
@@ -39,47 +31,14 @@ public class NetworkBroadcaster {
 		}
 	}
 
-	public void listenForBroadCasts(final RoomActivity room) {
+	public void listenForBroadCasts(final RoomActivity room) throws SocketException {
 		cancel();
-		new Thread(new Runnable() {
+		LOGGER.info("Searching for host...");
+		DatagramSocket socket = new DatagramSocket(NetworkConstants.BROADCAST_PORT);
 
-			@Override
-			public void run() {
-				try {
-					LOGGER.info("Searching for host...");
-					DatagramSocket socket = new DatagramSocket(NetworkConstants.BROADCAST_PORT);
+		NetworkBroadcaster.this.broadcastThread = new ListenForBroadcastsThread(socket, room);
+		NetworkBroadcaster.this.broadcastThread.start();
 
-					NetworkBroadcaster.this.broadcastThread = new ListenForBroadcastsThread(socket, room);
-					NetworkBroadcaster.this.broadcastThread.start();
-				} catch (BindException e) {
-					displayErrorAddressInUse();
-					LOGGER.warn("Error when trying to search for host", e);
-				} catch (Exception e) {
-					displayListenError();
-					LOGGER.warn("Error when trying to search for host", e);
-				}
-			}
-		}).start();
-	}
-
-	public void displayErrorAddressInUse() {
-		String addressInUse = this.origin.getResources().getString(R.string.address_in_use);
-		displayMessage(addressInUse);
-	}
-
-	public void displayListenError() {
-		String unknownError = this.origin.getResources().getString(R.string.unknown_error);
-		displayMessage(unknownError);
-	}
-
-	private void displayMessage(final String message) {
-		this.origin.runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				Toast.makeText(NetworkBroadcaster.this.origin, message, Toast.LENGTH_SHORT).show();
-			}
-		});
 	}
 
 }

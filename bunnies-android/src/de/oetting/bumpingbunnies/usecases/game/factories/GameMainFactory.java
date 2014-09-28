@@ -30,7 +30,7 @@ public class GameMainFactory {
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
 
 		World world = createWorld(activity, parameter);
-		NewClientsAccepter clientAccepter = createClientAccepter(activity, parameter, world);
+		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world);
 		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter, MusicPlayerFactory.createBackground(activity));
 		clientAccepter.setMain(main);
 
@@ -49,8 +49,8 @@ public class GameMainFactory {
 				new AndroidXmlReader(activity, factory.getResourceId()));
 	}
 
-	private static NewClientsAccepter createClientAccepter(GameActivity activity, GameStartParameter parameter, World world) {
-		return NewClientsAccepterFactory.create(parameter, activity, world);
+	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world) {
+		return NewClientsAccepterFactory.create(parameter, world);
 	}
 
 	private static void addJoinListener(GameMain main) {
