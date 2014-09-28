@@ -29,6 +29,7 @@ import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.factories.DrawerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
+import de.oetting.bumpingbunnies.usecases.game.factories.InputDispatcherFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
@@ -56,7 +57,7 @@ public class GameActivity extends Activity implements GameStopper {
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		this.main = GameMainFactory.create(this, parameter, myPlayer, cameraCalculation);
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation);
-		inputDispatcher = GameMainFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
+		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 
 		registerScreenTouchListener(contentView);
 
