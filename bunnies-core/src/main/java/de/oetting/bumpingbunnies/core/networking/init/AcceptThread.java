@@ -1,13 +1,15 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.init;
 
 import java.io.IOException;
 
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 public class AcceptThread extends Thread {
+
 	private final ServerSocket mmServerSocket;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AcceptThread.class);
@@ -41,7 +43,7 @@ public class AcceptThread extends Thread {
 		LOGGER.info("Connection accepted");
 	}
 
-	public void close() {
+	public void stopAcceptingRequests() {
 		try {
 			this.canceled = true;
 			this.mmServerSocket.close();

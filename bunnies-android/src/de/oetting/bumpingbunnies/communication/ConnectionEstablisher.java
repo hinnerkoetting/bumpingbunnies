@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.communication;
 
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
+import de.oetting.bumpingbunnies.core.networking.init.AcceptThread;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.communication.ConnectsToServer;
@@ -31,7 +32,7 @@ public class ConnectionEstablisher {
 
 	public void closeOpenConnections() {
 		LOGGER.info("Closing connections");
-		this.acceptThread.close();
+		this.acceptThread.stopAcceptingRequests();
 		this.acceptThread = null;
 		// this.connectThread.close();
 		// SocketStorage.getSingleton().closeExistingSocket();

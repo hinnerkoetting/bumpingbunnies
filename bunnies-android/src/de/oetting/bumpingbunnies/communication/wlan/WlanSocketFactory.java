@@ -1,10 +1,11 @@
 package de.oetting.bumpingbunnies.communication.wlan;
 
 import de.oetting.bumpingbunnies.communication.ServerDevice;
-import de.oetting.bumpingbunnies.communication.ServerSocket;
 import de.oetting.bumpingbunnies.communication.SocketFactory;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
+import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
+import de.oetting.bumpingbunnies.core.networking.sockets.wlan.WlanServerSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 

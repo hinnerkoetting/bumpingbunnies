@@ -1,9 +1,12 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.sockets;
 
 import java.io.IOException;
 
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 
+/**
+ * A Serverside sockets which can accept requests from new clients.
+ */
 public interface ServerSocket {
 
 	MySocket accept() throws IOException;

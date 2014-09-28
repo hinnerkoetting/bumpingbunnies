@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication.wlan;
+package de.oetting.bumpingbunnies.core.networking.sockets.wlan;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,7 +10,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
 public class WlanServerSocket implements
-		de.oetting.bumpingbunnies.communication.ServerSocket {
+		de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket {
 
 	private ServerSocket serverSocket;
 

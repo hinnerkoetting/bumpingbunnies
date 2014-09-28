@@ -4,16 +4,16 @@ import java.io.IOException;
 
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import de.oetting.bumpingbunnies.communication.ServerSocket;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
-public class MyBluetoothServerSocket implements ServerSocket {
+public class BunniesBluetoothServerSocket implements ServerSocket {
 
 	private BluetoothServerSocket socket;
 
-	public MyBluetoothServerSocket(BluetoothServerSocket btSocket) {
+	public BunniesBluetoothServerSocket(BluetoothServerSocket btSocket) {
 		this.socket = btSocket;
 	}
 
