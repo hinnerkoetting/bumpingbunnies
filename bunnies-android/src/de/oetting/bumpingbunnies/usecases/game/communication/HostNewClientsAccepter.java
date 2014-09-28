@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StrictNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -34,13 +34,13 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostNewClientsAccepter.class);
 	private final BroadcastService broadcaster;
-	private final RemoteCommunication remoteCommunication;
+	private final ConnectionEstablisher remoteCommunication;
 	private final World world;
 	private final GeneralSettings generalSettings;
 	private PlayerJoinListener mainJoinListener;
 	private List<ConnectionToClientService> connectionToClientServices;
 
-	public HostNewClientsAccepter(BroadcastService broadcaster, RemoteCommunication remoteCommunication, World world, GeneralSettings generalSettings) {
+	public HostNewClientsAccepter(BroadcastService broadcaster, ConnectionEstablisher remoteCommunication, World world, GeneralSettings generalSettings) {
 		super();
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;

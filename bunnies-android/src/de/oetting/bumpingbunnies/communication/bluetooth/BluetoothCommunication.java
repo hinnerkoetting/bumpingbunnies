@@ -7,25 +7,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
-import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablisher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
-public class BluetoothCommunication implements RemoteCommunication {
+public class BluetoothCommunication implements ConnectionEstablisher {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothCommunication.class);
 	private final BluetoothAdapter mBluetoothAdapter;
 	private BroadcastReceiver mReceiver;
 	private boolean discoveryRunning;
 	private boolean receiversRegistered;
-	private ConnectionEstablisher commonBehaviour;
+	private DefaultConnectionEstablisher commonBehaviour;
 	private final RoomActivity origin;
 
-	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, ConnectionEstablisher commonBehaviour) {
+	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, DefaultConnectionEstablisher commonBehaviour) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
 		this.commonBehaviour = commonBehaviour;

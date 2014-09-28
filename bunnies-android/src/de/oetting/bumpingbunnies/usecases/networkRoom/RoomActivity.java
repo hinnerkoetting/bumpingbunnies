@@ -24,9 +24,8 @@ import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper
 import de.oetting.bumpingbunnies.android.parcel.LocalPlayerSettingsParcellableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
-import de.oetting.bumpingbunnies.communication.RemoteCommunication;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
-import de.oetting.bumpingbunnies.communication.wlan.WlanCommunication;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.communication.wlan.WlanDevice;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
@@ -36,6 +35,7 @@ import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StrictNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
@@ -67,7 +67,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	public final static int REQUEST_BT_ENABLE = 1000;
 	private BluetoothArrayAdapter listAdapter;
 
-	private RemoteCommunication remoteCommunication;
+	private ConnectionEstablisher remoteCommunication;
 	private RoomArrayAdapter playersAA;
 	private BroadcastService broadcastService;
 
@@ -396,7 +396,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	public void onClickConnect(View v) {
-		if (remoteCommunication instanceof WlanCommunication) {
+		// TODO make independent of wlan vs bluetooth
+		if (!(remoteCommunication instanceof BluetoothCommunication)) {
 			new Thread(new Runnable() {
 
 				@Override

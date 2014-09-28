@@ -12,10 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
-import de.oetting.bumpingbunnies.communication.wlan.WlanCommunication;
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
+import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
@@ -27,16 +26,16 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
 public class RemoteCommunicationFactoryTest {
 
 	@Test
-	public void create_forWlanPlayer_shouldreturnWlanRemoteCommunication() {
-		RemoteCommunication rc = RemoteCommunicationFactory.create(mock(GameActivity.class), mock(AcceptsClientConnections.class),
-				new GeneralSettings(WorldConfiguration.CASTLE, 1, NetworkType.WLAN));
-		assertThat(rc, is(instanceOf(WlanCommunication.class)));
+	public void create_forWlanPlayer_shouldreturnDefaultRemoteCommunication() {
+		ConnectionEstablisher rc = RemoteCommunicationFactory.create(mock(GameActivity.class), mock(AcceptsClientConnections.class), new GeneralSettings(
+				WorldConfiguration.CASTLE, 1, NetworkType.WLAN));
+		assertThat(rc, is(instanceOf(ConnectionEstablisher.class)));
 	}
 
 	@Test
 	public void create_forBluetoothPlayer_shouldReturnBluetoothCommunication() {
-		RemoteCommunication rc = RemoteCommunicationFactory.create(mock(GameActivity.class), mock(AcceptsClientConnections.class),
-				new GeneralSettings(WorldConfiguration.CASTLE, 1, NetworkType.BLUETOOTH));
+		ConnectionEstablisher rc = RemoteCommunicationFactory.create(mock(GameActivity.class), mock(AcceptsClientConnections.class), new GeneralSettings(
+				WorldConfiguration.CASTLE, 1, NetworkType.BLUETOOTH));
 		assertThat(rc, is(instanceOf(BluetoothCommunication.class)));
 	}
 

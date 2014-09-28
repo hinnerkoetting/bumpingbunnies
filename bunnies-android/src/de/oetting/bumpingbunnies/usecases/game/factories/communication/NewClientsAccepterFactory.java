@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.networking.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.communication.AcceptsClientConnectionsDelegate;
 import de.oetting.bumpingbunnies.usecases.game.communication.HostNewClientsAccepter;
@@ -22,7 +22,7 @@ public class NewClientsAccepterFactory {
 		if (parameter.getConfiguration().isHost()) {
 			AcceptsClientConnectionsDelegate delegate = new AcceptsClientConnectionsDelegate();
 			BroadcastService bcs = new BroadcastService(origin);
-			RemoteCommunication rc = RemoteCommunicationFactory.create(
+			ConnectionEstablisher rc = RemoteCommunicationFactory.create(
 					origin, delegate, parameter
 							.getConfiguration().getGeneralSettings());
 			NewClientsAccepter accepter = new HostNewClientsAccepter(bcs, rc, world, parameter.getConfiguration().getGeneralSettings());

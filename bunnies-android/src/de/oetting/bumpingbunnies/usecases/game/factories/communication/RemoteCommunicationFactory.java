@@ -3,13 +3,12 @@ package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 import android.bluetooth.BluetoothAdapter;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
-import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothSocketFactory;
-import de.oetting.bumpingbunnies.communication.wlan.WlanCommunication;
 import de.oetting.bumpingbunnies.communication.wlan.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -20,9 +19,13 @@ public class RemoteCommunicationFactory {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RemoteCommunicationFactory.class);
 
-	public static RemoteCommunication create(GameActivity activity, AcceptsClientConnections newClientsAccepter, GeneralSettings settings) {
+	public static ConnectionEstablisher create(GameActivity activity, AcceptsClientConnections newClientsAccepter, GeneralSettings settings) {
 		SocketFactory factory = createSocketFactory(settings);
-		ConnectionEstablisher rci = new ConnectionEstablisher(newClientsAccepter, null/**
+		DefaultConnectionEstablisher rci = new DefaultConnectionEstablisher(newClientsAccepter, null/**
+		 * 
+		 * 
+		 * 
+		 * 
 		 * 
 		 * 
 		 * 
@@ -45,10 +48,10 @@ public class RemoteCommunicationFactory {
 		}
 	}
 
-	private static RemoteCommunication createRemotCommunication(ConnectionEstablisher rci, GeneralSettings settings) {
+	private static ConnectionEstablisher createRemotCommunication(DefaultConnectionEstablisher rci, GeneralSettings settings) {
 		if (settings.getNetworkType().equals(NetworkType.WLAN)) {
 			LOGGER.info("Creating Wlan communication");
-			return new WlanCommunication(rci);
+			return rci;
 		} else if (settings.getNetworkType().equals(NetworkType.BLUETOOTH)) {
 			LOGGER.info("Creating bluetooth communication");
 			return new BluetoothCommunication(null /** TODO */

@@ -1,8 +1,9 @@
 package de.oetting.bumpingbunnies.communication;
 
 import de.oetting.bumpingbunnies.core.networking.ServerDevice;
+import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 
-public class DummyCommunication implements RemoteCommunication {
+public class DummyCommunication implements ConnectionEstablisher {
 
 	@Override
 	public void startThreadToAcceptClients() {

@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.RemoteCommunication;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
+import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
@@ -22,7 +22,7 @@ public class HostNewClientsAccepterTest {
 
 	private NewClientsAccepter fixture;
 	@Mock
-	private RemoteCommunication remoteCommunication;
+	private ConnectionEstablisher remoteCommunication;
 	@Mock
 	private BroadcastService broadcaster;
 	@Mock
