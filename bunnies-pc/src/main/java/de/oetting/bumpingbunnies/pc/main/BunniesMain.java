@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -23,16 +25,19 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordina
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
+import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputService;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.pc.game.GameMainFactory;
+import de.oetting.bumpingbunnies.pc.game.input.PcInputDispatcher;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
 import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
@@ -58,15 +63,14 @@ public class BunniesMain extends Application {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(BunniesMain.class);
 
-	private Drawer drawerThread = new NoopDrawer();
-
 	private Stage primaryStage;
 
 	private boolean errorHappened;
 
 	private GameMain gameMain;
-
 	private World world;
+	private Drawer drawerThread = new NoopDrawer();
+	private PcInputDispatcher inputDispatcher;
 
 	public static void main(String[] args) {
 
@@ -78,8 +82,11 @@ public class BunniesMain extends Application {
 		this.primaryStage = primaryStage;
 		Canvas canvas = new Canvas(1000, 600);
 		createPanel(primaryStage, canvas);
-		buildGame(canvas);
+		Player myPlayer = new PlayerFactory(20).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER));
+		buildGame(canvas, myPlayer);
 		startRendering();
+		inputDispatcher = new PcInputDispatcher(new ConfigurableKeyboardInputService(KeyCode.A.getName(), KeyCode.D.getName(), KeyCode.W.getName(),
+				new PlayerMovement(myPlayer)));
 	}
 
 	private void createPanel(Stage primaryStage, Canvas canvas) {
@@ -89,7 +96,20 @@ public class BunniesMain extends Application {
 		root.getChildren().add(canvas);
 		resizeCanvasWhenPanelGetsResised(canvas, root);
 		primaryStage.show();
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
+			@Override
+			public void handle(KeyEvent event) {
+				inputDispatcher.dispatchOnKeyDown(event.getCode());
+			}
+		});
+		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				inputDispatcher.dispatchOnKeyUp(event.getCode());
+			}
+		});
 		primaryStage.setOnCloseRequest(event -> Platform.exit());
 	}
 
@@ -109,7 +129,7 @@ public class BunniesMain extends Application {
 
 	}
 
-	private void buildGame(Canvas canvas) {
+	private void buildGame(Canvas canvas, Player myPlayer) {
 		world = createWorld();
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation((int) canvas.getWidth(),
@@ -118,7 +138,6 @@ public class BunniesMain extends Application {
 		GameThreadState gameThreadState = new GameThreadState();
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
-		Player myPlayer = new PlayerFactory(1).createPlayer(1, "local", new Opponent("", OpponentType.MY_PLAYER));
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		Configuration configuration = createConfiguration();
 		gameMain = new GameMainFactory().create(cameraCalculation, world, configuration);
