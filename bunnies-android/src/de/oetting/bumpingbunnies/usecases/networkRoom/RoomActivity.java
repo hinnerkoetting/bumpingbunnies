@@ -58,8 +58,8 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.OnBroadcastReceiv
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
-public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections,
-		ConnectionToServerSuccesfullCallback, OnBroadcastReceived, ConnectsToServer {
+public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections, ConnectionToServerSuccesfullCallback,
+		OnBroadcastReceived, ConnectsToServer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
@@ -156,10 +156,33 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	@Override
-	public void startConnectToServer(ServerDevice device) {
-		this.remoteCommunication.closeOpenConnections();
-		this.remoteCommunication.connectToServer(device);
+	public void startConnectToServer(final ServerDevice device) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					remoteCommunication.closeOpenConnections();
+					remoteCommunication.connectToServer(device);
+				} catch (Exception e) {
+					LOGGER.error("Error", e);
+					displayCouldNotConnectException();
+				}
+			}
+		}).start();
 		enableButtons(false);
+	}
+
+	private void displayCouldNotConnectException() {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				CharSequence text = getText(R.string.could_not_connect);
+				Toast.makeText(RoomActivity.this, text, Toast.LENGTH_SHORT).show();
+			}
+		});
+
 	}
 
 	public void onClickMakeVisible(View v) {
@@ -207,8 +230,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
-		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory.create(this, socket,
-				new StrictNetworkToGameDispatcher());
+		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher());
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 		enableStartButton();
@@ -219,8 +241,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
 			AiModus aiMode = AiModus.NORMAL;
 
-			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(),
-					otherPlayer.createOponent());
+			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(), otherPlayer.createOponent());
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;
@@ -250,8 +271,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(getBaseContext(), "Exception during connect. Game may still work. " + message,
-						Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(getBaseContext(), "Exception during connect. Game may still work. " + message, Toast.LENGTH_SHORT);
 				toast.show();
 			}
 		});

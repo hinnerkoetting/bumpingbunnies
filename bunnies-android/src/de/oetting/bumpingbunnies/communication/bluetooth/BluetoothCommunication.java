@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
-import de.oetting.bumpingbunnies.communication.RemoteCommunicationImpl;
+import de.oetting.bumpingbunnies.communication.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -22,10 +22,10 @@ public class BluetoothCommunication implements RemoteCommunication {
 	private BroadcastReceiver mReceiver;
 	private boolean discoveryRunning;
 	private boolean receiversRegistered;
-	private RemoteCommunicationImpl commonBehaviour;
+	private ConnectionEstablisher commonBehaviour;
 	private final RoomActivity origin;
 
-	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, RemoteCommunicationImpl commonBehaviour) {
+	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, ConnectionEstablisher commonBehaviour) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
 		this.commonBehaviour = commonBehaviour;

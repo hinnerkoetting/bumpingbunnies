@@ -1,16 +1,16 @@
 package de.oetting.bumpingbunnies.communication.wlan;
 
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
-import de.oetting.bumpingbunnies.communication.RemoteCommunicationImpl;
+import de.oetting.bumpingbunnies.communication.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.communication.ServerDevice;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class WlanCommunication implements RemoteCommunication {
-	private RemoteCommunicationImpl commonRemoteCommunication;
+	private ConnectionEstablisher commonRemoteCommunication;
 	private RoomActivity origin;
 
 	public WlanCommunication(RoomActivity origin,
-			RemoteCommunicationImpl commonRemoteCommunication) {
+			ConnectionEstablisher commonRemoteCommunication) {
 		super();
 		this.origin = origin;
 		this.commonRemoteCommunication = commonRemoteCommunication;

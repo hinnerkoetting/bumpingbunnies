@@ -2,9 +2,9 @@ package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
 import android.bluetooth.BluetoothAdapter;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
+import de.oetting.bumpingbunnies.communication.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.communication.DummyCommunication;
 import de.oetting.bumpingbunnies.communication.RemoteCommunication;
-import de.oetting.bumpingbunnies.communication.RemoteCommunicationImpl;
 import de.oetting.bumpingbunnies.communication.SocketFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothSocketFactory;
@@ -23,8 +23,11 @@ public class RemoteCommunicationFactory {
 
 	public static RemoteCommunication create(GameActivity activity, AcceptsClientConnections newClientsAccepter, GeneralSettings settings) {
 		SocketFactory factory = createSocketFactory(settings);
-		RemoteCommunicationImpl rci = new RemoteCommunicationImpl(newClientsAccepter, null/** TODO not needed */
-		, activity, factory);
+		ConnectionEstablisher rci = new ConnectionEstablisher(newClientsAccepter, null/**
+		 * 
+		 * TODO not needed
+		 */
+		, factory);
 		return createRemotCommunication(rci, settings);
 	}
 
@@ -41,7 +44,7 @@ public class RemoteCommunicationFactory {
 		}
 	}
 
-	private static RemoteCommunication createRemotCommunication(RemoteCommunicationImpl rci, GeneralSettings settings) {
+	private static RemoteCommunication createRemotCommunication(ConnectionEstablisher rci, GeneralSettings settings) {
 		if (settings.getNetworkType().equals(NetworkType.WLAN)) {
 			LOGGER.info("Creating Wlan communication");
 			return new WlanCommunication(null /** TODO */
