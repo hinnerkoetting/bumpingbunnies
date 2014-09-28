@@ -12,6 +12,8 @@ import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
+import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientService;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -21,7 +23,6 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 
 /**

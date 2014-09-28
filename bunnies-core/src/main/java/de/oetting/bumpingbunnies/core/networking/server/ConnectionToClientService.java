@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.services;
+package de.oetting.bumpingbunnies.core.networking.server;
 
 import java.util.List;
 
@@ -6,21 +6,20 @@ import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.messaging.receiver.SendLocalSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
+import de.oetting.bumpingbunnies.core.networking.sender.OtherPlayerClientIdSender;
+import de.oetting.bumpingbunnies.core.networking.sender.SendClientPlayerIdSender;
+import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
+import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.SimpleNetworkSender;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.otherPlayerId.OtherPlayerClientIdSender;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId.SendClientPlayerIdSender;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendLocalSettings.SendLocalSettingsReceiver;
 
 public class ConnectionToClientService {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ConnectionToClientService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionToClientService.class);
 	private final AcceptsClientConnections roomActivity;
 	private final NetworkReceiver networkReceiver;
 	private final SocketStorage sockets;
@@ -81,8 +80,7 @@ public class ConnectionToClientService {
 		new OtherPlayerClientIdSender(networkSender).sendMessage(player);
 	}
 
-	private void sendClientPlayer(SimpleNetworkSender networkSender,
-			int playerId) {
+	private void sendClientPlayer(SimpleNetworkSender networkSender, int playerId) {
 		LOGGER.info("Notifying new Player about his id %d", playerId);
 		new SendClientPlayerIdSender(networkSender).sendMessage(playerId);
 	}

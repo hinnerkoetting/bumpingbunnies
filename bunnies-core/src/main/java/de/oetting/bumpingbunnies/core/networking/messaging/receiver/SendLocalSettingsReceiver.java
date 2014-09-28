@@ -1,10 +1,10 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendLocalSettings;
+package de.oetting.bumpingbunnies.core.networking.messaging.receiver;
 
 import de.oetting.bumpingbunnies.core.networking.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientService;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToClientService;
 
 public class SendLocalSettingsReceiver extends MessageReceiverTemplate<LocalPlayerSettings> {
 
