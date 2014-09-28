@@ -4,8 +4,9 @@ public interface ModelConstants {
 
 	int MAX_VALUE = 100000000;
 	/**
-	 * this constant can be used for constant values. For example movement speed or outside of game zone. All of these constants should be some multiple/divider
-	 * of this constant. <br>
+	 * this constant can be used for constant values. For example movement speed
+	 * or outside of game zone. All of these constants should be some
+	 * multiple/divider of this constant. <br>
 	 * This constant may change in another version.
 	 * 
 	 */
@@ -23,13 +24,13 @@ public interface ModelConstants {
 
 	// y Movement
 
-	int PLAYER_JUMP_SPEED = (int) (+0.000150 * STANDARD_WORLD_SIZE);
+	int PLAYER_JUMP_SPEED = (int) (+0.000225 * STANDARD_WORLD_SIZE);
 	int PLAYER_JUMP_SPEED_WATER = (int) (+0.000075 * STANDARD_WORLD_SIZE);
-	int PLAYER_JUMP_SPEED_JUMPER = (int) (+0.000175 * STANDARD_WORLD_SIZE);
+	int PLAYER_JUMP_SPEED_JUMPER = (int) (+0.000275 * STANDARD_WORLD_SIZE);
 
 	// y gravitity
-	int PLAYER_GRAVITY = (int) (-0.00001 * STANDARD_WORLD_SIZE) / 100;
-	int PLAYER_GRAVITY_WHILE_JUMPING = (int) (-0.000004 * STANDARD_WORLD_SIZE) / 100;
+	int PLAYER_GRAVITY = (int) (-0.0000125 * STANDARD_WORLD_SIZE) / 100;
+	int PLAYER_GRAVITY_WHILE_JUMPING = (int) (-0.00001 * STANDARD_WORLD_SIZE) / 100;
 
 	int PLAYER_GRAVITY_WATER = -PLAYER_GRAVITY_WHILE_JUMPING / 2;
 	int PLAYER_SPEED_WATER = -PLAYER_JUMP_SPEED_WATER * 7;

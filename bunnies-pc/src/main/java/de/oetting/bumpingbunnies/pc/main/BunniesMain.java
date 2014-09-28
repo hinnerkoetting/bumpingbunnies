@@ -111,14 +111,14 @@ public class BunniesMain extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
-				inputDispatcher.dispatchOnKeyDown(event.getCode());
+				inputDispatcher.dispatchOnKeyUp(event.getCode());
 			}
 		});
 		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
-				inputDispatcher.dispatchOnKeyUp(event.getCode());
+				inputDispatcher.dispatchOnKeyDown(event.getCode());
 			}
 		});
 		primaryStage.setOnCloseRequest(event -> Platform.exit());
