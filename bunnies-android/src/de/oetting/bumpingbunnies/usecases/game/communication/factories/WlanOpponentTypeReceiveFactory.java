@@ -8,8 +8,9 @@ import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
-import de.oetting.bumpingbunnies.usecases.game.communication.NetworkReceiveThread;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.communication.OpponentTypeReceiveFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

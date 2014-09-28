@@ -36,8 +36,12 @@ import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StrictNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
+import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientService;
@@ -53,16 +57,13 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingSender;
 import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameSender;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServer;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.factory.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections, ConnectionToServerSuccesfullCallback,
-		OnBroadcastReceived, ConnectsToServer {
+		OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
@@ -330,12 +331,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		addMyPlayerRoomEntry(myPlayerId);
 	}
 
+	@Override
 	public void addMyPlayerRoomEntry(final int myPlayerId) {
 		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
-				LocalPlayerSettings settings = createLocalPlayerSettingsFromIntent();
+				LocalPlayerSettings settings = createLocalPlayerSettings();
 				PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
 				RoomActivity.this.playersAA.addMe(new SinglePlayerRoomEntry(singlePlayerProperties));
 				RoomActivity.this.playersAA.notifyDataSetChanged();
@@ -386,10 +388,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		}
 	}
 
+	@Override
 	public void launchGame(GeneralSettings generalSettings, boolean asHost) {
 
 		LocalSettings localSettings = createLocalSettingsFromIntent();
-		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettingsFromIntent();
+		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		int myPlayerId = this.playersAA.getMyself().getPlayerProperties().getPlayerId();
 		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations();
 		Configuration config = new Configuration(localSettings, generalSettings, otherPlayers, localPlayerSettings, asHost);
@@ -414,7 +417,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		return ((GeneralSettingsParcelableWrapper) getIntent().getExtras().get(ActivityLauncher.GENERAL_SETTINGS)).getSettings();
 	}
 
-	public LocalPlayerSettings createLocalPlayerSettingsFromIntent() {
+	@Override
+	public LocalPlayerSettings createLocalPlayerSettings() {
 		return ((LocalPlayerSettingsParcellableWrapper) getIntent().getExtras().get(ActivityLauncher.LOCAL_PLAYER_SETTINGS)).getSettings();
 	}
 

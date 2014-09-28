@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame;
+package de.oetting.bumpingbunnies.core.networking.messaging;
 
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.model.networking.MessageMetadata;

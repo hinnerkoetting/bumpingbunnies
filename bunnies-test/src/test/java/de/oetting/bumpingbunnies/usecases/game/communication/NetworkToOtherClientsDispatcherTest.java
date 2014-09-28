@@ -20,6 +20,7 @@ import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.core.networking.server.NetworkToOtherClientsDispatcher;
 import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.tests.UnitTests;

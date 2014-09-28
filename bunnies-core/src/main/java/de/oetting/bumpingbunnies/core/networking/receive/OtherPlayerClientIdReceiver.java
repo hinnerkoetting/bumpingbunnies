@@ -1,10 +1,10 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.communication.otherPlayerId;
+package de.oetting.bumpingbunnies.core.networking.receive;
 
 import de.oetting.bumpingbunnies.core.networking.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 
 public class OtherPlayerClientIdReceiver extends MessageReceiverTemplate<PlayerProperties> {
 

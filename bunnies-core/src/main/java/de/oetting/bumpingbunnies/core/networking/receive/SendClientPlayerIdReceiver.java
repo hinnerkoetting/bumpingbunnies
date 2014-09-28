@@ -1,9 +1,9 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId;
+package de.oetting.bumpingbunnies.core.networking.receive;
 
 import de.oetting.bumpingbunnies.core.networking.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.usecases.networkRoom.services.ConnectionToServerService;
 
 public class SendClientPlayerIdReceiver extends MessageReceiverTemplate<Integer> {
 

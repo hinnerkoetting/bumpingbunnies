@@ -1,7 +1,6 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings;
+package de.oetting.bumpingbunnies.core.networking.sender;
 
 import de.oetting.bumpingbunnies.communication.messageInterface.MessageSenderTemplate;
-import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 

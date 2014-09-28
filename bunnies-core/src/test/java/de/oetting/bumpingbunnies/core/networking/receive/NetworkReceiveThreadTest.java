@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.communication;
+package de.oetting.bumpingbunnies.core.networking.receive;
 
 import static de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts.CONVERTED_MESSAGE2;
 import static de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts.WRAPPER;
@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import de.oetting.bumpingbunnies.core.networking.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 

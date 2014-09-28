@@ -1,38 +1,35 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom.services;
+package de.oetting.bumpingbunnies.core.networking.client;
 
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.receive.GameSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.OtherPlayerClientIdReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.SendClientPlayerIdReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.StartGameReceiver;
+import de.oetting.bumpingbunnies.core.networking.sender.SendLocalSettingsSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.communication.factories.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.generalSettings.GameSettingsReceiver;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.otherPlayerId.OtherPlayerClientIdReceiver;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendClientPlayerId.SendClientPlayerIdReceiver;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.sendLocalSettings.SendLocalSettingsSender;
-import de.oetting.bumpingbunnies.usecases.networkRoom.communication.startGame.StartGameReceiver;
 
 public class ConnectionToServerService implements ConnectionToServer {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ConnectionToServerService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionToServerService.class);
 	private final NetworkReceiver networkReceiver;
 	private GeneralSettings generalSettingsFromNetwork;
-	private RoomActivity roomActivity;
+	private DisplaysConnectedServers roomActivity;
 	private final MySocket socket;
 
-	public ConnectionToServerService(MySocket socket, RoomActivity roomActivity) {
+	public ConnectionToServerService(MySocket socket, DisplaysConnectedServers roomActivity) {
 		this.socket = socket;
 		this.roomActivity = roomActivity;
-		this.networkReceiver = NetworkReceiverDispatcherThreadFactory
-				.createRoomNetworkReceiver(socket);
+		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket);
 	}
 
 	@Override
@@ -44,17 +41,14 @@ public class ConnectionToServerService implements ConnectionToServer {
 	}
 
 	private void sendMyPlayerName() {
-		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory
-				.createNetworkSender(this.socket);
-		LocalPlayerSettings localPlayerSettings = this.roomActivity
-				.createLocalPlayerSettingsFromIntent();
+		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(this.socket);
+		LocalPlayerSettings localPlayerSettings = this.roomActivity.createLocalPlayerSettings();
 		new SendLocalSettingsSender(networkSender).sendMessage(localPlayerSettings);
 	}
 
 	private void addObserver() {
 		LOGGER.info("registering observers to receive messages from server");
-		NetworkToGameDispatcher gameDispatcher = this.networkReceiver
-				.getGameDispatcher();
+		NetworkToGameDispatcher gameDispatcher = this.networkReceiver.getGameDispatcher();
 		new StartGameReceiver(gameDispatcher, this);
 		new GameSettingsReceiver(gameDispatcher, this);
 		new SendClientPlayerIdReceiver(gameDispatcher, this);
@@ -62,8 +56,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 	}
 
 	public void addOtherPlayer(PlayerProperties object) {
-		addPlayerEntry(ConnectionToServerService.this.socket,
-				object, 0);
+		addPlayerEntry(ConnectionToServerService.this.socket, object, 0);
 	}
 
 	public void onReceiveGameSettings(GeneralSettings message) {
@@ -75,8 +68,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 		launchGame();
 	}
 
-	protected void addPlayerEntry(MySocket serverSocket,
-			PlayerProperties properties, int socketIndex) {
+	protected void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
 		this.roomActivity.addPlayerEntry(serverSocket, properties, socketIndex);
 	}
 
