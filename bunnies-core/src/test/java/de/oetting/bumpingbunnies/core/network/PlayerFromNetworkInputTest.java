@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.core.networking;
+package de.oetting.bumpingbunnies.core.network;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
