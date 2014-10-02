@@ -71,9 +71,9 @@ public class BunniesMain extends Application {
 	private GameMain gameMain;
 	private Drawer drawerThread = new NoopDrawer();
 	private PcInputDispatcher inputDispatcher;
+	private boolean withTwoHumanPlayers = true;
 
 	public static void main(String[] args) {
-
 		startApplication();
 	}
 
@@ -84,7 +84,7 @@ public class BunniesMain extends Application {
 		createPanel(primaryStage, canvas);
 		PlayerFactory playerFactory = new PlayerFactory(25);
 		Player myPlayer = playerFactory.createPlayer(1, "Player1", new Opponent("", OpponentType.MY_PLAYER));
-		Player secondPlayer = playerFactory.createPlayer(6, "Player2", new Opponent("", OpponentType.MY_PLAYER));
+		Player secondPlayer = createSecondPlayer(playerFactory);
 		buildGame(canvas, myPlayer);
 		playerJoins(myPlayer);
 		playerJoins(secondPlayer);
@@ -92,8 +92,14 @@ public class BunniesMain extends Application {
 		inputDispatcher = new PcInputDispatcher();
 		inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.A.getName(), KeyCode.D.getName(), KeyCode.W.getName(), new PlayerMovement(
 				myPlayer)));
-		inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.LEFT.getName(), KeyCode.RIGHT.getName(), KeyCode.UP.getName(),
-				new PlayerMovement(secondPlayer)));
+		if (withTwoHumanPlayers) {
+			inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.LEFT.getName(), KeyCode.RIGHT.getName(), KeyCode.UP.getName(),
+					new PlayerMovement(secondPlayer)));
+		}
+	}
+
+	private Player createSecondPlayer(PlayerFactory playerFactory) {
+		return playerFactory.createPlayer(6, "Player2", new Opponent("", withTwoHumanPlayers ? OpponentType.MY_PLAYER : OpponentType.AI));
 	}
 
 	private void playerJoins(Player myPlayer) {
@@ -226,6 +232,14 @@ public class BunniesMain extends Application {
 		Scene dialogScene = new Scene(dialogVbox, 300, 200);
 		dialog.setScene(dialogScene);
 		dialog.show();
+	}
+
+	public boolean isWithTwoHumanPlayers() {
+		return withTwoHumanPlayers;
+	}
+
+	public void setWithTwoHumanPlayers(boolean withTwoHumanPlayers) {
+		this.withTwoHumanPlayers = withTwoHumanPlayers;
 	}
 
 }

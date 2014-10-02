@@ -18,8 +18,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
 public class SendBroadcastFactory {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SendBroadcastFactory.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SendBroadcastFactory.class);
 
 	public static SendBroadCastsThread create() {
 		try {
@@ -32,8 +31,7 @@ public class SendBroadcastFactory {
 
 	private static List<UdpSocket> getAllBroadCastSockets() throws Exception {
 		List<UdpSocket> sockets = new ArrayList<UdpSocket>();
-		for (Enumeration<NetworkInterface> en = NetworkInterface
-				.getNetworkInterfaces(); en.hasMoreElements();) {
+		for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 			NetworkInterface intf = en.nextElement();
 			for (InterfaceAddress address : intf.getInterfaceAddresses()) {
 				InetAddress broadcastAddress = address.getBroadcast();
@@ -41,8 +39,7 @@ public class SendBroadcastFactory {
 					try {
 						sockets.add(openSocket(broadcastAddress));
 					} catch (Exception e) {
-						LOGGER.warn("Could not connect to one broadcast address "
-								+ broadcastAddress.toString());
+						LOGGER.warn("Could not connect to one broadcast address " + broadcastAddress.toString() + " error is " + e.getMessage());
 					}
 				}
 			}
@@ -73,11 +70,9 @@ public class SendBroadcastFactory {
 	// }
 
 	private static UdpSocket openSocket(InetAddress address) throws IOException {
-		DatagramSocket socket = new DatagramSocket(
-				NetworkConstants.BROADCAST_PORT);
+		DatagramSocket socket = new DatagramSocket(NetworkConstants.BROADCAST_PORT);
 		socket.setBroadcast(true);
 		LOGGER.info("Creating UDP socket on port %d", NetworkConstants.BROADCAST_PORT);
-		return new UdpSocket(socket, address, NetworkConstants.BROADCAST_PORT, Opponent.createOpponent("UDP" + address.getHostAddress(),
-				OpponentType.WLAN));
+		return new UdpSocket(socket, address, NetworkConstants.BROADCAST_PORT, Opponent.createOpponent("UDP" + address.getHostAddress(), OpponentType.WLAN));
 	}
 }
