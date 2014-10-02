@@ -47,6 +47,7 @@ import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableF
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.NoopResourceProvider;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
+import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
@@ -68,7 +69,6 @@ public class BunniesMain extends Application {
 	private boolean errorHappened;
 
 	private GameMain gameMain;
-	private World world;
 	private Drawer drawerThread = new NoopDrawer();
 	private PcInputDispatcher inputDispatcher;
 
@@ -141,7 +141,7 @@ public class BunniesMain extends Application {
 	}
 
 	private void buildGame(Canvas canvas, Player myPlayer) {
-		world = createWorld();
+		World world = createWorld();
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation((int) canvas.getWidth(),
 				(int) canvas.getHeight(), worldProperties));
@@ -151,7 +151,8 @@ public class BunniesMain extends Application {
 
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		Configuration configuration = createConfiguration();
-		gameMain = new GameMainFactory().create(cameraCalculation, world, configuration);
+		GameStartParameter parameter = new GameStartParameter(configuration, 0);
+		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter);
 		gameMain.addAllJoinListeners();
 		gameMain.addJoinListener(drawerThread);
 	}

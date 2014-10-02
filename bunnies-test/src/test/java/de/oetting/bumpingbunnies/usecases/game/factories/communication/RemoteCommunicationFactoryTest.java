@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import de.oetting.bumpingbunnies.communication.ConnectionEstablisherFactory;
+import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
@@ -27,15 +27,15 @@ public class RemoteCommunicationFactoryTest {
 
 	@Test
 	public void create_forWlanPlayer_shouldreturnDefaultRemoteCommunication() {
-		ConnectionEstablisher rc = ConnectionEstablisherFactory.create(mock(AcceptsClientConnections.class), new GeneralSettings(WorldConfiguration.CASTLE, 1,
-				NetworkType.WLAN));
+		ConnectionEstablisher rc = new AndroidConnectionEstablisherFactory().create(mock(AcceptsClientConnections.class),
+				new GeneralSettings(WorldConfiguration.CASTLE, 1, NetworkType.WLAN));
 		assertThat(rc, is(instanceOf(ConnectionEstablisher.class)));
 	}
 
 	@Test
 	public void create_forBluetoothPlayer_shouldReturnBluetoothCommunication() {
-		ConnectionEstablisher rc = ConnectionEstablisherFactory.create(mock(AcceptsClientConnections.class), new GeneralSettings(WorldConfiguration.CASTLE, 1,
-				NetworkType.BLUETOOTH));
+		ConnectionEstablisher rc = new AndroidConnectionEstablisherFactory().create(mock(AcceptsClientConnections.class),
+				new GeneralSettings(WorldConfiguration.CASTLE, 1, NetworkType.BLUETOOTH));
 		assertThat(rc, is(instanceOf(BluetoothCommunication.class)));
 	}
 

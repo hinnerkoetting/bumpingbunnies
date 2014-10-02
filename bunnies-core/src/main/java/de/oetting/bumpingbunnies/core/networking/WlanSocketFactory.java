@@ -1,8 +1,5 @@
-package de.oetting.bumpingbunnies.communication.wlan;
+package de.oetting.bumpingbunnies.core.networking;
 
-import de.oetting.bumpingbunnies.core.networking.MySocket;
-import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
-import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.core.networking.sockets.wlan.WlanServerSocket;

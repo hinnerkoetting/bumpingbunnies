@@ -1,6 +1,5 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking;
 
-import de.oetting.bumpingbunnies.core.networking.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 
 public class DummyCommunication implements ConnectionEstablisher {

@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.configuration;
 
 import de.oetting.bumpingbunnies.core.networking.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
@@ -11,8 +11,8 @@ import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 
 public class NewClientsAccepterFactory {
 
-	public static NewClientsAccepter create(GameStartParameter parameter, World world) {
-		final NewClientsAccepter accepter = createClientAccepter(parameter, world);
+	public static NewClientsAccepter create(GameStartParameter parameter, World world, ConnectionEstablisherFactory factory) {
+		final NewClientsAccepter accepter = createClientAccepter(parameter, world, factory);
 		startAsynchronous(accepter);
 		return accepter;
 	}
@@ -27,11 +27,11 @@ public class NewClientsAccepterFactory {
 		}).start();
 	}
 
-	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world) {
+	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, ConnectionEstablisherFactory factory) {
 		if (parameter.getConfiguration().isHost()) {
 			AcceptsClientConnectionsDelegate delegate = new AcceptsClientConnectionsDelegate();
 			NetworkBroadcaster bcs = new NetworkBroadcaster();
-			ConnectionEstablisher rc = ConnectionEstablisherFactory.create(delegate, parameter.getConfiguration().getGeneralSettings());
+			ConnectionEstablisher rc = factory.create(delegate, parameter.getConfiguration().getGeneralSettings());
 			NewClientsAccepter accepter = new HostNewClientsAccepter(bcs, rc, world, parameter.getConfiguration().getGeneralSettings());
 			delegate.setAccepter(accepter);
 			return accepter;
