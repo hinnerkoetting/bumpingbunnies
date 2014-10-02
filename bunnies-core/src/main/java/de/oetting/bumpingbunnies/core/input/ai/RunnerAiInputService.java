@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.android.input.ai;
+package de.oetting.bumpingbunnies.core.input.ai;
 
 
 ///**

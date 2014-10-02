@@ -7,7 +7,6 @@ import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ImageMirroror;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
@@ -27,7 +26,6 @@ public class DrawerFactory {
 	public static ObjectsDrawer create(World world, GameThreadState threadState, Context context, Configuration configuration,
 			CoordinatesCalculation calculations) {
 
-		PlayerDrawableFactory factory;
 		AndroidPlayerDrawableFactory playerDrawerFactory = createPlayerDrawerFactory();
 		DrawablesFactory drawFactory = new DefaultDrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(context.getResources(),
 				configuration.getLocalSettings().isBackground()), new AndroidGameObjectsDrawableFactory(), playerDrawerFactory);
