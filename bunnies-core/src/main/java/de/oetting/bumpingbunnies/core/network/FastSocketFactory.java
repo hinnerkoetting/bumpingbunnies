@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.network;
 
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public class FastSocketFactory {
 

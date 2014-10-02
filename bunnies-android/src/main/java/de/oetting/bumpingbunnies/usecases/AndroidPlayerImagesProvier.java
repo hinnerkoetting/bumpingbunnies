@@ -9,7 +9,7 @@ import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AndroidPlayerImagesProvier implements PlayerImagesProvider {
 

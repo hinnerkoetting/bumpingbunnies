@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.android.parcel;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
+import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 
 public class LocalPlayerSettingsParceller implements Parceller<LocalPlayerSettings> {
 

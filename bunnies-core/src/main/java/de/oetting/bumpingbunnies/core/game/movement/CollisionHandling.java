@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.core.game.movement;
 
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.Water;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class CollisionHandling {
 

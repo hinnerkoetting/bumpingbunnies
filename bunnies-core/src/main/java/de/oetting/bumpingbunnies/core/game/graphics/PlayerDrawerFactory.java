@@ -6,8 +6,8 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerDrawerFactory {
 

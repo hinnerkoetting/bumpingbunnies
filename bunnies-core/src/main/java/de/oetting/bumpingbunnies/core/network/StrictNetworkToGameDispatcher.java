@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.network;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 /**
  * Throws exceptions if no listener is registered for a message.

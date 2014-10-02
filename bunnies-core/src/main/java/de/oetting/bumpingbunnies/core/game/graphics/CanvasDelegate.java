@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public interface CanvasDelegate {
 

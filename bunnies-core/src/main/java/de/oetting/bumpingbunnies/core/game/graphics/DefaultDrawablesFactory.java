@@ -9,8 +9,8 @@ import de.oetting.bumpingbunnies.core.game.graphics.factory.BackgroundDrawableFa
 import de.oetting.bumpingbunnies.core.game.graphics.factory.GameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class DefaultDrawablesFactory implements DrawablesFactory {
 

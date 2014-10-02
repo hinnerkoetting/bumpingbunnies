@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.pc.worldcreation.parser;
 
-import de.oetting.bumpingbunnies.world.WorldProperties;
-import de.oetting.bumpingbunnies.worldCreation.XmlRect;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
+import de.oetting.bumpingbunnies.model.game.world.XmlRect;
 
 public interface ObjectFactory<S> {
 

@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.graphics;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.main.OneLoopStep;
 import de.oetting.bumpingbunnies.core.game.main.ThreadLoop;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 /**
  * Delegates drawing to drawer. Counts fps.

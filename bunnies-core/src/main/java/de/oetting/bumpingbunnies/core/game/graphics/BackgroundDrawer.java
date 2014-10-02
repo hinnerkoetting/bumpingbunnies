@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class BackgroundDrawer implements Drawable {
 
@@ -14,7 +14,7 @@ public class BackgroundDrawer implements Drawable {
 		super();
 		this.originalBbitmap = bitmap;
 		this.paint = new Paint();
-		paint.setColor(de.oetting.bumpingbunnies.color.Color.WHITE);
+		paint.setColor(de.oetting.bumpingbunnies.model.color.Color.WHITE);
 		this.draw = draw;
 	}
 

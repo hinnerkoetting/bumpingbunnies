@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 /**
  * Dispatches incoming traffic to registered listeners. If no listener is

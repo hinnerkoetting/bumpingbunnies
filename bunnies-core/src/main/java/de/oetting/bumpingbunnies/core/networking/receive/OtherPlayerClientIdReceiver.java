@@ -3,8 +3,8 @@ package de.oetting.bumpingbunnies.core.networking.receive;
 import de.oetting.bumpingbunnies.core.network.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class OtherPlayerClientIdReceiver extends MessageReceiverTemplate<PlayerProperties> {
 

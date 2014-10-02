@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.game.steps;
 
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerReviveEntry {
 

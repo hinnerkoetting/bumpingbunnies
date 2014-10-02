@@ -3,9 +3,9 @@ package de.oetting.bumpingbunnies.core.networking.communication.messageInterface
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.core.network.MessageParser;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.model.networking.MessageMetadata;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.MessageId;
+import de.oetting.bumpingbunnies.model.network.MessageMetadata;
 
 public abstract class MessageSenderTemplate<T> implements MessageInterface<T> {
 

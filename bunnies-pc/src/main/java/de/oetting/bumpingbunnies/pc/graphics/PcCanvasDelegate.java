@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class PcCanvasDelegate implements CanvasDelegate {
 

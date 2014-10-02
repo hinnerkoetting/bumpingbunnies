@@ -8,8 +8,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.pc.graphics.PcResourceProvider;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public class PcImagesResizerTest {
 

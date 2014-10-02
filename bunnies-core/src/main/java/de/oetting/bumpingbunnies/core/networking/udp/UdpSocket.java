@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.nio.charset.Charset;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public class UdpSocket implements MySocket {
 

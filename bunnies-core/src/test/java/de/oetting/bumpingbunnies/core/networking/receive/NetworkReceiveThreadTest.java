@@ -24,7 +24,7 @@ import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)

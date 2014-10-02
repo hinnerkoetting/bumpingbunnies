@@ -5,9 +5,9 @@ import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class SimpleNetworkSender implements NetworkSender {
 

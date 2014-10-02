@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 
 public class GeneralSettingsParcelableWrapper implements Parcelable {
 

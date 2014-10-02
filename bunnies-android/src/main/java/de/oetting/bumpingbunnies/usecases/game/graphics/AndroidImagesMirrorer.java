@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import de.oetting.bumpingbunnies.core.game.graphics.ImageMirroror;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AndroidImagesMirrorer implements ImageMirroror {
 

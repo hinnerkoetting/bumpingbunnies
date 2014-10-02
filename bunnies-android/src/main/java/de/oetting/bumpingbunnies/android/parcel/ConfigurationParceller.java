@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
+import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 
 public class ConfigurationParceller implements Parceller<Configuration> {
 

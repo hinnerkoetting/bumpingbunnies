@@ -36,6 +36,19 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
+import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
+import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.pc.game.GameMainFactory;
 import de.oetting.bumpingbunnies.pc.game.input.PcInputDispatcher;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
@@ -46,19 +59,6 @@ import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawa
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableFactory;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.NoopResourceProvider;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
-import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
-import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.world.WorldProperties;
 
 public class BunniesMain extends Application {
 

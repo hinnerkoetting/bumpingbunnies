@@ -12,6 +12,7 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)

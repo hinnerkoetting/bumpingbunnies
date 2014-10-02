@@ -31,10 +31,10 @@ import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @Category(UnitTests.class)
 public class GameMainTest {

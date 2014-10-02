@@ -25,10 +25,10 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientService;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
+import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 @Category(IntegrationTests.class)

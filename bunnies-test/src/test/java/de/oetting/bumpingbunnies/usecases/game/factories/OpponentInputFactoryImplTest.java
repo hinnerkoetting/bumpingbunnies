@@ -20,10 +20,10 @@ import de.oetting.bumpingbunnies.core.input.factory.OpponentInputFactoryImpl;
 import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

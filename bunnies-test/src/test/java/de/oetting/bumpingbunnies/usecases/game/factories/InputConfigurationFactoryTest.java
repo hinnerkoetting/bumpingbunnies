@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.game.android.input.analog.AnalogInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.distributedKeyboard.DistributedKeyboardFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
@@ -17,7 +18,6 @@ import de.oetting.bumpingbunnies.usecases.game.android.input.pointer.PointerInpu
 import de.oetting.bumpingbunnies.usecases.game.android.input.touchFling.TouchFlingFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touchPress.TouchPressInputFactory;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touchRelease.TouchReleaseFactory;
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
 
 public class InputConfigurationFactoryTest {
 

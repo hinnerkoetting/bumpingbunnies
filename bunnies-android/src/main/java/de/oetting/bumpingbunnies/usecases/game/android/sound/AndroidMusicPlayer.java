@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.android.sound;
 
 import android.media.MediaPlayer;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
-import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.OnMusicCompletionListener;
 
 public class AndroidMusicPlayer implements MusicPlayer {
 	private final MediaPlayer mediaPlayer;

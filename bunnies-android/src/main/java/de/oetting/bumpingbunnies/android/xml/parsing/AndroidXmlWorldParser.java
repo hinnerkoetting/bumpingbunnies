@@ -16,15 +16,15 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
-import de.oetting.bumpingbunnies.usecases.game.model.Wall;
-import de.oetting.bumpingbunnies.usecases.game.model.Water;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
-import de.oetting.bumpingbunnies.world.WorldProperties;
-import de.oetting.bumpingbunnies.worldCreation.XmlRect;
-import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.Wall;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
+import de.oetting.bumpingbunnies.model.game.world.XmlRect;
+import de.oetting.bumpingbunnies.model.game.world.XmlWorldBuilderState;
 
 public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 

@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 /**
  * Takes care that all bunnies are moved during each step of the game.

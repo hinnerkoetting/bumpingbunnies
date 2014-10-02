@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.configuration;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 
 public class GameParameterFactory {
 

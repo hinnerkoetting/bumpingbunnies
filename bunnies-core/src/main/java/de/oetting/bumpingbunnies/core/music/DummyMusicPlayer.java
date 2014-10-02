@@ -1,7 +1,8 @@
 package de.oetting.bumpingbunnies.core.music;
 
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
-import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.OnMusicCompletionListener;
+
 
 public class DummyMusicPlayer implements MusicPlayer {
 

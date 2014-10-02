@@ -6,8 +6,8 @@ import java.net.Socket;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 
 public class WlanServerSocket implements
 		de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket {

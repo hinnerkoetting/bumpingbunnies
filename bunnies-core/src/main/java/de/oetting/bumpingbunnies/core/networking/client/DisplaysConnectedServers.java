@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.core.networking.client;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.LocalPlayerSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
 public interface DisplaysConnectedServers {
 

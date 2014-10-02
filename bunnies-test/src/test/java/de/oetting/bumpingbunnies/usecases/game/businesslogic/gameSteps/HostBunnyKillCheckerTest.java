@@ -20,10 +20,10 @@ import de.oetting.bumpingbunnies.core.game.steps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
 import de.oetting.bumpingbunnies.core.network.MessageSender;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
 
 @Category(UnitTests.class)
 public class HostBunnyKillCheckerTest {

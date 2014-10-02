@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.RectDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.GameObjectDrawableFactory;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.graphics.ImageDrawerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 
 public class AndroidGameObjectsDrawableFactory implements GameObjectDrawableFactory {
 

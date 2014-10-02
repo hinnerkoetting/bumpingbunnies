@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PcPlayerDrawableFactory implements PlayerDrawableFactory {
 

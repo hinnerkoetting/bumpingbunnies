@@ -12,6 +12,8 @@ import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParceller;
+import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)

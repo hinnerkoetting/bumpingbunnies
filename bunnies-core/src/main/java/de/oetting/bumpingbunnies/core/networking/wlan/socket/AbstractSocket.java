@@ -10,7 +10,7 @@ import java.io.Writer;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public abstract class AbstractSocket implements MySocket {
 

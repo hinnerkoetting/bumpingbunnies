@@ -3,8 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.core.graphics.ImageDrawer;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class ImageDrawerFactory {
 

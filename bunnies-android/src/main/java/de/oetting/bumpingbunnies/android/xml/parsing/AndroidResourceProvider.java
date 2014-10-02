@@ -3,8 +3,8 @@ package de.oetting.bumpingbunnies.android.xml.parsing;
 import android.content.Context;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
 import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class AndroidResourceProvider implements ResourceProvider {

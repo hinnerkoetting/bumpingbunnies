@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.network;
 
-import de.oetting.bumpingbunnies.model.networking.MessageId;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public interface MessageSender {
 

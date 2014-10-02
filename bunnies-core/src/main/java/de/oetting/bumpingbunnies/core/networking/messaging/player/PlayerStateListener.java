@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import de.oetting.bumpingbunnies.core.network.MessageParser;
 import de.oetting.bumpingbunnies.core.network.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.network.NetworkListener;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 public class PlayerStateListener implements NetworkListener {
 

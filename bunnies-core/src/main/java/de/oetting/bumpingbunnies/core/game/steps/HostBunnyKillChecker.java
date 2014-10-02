@@ -8,9 +8,9 @@ import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIs
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 /**
  * Host logic what should be done when a bunny jumps on another bunny.

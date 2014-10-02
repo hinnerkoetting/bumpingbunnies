@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.game.movement;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerMovement {
 

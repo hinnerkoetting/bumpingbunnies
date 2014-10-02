@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.android.parcel;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
-import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
+import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 
 public class GeneralSettingsParceller implements Parceller<GeneralSettings> {
 

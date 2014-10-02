@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.start;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 
 public class WorldConfigurationGenerator {
 	public static WorldConfiguration createWorldConfigurationFromRadioGroup(

@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.receiver.OpponentType
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.OpponentTypeFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class NetworkReceiveThreadFactory implements NetworkReceiverFactory {
 

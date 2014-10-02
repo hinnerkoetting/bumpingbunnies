@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.start.sql;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
+import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 
 public interface SettingsStorage {
 

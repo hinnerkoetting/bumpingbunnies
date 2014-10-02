@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
-import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
-import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
-import de.oetting.bumpingbunnies.usecases.game.model.Wall;
-import de.oetting.bumpingbunnies.usecases.game.model.Water;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
+import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.Wall;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class World implements ObjectProvider {
 

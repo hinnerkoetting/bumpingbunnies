@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.android.sound;
 
 import android.media.MediaPlayer.OnCompletionListener;
-import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
+import de.oetting.bumpingbunnies.model.game.objects.OnMusicCompletionListener;
 
 public class AndroidMusicOnCompletionListener implements OnMusicCompletionListener {
 

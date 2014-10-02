@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.factory;
 
 import de.oetting.bumpingbunnies.core.networking.messaging.WlanOpponentTypeSendFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 
 public class OpponentTypeSendFactoryFactory {
 

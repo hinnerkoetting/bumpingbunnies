@@ -13,8 +13,11 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionHandling;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Rect;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
 
 @Category(UnitTests.class)
 public class WaterTest {

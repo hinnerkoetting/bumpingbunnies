@@ -8,9 +8,9 @@ import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 /**
  * Messages are stored to a queue, The sender will send messages from this queue

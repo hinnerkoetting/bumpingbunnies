@@ -12,8 +12,8 @@ import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablish
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;
-import de.oetting.bumpingbunnies.usecases.game.configuration.NetworkType;
+import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 
 public class AndroidConnectionEstablisherFactory implements ConnectionEstablisherFactory {
 

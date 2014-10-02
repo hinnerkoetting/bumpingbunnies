@@ -8,8 +8,8 @@ import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasWrapper;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 

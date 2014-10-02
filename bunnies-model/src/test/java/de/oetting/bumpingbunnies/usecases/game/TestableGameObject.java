@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game;
 
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class TestableGameObject implements GameObject {
 

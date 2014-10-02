@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking;
 
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class SimpleMessageConsts {
 

@@ -15,9 +15,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import android.media.MediaPlayer;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.OnMusicCompletionListener;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
-import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
 
 @Category(UnitTests.class)
 public class MultiTrackMusicPlayerTest {

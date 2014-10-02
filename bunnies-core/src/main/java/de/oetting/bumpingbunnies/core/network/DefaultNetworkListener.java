@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 public abstract class DefaultNetworkListener<T> implements NetworkListener {
 

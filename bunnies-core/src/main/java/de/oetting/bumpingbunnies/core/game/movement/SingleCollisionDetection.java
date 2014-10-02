@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.game.movement;
 
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 
 public class SingleCollisionDetection {
 

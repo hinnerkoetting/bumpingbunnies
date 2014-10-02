@@ -19,10 +19,10 @@ import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerConfig;
+import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameMainFactory {

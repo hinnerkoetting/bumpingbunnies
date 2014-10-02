@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerJoinObservable {
 

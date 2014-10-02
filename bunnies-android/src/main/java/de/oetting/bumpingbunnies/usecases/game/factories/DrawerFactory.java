@@ -14,12 +14,12 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvier;
-import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasDelegate;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesColoror;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesMirrorer;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
 
 public class DrawerFactory {
 

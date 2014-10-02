@@ -14,8 +14,8 @@ import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class GameMain implements JoinObserver, PlayerJoinListener {
 

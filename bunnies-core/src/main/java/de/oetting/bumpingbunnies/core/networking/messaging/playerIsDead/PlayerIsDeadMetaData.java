@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead;
 
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.model.networking.MessageMetadata;
+import de.oetting.bumpingbunnies.model.network.MessageId;
+import de.oetting.bumpingbunnies.model.network.MessageMetadata;
 
 public class PlayerIsDeadMetaData extends MessageMetadata<PlayerIsDead> {
 

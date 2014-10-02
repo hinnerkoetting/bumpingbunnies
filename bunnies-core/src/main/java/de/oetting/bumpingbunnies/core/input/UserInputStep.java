@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
 import de.oetting.bumpingbunnies.core.game.steps.GameStepAction;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class UserInputStep implements GameStepAction, PlayerJoinListener {
 

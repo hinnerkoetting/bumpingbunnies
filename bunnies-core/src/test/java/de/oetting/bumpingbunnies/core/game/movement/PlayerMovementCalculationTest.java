@@ -11,12 +11,12 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.Rect;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.Rect;
-import de.oetting.bumpingbunnies.usecases.game.model.Water;
 
 @Category(UnitTests.class)
 public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCalculation {

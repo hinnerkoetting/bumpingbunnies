@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.
 import de.oetting.bumpingbunnies.core.networking.factory.OpponentTypeSendFactory;
 import de.oetting.bumpingbunnies.core.networking.factory.OpponentTypeSendFactoryFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class RemoteConnectionFactory {
 

@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.android.parcel;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
 public class PlayerPropertiesParceller implements Parceller<PlayerProperties> {
 

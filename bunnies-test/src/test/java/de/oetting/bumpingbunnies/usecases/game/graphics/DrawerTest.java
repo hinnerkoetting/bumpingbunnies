@@ -23,8 +23,8 @@ import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

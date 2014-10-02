@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.StateSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
 
 public class GameStepControllerFactory {
 

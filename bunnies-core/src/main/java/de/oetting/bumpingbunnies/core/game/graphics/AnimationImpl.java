@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AnimationImpl implements Animation {
 

@@ -2,9 +2,9 @@ package de.oetting.bumpingbunnies.core.graphics;
 
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class ImageDrawer implements Drawable {
 

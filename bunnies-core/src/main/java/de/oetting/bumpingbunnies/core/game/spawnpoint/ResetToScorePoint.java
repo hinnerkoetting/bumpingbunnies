@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.game.spawnpoint;
 
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 
 public class ResetToScorePoint {
 

@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.core.game.graphics.BackgroundDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.BackgroundDrawableFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AndroidBackgroundDrawableFactory implements BackgroundDrawableFactory {
 

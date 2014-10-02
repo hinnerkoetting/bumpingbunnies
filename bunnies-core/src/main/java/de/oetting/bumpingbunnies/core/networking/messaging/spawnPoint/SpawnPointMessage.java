@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint;
 
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 
 public class SpawnPointMessage {
 

@@ -25,12 +25,12 @@ import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.usecases.game.factories.DrawerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.InputDispatcherFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 

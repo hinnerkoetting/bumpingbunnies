@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.network.MessageSender;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class PlayerReviver implements GameStepAction {
 

@@ -1,13 +1,13 @@
 package de.oetting.bumpingbunnies.core.worldCreation;
 
-import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
-import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
-import de.oetting.bumpingbunnies.usecases.game.model.Wall;
-import de.oetting.bumpingbunnies.usecases.game.model.Water;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
-import de.oetting.bumpingbunnies.world.WorldProperties;
-import de.oetting.bumpingbunnies.worldCreation.XmlRect;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
+import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.Wall;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
+import de.oetting.bumpingbunnies.model.game.world.XmlRect;
 
 public class XmlRectToObjectConverter {
 

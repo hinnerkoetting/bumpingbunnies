@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.core.network;
 
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.MessageInterface;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.model.networking.MessageMetadata;
+import de.oetting.bumpingbunnies.model.network.MessageId;
+import de.oetting.bumpingbunnies.model.network.MessageMetadata;
 
 public abstract class MessageReceiverTemplate<T> implements MessageInterface<T> {
 

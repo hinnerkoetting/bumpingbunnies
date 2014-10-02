@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AndroidBitmapReader implements BitmapReader {
 

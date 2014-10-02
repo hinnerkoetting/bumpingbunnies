@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.resources;
 
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public interface ResourceProvider {
 

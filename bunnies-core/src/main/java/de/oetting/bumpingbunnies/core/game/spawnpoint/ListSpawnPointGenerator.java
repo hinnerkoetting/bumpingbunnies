@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.game.spawnpoint;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 
 public class ListSpawnPointGenerator implements SpawnPointGenerator {
 

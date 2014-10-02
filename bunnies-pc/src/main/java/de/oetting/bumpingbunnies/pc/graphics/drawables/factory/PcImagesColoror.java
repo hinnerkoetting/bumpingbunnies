@@ -6,8 +6,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.pc.graphics.PaintConverter;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 public class PcImagesColoror implements ImagesColorer {
 

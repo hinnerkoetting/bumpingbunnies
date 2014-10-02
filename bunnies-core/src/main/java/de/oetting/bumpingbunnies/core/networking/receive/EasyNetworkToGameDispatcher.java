@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkListener;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 /**
  * Does allow messages which do not have registered listeners

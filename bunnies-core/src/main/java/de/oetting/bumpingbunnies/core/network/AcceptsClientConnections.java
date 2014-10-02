@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.network;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
 public interface AcceptsClientConnections {
 

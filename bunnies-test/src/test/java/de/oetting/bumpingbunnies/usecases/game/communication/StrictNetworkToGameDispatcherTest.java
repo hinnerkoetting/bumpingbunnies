@@ -15,8 +15,8 @@ import org.robolectric.annotation.Config;
 import de.oetting.bumpingbunnies.core.network.NetworkListener;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.model.networking.JsonWrapper;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)

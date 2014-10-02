@@ -12,9 +12,12 @@ import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.android.parcel.OpponentConfigurationParceller;
+import de.oetting.bumpingbunnies.model.configuration.AiModus;
+import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.OpponentType;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

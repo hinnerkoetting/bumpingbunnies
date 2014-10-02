@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.pc.worldcreation.parser;
 
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class NoopResourceProvider implements ResourceProvider {
 

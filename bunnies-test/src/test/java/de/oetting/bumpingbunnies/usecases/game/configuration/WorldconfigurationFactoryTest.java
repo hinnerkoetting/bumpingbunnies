@@ -10,6 +10,7 @@ import de.oetting.bumpingbunnies.android.xml.parsing.CastleWorldbuilder;
 import de.oetting.bumpingbunnies.android.xml.parsing.TestWorldBuilder;
 import de.oetting.bumpingbunnies.android.xml.parsing.XmlClassicWorldBuilder;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
+import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)

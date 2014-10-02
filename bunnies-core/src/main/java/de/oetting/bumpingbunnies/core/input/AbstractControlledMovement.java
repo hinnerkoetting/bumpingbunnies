@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.input;
 
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public abstract class AbstractControlledMovement implements InputService {
 

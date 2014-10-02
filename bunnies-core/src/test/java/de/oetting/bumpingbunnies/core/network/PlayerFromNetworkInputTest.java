@@ -12,9 +12,9 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 @Category(UnitTests.class)
 public class PlayerFromNetworkInputTest {

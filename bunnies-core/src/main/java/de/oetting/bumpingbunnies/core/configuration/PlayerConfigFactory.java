@@ -4,13 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
-import de.oetting.bumpingbunnies.usecases.game.configuration.AiModus;
-import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.usecases.game.configuration.OpponentConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerConfig;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.configuration.AiModus;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerConfigFactory {
 

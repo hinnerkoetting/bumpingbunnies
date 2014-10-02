@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.settings;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 
 public class InputConfigurationGenerator {
 

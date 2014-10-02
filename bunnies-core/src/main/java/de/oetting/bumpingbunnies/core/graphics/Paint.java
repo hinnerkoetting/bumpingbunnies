@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.graphics;
 
-import de.oetting.bumpingbunnies.color.Color;
+import de.oetting.bumpingbunnies.model.color.Color;
 
 public class Paint {
 

@@ -7,8 +7,8 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.networking.MessageId;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
+import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 /**
  * Receives player states messages and dispatches them to the correct player

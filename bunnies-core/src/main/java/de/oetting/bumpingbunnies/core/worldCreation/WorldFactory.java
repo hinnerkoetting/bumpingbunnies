@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.worldCreation;
 
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
+import de.oetting.bumpingbunnies.model.game.world.XmlWorldBuilderState;
 
 public class WorldFactory {
 

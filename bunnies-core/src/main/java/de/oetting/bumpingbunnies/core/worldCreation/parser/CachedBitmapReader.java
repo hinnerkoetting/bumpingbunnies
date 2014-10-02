@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.worldCreation.parser;
 import java.util.WeakHashMap;
 
 import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class CachedBitmapReader implements BitmapReader {
 

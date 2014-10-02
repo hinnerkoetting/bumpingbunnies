@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.game.graphics.calculation;
 
-import de.oetting.bumpingbunnies.world.WorldProperties;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
 public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 

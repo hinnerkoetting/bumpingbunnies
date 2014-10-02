@@ -1,10 +1,10 @@
 package de.oetting.bumpingbunnies.core.game.player;
 
-import de.oetting.bumpingbunnies.color.Color;
-import de.oetting.bumpingbunnies.usecases.game.model.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
+import de.oetting.bumpingbunnies.model.color.Color;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
 public class PlayerFactory {
 

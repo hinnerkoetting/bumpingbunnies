@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.network.StateSender;
 import de.oetting.bumpingbunnies.core.network.StateSenderFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class SendingCoordinatesStep implements GameStepAction, PlayerJoinListener {
 

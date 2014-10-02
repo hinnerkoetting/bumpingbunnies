@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.networking.server.AcceptsClientConnections
 import de.oetting.bumpingbunnies.core.networking.server.HostNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 
 public class NewClientsAccepterFactory {
 

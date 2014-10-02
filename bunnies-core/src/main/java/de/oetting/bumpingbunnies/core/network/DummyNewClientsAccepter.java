@@ -6,7 +6,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
 public class DummyNewClientsAccepter implements NewClientsAccepter {
 

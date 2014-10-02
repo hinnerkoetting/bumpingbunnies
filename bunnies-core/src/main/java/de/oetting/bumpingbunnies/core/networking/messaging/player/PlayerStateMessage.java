@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.messaging.player;
 
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
+import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
 /**
  * Wrapper for player-state to allow a counter. The counter can be checked to be

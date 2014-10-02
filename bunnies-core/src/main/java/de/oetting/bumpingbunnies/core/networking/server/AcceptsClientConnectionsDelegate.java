@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.MySocket;
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
 public class AcceptsClientConnectionsDelegate implements AcceptsClientConnections {
 

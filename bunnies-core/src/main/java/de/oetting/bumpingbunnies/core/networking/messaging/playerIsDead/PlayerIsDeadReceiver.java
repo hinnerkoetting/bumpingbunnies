@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead;
 import de.oetting.bumpingbunnies.core.network.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDead> {
 

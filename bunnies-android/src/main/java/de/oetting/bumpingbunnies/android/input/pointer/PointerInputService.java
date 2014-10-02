@@ -3,9 +3,9 @@ package de.oetting.bumpingbunnies.android.input.pointer;
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.game.android.input.PathFinder.PathFinder;
 import de.oetting.bumpingbunnies.usecases.game.android.input.touch.LeftRightTouchService;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class PointerInputService extends LeftRightTouchService {
 

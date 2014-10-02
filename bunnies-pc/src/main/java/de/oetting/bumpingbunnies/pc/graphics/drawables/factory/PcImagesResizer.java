@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.pc.graphics.drawables.factory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class PcImagesResizer implements ImageResizer {
 

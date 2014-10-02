@@ -19,8 +19,8 @@ import org.robolectric.annotation.Config;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

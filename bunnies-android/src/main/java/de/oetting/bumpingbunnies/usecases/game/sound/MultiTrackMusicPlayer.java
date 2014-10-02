@@ -4,9 +4,9 @@ import java.util.List;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.OnMusicCompletionListener;
 import de.oetting.bumpingbunnies.usecases.game.android.sound.AndroidMusicOnCompletionListener;
-import de.oetting.bumpingbunnies.usecases.game.music.MusicPlayer;
-import de.oetting.bumpingbunnies.usecases.game.music.OnMusicCompletionListener;
 
 public class MultiTrackMusicPlayer implements MusicPlayer, OnCompletionListener {
 

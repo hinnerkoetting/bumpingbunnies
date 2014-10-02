@@ -17,8 +17,8 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.WallFactory;
 import de.oetting.bumpingbunnies.core.worldCreation.WorldFactory;
+import de.oetting.bumpingbunnies.model.game.world.XmlWorldBuilderState;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
 
 @Category(UnitTests.class)
 public class WorldFactoryTest {

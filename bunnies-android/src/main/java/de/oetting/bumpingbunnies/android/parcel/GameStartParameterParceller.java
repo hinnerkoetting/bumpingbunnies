@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.android.parcel;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 
 public class GameStartParameterParceller implements Parceller<GameStartParameter> {
 

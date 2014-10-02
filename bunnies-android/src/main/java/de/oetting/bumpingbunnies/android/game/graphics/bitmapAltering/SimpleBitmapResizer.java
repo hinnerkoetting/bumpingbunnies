@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering;
 
 import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class SimpleBitmapResizer implements ImageResizer {
 

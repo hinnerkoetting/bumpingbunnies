@@ -14,8 +14,8 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
+import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
 
 @Category(UnitTests.class)
 public class PlayerStateDispatcherTest {

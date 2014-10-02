@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import de.oetting.bumpingbunnies.core.configuration.DefaultConfiguration;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
+import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 
 public class SettingsDao implements SettingsStorage, SettingsConstants {
 

@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 
 import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AndroidImagesColoror implements ImagesColorer {
 

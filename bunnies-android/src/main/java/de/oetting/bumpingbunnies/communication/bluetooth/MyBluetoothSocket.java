@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
 import de.oetting.bumpingbunnies.exceptions.IORuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 

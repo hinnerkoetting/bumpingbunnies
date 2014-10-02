@@ -11,8 +11,8 @@ import org.robolectric.annotation.Config;
 
 import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.core.game.graphics.AnimationImpl;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

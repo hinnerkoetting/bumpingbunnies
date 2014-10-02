@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
 public class SinglePlayerRoomEntry extends RoomEntry {
 

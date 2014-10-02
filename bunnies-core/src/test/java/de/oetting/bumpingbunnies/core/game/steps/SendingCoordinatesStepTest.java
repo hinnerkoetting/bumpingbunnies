@@ -14,8 +14,8 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.network.StateSender;
 import de.oetting.bumpingbunnies.core.network.StateSenderFactory;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 @Category(UnitTests.class)
 public class SendingCoordinatesStepTest {

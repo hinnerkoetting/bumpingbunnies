@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.android.parcel.OpponentParceller;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
-import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 /**
  * Can be stored through parcelables.

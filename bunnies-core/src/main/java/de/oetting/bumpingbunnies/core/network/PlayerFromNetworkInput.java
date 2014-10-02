@@ -4,8 +4,8 @@ import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.model.Player;
-import de.oetting.bumpingbunnies.usecases.game.model.PlayerState;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
 /**
  * This class receives new player states from a remote device. This inputservice

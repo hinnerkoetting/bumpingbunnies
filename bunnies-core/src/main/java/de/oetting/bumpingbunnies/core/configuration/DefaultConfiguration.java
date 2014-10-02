@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.configuration;
 
-import de.oetting.bumpingbunnies.usecases.game.configuration.InputConfiguration;
-import de.oetting.bumpingbunnies.usecases.game.configuration.SettingsEntity;
+import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 
 public class DefaultConfiguration {
 
