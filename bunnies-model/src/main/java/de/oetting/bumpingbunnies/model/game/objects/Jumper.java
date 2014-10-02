@@ -14,7 +14,7 @@ public class Jumper extends FixedWorldObject {
 
 	@Override
 	public int accelerationOnThisGround() {
-		return 0;
+		return ModelConstants.ACCELERATION_X_JUMPER;
 	}
 
 	@Override
