@@ -1,8 +1,5 @@
-package de.oetting.bumpingbunnies.usecases.game.graphics;
+package de.oetting.bumpingbunnies.core.game.graphics;
 
-import android.graphics.Color;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
-import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -17,6 +14,7 @@ public class BackgroundDrawer implements Drawable {
 		super();
 		this.originalBbitmap = bitmap;
 		this.paint = new Paint();
+		paint.setColor(de.oetting.bumpingbunnies.color.Color.WHITE);
 		this.draw = draw;
 	}
 
@@ -25,7 +23,7 @@ public class BackgroundDrawer implements Drawable {
 		if (this.draw) {
 			canvas.drawImageDirect(this.originalBbitmap, 0, 0, this.paint);
 		} else {
-			canvas.drawColor(new Paint(Color.WHITE));
+			canvas.drawColor(paint);
 		}
 	}
 

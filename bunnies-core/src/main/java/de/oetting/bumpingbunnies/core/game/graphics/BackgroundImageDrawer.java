@@ -4,12 +4,12 @@ import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.usecases.game.model.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
-public class ImageDrawer implements Drawable {
+public class BackgroundImageDrawer implements Drawable {
 
 	private final ImageWrapper image;
 	private final Paint paint;
 
-	public ImageDrawer(ImageWrapper image) {
+	public BackgroundImageDrawer(ImageWrapper image) {
 		this.image = image;
 		paint = new Paint();
 	}

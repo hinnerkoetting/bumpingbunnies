@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.factory.BackgroundDrawableFa
 import de.oetting.bumpingbunnies.core.game.graphics.factory.GameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.usecases.game.model.GameObject;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class DefaultDrawablesFactory implements DrawablesFactory {
@@ -77,9 +77,9 @@ public class DefaultDrawablesFactory implements DrawablesFactory {
 		return backgroundDrawableFactory.create(canvas.getOriginalWidth(), canvas.getOriginalHeight());
 	}
 
-	private List<Drawable> createAllDrawables(List<? extends GameObject> objects, CanvasDelegate canvas) {
+	private List<Drawable> createAllDrawables(List<? extends GameObjectWithImage> objects, CanvasDelegate canvas) {
 		List<Drawable> drawers = new LinkedList<Drawable>();
-		for (GameObject p : objects) {
+		for (GameObjectWithImage p : objects) {
 			int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
 			int height = (int) (canvas.transformY(p.minY()) - canvas.transformY(p.maxY()));
 			drawers.add(gameObjectDrawableFactory.create(p, width, height));
