@@ -19,6 +19,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
@@ -32,7 +33,7 @@ public class DrawerTest {
 
 	private ObjectsDrawer fixture;
 	@Mock
-	private AndroidDrawablesFactory factory;
+	private DefaultDrawablesFactory factory;
 	@Mock
 	private Drawable playerDrawable;
 	@Mock

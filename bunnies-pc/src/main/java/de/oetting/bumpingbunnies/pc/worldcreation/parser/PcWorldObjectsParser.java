@@ -21,6 +21,8 @@ import de.oetting.bumpingbunnies.core.worldCreation.XmlRectToObjectConverter;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
+import de.oetting.bumpingbunnies.pc.graphics.PcResourceProvider;
+import de.oetting.bumpingbunnies.usecases.game.model.GameObjectWithImage;
 import de.oetting.bumpingbunnies.usecases.game.model.IcyWall;
 import de.oetting.bumpingbunnies.usecases.game.model.Jumper;
 import de.oetting.bumpingbunnies.usecases.game.model.SpawnPoint;
@@ -33,6 +35,7 @@ import de.oetting.bumpingbunnies.worldCreation.XmlWorldBuilderState;
 
 public class PcWorldObjectsParser implements WorldObjectsParser {
 
+	private final ResourceProvider resourceProvier;
 	private XmlWorldBuilderState state;
 	private WorldProperties worldProperties;
 	private MusicPlayer musicPlayer = new DummyMusicPlayer();
@@ -40,6 +43,7 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 	public PcWorldObjectsParser() {
 		this.state = new XmlWorldBuilderState();
 		worldProperties = new WorldProperties();
+		resourceProvier = new PcResourceProvider();
 	}
 
 	@Override
@@ -92,12 +96,15 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 		state.getSpawnPoints().addAll(readAllSpawns(document.getElementsByTagName(XmlConstants.SPAWNPOINT)));
 	}
 
-	private <S> List<S> readAllElements(NodeList nodeList, ObjectFactory<S> factory) {
+	private <S extends GameObjectWithImage> List<S> readAllElements(NodeList nodeList, ObjectFactory<S> factory) {
 		List<S> elements = new ArrayList<S>();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node item = nodeList.item(i);
 			XmlRect rect = readRect(item);
 			S wall = factory.create(rect, worldProperties);
+			Node imageNode = item.getAttributes().getNamedItem(XmlConstants.IMAGE);
+			if (imageNode != null)
+				wall.setBitmap(resourceProvier.readBitmap(imageNode.getTextContent()));
 			elements.add(wall);
 		}
 		return elements;
