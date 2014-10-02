@@ -20,11 +20,11 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
-import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.NetworkSendQueueThread;
+import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
+import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;

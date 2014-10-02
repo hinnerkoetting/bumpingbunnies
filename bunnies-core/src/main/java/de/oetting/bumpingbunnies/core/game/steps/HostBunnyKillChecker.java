@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.game.steps;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.ResetToScorePoint;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
-import de.oetting.bumpingbunnies.core.networking.MessageSender;
+import de.oetting.bumpingbunnies.core.network.MessageSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDead;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;

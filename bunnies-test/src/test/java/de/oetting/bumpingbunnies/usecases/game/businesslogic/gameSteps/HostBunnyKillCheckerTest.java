@@ -18,7 +18,7 @@ import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.game.steps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
-import de.oetting.bumpingbunnies.core.networking.MessageSender;
+import de.oetting.bumpingbunnies.core.network.MessageSender;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;

@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.input.ai.AiInputService;
 import de.oetting.bumpingbunnies.core.input.ai.DummyInputService;
-import de.oetting.bumpingbunnies.core.networking.PlayerFromNetworkInput;
+import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;

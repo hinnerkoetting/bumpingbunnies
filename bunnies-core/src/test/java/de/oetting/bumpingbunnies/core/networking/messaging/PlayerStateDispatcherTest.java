@@ -10,8 +10,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.networking.PlayerFromNetworkInput;
+import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.tests.UnitTests;

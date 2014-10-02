@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
-import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
+import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GeneralSettings;

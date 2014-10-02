@@ -16,9 +16,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
-import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;

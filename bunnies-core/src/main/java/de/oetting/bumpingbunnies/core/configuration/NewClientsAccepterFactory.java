@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.configuration;
 
-import de.oetting.bumpingbunnies.core.networking.DummyNewClientsAccepter;
-import de.oetting.bumpingbunnies.core.networking.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.network.DummyNewClientsAccepter;
+import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.server.AcceptsClientConnectionsDelegate;
 import de.oetting.bumpingbunnies.core.networking.server.HostNewClientsAccepter;

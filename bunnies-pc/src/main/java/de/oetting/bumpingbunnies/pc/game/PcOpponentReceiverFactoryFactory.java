@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.pc.game;
 
-import de.oetting.bumpingbunnies.core.networking.OpponentReceiverFactoryFactory;
+import de.oetting.bumpingbunnies.core.network.OpponentReceiverFactoryFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.WlanOpponentTypeFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.AiOpponentTypeFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.MyPlayerOpponentTypeFactory;

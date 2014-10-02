@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.game.steps;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.networking.MessageSender;
+import de.oetting.bumpingbunnies.core.network.MessageSender;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 

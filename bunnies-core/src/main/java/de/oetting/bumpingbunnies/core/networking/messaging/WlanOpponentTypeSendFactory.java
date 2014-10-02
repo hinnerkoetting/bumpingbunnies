@@ -1,10 +1,10 @@
 package de.oetting.bumpingbunnies.core.networking.messaging;
 
-import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.FastSocketFactory;
-import de.oetting.bumpingbunnies.core.networking.MySocket;
-import de.oetting.bumpingbunnies.core.networking.NetworkSendQueueThread;
-import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.FastSocketFactory;
+import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.NetworkSendQueueThread;
+import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.factory.OpponentTypeSendFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.usecases.game.model.Opponent;
@@ -16,7 +16,7 @@ public class WlanOpponentTypeSendFactory implements OpponentTypeSendFactory {
 	public NetworkSender createNetworkSender(Player player, GameStopper activity, SocketStorage sockets) {
 		Opponent owner = player.getOpponent();
 		MySocket socket = sockets.findSocket(owner);
-		de.oetting.bumpingbunnies.core.networking.NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, activity);
+		de.oetting.bumpingbunnies.core.network.NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, activity);
 		NetworkSendQueueThread udpConnection = createUdpConnection(activity, socket);
 		return new UdpAndTcpNetworkSender(tcpConnection, udpConnection, owner);
 	}

@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.receive;
 
-import de.oetting.bumpingbunnies.core.networking.NetworkListener;
-import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.network.NetworkListener;
+import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.networking.JsonWrapper;

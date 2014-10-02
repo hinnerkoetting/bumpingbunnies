@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.game.factories.communication;
 
-import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.MySocket;
-import de.oetting.bumpingbunnies.core.networking.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.factory.OpponentTypeSendFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;

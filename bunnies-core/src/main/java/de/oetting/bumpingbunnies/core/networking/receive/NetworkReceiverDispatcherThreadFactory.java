@@ -2,10 +2,10 @@ package de.oetting.bumpingbunnies.core.networking.receive;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.core.networking.IncomingNetworkDispatcher;
-import de.oetting.bumpingbunnies.core.networking.MySocket;
-import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
-import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
+import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkToOtherClientsDispatcher;
 
 public class NetworkReceiverDispatcherThreadFactory {

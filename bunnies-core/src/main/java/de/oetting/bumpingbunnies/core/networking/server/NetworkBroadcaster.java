@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.networking.server;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import de.oetting.bumpingbunnies.core.networking.NetworkConstants;
+import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.logger.Logger;

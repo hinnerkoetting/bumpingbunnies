@@ -2,9 +2,9 @@ package de.oetting.bumpingbunnies.core.networking.messaging.player;
 
 import java.util.TreeMap;
 
-import de.oetting.bumpingbunnies.core.networking.MessageReceiverTemplate;
-import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.networking.PlayerFromNetworkInput;
+import de.oetting.bumpingbunnies.core.network.MessageReceiverTemplate;
+import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.networking.MessageId;

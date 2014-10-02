@@ -20,8 +20,8 @@ import org.mockito.stubbing.Answer;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.core.networking.IncomingNetworkDispatcher;
-import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
+import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.model.networking.JsonWrapper;

@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.sender;
 
-import de.oetting.bumpingbunnies.communication.messageInterface.MessageSenderTemplate;
+import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.MessageSenderTemplate;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 
 public class SendClientPlayerIdSender extends MessageSenderTemplate<Integer> {

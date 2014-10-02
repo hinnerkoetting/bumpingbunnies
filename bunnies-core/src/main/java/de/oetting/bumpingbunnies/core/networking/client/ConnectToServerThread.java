@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.client;
 
-import de.oetting.bumpingbunnies.core.networking.ConnectsToServer;
-import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
+import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.exceptions.IORuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;

@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 import android.bluetooth.BluetoothSocket;
 import de.oetting.bumpingbunnies.communication.MethodNotImplemented;
-import de.oetting.bumpingbunnies.core.networking.MySocket;
+import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
 import de.oetting.bumpingbunnies.exceptions.IORuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;

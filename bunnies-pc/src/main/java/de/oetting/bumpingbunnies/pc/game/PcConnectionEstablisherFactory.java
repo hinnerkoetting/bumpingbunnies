@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.pc.game;
 
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
-import de.oetting.bumpingbunnies.core.networking.AcceptsClientConnections;
-import de.oetting.bumpingbunnies.core.networking.DummyCommunication;
-import de.oetting.bumpingbunnies.core.networking.WlanSocketFactory;
+import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
+import de.oetting.bumpingbunnies.core.network.DummyCommunication;
+import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;

@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.init;
 
-import de.oetting.bumpingbunnies.core.networking.ServerDevice;
+import de.oetting.bumpingbunnies.core.network.ServerDevice;
 
 public interface ConnectionEstablisher {
 

@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.networking.messaging;
 
 import com.google.gson.Gson;
 
-import de.oetting.bumpingbunnies.core.networking.MessageParser;
+import de.oetting.bumpingbunnies.core.network.MessageParser;
 
 public class MessageParserFactory {
 

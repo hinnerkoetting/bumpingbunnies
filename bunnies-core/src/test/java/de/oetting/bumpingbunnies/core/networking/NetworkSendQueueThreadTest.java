@@ -19,6 +19,9 @@ import org.mockito.Mock;
 import com.google.gson.Gson;
 
 import de.oetting.bumpingbunnies.core.ByteArrayStartMatcher;
+import de.oetting.bumpingbunnies.core.network.MessageParser;
+import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 

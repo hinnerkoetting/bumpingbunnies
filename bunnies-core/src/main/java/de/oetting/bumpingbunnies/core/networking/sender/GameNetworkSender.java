@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.sender;
 
-import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.StateSender;
+import de.oetting.bumpingbunnies.core.network.StateSender;
+import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.model.networking.MessageId;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
