@@ -19,9 +19,10 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import de.oetting.bumpingbunnies.communication.NetworkReceiveThreadFactory;
+import de.oetting.bumpingbunnies.communication.AndroidOpponentTypeReceiveFactoryFactory;
 import de.oetting.bumpingbunnies.core.networking.MySocket;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.networking.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
@@ -81,7 +82,7 @@ public class NetworkReceiveThreadFactoryTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new NetworkReceiveThreadFactory(this.sockets, this.networkDispatcher, this.sendControl);
+		this.fixture = new NetworkReceiveThreadFactory(this.sockets, this.networkDispatcher, this.sendControl, new AndroidOpponentTypeReceiveFactoryFactory());
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 	}
 

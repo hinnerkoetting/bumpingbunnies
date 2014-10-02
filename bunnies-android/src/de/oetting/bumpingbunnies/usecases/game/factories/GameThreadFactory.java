@@ -2,8 +2,8 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
+import de.oetting.bumpingbunnies.communication.AndroidOpponentTypeReceiveFactoryFactory;
 import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
-import de.oetting.bumpingbunnies.communication.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
@@ -14,7 +14,6 @@ import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.factory.GameStepControllerFactory;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.networking.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadReceiver;
@@ -23,6 +22,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.Pl
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
@@ -65,13 +65,7 @@ public class GameThreadFactory {
 	}
 
 	private static NetworkReceiveControl createNetworkReceiveThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
-		return createNetworkReceiveControl(networkDispatcher, sendControl);
-	}
-
-	private static NetworkReceiveControl createNetworkReceiveControl(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
-		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(SocketStorage.getSingleton(), networkDispatcher, sendControl);
-		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory);
-		return receiveControl;
+		return NetworkReceiveControlFactory.create(networkDispatcher, sendControl, new AndroidOpponentTypeReceiveFactoryFactory());
 	}
 
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context, World world) {
