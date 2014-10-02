@@ -16,6 +16,7 @@ public class ConnectToServerThread extends Thread {
 		super("Connect to Server thread");
 		this.activity = activity;
 		this.mmSocket = mmSocket;
+		setDaemon(true);
 	}
 
 	@Override

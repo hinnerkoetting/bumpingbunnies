@@ -28,7 +28,7 @@ public class UserInputStep implements GameStepAction, PlayerJoinListener {
 	@Override
 	public void executeNextStep(long deltaStepsSinceLastCall) {
 		for (OpponentInput movementService : this.inputServices) {
-			movementService.executeNextStep();
+			movementService.executeNextStep(deltaStepsSinceLastCall);
 		}
 	}
 

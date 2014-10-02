@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-
 public class Player implements GameObject {
 
 	enum HorizontalMovementStatus {
@@ -35,10 +34,24 @@ public class Player implements GameObject {
 		calculateRect();
 	}
 
-	public Player(Player simulatedObject, int id, String name, int speedFaktor,
-			Opponent opponent) {
+	public Player(Player simulatedObject, int id, String name, int speedFaktor, Opponent opponent) {
 		this(id, name, speedFaktor, opponent);
 		this.simulatedObject = simulatedObject;
+	}
+
+	public Player(Player player) {
+		super();
+		this.speedFaktor = player.speedFaktor;
+		this.halfWidth = player.halfWidth;
+		this.halfHeight = player.halfHeight;
+		this.id = player.id;
+		this.name = player.name;
+		this.state = player.state.clone();
+		this.simulatedObject = null; // would otherwise lead to endless loop
+		this.rect = player.rect.clone();
+		this.horizontalMovementStatus = player.horizontalMovementStatus;
+		this.color = player.color;
+		this.opponent = player.opponent.clone();
 	}
 
 	public void calculateRect() {
@@ -93,8 +106,7 @@ public class Player implements GameObject {
 	}
 
 	public void setAccelerationX(int accelerationX) {
-		this.state.setAccelerationX((int) (accelerationX * Math.pow(
-				this.speedFaktor, 2)));
+		this.state.setAccelerationX((int) (accelerationX * Math.pow(this.speedFaktor, 2)));
 	}
 
 	public int getAccelerationY() {
@@ -102,8 +114,7 @@ public class Player implements GameObject {
 	}
 
 	public void setAccelerationY(int accelerationY) {
-		this.state.setAccelerationY((int) (accelerationY * Math.pow(
-				this.speedFaktor, 2)));
+		this.state.setAccelerationY((int) (accelerationY * Math.pow(this.speedFaktor, 2)));
 	}
 
 	@Override
@@ -144,12 +155,9 @@ public class Player implements GameObject {
 	}
 
 	private int calculateNewMovementSpeedX() {
-		int newMovementSpeedX = this.state.getMovementX()
-				+ this.state.getAccelerationX();
-		if (Math.abs(newMovementSpeedX) > ModelConstants.MOVEMENT
-				* this.speedFaktor) {
-			return (int) (Math.signum(newMovementSpeedX)
-					* ModelConstants.MOVEMENT * this.speedFaktor);
+		int newMovementSpeedX = this.state.getMovementX() + this.state.getAccelerationX();
+		if (Math.abs(newMovementSpeedX) > ModelConstants.MOVEMENT * this.speedFaktor) {
+			return (int) (Math.signum(newMovementSpeedX) * ModelConstants.MOVEMENT * this.speedFaktor);
 		} else {
 			return newMovementSpeedX;
 		}
@@ -228,13 +236,11 @@ public class Player implements GameObject {
 	}
 
 	private void moveNextStepX() {
-		this.state.setCenterX(this.state.getCenterX()
-				+ this.state.getMovementX());
+		this.state.setCenterX(this.state.getCenterX() + this.state.getMovementX());
 	}
 
 	private void moveNextStepY() {
-		this.state.setCenterY(this.state.getCenterY()
-				+ this.state.getMovementY());
+		this.state.setCenterY(this.state.getCenterY() + this.state.getMovementY());
 	}
 
 	public boolean isFacingLeft() {
@@ -282,8 +288,7 @@ public class Player implements GameObject {
 	}
 
 	public boolean isTryingToRemoveHorizontalMovement() {
-		return HorizontalMovementStatus.NOT_MOVING_HORIZONTAL
-				.equals(this.horizontalMovementStatus);
+		return HorizontalMovementStatus.NOT_MOVING_HORIZONTAL.equals(this.horizontalMovementStatus);
 	}
 
 	public void setNotMoving() {
@@ -301,8 +306,7 @@ public class Player implements GameObject {
 	}
 
 	public boolean isMovingLeft() {
-		return HorizontalMovementStatus.MOVING_LEFT
-				.equals(this.horizontalMovementStatus);
+		return HorizontalMovementStatus.MOVING_LEFT.equals(this.horizontalMovementStatus);
 	}
 
 	public boolean isJumpingButtonPressed() {
@@ -319,12 +323,13 @@ public class Player implements GameObject {
 
 	@Override
 	public String toString() {
-		return "Player [speedFaktor=" + speedFaktor + ", halfWidth="
-				+ halfWidth + ", halfHeight=" + halfHeight + ", id=" + id
-				+ ", name=" + name + ", state=" + state + ", simulatedObject="
-				+ simulatedObject + ", rect=" + rect
-				+ ", horizontalMovementStatus=" + horizontalMovementStatus
-				+ ", color=" + color + ", opponent=" + opponent + "]";
+		return "Player [speedFaktor=" + speedFaktor + ", halfWidth=" + halfWidth + ", halfHeight=" + halfHeight + ", id=" + id + ", name=" + name + ", state="
+				+ state + ", simulatedObject=" + simulatedObject + ", rect=" + rect + ", horizontalMovementStatus=" + horizontalMovementStatus + ", color="
+				+ color + ", opponent=" + opponent + "]";
 	}
 
+	@Override
+	public Player clone() {
+		return new Player(this);
+	}
 }

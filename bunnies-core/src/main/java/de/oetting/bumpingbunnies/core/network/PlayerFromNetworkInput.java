@@ -27,7 +27,7 @@ public class PlayerFromNetworkInput implements OpponentInput {
 	}
 
 	@Override
-	public synchronized void executeNextStep() {
+	public synchronized void executeNextStep(long deltaSinceLastLast) {
 		if (existsNewMessage()) {
 			copyStateFromNetwork();
 			deleteLatestMessage();

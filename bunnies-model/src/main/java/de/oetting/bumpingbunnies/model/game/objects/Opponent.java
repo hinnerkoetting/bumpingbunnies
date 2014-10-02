@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-
 public class Opponent {
 
 	private final String identifier;
@@ -70,4 +69,8 @@ public class Opponent {
 		return true;
 	}
 
+	@Override
+	public Opponent clone() {
+		return new Opponent(identifier, type);
+	}
 }

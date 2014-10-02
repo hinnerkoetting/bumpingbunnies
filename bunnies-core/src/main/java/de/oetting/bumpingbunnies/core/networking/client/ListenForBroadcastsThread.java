@@ -10,20 +10,19 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 public class ListenForBroadcastsThread extends Thread {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ListenForBroadcastsThread.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ListenForBroadcastsThread.class);
 	private final DatagramSocket socket;
 	private boolean canceled;
 	private final DatagramPacket packet;
 	private final OnBroadcastReceived callback;
 
-	public ListenForBroadcastsThread(DatagramSocket socket,
-			OnBroadcastReceived callback) {
+	public ListenForBroadcastsThread(DatagramSocket socket, OnBroadcastReceived callback) {
 		super("Listening for broadcasts");
 		this.socket = socket;
 		this.callback = callback;
 		byte[] buffer = new byte[1024];
 		this.packet = new DatagramPacket(buffer, buffer.length);
+		setDaemon(true);
 	}
 
 	@Override

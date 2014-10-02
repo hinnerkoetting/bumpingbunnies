@@ -12,7 +12,8 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 /**
- * Waits for incoming Messages. Each incoming message is forwarded to the dispatcher where the appropriate handler should be called.
+ * Waits for incoming Messages. Each incoming message is forwarded to the
+ * dispatcher where the appropriate handler should be called.
  * 
  */
 public class NetworkReceiveThread extends Thread implements NetworkReceiver {
@@ -28,6 +29,7 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 		this.gson = gson;
 		this.networkDispatcher = networkDispatcher;
 		this.socket = socket;
+		setDaemon(true);
 	}
 
 	@Override

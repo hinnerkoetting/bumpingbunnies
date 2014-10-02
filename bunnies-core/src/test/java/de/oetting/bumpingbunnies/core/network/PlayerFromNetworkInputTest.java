@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
@@ -37,7 +36,7 @@ public class PlayerFromNetworkInputTest {
 	@Test
 	public void executeUserInput_thenThereShouldNotBeANewMessage() {
 		givenThereExistsNewMessage();
-		this.fixture.executeNextStep();
+		this.fixture.executeNextStep(1);
 		assertFalse(this.fixture.existsNewMessage());
 	}
 
@@ -47,7 +46,7 @@ public class PlayerFromNetworkInputTest {
 		PlayerState oldPlayerState = new PlayerState(0);
 		sendNewMessageWithCounter(2, newPlayerState);
 		sendNewMessageWithCounter(1, oldPlayerState);
-		this.fixture.executeNextStep();
+		this.fixture.executeNextStep(1);
 		verify(this.player).applyState(newPlayerState);
 	}
 

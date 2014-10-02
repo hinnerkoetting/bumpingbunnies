@@ -21,6 +21,7 @@ public class AcceptThread extends Thread {
 		super("Accepts requests from Clients");
 		this.acceptsConnections = gameStarter;
 		this.mmServerSocket = serverSocket;
+		setDaemon(true);
 	}
 
 	@Override

@@ -34,10 +34,14 @@ public class PlayerDrawer implements Drawable {
 	}
 
 	private void drawAnimation(CanvasDelegate canvas) {
+		// copy to avoid changes in player which might lead to a sitatuation
+		// where no animation should be animated because the player is changed
+		// in between
+		Player copiedPlayer = player.clone();
 		for (ConditionalMirroredAnimation ani : this.animations) {
-			if (ani.shouldBeExecuted()) {
-				ani.drawMirrored(this.player.isFacingLeft());
-				ani.draw(canvas, this.player.minX(), this.player.maxY(), this.paint);
+			if (ani.shouldBeExecuted(copiedPlayer)) {
+				ani.drawMirrored(copiedPlayer.isFacingLeft());
+				ani.draw(canvas, copiedPlayer.minX(), copiedPlayer.maxY(), this.paint);
 				return;
 			}
 		}

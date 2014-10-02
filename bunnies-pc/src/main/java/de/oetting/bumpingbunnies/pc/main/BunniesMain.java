@@ -71,7 +71,7 @@ public class BunniesMain extends Application {
 	private GameMain gameMain;
 	private Drawer drawerThread = new NoopDrawer();
 	private PcInputDispatcher inputDispatcher;
-	private boolean withTwoHumanPlayers = true;
+	private boolean withTwoHumanPlayers = false;
 
 	public static void main(String[] args) {
 		startApplication();

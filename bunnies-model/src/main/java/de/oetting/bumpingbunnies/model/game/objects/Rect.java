@@ -50,4 +50,8 @@ public class Rect {
 		this.maxY = maxY;
 	}
 
+	@Override
+	public Rect clone() {
+		return new Rect(minX, maxX, minY, maxY);
+	}
 }

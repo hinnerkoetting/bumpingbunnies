@@ -9,61 +9,57 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class AnimationWithMirrorFactory {
 
-	public static ConditionalMirroredAnimation createRunningAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageMirroror mirroror) {
+	public static ConditionalMirroredAnimation createRunningAnimation(final List<ImageWrapper> pictures, final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted() {
+			public boolean shouldBeExecuted(Player player) {
 				return (Math.abs(player.movementX()) >= ModelConstants.MOVEMENT_LIMIT) && Math.abs(player.movementY()) <= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
 
-	public static ConditionalMirroredAnimation createFallingAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageMirroror mirroror) {
+	public static ConditionalMirroredAnimation createFallingAnimation(final List<ImageWrapper> pictures, final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted() {
+			public boolean shouldBeExecuted(Player player) {
 				return player.movementY() <= -ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
 
-	public static ConditionalMirroredAnimation createJumpingAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageMirroror mirroror) {
+	public static ConditionalMirroredAnimation createJumpingAnimation(final List<ImageWrapper> pictures, final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted() {
+			public boolean shouldBeExecuted(Player player) {
 				return player.movementY() >= ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementX()) >= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
 
-	public static ConditionalMirroredAnimation createSittingAnimation(final Player player, final List<ImageWrapper> pictures, final int timeBetweenPictures,
-			ImageMirroror mirroror) {
+	public static ConditionalMirroredAnimation createSittingAnimation(final List<ImageWrapper> pictures, final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted() {
+			public boolean shouldBeExecuted(Player player) {
 				return Math.abs(player.movementX()) <= ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementY()) <= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
 
-	public static ConditionalMirroredAnimation createJumpingOnlyUpAnimation(final Player player, final List<ImageWrapper> pictures,
-			final int timeBetweenPictures, ImageMirroror mirroror) {
+	public static ConditionalMirroredAnimation createJumpingOnlyUpAnimation(final List<ImageWrapper> pictures, final int timeBetweenPictures,
+			ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted() {
+			public boolean shouldBeExecuted(Player player) {
 				return Math.abs(player.movementX()) <= ModelConstants.MOVEMENT_LIMIT && player.movementY() >= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};

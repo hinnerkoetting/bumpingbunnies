@@ -23,15 +23,15 @@ public class PlayerDrawerFactory {
 
 	public PlayerDrawer create(int width, int heigth, Player player) {
 
-		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(player,
-				createRunningAnimation(width, heigth, player), 100, mirroror);
-		ConditionalMirroredAnimation fallingAnimation = AnimationWithMirrorFactory.createFallingAnimation(player,
-				createFallingAnimation(width, heigth, player), 100, mirroror);
-		ConditionalMirroredAnimation jumpingAnimation = AnimationWithMirrorFactory.createJumpingAnimation(player,
-				createJumpingAnimation(width, heigth, player), 100, mirroror);
-		ConditionalMirroredAnimation sittingAnimation = AnimationWithMirrorFactory.createSittingAnimation(player,
-				createSittingAnimation(width, heigth, player), 100, mirroror);
-		ConditionalMirroredAnimation jumpingOnlyUpAnimation = AnimationWithMirrorFactory.createJumpingOnlyUpAnimation(player,
+		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(createRunningAnimation(width, heigth, player), 100,
+				mirroror);
+		ConditionalMirroredAnimation fallingAnimation = AnimationWithMirrorFactory.createFallingAnimation(createFallingAnimation(width, heigth, player), 100,
+				mirroror);
+		ConditionalMirroredAnimation jumpingAnimation = AnimationWithMirrorFactory.createJumpingAnimation(createJumpingAnimation(width, heigth, player), 100,
+				mirroror);
+		ConditionalMirroredAnimation sittingAnimation = AnimationWithMirrorFactory.createSittingAnimation(createSittingAnimation(width, heigth, player), 100,
+				mirroror);
+		ConditionalMirroredAnimation jumpingOnlyUpAnimation = AnimationWithMirrorFactory.createJumpingOnlyUpAnimation(
 				createJumpingOnlyUpAnimation(width, heigth, player), 100, mirroror);
 		List<ConditionalMirroredAnimation> animations = Arrays.asList(runningAnimation, fallingAnimation, jumpingAnimation, sittingAnimation,
 				jumpingOnlyUpAnimation);

@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-
 /**
  * Contains all information about a player which has to be set over network.
  * 
@@ -24,6 +23,20 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	public PlayerState(int id) {
 		this.id = id;
+	}
+
+	public PlayerState(PlayerState playerState) {
+		this.id = playerState.id;
+		this.centerX = playerState.centerX;
+		this.centerY = playerState.centerY;
+		this.movementX = playerState.movementX;
+		this.movementY = playerState.movementY;
+		this.accelerationX = playerState.accelerationX;
+		this.accelerationY = playerState.accelerationY;
+		this.score = playerState.score;
+		this.facingLeft = playerState.facingLeft;
+		this.jumpingButtonPressed = playerState.jumpingButtonPressed;
+		this.isDead = playerState.isDead;
 	}
 
 	public long getCenterX() {
@@ -126,12 +139,13 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	@Override
 	public String toString() {
-		return "PlayerState [id=" + this.id + ", centerX=" + this.centerX + ", centerY=" + this.centerY + ", movementX=" + this.movementX
-				+ ", movementY="
-				+ this.movementY + ", accelerationX=" + this.accelerationX + ", accelerationY=" + this.accelerationY + ", score="
-				+ this.score
-				+ ", facingLeft=" + this.facingLeft + ", jumpingButtonPressed=" + this.jumpingButtonPressed + ", isDead=" + this.isDead
-				+ "]";
+		return "PlayerState [id=" + this.id + ", centerX=" + this.centerX + ", centerY=" + this.centerY + ", movementX=" + this.movementX + ", movementY="
+				+ this.movementY + ", accelerationX=" + this.accelerationX + ", accelerationY=" + this.accelerationY + ", score=" + this.score
+				+ ", facingLeft=" + this.facingLeft + ", jumpingButtonPressed=" + this.jumpingButtonPressed + ", isDead=" + this.isDead + "]";
 	}
 
+	@Override
+	public PlayerState clone() {
+		return new PlayerState(this);
+	}
 }

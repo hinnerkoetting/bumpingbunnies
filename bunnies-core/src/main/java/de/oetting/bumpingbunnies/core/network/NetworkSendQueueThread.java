@@ -33,6 +33,7 @@ public class NetworkSendQueueThread extends Thread implements NetworkSender {
 		this.parser = parser;
 		this.origin = origin;
 		this.messageQueue = new LinkedBlockingQueue<String>();
+		setDaemon(true);
 	}
 
 	@Override

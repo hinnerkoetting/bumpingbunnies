@@ -1,18 +1,19 @@
 package de.oetting.bumpingbunnies.core.input.ai;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class AiInputService implements OpponentInput {
 
-	private static Logger LOGGER = LoggerFactory
-			.getLogger(AiInputService.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(AiInputService.class);
 
 	private Player otherPlayer;
 	private final Player player;
@@ -21,7 +22,7 @@ public class AiInputService implements OpponentInput {
 	private boolean rememberMoveRight;
 	private int counter = 0;
 	private boolean rememberMoveUp;
-	private int nextdurationOfMovement = 0;
+	private long nextdurationOfMovement = 0;
 	private Random random;
 
 	private final World world;
@@ -35,9 +36,9 @@ public class AiInputService implements OpponentInput {
 	}
 
 	@Override
-	public void executeNextStep() {
+	public void executeNextStep(long deltaSinceLastLast) {
 		this.otherPlayer = findNearestOtherPlayer();
-		this.counter++;
+		this.counter += deltaSinceLastLast;
 		if (this.counter < this.nextdurationOfMovement) {
 			moveRememberedMovement();
 		} else {
@@ -66,29 +67,28 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private double distance(Player p1, Player p2) {
-		return Math.pow(p1.centerX() - p2.centerX(), 2)
-				+ Math.pow(p1.centerY() - p2.centerY(), 2);
+		return Math.pow(p1.centerX() - p2.centerX(), 2) + Math.pow(p1.centerY() - p2.centerY(), 2);
 	}
 
 	private void reset() {
 		this.rememberMoveRight = false;
 		this.rememberMoveLeft = false;
 		this.rememberMoveUp = false;
-		this.nextdurationOfMovement = this.random.nextInt(10);
+		this.nextdurationOfMovement = this.random.nextInt((int) TimeUnit.MILLISECONDS.toMillis(50));
 		this.counter = 0;
 	}
 
 	private void moveNormalMovement() {
 		if (isAtSimilarWidth()) {
 			if (isOtherPlayerOverMe()) {
-				this.nextdurationOfMovement = 25;
+				this.nextdurationOfMovement = TimeUnit.MILLISECONDS.toMillis(100);
 				runAway();
 			} else {
 				runTowardsOtherPlayer();
 			}
 		} else {
 			if (shouldIBreakOutOfSurrounding()) {
-				if (this.player.getCenterX() < 0.5) {
+				if (this.player.getCenterX() < ModelConstants.STANDARD_WORLD_SIZE * 0.5) {
 					doMoveRight();
 				} else {
 					doMoveLeft();
@@ -98,16 +98,28 @@ public class AiInputService implements OpponentInput {
 				if (isOtherPlayerOverMe()) {
 					moveUp();
 				} else {
+					moveDown();
 				}
 			}
 		}
+		jumpIfStuck();
+	}
+
+	public void jumpIfStuck() {
+		if (stuckAgainstWall()) {
+			moveUp();
+			nextdurationOfMovement = TimeUnit.MILLISECONDS.toMillis(10);
+		}
+	}
+
+	private boolean stuckAgainstWall() {
+		return player.movementX() == 0;
 	}
 
 	private boolean shouldIBreakOutOfSurrounding() {
 		boolean otherPlayerIsOverMe = isOtherPlayerOverMe();
 		if (otherPlayerIsOverMe) {
-			if (atLeftBorderAndOtherPlayerClose()
-					|| atRightBorderAndOtherPlayerClose()) {
+			if (atLeftBorderAndOtherPlayerClose() || atRightBorderAndOtherPlayerClose()) {
 				return true;
 			}
 		}
@@ -139,6 +151,11 @@ public class AiInputService implements OpponentInput {
 		this.rememberMoveUp = true;
 	}
 
+	private void moveDown() {
+		this.playerMovement.tryMoveDown();
+		this.rememberMoveUp = false;
+	}
+
 	private void runTowardsOtherPlayer() {
 		if (isLeftToOtherPlayer()) {
 			this.playerMovement.tryMoveRight();
@@ -168,8 +185,7 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private boolean isAtSimilarWidth() {
-		return Math.abs(this.player.getCenterX()
-				- this.otherPlayer.getCenterX()) < 0.025;
+		return Math.abs(this.player.getCenterX() - this.otherPlayer.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.15;
 	}
 
 	private boolean isLeftToOtherPlayer() {
@@ -177,19 +193,17 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private boolean atRightBorderAndOtherPlayerClose() {
-		return this.player.getCenterX() > 0.9
-				&& Math.abs(this.player.getCenterX()
-						- this.otherPlayer.getCenterX()) < 0.1;
+		return this.player.getCenterX() > ModelConstants.STANDARD_WORLD_SIZE * 0.85
+				&& Math.abs(this.player.getCenterX() - this.otherPlayer.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.1;
 	}
 
 	private boolean atLeftBorderAndOtherPlayerClose() {
-		return this.player.getCenterX() < 0.1
-				&& Math.abs(this.otherPlayer.getCenterX()
-						- this.player.getCenterX()) < 0.1;
+		return this.player.getCenterX() < ModelConstants.STANDARD_WORLD_SIZE * 0.15
+				&& Math.abs(this.otherPlayer.getCenterX() - this.player.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.1;
 	}
 
 	private boolean isOtherPlayerOverMe() {
-		return this.player.getCenterY() < this.otherPlayer.getCenterY() + 0.1;
+		return this.player.maxY() < this.otherPlayer.minY();
 	}
 
 }
