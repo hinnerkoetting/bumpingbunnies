@@ -18,8 +18,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.DefaultStateSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.DummyStateSender;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.RemoteConnectionFactory;
@@ -37,7 +37,7 @@ import de.oetting.bumpingbunnies.usecases.game.model.Player;
 @Config(emulateSdk = 18)
 public class AndroidStateSenderFactoryTest {
 
-	private AndroidStateSenderFactory factory;
+	private DefaultStateSenderFactory factory;
 	private NetworkMessageDistributor sendControl;
 	private Player myPlayer;
 	@Mock
@@ -70,6 +70,6 @@ public class AndroidStateSenderFactoryTest {
 		this.myPlayer = createOpponentPlayer();
 		this.sendThreads = new LinkedList<>();
 		this.sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(this.activity, this.sockets), this.sendThreads);
-		this.factory = new AndroidStateSenderFactory(this.sendControl, this.myPlayer);
+		this.factory = new DefaultStateSenderFactory(this.sendControl, this.myPlayer);
 	}
 }

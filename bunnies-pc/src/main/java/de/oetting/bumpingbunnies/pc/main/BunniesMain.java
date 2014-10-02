@@ -152,7 +152,7 @@ public class BunniesMain extends Application {
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		Configuration configuration = createConfiguration();
 		GameStartParameter parameter = new GameStartParameter(configuration, 0);
-		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter);
+		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer);
 		gameMain.addAllJoinListeners();
 		gameMain.addJoinListener(drawerThread);
 	}

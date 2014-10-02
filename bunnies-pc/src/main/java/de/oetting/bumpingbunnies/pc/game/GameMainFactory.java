@@ -15,31 +15,30 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.NoopGameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
-import de.oetting.bumpingbunnies.core.networking.receive.NoopNetworkReceiveFactory;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.pc.game.factory.GameThreadFactory;
 import de.oetting.bumpingbunnies.usecases.game.configuration.Configuration;
 import de.oetting.bumpingbunnies.usecases.game.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
 public class GameMainFactory {
 
-	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter) {
+	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer) {
 		NoopGameStopper gameStopper = new NoopGameStopper();
 		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(gameStopper,
 				SocketStorage.getSingleton()));
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		GameMain main = createGameMain(gameStopper, parameter, world, networkMessageDistributor);
-		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration()));
+		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration(), myPlayer));
 		main.setWorld(world);
-		main.setReceiveControl(new NetworkReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor)));
+		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor));
 		main.validateInitialised();
 		main.start();
 		return main;
 	}
 
-	private NoopNetworkReceiveFactory createNetworkReceiveFactory(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor networkMessageDistributor) {
-		NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, new PcOpponentReceiverFactoryFactory());
-		return new NoopNetworkReceiveFactory();
+	private NetworkReceiveControl createNetworkReceiveFactory(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor networkMessageDistributor) {
+		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, new PcOpponentReceiverFactoryFactory());
 	}
 
 	private GameMain createGameMain(NoopGameStopper gameStopper, GameStartParameter parameter, World world, NetworkMessageDistributor networkMessageDistributor) {
@@ -51,7 +50,8 @@ public class GameMainFactory {
 		return NewClientsAccepterFactory.create(parameter, world, new PcConnectionEstablisherFactory());
 	}
 
-	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, GameStopper gameStopper, Configuration configuration) {
-		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator);
+	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, GameStopper gameStopper, Configuration configuration,
+			Player myPlayer) {
+		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer);
 	}
 }

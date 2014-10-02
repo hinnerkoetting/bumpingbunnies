@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.communication.AndroidOpponentTypeReceiveFactoryFactory;
-import de.oetting.bumpingbunnies.communication.AndroidStateSenderFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
@@ -12,6 +11,7 @@ import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.factory.GameStepControllerFactory;
+import de.oetting.bumpingbunnies.core.networking.DefaultStateSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.networking.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.StrictNetworkToGameDispatcher;
@@ -42,7 +42,7 @@ public class GameThreadFactory {
 
 		// Sending Coordinates Strep
 		GameStepController worldController = GameStepControllerFactory.create(cameraPositionCalculator, world, stateDispatcher, factory,
-				new AndroidStateSenderFactory(sendControl, myPlayer), sendControl, configuration);
+				new DefaultStateSenderFactory(sendControl, myPlayer), sendControl, configuration);
 		return createGameThread(worldController);
 	}
 

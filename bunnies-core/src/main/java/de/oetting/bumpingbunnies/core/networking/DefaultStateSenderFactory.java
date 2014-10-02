@@ -1,21 +1,17 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking;
 
-import de.oetting.bumpingbunnies.core.networking.DummyStateSender;
-import de.oetting.bumpingbunnies.core.networking.NetworkMessageDistributor;
-import de.oetting.bumpingbunnies.core.networking.StateSender;
-import de.oetting.bumpingbunnies.core.networking.StateSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.sender.GameNetworkSender;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.game.model.Player;
 
-public class AndroidStateSenderFactory implements StateSenderFactory {
+public class DefaultStateSenderFactory implements StateSenderFactory {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidStateSenderFactory.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultStateSenderFactory.class);
 	private final NetworkMessageDistributor sendControl;
 	private final Player myPlayer;
 
-	public AndroidStateSenderFactory(NetworkMessageDistributor sendControl, Player myPlayer) {
+	public DefaultStateSenderFactory(NetworkMessageDistributor sendControl, Player myPlayer) {
 		super();
 		this.sendControl = sendControl;
 		this.myPlayer = myPlayer;
