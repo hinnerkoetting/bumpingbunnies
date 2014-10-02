@@ -108,7 +108,7 @@ public class BunniesMain extends Application {
 
 	private void createPanel(Stage primaryStage, Canvas canvas) {
 		FlowPane root = new FlowPane();
-		Scene scene = new Scene(root, 800, 600, Color.WHITESMOKE);
+		Scene scene = new Scene(root, 1000, 600, Color.WHITESMOKE);
 		primaryStage.setScene(scene);
 		root.getChildren().add(canvas);
 		resizeCanvasWhenPanelGetsResised(canvas, root);
