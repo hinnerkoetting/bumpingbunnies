@@ -11,10 +11,12 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 public class ListenForBroadcastsThread extends Thread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ListenForBroadcastsThread.class);
+
 	private final DatagramSocket socket;
-	private boolean canceled;
 	private final DatagramPacket packet;
 	private final OnBroadcastReceived callback;
+
+	private boolean canceled;
 
 	public ListenForBroadcastsThread(DatagramSocket socket, OnBroadcastReceived callback) {
 		super("Listening for broadcasts");

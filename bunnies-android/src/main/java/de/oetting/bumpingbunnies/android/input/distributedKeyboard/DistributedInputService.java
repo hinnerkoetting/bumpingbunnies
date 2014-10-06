@@ -4,23 +4,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.VibratorService;
+import de.oetting.bumpingbunnies.android.input.gamepad.KeyboardInputService;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.gamepad.KeyboardInputService;
 
-public class DistributedInputService implements InputService,
-		KeyboardInputService {
+public class DistributedInputService implements InputService, KeyboardInputService {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DistributedInputService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DistributedInputService.class);
 
 	private PlayerMovement playerMovement;
 	private final VibratorService vibrator;
 
-	public DistributedInputService(PlayerMovement playerMovement,
-			VibratorService vibrator) {
+	public DistributedInputService(PlayerMovement playerMovement, VibratorService vibrator) {
 		this.playerMovement = playerMovement;
 		this.vibrator = vibrator;
 	}
@@ -57,8 +54,7 @@ public class DistributedInputService implements InputService,
 		}
 	}
 
-	private void handleLeftRightMovement(View groupView, MotionEvent event,
-			boolean isPressed) {
+	private void handleLeftRightMovement(View groupView, MotionEvent event, boolean isPressed) {
 		if (isOnrightHalf(groupView, event)) {
 			if (isPressed) {
 				this.playerMovement.tryMoveRight();
@@ -79,8 +75,7 @@ public class DistributedInputService implements InputService,
 	}
 
 	private boolean isOnrightHalf(View v, MotionEvent event) {
-		LOGGER.debug("Event X %f - View left %d, View width %d", event.getX(),
-				v.getLeft(), v.getWidth());
+		LOGGER.debug("Event X %f - View left %d, View width %d", event.getX(), v.getLeft(), v.getWidth());
 		return event.getRawX() > v.getLeft() + v.getWidth() / 2;
 	}
 

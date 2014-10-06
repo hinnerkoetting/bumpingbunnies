@@ -20,10 +20,10 @@
         
      <Button text="With two players" fx:id="withTwoPlayersButton"   onAction="#onButtonWithTwoPlayers" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
      <Button text="With ai" fx:id="withAiButton" onAction="#onButtonWithAi" GridPane.rowIndex= "0" GridPane.columnIndex="1"/>
-	<Button text="Connect" fx:id="connectButton" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+	 <Button text="Connect" fx:id="connectButton" onAction="#onButtonConnect" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
  
               
-     <TableView fx:id="playerTable"	maxWidth="500" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="2">
+     <TableView fx:id="hostsTable"	maxWidth="500" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="3">
      	 <columns>
      	 	<TableColumn text="Name" >
      	 		<cellValueFactory>

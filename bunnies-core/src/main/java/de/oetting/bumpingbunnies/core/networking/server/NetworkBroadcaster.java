@@ -37,8 +37,8 @@ public class NetworkBroadcaster {
 		LOGGER.info("Searching for host...");
 		DatagramSocket socket = new DatagramSocket(NetworkConstants.BROADCAST_PORT);
 
-		NetworkBroadcaster.this.broadcastThread = new ListenForBroadcastsThread(socket, room);
-		NetworkBroadcaster.this.broadcastThread.start();
+		this.broadcastThread = new ListenForBroadcastsThread(socket, room);
+		this.broadcastThread.start();
 
 	}
 

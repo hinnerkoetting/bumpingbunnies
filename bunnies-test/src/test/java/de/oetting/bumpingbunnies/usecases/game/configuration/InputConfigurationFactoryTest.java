@@ -6,20 +6,20 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.android.input.analog.AnalogInputFactory;
+import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardFactory;
+import de.oetting.bumpingbunnies.android.input.factory.AbstractPlayerInputServicesFactory;
+import de.oetting.bumpingbunnies.android.input.factory.TouchInputServicesFactory;
+import de.oetting.bumpingbunnies.android.input.factory.TouchJumpInputServicesFactory;
+import de.oetting.bumpingbunnies.android.input.gamepad.KeyboardInputServicesFactory;
+import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardFactory;
+import de.oetting.bumpingbunnies.android.input.multiTouch.MultiTouchJumpServicesFactory;
+import de.oetting.bumpingbunnies.android.input.pointer.PointerInputServiceFactory;
+import de.oetting.bumpingbunnies.android.input.touchFling.TouchFlingFactory;
+import de.oetting.bumpingbunnies.android.input.touchPrss.TouchPressInputFactory;
+import de.oetting.bumpingbunnies.android.input.touchRelease.TouchReleaseFactory;
 import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.android.input.analog.AnalogInputFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.distributedKeyboard.DistributedKeyboardFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.factory.TouchInputServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.factory.TouchJumpInputServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.gamepad.KeyboardInputServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.hardwareKeyboard.HardwareKeyboardFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.multiTouch.MultiTouchJumpServicesFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.pointer.PointerInputServiceFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.touchFling.TouchFlingFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.touchPress.TouchPressInputFactory;
-import de.oetting.bumpingbunnies.usecases.game.android.input.touchRelease.TouchReleaseFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.InputConfigurationFactory;
 
 @Category(UnitTests.class)

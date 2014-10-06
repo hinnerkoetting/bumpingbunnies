@@ -8,34 +8,29 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
+import de.oetting.bumpingbunnies.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.android.input.factory.AbstractPlayerInputServicesFactory;
 
-public class KeyboardInputServicesFactory extends
-		AbstractPlayerInputServicesFactory<GamepadInputService> {
+public class KeyboardInputServicesFactory extends AbstractPlayerInputServicesFactory<GamepadInputService> {
 
 	@Override
-	public GamepadInputService createInputService(PlayerMovement movement,
-			Context context, CoordinatesCalculation calculations) {
+	public GamepadInputService createInputService(PlayerMovement movement, Context context, CoordinatesCalculation calculations) {
 		return new GamepadInputService(movement);
 	}
 
 	@Override
-	public InputDispatcher<?> createInputDispatcher(
-			GamepadInputService inputService) {
+	public InputDispatcher<?> createInputDispatcher(GamepadInputService inputService) {
 		return new KeyboardDispatcher(inputService);
 	}
 
 	@Override
-	public void insertGameControllerViews(ViewGroup rootView,
-			LayoutInflater inflater, InputDispatcher<?> inputDispatcher) {
+	public void insertGameControllerViews(ViewGroup rootView, LayoutInflater inflater, InputDispatcher<?> inputDispatcher) {
 		View v = inflater.inflate(R.layout.input_gamepad, rootView, true);
 		registerTouchEvents(v, inputDispatcher);
 	}
 
-	private void registerTouchEvents(View v,
-			final InputDispatcher<?> inputDispatcher) {
+	private void registerTouchEvents(View v, final InputDispatcher<?> inputDispatcher) {
 		OnTouchListener touchListener = new OnTouchListener() {
 
 			@Override

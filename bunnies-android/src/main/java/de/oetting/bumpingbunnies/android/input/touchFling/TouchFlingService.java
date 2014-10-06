@@ -1,17 +1,16 @@
 package de.oetting.bumpingbunnies.android.input.touchFling;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.android.input.touch.LeftRightTouchService;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
-import de.oetting.bumpingbunnies.usecases.game.android.input.touch.LeftRightTouchService;
 
 public class TouchFlingService extends LeftRightTouchService {
 
 	private double lastTouchedHeight;
 	private double lastTouchedWidht;
 
-	public TouchFlingService(PlayerMovement playerMovement,
-			CoordinatesCalculation coordinateCalculations) {
+	public TouchFlingService(PlayerMovement playerMovement, CoordinatesCalculation coordinateCalculations) {
 		super(playerMovement, coordinateCalculations);
 	}
 
@@ -30,10 +29,8 @@ public class TouchFlingService extends LeftRightTouchService {
 		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 			return false;
 		}
-		double diffY = this.lastTouchedHeight
-				- translateToGameYCoordinate(motionEvent);
-		double diffX = Math.abs(translateToGameXCoordinate(motionEvent)
-				- this.lastTouchedWidht);
+		double diffY = this.lastTouchedHeight - translateToGameYCoordinate(motionEvent);
+		double diffX = Math.abs(translateToGameXCoordinate(motionEvent) - this.lastTouchedWidht);
 		return diffY > 0 && diffY * 2 > diffX;
 	}
 

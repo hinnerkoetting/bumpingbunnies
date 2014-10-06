@@ -1,18 +1,17 @@
 package de.oetting.bumpingbunnies.android.input.pointer;
 
 import android.view.MotionEvent;
+import de.oetting.bumpingbunnies.android.input.pathFinder.PathFinder;
+import de.oetting.bumpingbunnies.android.input.touch.LeftRightTouchService;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
-import de.oetting.bumpingbunnies.usecases.game.android.input.PathFinder.PathFinder;
-import de.oetting.bumpingbunnies.usecases.game.android.input.touch.LeftRightTouchService;
 
 public class PointerInputService extends LeftRightTouchService {
 
 	private final PathFinder pathFinder;
 
-	public PointerInputService(PlayerMovement playerMovement,
-			PathFinder pathFinder, CoordinatesCalculation calculations) {
+	public PointerInputService(PlayerMovement playerMovement, PathFinder pathFinder, CoordinatesCalculation calculations) {
 		super(playerMovement, calculations);
 		this.pathFinder = pathFinder;
 	}
@@ -46,9 +45,7 @@ public class PointerInputService extends LeftRightTouchService {
 	}
 
 	private boolean canBeReachedByJumping(MotionEvent motionEvent) {
-		return this.pathFinder.canBeReachedByJumping(
-				relativePointerPositionX(motionEvent),
-				relativePointerPositionY(motionEvent));
+		return this.pathFinder.canBeReachedByJumping(relativePointerPositionX(motionEvent), relativePointerPositionY(motionEvent));
 	}
 
 	private double calculateDiffY(Player player, MotionEvent motionEvent) {
