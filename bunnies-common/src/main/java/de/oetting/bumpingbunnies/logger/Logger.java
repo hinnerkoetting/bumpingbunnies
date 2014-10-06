@@ -6,13 +6,23 @@ public interface Logger {
 
 	void debug(String log, Object... params);
 
-	void verbose(String log, Object... params); 
+	void verbose(String log, Object... params);
 
-	void warn(String string, Object... params);
+	void warn(String log, Object... params);
 
-	void warn(String string, Throwable t, Object... params);
+	void warn(String log, Throwable t, Object... params);
 
-	void error(String string, Object... params);
+	void error(String log, Object... params);
 
-	void error(String string, Throwable t, Object... params);
+	void error(String log, Throwable t, Object... params);
+
+	boolean isInfoEnabled();
+
+	boolean isDebugEnabled();
+
+	boolean isVerboseEnabled();
+
+	boolean isWarnEnabled();
+
+	boolean isErrorEnabled();
 }

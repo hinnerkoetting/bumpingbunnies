@@ -54,7 +54,7 @@ public class ThreadLoop {
 			LOGGER.warn("skipping frames");
 			return;
 		}
-		LOGGER.debug("Delta %d", delta);
+		LOGGER.verbose("Delta %d", delta);
 		if (isLastResetOneSecondAgo(currentTime)) {
 			this.state.resetFps(currentTime);
 		}

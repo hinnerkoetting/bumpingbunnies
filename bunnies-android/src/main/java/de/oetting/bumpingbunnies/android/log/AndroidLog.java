@@ -5,9 +5,8 @@ import de.oetting.bumpingbunnies.logger.Level;
 
 public class AndroidLog implements de.oetting.bumpingbunnies.logger.Logger {
 
-	
 	static Level globalLogLevel = Level.INFO;
-	
+
 	private String tag;
 
 	public AndroidLog(Class<?> cl) {
@@ -16,52 +15,62 @@ public class AndroidLog implements de.oetting.bumpingbunnies.logger.Logger {
 
 	@Override
 	public void info(String log, Object... params) {
-		if (Level.INFO.isBiggerEqualThan(globalLogLevel)) {
-			Log.i(this.tag, String.format(log, params));
-		}
+		Log.i(this.tag, log);
 	}
 
 	@Override
 	public void debug(String log, Object... params) {
-		if (Level.DEBUG.isBiggerEqualThan(globalLogLevel)) {
-			Log.d(this.tag, String.format(log, params));
-		}
+		Log.d(this.tag, log);
 	}
 
 	@Override
 	public void verbose(String log, Object... params) {
-		if (Level.VERBOSE.isBiggerEqualThan(globalLogLevel)) {
-			Log.v(this.tag, String.format(log, params));
-		}
+		Log.v(this.tag, log);
 	}
 
 	@Override
 	public void warn(String log, Object... params) {
-		if (Level.WARN.isBiggerEqualThan(globalLogLevel)) {
-			Log.w(this.tag, String.format(log, params));
-		}
-
+		Log.w(this.tag, log);
 	}
 
 	@Override
 	public void warn(String log, Throwable t, Object... params) {
-		if (Level.WARN.isBiggerEqualThan(globalLogLevel)) {
-			Log.w(this.tag, String.format(log, params), t);
-		}
+		Log.w(this.tag, log, t);
 	}
 
 	@Override
 	public void error(String log, Object... params) {
-		if (Level.ERROR.isBiggerEqualThan(globalLogLevel)) {
-			Log.e(this.tag, String.format(log, params));
-		}
+		Log.e(this.tag, log);
 	}
 
 	@Override
 	public void error(String log, Throwable t, Object... params) {
-		if (Level.ERROR.isBiggerEqualThan(globalLogLevel)) {
-			Log.e(this.tag, String.format(log, params), t);
-		}
+		Log.e(this.tag, log, t);
+	}
+
+	@Override
+	public boolean isInfoEnabled() {
+		return Level.INFO.isBiggerEqualThan(globalLogLevel);
+	}
+
+	@Override
+	public boolean isDebugEnabled() {
+		return Level.DEBUG.isBiggerEqualThan(globalLogLevel);
+	}
+
+	@Override
+	public boolean isVerboseEnabled() {
+		return Level.VERBOSE.isBiggerEqualThan(globalLogLevel);
+	}
+
+	@Override
+	public boolean isWarnEnabled() {
+		return Level.WARN.isBiggerEqualThan(globalLogLevel);
+	}
+
+	@Override
+	public boolean isErrorEnabled() {
+		return Level.ERROR.isBiggerEqualThan(globalLogLevel);
 	}
 
 }

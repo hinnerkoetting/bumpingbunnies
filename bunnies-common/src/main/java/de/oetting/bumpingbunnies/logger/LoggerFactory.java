@@ -8,6 +8,10 @@ public class LoggerFactory {
 	private static LoggerFactoryBridge bridge;
 
 	public static Logger getLogger(Class<?> cl) {
+		return new LoggerFormatter(createLoggerFromBridge(cl));
+	}
+
+	private static Logger createLoggerFromBridge(Class<?> cl) {
 		if (bridge == null) {
 			synchronized (LoggerFactory.class) {
 				createBridge();

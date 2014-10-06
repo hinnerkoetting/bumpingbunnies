@@ -46,4 +46,29 @@ public class TestLogger implements de.oetting.bumpingbunnies.logger.Logger {
 		t.printStackTrace();
 	}
 
+	@Override
+	public boolean isInfoEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean isDebugEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isVerboseEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isWarnEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean isErrorEnabled() {
+		return true;
+	}
+
 }
