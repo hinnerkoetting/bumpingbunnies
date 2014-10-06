@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
@@ -24,7 +25,11 @@ public class MainMenuApplication extends Application {
 		this.primaryStage = primaryStage;
 		primaryStage.setTitle("Bumping bunnies");
 
-		Pane myPane = createView();
+		// Pane myPane = createView();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainMenu.fxml"));
+		MainMenuController controller = new MainMenuController(primaryStage);
+		loader.setController(controller);
+		Pane myPane = (Pane) loader.load();
 		Scene myScene = new Scene(myPane);
 		primaryStage.setScene(myScene);
 		primaryStage.show();
