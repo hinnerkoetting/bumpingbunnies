@@ -1,13 +1,11 @@
 package de.oetting.bumpingbunnies.model.configuration;
 
-
 public class PlayerProperties {
 
 	private final int playerId;
 	private final String playerName;
 
 	public PlayerProperties(int playerId, String playerName) {
-		super();
 		this.playerId = playerId;
 		this.playerName = playerName;
 	}

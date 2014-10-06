@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.networkRoom;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.network.RoomEntry;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
