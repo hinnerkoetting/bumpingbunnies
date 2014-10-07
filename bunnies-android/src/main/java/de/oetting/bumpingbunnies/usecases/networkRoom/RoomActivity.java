@@ -36,6 +36,7 @@ import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
+import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;

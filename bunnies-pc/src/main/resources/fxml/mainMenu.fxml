@@ -33,5 +33,21 @@
      	 </columns>
      	
      </TableView>
+     
+     <TableView fx:id="playersTable"	maxWidth="500" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="4">
+     	 <columns>
+     	 	<TableColumn text="Id" >
+     	 		<cellValueFactory>
+                      <PropertyValueFactory property="playerId" />
+                  </cellValueFactory>
+     	 	</TableColumn>
+     	 	<TableColumn text="Name">
+     	 		<cellValueFactory>
+                      <PropertyValueFactory property="playerName" />
+                  </cellValueFactory>
+     	 	</TableColumn>
+     	 </columns>
+     	
+     </TableView>
 
 </GridPane>

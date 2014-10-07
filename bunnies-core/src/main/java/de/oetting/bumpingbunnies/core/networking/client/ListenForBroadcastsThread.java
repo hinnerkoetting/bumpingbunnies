@@ -56,11 +56,13 @@ public class ListenForBroadcastsThread extends Thread {
 		}
 	}
 
-	public void cancel() {
+	public void stopListening() {
 		this.canceled = true;
+		closeSocket();
 	}
 
-	public void closeSocket() {
+	private void closeSocket() {
+		LOGGER.info("Stop listening for broadcasts");
 		this.socket.close();
 	}
 }

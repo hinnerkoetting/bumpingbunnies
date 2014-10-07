@@ -32,7 +32,7 @@ public class GameMainFactory {
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		GameMain main = createGameMain(gameStopper, parameter, world, networkMessageDistributor);
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration(), myPlayer, networkDispatcher,
-				networkMessageDistributor));
+				networkMessageDistributor, main));
 		main.setWorld(world);
 		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor));
 		main.validateInitialised();
@@ -58,7 +58,8 @@ public class GameMainFactory {
 	}
 
 	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, GameStopper gameStopper, Configuration configuration,
-			Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor) {
-		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor);
+			Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor, GameMain gameMain) {
+		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor,
+				gameMain);
 	}
 }

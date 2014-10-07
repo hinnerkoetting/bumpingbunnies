@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.networkRoom;
+package de.oetting.bumpingbunnies.core.networking;
 
 import de.oetting.bumpingbunnies.core.network.RoomEntry;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;

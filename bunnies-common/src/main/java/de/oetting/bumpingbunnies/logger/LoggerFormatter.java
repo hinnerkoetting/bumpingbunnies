@@ -40,7 +40,7 @@ public class LoggerFormatter implements Logger {
 
 	@Override
 	public void error(String log, Throwable t, Object... params) {
-		delegate.info(String.format(log, params), t);
+		delegate.error(String.format(log, params), t);
 	}
 
 	public boolean isInfoEnabled() {

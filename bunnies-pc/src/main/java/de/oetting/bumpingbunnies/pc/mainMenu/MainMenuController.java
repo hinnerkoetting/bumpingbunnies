@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.pc.mainMenu;
 
 import java.net.InetAddress;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -14,8 +15,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
+import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
+import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.RoomEntry;
+import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
+import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectToServerThread;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
+import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
@@ -36,7 +45,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 
-public class MainMenuController implements Initializable, OnBroadcastReceived {
+public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainMenuController.class);
 
@@ -49,6 +58,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived {
 	private Button connectButton;
 	@FXML
 	private TableView<Host> hostsTable;
+	@FXML
+	private TableView<RoomEntry> playersTable;
 
 	private ListenForBroadcastsThread listenForBroadcastsThread;
 
@@ -73,12 +84,16 @@ public class MainMenuController implements Initializable, OnBroadcastReceived {
 	}
 
 	private Configuration createConfiguration(OpponentConfiguration opponent) {
-		LocalSettings localSettings = new LocalSettings(InputConfiguration.KEYBOARD, 1, true, false);
+		LocalSettings localSettings = createLocalSettings();
 		GeneralSettings generalSettings = new GeneralSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
 		List<OpponentConfiguration> opponents = Arrays.asList(opponent);
-		LocalPlayerSettings localPlayerSettings = new LocalPlayerSettings("Player 1");
+		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
 		return configuration;
+	}
+
+	private LocalSettings createLocalSettings() {
+		return new LocalSettings(InputConfiguration.KEYBOARD, 1, true, false);
 	}
 
 	private void startGameWithAi() {
@@ -88,13 +103,21 @@ public class MainMenuController implements Initializable, OnBroadcastReceived {
 	}
 
 	private void startGame(GameStartParameter parameter) {
-		try {
-			BunniesMain bunniesMain = new BunniesMain(parameter);
-			bunniesMain.start(primaryStage);
-		} catch (Exception e) {
-			LOGGER.error("", e);
-			Platform.exit();
-		}
+		listenForBroadcastsThread.stopListening();
+
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					BunniesMain bunniesMain = new BunniesMain(parameter);
+					bunniesMain.start(primaryStage);
+				} catch (Exception e) {
+					LOGGER.error("", e);
+					Platform.exit();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -125,8 +148,65 @@ public class MainMenuController implements Initializable, OnBroadcastReceived {
 	}
 
 	public void onButtonConnect() {
-		listenForBroadcastsThread.cancel();
-		throw new IllegalArgumentException();
-		// startGame(true);
+		WlanDevice wlanDevice = new WlanDevice(hostsTable.getSelectionModel().getSelectedItem().getAddress());
+		MySocket socket = wlanDevice.createClientSocket();
+		ConnectToServerThread connectToServerThread = new ConnectToServerThread(socket, this);
+		connectToServerThread.start();
 	}
+
+	@Override
+	public void connectionNotSuccesful(String message) {
+		Platform.exit();
+	}
+
+	@Override
+	public void connectToServerSuccesfull(MySocket mmSocket) {
+		ConnectionToServerService connectedToServerService = new ConnectionToServerService(mmSocket, this);
+		connectedToServerService.onConnectionToServer();
+	}
+
+	@Override
+	public LocalPlayerSettings createLocalPlayerSettings() {
+		return new LocalPlayerSettings("test");
+	}
+
+	@Override
+	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
+		RoomEntry entry = new RoomEntry(properties, serverSocket, socketIndex);
+		playersTable.getItems().add(entry);
+	}
+
+	@Override
+	public void addMyPlayerRoomEntry(int myPlayerId) {
+		LocalPlayerSettings settings = createLocalPlayerSettings();
+		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
+		playersTable.getItems().add(new SinglePlayerRoomEntry(singlePlayerProperties));
+	}
+
+	@Override
+	public void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost) {
+
+		LocalSettings localSettings = createLocalSettings();
+		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
+		int myPlayerId = playersTable.getItems().get(0).getPlayerId();
+		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations();
+		Configuration config = new Configuration(localSettings, generalSettingsFromNetwork, otherPlayers, localPlayerSettings, asHost);
+		GameStartParameter parameter = GameParameterFactory.createParameter(myPlayerId, config);
+		startGame(parameter);
+	}
+
+	private List<OpponentConfiguration> createOtherPlayerconfigurations() {
+		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>();
+		for (RoomEntry otherPlayer : playersTable.getItems()) {
+			if (!otherPlayer.getPlayerName().equals(createLocalPlayerSettings().getPlayerName())) {
+				AiModus aiMode = AiModus.NORMAL;
+
+				OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(),
+						otherPlayer.createOponent());
+				otherPlayers.add(otherPlayerConfiguration);
+			}
+		}
+		return otherPlayers;
+	}
+
 }

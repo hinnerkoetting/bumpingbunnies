@@ -27,9 +27,9 @@ public class ConnectToServerThread extends Thread {
 			this.mmSocket.connect();
 			this.activity.connectToServerSuccesfull(this.mmSocket);
 		} catch (IORuntimeException connectException) {
-			this.activity.connectionNotSuccesful(connectException.getMessage());
 			LOGGER.warn("Exception during connect to server " + connectException.getMessage());
 			LOGGER.warn("Closing connection");
+			this.activity.connectionNotSuccesful(connectException.getMessage());
 			this.mmSocket.close();
 		}
 	}

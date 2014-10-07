@@ -53,7 +53,7 @@ public class ThreshholdLogger implements Logger {
 	@Override
 	public void error(String log, Throwable t, Object... params) {
 		if (delegate.isErrorEnabled()) {
-			delegate.error(log, params);
+			delegate.error(log, t, params);
 		}
 	}
 

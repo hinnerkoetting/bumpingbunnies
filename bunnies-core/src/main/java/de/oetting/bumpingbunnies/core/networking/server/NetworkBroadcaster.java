@@ -24,8 +24,7 @@ public class NetworkBroadcaster {
 			this.sendBroadcastsThread.closeAllSockets();
 		}
 		if (this.broadcastThread != null) {
-			this.broadcastThread.cancel();
-			this.broadcastThread.closeSocket();
+			this.broadcastThread.stopListening();
 		}
 	}
 

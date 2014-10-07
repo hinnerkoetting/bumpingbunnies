@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.receive;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.network.MySocket;
@@ -71,7 +72,7 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	private JsonWrapper convertToObject(String input) {
 		try {
 			return this.gson.fromJson(input, JsonWrapper.class);
-		} catch (Exception e) {
+		} catch (JsonSyntaxException e) {
 			LOGGER.error("Message was %s", input);
 			throw new JsonConvertionException(e);
 		}

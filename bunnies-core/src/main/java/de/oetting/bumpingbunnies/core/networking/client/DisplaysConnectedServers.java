@@ -13,6 +13,6 @@ public interface DisplaysConnectedServers {
 
 	void addMyPlayerRoomEntry(int myPlayerId);
 
-	void launchGame(GeneralSettings generalSettingsFromNetwork, boolean b);
+	void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost);
 
 }
