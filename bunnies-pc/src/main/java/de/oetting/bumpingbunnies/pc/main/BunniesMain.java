@@ -30,7 +30,6 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalcu
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
-import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
@@ -88,11 +87,15 @@ public class BunniesMain extends Application {
 	public BunniesMain() {
 		LocalSettings localSettings = new LocalSettings(InputConfiguration.KEYBOARD, 1, true, false);
 		GeneralSettings generalSettings = new GeneralSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
-		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(6, "Player 2"), Opponent
+		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"), Opponent
 				.createOpponent("Player2", OpponentType.AI)));
 		LocalPlayerSettings localPlayerSettings = new LocalPlayerSettings("Player 1");
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
 		parameter = GameParameterFactory.createSingleplayerParameter(configuration);
+	}
+
+	public BunniesMain(GameStartParameter parameter) {
+		this.parameter = parameter;
 	}
 
 	@Override
@@ -100,8 +103,8 @@ public class BunniesMain extends Application {
 		this.primaryStage = primaryStage;
 		Canvas canvas = new Canvas(1000, 600);
 		createPanel(primaryStage, canvas);
-		PlayerFactory playerFactory = new PlayerFactory(25);
-		Player myPlayer = playerFactory.createPlayer(1, "Player1", new Opponent("", OpponentType.LOCAL_PLAYER));
+
+		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
 		buildGame(canvas, myPlayer);
 		playerJoins(myPlayer);
