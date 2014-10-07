@@ -39,7 +39,6 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private List<ConnectionToClientService> connectionToClientServices;
 
 	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, GeneralSettings generalSettings) {
-		super();
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
 		this.world = world;
@@ -49,6 +48,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void start() {
+		LOGGER.info("Start to accept clients");
 		this.broadcaster.startRegularServerBroadcast();
 		this.remoteCommunication.startThreadToAcceptClients();
 	}

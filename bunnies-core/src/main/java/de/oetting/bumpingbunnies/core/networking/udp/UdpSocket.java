@@ -62,8 +62,7 @@ public class UdpSocket implements MySocket {
 	@Override
 	public void sendMessage(String message) {
 		try {
-			DatagramPacket packet = new DatagramPacket(message.getBytes(Charset.forName("UTF-8")), message.length(), this.address,
-					this.port);
+			DatagramPacket packet = new DatagramPacket(message.getBytes(Charset.forName("UTF-8")), message.length(), this.address, this.port);
 			this.socket.send(packet);
 		} catch (IOException e) {
 			throw new UdpException(e);
@@ -98,6 +97,11 @@ public class UdpSocket implements MySocket {
 
 	public boolean isOpen() {
 		return !this.socket.isClosed();
+	}
+
+	@Override
+	public String toString() {
+		return "UdpSocket [socket=" + socket + ", address=" + address + ", port=" + port + ", owner=" + owner + ", receivingPacket=" + receivingPacket + "]";
 	}
 
 }

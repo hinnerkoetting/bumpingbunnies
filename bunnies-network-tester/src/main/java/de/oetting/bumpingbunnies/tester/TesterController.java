@@ -60,6 +60,6 @@ public class TesterController implements Initializable, OnBroadcastReceived, Con
 	}
 
 	public void connectToServerSuccesfull(MySocket mmSocket) {
-		LOGGER.info("Connected to server %d", mmSocket);
+		LOGGER.info("Connected to server %s", mmSocket);
 	}
 }

@@ -77,4 +77,10 @@ public class TCPSocket extends AbstractSocket implements MySocket {
 	public InetAddress getInetAddress() {
 		return this.socket.getInetAddress();
 	}
+
+	@Override
+	public String toString() {
+		return "TCPSocket [socket=" + socket + ", address=" + address + "]";
+	}
+
 }
