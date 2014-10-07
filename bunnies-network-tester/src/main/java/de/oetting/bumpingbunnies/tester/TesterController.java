@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
@@ -21,16 +22,17 @@ public class TesterController implements Initializable, OnBroadcastReceived {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
+		listenForBroadcasts.start();
 	}
 
 	public void broadcastReceived(InetAddress senderAddress) {
-		// TODO Auto-generated method stub
-
+		Host host = new Host(senderAddress.toString());
+		if (!broadcastTable.getItems().contains(host))
+			broadcastTable.getItems().add(host);
 	}
 
 	public void errorOnBroadcastListening() {
-		// TODO Auto-generated method stub
-
+		Platform.exit();
 	}
 
 }

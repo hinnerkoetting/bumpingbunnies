@@ -69,7 +69,7 @@
 				<artifactId>bunnies-android</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<!-- Compile -->
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
@@ -100,6 +100,11 @@
 				<artifactId>hamcrest-library</artifactId>
 				<version>1.3</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

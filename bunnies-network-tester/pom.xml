@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>bunnies-core</artifactId>
+			<artifactId>bunnies-pc</artifactId>
 		</dependency>
 	</dependencies>
 </project>
