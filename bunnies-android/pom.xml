@@ -8,9 +8,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<android.sdk.path>/home/hinni/develop/android-studio/sdk</android.sdk.path>
-	</properties>
 	<packaging>apk</packaging>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -80,6 +77,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<!--define android sdk path depending on os-->	
 	<profiles>
 		<profile>
 			<id>deploy</id>
@@ -100,6 +98,28 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		<profile>
+			<id>linux</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<android.sdk.path>/home/hinni/develop/android-studio/sdk</android.sdk.path>
+			</properties>
+		</profile>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<android.sdk.path>D:/develop/Android/android-sdk</android.sdk.path>
+			</properties>
 		</profile>
 	</profiles>
 	<dependencies>

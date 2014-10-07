@@ -68,8 +68,12 @@ public class ObjectsDrawer implements PlayerJoinListener {
 
 	@Override
 	public void playerLeftTheGame(Player p) {
-		Drawable drawer = findDrawerPlayable(p);
-		this.allDrawables.remove(drawer);
+		if (toBeUpdatedPlayers.contains(p)) {
+			toBeUpdatedPlayers.remove(p);
+		} else {
+			Drawable drawer = findDrawerPlayable(p);
+			this.allDrawables.remove(drawer);
+		}
 	}
 
 	private Drawable findDrawerPlayable(Player p) {

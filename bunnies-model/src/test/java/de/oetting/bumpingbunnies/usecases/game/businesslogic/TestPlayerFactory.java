@@ -11,17 +11,16 @@ public class TestPlayerFactory {
 	}
 
 	public static Player createOpponentPlayer(OpponentType type) {
-		return new Player(0, "", 1, Opponent.createOpponent("opponent", type));
+		return new Player(1, "", 1, Opponent.createOpponent("opponent", type));
 	}
 
 	public static Player createOpponentPlayer() {
-		return new Player(0, "", 1, TestOpponentFactory.createDummyOpponent());
+		return new Player(1, "", 1, TestOpponentFactory.createDummyOpponent());
 	}
 
 	public static Player createPlayerAtPosition(int x, int y) {
 		Opponent opponent = TestOpponentFactory.createDummyOpponent();
-		Player p = new Player(new Player(-1, "", 1, opponent), -1, "",
-				1, opponent);
+		Player p = new Player(-1, "", 1, opponent);
 		p.setCenterX(x);
 		p.setCenterY(y);
 		return p;

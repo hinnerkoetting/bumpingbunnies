@@ -1,6 +1,7 @@
-package de.oetting.bumpingbunnies.core.networking.messaging.stop;
+package de.oetting.bumpingbunnies.pc.network.messaging;
 
 import javafx.application.Platform;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 

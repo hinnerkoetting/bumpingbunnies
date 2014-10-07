@@ -34,11 +34,6 @@ public class Player implements GameObject {
 		calculateRect();
 	}
 
-	public Player(Player simulatedObject, int id, String name, int speedFaktor, Opponent opponent) {
-		this(id, name, speedFaktor, opponent);
-		this.simulatedObject = simulatedObject;
-	}
-
 	public Player(Player player) {
 		super();
 		this.speedFaktor = player.speedFaktor;
@@ -47,7 +42,6 @@ public class Player implements GameObject {
 		this.id = player.id;
 		this.name = player.name;
 		this.state = player.state.clone();
-		this.simulatedObject = null; // would otherwise lead to endless loop
 		this.rect = player.rect.clone();
 		this.horizontalMovementStatus = player.horizontalMovementStatus;
 		this.color = player.color;
@@ -181,6 +175,8 @@ public class Player implements GameObject {
 	}
 
 	public void resetSimulatedObject() {
+		if (simulatedObject == null)
+			simulatedObject = new Player(this);
 		this.simulatedObject.setCenterX(this.state.getCenterX());
 		this.simulatedObject.setExactMovementX(this.state.getMovementX());
 		this.simulatedObject.setCenterY(this.state.getCenterY());
@@ -313,10 +309,6 @@ public class Player implements GameObject {
 		return this.state.isJumpingButtonPressed();
 	}
 
-	public boolean belongsToOwner(Opponent opponent) {
-		return opponent.equals(this.opponent);
-	}
-
 	public Opponent getOpponent() {
 		return this.opponent;
 	}
@@ -332,4 +324,27 @@ public class Player implements GameObject {
 	public Player clone() {
 		return new Player(this);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
 }

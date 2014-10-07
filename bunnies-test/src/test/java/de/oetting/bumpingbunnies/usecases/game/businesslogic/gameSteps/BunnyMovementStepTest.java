@@ -22,6 +22,7 @@ import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
 @Category(UnitTests.class)
 public class BunnyMovementStepTest {
@@ -99,7 +100,7 @@ public class BunnyMovementStepTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		initMovementFactory();
-		this.movedPlayer = createOpponentPlayer();
+		this.movedPlayer = TestPlayerFactory.createMyPlayer();
 		this.fixture = new BunnyMovementStep(this.killChecker, this.calculationFactory);
 		this.fixture.newPlayerJoined(this.movedPlayer);
 	}

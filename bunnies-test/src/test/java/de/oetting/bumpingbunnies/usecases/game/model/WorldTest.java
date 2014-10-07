@@ -26,7 +26,7 @@ public class WorldTest {
 	public void findPlayer_givenPlayerDoesExist_returnsThisPlayer() {
 		Player p = createOpponentPlayer();
 		addPlayer(p);
-		Player foundPlayer = this.fixture.findPlayer(0);
+		Player foundPlayer = this.fixture.findPlayer(p.id());
 		assertThat(p, new IsSame<>(foundPlayer));
 	}
 

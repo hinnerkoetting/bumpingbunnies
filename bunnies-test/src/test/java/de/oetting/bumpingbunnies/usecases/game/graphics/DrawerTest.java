@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -40,7 +39,6 @@ public class DrawerTest {
 	private CanvasDelegate canvas;
 	private Player player;
 
-	@Ignore("temp")
 	@Test
 	public void playerJoins_thenPlayerDrawableShouldBeDrawn() {
 		whenPlayerJoins();

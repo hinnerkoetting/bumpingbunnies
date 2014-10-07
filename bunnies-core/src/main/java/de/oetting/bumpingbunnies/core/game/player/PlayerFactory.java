@@ -16,7 +16,7 @@ public class PlayerFactory {
 	}
 
 	public Player createPlayer(int id, String name, Opponent opponent) {
-		Player p = new Player(new Player(id, name, this.speed, opponent), id, name, this.speed, opponent);
+		Player p = new Player(id, name, this.speed, opponent);
 		PlayerState state = p.getState();
 		p.setDead(true);
 		// TODO: get from spawnpoints

@@ -14,7 +14,6 @@ import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.PcGameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -22,6 +21,7 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.pc.game.factory.GameThreadFactory;
+import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
 public class GameMainFactory {
 

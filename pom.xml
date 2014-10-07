@@ -13,7 +13,7 @@
 		<module>bunnies-test</module>
 		<module>bunnies-common</module>
 		<module>bunnies-android</module>
-		<mocule>bunnies-network-tester</mocule>
+		<module>bunnies-network-tester</module>
 	</modules>
 
 	<dependencyManagement>
