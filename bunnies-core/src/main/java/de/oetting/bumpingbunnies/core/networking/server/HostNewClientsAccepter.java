@@ -74,7 +74,6 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 		Player player = new PlayerFactory(this.generalSettings.getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
 				playerProperties.getPlayerName(), socket.getOwner());
 		LOGGER.info("Player joins %s", player);
-		mainJoinListener.newPlayerJoined(player);
 		this.mainJoinListener.newPlayerJoined(player);
 		signalPlayerToStartTheGame(socket);
 	}
