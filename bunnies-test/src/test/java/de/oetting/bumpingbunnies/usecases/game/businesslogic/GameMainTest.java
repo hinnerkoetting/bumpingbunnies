@@ -25,6 +25,7 @@ import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.network.NetworkSendThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
@@ -135,7 +136,7 @@ public class GameMainTest {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
 		this.fixture = new GameMain(this.sockets, new NetworkMessageDistributor(mock(RemoteConnectionFactory.class), this.sendThreads), this.accepter,
-				new DummyMusicPlayer());
+				new DummyMusicPlayer(), mock(NetworkSendThread.class));
 		this.fixture.setWorld(new World());
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 		NetworkMessageDistributor networkSendControl = createNetworkSendControl();

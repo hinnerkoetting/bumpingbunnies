@@ -18,7 +18,6 @@ public abstract class NetworkToGameDispatcher implements IncomingNetworkDispatch
 	private final Map<Integer, NetworkListener> listeners;
 
 	public NetworkToGameDispatcher() {
-		super();
 		this.listeners = new TreeMap<Integer, NetworkListener>();
 	}
 

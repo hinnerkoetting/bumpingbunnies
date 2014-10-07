@@ -6,13 +6,15 @@ import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.network.NetworkSendThread;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.NoopGameStopper;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.PcGameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -24,12 +26,13 @@ import de.oetting.bumpingbunnies.pc.game.factory.GameThreadFactory;
 public class GameMainFactory {
 
 	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer) {
-		NoopGameStopper gameStopper = new NoopGameStopper();
+		PcGameStopper gameStopper = new PcGameStopper();
 		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(gameStopper,
 				SocketStorage.getSingleton()));
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
 		GameMain main = createGameMain(gameStopper, parameter, world, networkMessageDistributor);
-		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration(), myPlayer));
+		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration(), myPlayer, networkDispatcher,
+				networkMessageDistributor));
 		main.setWorld(world);
 		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor));
 		main.validateInitialised();
@@ -41,9 +44,11 @@ public class GameMainFactory {
 		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, new PcOpponentReceiverFactoryFactory());
 	}
 
-	private GameMain createGameMain(NoopGameStopper gameStopper, GameStartParameter parameter, World world, NetworkMessageDistributor networkMessageDistributor) {
+	private GameMain createGameMain(PcGameStopper gameStopper, GameStartParameter parameter, World world, NetworkMessageDistributor networkMessageDistributor) {
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world);
-		GameMain main = new GameMain(SocketStorage.getSingleton(), networkMessageDistributor, newClientsAccepter, new DummyMusicPlayer());
+		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, SocketStorage.getSingleton());
+		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory, gameStopper);
+		GameMain main = new GameMain(SocketStorage.getSingleton(), networkMessageDistributor, newClientsAccepter, new DummyMusicPlayer(), networkSendThread);
 		newClientsAccepter.setMain(main);
 		return main;
 	}
@@ -53,7 +58,7 @@ public class GameMainFactory {
 	}
 
 	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, GameStopper gameStopper, Configuration configuration,
-			Player myPlayer) {
-		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer);
+			Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor) {
+		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor);
 	}
 }

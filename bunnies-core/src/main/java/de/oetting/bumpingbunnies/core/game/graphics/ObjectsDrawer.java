@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.core.game.graphics;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -17,6 +18,7 @@ public class ObjectsDrawer implements PlayerJoinListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ObjectsDrawer.class);
 	private List<Drawable> allDrawables;
+	private List<Player> toBeUpdatedPlayers;
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;
 
@@ -24,6 +26,7 @@ public class ObjectsDrawer implements PlayerJoinListener {
 		this.factory = drawFactory;
 		this.canvasDelegate = canvasDelegate;
 		this.allDrawables = new CopyOnWriteArrayList<Drawable>();
+		this.toBeUpdatedPlayers = new ArrayList<Player>();
 	}
 
 	public void buildAllDrawables(CanvasWrapper canvas, int screenWidth, int screenHeight) {
@@ -35,7 +38,19 @@ public class ObjectsDrawer implements PlayerJoinListener {
 
 	public void draw(CanvasWrapper canvas) {
 		LOGGER.verbose("drawing...");
+		if (!toBeUpdatedPlayers.isEmpty())
+			updateDrawables();
 		drawEverything();
+	}
+
+	private void updateDrawables() {
+		synchronized (toBeUpdatedPlayers) {
+			for (Player p : toBeUpdatedPlayers) {
+				Drawable playerDrawer = this.factory.createPlayerDrawable(p, canvasDelegate);
+				this.allDrawables.add(playerDrawer);
+			}
+			toBeUpdatedPlayers.clear();
+		}
 	}
 
 	private void drawEverything() {
@@ -46,8 +61,9 @@ public class ObjectsDrawer implements PlayerJoinListener {
 
 	@Override
 	public void newPlayerJoined(Player p) {
-		Drawable playerDrawer = this.factory.createPlayerDrawable(p, canvasDelegate);
-		this.allDrawables.add(playerDrawer);
+		synchronized (toBeUpdatedPlayers) {
+			toBeUpdatedPlayers.add(p);
+		}
 	}
 
 	@Override

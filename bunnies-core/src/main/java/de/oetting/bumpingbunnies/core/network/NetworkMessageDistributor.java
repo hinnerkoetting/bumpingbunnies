@@ -26,7 +26,6 @@ public class NetworkMessageDistributor implements PlayerJoinListener {
 	}
 
 	public NetworkMessageDistributor(RemoteConnectionFactory factory, List<NetworkSender> sendThreads) {
-		super();
 		this.factory = factory;
 		this.sendThreads = sendThreads;
 		this.messageParser = MessageParserFactory.create();

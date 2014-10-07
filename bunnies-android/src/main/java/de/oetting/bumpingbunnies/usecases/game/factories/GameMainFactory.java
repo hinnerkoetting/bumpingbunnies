@@ -13,9 +13,11 @@ import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.network.NetworkSendThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
@@ -28,11 +30,16 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer, CameraPositionCalculation cameraCalclation) {
-		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(activity, SocketStorage.getSingleton()));
+		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, SocketStorage.getSingleton());
+		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
 
 		World world = createWorld(activity, parameter);
 		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world);
-		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter, MusicPlayerFactory.createBackground(activity));
+
+		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory, activity);
+
+		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter, MusicPlayerFactory.createBackground(activity),
+				networkSendThread);
 		clientAccepter.setMain(main);
 
 		initGame(main, activity, parameter, sendControl, world, myPlayer, cameraCalclation);

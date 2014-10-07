@@ -18,9 +18,18 @@ import de.oetting.bumpingbunnies.core.networking.client.ConnectToServerThread;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.sender.PlayerStateSender;
+import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class TesterController implements Initializable, OnBroadcastReceived, ConnectsToServer {
 
@@ -61,5 +70,14 @@ public class TesterController implements Initializable, OnBroadcastReceived, Con
 
 	public void connectToServerSuccesfull(MySocket mmSocket) {
 		LOGGER.info("Connected to server %s", mmSocket);
+		new Thread(new LogMessagesFromSocket(mmSocket)).start();
+
+		LocalPlayerSettings settings = new LocalPlayerSettings("test");
+		SimpleNetworkSender sender = new SimpleNetworkSender(MessageParserFactory.create(), mmSocket);
+		sender.sendMessage(MessageId.SEND_CLIENT_LOCAL_PLAYER_SETTINGS, settings);
+		PlayerStateSender stateSender = new PlayerStateSender(sender);
+		Player myPlayer = new Player(1, "test", 1, new Opponent("", OpponentType.LOCAL_PLAYER));
+		myPlayer.setCenterX(ModelConstants.STANDARD_WORLD_SIZE / 2);
+		stateSender.sendState(myPlayer);
 	}
 }

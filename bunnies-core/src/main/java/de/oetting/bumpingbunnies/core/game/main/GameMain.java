@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
+import de.oetting.bumpingbunnies.core.network.NetworkSendThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
@@ -24,17 +25,19 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 	private final PlayerJoinObservable playerObservable;
 	private final NewClientsAccepter newClientsAccepter;
 	private final MusicPlayer musicPlayer;
+	private final NetworkSendThread networkSenderThread;
 	private GameThread gameThread;
 
 	private NetworkReceiveControl receiveControl;
 	private World world;
 
-	public GameMain(SocketStorage sockets, NetworkMessageDistributor sendControl, NewClientsAccepter newClientsAccepter, MusicPlayer musicPlayer) {
-		super();
+	public GameMain(SocketStorage sockets, NetworkMessageDistributor sendControl, NewClientsAccepter newClientsAccepter, MusicPlayer musicPlayer,
+			NetworkSendThread networkSenderThread) {
 		this.sockets = sockets;
 		this.sendControl = sendControl;
 		this.newClientsAccepter = newClientsAccepter;
 		this.musicPlayer = musicPlayer;
+		this.networkSenderThread = networkSenderThread;
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
@@ -75,6 +78,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 		for (NetworkSender sender : this.sendControl.getSendThreads()) {
 			sender.cancel();
 		}
+		networkSenderThread.cancel();
 		this.receiveControl.shutDownThreads();
 		this.musicPlayer.stopBackground();
 	}
@@ -109,6 +113,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 		addJoinListener(this.sendControl); // send control must be the first
 		this.gameThread.addAllJoinListeners(this);
 		addJoinListener(this.receiveControl);
+		addJoinListener(this.networkSenderThread);
 	}
 
 	public void clientConnectedSuccessfull(MySocket socket) {
