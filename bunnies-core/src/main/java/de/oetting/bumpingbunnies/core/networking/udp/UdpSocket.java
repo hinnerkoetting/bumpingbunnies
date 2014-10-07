@@ -18,7 +18,6 @@ public class UdpSocket implements MySocket {
 	private final DatagramPacket receivingPacket;
 
 	public UdpSocket(DatagramSocket socket, InetAddress address, int port, Opponent owner) {
-		super();
 		this.socket = socket;
 		this.destinationAddress = address;
 		this.destinationPort = port;
@@ -29,22 +28,6 @@ public class UdpSocket implements MySocket {
 	@Override
 	public void close() {
 		this.socket.close();
-	}
-
-	@Deprecated
-	public void receive(DatagramPacket packet) {
-		try {
-			this.socket.receive(packet);
-		} catch (IOException e) {
-			throw new UdpException(e);
-		}
-	}
-
-	public static class UdpException extends RuntimeException {
-
-		public UdpException(Throwable throwable) {
-			super(throwable);
-		}
 	}
 
 	@Override
@@ -95,4 +78,10 @@ public class UdpSocket implements MySocket {
 		}
 	}
 
+	public static class UdpException extends RuntimeException {
+
+		public UdpException(Throwable throwable) {
+			super(throwable);
+		}
+	}
 }
