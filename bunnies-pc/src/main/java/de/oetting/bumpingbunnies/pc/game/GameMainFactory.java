@@ -43,7 +43,9 @@ public class GameMainFactory {
 
 	private GameMain createGameMain(NoopGameStopper gameStopper, GameStartParameter parameter, World world, NetworkMessageDistributor networkMessageDistributor) {
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world);
-		return new GameMain(SocketStorage.getSingleton(), networkMessageDistributor, newClientsAccepter, new DummyMusicPlayer());
+		GameMain main = new GameMain(SocketStorage.getSingleton(), networkMessageDistributor, newClientsAccepter, new DummyMusicPlayer());
+		newClientsAccepter.setMain(main);
+		return main;
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world) {
