@@ -27,13 +27,9 @@ public class WlanDevice implements ServerDevice {
 	@Override
 	public MySocket createClientSocket() {
 		String adress = WlanDevice.this.address;
-		try {
-			LOGGER.info("Connecting to socket " + NetworkConstants.SERVER_WLAN_PORT);
-			Socket socket = new Socket();
-			SocketAddress address = new InetSocketAddress(adress, NetworkConstants.SERVER_WLAN_PORT);
-			return new TCPSocket(socket, address, Opponent.createOpponent("wlan" + adress, OpponentType.WLAN));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		LOGGER.info("Connecting to socket " + NetworkConstants.SERVER_WLAN_PORT);
+		Socket socket = new Socket();
+		SocketAddress address = new InetSocketAddress(adress, NetworkConstants.SERVER_WLAN_PORT);
+		return new TCPSocket(socket, address, Opponent.createOpponent("wlan" + adress, OpponentType.WLAN));
 	}
 }

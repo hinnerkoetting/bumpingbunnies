@@ -12,26 +12,18 @@ import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 public class UdpSocket implements MySocket {
 
 	private final DatagramSocket socket;
-	private final InetAddress address;
-	private final int port;
+	private final InetAddress destinationAddress;
+	private final int destinationPort;
 	private final Opponent owner;
 	private final DatagramPacket receivingPacket;
 
 	public UdpSocket(DatagramSocket socket, InetAddress address, int port, Opponent owner) {
 		super();
 		this.socket = socket;
-		this.address = address;
-		this.port = port;
+		this.destinationAddress = address;
+		this.destinationPort = port;
 		this.owner = owner;
 		this.receivingPacket = new DatagramPacket(new byte[1024], 1024);
-	}
-
-	public DatagramSocket getSocket() {
-		return this.socket;
-	}
-
-	public InetAddress getAddress() {
-		return this.address;
 	}
 
 	@Override
@@ -57,12 +49,14 @@ public class UdpSocket implements MySocket {
 
 	@Override
 	public void connect() {
+		// connect is not possible for udp
 	}
 
 	@Override
 	public void sendMessage(String message) {
 		try {
-			DatagramPacket packet = new DatagramPacket(message.getBytes(Charset.forName("UTF-8")), message.length(), this.address, this.port);
+			DatagramPacket packet = new DatagramPacket(message.getBytes(Charset.forName("UTF-8")), message.length(), this.destinationAddress,
+					this.destinationPort);
 			this.socket.send(packet);
 		} catch (IOException e) {
 			throw new UdpException(e);
@@ -79,12 +73,6 @@ public class UdpSocket implements MySocket {
 		}
 	}
 
-	public static class ReceiveFailure extends RuntimeException {
-		public ReceiveFailure(Exception e) {
-			super(e);
-		}
-	}
-
 	@Override
 	public Opponent getOwner() {
 		return this.owner;
@@ -95,13 +83,16 @@ public class UdpSocket implements MySocket {
 		return false;
 	}
 
-	public boolean isOpen() {
-		return !this.socket.isClosed();
-	}
-
 	@Override
 	public String toString() {
-		return "UdpSocket [socket=" + socket + ", address=" + address + ", port=" + port + ", owner=" + owner + ", receivingPacket=" + receivingPacket + "]";
+		return "UdpSocket [socket=" + socket + ", address=" + destinationAddress + ", port=" + destinationPort + ", owner=" + owner + ", receivingPacket="
+				+ receivingPacket + "]";
+	}
+
+	public static class ReceiveFailure extends RuntimeException {
+		public ReceiveFailure(Exception e) {
+			super(e);
+		}
 	}
 
 }

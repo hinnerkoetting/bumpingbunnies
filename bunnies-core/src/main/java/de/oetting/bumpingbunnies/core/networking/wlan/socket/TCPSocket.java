@@ -25,7 +25,7 @@ public class TCPSocket extends AbstractSocket implements MySocket {
 		LOGGER.info("Created WLAn Socket");
 	}
 
-	public TCPSocket(Socket socket, SocketAddress address, Opponent owner) throws IOException {
+	public TCPSocket(Socket socket, SocketAddress address, Opponent owner) {
 		super(owner);
 		this.socket = socket;
 		this.address = address;
