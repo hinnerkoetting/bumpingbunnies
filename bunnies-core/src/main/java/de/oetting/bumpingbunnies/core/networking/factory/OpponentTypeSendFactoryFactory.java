@@ -11,7 +11,7 @@ public class OpponentTypeSendFactoryFactory {
 			return new AiOpponentTypeSendFactory();
 		case BLUETOOTH:
 			return createBluetooth();
-		case MY_PLAYER:
+		case LOCAL_PLAYER:
 			return new MyPlayerOpponentTypeSendFactory();
 		case WLAN:
 			return new WlanOpponentTypeSendFactory();

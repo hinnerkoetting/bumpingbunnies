@@ -17,7 +17,7 @@ public class OpponentTypeFactoryFactoryTest {
 
 	@Test
 	public void createFactory_myPlayer() {
-		OpponentTypeFactory factory = new AndroidOpponentTypeReceiveFactoryFactory().createReceiveFactory(OpponentType.MY_PLAYER);
+		OpponentTypeFactory factory = new AndroidOpponentTypeReceiveFactoryFactory().createReceiveFactory(OpponentType.LOCAL_PLAYER);
 		assertThat(factory, instanceOf(MyPlayerOpponentTypeFactory.class));
 	}
 

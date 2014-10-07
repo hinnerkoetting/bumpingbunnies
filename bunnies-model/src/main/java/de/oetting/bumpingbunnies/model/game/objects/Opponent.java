@@ -6,7 +6,7 @@ public class Opponent {
 	private final OpponentType type;
 
 	public static Opponent createMyPlayer(String identifier) {
-		return new Opponent(identifier, OpponentType.MY_PLAYER);
+		return new Opponent(identifier, OpponentType.LOCAL_PLAYER);
 	}
 
 	public static Opponent createOpponent(String identifier, OpponentType type) {
@@ -24,11 +24,11 @@ public class Opponent {
 	}
 
 	public boolean isMyPlayer() {
-		return OpponentType.MY_PLAYER == this.type;
+		return OpponentType.LOCAL_PLAYER == this.type;
 	}
 
 	public boolean isLocalPlayer() {
-		return OpponentType.MY_PLAYER == this.type || OpponentType.AI == this.type;
+		return OpponentType.LOCAL_PLAYER == this.type || OpponentType.AI == this.type;
 	}
 
 	public OpponentType getType() {

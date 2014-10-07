@@ -45,7 +45,7 @@ public class OpponentConfigurationTest {
 		assertThat(configuration.getPlayerId(), is(equalTo(1)));
 		assertThat(configuration.getOpponent().getIdentifier(), is(equalTo("opponent")));
 		assertThat(configuration.getOpponent().isMyPlayer(), is(true));
-		assertThat(configuration.getOpponent().getType(), is(equalTo(OpponentType.MY_PLAYER)));
+		assertThat(configuration.getOpponent().getType(), is(equalTo(OpponentType.LOCAL_PLAYER)));
 	}
 
 	public OpponentConfiguration createOpponentConfiguration() {

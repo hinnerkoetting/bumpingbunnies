@@ -16,7 +16,7 @@ public class PcOpponentReceiverFactoryFactory implements OpponentReceiverFactory
 			return new AiOpponentTypeFactory();
 		case BLUETOOTH:
 			throw new IllegalArgumentException("Bluetooth for pc is not allowed.");
-		case MY_PLAYER:
+		case LOCAL_PLAYER:
 			return new MyPlayerOpponentTypeFactory();
 		case WLAN:
 			return new WlanOpponentTypeFactory();

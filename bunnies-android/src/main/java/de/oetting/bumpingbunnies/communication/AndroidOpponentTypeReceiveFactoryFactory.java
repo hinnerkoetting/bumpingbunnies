@@ -17,7 +17,7 @@ public class AndroidOpponentTypeReceiveFactoryFactory implements OpponentReceive
 			return new AiOpponentTypeFactory();
 		case BLUETOOTH:
 			return new BluetoothOpponentTypeFactory();
-		case MY_PLAYER:
+		case LOCAL_PLAYER:
 			return new MyPlayerOpponentTypeFactory();
 		case WLAN:
 			return new WlanOpponentTypeFactory();

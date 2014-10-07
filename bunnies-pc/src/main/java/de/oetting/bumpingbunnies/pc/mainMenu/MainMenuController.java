@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.network.room.Host;
+import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
@@ -52,7 +53,6 @@ public class MainMenuController implements Initializable, OnBroadcastReceived {
 	private void startGame(boolean withTwoHumanPlayers) {
 		try {
 			BunniesMain bunniesMain = new BunniesMain();
-			bunniesMain.setWithTwoHumanPlayers(withTwoHumanPlayers);
 			bunniesMain.start(primaryStage);
 		} catch (Exception e) {
 			LOGGER.error("", e);
@@ -67,13 +67,17 @@ public class MainMenuController implements Initializable, OnBroadcastReceived {
 	}
 
 	private void listenForBroadcasts() {
-		listenForBroadcastsThread = ListenforBroadCastsThreadFactory.create(this);
-		listenForBroadcastsThread.start();
+		try {
+			listenForBroadcastsThread = ListenforBroadCastsThreadFactory.create(this);
+			listenForBroadcastsThread.start();
+		} catch (CouldNotOpenBroadcastSocketException e) {
+			hostsTable.getItems().add(new Host("Cannot listen to broadcasts..."));
+		}
 	}
 
 	@Override
 	public void broadcastReceived(InetAddress senderAddress) {
-		Host host = new Host(senderAddress.toString());
+		Host host = new Host(senderAddress);
 		if (!hostsTable.getItems().contains(host))
 			hostsTable.getItems().add(host);
 	}

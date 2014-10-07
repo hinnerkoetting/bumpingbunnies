@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.core.network;
 
+import java.io.IOException;
+
 import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.core.networking.sockets.wlan.WlanServerSocket;
@@ -13,11 +15,10 @@ public class WlanSocketFactory implements SocketFactory {
 	@Override
 	public ServerSocket create() {
 		try {
-			LOGGER.info("Listening on socket " + NetworkConstants.WLAN_PORT);
-			java.net.ServerSocket serverSocket = new java.net.ServerSocket(
-					NetworkConstants.WLAN_PORT);
+			LOGGER.info("Listening on socket " + NetworkConstants.SERVER_WLAN_PORT);
+			java.net.ServerSocket serverSocket = new java.net.ServerSocket(NetworkConstants.SERVER_WLAN_PORT);
 			return new WlanServerSocket(serverSocket);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}

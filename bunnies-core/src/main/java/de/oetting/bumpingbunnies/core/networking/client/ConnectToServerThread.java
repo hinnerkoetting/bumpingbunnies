@@ -12,9 +12,9 @@ public class ConnectToServerThread extends Thread {
 	private final MySocket mmSocket;
 	private final ConnectsToServer activity;
 
-	public ConnectToServerThread(MySocket mmSocket, ConnectsToServer activity) {
+	public ConnectToServerThread(MySocket mmSocket, ConnectsToServer connectToServerCallback) {
 		super("Connect to Server thread");
-		this.activity = activity;
+		this.activity = connectToServerCallback;
 		this.mmSocket = mmSocket;
 		setDaemon(true);
 	}

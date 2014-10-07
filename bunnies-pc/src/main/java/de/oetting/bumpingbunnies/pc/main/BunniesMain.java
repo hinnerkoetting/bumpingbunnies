@@ -1,6 +1,8 @@
 package de.oetting.bumpingbunnies.pc.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -17,6 +19,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
+import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
@@ -36,6 +40,7 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
@@ -43,6 +48,9 @@ import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
+import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
@@ -71,10 +79,20 @@ public class BunniesMain extends Application {
 	private GameMain gameMain;
 	private Drawer drawerThread = new NoopDrawer();
 	private PcInputDispatcher inputDispatcher;
-	private boolean withTwoHumanPlayers = false;
+	private GameStartParameter parameter;
 
 	public static void main(String[] args) {
 		startApplication();
+	}
+
+	public BunniesMain() {
+		LocalSettings localSettings = new LocalSettings(InputConfiguration.KEYBOARD, 1, true, false);
+		GeneralSettings generalSettings = new GeneralSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
+		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(6, "Player 2"), Opponent
+				.createOpponent("Player2", OpponentType.AI)));
+		LocalPlayerSettings localPlayerSettings = new LocalPlayerSettings("Player 1");
+		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
+		parameter = GameParameterFactory.createSingleplayerParameter(configuration);
 	}
 
 	@Override
@@ -83,23 +101,24 @@ public class BunniesMain extends Application {
 		Canvas canvas = new Canvas(1000, 600);
 		createPanel(primaryStage, canvas);
 		PlayerFactory playerFactory = new PlayerFactory(25);
-		Player myPlayer = playerFactory.createPlayer(1, "Player1", new Opponent("", OpponentType.MY_PLAYER));
-		Player secondPlayer = createSecondPlayer(playerFactory);
+		Player myPlayer = playerFactory.createPlayer(1, "Player1", new Opponent("", OpponentType.LOCAL_PLAYER));
+
 		buildGame(canvas, myPlayer);
 		playerJoins(myPlayer);
-		playerJoins(secondPlayer);
 		startRendering();
 		inputDispatcher = new PcInputDispatcher();
 		inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.A.getName(), KeyCode.D.getName(), KeyCode.W.getName(), new PlayerMovement(
 				myPlayer)));
-		if (withTwoHumanPlayers) {
-			inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.LEFT.getName(), KeyCode.RIGHT.getName(), KeyCode.UP.getName(),
-					new PlayerMovement(secondPlayer)));
+		List<PlayerConfig> players = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
+		for (PlayerConfig config : players) {
+			Player otherPlayer = config.getPlayer();
+			if (config.getConfiguration().getOpponent().getType() == OpponentType.LOCAL_PLAYER) {
+				// TODO works only for one additional player
+				inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.LEFT.getName(), KeyCode.RIGHT.getName(), KeyCode.UP.getName(),
+						new PlayerMovement(otherPlayer)));
+			}
+			playerJoins(otherPlayer);
 		}
-	}
-
-	private Player createSecondPlayer(PlayerFactory playerFactory) {
-		return playerFactory.createPlayer(6, "Player2", new Opponent("", withTwoHumanPlayers ? OpponentType.MY_PLAYER : OpponentType.AI));
 	}
 
 	private void playerJoins(Player myPlayer) {
@@ -156,8 +175,6 @@ public class BunniesMain extends Application {
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		Configuration configuration = createConfiguration();
-		GameStartParameter parameter = new GameStartParameter(configuration, 0);
 		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer);
 		gameMain.addAllJoinListeners();
 		gameMain.addJoinListener(drawerThread);
@@ -232,14 +249,6 @@ public class BunniesMain extends Application {
 		Scene dialogScene = new Scene(dialogVbox, 300, 200);
 		dialog.setScene(dialogScene);
 		dialog.show();
-	}
-
-	public boolean isWithTwoHumanPlayers() {
-		return withTwoHumanPlayers;
-	}
-
-	public void setWithTwoHumanPlayers(boolean withTwoHumanPlayers) {
-		this.withTwoHumanPlayers = withTwoHumanPlayers;
 	}
 
 }

@@ -49,7 +49,7 @@ public class ListenForBroadcastsThread extends Thread {
 
 	private void oneRun() throws IOException {
 		this.socket.receive(this.packet);
-		LOGGER.info("received broadcast message");
+		LOGGER.verbose("received broadcast message");
 		if (this.packet.getData().length > 0) {
 			InetAddress senderAddress = this.packet.getAddress();
 			this.callback.broadcastReceived(senderAddress);

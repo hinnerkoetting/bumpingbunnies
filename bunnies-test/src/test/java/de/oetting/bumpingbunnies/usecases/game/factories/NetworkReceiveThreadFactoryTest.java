@@ -48,7 +48,7 @@ public class NetworkReceiveThreadFactoryTest {
 
 	@Test
 	public void create_forMyPlayer_shouldNotReturnAnyThread() {
-		List<NetworkReceiver> threads = whenCreatingReceiveThreads(OpponentType.MY_PLAYER);
+		List<NetworkReceiver> threads = whenCreatingReceiveThreads(OpponentType.LOCAL_PLAYER);
 		assertThat(threads, hasSize(0));
 	}
 

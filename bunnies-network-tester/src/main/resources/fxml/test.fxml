@@ -5,11 +5,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Button?>
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1" vgap="10" hgap="10" fx:controller="de.oetting.bumpingbunnies.tester.TesterController">
 	
 	<Label text="Broadcast"/> 
-	<TableView GridPane.rowIndex="1" fx:id="broadcastTable" >
+	<TableView GridPane.rowIndex="1" fx:id="broadcastTable"  maxHeight="100">
 		<columns>
 			<TableColumn text="Ip">
 				<cellValueFactory>
@@ -18,5 +19,6 @@
 			</TableColumn>
 		</columns>
 	</TableView>
+	<Button  onAction="#onButtonConnect" text="Connect" GridPane.rowIndex="2"/>
 </GridPane>
 
