@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
-import java.net.BindException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -39,6 +38,7 @@ import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
+import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
@@ -147,11 +147,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 				try {
 					listAdapter.clear();
 					broadcastService.listenForBroadCasts(RoomActivity.this);
-				} catch (BindException e) {
+				} catch (CouldNotOpenBroadcastSocketException e) {
 					displayErrorAddressInUse();
-					LOGGER.warn("Error when trying to search for host", e);
-				} catch (Exception e) {
-					displayListenError();
 					LOGGER.warn("Error when trying to search for host", e);
 				}
 			}
