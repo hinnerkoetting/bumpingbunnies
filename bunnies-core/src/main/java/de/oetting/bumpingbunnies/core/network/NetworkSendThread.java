@@ -7,7 +7,6 @@ import de.oetting.bumpingbunnies.core.game.main.OneLoopStep;
 import de.oetting.bumpingbunnies.core.game.main.ThreadLoop;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.sender.PlayerStateSender;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -52,13 +51,11 @@ public class NetworkSendThread implements Runnable, PlayerJoinListener {
 		private final List<PlayerStateSender> networkSender;
 		private final World world;
 		private final RemoteConnectionFactory sendFactory;
-		private final GameStopper gameStopper;
 
-		public NetworkSendStep(World world, RemoteConnectionFactory sendFactory, GameStopper gameStopper) {
+		public NetworkSendStep(World world, RemoteConnectionFactory sendFactory) {
 			this.networkSender = new CopyOnWriteArrayList<PlayerStateSender>();
 			this.world = world;
 			this.sendFactory = sendFactory;
-			this.gameStopper = gameStopper;
 		}
 
 		@Override

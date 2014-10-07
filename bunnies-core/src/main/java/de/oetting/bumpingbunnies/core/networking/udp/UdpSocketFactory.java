@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.core.networking.udp;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -46,9 +47,7 @@ public class UdpSocketFactory {
 			dataSocket.setBroadcast(false);
 			UdpSocket udpSocket = new UdpSocket(dataSocket, socket.getInetAddress(), port, owner);
 			singleton().createdAdresses.put(socket.getInetAddress(), udpSocket);
-		} catch (RuntimeException re) {
-			throw re;
-		} catch (Exception e) {
+		} catch (SocketException e) {
 			throw new RuntimeException(e);
 		}
 	}

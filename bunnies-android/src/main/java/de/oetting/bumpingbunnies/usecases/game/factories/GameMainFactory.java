@@ -36,7 +36,7 @@ public class GameMainFactory {
 		World world = createWorld(activity, parameter);
 		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world);
 
-		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory, activity);
+		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory);
 
 		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter, MusicPlayerFactory.createBackground(activity),
 				networkSendThread);

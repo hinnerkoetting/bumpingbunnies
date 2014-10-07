@@ -11,7 +11,6 @@ import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.factory.GameStepControllerFactory;
-import de.oetting.bumpingbunnies.core.network.DefaultStateSenderFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
@@ -41,8 +40,8 @@ public class GameThreadFactory {
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, world);
 
 		// Sending Coordinates Strep
-		GameStepController worldController = GameStepControllerFactory.create(cameraPositionCalculator, world, stateDispatcher, factory,
-				new DefaultStateSenderFactory(sendControl, myPlayer), sendControl, configuration);
+		GameStepController worldController = GameStepControllerFactory.create(cameraPositionCalculator, world, stateDispatcher, factory, sendControl,
+				configuration);
 		return createGameThread(worldController);
 	}
 

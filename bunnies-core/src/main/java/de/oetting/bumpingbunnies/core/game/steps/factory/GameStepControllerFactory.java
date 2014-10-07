@@ -12,12 +12,10 @@ import de.oetting.bumpingbunnies.core.game.steps.ClientBunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
-import de.oetting.bumpingbunnies.core.game.steps.SendingCoordinatesStep;
 import de.oetting.bumpingbunnies.core.input.UserInputStep;
 import de.oetting.bumpingbunnies.core.input.factory.OpponentInputFactoryImpl;
 import de.oetting.bumpingbunnies.core.network.MessageSenderToNetworkDelegate;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
-import de.oetting.bumpingbunnies.core.network.StateSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
@@ -25,14 +23,13 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 public class GameStepControllerFactory {
 
 	public static GameStepController create(CameraPositionCalculation cameraPositionCalculator, World world, PlayerStateDispatcher stateDispatcher,
-			PlayerMovementCalculationFactory factory, StateSenderFactory stateSenderFactory, NetworkMessageDistributor sendControl, Configuration configuration) {
+			PlayerMovementCalculationFactory factory, NetworkMessageDistributor sendControl, Configuration configuration) {
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(world.getSpawnPoints());
 		PlayerReviver reviver = new PlayerReviver(new MessageSenderToNetworkDelegate(sendControl));
 		BunnyKillChecker killChecker = createKillChecker(configuration, world, spawnPointGenerator, reviver, new CollisionDetection(world), sendControl);
 		UserInputStep userInputStep = new UserInputStep(createInputServiceFactory(world, stateDispatcher));
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory);
-		SendingCoordinatesStep sendCoordinates = new SendingCoordinatesStep(stateSenderFactory);
-		return new GameStepController(userInputStep, movementStep, sendCoordinates, reviver, cameraPositionCalculator);
+		return new GameStepController(userInputStep, movementStep, reviver, cameraPositionCalculator);
 	}
 
 	private static OpponentInputFactory createInputServiceFactory(World world, PlayerStateDispatcher stateDispatcher) {

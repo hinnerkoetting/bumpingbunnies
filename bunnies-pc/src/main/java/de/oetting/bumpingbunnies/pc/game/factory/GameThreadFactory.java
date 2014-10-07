@@ -9,10 +9,8 @@ import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFac
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.factory.GameStepControllerFactory;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
-import de.oetting.bumpingbunnies.core.network.DefaultStateSenderFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.network.StateSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsRevived.PlayerIsRevivedReceiver;
@@ -32,9 +30,7 @@ public class GameThreadFactory {
 		initInputServices(main, gameStopper, world, networkDispatcher, sendControl);
 
 		PlayerMovementCalculationFactory factory = createFactory(world);
-		StateSenderFactory senderFactory = new DefaultStateSenderFactory(sendControl, myPlayer);
-		GameStepController stepController = GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, senderFactory, sendControl,
-				configuration);
+		GameStepController stepController = GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl, configuration);
 
 		return new GameThread(stepController);
 	}

@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.pc.main;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -220,14 +219,6 @@ public class BunniesMain extends Application {
 	private static World createWorld() {
 		XmlReader reader = new ClasspathXmlreader(World.class.getResourceAsStream("/worlds/classic.xml"));
 		return new PcWorldObjectsParser().build(new NoopResourceProvider(), reader);
-	}
-
-	private static Configuration createConfiguration() {
-		LocalSettings localSettings = new LocalSettings(InputConfiguration.DISTRIBUTED_KEYBOARD, 1, true, false);
-		GeneralSettings generalSettings = new GeneralSettings(WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
-		LocalPlayerSettings localPlayerSettings = new LocalPlayerSettings("local");
-		Configuration configuration = new Configuration(localSettings, generalSettings, new ArrayList<>(), localPlayerSettings, true);
-		return configuration;
 	}
 
 	private static void startApplication() {

@@ -12,7 +12,6 @@ public class GameStepController {
 	private static final int MILLISECONDS_PER_STEP = 5;
 	private final UserInputStep userInputStep;
 	private final BunnyMovementStep movements;
-	private final SendingCoordinatesStep sendingCoordinates;
 	private final PlayerReviver reviver;
 	// because we execute one step per multiple milliseconds
 	// it may happen that some milliseconds can not be processed
@@ -21,11 +20,10 @@ public class GameStepController {
 	private long remainingDeltaFromLastRun = 0;
 	private final CameraPositionCalculation cameraPositionCalculator;
 
-	public GameStepController(UserInputStep userInputStep, BunnyMovementStep movements, SendingCoordinatesStep sendingCoordinates, PlayerReviver reviver,
+	public GameStepController(UserInputStep userInputStep, BunnyMovementStep movements, PlayerReviver reviver,
 			CameraPositionCalculation cameraPositionCalculator) {
 		this.userInputStep = userInputStep;
 		this.movements = movements;
-		this.sendingCoordinates = sendingCoordinates;
 		this.reviver = reviver;
 		this.cameraPositionCalculator = cameraPositionCalculator;
 	}
@@ -36,14 +34,12 @@ public class GameStepController {
 		this.remainingDeltaFromLastRun = deltaWithOldRemainingTime % MILLISECONDS_PER_STEP;
 		this.userInputStep.executeNextStep(numberSteps);
 		this.movements.executeNextStep(numberSteps);
-		this.sendingCoordinates.executeNextStep(numberSteps);
 		this.reviver.executeNextStep(numberSteps);
 		this.cameraPositionCalculator.executeNextStep(delta);
 	}
 
 	public void addAllJoinListeners(JoinObserver gameMain) {
 		gameMain.addJoinListener(this.movements);
-		gameMain.addJoinListener(this.sendingCoordinates);
 		gameMain.addJoinListener(this.userInputStep);
 		this.movements.addAllJoinListeners(gameMain);
 	}
