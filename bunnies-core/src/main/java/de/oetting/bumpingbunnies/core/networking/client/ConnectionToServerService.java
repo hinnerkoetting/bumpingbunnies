@@ -25,14 +25,14 @@ public class ConnectionToServerService implements ConnectionToServer {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionToServerService.class);
 	private final NetworkReceiver networkReceiver;
 	private GeneralSettings generalSettingsFromNetwork;
-	private DisplaysConnectedServers roomActivity;
+	private DisplaysConnectedServers displaysConnectedPlayers;
 	private final MySocket socket;
 	private final FreePortFinder freePortFinder;
 	private int usedPort;
 
-	public ConnectionToServerService(MySocket socket, DisplaysConnectedServers roomActivity) {
+	public ConnectionToServerService(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers) {
 		this.socket = socket;
-		this.roomActivity = roomActivity;
+		this.displaysConnectedPlayers = displaysConnectedPlayers;
 		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket);
 		freePortFinder = new FreePortFinder();
 	}
@@ -48,7 +48,7 @@ public class ConnectionToServerService implements ConnectionToServer {
 	private void sendMySettings() {
 		findFreePort();
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(this.socket);
-		LocalPlayerSettings localPlayerSettings = this.roomActivity.createLocalPlayerSettings();
+		LocalPlayerSettings localPlayerSettings = this.displaysConnectedPlayers.createLocalPlayerSettings();
 		RemoteSettings remoteSettings = new RemoteSettings(usedPort, localPlayerSettings.getPlayerName());
 		new SendRemoteSettingsSender(networkSender).sendMessage(remoteSettings);
 	}
@@ -80,18 +80,18 @@ public class ConnectionToServerService implements ConnectionToServer {
 	}
 
 	protected void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
-		this.roomActivity.addPlayerEntry(serverSocket, properties, socketIndex);
+		this.displaysConnectedPlayers.addPlayerEntry(serverSocket, properties, socketIndex);
 	}
 
 	public void addMyPlayerRoomEntry(int myPlayerId) {
-		this.roomActivity.addMyPlayerRoomEntry(myPlayerId);
+		this.displaysConnectedPlayers.addMyPlayerRoomEntry(myPlayerId);
 	}
 
 	private void launchGame() {
 		if (this.generalSettingsFromNetwork == null) {
 			throw new GeneralSettingsWereNotYetReceived();
 		}
-		this.roomActivity.launchGame(this.generalSettingsFromNetwork, false);
+		this.displaysConnectedPlayers.launchGame(this.generalSettingsFromNetwork, false);
 	}
 
 	@Override

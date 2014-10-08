@@ -11,33 +11,32 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.RoomEntry;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.network.room.Host;
-import de.oetting.bumpingbunnies.core.networking.FreePortFinder;
-import de.oetting.bumpingbunnies.core.networking.client.ToServerConnector;
+import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
+import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
+import de.oetting.bumpingbunnies.core.networking.client.ToServerConnector;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
-import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
-import de.oetting.bumpingbunnies.core.networking.sender.PlayerStateSender;
-import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
-import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
-import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
-public class TesterController implements Initializable, OnBroadcastReceived, ConnectsToServer {
+public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TesterController.class);
 
 	@FXML
 	private TableView<Host> broadcastTable;
+	@FXML
+	private TableView<RoomEntry> playersTable;
 
 	private ListenForBroadcastsThread listenForBroadcasts;
 
@@ -71,15 +70,41 @@ public class TesterController implements Initializable, OnBroadcastReceived, Con
 
 	public void connectToServerSuccesfull(MySocket mmSocket) {
 		LOGGER.info("Connected to server %s", mmSocket);
-		new Thread(new LogMessagesFromSocket(mmSocket)).start();
+		ConnectionToServerService connectedToServerService = new ConnectionToServerService(mmSocket, this);
+		connectedToServerService.onConnectionToServer();
 
-		SimpleNetworkSender sender = new SimpleNetworkSender(MessageParserFactory.create(), mmSocket);
-		SendRemoteSettingsSender remoteSettingsSender = new SendRemoteSettingsSender(sender);
-		RemoteSettings remoteSettings = new RemoteSettings(new FreePortFinder().findFreePort(), "test");
-		remoteSettingsSender.sendMessage(remoteSettings);
-		PlayerStateSender stateSender = new PlayerStateSender(sender);
-		Player myPlayer = new Player(1, "test", 1, new Opponent("", OpponentType.LOCAL_PLAYER));
-		myPlayer.setCenterX(ModelConstants.STANDARD_WORLD_SIZE / 2);
-		stateSender.sendState(myPlayer);
+		// new Thread(new LogMessagesFromSocket(mmSocket)).start();
+
+		// SimpleNetworkSender sender = new
+		// SimpleNetworkSender(MessageParserFactory.create(), mmSocket);
+		// SendRemoteSettingsSender remoteSettingsSender = new
+		// SendRemoteSettingsSender(sender);
+		// RemoteSettings remoteSettings = new RemoteSettings(new
+		// FreePortFinder().findFreePort(), "test");
+		// remoteSettingsSender.sendMessage(remoteSettings);
+		// PlayerStateSender stateSender = new PlayerStateSender(sender);
+		// Player myPlayer = new Player(1, "test", 1, new Opponent("",
+		// OpponentType.LOCAL_PLAYER));
+		// myPlayer.setCenterX(ModelConstants.STANDARD_WORLD_SIZE / 2);
+		// stateSender.sendState(myPlayer);
 	}
+
+	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
+		RoomEntry entry = new RoomEntry(properties, serverSocket, socketIndex);
+		playersTable.getItems().add(entry);
+	}
+
+	public void addMyPlayerRoomEntry(int myPlayerId) {
+		LocalPlayerSettings settings = createLocalPlayerSettings();
+		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
+		playersTable.getItems().add(new SinglePlayerRoomEntry(singlePlayerProperties));
+	}
+
+	public LocalPlayerSettings createLocalPlayerSettings() {
+		return new LocalPlayerSettings("");
+	}
+
+	public void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost) {
+	}
+
 }

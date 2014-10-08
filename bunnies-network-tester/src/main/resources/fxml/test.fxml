@@ -19,6 +19,24 @@
 			</TableColumn>
 		</columns>
 	</TableView>
+	
+	
+     <TableView fx:id="playersTable"	maxWidth="500" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="4">
+     	 <columns>
+     	 	<TableColumn text="Id" >
+     	 		<cellValueFactory>
+                      <PropertyValueFactory property="playerId" />
+                  </cellValueFactory>
+     	 	</TableColumn>
+     	 	<TableColumn text="Name">
+     	 		<cellValueFactory>
+                      <PropertyValueFactory property="playerName" />
+                  </cellValueFactory>
+     	 	</TableColumn>
+     	 </columns>
+     	
+     </TableView>
+	
 	<Button  onAction="#onButtonConnect" text="Connect" GridPane.rowIndex="2"/>
 </GridPane>
 
