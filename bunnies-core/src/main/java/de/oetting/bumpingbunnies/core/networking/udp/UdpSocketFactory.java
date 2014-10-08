@@ -3,6 +3,8 @@ package de.oetting.bumpingbunnies.core.networking.udp;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -60,7 +62,8 @@ public class UdpSocketFactory {
 		try {
 			DatagramSocket socket = new DatagramSocket(null);
 			socket.setBroadcast(false);
-			socket.connect(settings.getDestinationAddress(), settings.getLocalPort());
+			SocketAddress localSocketAddress = new InetSocketAddress(settings.getLocalPort());
+			socket.bind(localSocketAddress);
 			return new UdpSocket(socket, opponent, settings);
 		} catch (IOException e) {
 			throw new UdpSocket.UdpException(e);

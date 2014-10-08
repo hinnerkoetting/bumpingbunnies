@@ -12,8 +12,7 @@ public class NetworksendThreadFactory {
 		NetworkSendStep step = new NetworkSendStep(world, senderfactory);
 		ThreadLoop loop = new ThreadLoop(step, 20);
 		NetworkSendThread networkSender = new NetworkSendThread(loop, step);
-		Thread thread = new Thread(networkSender);
-		thread.start();
+		networkSender.start();
 		return networkSender;
 	}
 }

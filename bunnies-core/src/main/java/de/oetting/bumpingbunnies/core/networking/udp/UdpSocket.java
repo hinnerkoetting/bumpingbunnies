@@ -14,12 +14,12 @@ public class UdpSocket implements MySocket {
 
 	private final DatagramSocket socket;
 	private final InetAddress destinationAddress;
-	private final int destinationPort;
 	private final Opponent owner;
 	/**
 	 * cache for incoming messages
 	 */
 	private final DatagramPacket receivingPacket;
+	private final int destinationPort;
 
 	UdpSocket(DatagramSocket socket, Opponent owner, UdpSocketSettings settings) {
 		this.socket = socket;

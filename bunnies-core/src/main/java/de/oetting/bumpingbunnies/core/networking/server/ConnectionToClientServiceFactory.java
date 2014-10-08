@@ -11,9 +11,9 @@ import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 
 public class ConnectionToClientServiceFactory {
 
-	public static ConnectionToClientService create(AcceptsClientConnections origin, MySocket socket, NetworkToGameDispatcher dispatcher) {
+	public static ToClientConnector create(AcceptsClientConnections origin, MySocket socket, NetworkToGameDispatcher dispatcher) {
 		NetworkReceiver receiver = createNetworkReceiver(socket, dispatcher);
-		return new ConnectionToClientService(origin, receiver, SocketStorage.getSingleton());
+		return new ToClientConnector(origin, receiver, SocketStorage.getSingleton());
 	}
 
 	private static NetworkReceiveThread createNetworkReceiver(MySocket socket, NetworkToGameDispatcher dispatcher) {

@@ -47,7 +47,7 @@ import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
-import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientService;
+import de.oetting.bumpingbunnies.core.networking.server.ToClientConnector;
 import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -77,7 +77,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private int playerCounter = 0;
 	private ConnectionToServer connectedToServerService;
-	private List<ConnectionToClientService> connectionToClientServices = new LinkedList<ConnectionToClientService>();
+	private List<ToClientConnector> connectionToClientServices = new LinkedList<ToClientConnector>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +187,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.connectedToServerService.cancel();
 		this.broadcastService.cancel();
 		this.remoteCommunication.closeOpenConnections();
-		for (ConnectionToClientService connectionToClient : this.connectionToClientServices) {
+		for (ToClientConnector connectionToClient : this.connectionToClientServices) {
 			connectionToClient.cancel();
 		}
 	}
@@ -277,7 +277,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
-		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher());
+		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher());
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 		enableStartButton();

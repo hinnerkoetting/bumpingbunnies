@@ -36,14 +36,14 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private final World world;
 	private final GeneralSettings generalSettings;
 	private PlayerJoinListener mainJoinListener;
-	private List<ConnectionToClientService> connectionToClientServices;
+	private List<ToClientConnector> connectionToClientServices;
 
 	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, GeneralSettings generalSettings) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
 		this.world = world;
 		this.generalSettings = generalSettings;
-		this.connectionToClientServices = new LinkedList<ConnectionToClientService>();
+		this.connectionToClientServices = new LinkedList<ToClientConnector>();
 	}
 
 	@Override
@@ -57,14 +57,14 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	public void cancel() {
 		this.broadcaster.cancel();
 		this.remoteCommunication.closeOpenConnections();
-		for (ConnectionToClientService cts : this.connectionToClientServices) {
+		for (ToClientConnector cts : this.connectionToClientServices) {
 			cts.cancel();
 		}
 	}
 
 	@Override
 	public void clientConnectedSucessfull(MySocket socket) {
-		ConnectionToClientService connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher());
+		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher());
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 	}

@@ -21,7 +21,7 @@ import de.oetting.bumpingbunnies.core.network.RoomEntry;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
-import de.oetting.bumpingbunnies.core.networking.client.ConnectToServerThread;
+import de.oetting.bumpingbunnies.core.networking.client.ToServerConnector;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
@@ -150,7 +150,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	public void onButtonConnect() {
 		WlanDevice wlanDevice = new WlanDevice(hostsTable.getSelectionModel().getSelectedItem().getAddress());
 		MySocket socket = wlanDevice.createClientSocket();
-		ConnectToServerThread connectToServerThread = new ConnectToServerThread(socket, this);
+		ToServerConnector connectToServerThread = new ToServerConnector(socket, this);
 		connectToServerThread.start();
 	}
 

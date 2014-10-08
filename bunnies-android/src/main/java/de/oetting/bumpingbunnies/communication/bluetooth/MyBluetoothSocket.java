@@ -26,11 +26,11 @@ public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 
 	@Override
 	public void close() {
-        try {
-            this.socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+		try {
+			this.socket.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

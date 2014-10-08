@@ -17,7 +17,7 @@ import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 public class TCPSocket extends AbstractSocket implements MySocket {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TCPSocket.class);
-	private final TcpSocketSettings socketSettings;
+	private TcpSocketSettings socketSettings;
 	private Socket socket;
 	private SocketAddress address;
 

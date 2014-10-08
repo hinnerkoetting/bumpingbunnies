@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
-import de.oetting.bumpingbunnies.core.networking.messaging.receiver.SendLocalSettingsReceiver;
+import de.oetting.bumpingbunnies.core.networking.messaging.receiver.RemoteSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.sender.OtherPlayerClientIdSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SendClientPlayerIdSender;
@@ -14,18 +14,18 @@ import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 
-public class ConnectionToClientService {
+public class ToClientConnector {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionToClientService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ToClientConnector.class);
 	private final AcceptsClientConnections roomActivity;
 	private final NetworkReceiver networkReceiver;
 	private final SocketStorage sockets;
 	private MySocket socket;
 
-	public ConnectionToClientService(AcceptsClientConnections roomActivity, NetworkReceiver networkReceiver, SocketStorage sockets) {
+	public ToClientConnector(AcceptsClientConnections roomActivity, NetworkReceiver networkReceiver, SocketStorage sockets) {
 		super();
 		this.roomActivity = roomActivity;
 		this.networkReceiver = networkReceiver;
@@ -40,20 +40,20 @@ public class ConnectionToClientService {
 
 	private void addObserver() {
 		NetworkToGameDispatcher gameDispatcher = this.networkReceiver.getGameDispatcher();
-		new SendLocalSettingsReceiver(gameDispatcher, this);
+		new RemoteSettingsReceiver(gameDispatcher, this);
 	}
 
-	public void onReceiveLocalPlayersettings(LocalPlayerSettings message) {
-		ConnectionToClientService.this.networkReceiver.cancel();
-		manageConnectedClient(ConnectionToClientService.this.socket, message.getPlayerName());
+	public void onReceiveRemotePlayersettings(RemoteSettings message) {
+		LOGGER.info("Received remote Settings from client %s", message);
+		networkReceiver.cancel();
+		manageConnectedClient(socket, message);
 	}
 
-	private void manageConnectedClient(MySocket socket, String playerName) {
+	private void manageConnectedClient(MySocket socket, RemoteSettings settings) {
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket);
 		notifyAboutExistingPlayers(networkSender);
-
 		int nextPlayerId = getNextPlayerId();
-		PlayerProperties playerProperties = new PlayerProperties(nextPlayerId, playerName);
+		PlayerProperties playerProperties = new PlayerProperties(nextPlayerId, settings.getRemotePlayerName());
 		notifyExistingClients(playerProperties);
 		sendClientPlayer(networkSender, nextPlayerId);
 		int socketIndex = this.sockets.addSocket(socket);

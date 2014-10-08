@@ -3,13 +3,14 @@ package de.oetting.bumpingbunnies.core.networking.client;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.FreePortFinder;
 import de.oetting.bumpingbunnies.core.networking.receive.GameSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.OtherPlayerClientIdReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.SendClientPlayerIdReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.StartGameReceiver;
-import de.oetting.bumpingbunnies.core.networking.sender.SendLocalSettingsSender;
+import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -17,6 +18,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 
 public class ConnectionToServerService implements ConnectionToServer {
 
@@ -25,25 +27,34 @@ public class ConnectionToServerService implements ConnectionToServer {
 	private GeneralSettings generalSettingsFromNetwork;
 	private DisplaysConnectedServers roomActivity;
 	private final MySocket socket;
+	private final FreePortFinder freePortFinder;
+	private int usedPort;
 
 	public ConnectionToServerService(MySocket socket, DisplaysConnectedServers roomActivity) {
 		this.socket = socket;
 		this.roomActivity = roomActivity;
 		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket);
+		freePortFinder = new FreePortFinder();
 	}
 
 	@Override
 	public void onConnectionToServer() {
 		SocketStorage.getSingleton().addSocket(this.socket);
-		sendMyPlayerName();
+		sendMySettings();
 		addObserver();
 		this.networkReceiver.start();
 	}
 
-	private void sendMyPlayerName() {
+	private void sendMySettings() {
+		findFreePort();
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(this.socket);
 		LocalPlayerSettings localPlayerSettings = this.roomActivity.createLocalPlayerSettings();
-		new SendLocalSettingsSender(networkSender).sendMessage(localPlayerSettings);
+		RemoteSettings remoteSettings = new RemoteSettings(usedPort, localPlayerSettings.getPlayerName());
+		new SendRemoteSettingsSender(networkSender).sendMessage(remoteSettings);
+	}
+
+	private void findFreePort() {
+		usedPort = freePortFinder.findFreePort();
 	}
 
 	private void addObserver() {

@@ -24,9 +24,9 @@ import de.oetting.bumpingbunnies.core.network.NetworkListener;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
-import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientService;
-import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
+import de.oetting.bumpingbunnies.core.networking.server.ToClientConnector;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
@@ -36,7 +36,7 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 @Config(emulateSdk = 18)
 public class ConnectionToClientServiceTest {
 
-	private ConnectionToClientService fixture;
+	private ToClientConnector fixture;
 	@Mock
 	private RoomActivity roomActivity;
 	@Mock
@@ -51,7 +51,7 @@ public class ConnectionToClientServiceTest {
 	@Test
 	public void onConnectToClient_thenLocalSettingsReceiverShouldBeAddedToNetworkReceiverObservers() {
 		onConnectToClient();
-		verify(this.dispatcher).addObserver(eq(MessageId.SEND_CLIENT_LOCAL_PLAYER_SETTINGS), any(NetworkListener.class));
+		verify(this.dispatcher).addObserver(eq(MessageId.SEND_CLIENT_REMOTE_SETTINGS), any(NetworkListener.class));
 	}
 
 	@Test
@@ -113,13 +113,13 @@ public class ConnectionToClientServiceTest {
 	}
 
 	private void whenClientSendsSettings() {
-		this.fixture.onReceiveLocalPlayersettings(new LocalPlayerSettings("name"));
+		this.fixture.onReceiveRemotePlayersettings(new RemoteSettings(0, "name"));
 	}
 
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new ConnectionToClientService(this.roomActivity, this.networkReceiver, this.sockets);
+		this.fixture = new ToClientConnector(this.roomActivity, this.networkReceiver, this.sockets);
 		when(this.networkReceiver.getGameDispatcher()).thenReturn(this.dispatcher);
 		when(this.roomActivity.getAllPlayersProperties()).thenReturn(Arrays.asList(new PlayerProperties(0, "my-player")));
 	}

@@ -13,7 +13,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
-public class NetworkSendThread implements Runnable, PlayerJoinListener {
+public class NetworkSendThread extends Thread implements PlayerJoinListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkSendThread.class);
 	private final ThreadLoop loop;
@@ -23,6 +23,7 @@ public class NetworkSendThread implements Runnable, PlayerJoinListener {
 	public NetworkSendThread(ThreadLoop loop, NetworkSendStep sendStep) {
 		this.loop = loop;
 		this.sendStep = sendStep;
+		setDaemon(true);
 	}
 
 	@Override

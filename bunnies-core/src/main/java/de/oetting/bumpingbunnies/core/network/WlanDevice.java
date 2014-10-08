@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
+import de.oetting.bumpingbunnies.core.networking.FreePortFinder;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -16,21 +17,26 @@ public class WlanDevice implements ServerDevice {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WlanSocketFactory.class);
 	private final String address;
+	private final FreePortFinder freePortFinder;
 
 	public WlanDevice(String address) {
 		this.address = address;
+		freePortFinder = new FreePortFinder();
 	}
 
 	public WlanDevice(InetAddress address) {
 		this.address = address.getHostAddress();
+		freePortFinder = new FreePortFinder();
 	}
 
 	@Override
 	public MySocket createClientSocket() {
 		String adress = WlanDevice.this.address;
-		LOGGER.info("Connecting to socket " + NetworkConstants.SERVER_WLAN_PORT);
-		SocketAddress socketAddress = new InetSocketAddress(adress, NetworkConstants.SERVER_WLAN_PORT);
-		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, NetworkConstants.SERVER_WLAN_PORT, NetworkConstants.SERVER_WLAN_PORT);
+		int remotePort = NetworkConstants.SERVER_WLAN_PORT;
+		int localPort = freePortFinder.findFreePort();
+		LOGGER.info("Connecting to socket on local port %s", localPort);
+		SocketAddress socketAddress = new InetSocketAddress(adress, remotePort);
+		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, localPort, NetworkConstants.SERVER_WLAN_PORT);
 		Socket socket = new Socket();
 		return new TCPSocket(socket, socketAddress, Opponent.createOpponent("wlan" + adress, OpponentType.WLAN), settings);
 	}
