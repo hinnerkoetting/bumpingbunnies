@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.core.networking.client;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
-import de.oetting.bumpingbunnies.core.networking.FreePortFinder;
 import de.oetting.bumpingbunnies.core.networking.receive.GameSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
@@ -27,14 +26,11 @@ public class ConnectionToServerService implements ConnectionToServer {
 	private GeneralSettings generalSettingsFromNetwork;
 	private DisplaysConnectedServers displaysConnectedPlayers;
 	private final MySocket socket;
-	private final FreePortFinder freePortFinder;
-	private int usedPort;
 
 	public ConnectionToServerService(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers) {
 		this.socket = socket;
 		this.displaysConnectedPlayers = displaysConnectedPlayers;
 		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket);
-		freePortFinder = new FreePortFinder();
 	}
 
 	@Override
@@ -46,15 +42,10 @@ public class ConnectionToServerService implements ConnectionToServer {
 	}
 
 	private void sendMySettings() {
-		findFreePort();
 		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(this.socket);
 		LocalPlayerSettings localPlayerSettings = this.displaysConnectedPlayers.createLocalPlayerSettings();
-		RemoteSettings remoteSettings = new RemoteSettings(usedPort, localPlayerSettings.getPlayerName());
+		RemoteSettings remoteSettings = new RemoteSettings(localPlayerSettings.getPlayerName());
 		new SendRemoteSettingsSender(networkSender).sendMessage(remoteSettings);
-	}
-
-	private void findFreePort() {
-		usedPort = freePortFinder.findFreePort();
 	}
 
 	private void addObserver() {

@@ -113,7 +113,7 @@ public class ConnectionToClientServiceTest {
 	}
 
 	private void whenClientSendsSettings() {
-		this.fixture.onReceiveRemotePlayersettings(new RemoteSettings(0, "name"));
+		this.fixture.onReceiveRemotePlayersettings(new RemoteSettings("name"));
 	}
 
 	@Before

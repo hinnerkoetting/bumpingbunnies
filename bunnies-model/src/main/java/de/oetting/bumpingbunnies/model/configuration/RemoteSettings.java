@@ -2,17 +2,10 @@ package de.oetting.bumpingbunnies.model.configuration;
 
 public class RemoteSettings {
 
-	// tcp and udp port
-	private final int remotePort;
 	private final String remotePlayerName;
 
-	public RemoteSettings(int remotePort, String remotePlayerName) {
-		this.remotePort = remotePort;
+	public RemoteSettings(String remotePlayerName) {
 		this.remotePlayerName = remotePlayerName;
-	}
-
-	public int getRemotePort() {
-		return remotePort;
 	}
 
 	public String getRemotePlayerName() {
@@ -21,7 +14,7 @@ public class RemoteSettings {
 
 	@Override
 	public String toString() {
-		return "RemoteSettings [remotePort=" + remotePort + ", remotePlayerName=" + remotePlayerName + "]";
+		return "RemoteSettings [remotePlayerName=" + remotePlayerName + "]";
 	}
 
 }
