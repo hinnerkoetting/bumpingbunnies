@@ -7,6 +7,7 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1" vgap="10" hgap="10"
 	fx:controller="de.oetting.bumpingbunnies.tester.TesterController">
@@ -58,6 +59,13 @@
 	<Button onAction="#onButtonKillPlayer" text="Kill player"
 		 GridPane.rowIndex="5" GridPane.columnIndex="1" />
 	
+	<GridPane GridPane.rowIndex="6">
+		<TextField fx:id="sendSpawnpointPlayerId" text="1" />
+		<TextField fx:id="spawnpointX" text="0.1" GridPane.columnIndex="1"/>
+		<TextField fx:id="spawnpointY" text="0.1" GridPane.columnIndex="2" />
+	</GridPane>
+	<Button onAction="#onButtonSendSpawnpoint" text="Spawn player"
+		 GridPane.rowIndex="6" GridPane.columnIndex="1" />
 
 </GridPane>
 

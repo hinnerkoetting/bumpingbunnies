@@ -26,6 +26,8 @@ import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCa
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDead;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadSender;
+import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;
+import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
@@ -36,6 +38,8 @@ import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 
 public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer {
 
@@ -54,6 +58,15 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	@FXML
 	TextField killPlayerIdTextfield;
+
+	@FXML
+	TextField sendSpawnpointPlayerId;
+
+	@FXML
+	TextField spawnpointX;
+
+	@FXML
+	TextField spawnpointY;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
@@ -146,5 +159,14 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	private SimpleNetworkSender createNetworkSender() {
 		return new SimpleNetworkSender(MessageParserFactory.create(), socketToServer);
+	}
+
+	@FXML
+	public void onButtonSendSpawnpoint() {
+		Double x = Double.valueOf(spawnpointX.getText());
+		Double y = Double.valueOf(spawnpointY.getText());
+		SpawnPoint spawnpoint = new SpawnPoint((long) (ModelConstants.STANDARD_WORLD_SIZE * x), (long) (ModelConstants.STANDARD_WORLD_SIZE * y));
+		SpawnPointMessage message = new SpawnPointMessage(spawnpoint, Integer.valueOf(sendSpawnpointPlayerId.getText()));
+		new SpawnPointSender(createNetworkSender()).sendMessage(message);
 	}
 }

@@ -15,15 +15,8 @@ public class PlayerReviver implements GameStepAction {
 	private final MessageSender messageSender;
 
 	public PlayerReviver(MessageSender messageSender) {
-		super();
 		this.messageSender = messageSender;
 		this.reviveEntries = new LinkedList<PlayerReviveEntry>();
-	}
-
-	public PlayerReviver(List<PlayerReviveEntry> reviveEntries, MessageSender messageSender) {
-		super();
-		this.reviveEntries = reviveEntries;
-		this.messageSender = messageSender;
 	}
 
 	@Override
