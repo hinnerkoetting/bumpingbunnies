@@ -10,6 +10,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 
 public class WlanDevice implements ServerDevice {
 
@@ -28,8 +29,9 @@ public class WlanDevice implements ServerDevice {
 	public MySocket createClientSocket() {
 		String adress = WlanDevice.this.address;
 		LOGGER.info("Connecting to socket " + NetworkConstants.SERVER_WLAN_PORT);
+		SocketAddress socketAddress = new InetSocketAddress(adress, NetworkConstants.SERVER_WLAN_PORT);
+		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, NetworkConstants.SERVER_WLAN_PORT, NetworkConstants.SERVER_WLAN_PORT);
 		Socket socket = new Socket();
-		SocketAddress address = new InetSocketAddress(adress, NetworkConstants.SERVER_WLAN_PORT);
-		return new TCPSocket(socket, address, Opponent.createOpponent("wlan" + adress, OpponentType.WLAN));
+		return new TCPSocket(socket, socketAddress, Opponent.createOpponent("wlan" + adress, OpponentType.WLAN), settings);
 	}
 }

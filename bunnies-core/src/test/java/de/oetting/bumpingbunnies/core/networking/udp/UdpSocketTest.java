@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.communication;
+package de.oetting.bumpingbunnies.core.networking.udp;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
@@ -20,6 +20,7 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket.UdpException;
+import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 
@@ -123,6 +124,7 @@ public class UdpSocketTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new UdpSocket(this.socket, this.address, this.port, TestOpponentFactory.createDummyOpponent());
+		UdpSocketSettings settings = new UdpSocketSettings(address, port, port);
+		this.fixture = new UdpSocket(this.socket, TestOpponentFactory.createDummyOpponent(), settings);
 	}
 }

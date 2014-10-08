@@ -8,6 +8,7 @@ import java.nio.charset.Charset;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
 public class UdpSocket implements MySocket {
 
@@ -15,12 +16,15 @@ public class UdpSocket implements MySocket {
 	private final InetAddress destinationAddress;
 	private final int destinationPort;
 	private final Opponent owner;
+	/**
+	 * cache for incoming messages
+	 */
 	private final DatagramPacket receivingPacket;
 
-	public UdpSocket(DatagramSocket socket, InetAddress address, int port, Opponent owner) {
+	UdpSocket(DatagramSocket socket, Opponent owner, UdpSocketSettings settings) {
 		this.socket = socket;
-		this.destinationAddress = address;
-		this.destinationPort = port;
+		this.destinationAddress = settings.getDestinationAddress();
+		this.destinationPort = settings.getDestinationPort();
 		this.owner = owner;
 		this.receivingPacket = new DatagramPacket(new byte[1024], 1024);
 	}

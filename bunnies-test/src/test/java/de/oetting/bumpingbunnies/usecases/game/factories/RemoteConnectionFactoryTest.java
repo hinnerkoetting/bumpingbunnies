@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.net.Socket;
+import java.net.SocketAddress;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,6 +32,7 @@ import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
@@ -59,7 +61,8 @@ public class RemoteConnectionFactoryTest {
 	}
 
 	private void givenWlanSocket() {
-		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TCPSocket(mock(Socket.class), mock(Opponent.class)));
+		TcpSocketSettings settings = new TcpSocketSettings(mock(SocketAddress.class), 0, 1);
+		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TCPSocket(mock(Socket.class), mock(Opponent.class), settings));
 	}
 
 	@Test

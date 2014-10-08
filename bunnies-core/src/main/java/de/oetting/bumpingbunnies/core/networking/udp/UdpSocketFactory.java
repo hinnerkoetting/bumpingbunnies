@@ -1,17 +1,18 @@
 package de.oetting.bumpingbunnies.core.networking.udp;
 
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
+import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
 public class UdpSocketFactory {
 
@@ -40,16 +41,11 @@ public class UdpSocketFactory {
 	}
 
 	private void createSocket(TCPSocket socket, Opponent owner) {
-		try {
-			int port = NetworkConstants.UDP_PORT;
-			LOGGER.info("Creating UDP socket on port %d", port);
-			DatagramSocket dataSocket = new DatagramSocket(port);
-			dataSocket.setBroadcast(false);
-			UdpSocket udpSocket = new UdpSocket(dataSocket, socket.getInetAddress(), port, owner);
-			singleton().createdAdresses.put(socket.getInetAddress(), udpSocket);
-		} catch (SocketException e) {
-			throw new RuntimeException(e);
-		}
+		TcpSocketSettings tcpSocketSettings = socket.getSocketSettings();
+		UdpSocketSettings udpSocketSettings = new UdpSocketSettings(socket.getInetAddress(), tcpSocketSettings.getLocalPort(),
+				tcpSocketSettings.getDestinationPort());
+		UdpSocket udpSocket = createUdpSocket(udpSocketSettings, owner);
+		singleton().createdAdresses.put(socket.getInetAddress(), udpSocket);
 	}
 
 	public void closeAndClearCreatedAdresses() {
@@ -57,5 +53,28 @@ public class UdpSocketFactory {
 			entry.getValue().close();
 		}
 		singleton().createdAdresses.clear();
+	}
+
+	public UdpSocket createUdpSocket(UdpSocketSettings settings, Opponent opponent) {
+		LOGGER.info("Creating normal UDP socket on port %d and address %s ", settings.getDestinationPort(), settings.getDestinationAddress());
+		try {
+			DatagramSocket socket = new DatagramSocket(null);
+			socket.setBroadcast(false);
+			socket.connect(settings.getDestinationAddress(), settings.getLocalPort());
+			return new UdpSocket(socket, opponent, settings);
+		} catch (IOException e) {
+			throw new UdpSocket.UdpException(e);
+		}
+	}
+
+	public UdpSocket createBroadcastSocket(UdpSocketSettings settings, Opponent opponent) {
+		LOGGER.info("Creating Broadcast UDP socket on port %d and address %s ", settings.getDestinationPort(), settings.getDestinationAddress());
+		try {
+			DatagramSocket socket = new DatagramSocket(null);
+			socket.setBroadcast(true);
+			return new UdpSocket(socket, opponent, settings);
+		} catch (IOException e) {
+			throw new UdpSocket.UdpException(e);
+		}
 	}
 }

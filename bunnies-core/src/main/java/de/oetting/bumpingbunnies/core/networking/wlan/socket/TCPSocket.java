@@ -12,24 +12,28 @@ import de.oetting.bumpingbunnies.exceptions.IORuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 
 public class TCPSocket extends AbstractSocket implements MySocket {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TCPSocket.class);
+	private final TcpSocketSettings socketSettings;
 	private Socket socket;
 	private SocketAddress address;
 
-	public TCPSocket(Socket socket, Opponent owner) {
+	public TCPSocket(Socket socket, Opponent owner, TcpSocketSettings socketSettings) {
 		super(owner);
 		this.socket = socket;
-		LOGGER.info("Created WLAn Socket");
+		this.socketSettings = socketSettings;
+		LOGGER.info("Created Tcp Socket");
 	}
 
-	public TCPSocket(Socket socket, SocketAddress address, Opponent owner) {
+	public TCPSocket(Socket socket, SocketAddress address, Opponent owner, TcpSocketSettings socketSettings) {
 		super(owner);
 		this.socket = socket;
 		this.address = address;
-		LOGGER.info("Created WLAn Socket");
+		this.socketSettings = socketSettings;
+		LOGGER.info("Created Tcp Socket");
 	}
 
 	@Override
@@ -76,6 +80,10 @@ public class TCPSocket extends AbstractSocket implements MySocket {
 
 	public InetAddress getInetAddress() {
 		return this.socket.getInetAddress();
+	}
+
+	public TcpSocketSettings getSocketSettings() {
+		return socketSettings;
 	}
 
 	@Override

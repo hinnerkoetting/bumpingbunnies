@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.factories;
+package de.oetting.bumpingbunnies.core.networking;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
@@ -8,34 +8,31 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
-import de.oetting.bumpingbunnies.communication.AndroidOpponentTypeReceiveFactoryFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.network.OpponentReceiverFactoryFactory;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
 @Category(IntegrationTests.class)
-@RunWith(RobolectricTestRunner.class)
-@Config(emulateSdk = 18)
 public class NetworkReceiveThreadFactoryTest {
 
 	private NetworkReceiveThreadFactory fixture;
@@ -60,7 +57,8 @@ public class NetworkReceiveThreadFactoryTest {
 	}
 
 	private void givenWlanSocket() {
-		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TCPSocket(mock(Socket.class), mock(Opponent.class)));
+		TcpSocketSettings settings = new TcpSocketSettings(mock(SocketAddress.class), 0, 1);
+		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TCPSocket(mock(Socket.class), mock(Opponent.class), settings));
 	}
 
 	@Test
@@ -82,7 +80,7 @@ public class NetworkReceiveThreadFactoryTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new NetworkReceiveThreadFactory(this.sockets, this.networkDispatcher, this.sendControl, new AndroidOpponentTypeReceiveFactoryFactory());
+		this.fixture = new NetworkReceiveThreadFactory(this.sockets, this.networkDispatcher, this.sendControl, mock(OpponentReceiverFactoryFactory.class));
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 	}
 

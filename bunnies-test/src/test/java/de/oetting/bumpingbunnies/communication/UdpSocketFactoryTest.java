@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.UnknownHostException;
 
 import org.junit.After;
@@ -20,6 +21,7 @@ import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -34,7 +36,8 @@ public class UdpSocketFactoryTest {
 	public void create_twoTimes_returnsSocketFromFirsttime() throws UnknownHostException, IOException {
 		Socket socket = mock(Socket.class);
 		when(socket.getInetAddress()).thenReturn(mock(InetAddress.class));
-		TCPSocket wlanSocket = new TCPSocket(socket, Opponent.createMyPlayer(""));
+		TcpSocketSettings settings = new TcpSocketSettings(mock(SocketAddress.class), 0, 1);
+		TCPSocket wlanSocket = new TCPSocket(socket, Opponent.createMyPlayer(""), settings);
 		socket1 = UdpSocketFactory.singleton().create(wlanSocket, Opponent.createMyPlayer(""));
 		socket2 = UdpSocketFactory.singleton().create(wlanSocket, Opponent.createMyPlayer(""));
 		assertSame(socket1, socket2);
