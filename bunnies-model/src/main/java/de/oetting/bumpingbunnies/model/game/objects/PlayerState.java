@@ -7,12 +7,12 @@ package de.oetting.bumpingbunnies.model.game.objects;
 public class PlayerState implements GameObjectState<PlayerState> {
 
 	private final int id;
-	long centerX;
-	long centerY;
-	int movementX;
-	int movementY;
-	int accelerationX;
-	int accelerationY;
+	private long centerX;
+	private long centerY;
+	private int movementX;
+	private int movementY;
+	private int accelerationX;
+	private int accelerationY;
 	private int score;
 	/**
 	 * is bunny looking to the left (not necessarily moving left)

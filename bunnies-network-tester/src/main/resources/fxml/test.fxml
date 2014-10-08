@@ -88,6 +88,7 @@
 			GridPane.columnIndex="6" />
 	</GridPane>
 
+	<!-- Score -->
 	<GridPane GridPane.rowIndex="7"
 		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
 		<Label text="Player ID" AnchorPane.topAnchor="2"  />
@@ -98,6 +99,36 @@
 			AnchorPane.topAnchor="2" GridPane.columnIndex="3"/>
 		<Button onAction="#onButtonPlayerScore" text="Set score"
 			AnchorPane.rightAnchor="0" AnchorPane.topAnchor="2"	 GridPane.columnIndex="4"/>
+	</GridPane>
+	
+	<!-- Playerstate -->
+	<GridPane GridPane.rowIndex="8" 
+		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
+		<Label text="Player ID" AnchorPane.topAnchor="2"  />
+		<TextField fx:id="playerStateIdTextfield" text="1"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="1"/>
+		<Label text="Center X" AnchorPane.topAnchor="2"  GridPane.columnIndex="2"/>
+		<TextField fx:id="playerX" text="1"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="3"/>
+		<Label text="Center Y" AnchorPane.topAnchor="2" GridPane.columnIndex="4" />
+		<TextField fx:id="playerY" text="1"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="5"/>
+		
+
+		<Label text="Movement X" AnchorPane.topAnchor="2" GridPane.rowIndex="1"  GridPane.columnIndex="2"/>
+		<TextField fx:id="movementX" text="1" GridPane.rowIndex="1"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="3"/>
+		<Label text="Movement Y" AnchorPane.topAnchor="2" GridPane.rowIndex="1"  GridPane.columnIndex="4"/>
+		<TextField fx:id="movementY" text="1" GridPane.rowIndex="1"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="5"/>
+		<Label text="Movement Y" AnchorPane.topAnchor="2" GridPane.rowIndex="2"  GridPane.columnIndex="2"/>
+		<TextField fx:id="accelerationX" text="1" GridPane.rowIndex="2"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="3"/>
+		<Label text="Movement Y" AnchorPane.topAnchor="2" GridPane.rowIndex="2"  GridPane.columnIndex="4"/>
+		<TextField fx:id="accelerationY" text="1" GridPane.rowIndex="2"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="5"/>
+			
+		
 	</GridPane>
 
 </GridPane>

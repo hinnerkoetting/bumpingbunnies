@@ -3,8 +3,9 @@ package de.oetting.bumpingbunnies.core.networking.messaging.player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
 /**
- * Wrapper for player-state to allow a counter. The counter can be checked to be
- * sure that no old playerstates are processed.
+ * Wrapper for player-state with a counter. Every following message will have
+ * the counter increased by one. Receivers can check the counter and only accept
+ * messages which counter is bigger than the previous counter.
  * 
  */
 public class PlayerStateMessage {
@@ -13,7 +14,6 @@ public class PlayerStateMessage {
 	private final PlayerState playerState;
 
 	public PlayerStateMessage(long counter, PlayerState playerState) {
-		super();
 		this.counter = counter;
 		this.playerState = playerState;
 	}
