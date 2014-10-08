@@ -70,8 +70,7 @@
 		<TextField fx:id="killPlayerIdTextfield" text="1"
 			AnchorPane.topAnchor="2" />
 		<Button onAction="#onButtonKillPlayer" text="Kill player"
-			AnchorPane.rightAnchor="0" AnchorPane.topAnchor="2"
-			GridPane.columnIndex="1" />
+			AnchorPane.rightAnchor="0" AnchorPane.topAnchor="2"/>
 	</AnchorPane>
 
 	<GridPane GridPane.rowIndex="6"
@@ -87,6 +86,18 @@
 			GridPane.columnIndex="5" />
 		<Button onAction="#onButtonSendSpawnpoint" text="Spawn player"
 			GridPane.columnIndex="6" />
+	</GridPane>
+
+	<GridPane GridPane.rowIndex="7"
+		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
+		<Label text="Player ID" AnchorPane.topAnchor="2"  />
+		<TextField fx:id="playerScoreIdTextfield" text="1"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="1"/>
+		<Label text="Score" AnchorPane.topAnchor="2" GridPane.columnIndex="2"/>
+		<TextField fx:id="playerScoreTextfield" text="1"
+			AnchorPane.topAnchor="2" GridPane.columnIndex="3"/>
+		<Button onAction="#onButtonPlayerScore" text="Set score"
+			AnchorPane.rightAnchor="0" AnchorPane.topAnchor="2"	 GridPane.columnIndex="4"/>
 	</GridPane>
 
 </GridPane>

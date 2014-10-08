@@ -26,6 +26,8 @@ import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCa
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDead;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadSender;
+import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
+import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
@@ -51,22 +53,22 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private TableView<RoomEntry> playersTable;
 	@FXML
 	private javafx.scene.control.TextField myPlayerNameTextfield;
+	@FXML
+	private TextField killPlayerIdTextfield;
+	@FXML
+	private TextField sendSpawnpointPlayerId;
+	@FXML
+	private TextField spawnpointX;
+	@FXML
+	private TextField spawnpointY;
+	@FXML
+	private TextField playerScoreIdTextfield;
 
 	private ListenForBroadcastsThread listenForBroadcasts;
-
 	private MySocket socketToServer;
 
 	@FXML
-	TextField killPlayerIdTextfield;
-
-	@FXML
-	TextField sendSpawnpointPlayerId;
-
-	@FXML
-	TextField spawnpointX;
-
-	@FXML
-	TextField spawnpointY;
+	TextField playerScoreTextfield;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
@@ -168,5 +170,11 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		SpawnPoint spawnpoint = new SpawnPoint((long) (ModelConstants.STANDARD_WORLD_SIZE * x), (long) (ModelConstants.STANDARD_WORLD_SIZE * y));
 		SpawnPointMessage message = new SpawnPointMessage(spawnpoint, Integer.valueOf(sendSpawnpointPlayerId.getText()));
 		new SpawnPointSender(createNetworkSender()).sendMessage(message);
+	}
+
+	@FXML
+	public void onButtonPlayerScore() {
+		PlayerScoreMessage message = new PlayerScoreMessage(Integer.valueOf(playerScoreIdTextfield.getText()), Integer.valueOf(playerScoreTextfield.getText()));
+		new PlayerScoreSender(createNetworkSender()).sendMessage(message);
 	}
 }
