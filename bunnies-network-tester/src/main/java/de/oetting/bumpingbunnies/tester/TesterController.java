@@ -9,6 +9,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.RoomEntry;
@@ -22,12 +23,19 @@ import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThrea
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.ToServerConnector;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDead;
+import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadSender;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
+import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
+import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 
 public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer {
 
@@ -37,8 +45,15 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private TableView<Host> broadcastTable;
 	@FXML
 	private TableView<RoomEntry> playersTable;
+	@FXML
+	private javafx.scene.control.TextField myPlayerNameTextfield;
 
 	private ListenForBroadcastsThread listenForBroadcasts;
+
+	private MySocket socketToServer;
+
+	@FXML
+	TextField killPlayerIdTextfield;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
@@ -69,6 +84,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void connectToServerSuccesfull(MySocket mmSocket) {
+		this.socketToServer = mmSocket;
 		LOGGER.info("Connected to server %s", mmSocket);
 		ConnectionToServerService connectedToServerService = new ConnectionToServerService(mmSocket, this);
 		connectedToServerService.onConnectionToServer();
@@ -101,10 +117,34 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public LocalPlayerSettings createLocalPlayerSettings() {
-		return new LocalPlayerSettings("");
+		return new LocalPlayerSettings(myPlayerNameTextfield.getText());
 	}
 
 	public void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost) {
 	}
 
+	@FXML
+	public void onButtonSendRemoteSettings() {
+		SimpleNetworkSender sender = createNetworkSender();
+		SendRemoteSettingsSender remoteSettingsSender = new SendRemoteSettingsSender(sender);
+		RemoteSettings remoteSettings = new RemoteSettings(myPlayerNameTextfield.getText());
+		remoteSettingsSender.sendMessage(remoteSettings);
+	}
+
+	@FXML
+	public void onButtonStop() {
+		SimpleNetworkSender networkSender = createNetworkSender();
+		StopGameSender sender = new StopGameSender(networkSender);
+		sender.sendMessage("");
+	}
+
+	@FXML
+	public void onButtonKillPlayer() {
+		PlayerIsDead playerIsDeadMessage = new PlayerIsDead(Integer.valueOf(killPlayerIdTextfield.getText()));
+		new PlayerIsDeadSender(createNetworkSender()).sendMessage(playerIsDeadMessage);
+	}
+
+	private SimpleNetworkSender createNetworkSender() {
+		return new SimpleNetworkSender(MessageParserFactory.create(), socketToServer);
+	}
 }
