@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
@@ -20,7 +20,7 @@ public class TestConfigurationFactory {
 
 	public static Configuration createDummyHost() {
 		LocalSettings localSettings = new LocalSettings(InputConfiguration.ANALOG, 1, true, true);
-		GeneralSettings generalSettings = new GeneralSettings(
+		ServerSettings generalSettings = new ServerSettings(
 				WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
 		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL,
 				new PlayerProperties(0, "name"), Opponent.createOpponent("identifier", OpponentType.AI)));

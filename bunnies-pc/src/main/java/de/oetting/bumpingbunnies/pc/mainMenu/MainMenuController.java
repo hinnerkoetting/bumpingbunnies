@@ -34,13 +34,13 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
@@ -86,7 +86,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private Configuration createConfiguration(OpponentConfiguration opponent) {
 		LocalSettings localSettings = createLocalSettings();
-		GeneralSettings generalSettings = new GeneralSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
+		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
 		List<OpponentConfiguration> opponents = Arrays.asList(opponent);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
@@ -173,7 +173,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
-		RoomEntry entry = new RoomEntry(properties, serverSocket, socketIndex);
+		RoomEntry entry = new RoomEntry(properties, serverSocket.getOwner());
 		playersTable.getItems().add(entry);
 	}
 
@@ -185,7 +185,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	@Override
-	public void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost) {
+	public void launchGame(ServerSettings generalSettingsFromNetwork, boolean asHost) {
 
 		LocalSettings localSettings = createLocalSettings();
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();

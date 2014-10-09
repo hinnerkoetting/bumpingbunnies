@@ -15,16 +15,16 @@ import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 
 public class SetupConnectionWithServer implements ConnectionToServer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SetupConnectionWithServer.class);
 	private final NetworkReceiver networkReceiver;
-	private GeneralSettings generalSettingsFromNetwork;
+	private ServerSettings generalSettingsFromNetwork;
 	private DisplaysConnectedServers displaysConnectedPlayers;
 	private final MySocket socket;
 
@@ -62,8 +62,8 @@ public class SetupConnectionWithServer implements ConnectionToServer {
 		addPlayerEntry(SetupConnectionWithServer.this.socket, object, 0);
 	}
 
-	public void onReceiveGameSettings(GeneralSettings message) {
-		SetupConnectionWithServer.this.generalSettingsFromNetwork = message;
+	public void onReceiveGameSettings(ServerSettings message) {
+		this.generalSettingsFromNetwork = message;
 	}
 
 	public void onReceiveStartGame() {

@@ -43,11 +43,6 @@ public class DummyNewClientsAccepter implements NewClientsAccepter {
 	}
 
 	@Override
-	public List<MySocket> getAllOtherSockets() {
-		return new ArrayList<MySocket>();
-	}
-
-	@Override
 	public void setMain(PlayerJoinListener main) {
 	}
 

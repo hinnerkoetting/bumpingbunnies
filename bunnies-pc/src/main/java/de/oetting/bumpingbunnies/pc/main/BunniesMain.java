@@ -40,7 +40,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
@@ -82,7 +82,7 @@ public class BunniesMain extends Application {
 
 	public BunniesMain() {
 		LocalSettings localSettings = new LocalSettings(InputConfiguration.KEYBOARD, 1, true, false);
-		GeneralSettings generalSettings = new GeneralSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
+		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
 		// List<OpponentConfiguration> opponents = Arrays.asList(new
 		// OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1,
 		// "Player 2"), Opponent

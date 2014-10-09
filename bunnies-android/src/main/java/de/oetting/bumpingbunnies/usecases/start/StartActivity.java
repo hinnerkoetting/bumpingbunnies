@@ -19,7 +19,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
@@ -73,7 +73,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		SettingsEntity settings = readSettingsFromDb();
 		LocalSettings localSettings = createLocalSettings(settings);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings(settings);
-		GeneralSettings generalSettings = createGeneralSettings(settings);
+		ServerSettings generalSettings = createGeneralSettings(settings);
 		List<OpponentConfiguration> otherPlayers = createSpOtherPlayerConfiguration(settings);
 		return new Configuration(localSettings, generalSettings, otherPlayers, localPlayerSettings, true);
 	}
@@ -109,7 +109,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		SettingsEntity settings = readSettingsFromDb();
 		LocalSettings localSettings = createLocalSettings(settings);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings(settings);
-		GeneralSettings generalSettings = createGeneralSettings(settings);
+		ServerSettings generalSettings = createGeneralSettings(settings);
 		ActivityLauncher.startRoom(this, localSettings, generalSettings, localPlayerSettings);
 	}
 
@@ -117,11 +117,11 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		return this.settingsDao.readStoredSettings();
 	}
 
-	private GeneralSettings createGeneralSettings(SettingsEntity settings) {
+	private ServerSettings createGeneralSettings(SettingsEntity settings) {
 		WorldConfiguration world = findWorldConfiguration();
 		int speed = settings.getSpeed();
 		/** TODO */
-		GeneralSettings generalSettings = new GeneralSettings(world, speed, NetworkType.WLAN);
+		ServerSettings generalSettings = new ServerSettings(world, speed, NetworkType.WLAN);
 		return generalSettings;
 	}
 

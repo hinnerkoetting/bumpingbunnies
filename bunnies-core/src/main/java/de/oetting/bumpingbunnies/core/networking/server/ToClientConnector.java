@@ -62,7 +62,7 @@ public class ToClientConnector {
 
 	private void notifyExistingClients(PlayerProperties playerProperties) {
 		LOGGER.info("Notifying existing clients about new player with id %d", playerProperties.getPlayerId());
-		List<MySocket> allOtherPlayers = this.clientConnectionsAcceptor.getAllOtherSockets();
+		List<MySocket> allOtherPlayers = this.sockets.getAllSockets();
 		for (MySocket otherPlayer : allOtherPlayers) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(otherPlayer);
 			new OtherPlayerClientIdSender(networkSender).sendMessage(playerProperties);
@@ -70,7 +70,7 @@ public class ToClientConnector {
 	}
 
 	private void notifyAboutExistingPlayers(SimpleNetworkSender networkSender) {
-		LOGGER.info("Notifying new Player all existing players");
+		LOGGER.info("Notifying new connected player about all existing players.");
 		for (PlayerProperties otherPlayer : this.clientConnectionsAcceptor.getAllPlayersProperties()) {
 			informClientAboutPlayer(otherPlayer, networkSender);
 		}

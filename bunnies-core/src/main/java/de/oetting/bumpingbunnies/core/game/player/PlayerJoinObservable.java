@@ -16,10 +16,10 @@ public class PlayerJoinObservable {
 	}
 
 	public void playerJoined(Player p) {
-		notifyAboutJoin(p);
+		notifyListenersAboutJoin(p);
 	}
 
-	private void notifyAboutJoin(Player p) {
+	private void notifyListenersAboutJoin(Player p) {
 		for (PlayerJoinListener l : this.listeners) {
 			l.newPlayerJoined(p);
 		}

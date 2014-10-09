@@ -8,7 +8,6 @@ import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
@@ -19,8 +18,8 @@ import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 /**
@@ -35,12 +34,12 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private final NetworkBroadcaster broadcaster;
 	private final ConnectionEstablisher remoteCommunication;
 	private final World world;
-	private final GeneralSettings generalSettings;
+	private final ServerSettings generalSettings;
 	private final PlayerDisconnectedCallback callback;
 	private PlayerJoinListener mainJoinListener;
 	private List<ToClientConnector> connectionToClientServices;
 
-	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, GeneralSettings generalSettings,
+	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, ServerSettings generalSettings,
 			PlayerDisconnectedCallback callback) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
@@ -100,11 +99,6 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 			properties.add(new PlayerProperties(p.id(), p.getName()));
 		}
 		return properties;
-	}
-
-	@Override
-	public List<MySocket> getAllOtherSockets() {
-		return SocketStorage.getSingleton().getAllSockets();
 	}
 
 	@Override

@@ -14,6 +14,4 @@ public interface AcceptsClientConnections {
 
 	List<PlayerProperties> getAllPlayersProperties();
 
-	List<MySocket> getAllOtherSockets();
-
 }

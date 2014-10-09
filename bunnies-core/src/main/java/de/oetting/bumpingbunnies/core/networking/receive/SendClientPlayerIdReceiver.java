@@ -11,7 +11,7 @@ public class SendClientPlayerIdReceiver extends MessageReceiverTemplate<Integer>
 
 	public SendClientPlayerIdReceiver(NetworkToGameDispatcher dispatcher,
 			SetupConnectionWithServer service) {
-		super(dispatcher, MessageId.SEND_CLIENT_PLAYER_ID, Integer.class);
+		super(dispatcher, MessageId.CLIENT_PLAYER_ID, Integer.class);
 		this.service = service;
 	}
 

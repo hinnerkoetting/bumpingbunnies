@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.client;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
@@ -13,6 +13,6 @@ public interface DisplaysConnectedServers {
 
 	void addMyPlayerRoomEntry(int myPlayerId);
 
-	void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost);
+	void launchGame(ServerSettings generalSettingsFromNetwork, boolean asHost);
 
 }

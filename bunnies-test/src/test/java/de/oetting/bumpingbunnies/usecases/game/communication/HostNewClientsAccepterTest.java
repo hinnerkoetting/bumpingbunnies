@@ -15,7 +15,7 @@ import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallb
 import de.oetting.bumpingbunnies.core.networking.server.HostNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.tests.UnitTests;
@@ -39,7 +39,7 @@ public class HostNewClientsAccepterTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new HostNewClientsAccepter(this.broadcaster, this.remoteCommunication, this.world, new GeneralSettings(WorldConfiguration.CASTLE, 1,
+		this.fixture = new HostNewClientsAccepter(this.broadcaster, this.remoteCommunication, this.world, new ServerSettings(WorldConfiguration.CASTLE, 1,
 				NetworkType.WLAN), mock(PlayerDisconnectedCallback.class));
 	}
 }

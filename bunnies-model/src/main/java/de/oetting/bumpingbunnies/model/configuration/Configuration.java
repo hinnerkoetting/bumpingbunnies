@@ -6,11 +6,11 @@ public class Configuration {
 
 	private final List<OpponentConfiguration> otherPlayers;
 	private final LocalSettings localSettings;
-	private final GeneralSettings generalSettings;
+	private final ServerSettings generalSettings;
 	private final LocalPlayerSettings localPlayerSettings;
 	private final boolean host;
 
-	public Configuration(LocalSettings localSettings, GeneralSettings generalSettings, List<OpponentConfiguration> otherPlayers,
+	public Configuration(LocalSettings localSettings, ServerSettings generalSettings, List<OpponentConfiguration> otherPlayers,
 			LocalPlayerSettings localPlayersettings, boolean host) {
 		this.generalSettings = generalSettings;
 		this.otherPlayers = otherPlayers;
@@ -39,7 +39,7 @@ public class Configuration {
 		return this.otherPlayers;
 	}
 
-	public GeneralSettings getGeneralSettings() {
+	public ServerSettings getGeneralSettings() {
 		return this.generalSettings;
 	}
 

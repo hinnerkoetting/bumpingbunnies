@@ -11,7 +11,7 @@ public class RemoteSettingsReceiver extends MessageReceiverTemplate<RemoteSettin
 	private final ToClientConnector service;
 
 	public RemoteSettingsReceiver(NetworkToGameDispatcher dispatcher, ToClientConnector service) {
-		super(dispatcher, MessageId.SEND_CLIENT_REMOTE_SETTINGS, RemoteSettings.class);
+		super(dispatcher, MessageId.CLIENT_REMOTE_SETTINGS, RemoteSettings.class);
 		this.service = service;
 	}
 

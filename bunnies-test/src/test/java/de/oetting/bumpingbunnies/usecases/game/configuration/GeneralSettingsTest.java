@@ -12,7 +12,7 @@ import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParceller;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
@@ -24,20 +24,20 @@ public class GeneralSettingsTest {
 
 	@Test
 	public void testParcelling() {
-		GeneralSettings settings = new GeneralSettings(WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
+		ServerSettings settings = new ServerSettings(WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
 		checkValues(settings);
-		GeneralSettings after = serializeAndDeserialize(settings);
+		ServerSettings after = serializeAndDeserialize(settings);
 		checkValues(after);
 	}
 
-	private GeneralSettings serializeAndDeserialize(GeneralSettings settings) {
+	private ServerSettings serializeAndDeserialize(ServerSettings settings) {
 		Parcel parcel = Parcel.obtain();
 		new GeneralSettingsParceller().writeToParcel(settings, parcel);
 		parcel.setDataPosition(0);
 		return new GeneralSettingsParceller().createFromParcel(parcel);
 	}
 
-	private void checkValues(GeneralSettings settings) {
+	private void checkValues(ServerSettings settings) {
 		assertThat(settings.getWorldConfiguration(), is(equalTo(WorldConfiguration.CASTLE)));
 		assertThat(settings.getSpeedSetting(), is(equalTo(1)));
 		assertThat(settings.getNetworkType(), is(equalTo(NetworkType.WLAN)));

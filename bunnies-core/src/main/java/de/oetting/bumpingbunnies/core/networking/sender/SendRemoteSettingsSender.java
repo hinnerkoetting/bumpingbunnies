@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.model.network.MessageId;
 public class SendRemoteSettingsSender extends MessageSenderTemplate<RemoteSettings> {
 
 	public SendRemoteSettingsSender(SimpleNetworkSender networkSender) {
-		super(networkSender, MessageId.SEND_CLIENT_REMOTE_SETTINGS);
+		super(networkSender, MessageId.CLIENT_REMOTE_SETTINGS);
 	}
 
 }

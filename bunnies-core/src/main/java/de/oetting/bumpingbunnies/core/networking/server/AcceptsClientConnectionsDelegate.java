@@ -34,9 +34,4 @@ public class AcceptsClientConnectionsDelegate implements AcceptsClientConnection
 		return this.accepter.getAllPlayersProperties();
 	}
 
-	@Override
-	public List<MySocket> getAllOtherSockets() {
-		return this.accepter.getAllOtherSockets();
-	}
-
 }

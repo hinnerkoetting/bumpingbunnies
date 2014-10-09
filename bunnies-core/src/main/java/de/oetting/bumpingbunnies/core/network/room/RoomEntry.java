@@ -1,18 +1,16 @@
 package de.oetting.bumpingbunnies.core.network.room;
 
-import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public class RoomEntry {
-	private final PlayerProperties playerProperties;
-	private final MySocket socket;
-	private final int socketIndex;
 
-	public RoomEntry(PlayerProperties playerProperties, MySocket socket, int socketIndex) {
+	private final PlayerProperties playerProperties;
+	private final Opponent opponent;
+
+	public RoomEntry(PlayerProperties playerProperties, Opponent opponent) {
 		this.playerProperties = playerProperties;
-		this.socket = socket;
-		this.socketIndex = socketIndex;
+		this.opponent = opponent;
 	}
 
 	public PlayerProperties getPlayerConfiguration() {
@@ -23,21 +21,13 @@ public class RoomEntry {
 		return this.playerProperties;
 	}
 
-	public MySocket getSocket() {
-		return this.socket;
-	}
-
-	public int getSocketIndex() {
-		return this.socketIndex;
-	}
-
 	@Override
 	public String toString() {
 		return this.playerProperties.getPlayerId() + " " + this.playerProperties.getPlayerName();
 	}
 
 	public Opponent createOponent() {
-		return this.socket.getOwner();
+		return this.opponent;
 	}
 
 	public String getPlayerName() {

@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.model.network.MessageId;
 public class OtherPlayerClientIdSender extends MessageSenderTemplate<PlayerProperties> {
 
 	public OtherPlayerClientIdSender(SimpleNetworkSender networkSender) {
-		super(networkSender, MessageId.SEND_OTHER_PLAYER_ID);
+		super(networkSender, MessageId.OTHER_PLAYER_PROPERTIES);
 	}
 
 }

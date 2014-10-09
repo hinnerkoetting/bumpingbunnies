@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
@@ -27,7 +27,7 @@ public class ConfigurationParceller implements Parceller<Configuration> {
 	@Override
 	public Configuration createFromParcel(Parcel source) {
 		LocalSettings localSettings = new LocalSettingsParceller().createFromParcel(source);
-		GeneralSettings generalSettings = new GeneralSettingsParceller().createFromParcel(source);
+		ServerSettings generalSettings = new GeneralSettingsParceller().createFromParcel(source);
 		LocalPlayerSettings localPlayerSettings = new LocalPlayerSettingsParceller().createFromParcel(source);
 		boolean host = source.readInt() == 1;
 		int numberOtherPlayer = source.readInt();

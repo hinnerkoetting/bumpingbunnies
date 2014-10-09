@@ -11,7 +11,7 @@ public class OtherPlayerClientIdReceiver extends MessageReceiverTemplate<PlayerP
 	private final SetupConnectionWithServer service;
 
 	public OtherPlayerClientIdReceiver(NetworkToGameDispatcher dispatcher, SetupConnectionWithServer service) {
-		super(dispatcher, MessageId.SEND_OTHER_PLAYER_ID, PlayerProperties.class);
+		super(dispatcher, MessageId.OTHER_PLAYER_PROPERTIES, PlayerProperties.class);
 		this.service = service;
 	}
 

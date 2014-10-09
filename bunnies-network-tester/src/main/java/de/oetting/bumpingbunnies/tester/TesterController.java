@@ -49,10 +49,10 @@ import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
@@ -183,8 +183,13 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
-		RoomEntry entry = new RoomEntry(properties, serverSocket, socketIndex);
-		Player player = new Player(properties.getPlayerId(), properties.getPlayerName(), -1, Opponent.createOpponent("TEMP", OpponentType.LOCAL_PLAYER));
+		RoomEntry entry = new RoomEntry(properties, serverSocket.getOwner());
+		addPlayerEntry(entry);
+	}
+
+	public void addPlayerEntry(RoomEntry entry) {
+		Player player = new Player(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(), -1, Opponent.createOpponent("TEMP",
+				OpponentType.LOCAL_PLAYER));
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
 
@@ -199,7 +204,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		return new LocalPlayerSettings(myPlayerNameTextfield.getText());
 	}
 
-	public void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost) {
+	public void launchGame(ServerSettings generalSettingsFromNetwork, boolean asHost) {
 		connectedToServerService.cancel();
 		EasyNetworkToGameDispatcher tcpNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
 		EasyNetworkToGameDispatcher updNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
@@ -211,11 +216,18 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		receiverUdpThread.start();
 	}
 
-	private void addTcpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {
+	public void addTcpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {
 		networkToGameDispatcher.addObserver(MessageId.PLAYER_SCORE_UPDATE, messageWrapper -> updateScore(messageWrapper));
 		networkToGameDispatcher.addObserver(MessageId.PLAYER_IS_DEAD_MESSAGE, messageWrapper -> updateIsDead(messageWrapper));
 		networkToGameDispatcher.addObserver(MessageId.SPAWN_POINT, messageWrapper -> updateSpawnpoint(messageWrapper));
 		networkToGameDispatcher.addObserver(MessageId.PLAYER_IS_REVIVED, messageWrapper -> updateIsRevived(messageWrapper));
+		networkToGameDispatcher.addObserver(MessageId.OTHER_PLAYER_PROPERTIES, messageWrapper -> addPlayerEntry(messageWrapper));
+	}
+
+	private void addPlayerEntry(JsonWrapper messageWrapper) {
+		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
+		PlayerProperties properties = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerProperties.class);
+		addPlayerEntry(new RoomEntry(properties, new Opponent("???", OpponentType.WLAN)));
 	}
 
 	private void addUdpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {

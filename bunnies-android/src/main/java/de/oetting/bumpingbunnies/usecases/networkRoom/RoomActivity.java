@@ -56,11 +56,11 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
@@ -299,7 +299,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	@Override
 	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
 		LOGGER.info("adding player info %d", playerProperties.getPlayerId());
-		RoomEntry entry = new RoomEntry(playerProperties, socket, socketIndex);
+		RoomEntry entry = new RoomEntry(playerProperties, socket.getOwner());
 		addPlayerEntry(entry);
 	}
 
@@ -375,13 +375,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	public void onClickStart(View v) {
 		notifyClientsAboutlaunch();
-		GeneralSettings generalSettings = createGeneralSettingsFromIntent();
+		ServerSettings generalSettings = createGeneralSettingsFromIntent();
 		launchGame(generalSettings, true);
 	}
 
 	private void notifyClientsAboutlaunch() {
 		SocketStorage singleton = SocketStorage.getSingleton();
-		GeneralSettings settings = createGeneralSettingsFromIntent();
+		ServerSettings settings = createGeneralSettingsFromIntent();
 		for (MySocket socket : singleton.getAllSockets()) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket);
 			new GameSettingSender(networkSender).sendMessage(settings);
@@ -390,7 +390,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	@Override
-	public void launchGame(GeneralSettings generalSettings, boolean asHost) {
+	public void launchGame(ServerSettings generalSettings, boolean asHost) {
 
 		LocalSettings localSettings = createLocalSettingsFromIntent();
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
@@ -414,7 +414,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		return ((LocalSettingsParcelableWrapper) getIntent().getExtras().get(ActivityLauncher.LOCAL_SETTINGS)).getLocalSettings();
 	}
 
-	private GeneralSettings createGeneralSettingsFromIntent() {
+	private ServerSettings createGeneralSettingsFromIntent() {
 		return ((GeneralSettingsParcelableWrapper) getIntent().getExtras().get(ActivityLauncher.GENERAL_SETTINGS)).getSettings();
 	}
 
@@ -481,15 +481,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		}
 		properties.add(this.playersAA.getMyself().getPlayerProperties());
 		return properties;
-	}
-
-	@Override
-	public List<MySocket> getAllOtherSockets() {
-		List<MySocket> sockets = new ArrayList<MySocket>(this.playersAA.getCount());
-		for (RoomEntry e : getAllOtherPlayers()) {
-			sockets.add(e.getSocket());
-		}
-		return sockets;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablish
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 
 public class AndroidConnectionEstablisherFactory implements ConnectionEstablisherFactory {
@@ -20,7 +20,7 @@ public class AndroidConnectionEstablisherFactory implements ConnectionEstablishe
 	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidConnectionEstablisherFactory.class);
 
 	@Override
-	public ConnectionEstablisher create(AcceptsClientConnections newClientsAccepter, GeneralSettings settings) {
+	public ConnectionEstablisher create(AcceptsClientConnections newClientsAccepter, ServerSettings settings) {
 		SocketFactory factory = createSocketFactory(settings);
 		DefaultConnectionEstablisher rci = new DefaultConnectionEstablisher(newClientsAccepter, null/**
 		 * 
@@ -30,7 +30,7 @@ public class AndroidConnectionEstablisherFactory implements ConnectionEstablishe
 		return createRemotCommunication(rci, settings);
 	}
 
-	private SocketFactory createSocketFactory(GeneralSettings settings) {
+	private SocketFactory createSocketFactory(ServerSettings settings) {
 		if (settings.getNetworkType().equals(NetworkType.WLAN)) {
 			LOGGER.info("Creating Wlan socket factory");
 			return new WlanSocketFactory();
@@ -42,7 +42,7 @@ public class AndroidConnectionEstablisherFactory implements ConnectionEstablishe
 		}
 	}
 
-	private ConnectionEstablisher createRemotCommunication(DefaultConnectionEstablisher rci, GeneralSettings settings) {
+	private ConnectionEstablisher createRemotCommunication(DefaultConnectionEstablisher rci, ServerSettings settings) {
 		if (settings.getNetworkType().equals(NetworkType.WLAN)) {
 			LOGGER.info("Creating Wlan communication");
 			return rci;

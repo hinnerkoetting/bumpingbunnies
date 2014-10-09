@@ -4,13 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 
 public class GeneralSettingsParcelableWrapper implements Parcelable {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(GeneralSettings.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(ServerSettings.class);
 
-	private final GeneralSettings settings;
+	private final ServerSettings settings;
 
 	public static final Parcelable.Creator<GeneralSettingsParcelableWrapper> CREATOR = new Parcelable.Creator<GeneralSettingsParcelableWrapper>() {
 		@Override
@@ -33,7 +33,7 @@ public class GeneralSettingsParcelableWrapper implements Parcelable {
 		settings = new GeneralSettingsParceller().createFromParcel(source);
 	}
 
-	public GeneralSettingsParcelableWrapper(GeneralSettings settings) {
+	public GeneralSettingsParcelableWrapper(ServerSettings settings) {
 		this.settings = settings;
 	}
 
@@ -47,7 +47,7 @@ public class GeneralSettingsParcelableWrapper implements Parcelable {
 		new GeneralSettingsParceller().writeToParcel(settings, dest);
 	}
 
-	public GeneralSettings getSettings() {
+	public ServerSettings getSettings() {
 		return settings;
 	}
 }
