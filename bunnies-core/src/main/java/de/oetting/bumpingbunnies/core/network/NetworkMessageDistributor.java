@@ -6,6 +6,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
@@ -16,6 +18,8 @@ import de.oetting.bumpingbunnies.model.network.MessageId;
  *
  */
 public class NetworkMessageDistributor implements PlayerJoinListener {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkMessageDistributor.class);
 
 	private final List<NetworkSender> sendThreads;
 	private final RemoteConnectionFactory factory;
@@ -77,6 +81,21 @@ public class NetworkMessageDistributor implements PlayerJoinListener {
 			}
 		}
 		return null;
+	}
+
+	public void removeSender(Opponent opponent) {
+		LOGGER.info("Removing network sender");
+		NetworkSender sender = findSenderForOpponent(opponent);
+		sendThreads.remove(sender);
+	}
+
+	private NetworkSender findSenderForOpponent(Opponent opponent) {
+		for (NetworkSender sender : sendThreads) {
+			if (sender.isConnectionToPlayer(opponent))
+				return sender;
+
+		}
+		throw new IllegalArgumentException("Could not find sendthread for " + opponent);
 	}
 
 	public static class ConnectionDoesNotExist extends RuntimeException {

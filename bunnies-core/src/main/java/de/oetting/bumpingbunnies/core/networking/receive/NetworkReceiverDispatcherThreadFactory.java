@@ -19,10 +19,10 @@ public class NetworkReceiverDispatcherThreadFactory {
 		return createNetworkReceiver(socket, otherClientsDispatcher);
 	}
 
-	public static NetworkReceiver createRoomNetworkReceiver(MySocket socket) {
+	public static NetworkReceiver createRoomNetworkReceiver(MySocket socket, PlayerDisconnectedCallback disconnectCallback) {
 		// in the room not all messages are registered wo the dispatcher must
 		// not throw exceptions
-		NetworkToGameDispatcher networkDispatcher = new EasyNetworkToGameDispatcher();
+		NetworkToGameDispatcher networkDispatcher = new EasyNetworkToGameDispatcher(disconnectCallback);
 		return createNetworkReceiver(socket, networkDispatcher);
 	}
 

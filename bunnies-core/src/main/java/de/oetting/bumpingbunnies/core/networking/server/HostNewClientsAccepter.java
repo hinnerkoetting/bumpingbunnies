@@ -12,6 +12,7 @@ import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
@@ -35,14 +36,17 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private final ConnectionEstablisher remoteCommunication;
 	private final World world;
 	private final GeneralSettings generalSettings;
+	private final PlayerDisconnectedCallback callback;
 	private PlayerJoinListener mainJoinListener;
 	private List<ToClientConnector> connectionToClientServices;
 
-	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, GeneralSettings generalSettings) {
+	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, GeneralSettings generalSettings,
+			PlayerDisconnectedCallback callback) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
 		this.world = world;
 		this.generalSettings = generalSettings;
+		this.callback = callback;
 		this.connectionToClientServices = new LinkedList<ToClientConnector>();
 	}
 
@@ -64,7 +68,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void clientConnectedSucessfull(MySocket socket) {
-		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher());
+		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher(callback));
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 	}

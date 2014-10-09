@@ -7,6 +7,7 @@ import de.oetting.bumpingbunnies.core.networking.receive.GameSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.OtherPlayerClientIdReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.receive.SendClientPlayerIdReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.StartGameReceiver;
 import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
@@ -27,10 +28,10 @@ public class SetupConnectionWithServer implements ConnectionToServer {
 	private DisplaysConnectedServers displaysConnectedPlayers;
 	private final MySocket socket;
 
-	public SetupConnectionWithServer(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers) {
+	public SetupConnectionWithServer(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers, PlayerDisconnectedCallback playerDisconnected) {
 		this.socket = socket;
 		this.displaysConnectedPlayers = displaysConnectedPlayers;
-		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket);
+		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket, playerDisconnected);
 	}
 
 	@Override

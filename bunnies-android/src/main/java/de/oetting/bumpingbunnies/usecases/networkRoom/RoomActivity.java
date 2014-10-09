@@ -38,18 +38,19 @@ import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
-import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
+import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
-import de.oetting.bumpingbunnies.core.networking.server.ToClientConnector;
 import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
+import de.oetting.bumpingbunnies.core.networking.server.ToClientConnector;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
@@ -60,12 +61,13 @@ import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections, ConnectionToServerSuccesfullCallback,
-		OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers {
+		OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
@@ -277,7 +279,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
-		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher());
+		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher(this));
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 		enableStartButton();
@@ -353,7 +355,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		this.connectedToServerService = new SetupConnectionWithServer(socket, this);
+		this.connectedToServerService = new SetupConnectionWithServer(socket, this, this);
 		this.connectedToServerService.onConnectionToServer();
 	}
 
@@ -490,4 +492,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		return sockets;
 	}
 
+	@Override
+	public void playerDisconnected(Opponent opponent) {
+		RoomEntry entry = playersAA.findEntry(opponent);
+		playersAA.remove(entry);
+	}
 }

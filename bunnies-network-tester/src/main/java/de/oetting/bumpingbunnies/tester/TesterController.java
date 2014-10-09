@@ -19,11 +19,11 @@ import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
-import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
-import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
+import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
@@ -34,9 +34,12 @@ import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.Pl
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
+import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
@@ -44,11 +47,12 @@ import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
-public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer {
+public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer, PlayerDisconnectedCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TesterController.class);
 
@@ -98,7 +102,10 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private ComboBox<String> playerStateMovement;
 
 	private ListenForBroadcastsThread listenForBroadcasts;
-	private MySocket socketToServer;
+	private MySocket tcpSocketToServer;
+	private MySocket udpSocketToServer;
+
+	private SetupConnectionWithServer connectedToServerService;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
@@ -129,9 +136,10 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void connectToServerSuccesfull(MySocket mmSocket) {
-		this.socketToServer = mmSocket;
+		this.tcpSocketToServer = mmSocket;
+		udpSocketToServer = UdpSocketFactory.singleton().create((TCPSocket) tcpSocketToServer, tcpSocketToServer.getOwner());
 		LOGGER.info("Connected to server %s", mmSocket);
-		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this);
+		connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this);
 		connectedToServerService.onConnectionToServer();
 	}
 
@@ -151,6 +159,9 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost) {
+		connectedToServerService.cancel();
+		new LogMessagesFromSocket(tcpSocketToServer).start();
+		new LogMessagesFromSocket(udpSocketToServer).start();
 	}
 
 	@FXML
@@ -175,7 +186,11 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private SimpleNetworkSender createNetworkSender() {
-		return new SimpleNetworkSender(MessageParserFactory.create(), socketToServer);
+		return new SimpleNetworkSender(MessageParserFactory.create(), tcpSocketToServer);
+	}
+
+	private SimpleNetworkSender createUdpNetworkSender() {
+		return new SimpleNetworkSender(MessageParserFactory.create(), udpSocketToServer);
 	}
 
 	@FXML
@@ -197,7 +212,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void onSendStateButton() {
 		PlayerState state = extractPlayerState();
 		PlayerStateMessage message = new PlayerStateMessage(getCounterAndIncreate(), state);
-		createNetworkSender().sendMessage(MessageId.SEND_PLAYER_STATE, message);
+		createUdpNetworkSender().sendMessage(MessageId.SEND_PLAYER_STATE, message);
 	}
 
 	private long getCounterAndIncreate() {
@@ -249,5 +264,19 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private Long readStateY() {
 		Double y = Double.valueOf(playerY.getText());
 		return (long) (ModelConstants.STANDARD_WORLD_SIZE * y);
+	}
+
+	public void playerDisconnected(Opponent opponent) {
+		RoomEntry player = findPlayer(opponent);
+		playersTable.getItems().remove(player);
+	}
+
+	private RoomEntry findPlayer(Opponent opponent) {
+		for (RoomEntry entry : playersTable.getItems()) {
+			if (entry.getPlayerName().equals(opponent.getIdentifier())) {
+				return entry;
+			}
+		}
+		throw new IllegalArgumentException("Player does not exist " + opponent);
 	}
 }

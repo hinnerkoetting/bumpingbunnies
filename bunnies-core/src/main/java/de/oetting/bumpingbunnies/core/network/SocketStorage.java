@@ -78,6 +78,12 @@ public class SocketStorage {
 		return null;
 	}
 
+	public void removeSocket(Opponent opponent) {
+		MySocket socket = findSocket(opponent);
+		closeOneSocket(socket);
+		sockets.remove(socket);
+	}
+
 	public static class OpponentDoesNotExist extends RuntimeException {
 	}
 }

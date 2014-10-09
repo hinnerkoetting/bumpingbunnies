@@ -1,7 +1,9 @@
 package de.oetting.bumpingbunnies.core.network;
 
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 /**
@@ -12,6 +14,12 @@ public class StrictNetworkToGameDispatcher extends NetworkToGameDispatcher {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StrictNetworkToGameDispatcher.class);
 
+	private final PlayerDisconnectedCallback callback;
+
+	public StrictNetworkToGameDispatcher(PlayerDisconnectedCallback callback) {
+		this.callback = callback;
+	}
+
 	@Override
 	public void dispatchMessage(JsonWrapper wrapper) {
 		NetworkListener networkListener = this.getListeners().get(wrapper.getId().ordinal());
@@ -20,5 +28,10 @@ public class StrictNetworkToGameDispatcher extends NetworkToGameDispatcher {
 		}
 		LOGGER.debug("Received message %s", wrapper.getMessage());
 		networkListener.newMessage(wrapper);
+	}
+
+	@Override
+	public void playerWasDisconnected(Opponent owner) {
+		callback.playerDisconnected(owner);
 	}
 }

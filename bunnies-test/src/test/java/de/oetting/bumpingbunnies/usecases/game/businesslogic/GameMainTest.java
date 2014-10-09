@@ -135,8 +135,9 @@ public class GameMainTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
-		this.fixture = new GameMain(this.sockets, new NetworkMessageDistributor(mock(RemoteConnectionFactory.class), this.sendThreads), this.accepter,
-				new DummyMusicPlayer(), mock(NetworkSendThread.class));
+		this.fixture = new GameMain(this.sockets, new NetworkMessageDistributor(mock(RemoteConnectionFactory.class), this.sendThreads), new DummyMusicPlayer(),
+				mock(NetworkSendThread.class));
+		fixture.setNewClientsAccepter(this.accepter);
 		this.fixture.setWorld(new World());
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 		NetworkMessageDistributor networkSendControl = createNetworkSendControl();

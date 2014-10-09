@@ -20,14 +20,14 @@ import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 public class ToClientConnector {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ToClientConnector.class);
-	private final AcceptsClientConnections roomActivity;
+	private final AcceptsClientConnections clientConnectionsAcceptor;
 	private final NetworkReceiver networkReceiver;
 	private final SocketStorage sockets;
 	private MySocket socket;
 
 	public ToClientConnector(AcceptsClientConnections roomActivity, NetworkReceiver networkReceiver, SocketStorage sockets) {
 		super();
-		this.roomActivity = roomActivity;
+		this.clientConnectionsAcceptor = roomActivity;
 		this.networkReceiver = networkReceiver;
 		this.sockets = sockets;
 	}
@@ -57,12 +57,12 @@ public class ToClientConnector {
 		notifyExistingClients(playerProperties);
 		sendClientPlayer(networkSender, nextPlayerId);
 		int socketIndex = this.sockets.addSocket(socket);
-		this.roomActivity.addPlayerEntry(socket, playerProperties, socketIndex);
+		this.clientConnectionsAcceptor.addPlayerEntry(socket, playerProperties, socketIndex);
 	}
 
 	private void notifyExistingClients(PlayerProperties playerProperties) {
 		LOGGER.info("Notifying existing clients about new player with id %d", playerProperties.getPlayerId());
-		List<MySocket> allOtherPlayers = this.roomActivity.getAllOtherSockets();
+		List<MySocket> allOtherPlayers = this.clientConnectionsAcceptor.getAllOtherSockets();
 		for (MySocket otherPlayer : allOtherPlayers) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(otherPlayer);
 			new OtherPlayerClientIdSender(networkSender).sendMessage(playerProperties);
@@ -71,7 +71,7 @@ public class ToClientConnector {
 
 	private void notifyAboutExistingPlayers(SimpleNetworkSender networkSender) {
 		LOGGER.info("Notifying new Player all existing players");
-		for (PlayerProperties otherPlayer : this.roomActivity.getAllPlayersProperties()) {
+		for (PlayerProperties otherPlayer : this.clientConnectionsAcceptor.getAllPlayersProperties()) {
 			informClientAboutPlayer(otherPlayer, networkSender);
 		}
 	}
@@ -86,7 +86,7 @@ public class ToClientConnector {
 	}
 
 	private int getNextPlayerId() {
-		return this.roomActivity.getNextPlayerId();
+		return this.clientConnectionsAcceptor.getNextPlayerId();
 	}
 
 	public void cancel() {

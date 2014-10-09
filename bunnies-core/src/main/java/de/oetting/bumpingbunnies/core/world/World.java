@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -14,6 +16,8 @@ import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class World implements ObjectProvider {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
 
 	private List<GameObjectWithImage> allObjects;
 	private List<Wall> allWalls;
@@ -131,6 +135,13 @@ public class World implements ObjectProvider {
 	public void replaceAllSpawnPoints(List<SpawnPoint> newSpawnPoints) {
 		allSpawnPoints.clear();
 		allSpawnPoints.addAll(newSpawnPoints);
+	}
+
+	public void removePlayer(Player p) {
+		LOGGER.info("Remove player %d", p.id());
+		boolean removed = allPlayer.remove(p);
+		if (!removed)
+			throw new IllegalArgumentException("Player was not removed");
 	}
 
 	@Override

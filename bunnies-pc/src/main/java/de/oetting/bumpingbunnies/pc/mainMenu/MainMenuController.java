@@ -22,12 +22,13 @@ import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
-import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
+import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
@@ -45,7 +46,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 
-public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers {
+public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainMenuController.class);
 
@@ -161,7 +162,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public void connectToServerSuccesfull(MySocket mmSocket) {
-		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this);
+		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this);
 		connectedToServerService.onConnectionToServer();
 	}
 
@@ -207,6 +208,21 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 			}
 		}
 		return otherPlayers;
+	}
+
+	@Override
+	public void playerDisconnected(Opponent opponent) {
+		RoomEntry entry = findDisconnectedPlayerEntry(opponent);
+		playersTable.getItems().remove(entry);
+	}
+
+	private RoomEntry findDisconnectedPlayerEntry(Opponent opponent) {
+		for (RoomEntry entry : playersTable.getItems()) {
+			if (entry.getPlayerName().equals(opponent.getIdentifier())) {
+				return entry;
+			}
+		}
+		throw new IllegalArgumentException("Player does not exist");
 	}
 
 }

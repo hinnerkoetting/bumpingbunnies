@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
@@ -34,13 +35,13 @@ public class GameMainFactory {
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
 
 		World world = createWorld(activity, parameter);
-		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world);
 
 		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory);
 
-		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, clientAccepter, MusicPlayerFactory.createBackground(activity),
-				networkSendThread);
+		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, MusicPlayerFactory.createBackground(activity), networkSendThread);
+		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main);
 		clientAccepter.setMain(main);
+		main.setNewClientsAccepter(clientAccepter);
 
 		initGame(main, activity, parameter, sendControl, world, myPlayer, cameraCalclation);
 
@@ -57,8 +58,8 @@ public class GameMainFactory {
 				new AndroidXmlReader(activity, factory.getResourceId()));
 	}
 
-	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world) {
-		return NewClientsAccepterFactory.create(parameter, world, new AndroidConnectionEstablisherFactory());
+	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback) {
+		return NewClientsAccepterFactory.create(parameter, world, new AndroidConnectionEstablisherFactory(), callback);
 	}
 
 	private static void addJoinListener(GameMain main) {
@@ -71,7 +72,7 @@ public class GameMainFactory {
 		main.setWorld(world);
 
 		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), cameraPositionCalculation, main, myPlayer, activity,
-				sendControl);
+				sendControl, main);
 		main.setGameThread(gameThread);
 
 		addJoinListener(main);

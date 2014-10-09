@@ -3,9 +3,10 @@ package de.oetting.bumpingbunnies.usecases.networkRoom;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.network.RoomEntry;
 import android.content.Context;
 import android.widget.ArrayAdapter;
+import de.oetting.bumpingbunnies.core.network.RoomEntry;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 
@@ -34,28 +35,23 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 		return list;
 	}
 
-	public RoomArrayAdapter(Context context, int resource,
-			int textViewResourceId, List<RoomEntry> objects) {
+	public RoomArrayAdapter(Context context, int resource, int textViewResourceId, List<RoomEntry> objects) {
 		super(context, resource, textViewResourceId, objects);
 	}
 
-	public RoomArrayAdapter(Context context, int resource,
-			int textViewResourceId, RoomEntry[] objects) {
+	public RoomArrayAdapter(Context context, int resource, int textViewResourceId, RoomEntry[] objects) {
 		super(context, resource, textViewResourceId, objects);
 	}
 
-	public RoomArrayAdapter(Context context, int resource,
-			int textViewResourceId) {
+	public RoomArrayAdapter(Context context, int resource, int textViewResourceId) {
 		super(context, resource, textViewResourceId);
 	}
 
-	public RoomArrayAdapter(Context context, int textViewResourceId,
-			List<RoomEntry> objects) {
+	public RoomArrayAdapter(Context context, int textViewResourceId, List<RoomEntry> objects) {
 		super(context, textViewResourceId, objects);
 	}
 
-	public RoomArrayAdapter(Context context, int textViewResourceId,
-			RoomEntry[] objects) {
+	public RoomArrayAdapter(Context context, int textViewResourceId, RoomEntry[] objects) {
 		super(context, textViewResourceId, objects);
 	}
 
@@ -63,4 +59,11 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 		super(context, textViewResourceId);
 	}
 
+	public RoomEntry findEntry(Opponent opponent) {
+		for (int i = 0; i < getCount(); i++) {
+			if (getItem(i).getPlayerName().equals(opponent.getIdentifier()))
+				return getItem(i);
+		}
+		throw new IllegalArgumentException("Player does not exist " + opponent);
+	}
 }

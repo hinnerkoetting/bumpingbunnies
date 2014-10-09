@@ -6,7 +6,6 @@ import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkSendThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
@@ -14,28 +13,28 @@ import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
-public class GameMain implements JoinObserver, PlayerJoinListener {
+public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconnectedCallback {
 
 	private final SocketStorage sockets;
 	private final NetworkMessageDistributor sendControl;
 	private final PlayerJoinObservable playerObservable;
-	private final NewClientsAccepter newClientsAccepter;
 	private final MusicPlayer musicPlayer;
 	private final NetworkSendThread networkSenderThread;
+	private NewClientsAccepter newClientsAccepter;
 	private GameThread gameThread;
 
 	private NetworkReceiveControl receiveControl;
 	private World world;
 
-	public GameMain(SocketStorage sockets, NetworkMessageDistributor sendControl, NewClientsAccepter newClientsAccepter, MusicPlayer musicPlayer,
-			NetworkSendThread networkSenderThread) {
+	public GameMain(SocketStorage sockets, NetworkMessageDistributor sendControl, MusicPlayer musicPlayer, NetworkSendThread networkSenderThread) {
 		this.sockets = sockets;
 		this.sendControl = sendControl;
-		this.newClientsAccepter = newClientsAccepter;
 		this.musicPlayer = musicPlayer;
 		this.networkSenderThread = networkSenderThread;
 		this.playerObservable = new PlayerJoinObservable();
@@ -116,10 +115,6 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 		addJoinListener(this.networkSenderThread);
 	}
 
-	public void clientConnectedSuccessfull(MySocket socket) {
-		this.newClientsAccepter.clientConnectedSucessfull(socket);
-	}
-
 	@Override
 	public void newPlayerJoined(Player player) {
 		this.world.getAllPlayer().add(player);
@@ -128,8 +123,12 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 
 	@Override
 	public void playerLeftTheGame(Player p) {
-		world.getAllPlayer().remove(p);
+		world.removePlayer(p);
 		this.playerObservable.playerLeft(p);
+	}
+
+	public void setNewClientsAccepter(NewClientsAccepter newClientsAccepter) {
+		this.newClientsAccepter = newClientsAccepter;
 	}
 
 	public void validateInitialised() {
@@ -145,6 +144,26 @@ public class GameMain implements JoinObserver, PlayerJoinListener {
 
 	public void start() {
 		gameThread.start();
+	}
+
+	@Override
+	public void playerDisconnected(Opponent opponent) {
+		SocketStorage.getSingleton().removeSocket(opponent);
+		Player disconnectedPlayer = findPlayer(opponent);
+		removeNetworkSender(opponent);
+		playerLeftTheGame(disconnectedPlayer);
+	}
+
+	private void removeNetworkSender(Opponent opponent) {
+		sendControl.removeSender(opponent);
+	}
+
+	private Player findPlayer(Opponent opponent) {
+		for (Player p : world.getAllPlayer()) {
+			if (p.getOpponent().getIdentifier().equals(opponent.getIdentifier()))
+				return p;
+		}
+		throw new IllegalArgumentException("Coult not find player " + opponent);
 	}
 
 }

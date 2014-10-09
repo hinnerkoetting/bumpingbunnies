@@ -42,10 +42,16 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 				if (this.canceled) {
 					return;
 				} else {
-					throw e;
+					disconnectPlayer(e);
+					canceled = true;
 				}
 			}
 		}
+	}
+
+	private void disconnectPlayer(ReadFailed e) {
+		LOGGER.warn("Read failed " + e.getMessage());
+		networkDispatcher.playerWasDisconnected(socket.getOwner());
 	}
 
 	void oneRun() {

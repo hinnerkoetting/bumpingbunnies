@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -15,6 +16,7 @@ import org.robolectric.annotation.Config;
 import de.oetting.bumpingbunnies.core.network.NetworkListener;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
@@ -47,6 +49,6 @@ public class StrictNetworkToGameDispatcherTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new StrictNetworkToGameDispatcher();
+		this.fixture = new StrictNetworkToGameDispatcher(mock(PlayerDisconnectedCallback.class));
 	}
 }

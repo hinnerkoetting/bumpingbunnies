@@ -22,6 +22,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPoint
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
@@ -31,9 +32,9 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameThreadFactory {
 
 	public static GameThread create(World world, Context context, Configuration configuration, CameraPositionCalculation cameraPositionCalculator,
-			GameMain main, Player myPlayer, GameActivity activity, NetworkMessageDistributor sendControl) {
+			GameMain main, Player myPlayer, GameActivity activity, NetworkMessageDistributor sendControl, PlayerDisconnectedCallback callback) {
 
-		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher();
+		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(callback);
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		initInputServices(main, activity, world, networkDispatcher, sendControl);
 

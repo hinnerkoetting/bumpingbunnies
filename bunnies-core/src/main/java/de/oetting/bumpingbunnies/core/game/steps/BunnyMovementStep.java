@@ -59,9 +59,13 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 				return c;
 			}
 		}
-		throw new PlayerDoesNotExist();
+		throw new PlayerDoesNotExist(p);
 	}
 
-	public class PlayerDoesNotExist extends RuntimeException {
+	public static class PlayerDoesNotExist extends RuntimeException {
+
+		public PlayerDoesNotExist(Player p) {
+			super(p.toString());
+		}
 	}
 }

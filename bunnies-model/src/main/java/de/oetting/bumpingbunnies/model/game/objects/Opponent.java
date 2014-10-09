@@ -73,4 +73,10 @@ public class Opponent {
 	public Opponent clone() {
 		return new Opponent(identifier, type);
 	}
+
+	@Override
+	public String toString() {
+		return "Opponent [identifier=" + identifier + ", type=" + type + "]";
+	}
+
 }

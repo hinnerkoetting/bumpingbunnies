@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class LogMessagesFromSocket implements Runnable {
+public class LogMessagesFromSocket extends Thread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LogMessagesFromSocket.class);
 
@@ -12,6 +12,7 @@ public class LogMessagesFromSocket implements Runnable {
 
 	public LogMessagesFromSocket(MySocket socket) {
 		this.socket = socket;
+		setDaemon(true);
 	}
 
 	public void run() {

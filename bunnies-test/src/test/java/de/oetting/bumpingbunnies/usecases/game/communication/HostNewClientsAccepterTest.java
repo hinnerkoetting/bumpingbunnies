@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.communication;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.server.HostNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -37,7 +39,7 @@ public class HostNewClientsAccepterTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new HostNewClientsAccepter(this.broadcaster, this.remoteCommunication, this.world, new GeneralSettings(
-				WorldConfiguration.CASTLE, 1, NetworkType.WLAN));
+		this.fixture = new HostNewClientsAccepter(this.broadcaster, this.remoteCommunication, this.world, new GeneralSettings(WorldConfiguration.CASTLE, 1,
+				NetworkType.WLAN), mock(PlayerDisconnectedCallback.class));
 	}
 }
