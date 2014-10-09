@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking;
 
-import de.oetting.bumpingbunnies.core.network.RoomEntry;
+import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 
 public class SinglePlayerRoomEntry extends RoomEntry {

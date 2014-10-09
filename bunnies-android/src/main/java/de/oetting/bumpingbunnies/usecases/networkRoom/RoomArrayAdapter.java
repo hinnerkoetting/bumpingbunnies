@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
-import de.oetting.bumpingbunnies.core.network.RoomEntry;
+import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {

@@ -1,5 +1,6 @@
-package de.oetting.bumpingbunnies.core.network;
+package de.oetting.bumpingbunnies.core.network.room;
 
+import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 

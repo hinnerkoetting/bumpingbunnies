@@ -44,6 +44,46 @@
 					<PropertyValueFactory property="playerName" />
 				</cellValueFactory>
 			</TableColumn>
+			<TableColumn text="Score">
+				<cellValueFactory>
+					<PropertyValueFactory property="score" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="CenterX">
+				<cellValueFactory>
+					<PropertyValueFactory property="centerX" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="CenterY">
+				<cellValueFactory>
+					<PropertyValueFactory property="centerY" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="MovementX">
+				<cellValueFactory>
+					<PropertyValueFactory property="movementX" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="MovementY">
+				<cellValueFactory>
+					<PropertyValueFactory property="movementY" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="Facing Left">
+				<cellValueFactory>
+					<PropertyValueFactory property="facingLeft" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="Dead">
+				<cellValueFactory>
+					<PropertyValueFactory property="dead" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="Jumping">
+				<cellValueFactory>
+					<PropertyValueFactory property="jumpingButtonPressed" />
+				</cellValueFactory>
+			</TableColumn>
 		</columns>
 
 	</TableView>

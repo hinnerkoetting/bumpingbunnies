@@ -12,12 +12,16 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+
+import com.google.gson.Gson;
+
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
-import de.oetting.bumpingbunnies.core.network.RoomEntry;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
+import de.oetting.bumpingbunnies.core.network.room.DetailRoomEntry;
 import de.oetting.bumpingbunnies.core.network.room.Host;
+import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
 import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
@@ -27,13 +31,15 @@ import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServe
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
-import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDead;
+import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
+import de.oetting.bumpingbunnies.core.networking.receive.EasyNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
@@ -48,8 +54,11 @@ import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
+import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer, PlayerDisconnectedCallback {
@@ -59,7 +68,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	@FXML
 	private TableView<Host> broadcastTable;
 	@FXML
-	private TableView<RoomEntry> playersTable;
+	private TableView<DetailRoomEntry> playersTable;
 	@FXML
 	private javafx.scene.control.TextField myPlayerNameTextfield;
 	@FXML
@@ -145,13 +154,15 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
 		RoomEntry entry = new RoomEntry(properties, serverSocket, socketIndex);
-		playersTable.getItems().add(entry);
+		Player player = new Player(properties.getPlayerId(), properties.getPlayerName(), -1, Opponent.createOpponent("TEMP", OpponentType.LOCAL_PLAYER));
+		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
 
 	public void addMyPlayerRoomEntry(int myPlayerId) {
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
-		playersTable.getItems().add(new SinglePlayerRoomEntry(singlePlayerProperties));
+		Player player = new Player(myPlayerId, settings.getPlayerName(), -1, Opponent.createMyPlayer(singlePlayerProperties.getPlayerName()));
+		playersTable.getItems().add(new DetailRoomEntry(new SinglePlayerRoomEntry(singlePlayerProperties), player));
 	}
 
 	public LocalPlayerSettings createLocalPlayerSettings() {
@@ -160,8 +171,49 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	public void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost) {
 		connectedToServerService.cancel();
-		new LogMessagesFromSocket(tcpSocketToServer).start();
-		new LogMessagesFromSocket(udpSocketToServer).start();
+		EasyNetworkToGameDispatcher networkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
+		NetworkReceiveThread receiverTcpThread = new NetworkReceiveThread(new Gson(), networkToGameDispatcher, tcpSocketToServer);
+		NetworkReceiveThread receiverUdpThread = new NetworkReceiveThread(new Gson(), networkToGameDispatcher, udpSocketToServer);
+		receiverTcpThread.start();
+		receiverUdpThread.start();
+		addTcpListeners(networkToGameDispatcher);
+	}
+
+	private void addTcpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {
+		networkToGameDispatcher.addObserver(MessageId.PLAYER_SCORE_UPDATE, messageWrapper -> updateScore(messageWrapper));
+		networkToGameDispatcher.addObserver(MessageId.PLAYER_IS_DEAD_MESSAGE, messageWrapper -> updateIsDead(messageWrapper));
+		networkToGameDispatcher.addObserver(MessageId.SPAWN_POINT, messageWrapper -> updateSpawnpoint(messageWrapper));
+		networkToGameDispatcher.addObserver(MessageId.PLAYER_IS_REVIVED, messageWrapper -> updateIsRevived(messageWrapper));
+	}
+
+	private void updateScore(JsonWrapper messageWrapper) {
+		PlayerScoreMessage message = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerScoreMessage.class);
+		DetailRoomEntry roomEntry = findEntry(message.getPlayerId());
+		roomEntry.getPlayer().setScore(message.getNewScore());
+
+		updateTableItem(roomEntry);
+	}
+
+	private void updateIsDead(JsonWrapper wrapper) {
+		PlayerIsDeadMessage message = MessageParserFactory.create().parseMessage(wrapper.getMessage(), PlayerIsDeadMessage.class);
+		DetailRoomEntry roomEntry = findEntry(message.getPlayerId());
+		roomEntry.getPlayer().setDead(true);
+		updateTableItem(roomEntry);
+	}
+
+	private void updateSpawnpoint(JsonWrapper messageWrapper) {
+		SpawnPointMessage spawnpoint = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), SpawnPointMessage.class);
+		DetailRoomEntry roomEntry = findEntry(spawnpoint.getPlayerId());
+		roomEntry.getPlayer().setCenterX(spawnpoint.getSpawnPoint().getX());
+		roomEntry.getPlayer().setCenterY(spawnpoint.getSpawnPoint().getY());
+		updateTableItem(roomEntry);
+	}
+
+	private void updateIsRevived(JsonWrapper messageWrapper) {
+		Integer playerId = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), Integer.class);
+		DetailRoomEntry roomEntry = findEntry(playerId);
+		roomEntry.getPlayer().setDead(false);
+		updateTableItem(roomEntry);
 	}
 
 	@FXML
@@ -181,7 +233,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	@FXML
 	public void onButtonKillPlayer() {
-		PlayerIsDead playerIsDeadMessage = new PlayerIsDead(Integer.valueOf(killPlayerIdTextfield.getText()));
+		PlayerIsDeadMessage playerIsDeadMessage = new PlayerIsDeadMessage(Integer.valueOf(killPlayerIdTextfield.getText()));
 		new PlayerIsDeadSender(createNetworkSender()).sendMessage(playerIsDeadMessage);
 	}
 
@@ -271,12 +323,24 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		playersTable.getItems().remove(player);
 	}
 
-	private RoomEntry findPlayer(Opponent opponent) {
-		for (RoomEntry entry : playersTable.getItems()) {
-			if (entry.getPlayerName().equals(opponent.getIdentifier())) {
+	private DetailRoomEntry findEntry(int playerId) {
+		for (DetailRoomEntry entry : playersTable.getItems())
+			if (entry.getPlayerId() == playerId)
 				return entry;
+		throw new IllegalArgumentException("Player not found " + playerId);
+	}
+
+	private RoomEntry findPlayer(Opponent opponent) {
+		for (DetailRoomEntry entry : playersTable.getItems()) {
+			if (entry.getEntry().getPlayerName().equals(opponent.getIdentifier())) {
+				return entry.getEntry();
 			}
 		}
 		throw new IllegalArgumentException("Player does not exist " + opponent);
+	}
+
+	private void updateTableItem(DetailRoomEntry roomEntry) {
+		int indexOf = playersTable.getItems().indexOf(roomEntry);
+		playersTable.getItems().set(indexOf, roomEntry);
 	}
 }

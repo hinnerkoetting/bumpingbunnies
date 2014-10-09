@@ -25,7 +25,7 @@ public class EasyNetworkToGameDispatcher extends NetworkToGameDispatcher {
 	public void dispatchMessage(JsonWrapper wrapper) {
 		NetworkListener networkListener = this.getListeners().get(wrapper.getId().ordinal());
 		if (networkListener == null) {
-			LOGGER.debug("No listener registered. Throwing away message... %s", wrapper.getId());
+			LOGGER.info("No listener registered. Throwing away message... %s", wrapper.getId());
 			return;
 		}
 		LOGGER.debug("Received message %s", wrapper);

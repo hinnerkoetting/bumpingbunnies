@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
-public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDead> {
+public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMessage> {
 
 	private final World world;
 
@@ -15,12 +15,12 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDead> 
 	}
 
 	@Override
-	public void onReceiveMessage(PlayerIsDead object) {
+	public void onReceiveMessage(PlayerIsDeadMessage object) {
 		Player p = findPlayer(object);
 		p.setDead(true);
 	}
 
-	private Player findPlayer(PlayerIsDead message) {
-		return this.world.findPlayer(message.getIdOfDeadPlayer());
+	private Player findPlayer(PlayerIsDeadMessage message) {
+		return this.world.findPlayer(message.getPlayerId());
 	}
 }

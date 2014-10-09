@@ -1,14 +1,14 @@
 package de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead;
 
-public class PlayerIsDead {
+public class PlayerIsDeadMessage {
 
 	private final int idOfDeadPlayer;
 
-	public PlayerIsDead(int idOfDeadPlayer) {
+	public PlayerIsDeadMessage(int idOfDeadPlayer) {
 		this.idOfDeadPlayer = idOfDeadPlayer;
 	}
 
-	public int getIdOfDeadPlayer() {
+	public int getPlayerId() {
 		return this.idOfDeadPlayer;
 	}
 

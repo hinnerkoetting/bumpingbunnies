@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.ResetToScorePoint;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.network.MessageSender;
-import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDead;
+import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -58,7 +58,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private void killPlayer(Player playerKilled) {
 		playerKilled.setDead(true);
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
-		PlayerIsDead killedMessage = new PlayerIsDead(playerKilled.id());
+		PlayerIsDeadMessage killedMessage = new PlayerIsDeadMessage(playerKilled.id());
 
 		this.messageSender.sendMessage(MessageId.PLAYER_IS_DEAD_MESSAGE, killedMessage);
 		this.messageSender.sendMessage(MessageId.SPAWN_POINT, new SpawnPointMessage(spawnPoint, playerKilled.id()));
