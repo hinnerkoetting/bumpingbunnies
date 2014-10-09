@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 
 import com.google.gson.Gson;
 
+import de.oetting.bumpingbunnies.core.network.BytePerSecondMeasurer;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
@@ -109,6 +110,8 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private TextField playerStateCounterTextfield;
 	@FXML
 	private ComboBox<String> playerStateMovement;
+	@FXML
+	private TextField incmingBytesPerSecondTextfield;
 
 	private ListenForBroadcastsThread listenForBroadcasts;
 	private MySocket tcpSocketToServer;
@@ -116,9 +119,36 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	private SetupConnectionWithServer connectedToServerService;
 
+	private BytePerSecondMeasurer bpsMeasurer = new BytePerSecondMeasurer(System.currentTimeMillis());
+
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
 		listenForBroadcasts.start();
+		updateBytesPerSecond();
+	}
+
+	private void updateBytesPerSecond() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+					int bytesPersecond = bpsMeasurer.getBytesPerSecond(System.currentTimeMillis());
+					Platform.runLater(new Runnable() {
+
+						@Override
+						public void run() {
+							incmingBytesPerSecondTextfield.setText(Integer.toString(bytesPersecond));
+						}
+					});
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// ignore
+					}
+				}
+			}
+		}).start();
 	}
 
 	public void broadcastReceived(InetAddress senderAddress) {
@@ -193,6 +223,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private void updatePlayerState(JsonWrapper messageWrapper) {
+		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
 		PlayerStateMessage message = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerStateMessage.class);
 		DetailRoomEntry roomEntry = findEntry(message.getPlayerState().getId());
 		roomEntry.getPlayer().applyState(message.getPlayerState());
@@ -200,6 +231,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private void updateScore(JsonWrapper messageWrapper) {
+		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
 		PlayerScoreMessage message = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerScoreMessage.class);
 		DetailRoomEntry roomEntry = findEntry(message.getPlayerId());
 		roomEntry.getPlayer().setScore(message.getNewScore());
@@ -208,6 +240,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private void updateIsDead(JsonWrapper wrapper) {
+		bpsMeasurer.newMessage(wrapper.getMessage(), System.currentTimeMillis());
 		PlayerIsDeadMessage message = MessageParserFactory.create().parseMessage(wrapper.getMessage(), PlayerIsDeadMessage.class);
 		DetailRoomEntry roomEntry = findEntry(message.getPlayerId());
 		roomEntry.getPlayer().setDead(true);
@@ -215,6 +248,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private void updateSpawnpoint(JsonWrapper messageWrapper) {
+		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
 		SpawnPointMessage spawnpoint = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), SpawnPointMessage.class);
 		DetailRoomEntry roomEntry = findEntry(spawnpoint.getPlayerId());
 		roomEntry.getPlayer().setCenterX(spawnpoint.getSpawnPoint().getX());
@@ -223,6 +257,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private void updateIsRevived(JsonWrapper messageWrapper) {
+		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
 		Integer playerId = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), Integer.class);
 		DetailRoomEntry roomEntry = findEntry(playerId);
 		roomEntry.getPlayer().setDead(false);

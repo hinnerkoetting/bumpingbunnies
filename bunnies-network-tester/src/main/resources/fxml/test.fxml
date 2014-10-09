@@ -17,6 +17,7 @@
 <GridPane xmlns:fx="http://javafx.com/fxml/1" vgap="10" hgap="10"
 	fx:controller="de.oetting.bumpingbunnies.tester.TesterController">
 
+	<!--  Broadcasts -->
 	<Label text="Broadcast" />
 	<TableView GridPane.rowIndex="1" fx:id="broadcastTable"
 		maxHeight="100">
@@ -29,6 +30,7 @@
 		</columns>
 	</TableView>
 
+	<!--  Players -->
 	<Label text="Players" GridPane.rowIndex="0" GridPane.columnIndex="1" />
 	<TableView fx:id="playersTable" maxWidth="500"
 		GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="4"
@@ -85,8 +87,13 @@
 				</cellValueFactory>
 			</TableColumn>
 		</columns>
-
 	</TableView>
+	
+	<GridPane  GridPane.columnIndex="2" GridPane.rowSpan="2"
+		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
+		<Label text="Incoming Bytes"/>
+		<TextField editable="false" fx:id="incmingBytesPerSecondTextfield" GridPane.columnIndex="1"/>
+	</GridPane>
 
 	<Button onAction="#onButtonConnect" text="Connect"
 		GridPane.rowIndex="2" />
