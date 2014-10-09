@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.communication;
 
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -19,6 +20,7 @@ import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -47,6 +49,6 @@ public class SimpleNetworkSenderTest {
 		initMocks(this);
 		this.parser = MessageParserFactory.create();
 		this.socket = new TestSocket(this.os, null);
-		this.fixture = new SimpleNetworkSender(this.parser, this.socket);
+		this.fixture = new SimpleNetworkSender(this.parser, this.socket, mock(PlayerDisconnectedCallback.class));
 	}
 }

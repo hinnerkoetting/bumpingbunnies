@@ -28,6 +28,7 @@ import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
@@ -80,7 +81,7 @@ public class RemoteConnectionFactoryTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new RemoteConnectionFactory(this.activity, this.sockets);
+		this.fixture = new RemoteConnectionFactory(this.activity, this.sockets, mock(PlayerDisconnectedCallback.class));
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TestSocket());
 	}
 

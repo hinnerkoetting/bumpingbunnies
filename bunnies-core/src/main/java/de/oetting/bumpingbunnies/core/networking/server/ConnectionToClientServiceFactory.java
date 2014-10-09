@@ -8,12 +8,14 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 
 public class ConnectionToClientServiceFactory {
 
-	public static ToClientConnector create(AcceptsClientConnections origin, MySocket socket, NetworkToGameDispatcher dispatcher) {
+	public static ToClientConnector create(AcceptsClientConnections origin, MySocket socket, NetworkToGameDispatcher dispatcher,
+			PlayerDisconnectedCallback disconnectCallback) {
 		NetworkReceiver receiver = createNetworkReceiver(socket, dispatcher);
-		return new ToClientConnector(origin, receiver, SocketStorage.getSingleton());
+		return new ToClientConnector(origin, receiver, SocketStorage.getSingleton(), disconnectCallback);
 	}
 
 	private static NetworkReceiveThread createNetworkReceiver(MySocket socket, NetworkToGameDispatcher dispatcher) {

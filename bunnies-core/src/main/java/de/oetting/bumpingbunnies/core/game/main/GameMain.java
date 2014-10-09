@@ -22,21 +22,19 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconnectedCallback {
 
 	private final SocketStorage sockets;
-	private final NetworkMessageDistributor sendControl;
 	private final PlayerJoinObservable playerObservable;
 	private final MusicPlayer musicPlayer;
-	private final NetworkSendThread networkSenderThread;
+	private NetworkSendThread networkSenderThread;
+	private NetworkMessageDistributor sendControl;
 	private NewClientsAccepter newClientsAccepter;
 	private GameThread gameThread;
 
 	private NetworkReceiveControl receiveControl;
 	private World world;
 
-	public GameMain(SocketStorage sockets, NetworkMessageDistributor sendControl, MusicPlayer musicPlayer, NetworkSendThread networkSenderThread) {
+	public GameMain(SocketStorage sockets, MusicPlayer musicPlayer) {
 		this.sockets = sockets;
-		this.sendControl = sendControl;
 		this.musicPlayer = musicPlayer;
-		this.networkSenderThread = networkSenderThread;
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
@@ -140,6 +138,8 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		Guard.againstNull(receiveControl);
 		Guard.againstNull(musicPlayer);
 		Guard.againstNull(world);
+		Guard.againstNull(networkSenderThread);
+		Guard.againstNull(sendControl);
 	}
 
 	public void start() {
@@ -150,12 +150,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	public void playerDisconnected(Opponent opponent) {
 		SocketStorage.getSingleton().removeSocket(opponent);
 		Player disconnectedPlayer = findPlayer(opponent);
-		removeNetworkSender(opponent);
 		playerLeftTheGame(disconnectedPlayer);
-	}
-
-	private void removeNetworkSender(Opponent opponent) {
-		sendControl.removeSender(opponent);
 	}
 
 	private Player findPlayer(Opponent opponent) {
@@ -164,6 +159,14 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 				return p;
 		}
 		throw new IllegalArgumentException("Coult not find player " + opponent);
+	}
+
+	public void setSendControl(NetworkMessageDistributor sendControl) {
+		this.sendControl = sendControl;
+	}
+
+	public void setNetworkSendThread(NetworkSendThread networkSendThread) {
+		this.networkSenderThread = networkSendThread;
 	}
 
 }

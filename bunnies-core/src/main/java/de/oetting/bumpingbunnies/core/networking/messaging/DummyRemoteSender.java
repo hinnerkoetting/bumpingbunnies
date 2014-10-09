@@ -11,7 +11,6 @@ public class DummyRemoteSender implements NetworkSender {
 	private final Opponent opponent;
 
 	public DummyRemoteSender(Opponent opponent) {
-		super();
 		this.opponent = opponent;
 	}
 

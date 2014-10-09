@@ -30,14 +30,14 @@ public class SocketStorage {
 		return this.sockets.get(index);
 	}
 
-	public void closeExistingSocket() {
+	public synchronized void closeExistingSocket() {
 		for (MySocket socket : this.sockets) {
 			closeOneSocket(socket);
 		}
 		this.sockets.clear();
 	}
 
-	public MySocket findSocket(Opponent opponent) {
+	public synchronized MySocket findSocket(Opponent opponent) {
 		MySocket socket = findSocketOrNull(opponent);
 		if (socket == null) {
 			throw new OpponentDoesNotExist();
@@ -78,7 +78,7 @@ public class SocketStorage {
 		return null;
 	}
 
-	public void removeSocket(Opponent opponent) {
+	public synchronized void removeSocket(Opponent opponent) {
 		MySocket socket = findSocket(opponent);
 		closeOneSocket(socket);
 		sockets.remove(socket);

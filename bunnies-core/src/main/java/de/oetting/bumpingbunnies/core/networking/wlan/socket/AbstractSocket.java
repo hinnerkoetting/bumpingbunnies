@@ -17,6 +17,8 @@ public abstract class AbstractSocket implements MySocket {
 	private final Opponent owner;
 	private Writer writer;
 	private BufferedReader reader;
+	private Object senderMonitor = new Object();
+	private Object receiverMonitor = new Object();
 
 	public AbstractSocket(Opponent owner) {
 		super();
@@ -25,15 +27,17 @@ public abstract class AbstractSocket implements MySocket {
 
 	@Override
 	public void sendMessage(String message) {
-		try {
-			if (this.writer == null) {
-				this.writer = createWriter(getOutputStream());
+		synchronized (senderMonitor) {
+			try {
+				if (this.writer == null) {
+					this.writer = createWriter(getOutputStream());
+				}
+				this.writer.write(message);
+				this.writer.write('\n');
+				this.writer.flush();
+			} catch (IOException e) {
+				throw new WriteFailed(e);
 			}
-			this.writer.write(message);
-			this.writer.write('\n');
-			this.writer.flush();
-		} catch (IOException e) {
-			throw new WriteFailed(e);
 		}
 	}
 
@@ -47,13 +51,15 @@ public abstract class AbstractSocket implements MySocket {
 
 	@Override
 	public String blockingReceive() {
-		try {
-			if (this.reader == null) {
-				this.reader = new BufferedReader(new InputStreamReader(getInputStream(), NetworkConstants.ENCODING));
+		synchronized (receiverMonitor) {
+			try {
+				if (this.reader == null) {
+					this.reader = new BufferedReader(new InputStreamReader(getInputStream(), NetworkConstants.ENCODING));
+				}
+				return this.reader.readLine();
+			} catch (IOException e) {
+				throw new ReadFailed(e);
 			}
-			return this.reader.readLine();
-		} catch (IOException e) {
-			throw new ReadFailed(e);
 		}
 	}
 

@@ -31,16 +31,16 @@ import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer, CameraPositionCalculation cameraCalclation) {
-		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, SocketStorage.getSingleton());
-		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
-
+		GameMain main = new GameMain(SocketStorage.getSingleton(), MusicPlayerFactory.createBackground(activity));
 		World world = createWorld(activity, parameter);
 
+		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, SocketStorage.getSingleton(), main);
+		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
 		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory);
-
-		GameMain main = new GameMain(SocketStorage.getSingleton(), sendControl, MusicPlayerFactory.createBackground(activity), networkSendThread);
 		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main);
 		clientAccepter.setMain(main);
+		main.setNetworkSendThread(networkSendThread);
+		main.setSendControl(sendControl);
 		main.setNewClientsAccepter(clientAccepter);
 
 		initGame(main, activity, parameter, sendControl, world, myPlayer, cameraCalclation);
@@ -48,6 +48,8 @@ public class GameMainFactory {
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 
 		addPlayersToWorld(main, otherPlayers);
+		main.validateInitialised();
+
 		main.start();
 		return main;
 	}

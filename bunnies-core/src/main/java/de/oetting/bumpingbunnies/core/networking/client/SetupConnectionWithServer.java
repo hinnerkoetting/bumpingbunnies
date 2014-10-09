@@ -27,10 +27,13 @@ public class SetupConnectionWithServer implements ConnectionToServer {
 	private ServerSettings generalSettingsFromNetwork;
 	private DisplaysConnectedServers displaysConnectedPlayers;
 	private final MySocket socket;
+	private final PlayerDisconnectedCallback disconnectCallback;
 
-	public SetupConnectionWithServer(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers, PlayerDisconnectedCallback playerDisconnected) {
+	public SetupConnectionWithServer(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers, PlayerDisconnectedCallback playerDisconnected,
+			PlayerDisconnectedCallback disconnectCallback) {
 		this.socket = socket;
 		this.displaysConnectedPlayers = displaysConnectedPlayers;
+		this.disconnectCallback = disconnectCallback;
 		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket, playerDisconnected);
 	}
 
@@ -43,7 +46,7 @@ public class SetupConnectionWithServer implements ConnectionToServer {
 	}
 
 	private void sendMySettings() {
-		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(this.socket);
+		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(this.socket, disconnectCallback);
 		LocalPlayerSettings localPlayerSettings = this.displaysConnectedPlayers.createLocalPlayerSettings();
 		RemoteSettings remoteSettings = new RemoteSettings(localPlayerSettings.getPlayerName());
 		new SendRemoteSettingsSender(networkSender).sendMessage(remoteSettings);

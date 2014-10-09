@@ -17,6 +17,7 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.server.ToClientConnector;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
@@ -109,7 +110,7 @@ public class ToClientConnectorTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.classUnderTest = new ToClientConnector(this.roomActivity, this.networkReceiver, this.sockets);
+		this.classUnderTest = new ToClientConnector(this.roomActivity, this.networkReceiver, this.sockets, mock(PlayerDisconnectedCallback.class));
 		when(this.networkReceiver.getGameDispatcher()).thenReturn(this.dispatcher);
 		when(this.roomActivity.getAllPlayersProperties()).thenReturn(Arrays.asList(new PlayerProperties(0, "my-player")));
 	}

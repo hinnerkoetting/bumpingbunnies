@@ -162,7 +162,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public void connectToServerSuccesfull(MySocket mmSocket) {
-		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this);
+		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this);
 		connectedToServerService.onConnectionToServer();
 	}
 

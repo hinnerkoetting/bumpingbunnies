@@ -47,6 +47,15 @@ public class NetworkMessageDistributor implements PlayerJoinListener {
 
 	@Override
 	public void playerLeftTheGame(Player p) {
+		NetworkSender sender = findSendThread(p);
+		sendThreads.remove(sender);
+	}
+
+	private NetworkSender findSendThread(Player p) {
+		for (NetworkSender sender : sendThreads)
+			if (sender.isConnectionToPlayer(p.getOpponent()))
+				return sender;
+		throw new IllegalArgumentException("Could not find sendthread for player " + p.id());
 	}
 
 	public void sendMessageExceptToOneSocket(JsonWrapper wrapper, MySocket incomingSocket) {

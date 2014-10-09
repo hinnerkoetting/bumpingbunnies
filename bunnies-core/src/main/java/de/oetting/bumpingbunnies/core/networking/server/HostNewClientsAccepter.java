@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.server;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
@@ -37,7 +36,6 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private final ServerSettings generalSettings;
 	private final PlayerDisconnectedCallback callback;
 	private PlayerJoinListener mainJoinListener;
-	private List<ToClientConnector> connectionToClientServices;
 
 	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, ServerSettings generalSettings,
 			PlayerDisconnectedCallback callback) {
@@ -46,7 +44,6 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 		this.world = world;
 		this.generalSettings = generalSettings;
 		this.callback = callback;
-		this.connectionToClientServices = new LinkedList<ToClientConnector>();
 	}
 
 	@Override
@@ -60,15 +57,12 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	public void cancel() {
 		this.broadcaster.cancel();
 		this.remoteCommunication.closeOpenConnections();
-		for (ToClientConnector cts : this.connectionToClientServices) {
-			cts.cancel();
-		}
 	}
 
 	@Override
 	public void clientConnectedSucessfull(MySocket socket) {
-		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher(callback));
-		this.connectionToClientServices.add(connectionToClientService);
+		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher(callback),
+				callback);
 		connectionToClientService.onConnectToClient(socket);
 	}
 
@@ -82,9 +76,9 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	}
 
 	private void signalPlayerToStartTheGame(MySocket socket) {
-		SimpleNetworkSender sender = new SimpleNetworkSender(MessageParserFactory.create(), socket);
+		SimpleNetworkSender sender = new SimpleNetworkSender(MessageParserFactory.create(), socket, callback);
 		new GameSettingSender(sender).sendMessage(this.generalSettings);
-		new StartGameSender(new SimpleNetworkSender(MessageParserFactory.create(), socket)).sendMessage("");
+		new StartGameSender(new SimpleNetworkSender(MessageParserFactory.create(), socket, callback)).sendMessage("");
 	}
 
 	@Override

@@ -28,9 +28,10 @@ public class GameMainFactory {
 
 	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer) {
 		PcGameStopper gameStopper = new PcGameStopper();
+		GameMain main = createGameMain(gameStopper, parameter, world);
 		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(gameStopper,
-				SocketStorage.getSingleton()));
-		GameMain main = createGameMain(gameStopper, parameter, world, networkMessageDistributor);
+				SocketStorage.getSingleton(), main));
+		main.setSendControl(networkMessageDistributor);
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration(), myPlayer, networkDispatcher,
 				networkMessageDistributor, main));
@@ -45,10 +46,11 @@ public class GameMainFactory {
 		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, new PcOpponentReceiverFactoryFactory());
 	}
 
-	private GameMain createGameMain(PcGameStopper gameStopper, GameStartParameter parameter, World world, NetworkMessageDistributor networkMessageDistributor) {
-		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, SocketStorage.getSingleton());
+	private GameMain createGameMain(PcGameStopper gameStopper, GameStartParameter parameter, World world) {
+		GameMain main = new GameMain(SocketStorage.getSingleton(), new DummyMusicPlayer());
+		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, SocketStorage.getSingleton(), main);
 		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory);
-		GameMain main = new GameMain(SocketStorage.getSingleton(), networkMessageDistributor, new DummyMusicPlayer(), networkSendThread);
+		main.setNetworkSendThread(networkSendThread);
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main);
 		newClientsAccepter.setMain(main);
 		main.setNewClientsAccepter(newClientsAccepter);

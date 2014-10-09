@@ -32,6 +32,7 @@ import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServe
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
+import de.oetting.bumpingbunnies.core.networking.messaging.playerDisconnected.PlayerDisconnectedMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
@@ -128,7 +129,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private void updateBytesPerSecond() {
-		new Thread(new Runnable() {
+		Thread updateBps = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -148,7 +149,9 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 					}
 				}
 			}
-		}).start();
+		});
+		updateBps.setDaemon(true);
+		updateBps.start();
 	}
 
 	public void broadcastReceived(InetAddress senderAddress) {
@@ -178,7 +181,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		this.tcpSocketToServer = mmSocket;
 		udpSocketToServer = UdpSocketFactory.singleton().create((TCPSocket) tcpSocketToServer, tcpSocketToServer.getOwner());
 		LOGGER.info("Connected to server %s", mmSocket);
-		connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this);
+		connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this);
 		connectedToServerService.onConnectionToServer();
 	}
 
@@ -222,6 +225,14 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		networkToGameDispatcher.addObserver(MessageId.SPAWN_POINT, messageWrapper -> updateSpawnpoint(messageWrapper));
 		networkToGameDispatcher.addObserver(MessageId.PLAYER_IS_REVIVED, messageWrapper -> updateIsRevived(messageWrapper));
 		networkToGameDispatcher.addObserver(MessageId.OTHER_PLAYER_PROPERTIES, messageWrapper -> addPlayerEntry(messageWrapper));
+		networkToGameDispatcher.addObserver(MessageId.PLAYER_DISCONNECTED, messageWrapper -> removelayerEntry(messageWrapper));
+	}
+
+	private void removelayerEntry(JsonWrapper messageWrapper) {
+		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
+		PlayerDisconnectedMessage message = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerDisconnectedMessage.class);
+
+		playerDisconnected(message.getOpponent());
 	}
 
 	private void addPlayerEntry(JsonWrapper messageWrapper) {
@@ -298,11 +309,11 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private SimpleNetworkSender createNetworkSender() {
-		return new SimpleNetworkSender(MessageParserFactory.create(), tcpSocketToServer);
+		return new SimpleNetworkSender(MessageParserFactory.create(), tcpSocketToServer, this);
 	}
 
 	private SimpleNetworkSender createUdpNetworkSender() {
-		return new SimpleNetworkSender(MessageParserFactory.create(), udpSocketToServer);
+		return new SimpleNetworkSender(MessageParserFactory.create(), udpSocketToServer, this);
 	}
 
 	@FXML
@@ -392,7 +403,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	private RoomEntry findPlayer(Opponent opponent) {
 		for (DetailRoomEntry entry : playersTable.getItems()) {
-			if (entry.getEntry().getPlayerName().equals(opponent.getIdentifier())) {
+			if (entry.getEntry().createOponent().equals(opponent.getIdentifier())) {
 				return entry.getEntry();
 			}
 		}

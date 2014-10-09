@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.RemoteSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.OtherPlayerClientIdSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SendClientPlayerIdSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
@@ -23,13 +24,16 @@ public class ToClientConnector {
 	private final AcceptsClientConnections clientConnectionsAcceptor;
 	private final NetworkReceiver networkReceiver;
 	private final SocketStorage sockets;
+	private final PlayerDisconnectedCallback disconnectCallback;
 	private MySocket socket;
 
-	public ToClientConnector(AcceptsClientConnections roomActivity, NetworkReceiver networkReceiver, SocketStorage sockets) {
+	public ToClientConnector(AcceptsClientConnections roomActivity, NetworkReceiver networkReceiver, SocketStorage sockets,
+			PlayerDisconnectedCallback disconnectCallback) {
 		super();
 		this.clientConnectionsAcceptor = roomActivity;
 		this.networkReceiver = networkReceiver;
 		this.sockets = sockets;
+		this.disconnectCallback = disconnectCallback;
 	}
 
 	public void onConnectToClient(MySocket socket) {
@@ -50,7 +54,7 @@ public class ToClientConnector {
 	}
 
 	private void manageConnectedClient(MySocket socket, RemoteSettings settings) {
-		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket);
+		SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket, disconnectCallback);
 		notifyAboutExistingPlayers(networkSender);
 		int nextPlayerId = getNextPlayerId();
 		PlayerProperties playerProperties = new PlayerProperties(nextPlayerId, settings.getRemotePlayerName());
@@ -58,14 +62,17 @@ public class ToClientConnector {
 		sendClientPlayer(networkSender, nextPlayerId);
 		int socketIndex = this.sockets.addSocket(socket);
 		this.clientConnectionsAcceptor.addPlayerEntry(socket, playerProperties, socketIndex);
+		networkReceiver.cancel();
 	}
 
 	private void notifyExistingClients(PlayerProperties playerProperties) {
 		LOGGER.info("Notifying existing clients about new player with id %d", playerProperties.getPlayerId());
-		List<MySocket> allOtherPlayers = this.sockets.getAllSockets();
-		for (MySocket otherPlayer : allOtherPlayers) {
-			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(otherPlayer);
-			new OtherPlayerClientIdSender(networkSender).sendMessage(playerProperties);
+		synchronized (sockets) {
+			List<MySocket> allOtherPlayers = this.sockets.getAllSockets();
+			for (MySocket otherPlayer : allOtherPlayers) {
+				SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(otherPlayer, disconnectCallback);
+				new OtherPlayerClientIdSender(networkSender).sendMessage(playerProperties);
+			}
 		}
 	}
 

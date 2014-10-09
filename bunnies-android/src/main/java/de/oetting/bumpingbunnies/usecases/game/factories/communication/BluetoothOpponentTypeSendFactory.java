@@ -6,12 +6,13 @@ import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.
 import de.oetting.bumpingbunnies.core.networking.factory.OpponentTypeSendFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.NetworkSendQueueThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class BluetoothOpponentTypeSendFactory implements OpponentTypeSendFactory {
 
 	@Override
-	public NetworkSender createNetworkSender(Player player, GameStopper activity, SocketStorage sockets) {
+	public NetworkSender createNetworkSender(Player player, GameStopper activity, SocketStorage sockets, PlayerDisconnectedCallback disconnectCallback) {
 		MySocket socket = sockets.findSocket(player.getOpponent());
 		return NetworkSendQueueThreadFactory.create(socket, activity);
 	}
