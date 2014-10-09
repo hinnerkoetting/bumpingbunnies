@@ -20,7 +20,7 @@ public interface ModelConstants {
 
 	int MOVEMENT_LIMIT = 1;
 	// X movement
-	int MOVEMENT = (int) (0.00004f * STANDARD_WORLD_SIZE);
+	int MAX_X_MOVEMENT = (int) (0.00004f * STANDARD_WORLD_SIZE);
 
 	// y Movement
 

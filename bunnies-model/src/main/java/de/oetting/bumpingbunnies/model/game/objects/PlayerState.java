@@ -6,6 +6,10 @@ package de.oetting.bumpingbunnies.model.game.objects;
  */
 public class PlayerState implements GameObjectState<PlayerState> {
 
+	public enum HorizontalMovementStatus {
+		MOVING_LEFT, MOVING_RIGHT, NOT_MOVING_HORIZONTAL
+	}
+
 	private final int id;
 	private long centerX;
 	private long centerY;
@@ -20,9 +24,11 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	private boolean facingLeft;
 	private boolean jumpingButtonPressed;
 	private boolean isDead;
+	private HorizontalMovementStatus horizontalMovementStatus;
 
 	public PlayerState(int id) {
 		this.id = id;
+		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
 	}
 
 	public PlayerState(PlayerState playerState) {
@@ -37,6 +43,7 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.facingLeft = playerState.facingLeft;
 		this.jumpingButtonPressed = playerState.jumpingButtonPressed;
 		this.isDead = playerState.isDead;
+		this.horizontalMovementStatus = playerState.horizontalMovementStatus;
 	}
 
 	public long getCenterX() {
@@ -135,17 +142,27 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		other.facingLeft = this.facingLeft;
 		other.jumpingButtonPressed = this.jumpingButtonPressed;
 		other.isDead = this.isDead;
+		other.horizontalMovementStatus = this.horizontalMovementStatus;
 	}
 
 	@Override
 	public String toString() {
-		return "PlayerState [id=" + this.id + ", centerX=" + this.centerX + ", centerY=" + this.centerY + ", movementX=" + this.movementX + ", movementY="
-				+ this.movementY + ", accelerationX=" + this.accelerationX + ", accelerationY=" + this.accelerationY + ", score=" + this.score
-				+ ", facingLeft=" + this.facingLeft + ", jumpingButtonPressed=" + this.jumpingButtonPressed + ", isDead=" + this.isDead + "]";
+		return "PlayerState [id=" + id + ", centerX=" + centerX + ", centerY=" + centerY + ", movementX=" + movementX + ", movementY=" + movementY
+				+ ", accelerationX=" + accelerationX + ", accelerationY=" + accelerationY + ", score=" + score + ", facingLeft=" + facingLeft
+				+ ", jumpingButtonPressed=" + jumpingButtonPressed + ", isDead=" + isDead + ", horizontalMovementStatus=" + horizontalMovementStatus + "]";
 	}
 
 	@Override
 	public PlayerState clone() {
 		return new PlayerState(this);
 	}
+
+	public void setHorizontalMovementStatus(HorizontalMovementStatus newStatus) {
+		horizontalMovementStatus = newStatus;
+	}
+
+	public HorizontalMovementStatus getHorizontalMovementStatus() {
+		return horizontalMovementStatus;
+	}
+
 }

@@ -9,6 +9,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
@@ -97,6 +98,9 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	@FXML
 	TextField playerStateCounterTextfield;
+
+	@FXML
+	ComboBox playerStateMovement;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
@@ -230,6 +234,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		state.setDead(deadCheckbox.isSelected());
 		state.setFacingLeft(facingLeftCheckbox.isSelected());
 		state.setJumpingButtonPressed(jumpingCheckbox.isSelected());
+		state.setHorizontalMovementStatus(PlayerState.HorizontalMovementStatus.valueOf((String) playerStateMovement.getSelectionModel().getSelectedItem()));
 		return state;
 	}
 
@@ -244,13 +249,13 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private Integer readMovementY() {
-		Double x = Double.valueOf(movementX.getText());
-		return (int) (x * ModelConstants.MOVEMENT_LIMIT);
+		Double y = Double.valueOf(movementY.getText());
+		return (int) (y * ModelConstants.MAX_X_MOVEMENT);
 	}
 
 	private Integer readMovementX() {
-		Double y = Double.valueOf(movementY.getText());
-		return (int) (y * ModelConstants.MOVEMENT_LIMIT);
+		Double x = Double.valueOf(movementX.getText());
+		return (int) (x * ModelConstants.MAX_X_MOVEMENT);
 	}
 
 	private Long readStateX() {

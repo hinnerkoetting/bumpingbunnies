@@ -1,10 +1,8 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-public class Player implements GameObject {
+import de.oetting.bumpingbunnies.model.game.objects.PlayerState.HorizontalMovementStatus;
 
-	enum HorizontalMovementStatus {
-		MOVING_LEFT, MOVING_RIGHT, NOT_MOVING_HORIZONTAL
-	}
+public class Player implements GameObject {
 
 	private final int speedFaktor;
 
@@ -17,7 +15,7 @@ public class Player implements GameObject {
 	private Player simulatedObject;
 
 	private Rect rect;
-	private HorizontalMovementStatus horizontalMovementStatus;
+
 	private int color;
 	private final Opponent opponent;
 
@@ -30,7 +28,6 @@ public class Player implements GameObject {
 		this.id = id;
 		this.halfHeight = ModelConstants.PLAYER_HEIGHT / 2;
 		this.halfWidth = ModelConstants.PLAYER_WIDTH / 2;
-		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
 		calculateRect();
 	}
 
@@ -43,7 +40,6 @@ public class Player implements GameObject {
 		this.name = player.name;
 		this.state = player.state.clone();
 		this.rect = player.rect.clone();
-		this.horizontalMovementStatus = player.horizontalMovementStatus;
 		this.color = player.color;
 		this.opponent = player.opponent.clone();
 	}
@@ -150,8 +146,8 @@ public class Player implements GameObject {
 
 	private int calculateNewMovementSpeedX() {
 		int newMovementSpeedX = this.state.getMovementX() + this.state.getAccelerationX();
-		if (Math.abs(newMovementSpeedX) > ModelConstants.MOVEMENT * this.speedFaktor) {
-			return (int) (Math.signum(newMovementSpeedX) * ModelConstants.MOVEMENT * this.speedFaktor);
+		if (Math.abs(newMovementSpeedX) > ModelConstants.MAX_X_MOVEMENT * this.speedFaktor) {
+			return (int) (Math.signum(newMovementSpeedX) * ModelConstants.MAX_X_MOVEMENT * this.speedFaktor);
 		} else {
 			return newMovementSpeedX;
 		}
@@ -284,25 +280,25 @@ public class Player implements GameObject {
 	}
 
 	public boolean isTryingToRemoveHorizontalMovement() {
-		return HorizontalMovementStatus.NOT_MOVING_HORIZONTAL.equals(this.horizontalMovementStatus);
+		return HorizontalMovementStatus.NOT_MOVING_HORIZONTAL.equals(this.state.getHorizontalMovementStatus());
 	}
 
 	public void setNotMoving() {
-		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
+		state.setHorizontalMovementStatus(HorizontalMovementStatus.NOT_MOVING_HORIZONTAL);
 	}
 
 	public void setMovingRight() {
-		this.horizontalMovementStatus = HorizontalMovementStatus.MOVING_RIGHT;
+		state.setHorizontalMovementStatus(HorizontalMovementStatus.MOVING_RIGHT);
 		this.state.setFacingLeft(false);
 	}
 
 	public void setMovingLeft() {
-		this.horizontalMovementStatus = HorizontalMovementStatus.MOVING_LEFT;
+		state.setHorizontalMovementStatus(HorizontalMovementStatus.MOVING_LEFT);
 		this.state.setFacingLeft(true);
 	}
 
 	public boolean isMovingLeft() {
-		return HorizontalMovementStatus.MOVING_LEFT.equals(this.horizontalMovementStatus);
+		return HorizontalMovementStatus.MOVING_LEFT.equals(this.state.getHorizontalMovementStatus());
 	}
 
 	public boolean isJumpingButtonPressed() {
@@ -311,13 +307,6 @@ public class Player implements GameObject {
 
 	public Opponent getOpponent() {
 		return this.opponent;
-	}
-
-	@Override
-	public String toString() {
-		return "Player [speedFaktor=" + speedFaktor + ", halfWidth=" + halfWidth + ", halfHeight=" + halfHeight + ", id=" + id + ", name=" + name + ", state="
-				+ state + ", simulatedObject=" + simulatedObject + ", rect=" + rect + ", horizontalMovementStatus=" + horizontalMovementStatus + ", color="
-				+ color + ", opponent=" + opponent + "]";
 	}
 
 	@Override
@@ -345,6 +334,12 @@ public class Player implements GameObject {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Player [speedFaktor=" + speedFaktor + ", halfWidth=" + halfWidth + ", halfHeight=" + halfHeight + ", id=" + id + ", name=" + name + ", state="
+				+ state + ", simulatedObject=" + simulatedObject + ", rect=" + rect + ", color=" + color + ", opponent=" + opponent + "]";
 	}
 
 }
