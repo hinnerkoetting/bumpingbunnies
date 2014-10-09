@@ -92,15 +92,13 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private CheckBox jumpingCheckbox;
 	@FXML
 	private CheckBox deadCheckbox;
+	@FXML
+	private TextField playerStateCounterTextfield;
+	@FXML
+	private ComboBox<String> playerStateMovement;
 
 	private ListenForBroadcastsThread listenForBroadcasts;
 	private MySocket socketToServer;
-
-	@FXML
-	TextField playerStateCounterTextfield;
-
-	@FXML
-	ComboBox playerStateMovement;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);

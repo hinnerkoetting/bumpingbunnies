@@ -1,7 +1,8 @@
 package de.oetting.bumpingbunnies.core.networking.client.factory;
 
+import java.io.IOException;
 import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.MulticastSocket;
 
 import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
@@ -12,9 +13,9 @@ public class ListenforBroadCastsThreadFactory {
 
 	public static ListenForBroadcastsThread create(OnBroadcastReceived callback) {
 		try {
-			DatagramSocket udpSocket = new DatagramSocket(NetworkConstants.BROADCAST_PORT);
+			DatagramSocket udpSocket = new MulticastSocket(NetworkConstants.BROADCAST_PORT);
 			return new ListenForBroadcastsThread(udpSocket, callback);
-		} catch (SocketException e) {
+		} catch (IOException e) {
 			throw new CouldNotOpenBroadcastSocketException(e);
 		}
 	}
