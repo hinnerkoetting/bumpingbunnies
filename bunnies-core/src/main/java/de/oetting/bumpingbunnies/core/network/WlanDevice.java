@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.core.network;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -38,6 +39,15 @@ public class WlanDevice implements ServerDevice {
 		SocketAddress socketAddress = new InetSocketAddress(adress, remotePort);
 		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, localPort, NetworkConstants.SERVER_WLAN_PORT);
 		Socket socket = new Socket();
+		bindToLocalPort(localPort, socket);
 		return new TCPSocket(socket, socketAddress, Opponent.createOpponent("wlan" + adress, OpponentType.WLAN), settings);
+	}
+
+	private void bindToLocalPort(int localPort, Socket socket) {
+		try {
+			socket.bind(new InetSocketAddress(localPort));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

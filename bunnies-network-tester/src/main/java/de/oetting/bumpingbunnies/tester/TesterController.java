@@ -171,12 +171,14 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	public void launchGame(GeneralSettings generalSettingsFromNetwork, boolean asHost) {
 		connectedToServerService.cancel();
-		EasyNetworkToGameDispatcher networkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
-		NetworkReceiveThread receiverTcpThread = new NetworkReceiveThread(new Gson(), networkToGameDispatcher, tcpSocketToServer);
-		NetworkReceiveThread receiverUdpThread = new NetworkReceiveThread(new Gson(), networkToGameDispatcher, udpSocketToServer);
+		EasyNetworkToGameDispatcher tcpNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
+		EasyNetworkToGameDispatcher updNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
+		NetworkReceiveThread receiverTcpThread = new NetworkReceiveThread(new Gson(), tcpNetworkToGameDispatcher, tcpSocketToServer);
+		NetworkReceiveThread receiverUdpThread = new NetworkReceiveThread(new Gson(), updNetworkToGameDispatcher, udpSocketToServer);
+		addTcpListeners(tcpNetworkToGameDispatcher);
+		addUdpListeners(updNetworkToGameDispatcher);
 		receiverTcpThread.start();
 		receiverUdpThread.start();
-		addTcpListeners(networkToGameDispatcher);
 	}
 
 	private void addTcpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {
@@ -184,6 +186,17 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		networkToGameDispatcher.addObserver(MessageId.PLAYER_IS_DEAD_MESSAGE, messageWrapper -> updateIsDead(messageWrapper));
 		networkToGameDispatcher.addObserver(MessageId.SPAWN_POINT, messageWrapper -> updateSpawnpoint(messageWrapper));
 		networkToGameDispatcher.addObserver(MessageId.PLAYER_IS_REVIVED, messageWrapper -> updateIsRevived(messageWrapper));
+	}
+
+	private void addUdpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {
+		networkToGameDispatcher.addObserver(MessageId.SEND_PLAYER_STATE, messageWrapper -> updatePlayerState(messageWrapper));
+	}
+
+	private void updatePlayerState(JsonWrapper messageWrapper) {
+		PlayerStateMessage message = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerStateMessage.class);
+		DetailRoomEntry roomEntry = findEntry(message.getPlayerState().getId());
+		roomEntry.getPlayer().applyState(message.getPlayerState());
+		updateTableItem(roomEntry);
 	}
 
 	private void updateScore(JsonWrapper messageWrapper) {
