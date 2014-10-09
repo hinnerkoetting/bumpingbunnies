@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.pc.main;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
@@ -38,7 +38,6 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.GeneralSettings;
@@ -48,10 +47,8 @@ import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
-import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
@@ -86,8 +83,11 @@ public class BunniesMain extends Application {
 	public BunniesMain() {
 		LocalSettings localSettings = new LocalSettings(InputConfiguration.KEYBOARD, 1, true, false);
 		GeneralSettings generalSettings = new GeneralSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
-		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"), Opponent
-				.createOpponent("Player2", OpponentType.AI)));
+		// List<OpponentConfiguration> opponents = Arrays.asList(new
+		// OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1,
+		// "Player 2"), Opponent
+		// .createOpponent("Player2", OpponentType.AI)));
+		List<OpponentConfiguration> opponents = new ArrayList<>();
 		LocalPlayerSettings localPlayerSettings = new LocalPlayerSettings("Player 1");
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
 		parameter = GameParameterFactory.createSingleplayerParameter(configuration);

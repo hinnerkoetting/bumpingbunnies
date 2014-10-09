@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
@@ -24,6 +25,7 @@ import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.ToServerConnector;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDead;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
@@ -41,7 +43,9 @@ import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
+import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer {
 
@@ -63,12 +67,36 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private TextField spawnpointY;
 	@FXML
 	private TextField playerScoreIdTextfield;
+	@FXML
+	private TextField playerScoreTextfield;
+	@FXML
+	private TextField playerStateIdTextfield;
+	@FXML
+	private TextField playerX;
+	@FXML
+	private TextField playerY;
+	@FXML
+	private TextField movementX;
+	@FXML
+	private TextField movementY;
+	@FXML
+	private TextField accelerationX;
+	@FXML
+	private TextField accelerationY;
+	@FXML
+	private TextField scoreTextfield;
+	@FXML
+	private CheckBox facingLeftCheckbox;
+	@FXML
+	private CheckBox jumpingCheckbox;
+	@FXML
+	private CheckBox deadCheckbox;
 
 	private ListenForBroadcastsThread listenForBroadcasts;
 	private MySocket socketToServer;
 
 	@FXML
-	TextField playerScoreTextfield;
+	TextField playerStateCounterTextfield;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
@@ -176,5 +204,62 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void onButtonPlayerScore() {
 		PlayerScoreMessage message = new PlayerScoreMessage(Integer.valueOf(playerScoreIdTextfield.getText()), Integer.valueOf(playerScoreTextfield.getText()));
 		new PlayerScoreSender(createNetworkSender()).sendMessage(message);
+	}
+
+	@FXML
+	public void onSendStateButton() {
+		PlayerState state = extractPlayerState();
+		PlayerStateMessage message = new PlayerStateMessage(getCounterAndIncreate(), state);
+		createNetworkSender().sendMessage(MessageId.SEND_PLAYER_STATE, message);
+	}
+
+	private long getCounterAndIncreate() {
+		long counter = Long.valueOf(playerStateCounterTextfield.getText());
+		playerStateCounterTextfield.setText(Long.toString(counter + 1));
+		return counter;
+	}
+
+	private PlayerState extractPlayerState() {
+		PlayerState state = new PlayerState(Integer.valueOf(playerStateIdTextfield.getText()));
+		state.setAccelerationX(readAccelerationX());
+		state.setAccelerationY(readAccelerationY());
+		state.setMovementX(readMovementX());
+		state.setMovementY(readMovementY());
+		state.setCenterX(readStateX());
+		state.setCenterY(readStateY());
+		state.setDead(deadCheckbox.isSelected());
+		state.setFacingLeft(facingLeftCheckbox.isSelected());
+		state.setJumpingButtonPressed(jumpingCheckbox.isSelected());
+		return state;
+	}
+
+	private Integer readAccelerationY() {
+		Double y = Double.valueOf(accelerationY.getText());
+		return (int) (y * ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
+	}
+
+	private Integer readAccelerationX() {
+		Double x = Double.valueOf(accelerationX.getText());
+		return (int) (x * ModelConstants.ACCELERATION_X_WALL);
+	}
+
+	private Integer readMovementY() {
+		Double x = Double.valueOf(movementX.getText());
+		return (int) (x * ModelConstants.MOVEMENT_LIMIT);
+	}
+
+	private Integer readMovementX() {
+		Double y = Double.valueOf(movementY.getText());
+		return (int) (y * ModelConstants.MOVEMENT_LIMIT);
+	}
+
+	private Long readStateX() {
+		Double x = Double.valueOf(playerX.getText());
+		return (long) (ModelConstants.STANDARD_WORLD_SIZE * x);
+	}
+
+	private Long readStateY() {
+		Double y = Double.valueOf(playerY.getText());
+		return (long) (ModelConstants.STANDARD_WORLD_SIZE * y);
 	}
 }

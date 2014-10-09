@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.CheckBox?>
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1" vgap="10" hgap="10"
 	fx:controller="de.oetting.bumpingbunnies.tester.TesterController">
@@ -47,15 +48,17 @@
 	<Button onAction="#onButtonConnect" text="Connect"
 		GridPane.rowIndex="2" />
 
-	<AnchorPane GridPane.rowIndex="3"
+	<AnchorPane GridPane.rowIndex="3" GridPane.columnSpan="2"
 		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
+		<Label text="Name" AnchorPane.leftAnchor="5" AnchorPane.topAnchor="2"/>
 		<TextField fx:id="myPlayerNameTextfield" text="Test"
-			GridPane.rowIndex="3" AnchorPane.topAnchor="2"/>
+			GridPane.rowIndex="3" AnchorPane.topAnchor="2" AnchorPane.leftAnchor="60"/>
 		<Button onAction="#onButtonSendRemoteSettings" text="Send remote settings"
 			disable="true" AnchorPane.topAnchor="2" AnchorPane.rightAnchor="0"/>
 	</AnchorPane>
 
-	<AnchorPane GridPane.rowIndex="4"
+	<!-- stop game -->
+	<AnchorPane GridPane.rowIndex="4" GridPane.columnSpan="2"
 		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
 		<Label text="Stop game" AnchorPane.topAnchor="2" />
 		<Button onAction="#onButtonStop" text="Stop game"
@@ -64,16 +67,17 @@
 	</AnchorPane>
 
 
-	<AnchorPane GridPane.rowIndex="5"
+	<!--Kill Player -->
+	<AnchorPane GridPane.rowIndex="5" GridPane.columnSpan="2"
 		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
-		<Label text="Player ID" AnchorPane.topAnchor="2" />
+		<Label text="Player ID" AnchorPane.topAnchor="2" AnchorPane.leftAnchor="5"/>
 		<TextField fx:id="killPlayerIdTextfield" text="1"
-			AnchorPane.topAnchor="2" />
+			AnchorPane.topAnchor="2" AnchorPane.leftAnchor="60" />
 		<Button onAction="#onButtonKillPlayer" text="Kill player"
 			AnchorPane.rightAnchor="0" AnchorPane.topAnchor="2"/>
 	</AnchorPane>
 
-	<GridPane GridPane.rowIndex="6"
+	<GridPane GridPane.rowIndex="6" GridPane.columnSpan="2"
 		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
 		<Label text="Player ID" GridPane.columnIndex="0" />
 		<TextField fx:id="sendSpawnpointPlayerId" text="1"
@@ -89,7 +93,7 @@
 	</GridPane>
 
 	<!-- Score -->
-	<GridPane GridPane.rowIndex="7"
+	<GridPane GridPane.rowIndex="7" GridPane.columnSpan="2"
 		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
 		<Label text="Player ID" AnchorPane.topAnchor="2"  />
 		<TextField fx:id="playerScoreIdTextfield" text="1"
@@ -102,11 +106,17 @@
 	</GridPane>
 	
 	<!-- Playerstate -->
-	<GridPane GridPane.rowIndex="8" 
+	<GridPane GridPane.rowIndex="8"  GridPane.columnSpan="2"
 		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
-		<Label text="Player ID" AnchorPane.topAnchor="2"  />
+		<Label text="Player ID"/>
 		<TextField fx:id="playerStateIdTextfield" text="1"
 			AnchorPane.topAnchor="2" GridPane.columnIndex="1"/>
+			
+		<Label text="Counter"  GridPane.rowIndex="1"/>
+		<TextField fx:id="playerStateCounterTextfield" text="0"
+			GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+			
+			
 		<Label text="Center X" AnchorPane.topAnchor="2"  GridPane.columnIndex="2"/>
 		<TextField fx:id="playerX" text="1"
 			AnchorPane.topAnchor="2" GridPane.columnIndex="3"/>
@@ -121,13 +131,23 @@
 		<Label text="Movement Y" AnchorPane.topAnchor="2" GridPane.rowIndex="1"  GridPane.columnIndex="4"/>
 		<TextField fx:id="movementY" text="1" GridPane.rowIndex="1"
 			AnchorPane.topAnchor="2" GridPane.columnIndex="5"/>
-		<Label text="Movement Y" AnchorPane.topAnchor="2" GridPane.rowIndex="2"  GridPane.columnIndex="2"/>
+			
+		<Label text="Acceleration X" AnchorPane.topAnchor="2" GridPane.rowIndex="2"  GridPane.columnIndex="2"/>
 		<TextField fx:id="accelerationX" text="1" GridPane.rowIndex="2"
 			AnchorPane.topAnchor="2" GridPane.columnIndex="3"/>
-		<Label text="Movement Y" AnchorPane.topAnchor="2" GridPane.rowIndex="2"  GridPane.columnIndex="4"/>
+		<Label text="Acceleration Y" AnchorPane.topAnchor="2" GridPane.rowIndex="2"  GridPane.columnIndex="4"/>
 		<TextField fx:id="accelerationY" text="1" GridPane.rowIndex="2"
 			AnchorPane.topAnchor="2" GridPane.columnIndex="5"/>
-			
+	
+				
+		<Label text="Score" GridPane.rowIndex="0" GridPane.columnIndex="6"/>
+		<TextField text="0" GridPane.columnIndex="7" fx:id="scoreTextfield"/>
+		
+		<CheckBox text="Facing left" fx:id="facingLeftCheckbox" GridPane.rowIndex="1" GridPane.columnIndex="6" GridPane.columnSpan="2"/>
+		<CheckBox text="Jumping" fx:id="jumpingCheckbox" GridPane.rowIndex="2" GridPane.columnIndex="6" GridPane.columnSpan="2"/>
+		<CheckBox text="Dead" fx:id="deadCheckbox" GridPane.rowIndex="3" GridPane.columnIndex="6" GridPane.columnSpan="2"/>
+		
+		<Button text="Send" onAction="#onSendStateButton" GridPane.rowIndex="1"/>
 		
 	</GridPane>
 
