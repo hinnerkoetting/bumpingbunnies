@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.networking.init;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
-import de.oetting.bumpingbunnies.core.networking.client.ToServerConnector;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -13,7 +13,7 @@ public class DefaultConnectionEstablisher implements ConnectionEstablisher {
 	private final SocketFactory serverSocketFactory;
 	private final AcceptsClientConnections acceptsClientConnections;
 	private final ConnectsToServer connectsToServer;
-	private ToServerConnector connectThread;
+	private ConnectionToServerEstablisher connectThread;
 	private AcceptThread acceptThread;
 
 	public DefaultConnectionEstablisher(AcceptsClientConnections acceptsClientConnections, ConnectsToServer connectsToServer, SocketFactory serverSocketFactory) {
@@ -44,7 +44,7 @@ public class DefaultConnectionEstablisher implements ConnectionEstablisher {
 
 	@Override
 	public void connectToServer(final ServerDevice device) {
-		connectThread = new ToServerConnector(serverSocketFactory.createClientSocket(device), connectsToServer);
+		connectThread = new ConnectionToServerEstablisher(serverSocketFactory.createClientSocket(device), connectsToServer);
 		connectThread.start();
 	}
 

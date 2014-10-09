@@ -19,15 +19,15 @@ import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 
-public class ConnectionToServerService implements ConnectionToServer {
+public class SetupConnectionWithServer implements ConnectionToServer {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionToServerService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SetupConnectionWithServer.class);
 	private final NetworkReceiver networkReceiver;
 	private GeneralSettings generalSettingsFromNetwork;
 	private DisplaysConnectedServers displaysConnectedPlayers;
 	private final MySocket socket;
 
-	public ConnectionToServerService(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers) {
+	public SetupConnectionWithServer(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers) {
 		this.socket = socket;
 		this.displaysConnectedPlayers = displaysConnectedPlayers;
 		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket);
@@ -58,11 +58,11 @@ public class ConnectionToServerService implements ConnectionToServer {
 	}
 
 	public void addOtherPlayer(PlayerProperties object) {
-		addPlayerEntry(ConnectionToServerService.this.socket, object, 0);
+		addPlayerEntry(SetupConnectionWithServer.this.socket, object, 0);
 	}
 
 	public void onReceiveGameSettings(GeneralSettings message) {
-		ConnectionToServerService.this.generalSettingsFromNetwork = message;
+		SetupConnectionWithServer.this.generalSettingsFromNetwork = message;
 	}
 
 	public void onReceiveStartGame() {

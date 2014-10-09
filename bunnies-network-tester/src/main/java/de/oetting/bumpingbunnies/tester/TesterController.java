@@ -19,11 +19,11 @@ import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
-import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
+import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
-import de.oetting.bumpingbunnies.core.networking.client.ToServerConnector;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
@@ -120,7 +120,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		ReadOnlyObjectProperty<Host> selectedItem = broadcastTable.getSelectionModel().selectedItemProperty();
 		SocketFactory factory = new WlanSocketFactory();
 		WlanDevice wlanDevice = new WlanDevice(selectedItem.getValue().getAddress());
-		ToServerConnector connectToServerThread = new ToServerConnector(factory.createClientSocket(wlanDevice), this);
+		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(factory.createClientSocket(wlanDevice), this);
 		connectToServerThread.start();
 	}
 
@@ -131,23 +131,8 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void connectToServerSuccesfull(MySocket mmSocket) {
 		this.socketToServer = mmSocket;
 		LOGGER.info("Connected to server %s", mmSocket);
-		ConnectionToServerService connectedToServerService = new ConnectionToServerService(mmSocket, this);
+		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this);
 		connectedToServerService.onConnectionToServer();
-
-		// new Thread(new LogMessagesFromSocket(mmSocket)).start();
-
-		// SimpleNetworkSender sender = new
-		// SimpleNetworkSender(MessageParserFactory.create(), mmSocket);
-		// SendRemoteSettingsSender remoteSettingsSender = new
-		// SendRemoteSettingsSender(sender);
-		// RemoteSettings remoteSettings = new RemoteSettings(new
-		// FreePortFinder().findFreePort(), "test");
-		// remoteSettingsSender.sendMessage(remoteSettings);
-		// PlayerStateSender stateSender = new PlayerStateSender(sender);
-		// Player myPlayer = new Player(1, "test", 1, new Opponent("",
-		// OpponentType.LOCAL_PLAYER));
-		// myPlayer.setCenterX(ModelConstants.STANDARD_WORLD_SIZE / 2);
-		// stateSender.sendState(myPlayer);
 	}
 
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {

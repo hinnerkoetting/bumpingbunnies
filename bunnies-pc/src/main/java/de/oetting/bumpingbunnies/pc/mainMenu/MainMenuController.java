@@ -21,8 +21,8 @@ import de.oetting.bumpingbunnies.core.network.RoomEntry;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
-import de.oetting.bumpingbunnies.core.networking.client.ToServerConnector;
-import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
+import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
@@ -150,7 +150,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	public void onButtonConnect() {
 		WlanDevice wlanDevice = new WlanDevice(hostsTable.getSelectionModel().getSelectedItem().getAddress());
 		MySocket socket = wlanDevice.createClientSocket();
-		ToServerConnector connectToServerThread = new ToServerConnector(socket, this);
+		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(socket, this);
 		connectToServerThread.start();
 	}
 
@@ -161,7 +161,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public void connectToServerSuccesfull(MySocket mmSocket) {
-		ConnectionToServerService connectedToServerService = new ConnectionToServerService(mmSocket, this);
+		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this);
 		connectedToServerService.onConnectionToServer();
 	}
 

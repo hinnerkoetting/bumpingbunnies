@@ -38,7 +38,7 @@ import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
-import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerService;
+import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
@@ -353,7 +353,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		this.connectedToServerService = new ConnectionToServerService(socket, this);
+		this.connectedToServerService = new SetupConnectionWithServer(socket, this);
 		this.connectedToServerService.onConnectionToServer();
 	}
 

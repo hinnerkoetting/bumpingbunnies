@@ -6,13 +6,13 @@ import de.oetting.bumpingbunnies.exceptions.IORuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class ToServerConnector extends Thread {
+public class ConnectionToServerEstablisher extends Thread {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ToServerConnector.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionToServerEstablisher.class);
 	private final MySocket mmSocket;
 	private final ConnectsToServer activity;
 
-	public ToServerConnector(MySocket mmSocket, ConnectsToServer connectToServerCallback) {
+	public ConnectionToServerEstablisher(MySocket mmSocket, ConnectsToServer connectToServerCallback) {
 		super("Connect to Server thread");
 		this.activity = connectToServerCallback;
 		this.mmSocket = mmSocket;
