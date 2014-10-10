@@ -36,4 +36,5 @@ public class EasyNetworkToGameDispatcher extends NetworkToGameDispatcher {
 	public void playerWasDisconnected(Opponent owner) {
 		callback.playerDisconnected(owner);
 	}
+
 }

@@ -39,7 +39,9 @@ public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactor
 	public List<NetworkReceiver> createReceivingThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, int localPort) {
 		UdpSocketSettings socketSettings = new UdpSocketSettings(null, localPort, -1);
 		UdpSocket listeningSocket = new UdpSocketFactory().createListeningSocket(socketSettings);
-		return Arrays.asList((NetworkReceiver) createNormalSocketNetworkReceiver(networkDispatcher, sendControl, listeningSocket));
+		NetworkReceiver networkReceiver = createNormalSocketNetworkReceiver(networkDispatcher, sendControl, listeningSocket);
+		networkReceiver.start();
+		return Arrays.asList(networkReceiver);
 	}
 
 }

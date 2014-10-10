@@ -5,11 +5,6 @@ import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 
 public class ResetToScorePoint {
 
-	public static void resetPlayerToSpawnPoint(SpawnPointGenerator spawnPointGenerator, Player playerToReset) {
-		SpawnPoint spawnPoint = spawnPointGenerator.nextSpawnPoint();
-		resetPlayerToSpawnPoint(spawnPoint, playerToReset);
-	}
-
 	public static void resetPlayerToSpawnPoint(SpawnPoint spawnPoint, Player playerToReset) {
 		playerToReset.setCenterX(spawnPoint.getX());
 		playerToReset.setCenterY(spawnPoint.getY());
