@@ -82,4 +82,14 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	public boolean isFastSocketPossible() {
 		return false;
 	}
+
+	@Override
+	public String getRemoteDescription() {
+		return cachedSocket.getRemoteDescription();
+	}
+
+	@Override
+	public String getLocalDescription() {
+		return cachedSocket.getLocalDescription();
+	}
 }

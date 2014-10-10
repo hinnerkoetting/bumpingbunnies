@@ -16,4 +16,8 @@ public interface MySocket {
 
 	Opponent getOwner();
 
+	String getRemoteDescription();
+
+	String getLocalDescription();
+
 }

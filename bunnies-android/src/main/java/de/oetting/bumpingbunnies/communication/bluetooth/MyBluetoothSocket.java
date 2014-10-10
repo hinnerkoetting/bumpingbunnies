@@ -62,4 +62,14 @@ public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 		return false;
 	}
 
+	@Override
+	public String getRemoteDescription() {
+		return socket.getRemoteDevice().getAddress();
+	}
+
+	@Override
+	public String getLocalDescription() {
+		return "Bluetooth";
+	}
+
 }

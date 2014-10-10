@@ -91,4 +91,14 @@ public class TCPSocket extends AbstractSocket implements MySocket {
 		return "TCPSocket [socket=" + socket + ", address=" + address + "]";
 	}
 
+	@Override
+	public String getRemoteDescription() {
+		return socket.getInetAddress().getHostAddress() + ":" + socket.getPort();
+	}
+
+	@Override
+	public String getLocalDescription() {
+		return socket.getLocalAddress().getHostAddress() + ":" + socket.getLocalPort();
+	}
+
 }

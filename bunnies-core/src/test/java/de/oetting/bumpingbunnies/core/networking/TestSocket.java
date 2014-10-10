@@ -58,4 +58,14 @@ public class TestSocket extends AbstractSocket {
 		return false;
 	}
 
+	@Override
+	public String getRemoteDescription() {
+		return "TEST";
+	}
+
+	@Override
+	public String getLocalDescription() {
+		return "TEST";
+	}
+
 }

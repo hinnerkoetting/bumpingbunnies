@@ -88,4 +88,14 @@ public class UdpSocket implements MySocket {
 			super(throwable);
 		}
 	}
+
+	@Override
+	public String getRemoteDescription() {
+		return socket.getInetAddress().getHostAddress() + ":" + socket.getPort();
+	}
+
+	@Override
+	public String getLocalDescription() {
+		return socket.getLocalAddress().getHostAddress() + ":" + socket.getLocalPort();
+	}
 }

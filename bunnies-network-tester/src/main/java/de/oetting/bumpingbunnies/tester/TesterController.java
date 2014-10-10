@@ -123,6 +123,12 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	private BytePerSecondMeasurer bpsMeasurer = new BytePerSecondMeasurer(System.currentTimeMillis());
 
+	@FXML
+	TextField localAddressTextfield;
+
+	@FXML
+	TextField remoteAddressTextfield;
+
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
 		listenForBroadcasts.start();
@@ -184,6 +190,18 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		LOGGER.info("Connected to server %s", mmSocket);
 		connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this);
 		connectedToServerService.onConnectionToServer();
+		setLocalAndRemoteInformation(mmSocket);
+	}
+
+	private void setLocalAndRemoteInformation(MySocket mmSocket) {
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				remoteAddressTextfield.setText(mmSocket.getRemoteDescription());
+				localAddressTextfield.setText(mmSocket.getLocalDescription());
+			}
+		});
 	}
 
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
@@ -192,8 +210,8 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void addPlayerEntry(RoomEntry entry) {
-		Player player = new Player(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(), -1, OpponentFactory.createRemoteOpponent(
-				entry.getPlayerName(), OpponentType.LOCAL_PLAYER));
+		Player player = new Player(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(), -1,
+				OpponentFactory.createRemoteOpponent(entry.getPlayerName(), OpponentType.LOCAL_PLAYER));
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
 

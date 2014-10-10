@@ -93,6 +93,10 @@
 		style="-fx-border: 2px solid; -fx-border-color: gray; -fx-padding: 5px">
 		<Label text="Incoming Bytes"/>
 		<TextField editable="false" fx:id="incmingBytesPerSecondTextfield" GridPane.columnIndex="1"/>
+		<Label text="Local Address" GridPane.rowIndex="1"/>
+		<TextField editable="false" fx:id="localAddressTextfield" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+		<Label text="Remote Address" GridPane.rowIndex="2"/>
+		<TextField editable="false" fx:id="remoteAddressTextfield" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 	</GridPane>
 
 	<Button onAction="#onButtonConnect" text="Connect"
