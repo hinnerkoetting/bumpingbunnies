@@ -15,12 +15,15 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconnectedCallback {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameMain.class);
 	private final SocketStorage sockets;
 	private final PlayerJoinObservable playerObservable;
 	private final MusicPlayer musicPlayer;
@@ -115,6 +118,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	@Override
 	public void newPlayerJoined(Player player) {
+		LOGGER.info("Player joined %d", player.id());
 		this.world.getAllPlayer().add(player);
 		this.playerObservable.playerJoined(player);
 	}

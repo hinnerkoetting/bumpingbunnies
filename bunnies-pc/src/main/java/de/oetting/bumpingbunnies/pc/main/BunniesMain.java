@@ -22,7 +22,7 @@ import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
-import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
@@ -209,7 +209,7 @@ public class BunniesMain extends Application {
 	}
 
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
-		DefaultDrawablesFactory factory = new DefaultDrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
+		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
 				new PcGameObjectDrawableFactory(), new PcPlayerDrawableFactory());
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, new CanvasCoordinateTranslator(new PcCanvasDelegate(), coordinatesCalculation));
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);

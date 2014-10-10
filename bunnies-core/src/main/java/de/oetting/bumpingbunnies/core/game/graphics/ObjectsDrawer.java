@@ -48,6 +48,7 @@ public class ObjectsDrawer implements PlayerJoinListener {
 			for (Player p : toBeUpdatedPlayers) {
 				Drawable playerDrawer = this.factory.createPlayerDrawable(p, canvasDelegate);
 				this.allDrawables.add(playerDrawer);
+				this.allDrawables.add(factory.createScoreDrawer(p));
 			}
 			toBeUpdatedPlayers.clear();
 		}
@@ -71,29 +72,19 @@ public class ObjectsDrawer implements PlayerJoinListener {
 		if (toBeUpdatedPlayers.contains(p)) {
 			toBeUpdatedPlayers.remove(p);
 		} else {
-			Drawable drawer = findDrawerPlayable(p);
-			this.allDrawables.remove(drawer);
+			List<Drawable> drawers = findDrawerForPlayer(p);
+			this.allDrawables.removeAll(drawers);
 		}
 	}
 
-	private Drawable findDrawerPlayable(Player p) {
-		Drawable drawablefromAll = findDrawerPlayable(this.allDrawables, p);
-		if (drawablefromAll != null) {
-			return drawablefromAll;
-		}
-		throw new PlayerDoesNotExist();
-	}
-
-	private Drawable findDrawerPlayable(List<Drawable> drawables, Player search) {
-		for (Drawable d : drawables) {
-			if (d.drawsPlayer(search)) {
-				return d;
+	private List<Drawable> findDrawerForPlayer(Player p) {
+		List<Drawable> allDrawablesForPlayer = new ArrayList<Drawable>();
+		for (Drawable d : allDrawables) {
+			if (d.drawsPlayer(p)) {
+				allDrawablesForPlayer.add(d);
 			}
 		}
-		return null;
-	}
-
-	public class PlayerDoesNotExist extends RuntimeException {
+		return allDrawablesForPlayer;
 	}
 
 }

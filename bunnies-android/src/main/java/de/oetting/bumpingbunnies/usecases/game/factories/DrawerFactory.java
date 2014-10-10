@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 import android.content.Context;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
-import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ImageMirroror;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
@@ -27,7 +27,7 @@ public class DrawerFactory {
 			CoordinatesCalculation calculations) {
 
 		AndroidPlayerDrawableFactory playerDrawerFactory = createPlayerDrawerFactory();
-		DrawablesFactory drawFactory = new DefaultDrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(context.getResources(),
+		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(context.getResources(),
 				configuration.getLocalSettings().isBackground()), new AndroidGameObjectsDrawableFactory(), playerDrawerFactory);
 
 		CanvasDelegate canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasDelegate(), calculations);

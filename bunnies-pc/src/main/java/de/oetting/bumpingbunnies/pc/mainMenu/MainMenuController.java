@@ -180,8 +180,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	@Override
 	public void addMyPlayerRoomEntry(int myPlayerId) {
 		LocalPlayerSettings settings = createLocalPlayerSettings();
-		PlayerProperties localPlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
-		playersTable.getItems().add(new LocalPlayerEntry(localPlayerProperties));
+		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
+		playersTable.getItems().add(new LocalPlayerEntry(singlePlayerProperties));
 	}
 
 	@Override

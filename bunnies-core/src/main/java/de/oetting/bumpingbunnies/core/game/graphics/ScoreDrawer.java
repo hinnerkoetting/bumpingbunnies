@@ -28,6 +28,6 @@ public class ScoreDrawer implements Drawable {
 
 	@Override
 	public boolean drawsPlayer(Player p) {
-		return false;
+		return player.equals(p);
 	}
 }

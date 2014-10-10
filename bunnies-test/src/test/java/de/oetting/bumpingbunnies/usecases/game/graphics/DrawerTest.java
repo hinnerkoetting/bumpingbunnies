@@ -18,8 +18,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
-import de.oetting.bumpingbunnies.core.game.graphics.DefaultDrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
+import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
@@ -32,7 +32,7 @@ public class DrawerTest {
 
 	private ObjectsDrawer fixture;
 	@Mock
-	private DefaultDrawablesFactory factory;
+	private DrawablesFactory factory;
 	@Mock
 	private Drawable playerDrawable;
 	@Mock
@@ -53,12 +53,6 @@ public class DrawerTest {
 		whenPlayerLeaves(this.player);
 		this.fixture.draw(mock(CanvasWrapper.class));
 		thenDrawableIsNotDrawn();
-	}
-
-	@Test(expected = ObjectsDrawer.PlayerDoesNotExist.class)
-	public void playerLeaves_givenPlayerDoesNotExist_shouldThrowException() {
-		this.player = createOpponentPlayer();
-		whenPlayerLeaves(this.player);
 	}
 
 	private void thenDrawableIsNotDrawn() {
