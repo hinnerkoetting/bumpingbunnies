@@ -36,7 +36,7 @@ public class GameThreadFactory {
 
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(callback);
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
-		initInputServices(main, activity, world, networkDispatcher, sendControl);
+		initInputServices(main, activity, world, networkDispatcher, sendControl, configuration);
 
 		PlayerMovementCalculationFactory factory = createMovementCalculationFactory(context, world);
 
@@ -51,9 +51,9 @@ public class GameThreadFactory {
 	}
 
 	private static void initInputServices(GameMain main, GameActivity activity, World world, NetworkToGameDispatcher networkDispatcher,
-			NetworkMessageDistributor sendControl) {
+			NetworkMessageDistributor sendControl, Configuration configuration) {
 		addAllNetworkListeners(activity, networkDispatcher, world);
-		main.setReceiveControl(createNetworkReceiveThreads(networkDispatcher, sendControl));
+		main.setReceiveControl(createNetworkReceiveThreads(networkDispatcher, sendControl, configuration));
 	}
 
 	private static void addAllNetworkListeners(GameActivity activity, NetworkToGameDispatcher networkDispatcher, World world) {
@@ -64,8 +64,9 @@ public class GameThreadFactory {
 		new SpawnPointReceiver(networkDispatcher, world);
 	}
 
-	private static NetworkReceiveControl createNetworkReceiveThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl) {
-		return NetworkReceiveControlFactory.create(networkDispatcher, sendControl, new AndroidOpponentTypeReceiveFactoryFactory());
+	private static NetworkReceiveControl createNetworkReceiveThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
+			Configuration configuration) {
+		return NetworkReceiveControlFactory.create(networkDispatcher, sendControl, new AndroidOpponentTypeReceiveFactoryFactory(), configuration);
 	}
 
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context, World world) {

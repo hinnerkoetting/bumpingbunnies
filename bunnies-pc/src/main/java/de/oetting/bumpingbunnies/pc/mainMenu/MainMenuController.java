@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
-import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
+import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
@@ -180,8 +180,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	@Override
 	public void addMyPlayerRoomEntry(int myPlayerId) {
 		LocalPlayerSettings settings = createLocalPlayerSettings();
-		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
-		playersTable.getItems().add(new SinglePlayerRoomEntry(singlePlayerProperties));
+		PlayerProperties localPlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
+		playersTable.getItems().add(new LocalPlayerEntry(localPlayerProperties));
 	}
 
 	@Override
@@ -189,11 +189,20 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 		LocalSettings localSettings = createLocalSettings();
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
-		int myPlayerId = playersTable.getItems().get(0).getPlayerId();
+		int myPlayerId = getLocalPlayerId();
 		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations();
 		Configuration config = new Configuration(localSettings, generalSettingsFromNetwork, otherPlayers, localPlayerSettings, asHost);
 		GameStartParameter parameter = GameParameterFactory.createParameter(myPlayerId, config);
 		startGame(parameter);
+	}
+
+	private int getLocalPlayerId() {
+		for (RoomEntry entry : playersTable.getItems()) {
+			if (entry instanceof LocalPlayerEntry) {
+				return entry.getPlayerId();
+			}
+		}
+		throw new IllegalArgumentException("Local player could not be found");
 	}
 
 	private List<OpponentConfiguration> createOtherPlayerconfigurations() {

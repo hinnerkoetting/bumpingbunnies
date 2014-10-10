@@ -15,8 +15,8 @@ public class WlanSocketFactory implements SocketFactory {
 	@Override
 	public ServerSocket create() {
 		try {
-			LOGGER.info("Listening on socket " + NetworkConstants.SERVER_WLAN_PORT);
-			java.net.ServerSocket serverSocket = new java.net.ServerSocket(NetworkConstants.SERVER_WLAN_PORT);
+			LOGGER.info("Listening on TCP socket " + NetworkConstants.SERVER_NETWORK_PORT);
+			java.net.ServerSocket serverSocket = new java.net.ServerSocket(NetworkConstants.SERVER_NETWORK_PORT);
 			return new WlanServerSocket(serverSocket);
 		} catch (IOException e) {
 			throw new RuntimeException(e);

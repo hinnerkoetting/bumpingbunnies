@@ -36,7 +36,7 @@ import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
-import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
+import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
@@ -340,7 +340,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			public void run() {
 				LocalPlayerSettings settings = createLocalPlayerSettings();
 				PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
-				RoomActivity.this.playersAA.addMe(new SinglePlayerRoomEntry(singlePlayerProperties));
+				RoomActivity.this.playersAA.addMe(new LocalPlayerEntry(singlePlayerProperties));
 				RoomActivity.this.playersAA.notifyDataSetChanged();
 			}
 		});

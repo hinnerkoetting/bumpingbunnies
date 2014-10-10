@@ -33,11 +33,11 @@ public class WlanDevice implements ServerDevice {
 	@Override
 	public MySocket createClientSocket() {
 		String address = WlanDevice.this.address;
-		int remotePort = NetworkConstants.SERVER_WLAN_PORT;
+		int remotePort = NetworkConstants.SERVER_NETWORK_PORT;
 		int localPort = freePortFinder.findFreePort();
 		LOGGER.info("Connecting to socket on local port %s", localPort);
 		SocketAddress socketAddress = new InetSocketAddress(address, remotePort);
-		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, localPort, NetworkConstants.SERVER_WLAN_PORT);
+		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, localPort, NetworkConstants.SERVER_NETWORK_PORT);
 		Socket socket = new Socket();
 		bindToLocalPort(localPort, socket);
 		return new TCPSocket(socket, socketAddress, OpponentFactory.createWlanPlayer(address, localPort, OpponentType.WLAN), settings);

@@ -15,7 +15,7 @@ public class NetworkConstants {
 
 	public static final String ENCODING = "UTF-8";
 
-	public static final int SERVER_WLAN_PORT = 10765;
-	public static final int BROADCAST_PORT = 10766;
-	public static final int UDP_PORT = 10767;
+	public static final int SERVER_NETWORK_PORT = 51501;
+	public static final int BROADCAST_PORT = 51500;
+	public static final int UDP_PORT = 51002;
 }

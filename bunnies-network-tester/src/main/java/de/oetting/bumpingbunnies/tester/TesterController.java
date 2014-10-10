@@ -23,7 +23,7 @@ import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.network.room.DetailRoomEntry;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
-import de.oetting.bumpingbunnies.core.networking.SinglePlayerRoomEntry;
+import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
@@ -219,7 +219,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
 		Player player = new Player(myPlayerId, settings.getPlayerName(), -1, OpponentFactory.createLocalPlayer(singlePlayerProperties.getPlayerName()));
-		playersTable.getItems().add(new DetailRoomEntry(new SinglePlayerRoomEntry(singlePlayerProperties), player));
+		playersTable.getItems().add(new DetailRoomEntry(new LocalPlayerEntry(singlePlayerProperties), player));
 	}
 
 	public LocalPlayerSettings createLocalPlayerSettings() {
