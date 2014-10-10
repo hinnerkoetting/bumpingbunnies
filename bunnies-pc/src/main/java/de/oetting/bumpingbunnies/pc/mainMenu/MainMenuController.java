@@ -79,15 +79,14 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	private void startGameWithTwoPlayers() {
-		Configuration configuration = createConfiguration(new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "Player 2"),
-				OpponentFactory.createLocalPlayer("Player2")));
+		Configuration configuration = createConfiguration(Arrays.asList(new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "Player 2"),
+				OpponentFactory.createLocalPlayer("Player2"))));
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 
-	private Configuration createConfiguration(OpponentConfiguration opponent) {
+	private Configuration createConfiguration(List<OpponentConfiguration> opponents) {
 		LocalSettings localSettings = createLocalSettings();
 		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
-		List<OpponentConfiguration> opponents = Arrays.asList(opponent);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
 		return configuration;
@@ -98,8 +97,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	private void startGameWithAi() {
-		Configuration configuration = createConfiguration(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"),
-				OpponentFactory.createAiPlayer("Player2")));
+		Configuration configuration = createConfiguration(Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"),
+				OpponentFactory.createAiPlayer("Player2"))));
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 
@@ -234,4 +233,9 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		throw new IllegalArgumentException("Player does not exist");
 	}
 
+	@FXML
+	public void onHostButton() {
+		Configuration configuration = createConfiguration(new ArrayList<>());
+		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
+	}
 }
