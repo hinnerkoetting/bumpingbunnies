@@ -20,7 +20,7 @@ import org.robolectric.annotation.Config;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -37,9 +37,9 @@ public class UdpSocketFactoryTest {
 		Socket socket = mock(Socket.class);
 		when(socket.getInetAddress()).thenReturn(mock(InetAddress.class));
 		TcpSocketSettings settings = new TcpSocketSettings(mock(SocketAddress.class), 0, 1);
-		TCPSocket wlanSocket = new TCPSocket(socket, Opponent.createMyPlayer(""), settings);
-		socket1 = UdpSocketFactory.singleton().create(wlanSocket, Opponent.createMyPlayer(""));
-		socket2 = UdpSocketFactory.singleton().create(wlanSocket, Opponent.createMyPlayer(""));
+		TCPSocket wlanSocket = new TCPSocket(socket, OpponentTestFactory.create(), settings);
+		socket1 = UdpSocketFactory.singleton().create(wlanSocket, OpponentTestFactory.create());
+		socket2 = UdpSocketFactory.singleton().create(wlanSocket, OpponentTestFactory.create());
 		assertSame(socket1, socket2);
 	}
 

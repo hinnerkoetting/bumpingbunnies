@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 
 public class TestSocket extends AbstractSocket {
 
@@ -13,13 +13,13 @@ public class TestSocket extends AbstractSocket {
 	private final InputStream is;
 
 	public TestSocket(OutputStream os, InputStream is) {
-		super(TestOpponentFactory.createDummyOpponent());
+		super(OpponentTestFactory.create());
 		this.os = os;
 		this.is = is;
 	}
 
 	public TestSocket() {
-		super(TestOpponentFactory.createDummyOpponent());
+		super(OpponentTestFactory.create());
 		this.os = new OutputStream() {
 
 			@Override

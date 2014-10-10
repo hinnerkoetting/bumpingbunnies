@@ -10,7 +10,7 @@ import de.oetting.bumpingbunnies.core.networking.FreePortFinder;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 
@@ -32,15 +32,15 @@ public class WlanDevice implements ServerDevice {
 
 	@Override
 	public MySocket createClientSocket() {
-		String adress = WlanDevice.this.address;
+		String address = WlanDevice.this.address;
 		int remotePort = NetworkConstants.SERVER_WLAN_PORT;
 		int localPort = freePortFinder.findFreePort();
 		LOGGER.info("Connecting to socket on local port %s", localPort);
-		SocketAddress socketAddress = new InetSocketAddress(adress, remotePort);
+		SocketAddress socketAddress = new InetSocketAddress(address, remotePort);
 		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, localPort, NetworkConstants.SERVER_WLAN_PORT);
 		Socket socket = new Socket();
 		bindToLocalPort(localPort, socket);
-		return new TCPSocket(socket, socketAddress, Opponent.createOpponent("wlan" + adress, OpponentType.WLAN), settings);
+		return new TCPSocket(socket, socketAddress, OpponentFactory.createWlanPlayer(address, localPort, OpponentType.WLAN), settings);
 	}
 
 	private void bindToLocalPort(int localPort, Socket socket) {

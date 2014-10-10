@@ -12,11 +12,11 @@ import org.junit.experimental.categories.Category;
 
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Rect;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestOpponentFactory;
 
 @Category(UnitTests.class)
 public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCalculation {
@@ -118,7 +118,7 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.player = new PlayerFactory(1).createPlayer(0, "player", TestOpponentFactory.createDummyOpponent());
+		this.player = new PlayerFactory(1).createPlayer(0, "player", OpponentTestFactory.create());
 		this.fixture = new PlayerMovementCalculation(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
 	}
 }

@@ -20,6 +20,7 @@ import de.oetting.bumpingbunnies.core.network.FastSocketFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
@@ -41,12 +42,12 @@ public class FastSocketFactoryTest {
 	@Test(expected = FastSocketFactory.FastSocketNotPossible.class)
 	public void create_othersocket_throwsException() {
 		UdpSocketSettings settings = new UdpSocketSettings(mock(InetAddress.class), 0, 1);
-		socket = new UdpSocket(mock(DatagramSocket.class), Opponent.createMyPlayer(""), settings);
+		socket = new UdpSocket(mock(DatagramSocket.class), OpponentTestFactory.create(), settings);
 		whenCreatingSocket(socket);
 	}
 
 	private MySocket whenCreatingSocket(MySocket socket) {
-		return this.fixture.create(socket, Opponent.createMyPlayer(""));
+		return this.fixture.create(socket, OpponentTestFactory.create());
 	}
 
 	@Before

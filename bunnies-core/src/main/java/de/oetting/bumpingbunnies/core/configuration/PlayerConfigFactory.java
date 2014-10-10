@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerConfigFactory {
@@ -37,7 +37,7 @@ public class PlayerConfigFactory {
 	private static Player findMyPlayer(GameStartParameter gameParameter) {
 		int speed = gameParameter.getConfiguration().getGeneralSettings().getSpeedSetting();
 		PlayerFactory playerfactory = new PlayerFactory(speed);
-		return playerfactory.createPlayer(gameParameter.getPlayerId(), gameParameter.getConfiguration().getLocalPlayerSettings()
-				.getPlayerName(), Opponent.createMyPlayer("LOCAL-PLAYER"));
+		String playerName = gameParameter.getConfiguration().getLocalPlayerSettings().getPlayerName();
+		return playerfactory.createPlayer(gameParameter.getPlayerId(), playerName, OpponentFactory.createLocalPlayer(playerName));
 	}
 }

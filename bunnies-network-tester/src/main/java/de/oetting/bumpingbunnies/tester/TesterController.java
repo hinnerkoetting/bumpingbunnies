@@ -56,6 +56,7 @@ import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
@@ -191,15 +192,15 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void addPlayerEntry(RoomEntry entry) {
-		Player player = new Player(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(), -1, Opponent.createOpponent("TEMP",
-				OpponentType.LOCAL_PLAYER));
+		Player player = new Player(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(), -1, OpponentFactory.createRemoteOpponent(
+				entry.getPlayerName(), OpponentType.LOCAL_PLAYER));
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
 
 	public void addMyPlayerRoomEntry(int myPlayerId) {
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
-		Player player = new Player(myPlayerId, settings.getPlayerName(), -1, Opponent.createMyPlayer(singlePlayerProperties.getPlayerName()));
+		Player player = new Player(myPlayerId, settings.getPlayerName(), -1, OpponentFactory.createLocalPlayer(singlePlayerProperties.getPlayerName()));
 		playersTable.getItems().add(new DetailRoomEntry(new SinglePlayerRoomEntry(singlePlayerProperties), player));
 	}
 
@@ -238,7 +239,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private void addPlayerEntry(JsonWrapper messageWrapper) {
 		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
 		PlayerProperties properties = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerProperties.class);
-		addPlayerEntry(new RoomEntry(properties, new Opponent("???", OpponentType.WLAN)));
+		addPlayerEntry(new RoomEntry(properties, OpponentFactory.createRemoteOpponent(properties.getPlayerName(), OpponentType.WLAN)));
 	}
 
 	private void addUdpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {

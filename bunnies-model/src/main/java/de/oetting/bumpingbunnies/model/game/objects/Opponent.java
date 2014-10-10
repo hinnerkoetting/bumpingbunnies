@@ -2,24 +2,15 @@ package de.oetting.bumpingbunnies.model.game.objects;
 
 public class Opponent {
 
-	private final String identifier;
+	private final OpponentIdentifier identifier;
 	private final OpponentType type;
 
-	public static Opponent createMyPlayer(String identifier) {
-		return new Opponent(identifier, OpponentType.LOCAL_PLAYER);
-	}
-
-	public static Opponent createOpponent(String identifier, OpponentType type) {
-		return new Opponent(identifier, type);
-	}
-
-	public Opponent(String identifier, OpponentType type) {
-		super();
+	Opponent(OpponentIdentifier identifier, OpponentType type) {
 		this.identifier = identifier;
 		this.type = type;
 	}
 
-	public String getIdentifier() {
+	public OpponentIdentifier getIdentifier() {
 		return this.identifier;
 	}
 

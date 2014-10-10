@@ -21,6 +21,7 @@ import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -41,12 +42,12 @@ public class NetworkSendControlTest {
 
 	@Test(expected = NetworkMessageDistributor.ConnectionDoesNotExist.class)
 	public void findConnection_givenOpponenDoesNotExist_shouldThrowException() {
-		this.fixture.findConnection(TestOpponentFactory.createDummyOpponent());
+		this.fixture.findConnection(OpponentTestFactory.create());
 	}
 
 	@Test
 	public void findConnection_givenConnectionDoesExist_shouldReturnConnection() {
-		Opponent opponent = TestOpponentFactory.createDummyOpponent();
+		Opponent opponent = OpponentTestFactory.create();
 		givenOpponentHasConnection(opponent);
 		NetworkSender connection = this.fixture.findConnection(opponent);
 		assertNotNull(connection);

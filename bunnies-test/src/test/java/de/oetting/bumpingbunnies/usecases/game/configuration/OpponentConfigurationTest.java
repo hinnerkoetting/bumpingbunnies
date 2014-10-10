@@ -15,7 +15,7 @@ import de.oetting.bumpingbunnies.android.parcel.OpponentConfigurationParceller;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -49,6 +49,6 @@ public class OpponentConfigurationTest {
 	}
 
 	public OpponentConfiguration createOpponentConfiguration() {
-		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), Opponent.createMyPlayer("opponent"));
+		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), OpponentTestFactory.create());
 	}
 }

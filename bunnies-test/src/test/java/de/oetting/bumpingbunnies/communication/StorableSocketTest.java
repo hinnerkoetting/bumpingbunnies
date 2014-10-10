@@ -19,7 +19,7 @@ import android.os.Parcel;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -32,7 +32,7 @@ public class StorableSocketTest {
 	@Test
 	public void testParcelling() throws IOException {
 		int index = storeOriginalSocket();
-		StorableSocket storedSocket = new StorableSocket(this.socket, index, Opponent.createMyPlayer("player"));
+		StorableSocket storedSocket = new StorableSocket(this.socket, index, OpponentTestFactory.create());
 		checkValues(storedSocket, index);
 		StorableSocket after = serializeAndDeserialize(storedSocket);
 		checkValues(after, index);
@@ -42,7 +42,7 @@ public class StorableSocketTest {
 		Parcel parcel = Parcel.obtain();
 		storedSocket.writeToParcel(parcel, 0);
 
-        parcel.setDataPosition(0);
+		parcel.setDataPosition(0);
 		return new StorableSocket(parcel);
 	}
 

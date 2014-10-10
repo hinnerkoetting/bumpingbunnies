@@ -17,7 +17,7 @@ import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
@@ -26,8 +26,7 @@ public class GameObjectInteractorTest {
 
 	@Mock
 	private ObjectProvider objectProvider;
-	private CollisionDetection collisionDetection = new CollisionDetection(
-			objectProvider);
+	private CollisionDetection collisionDetection = new CollisionDetection(objectProvider);
 	private Player player;
 
 	@Test
@@ -52,9 +51,8 @@ public class GameObjectInteractorTest {
 	}
 
 	private void givenWaterIsBelowPlayer() {
-		Water water = new Water(-ModelConstants.PLAYER_WIDTH,
-				-ModelConstants.PLAYER_HEIGHT, ModelConstants.PLAYER_WIDTH,
-				-ModelConstants.PLAYER_HEIGHT / 2, new DummyMusicPlayer());
+		Water water = new Water(-ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT, ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT / 2,
+				new DummyMusicPlayer());
 		when(objectProvider.getAllWaters()).thenReturn(Arrays.asList(water));
 	}
 
@@ -64,15 +62,13 @@ public class GameObjectInteractorTest {
 	}
 
 	private void createPlayerAtCenterOfWorld() {
-		player = new PlayerFactory(1).createPlayer(-1, "test",
-				Opponent.createMyPlayer(""));
+		player = new PlayerFactory(1).createPlayer(-1, "test", OpponentTestFactory.create());
 		player.setCenterX(0);
 		player.setCenterY(0);
 	}
 
 	private void givenWallIsRightOfPlayer() {
-		Wall wall = new Wall(1, ModelConstants.PLAYER_WIDTH / 2, 0,
-				ModelConstants.PLAYER_WIDTH, 1);
+		Wall wall = new Wall(1, ModelConstants.PLAYER_WIDTH / 2, 0, ModelConstants.PLAYER_WIDTH, 1);
 		when(objectProvider.getAllWalls()).thenReturn(Arrays.asList(wall));
 	}
 

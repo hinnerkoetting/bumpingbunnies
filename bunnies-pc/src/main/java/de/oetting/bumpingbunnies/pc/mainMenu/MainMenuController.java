@@ -43,7 +43,7 @@ import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 
 public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback {
@@ -79,8 +79,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	private void startGameWithTwoPlayers() {
-		Configuration configuration = createConfiguration(new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "Player 2"), Opponent.createOpponent(
-				"Player2", OpponentType.LOCAL_PLAYER)));
+		Configuration configuration = createConfiguration(new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "Player 2"),
+				OpponentFactory.createLocalPlayer("Player2")));
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 
@@ -99,7 +99,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private void startGameWithAi() {
 		Configuration configuration = createConfiguration(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"),
-				Opponent.createOpponent("Player2", OpponentType.AI)));
+				OpponentFactory.createAiPlayer("Player2")));
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 

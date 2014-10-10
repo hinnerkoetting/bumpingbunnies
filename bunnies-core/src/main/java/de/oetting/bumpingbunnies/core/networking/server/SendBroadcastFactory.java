@@ -13,8 +13,7 @@ import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
 public class SendBroadcastFactory {
@@ -50,7 +49,7 @@ public class SendBroadcastFactory {
 
 	private static UdpSocket openSocket(InetAddress address) throws IOException {
 		UdpSocketSettings settings = new UdpSocketSettings(address, NetworkConstants.BROADCAST_PORT, NetworkConstants.BROADCAST_PORT);
-		return UdpSocketFactory.singleton().createBroadcastSocket(settings, Opponent.createOpponent("UDP" + address.getHostAddress(), OpponentType.WLAN));
+		return UdpSocketFactory.singleton().createBroadcastSocket(settings, OpponentFactory.createBroadcastOpponent());
 	}
 
 }

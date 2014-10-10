@@ -17,7 +17,10 @@ public class SocketStorage {
 
 	public static SocketStorage getSingleton() {
 		if (singleton == null) {
-			singleton = new SocketStorage();
+			synchronized (SocketStorage.class) {
+				if (singleton == null)
+					singleton = new SocketStorage();
+			}
 		}
 		return singleton;
 	}
@@ -55,7 +58,7 @@ public class SocketStorage {
 		}
 	}
 
-	public int addSocket(MySocket socket) {
+	public synchronized int addSocket(MySocket socket) {
 		int newPosition = this.sockets.size();
 		this.sockets.add(socket);
 		return newPosition;
