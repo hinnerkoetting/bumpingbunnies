@@ -21,9 +21,11 @@ import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
+import de.oetting.bumpingbunnies.core.game.graphics.ScoreDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
+import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
@@ -82,5 +84,6 @@ public class DrawerTest {
 		this.fixture = new ObjectsDrawer(this.factory, this.canvas);
 		when(this.factory.createPlayerDrawable(any(Player.class), eq(canvas))).thenReturn(this.playerDrawable);
 		when(this.playerDrawable.drawsPlayer(any(Player.class))).thenReturn(true);
+		when(factory.createScoreDrawer(any(Player.class))).thenReturn(new ScoreDrawer(TestPlayerFactory.createMyPlayer(), 0, 0));
 	}
 }

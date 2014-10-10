@@ -19,7 +19,7 @@ import android.os.Parcel;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -32,7 +32,7 @@ public class StorableSocketTest {
 	@Test
 	public void testParcelling() throws IOException {
 		int index = storeOriginalSocket();
-		StorableSocket storedSocket = new StorableSocket(this.socket, index, OpponentTestFactory.create());
+		StorableSocket storedSocket = new StorableSocket(this.socket, index, OpponentFactory.createLocalPlayer(""));
 		checkValues(storedSocket, index);
 		StorableSocket after = serializeAndDeserialize(storedSocket);
 		checkValues(after, index);
@@ -56,7 +56,6 @@ public class StorableSocketTest {
 
 	private void checkValues(StorableSocket storedSocket, int index) {
 		assertThat(storedSocket.getStoredSocket(), is(equalTo(this.socket)));
-		assertThat(storedSocket.getOwner().getIdentifier(), is(equalTo("player")));
 		assertThat(storedSocket.getOwner().isMyPlayer(), is(true));
 		assertThat(storedSocket.getIndex(), is(equalTo(index)));
 	}

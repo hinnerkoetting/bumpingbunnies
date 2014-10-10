@@ -15,7 +15,7 @@ import de.oetting.bumpingbunnies.android.parcel.OpponentConfigurationParceller;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -43,12 +43,11 @@ public class OpponentConfigurationTest {
 		assertThat(configuration.getAiMode(), is(equalTo(AiModus.OFF)));
 		assertThat(configuration.getName(), is(equalTo("name")));
 		assertThat(configuration.getPlayerId(), is(equalTo(1)));
-		assertThat(configuration.getOpponent().getIdentifier(), is(equalTo("opponent")));
 		assertThat(configuration.getOpponent().isMyPlayer(), is(true));
 		assertThat(configuration.getOpponent().getType(), is(equalTo(OpponentType.LOCAL_PLAYER)));
 	}
 
 	public OpponentConfiguration createOpponentConfiguration() {
-		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), OpponentTestFactory.create());
+		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), OpponentFactory.createLocalPlayer(""));
 	}
 }

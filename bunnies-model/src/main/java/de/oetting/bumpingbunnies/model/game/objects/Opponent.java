@@ -5,7 +5,7 @@ public class Opponent {
 	private final OpponentIdentifier identifier;
 	private final OpponentType type;
 
-	Opponent(OpponentIdentifier identifier, OpponentType type) {
+	public Opponent(OpponentIdentifier identifier, OpponentType type) {
 		this.identifier = identifier;
 		this.type = type;
 	}
