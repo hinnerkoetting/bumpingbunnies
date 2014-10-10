@@ -62,7 +62,6 @@ public class ToClientConnector {
 		sendClientPlayer(networkSender, nextPlayerId);
 		int socketIndex = this.sockets.addSocket(socket);
 		this.clientConnectionsAcceptor.addPlayerEntry(socket, playerProperties, socketIndex);
-		networkReceiver.cancel();
 	}
 
 	private void notifyExistingClients(PlayerProperties playerProperties) {
