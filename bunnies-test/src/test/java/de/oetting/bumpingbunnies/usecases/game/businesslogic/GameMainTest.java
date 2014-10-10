@@ -122,7 +122,7 @@ public class GameMainTest {
 	}
 
 	private void givenPlayerExists(Player p) {
-		this.fixture.getWorld().getAllPlayer().add(p);
+		fixture.newPlayerJoined(p);
 	}
 
 	private void whenPlayerLeaves(Player p) {

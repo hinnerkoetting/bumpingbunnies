@@ -32,6 +32,10 @@ public class LocalPlayerSettingsParcellableWrapper implements Parcelable {
 		settings = new LocalPlayerSettingsParceller().createFromParcel(source);
 	}
 
+	public LocalPlayerSettingsParcellableWrapper(LocalPlayerSettings settings) {
+		this.settings = settings;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

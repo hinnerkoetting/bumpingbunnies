@@ -23,6 +23,8 @@ public class OpponentIdentifier {
 
 	@Override
 	public boolean equals(Object obj) {
+		if (!(obj instanceof OpponentIdentifier))
+			return false;
 		OpponentIdentifier other = (OpponentIdentifier) obj;
 		return identifier.equals(other.getIdentifier());
 	}

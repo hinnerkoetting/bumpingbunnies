@@ -5,11 +5,12 @@ import android.content.Intent;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper;
+import de.oetting.bumpingbunnies.android.parcel.LocalPlayerSettingsParcellableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 import de.oetting.bumpingbunnies.usecases.resultScreen.ResultActivity;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
@@ -24,7 +25,6 @@ public class ActivityLauncher {
 	public static final String GENERAL_SETTINGS = "GENERAL_SETTINGS";
 	public static final String LOCAL_PLAYER_SETTINGS = "LOCAL_PLAYER_SETTINGS";
 	public static final String RESULT = "RESULT";
-	
 
 	public static void launchGame(Activity origin, GameStartParameter parameter) {
 		Intent intent = new Intent(origin, GameActivity.class);
@@ -37,12 +37,11 @@ public class ActivityLauncher {
 		origin.startActivity(intent);
 	}
 
-	public static void startRoom(Activity origin, LocalSettings localSettings, ServerSettings generalSettings,
-			LocalPlayerSettings localPlayerSettings) {
+	public static void startRoom(Activity origin, LocalSettings localSettings, ServerSettings generalSettings, LocalPlayerSettings localPlayerSettings) {
 		Intent intent = new Intent(origin, RoomActivity.class);
 		intent.putExtra(LOCAL_SETTINGS, new LocalSettingsParcelableWrapper(localSettings));
 		intent.putExtra(GENERAL_SETTINGS, new GeneralSettingsParcelableWrapper(generalSettings));
-		intent.putExtra(LOCAL_PLAYER_SETTINGS, new LocalSettingsParcelableWrapper(localSettings));
+		intent.putExtra(LOCAL_PLAYER_SETTINGS, new LocalPlayerSettingsParcellableWrapper(localPlayerSettings));
 		origin.startActivity(intent);
 	}
 

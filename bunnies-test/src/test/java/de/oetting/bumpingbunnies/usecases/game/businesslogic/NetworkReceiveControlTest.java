@@ -43,30 +43,6 @@ public class NetworkReceiveControlTest {
 	}
 
 	@Test
-	public void playerJoins_givenFactoryCreatesOneThread_thenThereShouldBeOneReceiveThreadAfterwards() {
-		Player player = TestPlayerFactory.createMyPlayer();
-		when(this.factory.create(player)).thenReturn(Arrays.asList(mock(NetworkReceiveThread.class)));
-		whenPlayerJoins(player);
-		assertThat(this.receiveThreads, hasSize(1));
-	}
-
-	@Test
-	public void playerLeaves_givenOneReceiveThreadBelongsToThisPlayer_shouldRemoveThisThread() {
-		Player player = TestPlayerFactory.createMyPlayer();
-		givenThereExistsOneReceiveThreadForPlayer(player);
-		assertThat(this.receiveThreads, hasSize(1));
-		whenPlayerLeaves(player);
-		assertThat(this.receiveThreads, hasSize(0));
-	}
-
-	private void givenThereExistsOneReceiveThreadForPlayer(Player player) {
-		NetworkReceiveThread nrt = mock(NetworkReceiveThread.class);
-		when(nrt.belongsToPlayer(player)).thenReturn(true);
-		this.receiveThreads.add(nrt);
-
-	}
-
-	@Test
 	public void playerLeaves_givenNoReceiveThreadBelongsToPlayer_shouldNotRemoveAnyThread() {
 		givenThereExistsOneReceiveThread();
 		assertThat(this.receiveThreads, hasSize(1));
@@ -78,6 +54,7 @@ public class NetworkReceiveControlTest {
 	public void playerJoins_shouldStartNewThread() {
 		Player player = TestPlayerFactory.createMyPlayer();
 		NetworkReceiveThread thread = mock(NetworkReceiveThread.class);
+		this.fixture = new NetworkReceiveControl(this.factory, this.receiveThreads);
 		when(this.factory.create(player)).thenReturn(Arrays.asList(thread));
 		whenPlayerJoins(player);
 		verify(thread).start();
@@ -89,6 +66,7 @@ public class NetworkReceiveControlTest {
 
 	private void givenThereExistsOneReceiveThread() {
 		this.receiveThreads.add(mock(NetworkReceiveThread.class));
+		this.fixture = new NetworkReceiveControl(this.factory, this.receiveThreads);
 	}
 
 	private void whenPlayerJoins(Player player) {
@@ -106,11 +84,11 @@ public class NetworkReceiveControlTest {
 
 	private void givenTwoThreadsExist() {
 		this.receiveThreads.addAll(Arrays.asList(this.thread1, this.thread2));
+		this.fixture = new NetworkReceiveControl(this.factory, this.receiveThreads);
 	}
 
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new NetworkReceiveControl(this.factory, this.receiveThreads);
 	}
 }

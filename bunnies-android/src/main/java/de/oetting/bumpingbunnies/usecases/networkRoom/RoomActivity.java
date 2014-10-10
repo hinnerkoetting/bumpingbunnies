@@ -143,7 +143,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	public void onClickDiscovery(View v) {
-		new Thread(new Runnable() {
+		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -155,7 +155,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 					LOGGER.warn("Error when trying to search for host", e);
 				}
 			}
-		}).start();
+		});
 	}
 
 	public void displayErrorAddressInUse() {
@@ -422,7 +422,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public LocalPlayerSettings createLocalPlayerSettings() {
-		return ((LocalPlayerSettingsParcellableWrapper) getIntent().getExtras().get(ActivityLauncher.LOCAL_PLAYER_SETTINGS)).getSettings();
+		Object object = getIntent().getExtras().get(ActivityLauncher.LOCAL_PLAYER_SETTINGS);
+		return ((LocalPlayerSettingsParcellableWrapper) object).getSettings();
 	}
 
 	@Override
