@@ -47,7 +47,7 @@ public class FastSocketFactoryTest {
 	}
 
 	private MySocket whenCreatingSocket(MySocket socket) {
-		return this.fixture.create(socket, OpponentTestFactory.create());
+		return this.fixture.createSendingSocket(socket, OpponentTestFactory.create());
 	}
 
 	@Before
@@ -57,7 +57,6 @@ public class FastSocketFactoryTest {
 
 	@After
 	public void afterEveryTest() {
-		UdpSocketFactory.singleton().closeAndClearCreatedAdresses();
 		if (socket != null)
 			socket.close();
 	}

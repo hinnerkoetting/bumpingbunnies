@@ -2,72 +2,57 @@ package de.oetting.bumpingbunnies.core.networking.udp;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.net.SocketException;
 
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
 public class UdpSocketFactory {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UdpSocketFactory.class);
-	private final Map<InetAddress, UdpSocket> createdAdresses = new HashMap<InetAddress, UdpSocket>();
 
-	private static UdpSocketFactory singleton;
-
-	public static UdpSocketFactory singleton() {
-		if (singleton == null) {
-			singleton = new UdpSocketFactory();
-		}
-		return singleton;
-	}
-
-	private UdpSocketFactory() {
-	}
-
-	public UdpSocket create(TCPSocket socket, Opponent owner) {
-		if (!singleton().createdAdresses.containsKey(socket.getInetAddress())) {
-			createSocket(socket, owner);
-		} else {
-			LOGGER.warn("Reusing existing UDP-Port");
-		}
-		return singleton().createdAdresses.get(socket.getInetAddress());
-	}
-
-	private void createSocket(TCPSocket socket, Opponent owner) {
+	public UdpSocket createListeningSocket(TCPSocket socket, Opponent owner) {
 		TcpSocketSettings tcpSocketSettings = socket.getSocketSettings();
 		UdpSocketSettings udpSocketSettings = new UdpSocketSettings(socket.getInetAddress(), tcpSocketSettings.getLocalPort(),
 				tcpSocketSettings.getDestinationPort());
-		UdpSocket udpSocket = createUdpSocket(udpSocketSettings, owner);
-		singleton().createdAdresses.put(socket.getInetAddress(), udpSocket);
+		return createListeningSocket(udpSocketSettings);
 	}
 
-	public void closeAndClearCreatedAdresses() {
-		for (Entry<InetAddress, UdpSocket> entry : singleton().createdAdresses.entrySet()) {
-			entry.getValue().close();
-		}
-		singleton().createdAdresses.clear();
-	}
-
-	public UdpSocket createUdpSocket(UdpSocketSettings settings, Opponent opponent) {
-		LOGGER.info("Creating normal UDP socket on port %d and address %s ", settings.getDestinationPort(), settings.getDestinationAddress());
+	public UdpSocket createListeningSocket(UdpSocketSettings udpSocketSettings) {
 		try {
-			DatagramSocket socket = new DatagramSocket(null);
-			socket.setBroadcast(false);
-			SocketAddress localSocketAddress = new InetSocketAddress(settings.getLocalPort());
-			socket.bind(localSocketAddress);
-			return new UdpSocket(socket, opponent, settings);
+			LOGGER.info("Creating listening UDP socket on local port %d ", udpSocketSettings.getLocalPort());
+			UdpSocket udpSocket = createUdpSocket(udpSocketSettings, OpponentFactory.createListeningOpponent());
+			udpSocket.connect();
+			return udpSocket;
+		} catch (IOException e) {
+			LOGGER.info("Cannot bind to local port " + udpSocketSettings.getLocalPort());
+			throw new UdpSocket.UdpException(e);
+		}
+	}
+
+	public UdpSocket createSendingSocket(TCPSocket socket, Opponent owner) {
+		try {
+			TcpSocketSettings tcpSocketSettings = socket.getSocketSettings();
+			UdpSocketSettings udpSocketSettings = new UdpSocketSettings(socket.getInetAddress(), tcpSocketSettings.getLocalPort(),
+					tcpSocketSettings.getDestinationPort());
+			LOGGER.info("Creating sending UDP socket on port %d and address %s ", udpSocketSettings.getDestinationPort(),
+					udpSocketSettings.getDestinationAddress());
+			UdpSocket udpSocket = createUdpSocket(udpSocketSettings, owner);
+			return udpSocket;
 		} catch (IOException e) {
 			throw new UdpSocket.UdpException(e);
 		}
+	}
+
+	public UdpSocket createUdpSocket(UdpSocketSettings settings, Opponent opponent) throws SocketException {
+		DatagramSocket socket = new DatagramSocket(null);
+		socket.setBroadcast(false);
+		return new UdpSocket(socket, opponent, settings);
 	}
 
 	public UdpSocket createBroadcastSocket(UdpSocketSettings settings, Opponent opponent) {

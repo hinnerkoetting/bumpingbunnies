@@ -29,7 +29,6 @@ import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.
 import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
-import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
@@ -87,7 +86,7 @@ public class RemoteConnectionFactoryTest {
 
 	@After
 	public void afterEveryTest() {
-		UdpSocketFactory.singleton().closeAndClearCreatedAdresses();
+		sockets.closeExistingSocket();
 	}
 
 }

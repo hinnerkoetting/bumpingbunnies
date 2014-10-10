@@ -26,4 +26,8 @@ public class OpponentFactory {
 		return new Opponent(new OpponentIdentifier("WLAN" + address + port), OpponentType.WLAN);
 	}
 
+	public static Opponent createListeningOpponent() {
+		return new Opponent(new OpponentIdentifier("LISTENING"), OpponentType.WLAN);
+	}
+
 }

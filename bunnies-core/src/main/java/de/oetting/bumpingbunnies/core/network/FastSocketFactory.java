@@ -6,9 +6,16 @@ import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public class FastSocketFactory {
 
-	public MySocket create(MySocket socket, Opponent owner) {
+	public MySocket createListeningSocket(MySocket socket, Opponent owner) {
 		if (socket instanceof TCPSocket) {
-			return UdpSocketFactory.singleton().create((TCPSocket) socket, owner);
+			return new UdpSocketFactory().createListeningSocket((TCPSocket) socket, owner);
+		}
+		throw new FastSocketNotPossible(socket.getClass());
+	}
+
+	public MySocket createSendingSocket(MySocket socket, Opponent owner) {
+		if (socket instanceof TCPSocket) {
+			return new UdpSocketFactory().createSendingSocket((TCPSocket) socket, owner);
 		}
 		throw new FastSocketNotPossible(socket.getClass());
 	}

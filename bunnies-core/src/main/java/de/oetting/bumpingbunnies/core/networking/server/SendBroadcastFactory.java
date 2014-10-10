@@ -49,7 +49,7 @@ public class SendBroadcastFactory {
 
 	private static UdpSocket openSocket(InetAddress address) throws IOException {
 		UdpSocketSettings settings = new UdpSocketSettings(address, NetworkConstants.BROADCAST_PORT, NetworkConstants.BROADCAST_PORT);
-		return UdpSocketFactory.singleton().createBroadcastSocket(settings, OpponentFactory.createBroadcastOpponent());
+		return new UdpSocketFactory().createBroadcastSocket(settings, OpponentFactory.createBroadcastOpponent());
 	}
 
 }

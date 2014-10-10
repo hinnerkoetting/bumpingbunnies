@@ -24,7 +24,6 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.OpponentReceiverFactoryFactory;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
-import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
@@ -86,6 +85,6 @@ public class NetworkReceiveThreadFactoryTest {
 
 	@After
 	public void afterEveryTest() {
-		UdpSocketFactory.singleton().closeAndClearCreatedAdresses();
+		sockets.closeExistingSocket();
 	}
 }

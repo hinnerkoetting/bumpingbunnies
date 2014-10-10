@@ -186,7 +186,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	public void connectToServerSuccesfull(MySocket mmSocket) {
 		this.tcpSocketToServer = mmSocket;
-		udpSocketToServer = UdpSocketFactory.singleton().create((TCPSocket) tcpSocketToServer, tcpSocketToServer.getOwner());
+		udpSocketToServer = new UdpSocketFactory().createListeningSocket((TCPSocket) tcpSocketToServer, tcpSocketToServer.getOwner());
 		LOGGER.info("Connected to server %s", mmSocket);
 		connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this);
 		connectedToServerService.onConnectionToServer();

@@ -25,7 +25,7 @@ public class WlanOpponentTypeSendFactory implements OpponentTypeSendFactory {
 	}
 
 	private SimpleNetworkSender createUdpConnection(GameStopper activity, MySocket socket, PlayerDisconnectedCallback disconnectCallback) {
-		MySocket fastSocket = new FastSocketFactory().create(socket, socket.getOwner());
+		MySocket fastSocket = new FastSocketFactory().createSendingSocket(socket, socket.getOwner());
 		return SimpleNetworkSenderFactory.createNetworkSender(fastSocket, disconnectCallback);
 	}
 

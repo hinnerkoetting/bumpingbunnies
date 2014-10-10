@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.receive;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -13,15 +14,14 @@ public class NetworkReceiveControl implements PlayerJoinListener {
 	private NetworkReceiverFactory factory;
 
 	public NetworkReceiveControl(NetworkReceiverFactory factory) {
-		super();
 		this.factory = factory;
 		this.networkReceiveThreads = new CopyOnWriteArrayList<NetworkReceiver>();
 	}
 
 	public NetworkReceiveControl(NetworkReceiverFactory factory, List<NetworkReceiver> networkReceiveThreads) {
-		super();
 		this.factory = factory;
-		this.networkReceiveThreads = networkReceiveThreads;
+		this.networkReceiveThreads = new ArrayList<NetworkReceiver>();
+		this.networkReceiveThreads.addAll(networkReceiveThreads);
 	}
 
 	public void shutDownThreads() {
