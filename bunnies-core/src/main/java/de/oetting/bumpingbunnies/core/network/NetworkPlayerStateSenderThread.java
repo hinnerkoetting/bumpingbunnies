@@ -13,14 +13,14 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
-public class NetworkSendThread extends Thread implements PlayerJoinListener {
+public class NetworkPlayerStateSenderThread extends Thread implements PlayerJoinListener {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkSendThread.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkPlayerStateSenderThread.class);
 	private final ThreadLoop loop;
-	private final NetworkSendStep sendStep;
+	private final NetworkPlayerStateSenderStep sendStep;
 	private boolean canceled;
 
-	public NetworkSendThread(ThreadLoop loop, NetworkSendStep sendStep) {
+	public NetworkPlayerStateSenderThread(ThreadLoop loop, NetworkPlayerStateSenderStep sendStep) {
 		this.loop = loop;
 		this.sendStep = sendStep;
 		setDaemon(true);
@@ -47,13 +47,13 @@ public class NetworkSendThread extends Thread implements PlayerJoinListener {
 		sendStep.playerLeftTheGame(p);
 	}
 
-	public static class NetworkSendStep implements OneLoopStep, PlayerJoinListener {
+	public static class NetworkPlayerStateSenderStep implements OneLoopStep, PlayerJoinListener {
 
 		private final List<PlayerStateSender> networkSender;
 		private final World world;
 		private final RemoteConnectionFactory sendFactory;
 
-		public NetworkSendStep(World world, RemoteConnectionFactory sendFactory) {
+		public NetworkPlayerStateSenderStep(World world, RemoteConnectionFactory sendFactory) {
 			this.networkSender = new CopyOnWriteArrayList<PlayerStateSender>();
 			this.world = world;
 			this.sendFactory = sendFactory;

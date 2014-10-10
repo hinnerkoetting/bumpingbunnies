@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
-import de.oetting.bumpingbunnies.core.network.NetworkSendThread;
+import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
@@ -49,7 +49,7 @@ public class GameMainFactory {
 	private GameMain createGameMain(PcGameStopper gameStopper, GameStartParameter parameter, World world) {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), new DummyMusicPlayer());
 		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, SocketStorage.getSingleton(), main);
-		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory);
+		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory);
 		main.setNetworkSendThread(networkSendThread);
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main);
 		newClientsAccepter.setMain(main);

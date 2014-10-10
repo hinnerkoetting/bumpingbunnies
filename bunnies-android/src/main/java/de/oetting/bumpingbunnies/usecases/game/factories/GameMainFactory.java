@@ -13,7 +13,7 @@ import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
-import de.oetting.bumpingbunnies.core.network.NetworkSendThread;
+import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
@@ -36,7 +36,7 @@ public class GameMainFactory {
 
 		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, SocketStorage.getSingleton(), main);
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
-		NetworkSendThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory);
+		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory);
 		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main);
 		clientAccepter.setMain(main);
 		main.setNetworkSendThread(networkSendThread);

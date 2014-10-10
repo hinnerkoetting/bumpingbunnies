@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
-import de.oetting.bumpingbunnies.core.network.NetworkSendThread;
+import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
@@ -24,7 +24,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	private final SocketStorage sockets;
 	private final PlayerJoinObservable playerObservable;
 	private final MusicPlayer musicPlayer;
-	private NetworkSendThread networkSenderThread;
+	private NetworkPlayerStateSenderThread networkSenderThread;
 	private NetworkMessageDistributor sendControl;
 	private NewClientsAccepter newClientsAccepter;
 	private GameThread gameThread;
@@ -165,7 +165,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		this.sendControl = sendControl;
 	}
 
-	public void setNetworkSendThread(NetworkSendThread networkSendThread) {
+	public void setNetworkSendThread(NetworkPlayerStateSenderThread networkSendThread) {
 		this.networkSenderThread = networkSendThread;
 	}
 
