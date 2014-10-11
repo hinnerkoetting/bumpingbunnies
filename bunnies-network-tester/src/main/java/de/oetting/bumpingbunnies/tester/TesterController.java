@@ -97,17 +97,9 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	@FXML
 	private TextField movementY;
 	@FXML
-	private TextField accelerationX;
-	@FXML
-	private TextField accelerationY;
-	@FXML
-	private TextField scoreTextfield;
-	@FXML
 	private CheckBox facingLeftCheckbox;
 	@FXML
 	private CheckBox jumpingCheckbox;
-	@FXML
-	private CheckBox deadCheckbox;
 	@FXML
 	private TextField playerStateCounterTextfield;
 	@FXML
@@ -365,27 +357,14 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	private PlayerState extractPlayerState() {
 		PlayerState state = new PlayerState(Integer.valueOf(playerStateIdTextfield.getText()));
-		state.setAccelerationX(readAccelerationX());
-		state.setAccelerationY(readAccelerationY());
 		state.setMovementX(readMovementX());
 		state.setMovementY(readMovementY());
 		state.setCenterX(readStateX());
 		state.setCenterY(readStateY());
-		state.setDead(deadCheckbox.isSelected());
 		state.setFacingLeft(facingLeftCheckbox.isSelected());
 		state.setJumpingButtonPressed(jumpingCheckbox.isSelected());
 		state.setHorizontalMovementStatus(PlayerState.HorizontalMovementStatus.valueOf((String) playerStateMovement.getSelectionModel().getSelectedItem()));
 		return state;
-	}
-
-	private Integer readAccelerationY() {
-		Double y = Double.valueOf(accelerationY.getText());
-		return (int) (y * ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
-	}
-
-	private Integer readAccelerationX() {
-		Double x = Double.valueOf(accelerationX.getText());
-		return (int) (x * ModelConstants.ACCELERATION_X_WALL);
 	}
 
 	private Integer readMovementY() {

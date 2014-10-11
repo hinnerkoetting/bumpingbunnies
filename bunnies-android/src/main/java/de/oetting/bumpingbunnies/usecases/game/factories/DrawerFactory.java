@@ -4,7 +4,6 @@ import android.content.Context;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
-import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ImageMirroror;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
@@ -27,8 +26,8 @@ public class DrawerFactory {
 			CoordinatesCalculation calculations) {
 
 		AndroidPlayerDrawableFactory playerDrawerFactory = createPlayerDrawerFactory();
-		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(context.getResources(),
-				configuration.getLocalSettings().isBackground()), new AndroidGameObjectsDrawableFactory(), playerDrawerFactory);
+		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(context.getResources(), configuration
+				.getLocalSettings().isBackground()), new AndroidGameObjectsDrawableFactory(), playerDrawerFactory);
 
 		CanvasDelegate canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasDelegate(), calculations);
 		calculations.setZoom((ModelConstants.STANDARD_WORLD_SIZE / 7500 * configuration.getZoom()));

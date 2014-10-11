@@ -19,6 +19,12 @@ public class Player implements GameObject {
 	private int color;
 	private final Opponent opponent;
 
+	private int score;
+	private boolean dead;
+
+	private int accelerationX;
+	private int accelerationY;
+
 	public Player(int id, String name, int speedFaktor, Opponent opponent) {
 		this.name = name;
 		this.speedFaktor = speedFaktor;
@@ -92,19 +98,19 @@ public class Player implements GameObject {
 	}
 
 	public int getAccelerationX() {
-		return this.state.getAccelerationX();
+		return accelerationX;
 	}
 
 	public void setAccelerationX(int accelerationX) {
-		this.state.setAccelerationX((int) (accelerationX * Math.pow(this.speedFaktor, 2)));
+		this.accelerationX = (int) (accelerationX * Math.pow(this.speedFaktor, 2));
 	}
 
 	public int getAccelerationY() {
-		return this.state.getAccelerationY();
+		return accelerationY;
 	}
 
 	public void setAccelerationY(int accelerationY) {
-		this.state.setAccelerationY((int) (accelerationY * Math.pow(this.speedFaktor, 2)));
+		this.accelerationY = (int) (accelerationY * Math.pow(this.speedFaktor, 2));
 	}
 
 	@Override
@@ -141,11 +147,11 @@ public class Player implements GameObject {
 	}
 
 	public int calculateNewMovementSpeedY() {
-		return this.state.getMovementY() + this.state.getAccelerationY();
+		return this.state.getMovementY() + accelerationY;
 	}
 
 	private int calculateNewMovementSpeedX() {
-		int newMovementSpeedX = this.state.getMovementX() + this.state.getAccelerationX();
+		int newMovementSpeedX = this.state.getMovementX() + accelerationX;
 		if (Math.abs(newMovementSpeedX) > ModelConstants.MAX_X_MOVEMENT * this.speedFaktor) {
 			return (int) (Math.signum(newMovementSpeedX) * ModelConstants.MAX_X_MOVEMENT * this.speedFaktor);
 		} else {
@@ -257,23 +263,23 @@ public class Player implements GameObject {
 	}
 
 	public int getScore() {
-		return this.state.getScore();
+		return this.score;
 	}
 
 	public void setScore(int score) {
-		this.state.setScore(score);
+		this.score = score;
 	}
 
-	public void increaseScore(int i) {
-		this.state.setScore(this.state.getScore() + i);
+	public void increaseScore(int increaseBy) {
+		score += increaseBy;
 	}
 
 	public void setDead(boolean b) {
-		this.state.setDead(b);
+		this.dead = b;
 	}
 
 	public boolean isDead() {
-		return this.state.isDead();
+		return dead;
 	}
 
 	public int getSpeedFaktor() {

@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
 /**
- * Contains all information about a player which has to be set over network.
+ * Contains all information about a player which has to be sent over network.
  * 
  */
 public class PlayerState implements GameObjectState<PlayerState> {
@@ -15,15 +15,12 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	private long centerY;
 	private int movementX;
 	private int movementY;
-	private int accelerationX;
-	private int accelerationY;
-	private int score;
+
 	/**
 	 * is bunny looking to the left (not necessarily moving left)
 	 */
 	private boolean facingLeft;
 	private boolean jumpingButtonPressed;
-	private boolean isDead;
 	private HorizontalMovementStatus horizontalMovementStatus;
 
 	public PlayerState(int id) {
@@ -37,12 +34,8 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.centerY = playerState.centerY;
 		this.movementX = playerState.movementX;
 		this.movementY = playerState.movementY;
-		this.accelerationX = playerState.accelerationX;
-		this.accelerationY = playerState.accelerationY;
-		this.score = playerState.score;
 		this.facingLeft = playerState.facingLeft;
 		this.jumpingButtonPressed = playerState.jumpingButtonPressed;
-		this.isDead = playerState.isDead;
 		this.horizontalMovementStatus = playerState.horizontalMovementStatus;
 	}
 
@@ -78,30 +71,6 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.movementY = movementY;
 	}
 
-	public int getAccelerationX() {
-		return this.accelerationX;
-	}
-
-	public void setAccelerationX(int accelerationX) {
-		this.accelerationX = accelerationX;
-	}
-
-	public int getAccelerationY() {
-		return this.accelerationY;
-	}
-
-	public void setAccelerationY(int accelerationY) {
-		this.accelerationY = accelerationY;
-	}
-
-	public int getScore() {
-		return this.score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
 	public int getId() {
 		return this.id;
 	}
@@ -122,34 +91,15 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.jumpingButtonPressed = jumpingButtonIsPressed;
 	}
 
-	public boolean isDead() {
-		return this.isDead;
-	}
-
-	public void setDead(boolean isDead) {
-		this.isDead = isDead;
-	}
-
 	@Override
 	public void copyContentTo(PlayerState other) {
-		other.accelerationX = this.accelerationX;
-		other.accelerationY = this.accelerationY;
 		other.centerX = this.centerX;
 		other.centerY = this.centerY;
 		other.movementX = this.movementX;
 		other.movementY = this.movementY;
-		other.score = this.score;
 		other.facingLeft = this.facingLeft;
 		other.jumpingButtonPressed = this.jumpingButtonPressed;
-		other.isDead = this.isDead;
 		other.horizontalMovementStatus = this.horizontalMovementStatus;
-	}
-
-	@Override
-	public String toString() {
-		return "PlayerState [id=" + id + ", centerX=" + centerX + ", centerY=" + centerY + ", movementX=" + movementX + ", movementY=" + movementY
-				+ ", accelerationX=" + accelerationX + ", accelerationY=" + accelerationY + ", score=" + score + ", facingLeft=" + facingLeft
-				+ ", jumpingButtonPressed=" + jumpingButtonPressed + ", isDead=" + isDead + ", horizontalMovementStatus=" + horizontalMovementStatus + "]";
 	}
 
 	@Override
@@ -163,6 +113,13 @@ public class PlayerState implements GameObjectState<PlayerState> {
 
 	public HorizontalMovementStatus getHorizontalMovementStatus() {
 		return horizontalMovementStatus;
+	}
+
+	@Override
+	public String toString() {
+		return "PlayerState [id=" + id + ", centerX=" + centerX + ", centerY=" + centerY + ", movementX=" + movementX + ", movementY=" + movementY
+				+ ", facingLeft=" + facingLeft + ", jumpingButtonPressed=" + jumpingButtonPressed + ", horizontalMovementStatus=" + horizontalMovementStatus
+				+ "]";
 	}
 
 }
