@@ -18,12 +18,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.google.gson.Gson;
-
 import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
-import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -71,6 +69,6 @@ public class NetworkReceiveThreadTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.socket = new TestSocket(null, this.is);
-		this.fixture = new NetworkReceiveThread(new Gson(), this.networkDispatcher, this.socket);
+		this.fixture = new NetworkReceiveThread(new GsonFactory().create(), this.networkDispatcher, this.socket);
 	}
 }

@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.core.network;
 
-import com.google.gson.Gson;
-
+import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
@@ -14,7 +13,7 @@ public abstract class DefaultNetworkListener<T> implements NetworkListener {
 
 	public DefaultNetworkListener(Class<T> clazz) {
 		this.clazz = clazz;
-		this.parser = new MessageParser(new Gson());
+		this.parser = MessageParserFactory.create();
 	}
 
 	@Override

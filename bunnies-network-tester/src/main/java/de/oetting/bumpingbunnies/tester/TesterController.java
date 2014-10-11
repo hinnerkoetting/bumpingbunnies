@@ -12,14 +12,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-
-import com.google.gson.Gson;
-
 import de.oetting.bumpingbunnies.core.network.BytePerSecondMeasurer;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
+import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.network.room.DetailRoomEntry;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
@@ -222,8 +220,8 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		connectedToServerService.cancel();
 		EasyNetworkToGameDispatcher tcpNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
 		EasyNetworkToGameDispatcher updNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
-		NetworkReceiveThread receiverTcpThread = new NetworkReceiveThread(new Gson(), tcpNetworkToGameDispatcher, tcpSocketToServer);
-		NetworkReceiveThread receiverUdpThread = new NetworkReceiveThread(new Gson(), updNetworkToGameDispatcher, udpSocketToServer);
+		NetworkReceiveThread receiverTcpThread = new NetworkReceiveThread(new GsonFactory().create(), tcpNetworkToGameDispatcher, tcpSocketToServer);
+		NetworkReceiveThread receiverUdpThread = new NetworkReceiveThread(new GsonFactory().create(), updNetworkToGameDispatcher, udpSocketToServer);
 		addTcpListeners(tcpNetworkToGameDispatcher);
 		addUdpListeners(updNetworkToGameDispatcher);
 		receiverTcpThread.start();

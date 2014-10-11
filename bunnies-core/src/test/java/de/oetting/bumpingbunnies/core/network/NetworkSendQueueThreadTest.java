@@ -16,11 +16,10 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import com.google.gson.Gson;
-
 import de.oetting.bumpingbunnies.core.ByteArrayStartMatcher;
 import de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
+import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -29,7 +28,7 @@ public class NetworkSendQueueThreadTest {
 
 	private NetworkSendQueueThread fixture;
 	private MySocket socket;
-	private MessageParser parser = new MessageParser(new Gson());
+	private MessageParser parser = MessageParserFactory.create();
 	@Mock
 	private GameStopper origin;
 	@Mock

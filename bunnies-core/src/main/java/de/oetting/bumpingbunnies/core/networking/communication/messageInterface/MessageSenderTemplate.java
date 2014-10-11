@@ -1,8 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.communication.messageInterface;
 
-import com.google.gson.Gson;
-
 import de.oetting.bumpingbunnies.core.network.MessageParser;
+import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.model.network.MessageMetadata;
@@ -18,7 +17,7 @@ public abstract class MessageSenderTemplate<T> implements MessageInterface<T> {
 	}
 
 	public MessageSenderTemplate(NetworkSender networkSender, MessageId messageId) {
-		this(networkSender, new MessageParser(new Gson()), messageId);
+		this(networkSender, MessageParserFactory.create(), messageId);
 	}
 
 	public MessageSenderTemplate(NetworkSender networkSender, MessageParser parser, MessageId messageId) {

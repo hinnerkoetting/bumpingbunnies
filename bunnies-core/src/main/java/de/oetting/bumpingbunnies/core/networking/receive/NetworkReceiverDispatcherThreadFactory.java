@@ -1,11 +1,10 @@
 package de.oetting.bumpingbunnies.core.networking.receive;
 
-import com.google.gson.Gson;
-
 import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkToOtherClientsDispatcher;
 
 public class NetworkReceiverDispatcherThreadFactory {
@@ -29,7 +28,7 @@ public class NetworkReceiverDispatcherThreadFactory {
 	public static NetworkReceiveThread createNetworkReceiver(MySocket socket, IncomingNetworkDispatcher networkDispatcher) {
 		// always create other clients dispatcher. for clients this will not
 		// dispatch incoming events to other sockets
-		NetworkReceiveThread thread = new NetworkReceiveThread(new Gson(), networkDispatcher, socket);
+		NetworkReceiveThread thread = new NetworkReceiveThread(new GsonFactory().create(), networkDispatcher, socket);
 		return thread;
 	}
 

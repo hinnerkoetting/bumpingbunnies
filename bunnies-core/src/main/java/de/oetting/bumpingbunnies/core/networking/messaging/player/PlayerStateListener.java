@@ -1,10 +1,9 @@
 package de.oetting.bumpingbunnies.core.networking.messaging.player;
 
-import com.google.gson.Gson;
-
 import de.oetting.bumpingbunnies.core.network.MessageParser;
 import de.oetting.bumpingbunnies.core.network.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.network.NetworkListener;
+import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 public class PlayerStateListener implements NetworkListener {
@@ -15,7 +14,7 @@ public class PlayerStateListener implements NetworkListener {
 	public PlayerStateListener(MessageReceiverTemplate<PlayerStateMessage> receiver) {
 		super();
 		this.receiver = receiver;
-		this.parser = new MessageParser(new Gson());
+		this.parser = MessageParserFactory.create();
 	}
 
 	@Override

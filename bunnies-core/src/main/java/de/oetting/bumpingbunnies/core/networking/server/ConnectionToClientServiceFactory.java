@@ -6,6 +6,7 @@ import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
@@ -19,7 +20,7 @@ public class ConnectionToClientServiceFactory {
 	}
 
 	private static NetworkReceiveThread createNetworkReceiver(MySocket socket, NetworkToGameDispatcher dispatcher) {
-		Gson gson = new Gson();
+		Gson gson = new GsonFactory().create();
 		return new NetworkReceiveThread(gson, dispatcher, socket);
 	}
 }
