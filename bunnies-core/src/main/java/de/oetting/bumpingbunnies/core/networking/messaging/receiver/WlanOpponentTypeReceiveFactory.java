@@ -34,12 +34,13 @@ public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactor
 	}
 
 	/**
-	 * Creates udp listener
+	 * Creates a thead which listens on the udp port for player state messages.
 	 */
-	public List<NetworkReceiver> createReceivingThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, int localPort) {
+	public List<NetworkReceiver> createListeningForUpdpThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, int localPort) {
 		UdpSocketSettings socketSettings = new UdpSocketSettings(null, localPort, -1);
 		UdpSocket listeningSocket = new UdpSocketFactory().createListeningSocket(socketSettings);
-		NetworkReceiver networkReceiver = createNormalSocketNetworkReceiver(networkDispatcher, sendControl, listeningSocket);
+		// UDP messages are not directly distributed to other clients.
+		NetworkReceiver networkReceiver = NetworkReceiverDispatcherThreadFactory.createNetworkReceiver(listeningSocket, networkDispatcher);
 		networkReceiver.start();
 		return Arrays.asList(networkReceiver);
 	}

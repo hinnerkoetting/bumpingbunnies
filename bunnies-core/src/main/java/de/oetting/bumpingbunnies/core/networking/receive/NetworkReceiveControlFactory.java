@@ -29,13 +29,13 @@ public class NetworkReceiveControlFactory {
 	private static List<NetworkReceiver> createReceiverThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
 			Configuration configuration) {
 		if (configuration.isHost()) {
-			return new WlanOpponentTypeReceiveFactory().createReceivingThreads(networkDispatcher, sendControl, NetworkConstants.SERVER_NETWORK_PORT);
+			return new WlanOpponentTypeReceiveFactory().createListeningForUpdpThreads(networkDispatcher, sendControl, NetworkConstants.SERVER_NETWORK_PORT);
 		} else {
 			MySocket serversocket = SocketStorage.getSingleton().getSocket(0);
 			if (serversocket instanceof TCPSocket) {
 				TCPSocket tcpSocket = (TCPSocket) serversocket;
 				return new WlanOpponentTypeReceiveFactory()
-						.createReceivingThreads(networkDispatcher, sendControl, tcpSocket.getSocketSettings().getLocalPort());
+						.createListeningForUpdpThreads(networkDispatcher, sendControl, tcpSocket.getSocketSettings().getLocalPort());
 			}
 			return new ArrayList<NetworkReceiver>();
 		}

@@ -1,12 +1,8 @@
 package de.oetting.bumpingbunnies.core.game.movement;
 
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerMovement {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerMovement.class);
 
 	private final Player movedPlayer;
 
@@ -39,19 +35,16 @@ public class PlayerMovement {
 	}
 
 	public void tryMoveUp() {
-		LOGGER.verbose("trying to move up");
-		this.movedPlayer.getState().setJumpingButtonPressed(true);
+		movedPlayer.setJumping(true);
 	}
 
 	public void tryMoveDown() {
-		LOGGER.verbose("trying to move down");
-		this.movedPlayer.getState().setJumpingButtonPressed(false);
+		movedPlayer.setJumping(false);
 	}
 
 	public void removeMovement() {
 		removeHorizontalMovement();
-		LOGGER.debug("removing movement");
-		this.movedPlayer.getState().setJumpingButtonPressed(false);
+		movedPlayer.setJumping(false);
 	}
 
 	public Player getPlayer() {

@@ -32,7 +32,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>de.oetting.bumpingbunnies.pc.main.BunniesMain</mainClass>
+							<mainClass>de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

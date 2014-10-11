@@ -25,12 +25,14 @@ public class PlayerDrawer implements Drawable {
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
-		if (!this.player.isDead()) {
-			this.paint.setAlpha(ALPHA_WHILE_ALIVE);
-		} else {
-			this.paint.setAlpha(ALPHA_WHILE_DEAD);
+		synchronized (player) {
+			if (!this.player.isDead()) {
+				this.paint.setAlpha(ALPHA_WHILE_ALIVE);
+			} else {
+				this.paint.setAlpha(ALPHA_WHILE_DEAD);
+			}
+			drawAnimation(canvas);
 		}
-		drawAnimation(canvas);
 	}
 
 	private void drawAnimation(CanvasDelegate canvas) {

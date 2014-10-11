@@ -17,8 +17,10 @@ public class PlayerStateSender {
 
 	public void sendState(Player player) {
 		if (!belongsToPlayer(player)) {
-			PlayerStateMessage message = new PlayerStateMessage(currentMessageCounter++, player.getState());
-			sender.sendMessageFast(MessageId.SEND_PLAYER_STATE, message);
+			synchronized (player) {
+				PlayerStateMessage message = new PlayerStateMessage(currentMessageCounter++, player.getState());
+				sender.sendMessageFast(MessageId.SEND_PLAYER_STATE, message);
+			}
 		}
 	}
 

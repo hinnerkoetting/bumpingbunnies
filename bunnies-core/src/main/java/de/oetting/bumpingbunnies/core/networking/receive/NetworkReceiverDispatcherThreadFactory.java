@@ -26,7 +26,7 @@ public class NetworkReceiverDispatcherThreadFactory {
 		return createNetworkReceiver(socket, networkDispatcher);
 	}
 
-	private static NetworkReceiveThread createNetworkReceiver(MySocket socket, IncomingNetworkDispatcher networkDispatcher) {
+	public static NetworkReceiveThread createNetworkReceiver(MySocket socket, IncomingNetworkDispatcher networkDispatcher) {
 		// always create other clients dispatcher. for clients this will not
 		// dispatch incoming events to other sockets
 		NetworkReceiveThread thread = new NetworkReceiveThread(new Gson(), networkDispatcher, socket);

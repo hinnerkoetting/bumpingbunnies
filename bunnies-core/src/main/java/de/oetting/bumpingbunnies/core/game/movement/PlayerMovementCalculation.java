@@ -9,7 +9,8 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 /**
- * Responsible for calculation the movement of players. Checks for collision, updates screen position.
+ * Responsible for calculation the movement of players. Checks for collision,
+ * updates screen position.
  */
 public class PlayerMovementCalculation {
 
@@ -20,9 +21,7 @@ public class PlayerMovementCalculation {
 	private final CollisionDetection collisionDetection;
 	private final MusicPlayer jumpMusic;
 
-	public PlayerMovementCalculation(Player movedPlayer, GameObjectInteractor interactionService,
-			CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
-		super();
+	public PlayerMovementCalculation(Player movedPlayer, GameObjectInteractor interactionService, CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
 		this.movedPlayer = movedPlayer;
 		this.interactionService = interactionService;
 		this.collisionDetection = collisionDetection;
@@ -30,7 +29,9 @@ public class PlayerMovementCalculation {
 	}
 
 	public void nextStep(long delta) {
-		movePlayerNextStep(delta);
+		synchronized (movedPlayer) {
+			movePlayerNextStep(delta);
+		}
 	}
 
 	private void movePlayerNextStep(long delta) {
@@ -46,8 +47,7 @@ public class PlayerMovementCalculation {
 	}
 
 	private boolean isInWater() {
-		GameObject collidingObject = this.collisionDetection
-				.findObjectThisPlayerIsCollidingWith(this.movedPlayer);
+		GameObject collidingObject = this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.movedPlayer);
 		if (collidingObject != null) {
 			return collidingObject instanceof Water;
 		}
@@ -55,8 +55,7 @@ public class PlayerMovementCalculation {
 	}
 
 	private boolean standsOnFixedObject() {
-		GameObject collidingObject = this.collisionDetection
-				.findObjectThisPlayerIsStandingOn(this.movedPlayer);
+		GameObject collidingObject = this.collisionDetection.findObjectThisPlayerIsStandingOn(this.movedPlayer);
 		if (collidingObject != null) {
 			return !(collidingObject instanceof Water);
 		}
@@ -91,12 +90,10 @@ public class PlayerMovementCalculation {
 			setJumpMovement();
 			this.jumpMusic.start();
 		} else if (isInWater()) {
-			this.movedPlayer
-					.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_WATER);
+			this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_WATER);
 			this.movedPlayer.setAccelerationY(0);
 		} else {
-			this.movedPlayer
-					.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
+			this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
 		}
 	}
 
@@ -119,11 +116,8 @@ public class PlayerMovementCalculation {
 	}
 
 	void steerAgainstMovement() {
-		int breakAcceleration = (int) -Math
-				.signum(this.movedPlayer.movementX())
-				* findAccelerationForObject();
-		if (Math.abs(this.movedPlayer.movementX()) <= Math
-				.abs(breakAcceleration) * Math.pow(this.movedPlayer.getSpeedFaktor(), 2)) {
+		int breakAcceleration = (int) -Math.signum(this.movedPlayer.movementX()) * findAccelerationForObject();
+		if (Math.abs(this.movedPlayer.movementX()) <= Math.abs(breakAcceleration) * Math.pow(this.movedPlayer.getSpeedFaktor(), 2)) {
 			this.movedPlayer.setMovementX(0);
 			this.movedPlayer.setAccelerationX(0);
 		} else {
@@ -132,11 +126,9 @@ public class PlayerMovementCalculation {
 	}
 
 	private int findAccelerationForObject() {
-		GameObject go = this.collisionDetection
-				.findObjectThisPlayerIsStandingOn(this.movedPlayer);
+		GameObject go = this.collisionDetection.findObjectThisPlayerIsStandingOn(this.movedPlayer);
 		if (go == null) {
-			LOGGER.verbose("Acceleration air %d",
-					ModelConstants.ACCELERATION_X_AIR);
+			LOGGER.verbose("Acceleration air %d", ModelConstants.ACCELERATION_X_AIR);
 			if (isInWater()) {
 				return ModelConstants.ACCELERATION_X_WATER;
 			}

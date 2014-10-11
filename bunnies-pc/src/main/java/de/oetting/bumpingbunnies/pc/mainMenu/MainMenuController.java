@@ -207,10 +207,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	private List<OpponentConfiguration> createOtherPlayerconfigurations() {
 		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>();
 		for (RoomEntry otherPlayer : playersTable.getItems()) {
-			if (!otherPlayer.getPlayerName().equals(createLocalPlayerSettings().getPlayerName())) {
-				AiModus aiMode = AiModus.NORMAL;
-
-				OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(),
+			if (!otherPlayer.createOponent().isLocalPlayer()) {
+				OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(AiModus.NORMAL, otherPlayer.getPlayerProperties(),
 						otherPlayer.createOponent());
 				otherPlayers.add(otherPlayerConfiguration);
 			}

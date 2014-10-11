@@ -247,11 +247,12 @@ public class Player implements GameObject {
 		return this.name;
 	}
 
-	public void applyStateTo(Player player) {
+	public synchronized void applyStateTo(Player player) {
 		this.state.copyContentTo(player.state);
+		calculateRect();
 	}
 
-	public void applyState(PlayerState state) {
+	public synchronized void applyState(PlayerState state) {
 		state.copyContentTo(this.state);
 	}
 
@@ -340,6 +341,10 @@ public class Player implements GameObject {
 	public String toString() {
 		return "Player [speedFaktor=" + speedFaktor + ", halfWidth=" + halfWidth + ", halfHeight=" + halfHeight + ", id=" + id + ", name=" + name + ", state="
 				+ state + ", simulatedObject=" + simulatedObject + ", rect=" + rect + ", color=" + color + ", opponent=" + opponent + "]";
+	}
+
+	public void setJumping(boolean isJumping) {
+		state.setJumpingButtonPressed(isJumping);
 	}
 
 }
