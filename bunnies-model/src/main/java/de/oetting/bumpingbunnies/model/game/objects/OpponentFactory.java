@@ -7,7 +7,7 @@ public class OpponentFactory {
 	}
 
 	public static Opponent createRemoteOpponent(String identifier, OpponentType type) {
-		return new Opponent(new OpponentIdentifier("REMOTE" + identifier), type);
+		return new Opponent(new OpponentIdentifier(identifier), type);
 	}
 
 	public static Opponent createAiPlayer(String name) {

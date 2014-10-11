@@ -36,7 +36,8 @@ public class DefaultConnectionEstablisher implements ConnectionEstablisher {
 	@Override
 	public void closeOpenConnections() {
 		LOGGER.info("Closing connections");
-		this.acceptThread.stopAcceptingRequests();
+		if (acceptThread != null)
+			this.acceptThread.stopAcceptingRequests();
 		this.acceptThread = null;
 		// this.connectThread.close();
 		// SocketStorage.getSingleton().closeExistingSocket();

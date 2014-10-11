@@ -80,6 +80,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private int playerCounter = 0;
 	private ConnectionToServer connectedToServerService;
 	private List<ToClientConnector> connectionToClientServices = new LinkedList<ToClientConnector>();
+	private boolean canLaunchGame = false;
+	private ServerSettings generalSettings;
+	private boolean asHost;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -322,6 +325,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			public void run() {
 				Toast toast = Toast.makeText(getBaseContext(), "Exception during connect. Game may still work. " + message, Toast.LENGTH_SHORT);
 				toast.show();
+
 			}
 		});
 
@@ -333,7 +337,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	@Override
-	public void addMyPlayerRoomEntry(final int myPlayerId) {
+	public synchronized void addMyPlayerRoomEntry(final int myPlayerId) {
 		runOnUiThread(new Runnable() {
 
 			@Override
@@ -342,6 +346,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 				PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
 				RoomActivity.this.playersAA.addMe(new LocalPlayerEntry(singlePlayerProperties));
 				RoomActivity.this.playersAA.notifyDataSetChanged();
+				if (canLaunchGame) {
+					launchGameActiviti();
+				}
 			}
 		});
 
@@ -392,8 +399,19 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	@Override
-	public void launchGame(ServerSettings generalSettings, boolean asHost) {
+	public synchronized void launchGame(ServerSettings generalSettings, boolean asHost) {
+		this.generalSettings = generalSettings;
+		this.asHost = asHost;
+		canLaunchGame = true;
+		try {
+			playersAA.getMyself();
+		} catch (IllegalStateException e) {
+			return;
+		}
+		launchGameActiviti();
+	}
 
+	private void launchGameActiviti() {
 		LocalSettings localSettings = createLocalSettingsFromIntent();
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		int myPlayerId = this.playersAA.getMyself().getPlayerProperties().getPlayerId();

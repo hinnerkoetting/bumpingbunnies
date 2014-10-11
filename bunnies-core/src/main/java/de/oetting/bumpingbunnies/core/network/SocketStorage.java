@@ -43,7 +43,7 @@ public class SocketStorage {
 	public synchronized MySocket findSocket(Opponent opponent) {
 		MySocket socket = findSocketOrNull(opponent);
 		if (socket == null) {
-			throw new OpponentDoesNotExist();
+			throw new OpponentDoesNotExist(opponent);
 		} else {
 			return socket;
 		}
@@ -88,5 +88,9 @@ public class SocketStorage {
 	}
 
 	public static class OpponentDoesNotExist extends RuntimeException {
+
+		public OpponentDoesNotExist(Opponent opponent) {
+			super("Opponentidentifier = " + opponent.getIdentifier());
+		}
 	}
 }
