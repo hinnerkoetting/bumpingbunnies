@@ -337,11 +337,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	@Override
-	public synchronized void addMyPlayerRoomEntry(final int myPlayerId) {
+	public void addMyPlayerRoomEntry(final int myPlayerId) {
 		runOnUiThread(new Runnable() {
 
 			@Override
-			public void run() {
+			public synchronized void run() {
 				LocalPlayerSettings settings = createLocalPlayerSettings();
 				PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
 				RoomActivity.this.playersAA.addMe(new LocalPlayerEntry(singlePlayerProperties));
