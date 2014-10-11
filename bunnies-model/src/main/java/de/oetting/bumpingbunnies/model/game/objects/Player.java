@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-import de.oetting.bumpingbunnies.model.game.objects.PlayerState.HorizontalMovementStatus;
 
 public class Player implements GameObject {
 
@@ -287,25 +286,25 @@ public class Player implements GameObject {
 	}
 
 	public boolean isTryingToRemoveHorizontalMovement() {
-		return HorizontalMovementStatus.NOT_MOVING_HORIZONTAL.equals(this.state.getHorizontalMovementStatus());
+		return HorizontalMovementState.NOT_MOVING_HORIZONTAL.equals(this.state.getHorizontalMovementStatus());
 	}
 
 	public void setNotMoving() {
-		state.setHorizontalMovementStatus(HorizontalMovementStatus.NOT_MOVING_HORIZONTAL);
+		state.setHorizontalMovementStatus(HorizontalMovementState.NOT_MOVING_HORIZONTAL);
 	}
 
 	public void setMovingRight() {
-		state.setHorizontalMovementStatus(HorizontalMovementStatus.MOVING_RIGHT);
+		state.setHorizontalMovementStatus(HorizontalMovementState.MOVING_RIGHT);
 		this.state.setFacingLeft(false);
 	}
 
 	public void setMovingLeft() {
-		state.setHorizontalMovementStatus(HorizontalMovementStatus.MOVING_LEFT);
+		state.setHorizontalMovementStatus(HorizontalMovementState.MOVING_LEFT);
 		this.state.setFacingLeft(true);
 	}
 
 	public boolean isMovingLeft() {
-		return HorizontalMovementStatus.MOVING_LEFT.equals(this.state.getHorizontalMovementStatus());
+		return HorizontalMovementState.MOVING_LEFT.equals(this.state.getHorizontalMovementStatus());
 	}
 
 	public boolean isJumpingButtonPressed() {

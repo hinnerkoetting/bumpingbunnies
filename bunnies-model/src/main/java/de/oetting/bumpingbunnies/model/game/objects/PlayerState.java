@@ -6,10 +6,6 @@ package de.oetting.bumpingbunnies.model.game.objects;
  */
 public class PlayerState implements GameObjectState<PlayerState> {
 
-	public enum HorizontalMovementStatus {
-		MOVING_LEFT, MOVING_RIGHT, NOT_MOVING_HORIZONTAL
-	}
-
 	private final int id;
 	private long centerX;
 	private long centerY;
@@ -21,11 +17,11 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	 */
 	private boolean facingLeft;
 	private boolean jumpingButtonPressed;
-	private HorizontalMovementStatus horizontalMovementStatus;
+	private HorizontalMovementState horizontalMovementStatus;
 
 	public PlayerState(int id) {
 		this.id = id;
-		this.horizontalMovementStatus = HorizontalMovementStatus.NOT_MOVING_HORIZONTAL;
+		this.horizontalMovementStatus = HorizontalMovementState.NOT_MOVING_HORIZONTAL;
 	}
 
 	public PlayerState(PlayerState playerState) {
@@ -107,11 +103,11 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		return new PlayerState(this);
 	}
 
-	public void setHorizontalMovementStatus(HorizontalMovementStatus newStatus) {
+	public void setHorizontalMovementStatus(HorizontalMovementState newStatus) {
 		horizontalMovementStatus = newStatus;
 	}
 
-	public HorizontalMovementStatus getHorizontalMovementStatus() {
+	public HorizontalMovementState getHorizontalMovementStatus() {
 		return horizontalMovementStatus;
 	}
 

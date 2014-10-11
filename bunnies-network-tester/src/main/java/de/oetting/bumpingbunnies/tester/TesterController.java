@@ -52,6 +52,7 @@ import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
+import de.oetting.bumpingbunnies.model.game.objects.HorizontalMovementState;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
@@ -361,7 +362,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		state.setCenterY(readStateY());
 		state.setFacingLeft(facingLeftCheckbox.isSelected());
 		state.setJumpingButtonPressed(jumpingCheckbox.isSelected());
-		state.setHorizontalMovementStatus(PlayerState.HorizontalMovementStatus.valueOf((String) playerStateMovement.getSelectionModel().getSelectedItem()));
+		state.setHorizontalMovementStatus(HorizontalMovementState.valueOf((String) playerStateMovement.getSelectionModel().getSelectedItem()));
 		return state;
 	}
 
