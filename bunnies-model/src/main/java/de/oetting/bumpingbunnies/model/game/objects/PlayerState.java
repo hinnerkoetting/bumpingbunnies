@@ -16,12 +16,12 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	 * is bunny looking to the left (not necessarily moving left)
 	 */
 	private boolean facingLeft;
-	private boolean jumpingButtonPressed;
-	private HorizontalMovementState horizontalMovementStatus;
+	private boolean jumping;
+	private HorizontalMovementState direction;
 
 	public PlayerState(int id) {
 		this.id = id;
-		this.horizontalMovementStatus = HorizontalMovementState.NOT_MOVING_HORIZONTAL;
+		this.direction = HorizontalMovementState.NOT_MOVING_HORIZONTAL;
 	}
 
 	public PlayerState(PlayerState playerState) {
@@ -31,8 +31,8 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		this.movementX = playerState.movementX;
 		this.movementY = playerState.movementY;
 		this.facingLeft = playerState.facingLeft;
-		this.jumpingButtonPressed = playerState.jumpingButtonPressed;
-		this.horizontalMovementStatus = playerState.horizontalMovementStatus;
+		this.jumping = playerState.jumping;
+		this.direction = playerState.direction;
 	}
 
 	public long getCenterX() {
@@ -80,11 +80,11 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	}
 
 	public boolean isJumpingButtonPressed() {
-		return this.jumpingButtonPressed;
+		return this.jumping;
 	}
 
 	public void setJumpingButtonPressed(boolean jumpingButtonIsPressed) {
-		this.jumpingButtonPressed = jumpingButtonIsPressed;
+		this.jumping = jumpingButtonIsPressed;
 	}
 
 	@Override
@@ -94,8 +94,8 @@ public class PlayerState implements GameObjectState<PlayerState> {
 		other.movementX = this.movementX;
 		other.movementY = this.movementY;
 		other.facingLeft = this.facingLeft;
-		other.jumpingButtonPressed = this.jumpingButtonPressed;
-		other.horizontalMovementStatus = this.horizontalMovementStatus;
+		other.jumping = this.jumping;
+		other.direction = this.direction;
 	}
 
 	@Override
@@ -104,17 +104,17 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	}
 
 	public void setHorizontalMovementStatus(HorizontalMovementState newStatus) {
-		horizontalMovementStatus = newStatus;
+		direction = newStatus;
 	}
 
 	public HorizontalMovementState getHorizontalMovementStatus() {
-		return horizontalMovementStatus;
+		return direction;
 	}
 
 	@Override
 	public String toString() {
 		return "PlayerState [id=" + id + ", centerX=" + centerX + ", centerY=" + centerY + ", movementX=" + movementX + ", movementY=" + movementY
-				+ ", facingLeft=" + facingLeft + ", jumpingButtonPressed=" + jumpingButtonPressed + ", horizontalMovementStatus=" + horizontalMovementStatus
+				+ ", facingLeft=" + facingLeft + ", jumpingButtonPressed=" + jumping + ", horizontalMovementStatus=" + direction
 				+ "]";
 	}
 
