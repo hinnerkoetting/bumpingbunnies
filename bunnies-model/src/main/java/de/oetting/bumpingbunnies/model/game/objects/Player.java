@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-
 public class Player implements GameObject {
 
 	private final int speedFaktor;
@@ -254,11 +253,11 @@ public class Player implements GameObject {
 
 	public synchronized void applyStateTo(Player player) {
 		this.state.copyContentTo(player.state);
-		calculateRect();
 	}
 
 	public synchronized void applyState(PlayerState state) {
 		state.copyContentTo(this.state);
+		calculateRect();
 	}
 
 	public int getScore() {

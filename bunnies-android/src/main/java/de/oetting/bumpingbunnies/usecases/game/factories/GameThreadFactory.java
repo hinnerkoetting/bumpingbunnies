@@ -6,6 +6,7 @@ import de.oetting.bumpingbunnies.communication.AndroidOpponentTypeReceiveFactory
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
+import de.oetting.bumpingbunnies.core.game.main.NetworkListeners;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
@@ -15,11 +16,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
-import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadReceiver;
-import de.oetting.bumpingbunnies.core.networking.messaging.playerIsRevived.PlayerIsRevivedReceiver;
-import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreReceiver;
-import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointReceiver;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameReceiver;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
@@ -50,18 +47,10 @@ public class GameThreadFactory {
 		return new GameThread(worldController);
 	}
 
-	private static void initInputServices(GameMain main, GameActivity activity, World world, NetworkToGameDispatcher networkDispatcher,
+	private static void initInputServices(GameMain main, GameStopper activity, World world, NetworkToGameDispatcher networkDispatcher,
 			NetworkMessageDistributor sendControl, Configuration configuration) {
-		addAllNetworkListeners(activity, networkDispatcher, world);
+		NetworkListeners.allNetworkListeners(networkDispatcher, world, activity, main, configuration);
 		main.setReceiveControl(createNetworkReceiveThreads(networkDispatcher, sendControl, configuration));
-	}
-
-	private static void addAllNetworkListeners(GameActivity activity, NetworkToGameDispatcher networkDispatcher, World world) {
-		new StopGameReceiver(networkDispatcher, activity);
-		new PlayerIsDeadReceiver(networkDispatcher, world);
-		new PlayerScoreReceiver(networkDispatcher, world);
-		new PlayerIsRevivedReceiver(networkDispatcher, world);
-		new SpawnPointReceiver(networkDispatcher, world);
 	}
 
 	private static NetworkReceiveControl createNetworkReceiveThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,

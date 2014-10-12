@@ -29,7 +29,7 @@ public class PlayerConfigFactory {
 		return list;
 	}
 
-	private static PlayerConfig createPlayerConfig(Player player, OpponentConfiguration configuration) {
+	public static PlayerConfig createPlayerConfig(Player player, OpponentConfiguration configuration) {
 		AiModus aiMode = configuration.getAiMode();
 		return new PlayerConfig(aiMode, player, configuration);
 	}

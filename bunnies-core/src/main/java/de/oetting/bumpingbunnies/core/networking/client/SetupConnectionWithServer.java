@@ -6,8 +6,9 @@ import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.GameSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
-import de.oetting.bumpingbunnies.core.networking.receive.OtherPlayerClientIdReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.OtherPlayerPropertiesReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerPropertiesReceiveListener;
 import de.oetting.bumpingbunnies.core.networking.receive.SendClientPlayerIdReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.StartGameReceiver;
 import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
@@ -20,7 +21,7 @@ import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 
-public class SetupConnectionWithServer implements ConnectionToServer {
+public class SetupConnectionWithServer implements ConnectionToServer, PlayerPropertiesReceiveListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SetupConnectionWithServer.class);
 	private final NetworkReceiver networkReceiver;
@@ -58,7 +59,7 @@ public class SetupConnectionWithServer implements ConnectionToServer {
 		new StartGameReceiver(gameDispatcher, this);
 		new GameSettingsReceiver(gameDispatcher, this);
 		new SendClientPlayerIdReceiver(gameDispatcher, this);
-		new OtherPlayerClientIdReceiver(gameDispatcher, this);
+		new OtherPlayerPropertiesReceiver(gameDispatcher, this);
 	}
 
 	public void addOtherPlayer(PlayerProperties object) {

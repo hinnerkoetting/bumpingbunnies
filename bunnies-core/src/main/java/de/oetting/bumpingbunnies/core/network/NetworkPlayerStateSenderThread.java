@@ -72,9 +72,11 @@ public class NetworkPlayerStateSenderThread extends Thread implements PlayerJoin
 		@Override
 		public void newPlayerJoined(Player p) {
 			LOGGER.info("Player joined, creating playerstatesender");
-			NetworkSender newNetworkSender = sendFactory.create(p);
+			if (p.getOpponent().isDirectlyConnected()) {
+				NetworkSender newNetworkSender = sendFactory.create(p);
 
-			networkSender.add(new PlayerStateSender(newNetworkSender));
+				networkSender.add(new PlayerStateSender(newNetworkSender));
+			}
 		}
 
 		@Override

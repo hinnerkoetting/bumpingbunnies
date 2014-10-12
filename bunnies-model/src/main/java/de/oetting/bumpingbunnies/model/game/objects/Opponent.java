@@ -70,4 +70,8 @@ public class Opponent {
 		return "Opponent [identifier=" + identifier + ", type=" + type + "]";
 	}
 
+	public boolean isDirectlyConnected() {
+		return type.equals(OpponentType.WLAN) || type.equals(OpponentType.BLUETOOTH);
+	}
+
 }

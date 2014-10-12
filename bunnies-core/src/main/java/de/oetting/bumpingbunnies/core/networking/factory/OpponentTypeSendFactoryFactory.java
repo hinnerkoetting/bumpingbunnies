@@ -7,12 +7,12 @@ public class OpponentTypeSendFactoryFactory {
 
 	public OpponentTypeSendFactory createSendFactory(OpponentType type) {
 		switch (type) {
-		case AI:
-			return new AiOpponentTypeSendFactory();
+		case AI: // fallthrough
+		case LOCAL_PLAYER:// fallthrough
+		case INDIRECT:
+			return new NullOpponentTypeSendFactory();
 		case BLUETOOTH:
 			return createBluetooth();
-		case LOCAL_PLAYER:
-			return new MyPlayerOpponentTypeSendFactory();
 		case WLAN:
 			return new WlanOpponentTypeSendFactory();
 		}

@@ -30,4 +30,8 @@ public class OpponentFactory {
 		return new Opponent(new OpponentIdentifier("LISTENING"), OpponentType.WLAN);
 	}
 
+	public static Opponent createJoinedPlayer(String playerName, int playerId) {
+		return new Opponent(new OpponentIdentifier("JOINED_LATER" + playerName + playerId), OpponentType.INDIRECT);
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -29,7 +30,7 @@ public class World implements ObjectProvider {
 
 	public World() {
 		super();
-		this.allPlayer = new ArrayList<Player>();
+		this.allPlayer = new CopyOnWriteArrayList<Player>();
 		this.allObjects = new LinkedList<GameObjectWithImage>();
 		this.allWalls = new ArrayList<Wall>();
 		this.allIcyWalls = new LinkedList<IcyWall>();

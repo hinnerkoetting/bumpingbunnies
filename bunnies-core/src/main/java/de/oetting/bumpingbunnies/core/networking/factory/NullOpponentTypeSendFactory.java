@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
-public class MyPlayerOpponentTypeSendFactory implements OpponentTypeSendFactory {
+public class NullOpponentTypeSendFactory implements OpponentTypeSendFactory {
 
 	@Override
 	public NetworkSender createNetworkSender(Player player, GameStopper activity, SocketStorage sockets, PlayerDisconnectedCallback disconnectCallback) {

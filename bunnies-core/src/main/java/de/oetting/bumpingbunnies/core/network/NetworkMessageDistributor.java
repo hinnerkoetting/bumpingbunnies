@@ -41,8 +41,10 @@ public class NetworkMessageDistributor implements PlayerJoinListener {
 
 	@Override
 	public void newPlayerJoined(Player p) {
-		NetworkSender newSender = this.factory.create(p);
-		this.sendThreads.add(newSender);
+		if (p.getOpponent().isDirectlyConnected()) {
+			NetworkSender newSender = this.factory.create(p);
+			this.sendThreads.add(newSender);
+		}
 	}
 
 	@Override
