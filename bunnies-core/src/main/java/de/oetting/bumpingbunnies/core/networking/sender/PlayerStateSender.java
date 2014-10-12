@@ -20,7 +20,7 @@ public class PlayerStateSender {
 	}
 
 	public void sendState(Player player) {
-		if (!belongsToPlayer(player)) {
+		if (!belongsToPlayer(player) && player.getOpponent().isLocalPlayer()) {
 			synchronized (player) {
 				PlayerStateMessage message = new PlayerStateMessage(getNextMessageCounter(player), player.getState());
 				sender.sendMessageFast(MessageId.SEND_PLAYER_STATE, message);
