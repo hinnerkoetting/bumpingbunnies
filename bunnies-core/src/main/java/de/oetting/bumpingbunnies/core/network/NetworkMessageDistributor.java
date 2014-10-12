@@ -41,12 +41,14 @@ public class NetworkMessageDistributor implements NewSocketListener {
 	@Override
 	public void newEvent(MySocket socket) {
 		NetworkSender newSender = this.factory.create(socket);
+		newSender.start();
 		this.sendThreads.add(newSender);
 	}
 
 	@Override
 	public void removeEvent(MySocket socket) {
 		NetworkSender sender = findSendThread(socket);
+		sender.cancel();
 		sendThreads.remove(sender);
 	}
 

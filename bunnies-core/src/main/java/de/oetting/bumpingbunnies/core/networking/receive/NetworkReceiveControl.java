@@ -36,6 +36,9 @@ public class NetworkReceiveControl implements NewSocketListener {
 	@Override
 	public void removeEvent(MySocket socket) {
 		List<NetworkReceiver> playerThreads = findThreadOfThisPlayer(socket);
+		for (NetworkReceiver receiver : playerThreads) {
+			receiver.cancel();
+		}
 		this.networkReceiveThreads.removeAll(playerThreads);
 	}
 

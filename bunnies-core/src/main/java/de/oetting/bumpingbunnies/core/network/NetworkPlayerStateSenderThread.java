@@ -72,7 +72,7 @@ public class NetworkPlayerStateSenderThread extends Thread implements NewSocketL
 		public void newEvent(MySocket socket) {
 			LOGGER.info(" creating playerstatesender");
 			NetworkSender newNetworkSender = sendFactory.createFastSender(socket);
-
+			newNetworkSender.start();
 			networkSender.add(new PlayerStateSender(newNetworkSender));
 		}
 
@@ -80,6 +80,7 @@ public class NetworkPlayerStateSenderThread extends Thread implements NewSocketL
 		public void removeEvent(MySocket socket) {
 			LOGGER.info("Player left. Removing playerstatesender");
 			PlayerStateSender stateSender = findPlayerStateSender(socket);
+			stateSender.cancel();
 			networkSender.remove(stateSender);
 		}
 

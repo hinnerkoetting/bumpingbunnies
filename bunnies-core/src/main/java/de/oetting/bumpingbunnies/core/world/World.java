@@ -151,4 +151,11 @@ public class World implements ObjectProvider {
 				+ allPlayer + ", allSpawnPoints=" + allSpawnPoints + ", allWaters=" + allWaters + "]";
 	}
 
+	public boolean existsPlayer(int playerId) {
+		for (Player player : allPlayer)
+			if (player.id() == playerId)
+				return true;
+		return false;
+	}
+
 }

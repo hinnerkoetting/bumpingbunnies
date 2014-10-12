@@ -54,4 +54,8 @@ public class PlayerStateSender {
 	public boolean belongsToSocket(MySocket socket) {
 		return sender.isConnectionToPlayer(socket.getOwner());
 	}
+
+	public void cancel() {
+		sender.cancel();
+	}
 }
