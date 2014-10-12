@@ -32,10 +32,10 @@ import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
@@ -62,6 +62,7 @@ import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
@@ -302,8 +303,16 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	@Override
 	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
 		LOGGER.info("adding player info %d", playerProperties.getPlayerId());
-		RoomEntry entry = new RoomEntry(playerProperties, socket.getOwner());
+		RoomEntry entry = createRoomEntry(socket, playerProperties);
 		addPlayerEntry(entry);
+	}
+
+	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
+		// TODO find out which player is directly connected
+		if (playerProperties.getPlayerId() == 0)
+			return new RoomEntry(playerProperties, socket.getOwner());
+		else
+			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
 	}
 
 	private void addPlayerEntry(final RoomEntry entry) {

@@ -172,8 +172,16 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
-		RoomEntry entry = new RoomEntry(properties, serverSocket.getOwner());
+		RoomEntry entry = createRoomEntry(serverSocket, properties);
 		playersTable.getItems().add(entry);
+	}
+
+	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
+		// TODO find out which player is directly connected
+		if (playerProperties.getPlayerId() == 0)
+			return new RoomEntry(playerProperties, socket.getOwner());
+		else
+			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
 	}
 
 	@Override

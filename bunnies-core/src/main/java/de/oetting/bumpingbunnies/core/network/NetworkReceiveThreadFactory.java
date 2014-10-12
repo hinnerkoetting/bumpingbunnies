@@ -1,12 +1,13 @@
 package de.oetting.bumpingbunnies.core.network;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.networking.messaging.receiver.OpponentTypeReceiveFactory;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverFactory;
-import de.oetting.bumpingbunnies.core.networking.receive.OpponentTypeFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class NetworkReceiveThreadFactory implements NetworkReceiverFactory {
 
@@ -24,10 +25,15 @@ public class NetworkReceiveThreadFactory implements NetworkReceiverFactory {
 	}
 
 	@Override
-	public List<NetworkReceiver> create(Player player) {
-		OpponentTypeFactory factory = opponenFactoryFactory.createReceiveFactory(player.getOpponent().getType());
-		OpponentTypeReceiveFactory receiveFactory = factory.createReceiveFactory();
-		return receiveFactory.createReceiveThreadsForOnePlayer(this.sockets, player, this.networkDispatcher, this.sendControl);
+	public List<NetworkReceiver> create(MySocket socket) {
+		List<NetworkReceiver> networkReceiveThreads = new ArrayList<NetworkReceiver>();
+		networkReceiveThreads.add(createNormalSocketNetworkReceiver(networkDispatcher, sendControl, socket));
+		return networkReceiveThreads;
 	}
 
+	private NetworkReceiveThread createNormalSocketNetworkReceiver(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
+			MySocket socket) {
+		NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory.createGameNetworkReceiver(socket, networkDispatcher, sendControl);
+		return tcpReceiveThread;
+	}
 }

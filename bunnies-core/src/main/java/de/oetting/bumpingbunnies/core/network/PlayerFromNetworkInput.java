@@ -1,5 +1,8 @@
 package de.oetting.bumpingbunnies.core.network;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -19,11 +22,10 @@ public class PlayerFromNetworkInput implements OpponentInput {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerFromNetworkInput.class);
 	private PlayerState playerStateFromNetwork;
 	private final Player player;
-	private long latestCounter;
+	private Map<Integer, Long> latestCounterForPlayer = new HashMap<Integer, Long>();
 
 	public PlayerFromNetworkInput(Player player) {
 		this.player = player;
-		this.latestCounter = -1;
 	}
 
 	@Override
@@ -47,13 +49,24 @@ public class PlayerFromNetworkInput implements OpponentInput {
 		return this.playerStateFromNetwork != null;
 	}
 
-	public synchronized void sendNewMessage(PlayerStateMessage message) {
-		if (message.getCounter() > this.latestCounter) {
+	public synchronized void onReceiveNewMessage(PlayerStateMessage message) {
+		if (messageIsNewerThenPrevious(message)) {
 			this.playerStateFromNetwork = message.getPlayerState();
-			this.latestCounter = message.getCounter();
+			latestCounterForPlayer.put(message.getPlayerState().getId(), message.getCounter());
 		} else {
-			LOGGER.info("throwing away message");
+			LOGGER.info("throwing away message for player %d. Current counter is %d", message.getPlayerState().getId(),
+					latestCounterForPlayer.get(message.getPlayerState().getId()));
 		}
 	}
 
+	private boolean messageIsNewerThenPrevious(PlayerStateMessage message) {
+		int playerId = message.getPlayerState().getId();
+		assertEntryExists(playerId);
+		return message.getCounter() > latestCounterForPlayer.get(playerId);
+	}
+
+	private void assertEntryExists(int playerId) {
+		if (!latestCounterForPlayer.containsKey(playerId))
+			latestCounterForPlayer.put(playerId, 0L);
+	}
 }

@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.OpponentReceiverFactoryFactory;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.WlanOpponentTypeReceiveFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
@@ -21,12 +21,20 @@ public class NetworkReceiveControlFactory {
 		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(SocketStorage.getSingleton(), networkDispatcher, sendControl,
 				opponentTypeReceiveFactoryFactory);
 
-		List<NetworkReceiver> udpReceiverThreads = createReceiverThreads(networkDispatcher, sendControl, configuration);
-		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory, udpReceiverThreads);
+		List<NetworkReceiver> allThreads = createExistingReceiverThreads(networkDispatcher, sendControl, configuration);
+		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory, allThreads);
 		return receiveControl;
 	}
 
-	private static List<NetworkReceiver> createReceiverThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
+	private static List<NetworkReceiver> createExistingReceiverThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
+			Configuration configuration) {
+		List<NetworkReceiver> udpReceiverThreads = createUdpReceiverThreads(networkDispatcher, sendControl, configuration);
+		List<NetworkReceiver> allThreads = new ArrayList<NetworkReceiver>();
+		allThreads.addAll(udpReceiverThreads);
+		return allThreads;
+	}
+
+	private static List<NetworkReceiver> createUdpReceiverThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
 			Configuration configuration) {
 		if (configuration.isHost()) {
 			return new WlanOpponentTypeReceiveFactory().createListeningForUpdpThreads(networkDispatcher, sendControl, NetworkConstants.SERVER_NETWORK_PORT);
@@ -34,8 +42,8 @@ public class NetworkReceiveControlFactory {
 			MySocket serversocket = SocketStorage.getSingleton().getSocket(0);
 			if (serversocket instanceof TCPSocket) {
 				TCPSocket tcpSocket = (TCPSocket) serversocket;
-				return new WlanOpponentTypeReceiveFactory()
-						.createListeningForUpdpThreads(networkDispatcher, sendControl, tcpSocket.getSocketSettings().getLocalPort());
+				return new WlanOpponentTypeReceiveFactory().createListeningForUpdpThreads(networkDispatcher, sendControl, tcpSocket.getSocketSettings()
+						.getLocalPort());
 			}
 			return new ArrayList<NetworkReceiver>();
 		}

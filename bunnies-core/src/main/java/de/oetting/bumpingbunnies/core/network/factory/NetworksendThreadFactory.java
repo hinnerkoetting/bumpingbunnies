@@ -10,7 +10,7 @@ public class NetworksendThreadFactory {
 
 	public static NetworkPlayerStateSenderThread create(World world, RemoteConnectionFactory senderfactory) {
 		NetworkPlayerStateSenderStep step = new NetworkPlayerStateSenderStep(world, senderfactory);
-		ThreadLoop loop = new ThreadLoop(step, 25);
+		ThreadLoop loop = new ThreadLoop(step, 1);
 		NetworkPlayerStateSenderThread networkSender = new NetworkPlayerStateSenderThread(loop, step);
 		networkSender.start();
 		return networkSender;

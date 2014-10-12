@@ -38,7 +38,7 @@ public class UserInputStepTest {
 	}
 
 	private void whenPlayerJoins() {
-		this.fixture.newPlayerJoined(TestPlayerFactory.createOpponentPlayer());
+		this.fixture.newEvent(TestPlayerFactory.createOpponentPlayer());
 	}
 
 	@Before

@@ -72,7 +72,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 				playerProperties.getPlayerName(), socket.getOwner());
 		LOGGER.info("Player joins %s", player);
 		signalPlayerToStartTheGame(socket);
-		this.mainJoinListener.newPlayerJoined(player);
+		this.mainJoinListener.newEvent(player);
 	}
 
 	private void signalPlayerToStartTheGame(MySocket socket) {

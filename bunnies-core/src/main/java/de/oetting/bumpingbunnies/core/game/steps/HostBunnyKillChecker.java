@@ -86,12 +86,12 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
+	public void newEvent(Player p) {
 		killPlayer(p);
 		revivePlayerDelayed(p);
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
+	public void removeEvent(Player p) {
 	}
 }

@@ -21,10 +21,10 @@ public class ClientBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
+	public void newEvent(Player p) {
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
+	public void removeEvent(Player p) {
 	}
 }

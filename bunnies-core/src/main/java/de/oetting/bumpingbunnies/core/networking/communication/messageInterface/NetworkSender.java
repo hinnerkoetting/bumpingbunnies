@@ -18,4 +18,5 @@ public interface NetworkSender {
 	boolean isConnectionToPlayer(Opponent opponent);
 
 	void cancel();
+
 }

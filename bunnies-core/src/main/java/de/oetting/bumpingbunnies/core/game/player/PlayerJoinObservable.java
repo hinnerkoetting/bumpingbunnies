@@ -1,39 +1,16 @@
 package de.oetting.bumpingbunnies.core.game.player;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.observer.Observable;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
-public class PlayerJoinObservable {
-
-	private final List<PlayerJoinListener> listeners;
-
-	public PlayerJoinObservable() {
-		super();
-		this.listeners = new LinkedList<PlayerJoinListener>();
-	}
+public class PlayerJoinObservable extends Observable<Player> {
 
 	public void playerJoined(Player p) {
-		notifyListenersAboutJoin(p);
-	}
-
-	private void notifyListenersAboutJoin(Player p) {
-		for (PlayerJoinListener l : this.listeners) {
-			l.newPlayerJoined(p);
-		}
+		notifyAboutNewEvent(p);
 	}
 
 	public void playerLeft(Player p) {
-		for (PlayerJoinListener l : this.listeners) {
-			l.playerLeftTheGame(p);
-		}
+		notifyAboutRemoveEvent(p);
 	}
 
-	public void addListener(PlayerJoinListener listener) {
-		if (listener == null)
-			throw new NullPointerException();
-		this.listeners.add(listener);
-	}
 }

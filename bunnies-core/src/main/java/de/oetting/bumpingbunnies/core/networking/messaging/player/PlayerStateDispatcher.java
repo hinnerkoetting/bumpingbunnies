@@ -36,7 +36,7 @@ public class PlayerStateDispatcher extends MessageReceiverTemplate<PlayerStateMe
 			// happen
 			LOGGER.debug("Received message for unknown player Ignore this for the time being. Player-id is: %d", playerId);
 		} else {
-			playerInputService.sendNewMessage(message);
+			playerInputService.onReceiveNewMessage(message);
 		}
 	}
 

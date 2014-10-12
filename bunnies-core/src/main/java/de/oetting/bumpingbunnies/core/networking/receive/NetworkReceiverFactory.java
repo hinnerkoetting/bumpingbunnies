@@ -2,10 +2,10 @@ package de.oetting.bumpingbunnies.core.networking.receive;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.core.network.MySocket;
 
 public interface NetworkReceiverFactory {
 
-	List<NetworkReceiver> create(Player player);
+	List<NetworkReceiver> create(MySocket socket);
 
 }

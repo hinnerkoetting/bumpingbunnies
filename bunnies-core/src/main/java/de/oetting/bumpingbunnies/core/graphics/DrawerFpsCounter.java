@@ -26,13 +26,13 @@ public class DrawerFpsCounter implements Drawer {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
-		drawer.newPlayerJoined(p);
+	public void newEvent(Player p) {
+		drawer.newEvent(p);
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
-		drawer.playerLeftTheGame(p);
+	public void removeEvent(Player p) {
+		drawer.removeEvent(p);
 	}
 
 	@Override

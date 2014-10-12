@@ -196,8 +196,16 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
-		RoomEntry entry = new RoomEntry(properties, serverSocket.getOwner());
+		RoomEntry entry = createRoomEntry(serverSocket, properties);
 		addPlayerEntry(entry);
+	}
+
+	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
+		// TODO find out which player is directly connected
+		if (playerProperties.getPlayerId() == 0)
+			return new RoomEntry(playerProperties, socket.getOwner());
+		else
+			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
 	}
 
 	public void addPlayerEntry(RoomEntry entry) {

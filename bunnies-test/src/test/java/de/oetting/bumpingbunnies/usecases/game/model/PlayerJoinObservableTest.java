@@ -38,11 +38,11 @@ public class PlayerJoinObservableTest {
 	}
 
 	private void thenObserverShouldBeNotifiedAboutLeaving() {
-		verify(this.listener).playerLeftTheGame(any(Player.class));
+		verify(this.listener).removeEvent(any(Player.class));
 	}
 
 	private void thenObserverShouldBeNotifiedAboutJoin() {
-		verify(this.listener).newPlayerJoined(any(Player.class));
+		verify(this.listener).newEvent(any(Player.class));
 	}
 
 	@Before

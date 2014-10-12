@@ -38,13 +38,13 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
+	public void newEvent(Player p) {
 		PlayerMovementCalculation movementCalculation = this.calculationFactory.create(p);
 		this.playermovements.add(movementCalculation);
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
+	public void removeEvent(Player p) {
 		PlayerMovementCalculation movementCalculation = findPlayerMovementCalculation(p);
 		this.playermovements.remove(movementCalculation);
 	}

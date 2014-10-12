@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.main.OneLoopStep;
 import de.oetting.bumpingbunnies.core.game.main.ThreadLoop;
-import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.network.sockets.NewSocketListener;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.PlayerStateSender;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -13,7 +13,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
-public class NetworkPlayerStateSenderThread extends Thread implements PlayerJoinListener {
+public class NetworkPlayerStateSenderThread extends Thread implements NewSocketListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkPlayerStateSenderThread.class);
 	private final ThreadLoop loop;
@@ -37,17 +37,16 @@ public class NetworkPlayerStateSenderThread extends Thread implements PlayerJoin
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
-		if (!p.getOpponent().isLocalPlayer())
-			sendStep.newPlayerJoined(p);
+	public void newEvent(MySocket p) {
+		sendStep.newEvent(p);
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
-		sendStep.playerLeftTheGame(p);
+	public void removeEvent(MySocket p) {
+		sendStep.removeEvent(p);
 	}
 
-	public static class NetworkPlayerStateSenderStep implements OneLoopStep, PlayerJoinListener {
+	public static class NetworkPlayerStateSenderStep implements OneLoopStep, NewSocketListener {
 
 		private final List<PlayerStateSender> networkSender;
 		private final World world;
@@ -70,25 +69,23 @@ public class NetworkPlayerStateSenderThread extends Thread implements PlayerJoin
 		}
 
 		@Override
-		public void newPlayerJoined(Player p) {
-			LOGGER.info("Player joined, creating playerstatesender");
-			if (p.getOpponent().isDirectlyConnected()) {
-				NetworkSender newNetworkSender = sendFactory.create(p);
+		public void newEvent(MySocket socket) {
+			LOGGER.info(" creating playerstatesender");
+			NetworkSender newNetworkSender = sendFactory.createFastSender(socket);
 
-				networkSender.add(new PlayerStateSender(newNetworkSender));
-			}
+			networkSender.add(new PlayerStateSender(newNetworkSender));
 		}
 
 		@Override
-		public void playerLeftTheGame(Player p) {
+		public void removeEvent(MySocket socket) {
 			LOGGER.info("Player left. Removing playerstatesender");
-			PlayerStateSender stateSender = findPlayerStateSender(p);
+			PlayerStateSender stateSender = findPlayerStateSender(socket);
 			networkSender.remove(stateSender);
 		}
 
-		private PlayerStateSender findPlayerStateSender(Player p) {
+		private PlayerStateSender findPlayerStateSender(MySocket socket) {
 			for (PlayerStateSender stateSender : networkSender) {
-				if (stateSender.belongsToPlayer(p)) {
+				if (stateSender.belongsToSocket(socket)) {
 					return stateSender;
 				}
 			}

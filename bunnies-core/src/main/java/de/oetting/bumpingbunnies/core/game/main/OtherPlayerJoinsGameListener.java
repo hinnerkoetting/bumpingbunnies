@@ -22,7 +22,7 @@ public class OtherPlayerJoinsGameListener implements PlayerPropertiesReceiveList
 	@Override
 	public void addOtherPlayer(PlayerProperties object) {
 		Player player = createPlayer(object);
-		main.newPlayerJoined(player);
+		main.newEvent(player);
 	}
 
 	private Player createPlayer(PlayerProperties object) {

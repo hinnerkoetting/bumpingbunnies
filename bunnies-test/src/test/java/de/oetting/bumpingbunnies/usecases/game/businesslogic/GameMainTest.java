@@ -27,7 +27,7 @@ import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -56,7 +56,7 @@ public class GameMainTest {
 	}
 
 	private void verifyThatListenerIsNotifiedAboutJoin() {
-		verify(this.listener).newPlayerJoined(any(Player.class));
+		verify(this.listener).newEvent(any(Player.class));
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class GameMainTest {
 	}
 
 	private void whenPlayerJoins() {
-		this.fixture.newPlayerJoined(createOpponentPlayer());
+		this.fixture.newEvent(createOpponentPlayer());
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class GameMainTest {
 	public void playerJoins_givenRemotePlayer_shouldAddNewSendThread() {
 		assertThat(this.sendThreads, hasSize(0));
 		givenIsRemotePlayer();
-		this.fixture.newPlayerJoined(TestPlayerFactory.createOpponentPlayer());
+		this.fixture.newEvent(TestPlayerFactory.createOpponentPlayer());
 		assertThat(this.sendThreads, hasSize(1));
 	}
 
@@ -104,7 +104,7 @@ public class GameMainTest {
 	public void playerJoins_forAiPlayer_shouldCreateNewDummyNetworkSender() {
 		assertThat(this.sendThreads, hasSize(0));
 		givenIsAiPlayer();
-		this.fixture.newPlayerJoined(TestPlayerFactory.createOpponentPlayer(OpponentType.AI));
+		this.fixture.newEvent(TestPlayerFactory.createOpponentPlayer(OpponentType.AI));
 		assertThat(this.sendThreads, hasSize(1));
 		assertThat(this.sendThreads.get(0), is(instanceOf(DummyRemoteSender.class)));
 	}
@@ -118,15 +118,15 @@ public class GameMainTest {
 	}
 
 	private void verifyThatListenerIsNotifiedAboutLeaving(Player p) {
-		verify(this.listener).playerLeftTheGame(p);
+		verify(this.listener).removeEvent(p);
 	}
 
 	private void givenPlayerExists(Player p) {
-		fixture.newPlayerJoined(p);
+		fixture.newEvent(p);
 	}
 
 	private void whenPlayerLeaves(Player p) {
-		this.fixture.playerLeftTheGame(p);
+		this.fixture.removeEvent(p);
 		this.fixture.getWorld().getAllPlayer().remove(p);
 	}
 
@@ -140,12 +140,12 @@ public class GameMainTest {
 		this.fixture.setWorld(new World());
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
 		NetworkMessageDistributor networkSendControl = createNetworkSendControl();
-		this.fixture.addJoinListener(networkSendControl);
+		SocketStorage.getSingleton().addObserver(networkSendControl);
 	}
 
 	private NetworkMessageDistributor createNetworkSendControl() {
-		NetworkMessageDistributor networkSendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(mock(GameActivity.class),
-				mock(SocketStorage.class), fixture), this.sendThreads);
+		NetworkMessageDistributor networkSendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(mock(GameActivity.class), fixture),
+				this.sendThreads);
 		return networkSendControl;
 	}
 }

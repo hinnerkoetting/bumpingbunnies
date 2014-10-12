@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
+import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 
 public class TestSocket extends AbstractSocket {
@@ -19,7 +20,11 @@ public class TestSocket extends AbstractSocket {
 	}
 
 	public TestSocket() {
-		super(OpponentTestFactory.create());
+		this(OpponentTestFactory.create());
+	}
+
+	public TestSocket(Opponent opponent) {
+		super(opponent);
 		this.os = new OutputStream() {
 
 			@Override

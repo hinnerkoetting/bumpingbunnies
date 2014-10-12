@@ -23,7 +23,7 @@ import org.robolectric.annotation.Config;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.core.network.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
@@ -31,10 +31,9 @@ import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSende
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
@@ -49,14 +48,14 @@ public class RemoteConnectionFactoryTest {
 
 	@Test
 	public void create_forLocalPlayer_shouldReturnDummyConnection() {
-		NetworkSender sender = this.fixture.create(TestPlayerFactory.createMyPlayer());
+		NetworkSender sender = this.fixture.create(new TestSocket(OpponentFactory.createLocalPlayer("")));
 		assertThat(sender, is(instanceOf(DummyRemoteSender.class)));
 	}
 
 	@Test
 	public void create_forWlanPlayer_shouldReturnDividedNetworkSender() {
 		givenWlanSocket();
-		NetworkSender sender = this.fixture.create(TestPlayerFactory.createOpponentPlayer(OpponentType.WLAN));
+		NetworkSender sender = this.fixture.create(new TestSocket(OpponentFactory.createWlanPlayer("", 0)));
 		assertThat(sender, is(instanceOf(UdpAndTcpNetworkSender.class)));
 	}
 
@@ -67,20 +66,20 @@ public class RemoteConnectionFactoryTest {
 
 	@Test
 	public void create_forBluetoothPlayer_shouldReturnNetworkSendQueueThread() {
-		NetworkSender sender = this.fixture.create(TestPlayerFactory.createOpponentPlayer(OpponentType.BLUETOOTH));
+		NetworkSender sender = this.fixture.create(new TestSocket(OpponentFactory.createBluetoothPlayer("")));
 		assertThat(sender, is(instanceOf(NetworkSendQueueThread.class)));
 	}
 
 	@Test
 	public void create_foraiPlayer_shouldReturnDummyConnection() {
-		NetworkSender sender = this.fixture.create(TestPlayerFactory.createOpponentPlayer(OpponentType.AI));
+		NetworkSender sender = this.fixture.create(new TestSocket());
 		assertThat(sender, is(instanceOf(DummyRemoteSender.class)));
 	}
 
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new RemoteConnectionFactory(this.activity, this.sockets, mock(PlayerDisconnectedCallback.class));
+		this.fixture = new RemoteConnectionFactory(this.activity, mock(PlayerDisconnectedCallback.class));
 		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TestSocket());
 	}
 

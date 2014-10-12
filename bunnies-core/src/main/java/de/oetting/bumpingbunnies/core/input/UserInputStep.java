@@ -33,12 +33,12 @@ public class UserInputStep implements GameStepAction, PlayerJoinListener {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
+	public void newEvent(Player p) {
 		this.inputServices.add(this.factory.create(p));
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
+	public void removeEvent(Player p) {
 	}
 
 }

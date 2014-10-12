@@ -112,4 +112,9 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	public boolean belongsToPlayer(Player player) {
 		return player.getOpponent().equals(this.socket.getOwner());
 	}
+
+	@Override
+	public boolean belongsToSocket(MySocket socket) {
+		return this.socket.equals(socket);
+	}
 }

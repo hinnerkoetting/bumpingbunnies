@@ -16,8 +16,8 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
@@ -34,7 +34,7 @@ public class GameMainFactory {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), MusicPlayerFactory.createBackground(activity));
 		World world = createWorld(activity, parameter);
 
-		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, SocketStorage.getSingleton(), main);
+		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, main);
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory);
 		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main);
@@ -64,8 +64,9 @@ public class GameMainFactory {
 		return NewClientsAccepterFactory.create(parameter, world, new AndroidConnectionEstablisherFactory(), callback);
 	}
 
-	private static void addJoinListener(GameMain main) {
+	private static void addListener(GameMain main) {
 		main.addAllJoinListeners();
+		main.addSocketListener();
 	}
 
 	private static void initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
@@ -77,14 +78,14 @@ public class GameMainFactory {
 				sendControl, main);
 		main.setGameThread(gameThread);
 
-		addJoinListener(main);
-		main.newPlayerJoined(myPlayer);
+		addListener(main);
+		main.newEvent(myPlayer);
 	}
 
 	private static void addPlayersToWorld(GameMain main, List<PlayerConfig> players) {
 
 		for (PlayerConfig pc : players) {
-			main.newPlayerJoined(pc.getPlayer());
+			main.newEvent(pc.getPlayer());
 		}
 	}
 

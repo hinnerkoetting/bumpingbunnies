@@ -3,13 +3,12 @@ package de.oetting.bumpingbunnies.core.network;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.network.sockets.NewSocketListener;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
@@ -17,7 +16,7 @@ import de.oetting.bumpingbunnies.model.network.MessageId;
  * Distributes Messages to all clients.
  *
  */
-public class NetworkMessageDistributor implements PlayerJoinListener {
+public class NetworkMessageDistributor implements NewSocketListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkMessageDistributor.class);
 
@@ -40,24 +39,22 @@ public class NetworkMessageDistributor implements PlayerJoinListener {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
-		if (p.getOpponent().isDirectlyConnected()) {
-			NetworkSender newSender = this.factory.create(p);
-			this.sendThreads.add(newSender);
-		}
+	public void newEvent(MySocket socket) {
+		NetworkSender newSender = this.factory.create(socket);
+		this.sendThreads.add(newSender);
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
-		NetworkSender sender = findSendThread(p);
+	public void removeEvent(MySocket socket) {
+		NetworkSender sender = findSendThread(socket);
 		sendThreads.remove(sender);
 	}
 
-	private NetworkSender findSendThread(Player p) {
+	private NetworkSender findSendThread(MySocket p) {
 		for (NetworkSender sender : sendThreads)
-			if (sender.isConnectionToPlayer(p.getOpponent()))
+			if (sender.usesThisSocket(p))
 				return sender;
-		throw new IllegalArgumentException("Could not find sendthread for player " + p.id());
+		throw new IllegalArgumentException("Could not find sendthread for socket " + p.getOwner());
 	}
 
 	public void sendMessageExceptToOneSocket(JsonWrapper wrapper, MySocket incomingSocket) {

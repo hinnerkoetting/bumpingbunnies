@@ -29,7 +29,7 @@ public class PlayerFromNetworkInputTest {
 
 	@Test
 	public void sendNewMessage_thenThereShouldExistNewMessage() {
-		this.fixture.sendNewMessage(createMessage());
+		this.fixture.onReceiveNewMessage(createMessage());
 		assertTrue(this.fixture.existsNewMessage());
 	}
 
@@ -51,11 +51,11 @@ public class PlayerFromNetworkInputTest {
 	}
 
 	private void sendNewMessageWithCounter(int counter, PlayerState state) {
-		this.fixture.sendNewMessage(new PlayerStateMessage(counter, state));
+		this.fixture.onReceiveNewMessage(new PlayerStateMessage(counter, state));
 	}
 
 	private void givenThereExistsNewMessage() {
-		this.fixture.sendNewMessage(createMessage());
+		this.fixture.onReceiveNewMessage(createMessage());
 	}
 
 	private PlayerStateMessage createMessage() {

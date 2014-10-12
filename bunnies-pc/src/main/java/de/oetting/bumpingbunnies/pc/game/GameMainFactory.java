@@ -10,9 +10,9 @@ import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
@@ -29,8 +29,7 @@ public class GameMainFactory {
 	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer) {
 		PcGameStopper gameStopper = new PcGameStopper();
 		GameMain main = createGameMain(gameStopper, parameter, world);
-		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(gameStopper,
-				SocketStorage.getSingleton(), main));
+		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(gameStopper, main));
 		main.setSendControl(networkMessageDistributor);
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration(), myPlayer, networkDispatcher,
@@ -49,7 +48,7 @@ public class GameMainFactory {
 
 	private GameMain createGameMain(PcGameStopper gameStopper, GameStartParameter parameter, World world) {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), new DummyMusicPlayer());
-		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, SocketStorage.getSingleton(), main);
+		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, main);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory);
 		main.setNetworkSendThread(networkSendThread);
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main);

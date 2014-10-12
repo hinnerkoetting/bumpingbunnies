@@ -65,7 +65,7 @@ public class HostBunnyKillCheckerTest {
 	}
 
 	private void whenPlayerJoins(Player player) {
-		this.fixture.newPlayerJoined(player);
+		this.fixture.newEvent(player);
 	}
 
 	@Before

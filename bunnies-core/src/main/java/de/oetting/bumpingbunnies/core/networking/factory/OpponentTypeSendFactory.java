@@ -1,12 +1,13 @@
 package de.oetting.bumpingbunnies.core.networking.factory;
 
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public interface OpponentTypeSendFactory {
 
-	NetworkSender createNetworkSender(Player player, GameStopper activity, SocketStorage sockets, PlayerDisconnectedCallback disconnectCallback);
+	NetworkSender createNetworkSender(GameStopper GameStopper, MySocket socket, PlayerDisconnectedCallback disconnectCallback);
+
+	NetworkSender createFastNetworkSender(GameStopper stopper, MySocket socket, PlayerDisconnectedCallback disconnectCallback);
 }

@@ -20,14 +20,14 @@ public class PcDrawer implements Drawer {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
+	public void newEvent(Player p) {
 		if (!needsUpdate)
-			objectsDrawer.newPlayerJoined(p);
+			objectsDrawer.newEvent(p);
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
-		objectsDrawer.playerLeftTheGame(p);
+	public void removeEvent(Player p) {
+		objectsDrawer.removeEvent(p);
 	}
 
 	@Override

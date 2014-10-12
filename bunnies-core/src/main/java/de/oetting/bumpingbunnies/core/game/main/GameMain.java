@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameSender;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
@@ -110,21 +110,18 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	}
 
 	public void addAllJoinListeners() {
-		addJoinListener(this.sendControl); // send control must be the first
 		this.gameThread.addAllJoinListeners(this);
-		addJoinListener(this.receiveControl);
-		addJoinListener(this.networkSenderThread);
 	}
 
 	@Override
-	public void newPlayerJoined(Player player) {
+	public void newEvent(Player player) {
 		LOGGER.info("Player joined %d", player.id());
 		this.world.getAllPlayer().add(player);
 		this.playerObservable.playerJoined(player);
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
+	public void removeEvent(Player p) {
 		world.removePlayer(p);
 		this.playerObservable.playerLeft(p);
 	}
@@ -152,9 +149,11 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	@Override
 	public void playerDisconnected(Opponent opponent) {
-		SocketStorage.getSingleton().removeSocket(opponent);
-		Player disconnectedPlayer = findPlayer(opponent);
-		playerLeftTheGame(disconnectedPlayer);
+		if (opponent.isDirectlyConnected()) {
+			SocketStorage.getSingleton().removeSocket(opponent);
+			Player disconnectedPlayer = findPlayer(opponent);
+			removeEvent(disconnectedPlayer);
+		}
 	}
 
 	private Player findPlayer(Opponent opponent) {
@@ -171,6 +170,13 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	public void setNetworkSendThread(NetworkPlayerStateSenderThread networkSendThread) {
 		this.networkSenderThread = networkSendThread;
+	}
+
+	public void addSocketListener() {
+		sockets.addObserver(sendControl);
+		sockets.addObserver(this.receiveControl);
+		sockets.addObserver(networkSenderThread);
+		SocketStorage.getSingleton().notifyListenersAboutAllSockets();
 	}
 
 }

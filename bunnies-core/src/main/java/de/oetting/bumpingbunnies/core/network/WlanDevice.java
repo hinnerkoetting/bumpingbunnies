@@ -11,7 +11,6 @@ import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 
 public class WlanDevice implements ServerDevice {
@@ -40,7 +39,7 @@ public class WlanDevice implements ServerDevice {
 		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, localPort, NetworkConstants.SERVER_NETWORK_PORT);
 		Socket socket = new Socket();
 		bindToLocalPort(localPort, socket);
-		return new TCPSocket(socket, socketAddress, OpponentFactory.createWlanPlayer(address, localPort, OpponentType.WLAN), settings);
+		return new TCPSocket(socket, socketAddress, OpponentFactory.createWlanPlayer(address, localPort), settings);
 	}
 
 	private void bindToLocalPort(int localPort, Socket socket) {

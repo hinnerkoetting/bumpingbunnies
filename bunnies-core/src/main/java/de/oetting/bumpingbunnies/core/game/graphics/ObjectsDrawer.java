@@ -61,14 +61,14 @@ public class ObjectsDrawer implements PlayerJoinListener {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
+	public void newEvent(Player p) {
 		synchronized (toBeUpdatedPlayers) {
 			toBeUpdatedPlayers.add(p);
 		}
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
+	public void removeEvent(Player p) {
 		if (toBeUpdatedPlayers.contains(p)) {
 			toBeUpdatedPlayers.remove(p);
 		} else {

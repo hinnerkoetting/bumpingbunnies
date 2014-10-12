@@ -1,9 +1,11 @@
-package de.oetting.bumpingbunnies.core.network;
+package de.oetting.bumpingbunnies.core.network.sockets;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.observer.Observer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
@@ -14,6 +16,8 @@ public class SocketStorage {
 
 	private static SocketStorage singleton;
 	private List<MySocket> sockets;
+
+	private SocketObservable observable = new SocketObservable();
 
 	public static SocketStorage getSingleton() {
 		if (singleton == null) {
@@ -61,6 +65,7 @@ public class SocketStorage {
 	public synchronized int addSocket(MySocket socket) {
 		int newPosition = this.sockets.size();
 		this.sockets.add(socket);
+		observable.socketAdded(socket);
 		return newPosition;
 	}
 
@@ -85,12 +90,23 @@ public class SocketStorage {
 		MySocket socket = findSocket(opponent);
 		closeOneSocket(socket);
 		sockets.remove(socket);
+		observable.socketRemoved(socket);
+	}
+
+	public void addObserver(Observer<MySocket> observer) {
+		observable.addListener(observer);
 	}
 
 	public static class OpponentDoesNotExist extends RuntimeException {
 
 		public OpponentDoesNotExist(Opponent opponent) {
 			super("Opponentidentifier = " + opponent.getIdentifier());
+		}
+	}
+
+	public synchronized void notifyListenersAboutAllSockets() {
+		for (MySocket socket : sockets) {
+			observable.socketAdded(socket);
 		}
 	}
 }

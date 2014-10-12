@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.networking.client;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.network.SocketStorage;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.GameSettingsReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
@@ -63,7 +63,7 @@ public class SetupConnectionWithServer implements ConnectionToServer, PlayerProp
 	}
 
 	public void addOtherPlayer(PlayerProperties object) {
-		addPlayerEntry(SetupConnectionWithServer.this.socket, object, 0);
+		addPlayerEntry(socket, object, 0);
 	}
 
 	public void onReceiveGameSettings(ServerSettings message) {

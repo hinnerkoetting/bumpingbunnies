@@ -81,13 +81,13 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
-		objectsDrawer.newPlayerJoined(p);
+	public void newEvent(Player p) {
+		objectsDrawer.newEvent(p);
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
-		objectsDrawer.playerLeftTheGame(p);
+	public void removeEvent(Player p) {
+		objectsDrawer.removeEvent(p);
 	}
 
 }

@@ -40,13 +40,13 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
@@ -124,7 +124,7 @@ public class BunniesMain extends Application {
 	}
 
 	private void playerJoins(Player myPlayer) {
-		gameMain.newPlayerJoined(myPlayer);
+		gameMain.newEvent(myPlayer);
 	}
 
 	private void createPanel(Stage primaryStage, Canvas canvas) {
@@ -179,6 +179,7 @@ public class BunniesMain extends Application {
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer);
 		gameMain.addAllJoinListeners();
+		gameMain.addSocketListener();
 		gameMain.addJoinListener(drawerThread);
 	}
 
@@ -209,8 +210,8 @@ public class BunniesMain extends Application {
 	}
 
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation, GameThreadState gameThreadState) {
-		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
-				new PcGameObjectDrawableFactory(), new PcPlayerDrawableFactory());
+		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(), new PcGameObjectDrawableFactory(),
+				new PcPlayerDrawableFactory());
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, new CanvasCoordinateTranslator(new PcCanvasDelegate(), coordinatesCalculation));
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);

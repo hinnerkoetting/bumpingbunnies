@@ -5,6 +5,6 @@ import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 
 public interface OpponentReceiverFactoryFactory {
 
-	public abstract OpponentTypeFactory createReceiveFactory(OpponentType type);
+	OpponentTypeFactory createReceiveFactory(OpponentType type);
 
 }

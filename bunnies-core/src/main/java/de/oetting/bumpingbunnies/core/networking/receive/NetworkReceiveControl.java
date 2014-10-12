@@ -3,20 +3,14 @@ package de.oetting.bumpingbunnies.core.networking.receive;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.sockets.NewSocketListener;
 
-public class NetworkReceiveControl implements PlayerJoinListener {
+public class NetworkReceiveControl implements NewSocketListener {
 
 	private List<NetworkReceiver> networkReceiveThreads;
 	private NetworkReceiverFactory factory;
-
-	public NetworkReceiveControl(NetworkReceiverFactory factory) {
-		this.factory = factory;
-		this.networkReceiveThreads = new CopyOnWriteArrayList<NetworkReceiver>();
-	}
 
 	public NetworkReceiveControl(NetworkReceiverFactory factory, List<NetworkReceiver> networkReceiveThreads) {
 		this.factory = factory;
@@ -31,8 +25,8 @@ public class NetworkReceiveControl implements PlayerJoinListener {
 	}
 
 	@Override
-	public void newPlayerJoined(Player p) {
-		List<NetworkReceiver> newThreads = this.factory.create(p);
+	public void newEvent(MySocket socket) {
+		List<NetworkReceiver> newThreads = this.factory.create(socket);
 		this.networkReceiveThreads.addAll(newThreads);
 		for (NetworkReceiver nrt : newThreads) {
 			nrt.start();
@@ -40,15 +34,15 @@ public class NetworkReceiveControl implements PlayerJoinListener {
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
-		List<NetworkReceiver> playerThreads = findThreadOfThisPlayer(p);
+	public void removeEvent(MySocket socket) {
+		List<NetworkReceiver> playerThreads = findThreadOfThisPlayer(socket);
 		this.networkReceiveThreads.removeAll(playerThreads);
 	}
 
-	private List<NetworkReceiver> findThreadOfThisPlayer(Player p) {
+	private List<NetworkReceiver> findThreadOfThisPlayer(MySocket socket) {
 		List<NetworkReceiver> threads = new LinkedList<NetworkReceiver>();
 		for (NetworkReceiver nrt : this.networkReceiveThreads) {
-			if (nrt.belongsToPlayer(p)) {
+			if (nrt.belongsToSocket(socket)) {
 				threads.add(nrt);
 			}
 		}

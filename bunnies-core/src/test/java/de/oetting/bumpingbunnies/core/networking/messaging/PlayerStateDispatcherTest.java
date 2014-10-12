@@ -40,7 +40,7 @@ public class PlayerStateDispatcherTest {
 	}
 
 	private void thenOneMessageShouldBeDispatchedToInputService() {
-		verify(this.inputService).sendNewMessage(any(PlayerStateMessage.class));
+		verify(this.inputService).onReceiveNewMessage(any(PlayerStateMessage.class));
 	}
 
 	private void whenMessageIsReceivedForPlayer(int playerId) {

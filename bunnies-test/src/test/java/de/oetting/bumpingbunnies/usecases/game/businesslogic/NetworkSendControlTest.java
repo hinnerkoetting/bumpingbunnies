@@ -16,13 +16,14 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
+import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)
@@ -59,7 +60,7 @@ public class NetworkSendControlTest {
 	}
 
 	private void whenPlayerJoins() {
-		this.fixture.newPlayerJoined(TestPlayerFactory.createMyPlayer());
+		this.fixture.newEvent(new TestSocket());
 	}
 
 	@Before
@@ -67,6 +68,6 @@ public class NetworkSendControlTest {
 		initMocks(this);
 		this.sendThreads = new LinkedList<>();
 		this.fixture = new NetworkMessageDistributor(this.factory, this.sendThreads);
-		when(this.factory.create(any(Player.class))).thenReturn(mock(NetworkSender.class));
+		when(this.factory.create(any(MySocket.class))).thenReturn(mock(NetworkSender.class));
 	}
 }

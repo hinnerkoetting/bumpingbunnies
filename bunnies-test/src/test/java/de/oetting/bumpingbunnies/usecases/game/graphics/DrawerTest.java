@@ -62,11 +62,11 @@ public class DrawerTest {
 	}
 
 	private void whenPlayerLeaves(Player p) {
-		this.fixture.playerLeftTheGame(p);
+		this.fixture.removeEvent(p);
 	}
 
 	private void givenPlayerDrawableDoesExist(Player p) {
-		this.fixture.newPlayerJoined(p);
+		this.fixture.newEvent(p);
 	}
 
 	private void thenNewDrawableIsDrawn() {
@@ -75,7 +75,7 @@ public class DrawerTest {
 
 	private void whenPlayerJoins() {
 		this.player = createOpponentPlayer();
-		this.fixture.newPlayerJoined(this.player);
+		this.fixture.newEvent(this.player);
 	}
 
 	@Before

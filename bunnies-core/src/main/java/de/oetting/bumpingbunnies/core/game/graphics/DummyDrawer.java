@@ -6,12 +6,12 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 public class DummyDrawer implements Drawer {
 
 	@Override
-	public void newPlayerJoined(Player p) {
+	public void newEvent(Player p) {
 
 	}
 
 	@Override
-	public void playerLeftTheGame(Player p) {
+	public void removeEvent(Player p) {
 
 	}
 

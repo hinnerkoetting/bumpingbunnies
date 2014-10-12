@@ -79,7 +79,7 @@ public class BunnyMovementStepTest {
 	}
 
 	private void whenRemovingPlayer(Player p) {
-		this.fixture.playerLeftTheGame(p);
+		this.fixture.removeEvent(p);
 	}
 
 	private void thenPlayerIsMoved(Player p) {
@@ -89,7 +89,7 @@ public class BunnyMovementStepTest {
 	}
 
 	private void whenAddingNewPlayer(Player p) {
-		this.fixture.newPlayerJoined(p);
+		this.fixture.newEvent(p);
 	}
 
 	private void whenExecutingNextStep() {
@@ -102,7 +102,7 @@ public class BunnyMovementStepTest {
 		initMovementFactory();
 		this.movedPlayer = TestPlayerFactory.createMyPlayer();
 		this.fixture = new BunnyMovementStep(this.killChecker, this.calculationFactory);
-		this.fixture.newPlayerJoined(this.movedPlayer);
+		this.fixture.newEvent(this.movedPlayer);
 	}
 
 	private void initMovementFactory() {
