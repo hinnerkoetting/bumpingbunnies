@@ -23,7 +23,7 @@ public class OpponentFactory {
 	}
 
 	public static Opponent createWlanPlayer(String address, int port) {
-		return new Opponent(new OpponentIdentifier("WLAN" + address + port), OpponentType.WLAN);
+		return new Opponent(new OpponentIdentifier("WLAN" + address + ":" + port), OpponentType.WLAN);
 	}
 
 	public static Opponent createListeningOpponent() {

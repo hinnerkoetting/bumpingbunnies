@@ -145,15 +145,15 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	public void start() {
 		gameThread.start();
+		newClientsAccepter.start();
+		networkSenderThread.start();
+		sendControl.start();
 	}
 
 	@Override
 	public void playerDisconnected(Opponent opponent) {
-		if (opponent.isDirectlyConnected()) {
-			SocketStorage.getSingleton().removeSocket(opponent);
-			Player disconnectedPlayer = findPlayer(opponent);
-			removeEvent(disconnectedPlayer);
-		}
+		Player disconnectedPlayer = findPlayer(opponent);
+		removeEvent(disconnectedPlayer);
 	}
 
 	private Player findPlayer(Opponent opponent) {

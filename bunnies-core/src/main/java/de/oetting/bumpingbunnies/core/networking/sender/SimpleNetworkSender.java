@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.core.networking.sender;
 
 import de.oetting.bumpingbunnies.core.network.MessageParser;
 import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket.WriteFailed;
@@ -32,6 +33,7 @@ public class SimpleNetworkSender implements NetworkSender {
 			this.socket.sendMessage(json);
 		} catch (WriteFailed e) {
 			disconnectCallback.playerDisconnected(socket.getOwner());
+			SocketStorage.getSingleton().removeSocket(socket);
 		}
 	}
 
@@ -39,11 +41,6 @@ public class SimpleNetworkSender implements NetworkSender {
 	public void sendMessage(MessageId id, Object message) {
 		String json = this.parser.encodeMessage(message);
 		sendMessage(JsonWrapper.create(id, json));
-	}
-
-	@Override
-	public void sendMessageFast(MessageId id, Object message) {
-		sendMessage(id, message);
 	}
 
 	@Override
@@ -58,6 +55,10 @@ public class SimpleNetworkSender implements NetworkSender {
 
 	@Override
 	public void cancel() {
+	}
+
+	@Override
+	public void start() {
 	}
 
 }

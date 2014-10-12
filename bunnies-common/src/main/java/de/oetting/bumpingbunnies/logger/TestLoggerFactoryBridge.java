@@ -1,7 +1,5 @@
-package de.oetting.bumpingbunnies.log;
+package de.oetting.bumpingbunnies.logger;
 
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactoryBridge;
 
 public class TestLoggerFactoryBridge extends LoggerFactoryBridge {
 

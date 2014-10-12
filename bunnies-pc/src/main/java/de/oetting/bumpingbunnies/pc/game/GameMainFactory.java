@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.pc.game;
 
-import de.oetting.bumpingbunnies.core.configuration.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
@@ -43,7 +43,7 @@ public class GameMainFactory {
 
 	private NetworkReceiveControl createNetworkReceiveFactory(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor networkMessageDistributor,
 			Configuration configuration) {
-		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, new PcOpponentReceiverFactoryFactory(), configuration);
+		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, configuration);
 	}
 
 	private GameMain createGameMain(PcGameStopper gameStopper, GameStartParameter parameter, World world) {
@@ -58,7 +58,7 @@ public class GameMainFactory {
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback) {
-		return NewClientsAccepterFactory.create(parameter, world, new PcConnectionEstablisherFactory(), callback);
+		return CommonGameMainFactory.createClientAccepter(parameter, world, new PcConnectionEstablisherFactory(), callback);
 	}
 
 	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, GameStopper gameStopper, Configuration configuration,

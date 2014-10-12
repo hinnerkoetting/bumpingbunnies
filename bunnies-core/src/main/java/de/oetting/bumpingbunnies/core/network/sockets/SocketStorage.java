@@ -86,8 +86,7 @@ public class SocketStorage {
 		return null;
 	}
 
-	public synchronized void removeSocket(Opponent opponent) {
-		MySocket socket = findSocket(opponent);
+	public synchronized void removeSocket(MySocket socket) {
 		closeOneSocket(socket);
 		sockets.remove(socket);
 		observable.socketRemoved(socket);

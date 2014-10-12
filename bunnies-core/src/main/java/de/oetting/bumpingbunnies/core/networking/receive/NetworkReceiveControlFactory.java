@@ -8,7 +8,6 @@ import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.network.OpponentReceiverFactoryFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.WlanOpponentTypeReceiveFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
@@ -16,10 +15,8 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 
 public class NetworkReceiveControlFactory {
 
-	public static NetworkReceiveControl create(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
-			OpponentReceiverFactoryFactory opponentTypeReceiveFactoryFactory, Configuration configuration) {
-		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(SocketStorage.getSingleton(), networkDispatcher, sendControl,
-				opponentTypeReceiveFactoryFactory);
+	public static NetworkReceiveControl create(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, Configuration configuration) {
+		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(networkDispatcher, sendControl);
 
 		List<NetworkReceiver> allThreads = createExistingReceiverThreads(networkDispatcher, sendControl, configuration);
 		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory, allThreads);

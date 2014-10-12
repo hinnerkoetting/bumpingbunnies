@@ -45,14 +45,14 @@ public class UdpAndTcpNetworkSender implements NetworkSender {
 	}
 
 	@Override
-	public void sendMessageFast(MessageId id, Object message) {
-		// should be udp-connection but that does not work at the moment
-		this.udpConnection.sendMessage(id, message);
+	public boolean isConnectionToPlayer(Opponent opponent) {
+		return this.owner.equals(opponent);
 	}
 
 	@Override
-	public boolean isConnectionToPlayer(Opponent opponent) {
-		return this.owner.equals(opponent);
+	public void start() {
+		tcpConnection.start();
+		udpConnection.start();
 	}
 
 }

@@ -48,9 +48,15 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void start() {
-		LOGGER.info("Start to accept clients");
-		this.broadcaster.startRegularServerBroadcast();
-		this.remoteCommunication.startThreadToAcceptClients();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				LOGGER.info("Start to accept clients");
+				broadcaster.startRegularServerBroadcast();
+				remoteCommunication.startThreadToAcceptClients();
+			}
+		}).start();
 	}
 
 	@Override

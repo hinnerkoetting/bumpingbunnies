@@ -20,12 +20,18 @@ public class PlayerStateSender {
 	}
 
 	public void sendState(Player player) {
-		if (!belongsToPlayer(player) && player.getOpponent().isLocalPlayer()) {
+		if (ownerOfSocketNeedsToKnowThisPlayersState(player)) {
 			synchronized (player) {
 				PlayerStateMessage message = new PlayerStateMessage(getNextMessageCounter(player), player.getState());
-				sender.sendMessageFast(MessageId.SEND_PLAYER_STATE, message);
+				sender.sendMessage(MessageId.SEND_PLAYER_STATE, message);
 			}
 		}
+	}
+
+	private boolean ownerOfSocketNeedsToKnowThisPlayersState(Player player) {
+		boolean isLocalPlayer = player.getOpponent().isLocalPlayer();
+		boolean playerIsControlledByOwnerOfSocket = belongsToPlayer(player);
+		return isLocalPlayer || (!playerIsControlledByOwnerOfSocket && player.getOpponent().isDirectlyConnected());
 	}
 
 	private long getNextMessageCounter(Player player) {

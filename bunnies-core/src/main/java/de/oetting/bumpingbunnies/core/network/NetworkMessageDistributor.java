@@ -106,6 +106,12 @@ public class NetworkMessageDistributor implements NewSocketListener {
 		throw new IllegalArgumentException("Could not find sendthread for " + opponent);
 	}
 
+	public void start() {
+		for (NetworkSender sender : sendThreads)
+			sender.start();
+	}
+
 	public static class ConnectionDoesNotExist extends RuntimeException {
 	}
+
 }

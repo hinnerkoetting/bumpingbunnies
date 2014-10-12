@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.log;
+package de.oetting.bumpingbunnies.logger;
 
 public class TestLogger implements de.oetting.bumpingbunnies.logger.Logger {
 

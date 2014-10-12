@@ -6,11 +6,11 @@ import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
-public class DummyRemoteSender implements NetworkSender {
+public class NoopRemoteSender implements NetworkSender {
 
 	private final Opponent opponent;
 
-	public DummyRemoteSender(Opponent opponent) {
+	public NoopRemoteSender(Opponent opponent) {
 		this.opponent = opponent;
 	}
 
@@ -28,16 +28,16 @@ public class DummyRemoteSender implements NetworkSender {
 	}
 
 	@Override
-	public void sendMessageFast(MessageId id, Object message) {
-	}
-
-	@Override
 	public boolean isConnectionToPlayer(Opponent opponent) {
 		return opponent.equals(this.opponent);
 	}
 
 	@Override
 	public void cancel() {
+	}
+
+	@Override
+	public void start() {
 	}
 
 }

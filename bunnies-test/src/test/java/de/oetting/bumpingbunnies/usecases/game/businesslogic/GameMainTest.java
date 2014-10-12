@@ -2,8 +2,6 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -29,10 +27,8 @@ import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -86,27 +82,6 @@ public class GameMainTest {
 		assertNumberOfPlayers(1);
 		whenPlayerLeaves(p);
 		assertNumberOfPlayers(0);
-	}
-
-	@Test
-	public void playerJoins_givenRemotePlayer_shouldAddNewSendThread() {
-		assertThat(this.sendThreads, hasSize(0));
-		givenIsRemotePlayer();
-		this.fixture.newEvent(TestPlayerFactory.createOpponentPlayer());
-		assertThat(this.sendThreads, hasSize(1));
-	}
-
-	private void givenIsRemotePlayer() {
-		when(this.sockets.existsSocket(any(Opponent.class))).thenReturn(true);
-	}
-
-	@Test
-	public void playerJoins_forAiPlayer_shouldCreateNewDummyNetworkSender() {
-		assertThat(this.sendThreads, hasSize(0));
-		givenIsAiPlayer();
-		this.fixture.newEvent(TestPlayerFactory.createOpponentPlayer(OpponentType.AI));
-		assertThat(this.sendThreads, hasSize(1));
-		assertThat(this.sendThreads.get(0), is(instanceOf(DummyRemoteSender.class)));
 	}
 
 	private void givenIsAiPlayer() {

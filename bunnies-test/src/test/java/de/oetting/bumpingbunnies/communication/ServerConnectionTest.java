@@ -37,13 +37,6 @@ public class ServerConnectionTest {
 		thenMessageShouldBeSendOverTcp(MessageId.SPAWN_POINT, "1");
 	}
 
-	// @Ignore("wird momentan �ber tcp gesendet")
-	@Test
-	public void sendFast_shouldSendMessageOverUdp() {
-		this.fixture.sendMessageFast(MessageId.SEND_PLAYER_STATE, "1");
-		thenMessageShouldBeSendOverUdp(MessageId.SEND_PLAYER_STATE, "1");
-	}
-
 	@Test
 	public void cancel_shouldCancelTcpAndUdpConnection() {
 		this.fixture.cancel();
@@ -78,10 +71,6 @@ public class ServerConnectionTest {
 
 	private void givenTcpUsesSocket(boolean usesSocket) {
 		when(this.tcpConnection.usesThisSocket(any(MySocket.class))).thenReturn(usesSocket);
-	}
-
-	private void thenMessageShouldBeSendOverUdp(MessageId messageId, Object message) {
-		verify(this.udpConnection).sendMessage(messageId, message);
 	}
 
 	private void thenMessageShouldBeSendOverTcp(MessageId messageId, Object message) {

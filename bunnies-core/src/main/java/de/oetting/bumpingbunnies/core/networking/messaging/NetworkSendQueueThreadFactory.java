@@ -8,7 +8,6 @@ public class NetworkSendQueueThreadFactory {
 
 	public static NetworkSendQueueThread create(MySocket socket, GameStopper activity) {
 		NetworkSendQueueThread thread = new NetworkSendQueueThread(socket, MessageParserFactory.create(), activity);
-		thread.start();
 		return thread;
 	}
 

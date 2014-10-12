@@ -7,9 +7,9 @@ import de.oetting.bumpingbunnies.android.xml.parsing.AndroidBitmapReader;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlReader;
 import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
-import de.oetting.bumpingbunnies.core.configuration.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
@@ -61,7 +61,7 @@ public class GameMainFactory {
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback) {
-		return NewClientsAccepterFactory.create(parameter, world, new AndroidConnectionEstablisherFactory(), callback);
+		return CommonGameMainFactory.createClientAccepter(parameter, world, new AndroidConnectionEstablisherFactory(), callback);
 	}
 
 	private static void addListener(GameMain main) {

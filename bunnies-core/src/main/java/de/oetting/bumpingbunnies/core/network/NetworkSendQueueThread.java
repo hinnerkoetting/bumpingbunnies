@@ -89,11 +89,6 @@ public class NetworkSendQueueThread extends Thread implements NetworkSender {
 	}
 
 	@Override
-	public void sendMessageFast(MessageId id, Object message) {
-		sendMessage(id, message);
-	}
-
-	@Override
 	public boolean isConnectionToPlayer(Opponent opponent) {
 		return this.socket.getOwner().equals(opponent);
 	}

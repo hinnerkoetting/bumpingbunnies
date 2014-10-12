@@ -12,7 +12,6 @@ public class NetworksendThreadFactory {
 		NetworkPlayerStateSenderStep step = new NetworkPlayerStateSenderStep(world, senderfactory);
 		ThreadLoop loop = new ThreadLoop(step, 30);
 		NetworkPlayerStateSenderThread networkSender = new NetworkPlayerStateSenderThread(loop, step);
-		networkSender.start();
 		return networkSender;
 	}
 }

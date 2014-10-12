@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
-import de.oetting.bumpingbunnies.communication.AndroidOpponentTypeReceiveFactoryFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThread;
@@ -55,7 +54,7 @@ public class GameThreadFactory {
 
 	private static NetworkReceiveControl createNetworkReceiveThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
 			Configuration configuration) {
-		return NetworkReceiveControlFactory.create(networkDispatcher, sendControl, new AndroidOpponentTypeReceiveFactoryFactory(), configuration);
+		return NetworkReceiveControlFactory.create(networkDispatcher, sendControl, configuration);
 	}
 
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context, World world) {

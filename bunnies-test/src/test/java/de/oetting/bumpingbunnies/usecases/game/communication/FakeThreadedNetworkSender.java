@@ -20,10 +20,6 @@ public class FakeThreadedNetworkSender implements NetworkSender {
 	}
 
 	@Override
-	public void sendMessageFast(MessageId id, Object message) {
-	}
-
-	@Override
 	public void sendMessage(JsonWrapper wrapper) {
 	}
 
@@ -39,6 +35,10 @@ public class FakeThreadedNetworkSender implements NetworkSender {
 
 	@Override
 	public void cancel() {
+	}
+
+	@Override
+	public void start() {
 	}
 
 }

@@ -11,12 +11,12 @@ public interface NetworkSender {
 
 	void sendMessage(MessageId id, Object message);
 
-	void sendMessageFast(MessageId id, Object message);
-
 	boolean usesThisSocket(MySocket socket);
 
 	boolean isConnectionToPlayer(Opponent opponent);
 
 	void cancel();
+
+	void start();
 
 }

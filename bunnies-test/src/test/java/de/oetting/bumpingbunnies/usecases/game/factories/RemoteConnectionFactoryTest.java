@@ -26,8 +26,7 @@ import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.messaging.DummyRemoteSender;
-import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
+import de.oetting.bumpingbunnies.core.networking.messaging.NoopRemoteSender;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
@@ -49,14 +48,14 @@ public class RemoteConnectionFactoryTest {
 	@Test
 	public void create_forLocalPlayer_shouldReturnDummyConnection() {
 		NetworkSender sender = this.fixture.create(new TestSocket(OpponentFactory.createLocalPlayer("")));
-		assertThat(sender, is(instanceOf(DummyRemoteSender.class)));
+		assertThat(sender, is(instanceOf(NoopRemoteSender.class)));
 	}
 
 	@Test
 	public void create_forWlanPlayer_shouldReturnDividedNetworkSender() {
 		givenWlanSocket();
 		NetworkSender sender = this.fixture.create(new TestSocket(OpponentFactory.createWlanPlayer("", 0)));
-		assertThat(sender, is(instanceOf(UdpAndTcpNetworkSender.class)));
+		assertThat(sender, is(instanceOf(NetworkSendQueueThread.class)));
 	}
 
 	private void givenWlanSocket() {
@@ -73,7 +72,7 @@ public class RemoteConnectionFactoryTest {
 	@Test
 	public void create_foraiPlayer_shouldReturnDummyConnection() {
 		NetworkSender sender = this.fixture.create(new TestSocket());
-		assertThat(sender, is(instanceOf(DummyRemoteSender.class)));
+		assertThat(sender, is(instanceOf(NoopRemoteSender.class)));
 	}
 
 	@Before

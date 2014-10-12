@@ -14,18 +14,7 @@ public class NewClientsAccepterFactory {
 
 	public static NewClientsAccepter create(GameStartParameter parameter, World world, ConnectionEstablisherFactory factory, PlayerDisconnectedCallback callback) {
 		final NewClientsAccepter accepter = createClientAccepter(parameter, world, factory, callback);
-		startAsynchronous(accepter);
 		return accepter;
-	}
-
-	private static void startAsynchronous(final NewClientsAccepter accepter) {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				accepter.start();
-			}
-		}).start();
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, ConnectionEstablisherFactory factory,

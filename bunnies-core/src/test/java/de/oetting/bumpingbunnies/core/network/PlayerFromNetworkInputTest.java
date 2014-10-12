@@ -59,7 +59,7 @@ public class PlayerFromNetworkInputTest {
 	}
 
 	private PlayerStateMessage createMessage() {
-		return createMessageWithCounter(0);
+		return createMessageWithCounter(1);
 	}
 
 	private PlayerStateMessage createMessageWithCounter(int counter) {
