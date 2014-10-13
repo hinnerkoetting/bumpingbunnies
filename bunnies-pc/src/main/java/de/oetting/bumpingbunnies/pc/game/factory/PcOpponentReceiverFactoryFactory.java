@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.pc.game;
+package de.oetting.bumpingbunnies.pc.game.factory;
 
 import de.oetting.bumpingbunnies.core.network.OpponentReceiverFactoryFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.WlanOpponentTypeFactory;

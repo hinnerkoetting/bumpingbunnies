@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.pc.game;
+package de.oetting.bumpingbunnies.pc.game.factory;
 
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;

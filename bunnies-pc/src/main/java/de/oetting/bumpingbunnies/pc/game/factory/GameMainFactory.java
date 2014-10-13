@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.pc.game;
+package de.oetting.bumpingbunnies.pc.game.factory;
 
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
@@ -21,7 +21,6 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
-import de.oetting.bumpingbunnies.pc.game.factory.GameThreadFactory;
 import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
 public class GameMainFactory {
