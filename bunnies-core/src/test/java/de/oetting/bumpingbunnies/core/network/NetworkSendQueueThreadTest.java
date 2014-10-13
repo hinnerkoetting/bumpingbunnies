@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.core.ByteArrayStartMatcher;
 import de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -30,7 +30,7 @@ public class NetworkSendQueueThreadTest {
 	private MySocket socket;
 	private MessageParser parser = MessageParserFactory.create();
 	@Mock
-	private GameStopper origin;
+	private OnThreadErrorCallback origin;
 	@Mock
 	private OutputStream os;
 

@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.messaging.stop;
 
-public interface GameStopper {
+public interface OnThreadErrorCallback {
 
 	void stopGame();
 

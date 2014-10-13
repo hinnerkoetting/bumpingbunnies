@@ -5,7 +5,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
@@ -23,11 +23,11 @@ public class NetworkSendQueueThread extends Thread implements NetworkSender {
 	private final BlockingQueue<String> messageQueue;
 	private final MySocket socket;
 	private final MessageParser parser;
-	private final GameStopper origin;
+	private final OnThreadErrorCallback origin;
 
 	private boolean canceled;
 
-	public NetworkSendQueueThread(MySocket socket, MessageParser parser, GameStopper origin) {
+	public NetworkSendQueueThread(MySocket socket, MessageParser parser, OnThreadErrorCallback origin) {
 		super("Network send thread");
 		this.socket = socket;
 		this.parser = parser;

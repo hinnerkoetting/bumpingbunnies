@@ -25,7 +25,7 @@ public class PcImagesColoror implements ImagesColorer {
 		Color convert = (Color) new PaintConverter().convert(paint);
 		ColorAdjust colorAdjust = new ColorAdjust();
 		colorAdjust.setHue((convert.getHue()) / 180.0);
-		colorAdjust.setSaturation(convert.getSaturation() * 2);
+		colorAdjust.setSaturation(convert.getSaturation());
 		colorAdjust.setContrast(colorAdjust.getContrast());
 		return colorAdjust;
 	}

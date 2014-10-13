@@ -6,9 +6,9 @@ import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class StopGameReceiver extends MessageReceiverTemplate<String> {
 
-	private final GameStopper stopper;
+	private final OnThreadErrorCallback stopper;
 
-	public StopGameReceiver(NetworkToGameDispatcher dispatcher, GameStopper stopper) {
+	public StopGameReceiver(NetworkToGameDispatcher dispatcher, OnThreadErrorCallback stopper) {
 		super(dispatcher, MessageId.STOP_GAME, String.class);
 		this.stopper = stopper;
 	}

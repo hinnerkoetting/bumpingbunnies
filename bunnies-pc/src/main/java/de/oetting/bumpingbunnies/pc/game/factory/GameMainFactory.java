@@ -13,7 +13,7 @@ import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
@@ -60,7 +60,7 @@ public class GameMainFactory {
 		return CommonGameMainFactory.createClientAccepter(parameter, world, new PcConnectionEstablisherFactory(), callback);
 	}
 
-	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, GameStopper gameStopper, Configuration configuration,
+	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, OnThreadErrorCallback gameStopper, Configuration configuration,
 			Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor, GameMain gameMain) {
 		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor,
 				gameMain);

@@ -1,11 +1,11 @@
 package de.oetting.bumpingbunnies.pc.network.messaging;
 
 import javafx.application.Platform;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class PcGameStopper implements GameStopper {
+public class PcGameStopper implements OnThreadErrorCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PcGameStopper.class);
 
