@@ -50,12 +50,12 @@ public class GameThreadFactory {
 	private static void initInputServices(GameMain main, ThreadErrorCallback activity, World world, NetworkToGameDispatcher networkDispatcher,
 			NetworkMessageDistributor sendControl, Configuration configuration) {
 		NetworkListeners.allNetworkListeners(networkDispatcher, world, activity, main, configuration);
-		main.setReceiveControl(createNetworkReceiveThreads(networkDispatcher, sendControl, configuration));
+		main.setReceiveControl(createNetworkReceiveThreads(networkDispatcher, sendControl, configuration, activity));
 	}
 
 	private static NetworkReceiveControl createNetworkReceiveThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
-			Configuration configuration) {
-		return NetworkReceiveControlFactory.create(networkDispatcher, sendControl, configuration);
+			Configuration configuration, ThreadErrorCallback errorCallback) {
+		return NetworkReceiveControlFactory.create(networkDispatcher, sendControl, configuration, errorCallback);
 	}
 
 	private static PlayerMovementCalculationFactory createMovementCalculationFactory(Context context, World world) {

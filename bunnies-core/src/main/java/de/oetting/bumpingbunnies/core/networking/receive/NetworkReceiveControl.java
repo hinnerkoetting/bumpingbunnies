@@ -5,14 +5,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.NewSocketListener;
 
 public class NetworkReceiveControl implements NewSocketListener {
 
 	private List<NetworkReceiver> networkReceiveThreads;
-	private NetworkReceiverFactory factory;
+	private NetworkReceiveThreadFactory factory;
 
-	public NetworkReceiveControl(NetworkReceiverFactory factory, List<NetworkReceiver> networkReceiveThreads) {
+	public NetworkReceiveControl(NetworkReceiveThreadFactory factory, List<NetworkReceiver> networkReceiveThreads) {
 		this.factory = factory;
 		this.networkReceiveThreads = new ArrayList<NetworkReceiver>();
 		this.networkReceiveThreads.addAll(networkReceiveThreads);

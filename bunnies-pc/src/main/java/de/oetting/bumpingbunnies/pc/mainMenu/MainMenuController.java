@@ -29,6 +29,7 @@ import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
@@ -47,7 +48,8 @@ import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
-public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback {
+public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback,
+		ThreadErrorCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainMenuController.class);
 
@@ -157,7 +159,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public void connectToServerSuccesfull(MySocket mmSocket) {
-		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this);
+		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this, this);
 		connectedToServerService.onConnectionToServer();
 	}
 
@@ -239,5 +241,10 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	public void onHostButton() {
 		Configuration configuration = createConfiguration(new ArrayList<>());
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
+	}
+
+	@Override
+	public void onThreadError() {
+		Platform.exit();
 	}
 }

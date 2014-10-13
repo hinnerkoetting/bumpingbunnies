@@ -284,7 +284,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public void clientConnectedSucessfull(final MySocket socket) {
-		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher(this), this);
+		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory
+				.create(this, socket, new StrictNetworkToGameDispatcher(this), this, this);
 		this.connectionToClientServices.add(connectionToClientService);
 		connectionToClientService.onConnectToClient(socket);
 		enableStartButton();
@@ -372,7 +373,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public void connectToServerSuccesfull(final MySocket socket) {
-		this.connectedToServerService = new SetupConnectionWithServer(socket, this, this, this);
+		this.connectedToServerService = new SetupConnectionWithServer(socket, this, this, this, this);
 		this.connectedToServerService.onConnectionToServer();
 	}
 

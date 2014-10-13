@@ -24,7 +24,7 @@ public class NewClientsAccepterFactory {
 			AcceptsClientConnectionsDelegate delegate = new AcceptsClientConnectionsDelegate();
 			NetworkBroadcaster bcs = new NetworkBroadcaster(errorCallback);
 			ConnectionEstablisher rc = factory.create(delegate, parameter.getConfiguration().getGeneralSettings(), null);
-			NewClientsAccepter accepter = new HostNewClientsAccepter(bcs, rc, world, parameter.getConfiguration().getGeneralSettings(), callback);
+			NewClientsAccepter accepter = new HostNewClientsAccepter(bcs, rc, world, parameter.getConfiguration().getGeneralSettings(), callback, errorCallback);
 			delegate.setAccepter(accepter);
 			return accepter;
 		} else {

@@ -7,6 +7,8 @@ import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket.ReadFailed;
+import de.oetting.bumpingbunnies.core.threads.BunniesThread;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
@@ -17,7 +19,7 @@ import de.oetting.bumpingbunnies.model.network.JsonWrapper;
  * dispatcher where the appropriate handler should be called.
  * 
  */
-public class NetworkReceiveThread extends Thread implements NetworkReceiver {
+public class NetworkReceiveThread extends BunniesThread implements NetworkReceiver {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkReceiveThread.class);
 	private final Gson gson;
@@ -25,16 +27,15 @@ public class NetworkReceiveThread extends Thread implements NetworkReceiver {
 	private boolean canceled;
 	private MySocket socket;
 
-	public NetworkReceiveThread(Gson gson, IncomingNetworkDispatcher networkDispatcher, MySocket socket) {
-		super("Network receive thread");
+	public NetworkReceiveThread(Gson gson, IncomingNetworkDispatcher networkDispatcher, MySocket socket, ThreadErrorCallback errorCallback) {
+		super("Network receive thread", errorCallback);
 		this.gson = gson;
 		this.networkDispatcher = networkDispatcher;
 		this.socket = socket;
-		setDaemon(true);
 	}
 
 	@Override
-	public void run() {
+	protected void doRun() throws Exception {
 		while (!this.canceled) {
 			try {
 				oneRun();

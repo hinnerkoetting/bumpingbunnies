@@ -4,6 +4,7 @@ import static de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts.CONV
 import static de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts.WRAPPER;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -22,6 +23,7 @@ import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -69,6 +71,6 @@ public class NetworkReceiveThreadTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.socket = new TestSocket(null, this.is);
-		this.fixture = new NetworkReceiveThread(new GsonFactory().create(), this.networkDispatcher, this.socket);
+		this.fixture = new NetworkReceiveThread(new GsonFactory().create(), this.networkDispatcher, this.socket, mock(ThreadErrorCallback.class));
 	}
 }

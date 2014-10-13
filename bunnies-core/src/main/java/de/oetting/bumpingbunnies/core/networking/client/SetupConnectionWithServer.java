@@ -14,6 +14,7 @@ import de.oetting.bumpingbunnies.core.networking.receive.StartGameReceiver;
 import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
@@ -25,17 +26,18 @@ public class SetupConnectionWithServer implements ConnectionToServer, PlayerProp
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SetupConnectionWithServer.class);
 	private final NetworkReceiver networkReceiver;
-	private ServerSettings generalSettingsFromNetwork;
-	private DisplaysConnectedServers displaysConnectedPlayers;
 	private final MySocket socket;
 	private final PlayerDisconnectedCallback disconnectCallback;
 
+	private ServerSettings generalSettingsFromNetwork;
+	private DisplaysConnectedServers displaysConnectedPlayers;
+
 	public SetupConnectionWithServer(MySocket socket, DisplaysConnectedServers displaysConnectedPlayers, PlayerDisconnectedCallback playerDisconnected,
-			PlayerDisconnectedCallback disconnectCallback) {
+			PlayerDisconnectedCallback disconnectCallback, ThreadErrorCallback errorCallback) {
 		this.socket = socket;
 		this.displaysConnectedPlayers = displaysConnectedPlayers;
 		this.disconnectCallback = disconnectCallback;
-		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket, playerDisconnected);
+		this.networkReceiver = NetworkReceiverDispatcherThreadFactory.createRoomNetworkReceiver(socket, playerDisconnected, errorCallback);
 	}
 
 	@Override

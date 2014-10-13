@@ -181,7 +181,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		this.tcpSocketToServer = mmSocket;
 		udpSocketToServer = new UdpSocketFactory().createListeningSocket((TCPSocket) tcpSocketToServer, tcpSocketToServer.getOwner());
 		LOGGER.info("Connected to server %s", mmSocket);
-		connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this);
+		connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this, this);
 		connectedToServerService.onConnectionToServer();
 		setLocalAndRemoteInformation(mmSocket);
 	}
@@ -231,8 +231,8 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		connectedToServerService.cancel();
 		EasyNetworkToGameDispatcher tcpNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
 		EasyNetworkToGameDispatcher updNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
-		NetworkReceiveThread receiverTcpThread = new NetworkReceiveThread(new GsonFactory().create(), tcpNetworkToGameDispatcher, tcpSocketToServer);
-		NetworkReceiveThread receiverUdpThread = new NetworkReceiveThread(new GsonFactory().create(), updNetworkToGameDispatcher, udpSocketToServer);
+		NetworkReceiveThread receiverTcpThread = new NetworkReceiveThread(new GsonFactory().create(), tcpNetworkToGameDispatcher, tcpSocketToServer, this);
+		NetworkReceiveThread receiverUdpThread = new NetworkReceiveThread(new GsonFactory().create(), updNetworkToGameDispatcher, udpSocketToServer, this);
 		addTcpListeners(tcpNetworkToGameDispatcher);
 		addUdpListeners(updNetworkToGameDispatcher);
 		receiverTcpThread.start();

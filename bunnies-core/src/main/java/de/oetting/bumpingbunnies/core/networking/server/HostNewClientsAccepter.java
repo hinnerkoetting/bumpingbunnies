@@ -14,6 +14,7 @@ import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallb
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -30,20 +31,24 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostNewClientsAccepter.class);
+
 	private final NetworkBroadcaster broadcaster;
 	private final ConnectionEstablisher remoteCommunication;
 	private final World world;
 	private final ServerSettings generalSettings;
 	private final PlayerDisconnectedCallback callback;
+	private final ThreadErrorCallback errorCallback;
+
 	private PlayerJoinListener mainJoinListener;
 
 	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, ServerSettings generalSettings,
-			PlayerDisconnectedCallback callback) {
+			PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
 		this.world = world;
 		this.generalSettings = generalSettings;
 		this.callback = callback;
+		this.errorCallback = errorCallback;
 	}
 
 	@Override
@@ -68,7 +73,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	@Override
 	public void clientConnectedSucessfull(MySocket socket) {
 		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher(callback),
-				callback);
+				callback, errorCallback);
 		connectionToClientService.onConnectToClient(socket);
 	}
 

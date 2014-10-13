@@ -34,15 +34,15 @@ public class GameMainFactory {
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration(), myPlayer, networkDispatcher,
 				networkMessageDistributor, main));
 		main.setWorld(world);
-		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration()));
+		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration(), gameStopper));
 		main.validateInitialised();
 		main.start();
 		return main;
 	}
 
 	private NetworkReceiveControl createNetworkReceiveFactory(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor networkMessageDistributor,
-			Configuration configuration) {
-		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, configuration);
+			Configuration configuration, ThreadErrorCallback errorCallback) {
+		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, configuration, errorCallback);
 	}
 
 	private GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world) {
