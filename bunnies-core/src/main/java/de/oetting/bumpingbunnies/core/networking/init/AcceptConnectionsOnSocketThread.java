@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.MySocket;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
 import de.oetting.bumpingbunnies.core.threads.BunniesThread;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class AcceptConnectionsOnSocketThread extends BunniesThread {
 	private final AcceptsClientConnections acceptsConnections;
 	private boolean canceled;
 
-	public AcceptConnectionsOnSocketThread(ServerSocket serverSocket, AcceptsClientConnections gameStarter, OnThreadErrorCallback onErrorCallback) {
+	public AcceptConnectionsOnSocketThread(ServerSocket serverSocket, AcceptsClientConnections gameStarter, ThreadErrorCallback onErrorCallback) {
 		super("Accepts requests from Clients", onErrorCallback);
 		this.acceptsConnections = gameStarter;
 		this.listeningSocket = serverSocket;

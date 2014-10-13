@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.core.threads;
 
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
@@ -15,9 +14,9 @@ public abstract class BunniesThread extends Thread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BunniesThread.class);
 
-	private final OnThreadErrorCallback stopper;
+	private final ThreadErrorCallback stopper;
 
-	protected BunniesThread(String name, OnThreadErrorCallback stopper) {
+	protected BunniesThread(String name, ThreadErrorCallback stopper) {
 		super(name);
 		this.stopper = stopper;
 		setDaemon(true);

@@ -6,8 +6,8 @@ import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablisher;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
@@ -18,7 +18,7 @@ public class PcConnectionEstablisherFactory implements ConnectionEstablisherFact
 	private static final Logger LOGGER = LoggerFactory.getLogger(PcConnectionEstablisherFactory.class);
 
 	@Override
-	public ConnectionEstablisher create(AcceptsClientConnections newClientsAccepter, ServerSettings settings, OnThreadErrorCallback errorCallback) {
+	public ConnectionEstablisher create(AcceptsClientConnections newClientsAccepter, ServerSettings settings, ThreadErrorCallback errorCallback) {
 		SocketFactory factory = createSocketFactory(settings);
 		DefaultConnectionEstablisher rci = new DefaultConnectionEstablisher(newClientsAccepter, null/**
 		 * 

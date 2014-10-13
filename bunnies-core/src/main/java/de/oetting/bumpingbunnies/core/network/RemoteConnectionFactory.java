@@ -3,15 +3,15 @@ package de.oetting.bumpingbunnies.core.network;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.factory.OpponentTypeSendFactory;
 import de.oetting.bumpingbunnies.core.networking.factory.OpponentTypeSendFactoryFactory;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 
 public class RemoteConnectionFactory {
 
-	private final OnThreadErrorCallback stopper;
+	private final ThreadErrorCallback stopper;
 	private final PlayerDisconnectedCallback disconnectCallback;
 
-	public RemoteConnectionFactory(OnThreadErrorCallback stopper, PlayerDisconnectedCallback disconnectCallback) {
+	public RemoteConnectionFactory(ThreadErrorCallback stopper, PlayerDisconnectedCallback disconnectCallback) {
 		this.stopper = stopper;
 		this.disconnectCallback = disconnectCallback;
 	}

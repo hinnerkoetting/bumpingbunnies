@@ -6,16 +6,16 @@ import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIs
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsRevived.PlayerIsRevivedReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointReceiver;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.OtherPlayerPropertiesReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerPropertiesReceiveListener;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 
 public class NetworkListeners {
 
-	public static void allNetworkListeners(NetworkToGameDispatcher networkDispatcher, World world, OnThreadErrorCallback activity, GameMain main,
+	public static void allNetworkListeners(NetworkToGameDispatcher networkDispatcher, World world, ThreadErrorCallback activity, GameMain main,
 			Configuration configuration) {
 		new StopGameReceiver(networkDispatcher, activity);
 		new PlayerIsDeadReceiver(networkDispatcher, world);

@@ -84,10 +84,6 @@ public class GameMainTest {
 		assertNumberOfPlayers(0);
 	}
 
-	private void givenIsAiPlayer() {
-		when(this.sockets.existsSocket(any(Opponent.class))).thenReturn(false);
-	}
-
 	private void assertNumberOfPlayers(int number) {
 		assertThat(this.fixture.getWorld().getAllPlayer(), hasSize(number));
 	}

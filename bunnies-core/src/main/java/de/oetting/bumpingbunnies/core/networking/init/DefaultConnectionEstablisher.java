@@ -4,8 +4,8 @@ import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
@@ -16,12 +16,12 @@ public class DefaultConnectionEstablisher implements ConnectionEstablisher {
 	private final SocketFactory serverSocketFactory;
 	private final AcceptsClientConnections acceptsClientConnections;
 	private final ConnectsToServer connectsToServer;
-	private final OnThreadErrorCallback threadErrorCallback;
+	private final ThreadErrorCallback threadErrorCallback;
 	private ConnectionToServerEstablisher connectThread;
 	private AcceptConnectionsOnSocketThread acceptThread;
 
 	public DefaultConnectionEstablisher(AcceptsClientConnections acceptsClientConnections, ConnectsToServer connectsToServer,
-			SocketFactory serverSocketFactory, OnThreadErrorCallback threadErrorCallback) {
+			SocketFactory serverSocketFactory, ThreadErrorCallback threadErrorCallback) {
 		this.acceptsClientConnections = acceptsClientConnections;
 		this.connectsToServer = connectsToServer;
 		this.serverSocketFactory = serverSocketFactory;

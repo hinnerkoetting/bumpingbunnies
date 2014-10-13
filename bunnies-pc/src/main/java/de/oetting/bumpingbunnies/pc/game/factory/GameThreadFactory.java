@@ -13,14 +13,14 @@ import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class GameThreadFactory {
 
-	public GameThread create(World world, OnThreadErrorCallback gameStopper, Configuration configuration, CameraPositionCalculation cameraCalculation, Player myPlayer,
+	public GameThread create(World world, ThreadErrorCallback gameStopper, Configuration configuration, CameraPositionCalculation cameraCalculation, Player myPlayer,
 			NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, GameMain main) {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		initInputServices(main, gameStopper, world, networkDispatcher, sendControl, configuration);
@@ -31,7 +31,7 @@ public class GameThreadFactory {
 		return new GameThread(stepController);
 	}
 
-	private static void initInputServices(GameMain main, OnThreadErrorCallback gameStopper, World world, NetworkToGameDispatcher networkDispatcher,
+	private static void initInputServices(GameMain main, ThreadErrorCallback gameStopper, World world, NetworkToGameDispatcher networkDispatcher,
 			NetworkMessageDistributor sendControl, Configuration configuration) {
 		NetworkListeners.allNetworkListeners(networkDispatcher, world, gameStopper, main, configuration);
 	}

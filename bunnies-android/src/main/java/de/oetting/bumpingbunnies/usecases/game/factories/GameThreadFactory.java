@@ -15,10 +15,10 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
@@ -46,7 +46,7 @@ public class GameThreadFactory {
 		return new GameThread(worldController);
 	}
 
-	private static void initInputServices(GameMain main, OnThreadErrorCallback activity, World world, NetworkToGameDispatcher networkDispatcher,
+	private static void initInputServices(GameMain main, ThreadErrorCallback activity, World world, NetworkToGameDispatcher networkDispatcher,
 			NetworkMessageDistributor sendControl, Configuration configuration) {
 		NetworkListeners.allNetworkListeners(networkDispatcher, world, activity, main, configuration);
 		main.setReceiveControl(createNetworkReceiveThreads(networkDispatcher, sendControl, configuration));

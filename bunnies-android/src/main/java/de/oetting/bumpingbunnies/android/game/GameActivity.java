@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
-import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawThread;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
@@ -24,7 +23,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordina
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
@@ -37,7 +36,7 @@ import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 /**
  * Controls the bumping-bunnies game.
  */
-public class GameActivity extends Activity implements OnThreadErrorCallback {
+public class GameActivity extends Activity implements ThreadErrorCallback {
 
 	private GameMain main;
 	private InputDispatcher<?> inputDispatcher;
@@ -166,16 +165,4 @@ public class GameActivity extends Activity implements OnThreadErrorCallback {
 		this.main.sendStopMessage();
 	}
 
-	@Override
-	public void onDisconnect() {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				String message = getString(R.string.disconnected);
-				Toast.makeText(GameActivity.this, message, Toast.LENGTH_LONG).show();
-				onThreadError();
-			}
-		});
-	}
 }

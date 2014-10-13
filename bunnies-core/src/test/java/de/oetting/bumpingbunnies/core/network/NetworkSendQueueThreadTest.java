@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.core.ByteArrayStartMatcher;
 import de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -30,7 +30,7 @@ public class NetworkSendQueueThreadTest {
 	private MySocket socket;
 	private MessageParser parser = MessageParserFactory.create();
 	@Mock
-	private OnThreadErrorCallback origin;
+	private ThreadErrorCallback origin;
 	@Mock
 	private OutputStream os;
 
@@ -57,7 +57,7 @@ public class NetworkSendQueueThreadTest {
 	}
 
 	private void thenGameIsNotified() {
-		verify(this.origin).onDisconnect();
+		verify(this.origin).onThreadError();
 	}
 
 	private void givenWriteFails() throws IOException {

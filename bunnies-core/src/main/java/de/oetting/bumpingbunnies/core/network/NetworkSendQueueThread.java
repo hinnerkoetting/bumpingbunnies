@@ -5,7 +5,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
@@ -23,15 +23,15 @@ public class NetworkSendQueueThread extends Thread implements NetworkSender {
 	private final BlockingQueue<String> messageQueue;
 	private final MySocket socket;
 	private final MessageParser parser;
-	private final OnThreadErrorCallback origin;
+	private final ThreadErrorCallback threadErrorCallback;
 
 	private boolean canceled;
 
-	public NetworkSendQueueThread(MySocket socket, MessageParser parser, OnThreadErrorCallback origin) {
+	public NetworkSendQueueThread(MySocket socket, MessageParser parser, ThreadErrorCallback threadErrorCallback) {
 		super("Network send thread");
 		this.socket = socket;
 		this.parser = parser;
-		this.origin = origin;
+		this.threadErrorCallback = threadErrorCallback;
 		this.messageQueue = new LinkedBlockingQueue<String>();
 		setDaemon(true);
 	}
@@ -62,7 +62,7 @@ public class NetworkSendQueueThread extends Thread implements NetworkSender {
 	}
 
 	private void endGameOnError() {
-		origin.onDisconnect();
+		threadErrorCallback.onThreadError();
 	}
 
 	@Override
