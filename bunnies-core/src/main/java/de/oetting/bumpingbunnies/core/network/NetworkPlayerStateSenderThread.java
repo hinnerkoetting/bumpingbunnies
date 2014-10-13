@@ -8,26 +8,29 @@ import de.oetting.bumpingbunnies.core.game.main.ThreadLoop;
 import de.oetting.bumpingbunnies.core.network.sockets.NewSocketListener;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.PlayerStateSender;
+import de.oetting.bumpingbunnies.core.threads.BunniesThread;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
-public class NetworkPlayerStateSenderThread extends Thread implements NewSocketListener {
+public class NetworkPlayerStateSenderThread extends BunniesThread implements NewSocketListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkPlayerStateSenderThread.class);
 	private final ThreadLoop loop;
 	private final NetworkPlayerStateSenderStep sendStep;
 	private boolean canceled;
 
-	public NetworkPlayerStateSenderThread(ThreadLoop loop, NetworkPlayerStateSenderStep sendStep) {
+	public NetworkPlayerStateSenderThread(ThreadLoop loop, NetworkPlayerStateSenderStep sendStep, ThreadErrorCallback errorCallback) {
+		super("Send player states", errorCallback);
 		this.loop = loop;
 		this.sendStep = sendStep;
 		setDaemon(true);
 	}
 
 	@Override
-	public void run() {
+	protected void doRun() throws Exception {
 		while (!canceled)
 			loop.nextStep();
 	}

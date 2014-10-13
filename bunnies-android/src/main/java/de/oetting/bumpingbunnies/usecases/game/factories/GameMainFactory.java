@@ -37,7 +37,7 @@ public class GameMainFactory {
 
 		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, main);
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
-		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory);
+		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory, activity);
 		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main, activity);
 		clientAccepter.setMain(main);
 		main.setNetworkSendThread(networkSendThread);

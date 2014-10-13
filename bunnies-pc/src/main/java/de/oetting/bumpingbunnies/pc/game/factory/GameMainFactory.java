@@ -48,7 +48,7 @@ public class GameMainFactory {
 	private GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world) {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), new DummyMusicPlayer());
 		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, main);
-		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory);
+		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory, gameStopper);
 		main.setNetworkSendThread(networkSendThread);
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main, gameStopper);
 		newClientsAccepter.setMain(main);
