@@ -22,7 +22,7 @@ public class NetworkBroadcaster {
 
 	public void startRegularServerBroadcast() {
 		cancel();
-		sendBroadcastsThread = SendBroadcastFactory.create();
+		sendBroadcastsThread = SendBroadcastFactory.create(errorCallback);
 		sendBroadcastsThread.start();
 	}
 

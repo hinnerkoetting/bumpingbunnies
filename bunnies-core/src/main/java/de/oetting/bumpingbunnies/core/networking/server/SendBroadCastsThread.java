@@ -3,25 +3,26 @@ package de.oetting.bumpingbunnies.core.networking.server;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
+import de.oetting.bumpingbunnies.core.threads.BunniesThread;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class SendBroadCastsThread extends Thread {
+public class SendBroadCastsThread extends BunniesThread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendBroadCastsThread.class);
 	private static final int BROASTCAST_SLEEP = 1000;
 	private boolean canceled;
 	private final List<UdpSocket> broadcastSockets;
 
-	public SendBroadCastsThread(List<UdpSocket> broadcastSockets) {
-		super("Sending broadcasts");
+	public SendBroadCastsThread(List<UdpSocket> broadcastSockets, ThreadErrorCallback errorCallback) {
+		super("Sending broadcasts", errorCallback);
 		this.broadcastSockets = broadcastSockets;
-		setDaemon(true);
 		LOGGER.info("Found %d broadcast addresses", broadcastSockets.size());
 	}
 
 	@Override
-	public void run() {
+	protected void doRun() throws Exception {
 		while (!this.canceled) {
 			sendBroadcastMessage();
 			sleep();

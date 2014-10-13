@@ -11,6 +11,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
@@ -20,10 +21,10 @@ public class SendBroadcastFactory {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendBroadcastFactory.class);
 
-	public static SendBroadCastsThread create() {
+	public static SendBroadCastsThread create(ThreadErrorCallback errorCallback) {
 		try {
 			List<UdpSocket> broadCastAddresses = getAllBroadCastSockets();
-			return new SendBroadCastsThread(broadCastAddresses);
+			return new SendBroadCastsThread(broadCastAddresses, errorCallback);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
