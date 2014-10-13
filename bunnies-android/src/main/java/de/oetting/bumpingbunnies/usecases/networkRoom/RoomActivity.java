@@ -43,6 +43,7 @@ import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
@@ -68,7 +69,7 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionTo
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections, ConnectionToServerSuccesfullCallback,
-		OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback {
+		OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback, OnThreadErrorCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
@@ -115,7 +116,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private void switchToBluetooth() {
 		LOGGER.info("selected bluetooth");
-		this.remoteCommunication = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this);
+		this.remoteCommunication = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this, this);
 	}
 
 	private void switchToWlan() {
@@ -517,5 +518,24 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	public void playerDisconnected(Opponent opponent) {
 		RoomEntry entry = playersAA.findEntry(opponent);
 		playersAA.remove(entry);
+	}
+
+	@Override
+	public void onThreadError() {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				String message = getString(R.string.unknown_error);
+				Toast.makeText(RoomActivity.this, message, Toast.LENGTH_SHORT).show();
+				ActivityLauncher.toStart(RoomActivity.this);
+			}
+		});
+	}
+
+	@Override
+	public void onDisconnect() {
+		// TODO
+		throw new IllegalArgumentException("Not needed");
 	}
 }

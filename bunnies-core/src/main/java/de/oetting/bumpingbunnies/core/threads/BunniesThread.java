@@ -24,14 +24,15 @@ public abstract class BunniesThread extends Thread {
 	}
 
 	public final void run() {
+		LOGGER.info("Starting threads %s", getName());
 		try {
 			doRun();
 		} catch (Throwable t) {
 			LOGGER.error("Exception on thread " + getName(), t);
-			stopper.stopGame();
+			stopper.onThreadError();
 		}
 
 	}
 
-	protected abstract void doRun();
+	protected abstract void doRun() throws Exception;
 }

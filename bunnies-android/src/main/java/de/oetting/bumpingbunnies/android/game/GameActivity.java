@@ -90,7 +90,7 @@ public class GameActivity extends Activity implements OnThreadErrorCallback {
 	}
 
 	@Override
-	public void stopGame() {
+	public void onThreadError() {
 		this.main.stop();
 		drawThread.cancel();
 		ActivityLauncher.startResult(this, extractResult());
@@ -174,7 +174,7 @@ public class GameActivity extends Activity implements OnThreadErrorCallback {
 			public void run() {
 				String message = getString(R.string.disconnected);
 				Toast.makeText(GameActivity.this, message, Toast.LENGTH_LONG).show();
-				stopGame();
+				onThreadError();
 			}
 		});
 	}

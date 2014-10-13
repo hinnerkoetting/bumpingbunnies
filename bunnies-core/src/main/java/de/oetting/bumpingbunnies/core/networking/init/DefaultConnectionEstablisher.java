@@ -4,22 +4,28 @@ import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.OnThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 public class DefaultConnectionEstablisher implements ConnectionEstablisher {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConnectionEstablisher.class);
+
 	private final SocketFactory serverSocketFactory;
 	private final AcceptsClientConnections acceptsClientConnections;
 	private final ConnectsToServer connectsToServer;
+	private final OnThreadErrorCallback threadErrorCallback;
 	private ConnectionToServerEstablisher connectThread;
-	private AcceptThread acceptThread;
+	private AcceptConnectionsOnSocketThread acceptThread;
 
-	public DefaultConnectionEstablisher(AcceptsClientConnections acceptsClientConnections, ConnectsToServer connectsToServer, SocketFactory serverSocketFactory) {
+	public DefaultConnectionEstablisher(AcceptsClientConnections acceptsClientConnections, ConnectsToServer connectsToServer,
+			SocketFactory serverSocketFactory, OnThreadErrorCallback threadErrorCallback) {
 		this.acceptsClientConnections = acceptsClientConnections;
 		this.connectsToServer = connectsToServer;
 		this.serverSocketFactory = serverSocketFactory;
+		this.threadErrorCallback = threadErrorCallback;
 		this.acceptThread = null;
 		this.connectThread = null;
 	}
@@ -28,7 +34,7 @@ public class DefaultConnectionEstablisher implements ConnectionEstablisher {
 	public void startThreadToAcceptClients() {
 		LOGGER.info("Starting server");
 		if (acceptThread == null) {
-			this.acceptThread = new AcceptThread(this.serverSocketFactory.create(), this.acceptsClientConnections);
+			this.acceptThread = new AcceptConnectionsOnSocketThread(this.serverSocketFactory.create(), this.acceptsClientConnections, threadErrorCallback);
 			this.acceptThread.start();
 		}
 	}

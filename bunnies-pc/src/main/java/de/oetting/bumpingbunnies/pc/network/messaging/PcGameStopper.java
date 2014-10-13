@@ -10,7 +10,7 @@ public class PcGameStopper implements OnThreadErrorCallback {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PcGameStopper.class);
 
 	@Override
-	public void stopGame() {
+	public void onThreadError() {
 		Platform.exit();
 	}
 
