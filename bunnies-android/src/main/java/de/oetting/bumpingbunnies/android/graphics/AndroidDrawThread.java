@@ -2,19 +2,21 @@ package de.oetting.bumpingbunnies.android.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.GameScreenSizeChangeListener;
+import de.oetting.bumpingbunnies.core.threads.BunniesThread;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 
-public class AndroidDrawThread extends Thread implements GameScreenSizeChangeListener {
+public class AndroidDrawThread extends BunniesThread implements GameScreenSizeChangeListener {
 
 	private final Drawer drawer;
 	private boolean canceled;
 
-	public AndroidDrawThread(Drawer drawer) {
-		super();
+	public AndroidDrawThread(Drawer drawer, ThreadErrorCallback errorCallback) {
+		super("Android drawer thread", errorCallback);
 		this.drawer = drawer;
 	}
 
 	@Override
-	public void run() {
+	protected void doRun() throws Exception {
 		while (!canceled) {
 			drawer.draw();
 		}

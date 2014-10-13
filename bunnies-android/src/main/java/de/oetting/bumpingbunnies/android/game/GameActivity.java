@@ -63,7 +63,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 		ObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, this, parameter.getConfiguration(), calculations);
 		AndroidDrawer drawer = new AndroidDrawer(objectsDrawer, parameter.getConfiguration().getLocalSettings().isAltPixelMode());
 		contentView.setCallback(drawer);
-		drawThread = new AndroidDrawThread(new DrawerFpsCounter(drawer, threadState));
+		drawThread = new AndroidDrawThread(new DrawerFpsCounter(drawer, threadState), this);
 		drawThread.start();
 		main.addJoinListener(drawer);
 		contentView.addOnSizeListener(drawThread);
