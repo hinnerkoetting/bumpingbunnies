@@ -3,8 +3,9 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 import android.content.Context;
 import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.logic.CommonGameThreadFactory;
+import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
-import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.NetworkListeners;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
@@ -39,11 +40,11 @@ public class GameThreadFactory {
 		// Sending Coordinates Strep
 		GameStepController worldController = GameStepControllerFactory.create(cameraPositionCalculator, world, stateDispatcher, factory, sendControl,
 				configuration);
-		return createGameThread(worldController);
+		return createGameThread(worldController, activity);
 	}
 
-	private static GameThread createGameThread(GameStepController worldController) {
-		return new GameThread(worldController);
+	private static GameThread createGameThread(GameStepController worldController, ThreadErrorCallback errorCallback) {
+		return CommonGameThreadFactory.create(worldController, errorCallback);
 	}
 
 	private static void initInputServices(GameMain main, ThreadErrorCallback activity, World world, NetworkToGameDispatcher networkDispatcher,

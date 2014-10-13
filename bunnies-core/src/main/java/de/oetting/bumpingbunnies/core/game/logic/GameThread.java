@@ -1,20 +1,19 @@
-package de.oetting.bumpingbunnies.core.game.main;
+package de.oetting.bumpingbunnies.core.game.logic;
 
+import de.oetting.bumpingbunnies.core.game.main.ThreadLoop;
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
+import de.oetting.bumpingbunnies.core.threads.BunniesThread;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 /**
- * All game logic and drawing of the game is executed in this thread.<br>
- * During each loop it will: <li>
- * It will call the {@link GameStepController} for gamelogic.</li> <br>
- * <li>The {@link AndroidObjectsDrawer} is called to draw</li><br>
- * <li>It will handle fps</li
- * 
+ * Game logic is executed in this thread.<br>
+ * Executions per second are limited.
  * 
  */
-public class GameThread extends Thread {
+public class GameThread extends BunniesThread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
 
@@ -24,31 +23,14 @@ public class GameThread extends Thread {
 	private boolean running;
 	private boolean canceled;
 
-	public GameThread(GameStepController worldController) {
-		super("Main Game Thread");
-		setDaemon(true);
+	public GameThread(GameStepController worldController, ThreadLoop loop, ThreadErrorCallback errorCallback) {
+		super("Main Game Thread", errorCallback);
 		this.worldController = worldController;
 		this.running = true;
-		loop = new ThreadLoop(new OneLoopStep() {
-
-			@Override
-			public void nextStep(long delta) {
-				GameThread.this.worldController.nextStep(delta);
-			}
-		}, 100);
+		this.loop = loop;
 	}
 
-	@Override
-	public void run() {
-		try {
-			internalRun();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void internalRun() throws InterruptedException {
-		LOGGER.info("start game thread");
+	protected void doRun() throws InterruptedException {
 		while (!this.canceled) {
 			if (this.running) {
 				loop.nextStep();

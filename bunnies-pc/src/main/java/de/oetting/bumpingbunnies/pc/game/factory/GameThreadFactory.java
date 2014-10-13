@@ -1,8 +1,9 @@
 package de.oetting.bumpingbunnies.pc.game.factory;
 
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.logic.CommonGameThreadFactory;
+import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
-import de.oetting.bumpingbunnies.core.game.main.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.NetworkListeners;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
@@ -20,15 +21,15 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class GameThreadFactory {
 
-	public GameThread create(World world, ThreadErrorCallback gameStopper, Configuration configuration, CameraPositionCalculation cameraCalculation, Player myPlayer,
-			NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, GameMain main) {
+	public GameThread create(World world, ThreadErrorCallback gameStopper, Configuration configuration, CameraPositionCalculation cameraCalculation,
+			Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, GameMain main) {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		initInputServices(main, gameStopper, world, networkDispatcher, sendControl, configuration);
 
 		PlayerMovementCalculationFactory factory = createFactory(world);
 		GameStepController stepController = GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl, configuration);
 
-		return new GameThread(stepController);
+		return CommonGameThreadFactory.create(stepController, gameStopper);
 	}
 
 	private static void initInputServices(GameMain main, ThreadErrorCallback gameStopper, World world, NetworkToGameDispatcher networkDispatcher,

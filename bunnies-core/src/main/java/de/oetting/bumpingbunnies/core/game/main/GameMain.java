@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.game.main;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.assertion.Guard;
+import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
