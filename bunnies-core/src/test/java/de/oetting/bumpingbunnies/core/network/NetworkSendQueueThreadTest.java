@@ -46,7 +46,7 @@ public class NetworkSendQueueThreadTest {
 	public void runOnce_givenExceptionIsThrown_shouldNotifyGame() throws IOException, InterruptedException {
 		addMessageToQueue();
 		givenWriteFails();
-		this.fixture.runOnce();
+		this.fixture.run();
 		thenGameIsNotified();
 	}
 
