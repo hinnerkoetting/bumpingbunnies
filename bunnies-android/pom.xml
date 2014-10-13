@@ -11,7 +11,7 @@
 	<packaging>apk</packaging>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<finalName>${project.artifactId}</finalName>
+		<finalName>${project.artifactId}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -21,10 +21,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>build-helper-maven-plugin</artifactId> 
-				<version>1.7</version> <executions> <execution> <id>add-source</id> <phase>generate-sources</phase> 
-				<goals> <goal>add-source</goal> </goals> <configuration> <sources> <source>gen</source> 
-				</sources> </configuration> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
@@ -35,8 +31,26 @@
 					</sdk>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					<extractDuplicates>true</extractDuplicates>
+					<sign>
+						<debug>${android.debug}</debug>
+					</sign>
+					<zipalign>
+						<skip>${android.zipalign.skip}</skip>
+						<inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
+						<outputApk>${project.build.directory}/${project.artifactId}-aligned.apk</outputApk>
+					</zipalign>
+					<release>${android.release}</release>
 				</configuration>
 				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>alignApk</id>
+						<phase>install</phase>
+						<goals>
+							<goal>zipalign</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<pluginManagement>
@@ -77,7 +91,12 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<!--define android sdk path depending on os-->	
+	<properties>
+		<android.zipalign.skip>true</android.zipalign.skip>
+		<android.debug>true</android.debug>
+		<android.release>false</android.release>
+	</properties>
+	<!--define android sdk path depending on os -->
 	<profiles>
 		<profile>
 			<id>deploy</id>
@@ -85,6 +104,7 @@
 				<plugins>
 					<plugin>
 						<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+						<version>3.8.2</version>
 						<artifactId>android-maven-plugin</artifactId>
 						<executions>
 							<execution>
@@ -93,6 +113,49 @@
 									<goal>deploy</goal>
 									<goal>run</goal>
 								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>release</id>
+			<properties>
+				<android.zipalign.skip>false</android.zipalign.skip>
+				<android.debug>false</android.debug>
+				<android.release>true</android.release>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>1.3.2</version>
+						<executions>
+							<execution>
+								<id>signing</id>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<phase>package</phase>
+								<inherited>true</inherited>
+								<configuration>
+									<archiveDirectory></archiveDirectory>
+									<includes>
+										<include>target/*.apk</include>
+									</includes>
+									<keystore>/media/hinni/AE52D41052D3DAE3/develop/keystore/keystore</keystore>
+									<storepass>AAAAAAA</storepass>
+									<keypass>BBBBBBB</keypass>
+									<alias>bumpingbunnies</alias>
+									<arguments>
+										<argument>-sigalg</argument>
+										<argument>MD5withRSA</argument>
+										<argument>-digestalg</argument>
+										<argument>SHA1</argument>
+									</arguments>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
