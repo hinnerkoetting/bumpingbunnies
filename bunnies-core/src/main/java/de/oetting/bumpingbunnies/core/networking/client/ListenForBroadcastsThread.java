@@ -5,10 +5,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import de.oetting.bumpingbunnies.core.threads.BunniesThread;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class ListenForBroadcastsThread extends Thread {
+public class ListenForBroadcastsThread extends BunniesThread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ListenForBroadcastsThread.class);
 
@@ -18,17 +20,16 @@ public class ListenForBroadcastsThread extends Thread {
 
 	private boolean canceled;
 
-	public ListenForBroadcastsThread(DatagramSocket socket, OnBroadcastReceived callback) {
-		super("Listening for broadcasts");
+	public ListenForBroadcastsThread(DatagramSocket socket, OnBroadcastReceived callback, ThreadErrorCallback errorCallback) {
+		super("Listening for broadcasts", errorCallback);
 		this.socket = socket;
 		this.callback = callback;
 		byte[] buffer = new byte[1024];
 		this.packet = new DatagramPacket(buffer, buffer.length);
-		setDaemon(true);
 	}
 
 	@Override
-	public void run() {
+	protected void doRun() throws Exception {
 		while (!this.canceled) {
 			try {
 				oneRun();
@@ -36,15 +37,10 @@ public class ListenForBroadcastsThread extends Thread {
 				if (this.canceled) {
 					LOGGER.info("exception because socket was closed. But Thread was already canceled.");
 				} else {
-					LOGGER.error("exception because socket was closed");
-					displayErrorMessage();
+					throw e;
 				}
 			}
 		}
-	}
-
-	private void displayErrorMessage() {
-		this.callback.errorOnBroadcastListening();
 	}
 
 	private void oneRun() throws IOException {

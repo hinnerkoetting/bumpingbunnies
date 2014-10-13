@@ -98,7 +98,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		initRoom();
 		displayDefaultIp();
 		this.connectedToServerService = new DummyConnectionToServer();
-		this.broadcastService = new NetworkBroadcaster();
+		this.broadcastService = new NetworkBroadcaster(this);
 	}
 
 	private void displayDefaultIp() {
@@ -490,18 +490,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		} else {
 			this.remoteCommunication.searchServer();
 		}
-	}
-
-	@Override
-	public void errorOnBroadcastListening() {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				String message = getString(R.string.could_not_connect);
-				Toast.makeText(RoomActivity.this, message, Toast.LENGTH_SHORT).show();
-			}
-		});
 	}
 
 	@Override

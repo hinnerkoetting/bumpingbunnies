@@ -46,6 +46,7 @@ import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
@@ -63,7 +64,8 @@ import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
-public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer, PlayerDisconnectedCallback {
+public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer, PlayerDisconnectedCallback,
+		ThreadErrorCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TesterController.class);
 
@@ -121,7 +123,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	TextField remoteAddressTextfield;
 
 	public void initialize(URL location, ResourceBundle resources) {
-		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this);
+		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this, this);
 		listenForBroadcasts.start();
 		updateBytesPerSecond();
 	}
@@ -418,5 +420,10 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private void updateTableItem(DetailRoomEntry roomEntry) {
 		int indexOf = playersTable.getItems().indexOf(roomEntry);
 		playersTable.getItems().set(indexOf, roomEntry);
+	}
+
+	@Override
+	public void onThreadError() {
+		Platform.exit();
 	}
 }

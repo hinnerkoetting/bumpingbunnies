@@ -45,6 +45,7 @@ import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
+import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
 public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback {
 
@@ -128,7 +129,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private void listenForBroadcasts() {
 		try {
-			listenForBroadcastsThread = ListenforBroadCastsThreadFactory.create(this);
+			listenForBroadcastsThread = ListenforBroadCastsThreadFactory.create(this, new PcGameStopper());
 			listenForBroadcastsThread.start();
 		} catch (CouldNotOpenBroadcastSocketException e) {
 			hostsTable.getItems().add(new Host("Cannot listen to broadcasts..."));
@@ -140,11 +141,6 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		Host host = new Host(senderAddress);
 		if (!hostsTable.getItems().contains(host))
 			hostsTable.getItems().add(host);
-	}
-
-	@Override
-	public void errorOnBroadcastListening() {
-		Platform.exit();
 	}
 
 	public void onButtonConnect() {

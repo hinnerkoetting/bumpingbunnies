@@ -19,6 +19,7 @@ import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
@@ -37,7 +38,7 @@ public class GameMainFactory {
 		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, main);
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory);
-		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main);
+		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main, activity);
 		clientAccepter.setMain(main);
 		main.setNetworkSendThread(networkSendThread);
 		main.setSendControl(sendControl);
@@ -60,8 +61,9 @@ public class GameMainFactory {
 				new AndroidXmlReader(activity, factory.getResourceId()));
 	}
 
-	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback) {
-		return CommonGameMainFactory.createClientAccepter(parameter, world, new AndroidConnectionEstablisherFactory(), callback);
+	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback,
+			ThreadErrorCallback errorCallback) {
+		return CommonGameMainFactory.createClientAccepter(parameter, world, new AndroidConnectionEstablisherFactory(), callback, errorCallback);
 	}
 
 	private static void addListener(GameMain main) {

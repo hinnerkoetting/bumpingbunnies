@@ -45,23 +45,25 @@ public class GameMainFactory {
 		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, configuration);
 	}
 
-	private GameMain createGameMain(PcGameStopper gameStopper, GameStartParameter parameter, World world) {
+	private GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world) {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), new DummyMusicPlayer());
 		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, main);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory);
 		main.setNetworkSendThread(networkSendThread);
-		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main);
+		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main, gameStopper);
 		newClientsAccepter.setMain(main);
 		main.setNewClientsAccepter(newClientsAccepter);
 		return main;
 	}
 
-	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback) {
-		return CommonGameMainFactory.createClientAccepter(parameter, world, new PcConnectionEstablisherFactory(), callback);
+	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback,
+			ThreadErrorCallback errorCallback) {
+		return CommonGameMainFactory.createClientAccepter(parameter, world, new PcConnectionEstablisherFactory(), callback, errorCallback);
 	}
 
-	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, ThreadErrorCallback gameStopper, Configuration configuration,
-			Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor, GameMain gameMain) {
+	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, ThreadErrorCallback gameStopper,
+			Configuration configuration, Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor,
+			GameMain gameMain) {
 		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor,
 				gameMain);
 	}
