@@ -15,6 +15,6 @@ public class PlayerDisconnectedReceiver extends MessageReceiverTemplate<PlayerDi
 
 	@Override
 	public void onReceiveMessage(PlayerDisconnectedMessage object) {
-		callback.playerDisconnected(object.getOpponent());
+		callback.playerDisconnected(object.getPlayerId());
 	}
 }

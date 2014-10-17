@@ -13,22 +13,23 @@ import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatch
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
 public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactory {
 
 	@Override
 	public List<NetworkReceiver> createReceiveThreadsForOnePlayer(MySocket socket, NetworkToGameDispatcher networkDispatcher,
-			NetworkMessageDistributor sendControl, ThreadErrorCallback errorCallback) {
+			NetworkMessageDistributor sendControl, ThreadErrorCallback errorCallback, World world) {
 		List<NetworkReceiver> networkReceiveThreads = new ArrayList<NetworkReceiver>();
-		networkReceiveThreads.add(createNormalSocketNetworkReceiver(networkDispatcher, sendControl, socket, errorCallback));
+		networkReceiveThreads.add(createNormalSocketNetworkReceiver(networkDispatcher, sendControl, socket, errorCallback, world));
 		return networkReceiveThreads;
 	}
 
 	private NetworkReceiveThread createNormalSocketNetworkReceiver(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
-			MySocket socket, ThreadErrorCallback errorCallback) {
+			MySocket socket, ThreadErrorCallback errorCallback, World world) {
 		NetworkReceiveThread tcpReceiveThread = NetworkReceiverDispatcherThreadFactory.createGameNetworkReceiver(socket, networkDispatcher, sendControl,
-				errorCallback);
+				errorCallback, world);
 		return tcpReceiveThread;
 	}
 

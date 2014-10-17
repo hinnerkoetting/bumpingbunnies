@@ -7,15 +7,16 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkToOtherClientsDispatcher;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.world.World;
 
 public class NetworkReceiverDispatcherThreadFactory {
 
 	public static NetworkReceiveThread createGameNetworkReceiver(MySocket socket, NetworkToGameDispatcher networkDispatcher,
-			NetworkMessageDistributor sendControl, ThreadErrorCallback errorCallback) {
+			NetworkMessageDistributor sendControl, ThreadErrorCallback errorCallback, World world) {
 
 		// create a new dispatcher which will dispatch incoming events to all
 		// other clients connected to this device.
-		NetworkToOtherClientsDispatcher otherClientsDispatcher = new NetworkToOtherClientsDispatcher(socket, networkDispatcher, sendControl);
+		NetworkToOtherClientsDispatcher otherClientsDispatcher = new NetworkToOtherClientsDispatcher(socket, networkDispatcher, sendControl, world);
 		return createNetworkReceiver(socket, otherClientsDispatcher, errorCallback);
 	}
 

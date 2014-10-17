@@ -10,13 +10,15 @@ import de.oetting.bumpingbunnies.core.networking.messaging.receiver.OpponentType
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.world.World;
 
 public class BluetoothOpponentTypeReceiveFactory implements OpponentTypeReceiveFactory {
 
 	@Override
 	public List<NetworkReceiver> createReceiveThreadsForOnePlayer(MySocket socket, NetworkToGameDispatcher networkDispatcher,
-			NetworkMessageDistributor sendControl, ThreadErrorCallback errorCallback) {
-		NetworkReceiver receiveThread = NetworkReceiverDispatcherThreadFactory.createGameNetworkReceiver(socket, networkDispatcher, sendControl, errorCallback);
+			NetworkMessageDistributor sendControl, ThreadErrorCallback errorCallback, World world) {
+		NetworkReceiver receiveThread = NetworkReceiverDispatcherThreadFactory.createGameNetworkReceiver(socket, networkDispatcher, sendControl, errorCallback,
+				world);
 		return Arrays.asList(receiveThread);
 	}
 

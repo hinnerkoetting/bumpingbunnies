@@ -7,9 +7,10 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.world.World;
 
 public interface OpponentTypeReceiveFactory {
 
 	List<NetworkReceiver> createReceiveThreadsForOnePlayer(MySocket socket, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
-			ThreadErrorCallback errorCallback);
+			ThreadErrorCallback errorCallback, World world);
 }

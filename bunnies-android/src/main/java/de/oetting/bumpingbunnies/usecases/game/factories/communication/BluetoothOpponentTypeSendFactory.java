@@ -12,7 +12,7 @@ public class BluetoothOpponentTypeSendFactory implements OpponentTypeSendFactory
 
 	@Override
 	public NetworkSender createNetworkSender(ThreadErrorCallback stopper, MySocket socket, PlayerDisconnectedCallback disconnectCallback) {
-		return NetworkSendQueueThreadFactory.create(socket, stopper);
+		return NetworkSendQueueThreadFactory.create(socket, stopper, disconnectCallback);
 	}
 
 	@Override

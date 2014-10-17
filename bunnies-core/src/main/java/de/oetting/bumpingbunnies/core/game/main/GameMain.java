@@ -157,12 +157,26 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		removeEvent(disconnectedPlayer);
 	}
 
+	@Override
+	public void playerDisconnected(int playerId) {
+		Player disconnectedPlayer = findPlayer(playerId);
+		removeEvent(disconnectedPlayer);
+	}
+
 	private Player findPlayer(Opponent opponent) {
 		for (Player p : world.getAllPlayer()) {
 			if (p.getOpponent().getIdentifier().equals(opponent.getIdentifier()))
 				return p;
 		}
-		throw new IllegalArgumentException("Coult not find player " + opponent);
+		throw new IllegalArgumentException("Could not find player " + opponent);
+	}
+
+	private Player findPlayer(int playerId) {
+		for (Player p : world.getAllPlayer()) {
+			if (p.id() == playerId)
+				return p;
+		}
+		throw new IllegalArgumentException("Could not find player " + playerId);
 	}
 
 	public void setSendControl(NetworkMessageDistributor sendControl) {

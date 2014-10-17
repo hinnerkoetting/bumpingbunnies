@@ -510,6 +510,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	@Override
+	public void playerDisconnected(int playerId) {
+		RoomEntry entry = playersAA.findEntry(playerId);
+		playersAA.remove(entry);
+	}
+
+	@Override
 	public void onThreadError() {
 		runOnUiThread(new Runnable() {
 

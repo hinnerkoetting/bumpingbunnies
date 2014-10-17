@@ -21,6 +21,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkToOtherClientsDispatcher;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.tests.UnitTests;
@@ -65,7 +66,7 @@ public class NetworkToOtherClientsDispatcherTest {
 		NetworkSender networkSender = createSenderForIncomingSocket();
 		this.sendQueues.add(networkSender);
 		this.sendControl = new NetworkMessageDistributor(mock(RemoteConnectionFactory.class), this.sendQueues);
-		this.fixture = new NetworkToOtherClientsDispatcher(this.incomingSocket, this.gameDispatcher, this.sendControl);
+		this.fixture = new NetworkToOtherClientsDispatcher(this.incomingSocket, this.gameDispatcher, this.sendControl, mock(World.class));
 	}
 
 	private NetworkSender createSenderForIncomingSocket() {

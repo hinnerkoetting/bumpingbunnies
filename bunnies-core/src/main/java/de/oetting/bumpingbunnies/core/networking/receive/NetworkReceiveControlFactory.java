@@ -12,13 +12,14 @@ import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.WlanOpponentTypeReceiveFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 
 public class NetworkReceiveControlFactory {
 
 	public static NetworkReceiveControl create(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, Configuration configuration,
-			ThreadErrorCallback errorCallback) {
-		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(networkDispatcher, sendControl, errorCallback);
+			ThreadErrorCallback errorCallback, World world) {
+		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(networkDispatcher, sendControl, errorCallback, world);
 
 		List<NetworkReceiver> allThreads = createExistingReceiverThreads(networkDispatcher, sendControl, configuration, errorCallback);
 		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory, allThreads);

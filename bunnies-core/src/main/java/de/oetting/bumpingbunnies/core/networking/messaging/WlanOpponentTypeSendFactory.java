@@ -15,7 +15,7 @@ public class WlanOpponentTypeSendFactory implements OpponentTypeSendFactory {
 
 	@Override
 	public NetworkSender createNetworkSender(ThreadErrorCallback stopper, MySocket socket, PlayerDisconnectedCallback disconnectCallback) {
-		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, stopper);
+		NetworkSendQueueThread tcpConnection = NetworkSendQueueThreadFactory.create(socket, stopper, disconnectCallback);
 		return tcpConnection;
 	}
 

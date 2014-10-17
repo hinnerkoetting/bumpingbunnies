@@ -1,17 +1,16 @@
 package de.oetting.bumpingbunnies.core.networking.messaging.playerDisconnected;
 
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 
 public class PlayerDisconnectedMessage {
 
-	private final Opponent opponent;
+	private final int playerId;
 
-	public PlayerDisconnectedMessage(Opponent opponent) {
-		this.opponent = opponent;
+	public PlayerDisconnectedMessage(int playerId) {
+		this.playerId = playerId;
 	}
 
-	public Opponent getOpponent() {
-		return opponent;
+	public int getPlayerId() {
+		return playerId;
 	}
 
 }

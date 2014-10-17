@@ -5,7 +5,10 @@ import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.playerDisconnected.PlayerDisconnectedMessage;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
@@ -19,12 +22,13 @@ public class NetworkToOtherClientsDispatcher implements IncomingNetworkDispatche
 	private final NetworkToGameDispatcher gameDispatcher;
 	private final MySocket incomingSocket;
 	private final NetworkMessageDistributor sendControl;
+	private final World world;
 
-	public NetworkToOtherClientsDispatcher(MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher, NetworkMessageDistributor sendControl) {
-		super();
+	public NetworkToOtherClientsDispatcher(MySocket incomingSocket, NetworkToGameDispatcher gameDispatcher, NetworkMessageDistributor sendControl, World world) {
 		this.incomingSocket = incomingSocket;
 		this.gameDispatcher = gameDispatcher;
 		this.sendControl = sendControl;
+		this.world = world;
 	}
 
 	@Override
@@ -40,7 +44,9 @@ public class NetworkToOtherClientsDispatcher implements IncomingNetworkDispatche
 
 	@Override
 	public void playerWasDisconnected(Opponent owner) {
-		JsonWrapper wrapper = JsonWrapper.create(MessageId.PLAYER_DISCONNECTED, MessageParserFactory.create().encodeMessage(owner));
+		Player player = world.findPlayerOfConnection(owner);
+		PlayerDisconnectedMessage message = new PlayerDisconnectedMessage(player.id());
+		JsonWrapper wrapper = JsonWrapper.create(MessageId.PLAYER_DISCONNECTED, MessageParserFactory.create().encodeMessage(message));
 		sendControl.sendMessageExceptToOneSocket(wrapper, incomingSocket);
 		gameDispatcher.playerWasDisconnected(owner);
 	}

@@ -4,6 +4,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -20,6 +21,7 @@ import de.oetting.bumpingbunnies.core.ByteArrayStartMatcher;
 import de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -85,6 +87,6 @@ public class NetworkSendQueueThreadTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.socket = new TestSocket(this.os, null);
-		this.fixture = new NetworkSendQueueThread(this.socket, this.parser, this.origin);
+		this.fixture = new NetworkSendQueueThread(this.socket, this.parser, this.origin, mock(PlayerDisconnectedCallback.class));
 	}
 }

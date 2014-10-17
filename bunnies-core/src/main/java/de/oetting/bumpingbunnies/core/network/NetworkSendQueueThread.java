@@ -5,8 +5,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
+import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket.WriteFailed;
 import de.oetting.bumpingbunnies.core.threads.BunniesThread;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
@@ -18,16 +22,20 @@ import de.oetting.bumpingbunnies.model.network.MessageId;
  */
 public class NetworkSendQueueThread extends BunniesThread implements NetworkSender {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkSendQueueThread.class);
+
 	private final BlockingQueue<String> messageQueue;
 	private final MySocket socket;
 	private final MessageParser parser;
+	private final PlayerDisconnectedCallback disconnectCallback;
 
 	private boolean canceled;
 
-	public NetworkSendQueueThread(MySocket socket, MessageParser parser, ThreadErrorCallback threadErrorCallback) {
+	public NetworkSendQueueThread(MySocket socket, MessageParser parser, ThreadErrorCallback threadErrorCallback, PlayerDisconnectedCallback disconnectCallback) {
 		super("Network send thread", threadErrorCallback);
 		this.socket = socket;
 		this.parser = parser;
+		this.disconnectCallback = disconnectCallback;
 		this.messageQueue = new LinkedBlockingQueue<String>();
 	}
 
@@ -39,8 +47,13 @@ public class NetworkSendQueueThread extends BunniesThread implements NetworkSend
 	}
 
 	void sendNextMessage() throws IOException, InterruptedException {
-		String poll = this.messageQueue.take();
-		sendOneMessage(poll);
+		try {
+			String poll = this.messageQueue.take();
+			sendOneMessage(poll);
+		} catch (WriteFailed e) {
+			LOGGER.info("Could not write message. Disconnecting player " + socket.getOwner());
+			disconnectCallback.playerDisconnected(socket.getOwner());
+		}
 	}
 
 	private void sendOneMessage(String message) throws IOException {

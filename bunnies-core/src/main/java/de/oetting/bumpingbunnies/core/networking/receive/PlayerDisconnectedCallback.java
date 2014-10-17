@@ -5,4 +5,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Opponent;
 public interface PlayerDisconnectedCallback {
 
 	void playerDisconnected(Opponent opponent);
+
+	void playerDisconnected(int playerId);
+
 }

@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.core.network;
 
+import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.MessageInterface;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.model.network.MessageMetadata;
@@ -17,6 +18,7 @@ public abstract class MessageReceiverTemplate<T> implements MessageInterface<T> 
 
 			@Override
 			public void receiveMessage(T object) {
+				Guard.againstNull(object);
 				onReceiveMessage(object);
 			}
 		};

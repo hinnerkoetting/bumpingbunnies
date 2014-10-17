@@ -254,7 +254,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
 		PlayerDisconnectedMessage message = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerDisconnectedMessage.class);
 
-		playerDisconnected(message.getOpponent());
+		playerDisconnected(message.getPlayerId());
 	}
 
 	private void addPlayerEntry(JsonWrapper messageWrapper) {
@@ -428,4 +428,11 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void onThreadError() {
 		Platform.exit();
 	}
+
+	@Override
+	public void playerDisconnected(int playerId) {
+		DetailRoomEntry player = findEntry(playerId);
+		playersTable.getItems().remove(player);
+	}
+
 }

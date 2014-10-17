@@ -227,11 +227,24 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		playersTable.getItems().remove(entry);
 	}
 
+	@Override
+	public void playerDisconnected(int playerId) {
+		RoomEntry entry = findDisconnectedPlayerEntry(playerId);
+		playersTable.getItems().remove(entry);
+	}
+
 	private RoomEntry findDisconnectedPlayerEntry(Opponent opponent) {
 		for (RoomEntry entry : playersTable.getItems()) {
-			if (entry.getOponent().equals(opponent)) {
+			if (entry.getOponent().equals(opponent))
 				return entry;
-			}
+		}
+		throw new IllegalArgumentException("Player does not exist");
+	}
+
+	private RoomEntry findDisconnectedPlayerEntry(int playerId) {
+		for (RoomEntry entry : playersTable.getItems()) {
+			if (entry.getPlayerId() == playerId)
+				return entry;
 		}
 		throw new IllegalArgumentException("Player does not exist");
 	}
@@ -246,4 +259,5 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	public void onThreadError() {
 		Platform.exit();
 	}
+
 }

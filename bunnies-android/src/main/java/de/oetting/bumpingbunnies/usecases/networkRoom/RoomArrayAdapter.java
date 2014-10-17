@@ -66,4 +66,12 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 		}
 		throw new IllegalArgumentException("Player does not exist " + opponent);
 	}
+
+	public RoomEntry findEntry(int playerId) {
+		for (int i = 0; i < getCount(); i++) {
+			if (getItem(i).getPlayerId() == playerId)
+				return getItem(i);
+		}
+		throw new IllegalArgumentException("Player does not exist " + playerId);
+	}
 }
