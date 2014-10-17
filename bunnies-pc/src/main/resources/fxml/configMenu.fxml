@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1">
+	<Label text="Input" />
+	<FlowPane prefWidth="800" GridPane.rowIndex="1" hgap="10">
+		<Label text="Player 1  "  />
+		<TextField text="A"  />
+		<Label text="Left" />
+		<TextField text="LEFT" />
+		<Label text="Up" />
+		<TextField text="UP" />
+		<Label text="Right" />
+		<TextField text="RIGHT" />
+		
+	</FlowPane>
+	
+	<FlowPane prefWidth="800" GridPane.rowIndex="2" hgap="10">
+		<Label text="Player 2  "  />
+		<TextField text="B"  />
+		<Label text="Left" />
+		<TextField text="A" />
+		<Label text="Up" />
+		<TextField text="W" />
+		<Label text="Right" />
+		<TextField text="D" />
+	</FlowPane>
+	
+	<FlowPane prefWidth="800" GridPane.rowIndex="3" hgap="10">
+		<Label text="Player 3  "  />
+		<TextField text="C"  />
+		<Label text="Left" />
+		<TextField text="H" />
+		<Label text="Up" />
+		<TextField text="U" />
+		<Label text="Right" />
+		<TextField text="K" />
+	</FlowPane>
+	
+	<GridPane GridPane.rowIndex="4">
+		<Label text = "Settings" />
+		<Label text = "Speed" GridPane.rowIndex="1"/>
+		<TextField text = "25" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+	</GridPane>
+	
+	
+	<GridPane GridPane.rowIndex="5">
+		<Button text = "Save"/>
+		<Button text = "Cancel" GridPane.columnIndex="1"/>
+	</GridPane>
+	
+	
+</GridPane>
+
