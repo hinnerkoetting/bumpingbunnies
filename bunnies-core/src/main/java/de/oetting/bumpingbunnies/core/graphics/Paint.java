@@ -27,7 +27,7 @@ public class Paint {
 	}
 
 	public void setAlpha(int alpha) {
-		color |= (alpha << 24);
+		color = (alpha << 24) + (0x00FFFFFF & color);
 	}
 
 	public int getAlpha() {

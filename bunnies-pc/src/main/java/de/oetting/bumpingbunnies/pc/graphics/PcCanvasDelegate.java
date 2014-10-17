@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.pc.graphics;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
@@ -69,7 +70,16 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	public void drawImage(ImageWrapper bitmap, long left, long top, Paint paint) {
 		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 		Image image = (Image) bitmap.getBitmap();
-		graphicsContext2D.drawImage(image, left, top);
+		ColorAdjust adjust = new ColorAdjust();
+		if (paint.getAlpha() < 255) {
+			// simulate alpha effect. maybe there is a better way?
+			adjust.setBrightness((255 - paint.getAlpha()) / 255.0 / 2);
+			graphicsContext2D.setEffect(adjust);
+			graphicsContext2D.drawImage(image, left, top);
+			graphicsContext2D.setEffect(null);
+		} else {
+			graphicsContext2D.drawImage(image, left, top);
+		}
 	}
 
 	@Override
