@@ -30,7 +30,7 @@ import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.
 import de.oetting.bumpingbunnies.core.networking.messaging.NoopRemoteSender;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -60,7 +60,7 @@ public class RemoteConnectionFactoryTest {
 
 	private void givenWlanSocket() {
 		TcpSocketSettings settings = new TcpSocketSettings(mock(SocketAddress.class), 0, 1);
-		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TCPSocket(mock(Socket.class), mock(Opponent.class), settings));
+		when(this.sockets.findSocket(any(ConnectionIdentifier.class))).thenReturn(new TCPSocket(mock(Socket.class), mock(ConnectionIdentifier.class), settings));
 	}
 
 	@Test
@@ -79,7 +79,7 @@ public class RemoteConnectionFactoryTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.fixture = new RemoteConnectionFactory(this.activity, mock(PlayerDisconnectedCallback.class));
-		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(new TestSocket());
+		when(this.sockets.findSocket(any(ConnectionIdentifier.class))).thenReturn(new TestSocket());
 	}
 
 	@After

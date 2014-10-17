@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.exceptions.IORuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 
 public class TCPSocket extends AbstractSocket implements MySocket {
@@ -21,14 +21,14 @@ public class TCPSocket extends AbstractSocket implements MySocket {
 	private Socket socket;
 	private SocketAddress address;
 
-	public TCPSocket(Socket socket, Opponent owner, TcpSocketSettings socketSettings) {
+	public TCPSocket(Socket socket, ConnectionIdentifier owner, TcpSocketSettings socketSettings) {
 		super(owner);
 		this.socket = socket;
 		this.socketSettings = socketSettings;
 		LOGGER.info("Created Tcp Socket");
 	}
 
-	public TCPSocket(Socket socket, SocketAddress address, Opponent owner, TcpSocketSettings socketSettings) {
+	public TCPSocket(Socket socket, SocketAddress address, ConnectionIdentifier owner, TcpSocketSettings socketSettings) {
 		super(owner);
 		this.socket = socket;
 		this.address = address;

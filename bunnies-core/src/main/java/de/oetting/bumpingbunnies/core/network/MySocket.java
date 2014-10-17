@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.network;
 
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public interface MySocket {
 
@@ -14,7 +14,7 @@ public interface MySocket {
 
 	boolean isFastSocketPossible();
 
-	Opponent getOwner();
+	ConnectionIdentifier getOwner();
 
 	String getRemoteDescription();
 

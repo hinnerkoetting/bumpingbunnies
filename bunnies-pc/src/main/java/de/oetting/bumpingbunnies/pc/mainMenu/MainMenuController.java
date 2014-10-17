@@ -44,7 +44,7 @@ import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
@@ -222,7 +222,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	@Override
-	public void playerDisconnected(Opponent opponent) {
+	public void playerDisconnected(ConnectionIdentifier opponent) {
 		RoomEntry entry = findDisconnectedPlayerEntry(opponent);
 		playersTable.getItems().remove(entry);
 	}
@@ -233,7 +233,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		playersTable.getItems().remove(entry);
 	}
 
-	private RoomEntry findDisconnectedPlayerEntry(Opponent opponent) {
+	private RoomEntry findDisconnectedPlayerEntry(ConnectionIdentifier opponent) {
 		for (RoomEntry entry : playersTable.getItems()) {
 			if (entry.getOponent().equals(opponent))
 				return entry;

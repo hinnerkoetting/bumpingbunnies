@@ -57,7 +57,7 @@ import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.HorizontalMovementState;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
@@ -398,7 +398,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		return (long) (ModelConstants.STANDARD_WORLD_SIZE * y);
 	}
 
-	public void playerDisconnected(Opponent opponent) {
+	public void playerDisconnected(ConnectionIdentifier opponent) {
 		RoomEntry player = findPlayer(opponent);
 		playersTable.getItems().remove(player);
 	}
@@ -410,7 +410,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		throw new IllegalArgumentException("Player not found " + playerId);
 	}
 
-	private RoomEntry findPlayer(Opponent opponent) {
+	private RoomEntry findPlayer(ConnectionIdentifier opponent) {
 		for (DetailRoomEntry entry : playersTable.getItems()) {
 			if (entry.getEntry().getOponent().equals(opponent.getIdentifier())) {
 				return entry.getEntry();

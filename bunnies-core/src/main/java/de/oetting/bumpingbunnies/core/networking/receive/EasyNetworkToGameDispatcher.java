@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkListener;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 /**
@@ -33,7 +33,7 @@ public class EasyNetworkToGameDispatcher extends NetworkToGameDispatcher {
 	}
 
 	@Override
-	public void playerWasDisconnected(Opponent owner) {
+	public void playerWasDisconnected(ConnectionIdentifier owner) {
 		callback.playerDisconnected(owner);
 	}
 

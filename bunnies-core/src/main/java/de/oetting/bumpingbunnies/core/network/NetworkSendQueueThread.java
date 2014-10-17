@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.core.threads.BunniesThread;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
@@ -84,7 +84,7 @@ public class NetworkSendQueueThread extends BunniesThread implements NetworkSend
 	}
 
 	@Override
-	public boolean isConnectionToPlayer(Opponent opponent) {
+	public boolean isConnectionToPlayer(ConnectionIdentifier opponent) {
 		return this.socket.getOwner().equals(opponent);
 	}
 }

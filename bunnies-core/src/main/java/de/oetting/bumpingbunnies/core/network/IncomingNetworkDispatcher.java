@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.network;
 
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 public interface IncomingNetworkDispatcher {
@@ -9,6 +9,6 @@ public interface IncomingNetworkDispatcher {
 
 	NetworkToGameDispatcher getNetworkToGameDispatcher();
 
-	void playerWasDisconnected(Opponent owner);
+	void playerWasDisconnected(ConnectionIdentifier owner);
 
 }

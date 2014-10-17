@@ -6,7 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 
@@ -59,7 +59,7 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 		super(context, textViewResourceId);
 	}
 
-	public RoomEntry findEntry(Opponent opponent) {
+	public RoomEntry findEntry(ConnectionIdentifier opponent) {
 		for (int i = 0; i < getCount(); i++) {
 			if (getItem(i).getPlayerName().equals(opponent.getIdentifier()))
 				return getItem(i);

@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.android.parcel.OpponentParceller;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 /**
  * Can be stored through parcelables.
@@ -53,13 +53,13 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 		this(in.readInt(), new OpponentParceller().createFromParcel(in));
 	}
 
-	public StorableSocket(int index, Opponent opponent) throws IOException {
+	public StorableSocket(int index, ConnectionIdentifier opponent) throws IOException {
 		super(opponent);
 		this.index = index;
 		this.cachedSocket = SocketStorage.getSingleton().getSocket(index);
 	}
 
-	public StorableSocket(MySocket original, int index, Opponent opponent) throws IOException {
+	public StorableSocket(MySocket original, int index, ConnectionIdentifier opponent) throws IOException {
 		super(opponent);
 		this.index = index;
 		this.cachedSocket = original;

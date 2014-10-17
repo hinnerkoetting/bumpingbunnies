@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.game.player;
 import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
@@ -15,7 +15,7 @@ public class PlayerFactory {
 		this.speed = speed;
 	}
 
-	public Player createPlayer(int id, String name, Opponent opponent) {
+	public Player createPlayer(int id, String name, ConnectionIdentifier opponent) {
 		Guard.againstNull(opponent);
 		Guard.againstNull(name);
 		Player p = new Player(id, name, this.speed, opponent);

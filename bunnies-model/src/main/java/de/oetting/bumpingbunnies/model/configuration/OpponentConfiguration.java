@@ -1,14 +1,14 @@
 package de.oetting.bumpingbunnies.model.configuration;
 
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class OpponentConfiguration {
 
 	private final AiModus aiMode;
 	private final PlayerProperties otherPlayerState;
-	private final Opponent opponent;
+	private final ConnectionIdentifier opponent;
 
-	public OpponentConfiguration(AiModus aiMode, PlayerProperties otherPlayerState, Opponent opponent) {
+	public OpponentConfiguration(AiModus aiMode, PlayerProperties otherPlayerState, ConnectionIdentifier opponent) {
 		this.aiMode = aiMode;
 		this.otherPlayerState = otherPlayerState;
 		this.opponent = opponent;
@@ -26,7 +26,7 @@ public class OpponentConfiguration {
 		return this.otherPlayerState.getPlayerName();
 	}
 
-	public Opponent getOpponent() {
+	public ConnectionIdentifier getOpponent() {
 		return this.opponent;
 	}
 

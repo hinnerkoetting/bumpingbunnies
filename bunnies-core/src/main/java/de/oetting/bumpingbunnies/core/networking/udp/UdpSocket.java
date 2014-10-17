@@ -9,20 +9,20 @@ import java.net.SocketException;
 import java.nio.charset.Charset;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
 public class UdpSocket implements MySocket {
 
 	private final DatagramSocket socket;
-	private final Opponent owner;
+	private final ConnectionIdentifier owner;
 	/**
 	 * cache for incoming messages
 	 */
 	private final DatagramPacket receivingPacket;
 	private UdpSocketSettings settings;
 
-	UdpSocket(DatagramSocket socket, Opponent owner, UdpSocketSettings settings) {
+	UdpSocket(DatagramSocket socket, ConnectionIdentifier owner, UdpSocketSettings settings) {
 		this.socket = socket;
 		this.settings = settings;
 		this.owner = owner;
@@ -66,7 +66,7 @@ public class UdpSocket implements MySocket {
 	}
 
 	@Override
-	public Opponent getOwner() {
+	public ConnectionIdentifier getOwner() {
 		return this.owner;
 	}
 

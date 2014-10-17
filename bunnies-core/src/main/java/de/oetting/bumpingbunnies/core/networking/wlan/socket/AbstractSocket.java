@@ -10,17 +10,17 @@ import java.io.Writer;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public abstract class AbstractSocket implements MySocket {
 
-	private final Opponent owner;
+	private final ConnectionIdentifier owner;
 	private Writer writer;
 	private BufferedReader reader;
 	private Object senderMonitor = new Object();
 	private Object receiverMonitor = new Object();
 
-	public AbstractSocket(Opponent owner) {
+	public AbstractSocket(ConnectionIdentifier owner) {
 		super();
 		this.owner = owner;
 	}
@@ -80,7 +80,7 @@ public abstract class AbstractSocket implements MySocket {
 	}
 
 	@Override
-	public Opponent getOwner() {
+	public ConnectionIdentifier getOwner() {
 		return this.owner;
 	}
 

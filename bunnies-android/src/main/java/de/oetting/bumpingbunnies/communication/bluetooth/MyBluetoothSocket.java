@@ -11,14 +11,14 @@ import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
 import de.oetting.bumpingbunnies.exceptions.IORuntimeException;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MyBluetoothSocket.class);
 	private final BluetoothSocket socket;
 
-	public MyBluetoothSocket(BluetoothSocket socket, Opponent opponent) throws IOException {
+	public MyBluetoothSocket(BluetoothSocket socket, ConnectionIdentifier opponent) throws IOException {
 		super(opponent);
 		this.socket = socket;
 		LOGGER.info("Created bluetooth socket");

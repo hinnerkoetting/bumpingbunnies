@@ -28,7 +28,7 @@ import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -109,7 +109,7 @@ public class GameMainTest {
 		fixture.setSendControl(new NetworkMessageDistributor(mock(RemoteConnectionFactory.class)));
 		fixture.setNewClientsAccepter(this.accepter);
 		this.fixture.setWorld(new World());
-		when(this.sockets.findSocket(any(Opponent.class))).thenReturn(mock(MySocket.class));
+		when(this.sockets.findSocket(any(ConnectionIdentifier.class))).thenReturn(mock(MySocket.class));
 		NetworkMessageDistributor networkSendControl = createNetworkSendControl();
 		SocketStorage.getSingleton().addObserver(networkSendControl);
 	}

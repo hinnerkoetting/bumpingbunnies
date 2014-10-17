@@ -1,10 +1,10 @@
 package de.oetting.bumpingbunnies.core.game;
 
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class OpponentTestFactory {
 
-	public static Opponent create() {
+	public static ConnectionIdentifier create() {
 		return OpponentFactory.createAiPlayer("test");
 	}
 }

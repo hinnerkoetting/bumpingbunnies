@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.observer.Observer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class SocketStorage {
 
@@ -44,7 +44,7 @@ public class SocketStorage {
 		this.sockets.clear();
 	}
 
-	public synchronized MySocket findSocket(Opponent opponent) {
+	public synchronized MySocket findSocket(ConnectionIdentifier opponent) {
 		MySocket socket = findSocketOrNull(opponent);
 		if (socket == null) {
 			throw new OpponentDoesNotExist(opponent);
@@ -73,11 +73,11 @@ public class SocketStorage {
 		return Collections.unmodifiableList(this.sockets);
 	}
 
-	public boolean existsSocket(Opponent opponent) {
+	public boolean existsSocket(ConnectionIdentifier opponent) {
 		return findSocketOrNull(opponent) != null;
 	}
 
-	private MySocket findSocketOrNull(Opponent opponent) {
+	private MySocket findSocketOrNull(ConnectionIdentifier opponent) {
 		for (MySocket s : this.sockets) {
 			if (s.getOwner().equals(opponent)) {
 				return s;
@@ -98,7 +98,7 @@ public class SocketStorage {
 
 	public static class OpponentDoesNotExist extends RuntimeException {
 
-		public OpponentDoesNotExist(Opponent opponent) {
+		public OpponentDoesNotExist(ConnectionIdentifier opponent) {
 			super("Opponentidentifier = " + opponent.getIdentifier());
 		}
 	}

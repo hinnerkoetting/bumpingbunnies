@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.network;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 
 /**
@@ -31,7 +31,7 @@ public class StrictNetworkToGameDispatcher extends NetworkToGameDispatcher {
 	}
 
 	@Override
-	public void playerWasDisconnected(Opponent owner) {
+	public void playerWasDisconnected(ConnectionIdentifier owner) {
 		callback.playerDisconnected(owner);
 	}
 }

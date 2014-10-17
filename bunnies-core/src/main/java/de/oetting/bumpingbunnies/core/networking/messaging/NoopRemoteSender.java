@@ -2,15 +2,15 @@ package de.oetting.bumpingbunnies.core.networking.messaging;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class NoopRemoteSender implements NetworkSender {
 
-	private final Opponent opponent;
+	private final ConnectionIdentifier opponent;
 
-	public NoopRemoteSender(Opponent opponent) {
+	public NoopRemoteSender(ConnectionIdentifier opponent) {
 		this.opponent = opponent;
 	}
 
@@ -28,7 +28,7 @@ public class NoopRemoteSender implements NetworkSender {
 	}
 
 	@Override
-	public boolean isConnectionToPlayer(Opponent opponent) {
+	public boolean isConnectionToPlayer(ConnectionIdentifier opponent) {
 		return opponent.equals(this.opponent);
 	}
 

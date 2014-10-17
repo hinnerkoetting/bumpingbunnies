@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.network.FastSocketFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
@@ -34,7 +34,7 @@ public class FastSocketFactoryTest {
 	@Test
 	public void create_tcpSocket_createsUdpSocket() throws IOException {
 		TcpSocketSettings settings = new TcpSocketSettings(mock(SocketAddress.class), 0, 1);
-		socket = new TCPSocket(mock(Socket.class), mock(Opponent.class), settings);
+		socket = new TCPSocket(mock(Socket.class), mock(ConnectionIdentifier.class), settings);
 		MySocket fastSocket = whenCreatingSocket(socket);
 		assertThat(fastSocket, is(instanceOf(UdpSocket.class)));
 	}

@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.networking.messaging;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
@@ -15,9 +15,9 @@ public class UdpAndTcpNetworkSender implements NetworkSender {
 
 	private final NetworkSender tcpConnection;
 	private final NetworkSender udpConnection;
-	private final Opponent owner;
+	private final ConnectionIdentifier owner;
 
-	public UdpAndTcpNetworkSender(NetworkSendQueueThread tcpConnection, NetworkSender udpConnection, Opponent owner) {
+	public UdpAndTcpNetworkSender(NetworkSendQueueThread tcpConnection, NetworkSender udpConnection, ConnectionIdentifier owner) {
 		this.tcpConnection = tcpConnection;
 		this.udpConnection = udpConnection;
 		this.owner = owner;
@@ -45,7 +45,7 @@ public class UdpAndTcpNetworkSender implements NetworkSender {
 	}
 
 	@Override
-	public boolean isConnectionToPlayer(Opponent opponent) {
+	public boolean isConnectionToPlayer(ConnectionIdentifier opponent) {
 		return this.owner.equals(opponent);
 	}
 

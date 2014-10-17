@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
@@ -75,7 +75,7 @@ public class NetworkMessageDistributor implements NewSocketListener {
 		}
 	}
 
-	public NetworkSender findConnection(Opponent opponent) {
+	public NetworkSender findConnection(ConnectionIdentifier opponent) {
 		NetworkSender rc = findConnectionOrNull(opponent);
 		if (rc == null) {
 			throw new ConnectionDoesNotExist();
@@ -84,7 +84,7 @@ public class NetworkMessageDistributor implements NewSocketListener {
 		}
 	}
 
-	private NetworkSender findConnectionOrNull(Opponent opponent) {
+	private NetworkSender findConnectionOrNull(ConnectionIdentifier opponent) {
 		for (NetworkSender rc : this.sendThreads) {
 			if (rc.isConnectionToPlayer(opponent)) {
 				return rc;
@@ -93,13 +93,13 @@ public class NetworkMessageDistributor implements NewSocketListener {
 		return null;
 	}
 
-	public void removeSender(Opponent opponent) {
+	public void removeSender(ConnectionIdentifier opponent) {
 		LOGGER.info("Removing network sender");
 		NetworkSender sender = findSenderForOpponent(opponent);
 		sendThreads.remove(sender);
 	}
 
-	private NetworkSender findSenderForOpponent(Opponent opponent) {
+	private NetworkSender findSenderForOpponent(ConnectionIdentifier opponent) {
 		for (NetworkSender sender : sendThreads) {
 			if (sender.isConnectionToPlayer(opponent))
 				return sender;

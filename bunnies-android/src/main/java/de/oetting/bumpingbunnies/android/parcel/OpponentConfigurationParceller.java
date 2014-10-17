@@ -4,7 +4,7 @@ import android.os.Parcel;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class OpponentConfigurationParceller implements Parceller<OpponentConfiguration> {
 
@@ -19,7 +19,7 @@ public class OpponentConfigurationParceller implements Parceller<OpponentConfigu
 	public OpponentConfiguration createFromParcel(Parcel parcel) {
 		PlayerProperties otherPlayerState = new PlayerPropertiesParceller().createFromParcel(parcel);
 		AiModus aiMode = AiModus.valueOf(parcel.readString());
-		Opponent opponent = new OpponentParceller().createFromParcel(parcel);
+		ConnectionIdentifier opponent = new OpponentParceller().createFromParcel(parcel);
 		return new OpponentConfiguration(aiMode, otherPlayerState, opponent);
 	}
 

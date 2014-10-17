@@ -11,7 +11,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
@@ -153,7 +153,7 @@ public class World implements ObjectProvider {
 		return false;
 	}
 
-	public Player findPlayerOfConnection(Opponent owner) {
+	public Player findPlayerOfConnection(ConnectionIdentifier owner) {
 		synchronized (allPlayer) {
 			for (Player p : allPlayer) {
 				if (p.getOpponent().equals(owner)) {

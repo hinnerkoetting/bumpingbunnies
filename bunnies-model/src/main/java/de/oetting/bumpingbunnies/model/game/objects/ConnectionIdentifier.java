@@ -1,12 +1,12 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
 
-public class Opponent {
+public class ConnectionIdentifier {
 
 	private final OpponentIdentifier identifier;
 	private final OpponentType type;
 
-	public Opponent(OpponentIdentifier identifier, OpponentType type) {
+	public ConnectionIdentifier(OpponentIdentifier identifier, OpponentType type) {
 		this.identifier = identifier;
 		this.type = type;
 	}
@@ -47,7 +47,7 @@ public class Opponent {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Opponent other = (Opponent) obj;
+		ConnectionIdentifier other = (ConnectionIdentifier) obj;
 		if (this.identifier == null) {
 			if (other.identifier != null) {
 				return false;
@@ -62,8 +62,8 @@ public class Opponent {
 	}
 
 	@Override
-	public Opponent clone() {
-		return new Opponent(identifier, type);
+	public ConnectionIdentifier clone() {
+		return new ConnectionIdentifier(identifier, type);
 	}
 
 	@Override

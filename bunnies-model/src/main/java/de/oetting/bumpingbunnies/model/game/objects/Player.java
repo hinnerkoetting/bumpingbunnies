@@ -16,7 +16,7 @@ public class Player implements GameObject {
 	private Rect rect;
 
 	private int color;
-	private final Opponent opponent;
+	private final ConnectionIdentifier opponent;
 
 	private int score;
 	private boolean dead;
@@ -24,7 +24,7 @@ public class Player implements GameObject {
 	private int accelerationX;
 	private int accelerationY;
 
-	public Player(int id, String name, int speedFaktor, Opponent opponent) {
+	public Player(int id, String name, int speedFaktor, ConnectionIdentifier opponent) {
 		this.name = name;
 		this.speedFaktor = speedFaktor;
 		this.opponent = opponent;
@@ -311,7 +311,7 @@ public class Player implements GameObject {
 		return this.state.isJumpingButtonPressed();
 	}
 
-	public Opponent getOpponent() {
+	public ConnectionIdentifier getOpponent() {
 		return this.opponent;
 	}
 

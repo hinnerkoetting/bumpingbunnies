@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallb
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket.WriteFailed;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
@@ -49,7 +49,7 @@ public class SimpleNetworkSender implements NetworkSender {
 	}
 
 	@Override
-	public boolean isConnectionToPlayer(Opponent opponent) {
+	public boolean isConnectionToPlayer(ConnectionIdentifier opponent) {
 		return this.socket.getOwner().equals(opponent);
 	}
 

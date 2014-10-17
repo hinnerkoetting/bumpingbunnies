@@ -1,14 +1,14 @@
 package de.oetting.bumpingbunnies.core.network.room;
 
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class RoomEntry {
 
 	private final PlayerProperties playerProperties;
-	private final Opponent opponent;
+	private final ConnectionIdentifier opponent;
 
-	public RoomEntry(PlayerProperties playerProperties, Opponent opponent) {
+	public RoomEntry(PlayerProperties playerProperties, ConnectionIdentifier opponent) {
 		this.playerProperties = playerProperties;
 		this.opponent = opponent;
 	}
@@ -26,7 +26,7 @@ public class RoomEntry {
 		return this.playerProperties.getPlayerId() + " " + this.playerProperties.getPlayerName();
 	}
 
-	public Opponent getOponent() {
+	public ConnectionIdentifier getOponent() {
 		return this.opponent;
 	}
 

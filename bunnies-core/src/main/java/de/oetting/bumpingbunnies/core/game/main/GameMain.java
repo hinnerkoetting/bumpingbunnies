@@ -19,7 +19,7 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconnectedCallback {
@@ -152,7 +152,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	}
 
 	@Override
-	public void playerDisconnected(Opponent opponent) {
+	public void playerDisconnected(ConnectionIdentifier opponent) {
 		Player disconnectedPlayer = findPlayer(opponent);
 		removeEvent(disconnectedPlayer);
 	}
@@ -163,7 +163,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		removeEvent(disconnectedPlayer);
 	}
 
-	private Player findPlayer(Opponent opponent) {
+	private Player findPlayer(ConnectionIdentifier opponent) {
 		for (Player p : world.getAllPlayer()) {
 			if (p.getOpponent().getIdentifier().equals(opponent.getIdentifier()))
 				return p;

@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Opponent;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
@@ -16,7 +16,7 @@ public class UdpSocketFactory {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UdpSocketFactory.class);
 
-	public UdpSocket createListeningSocket(TCPSocket socket, Opponent owner) {
+	public UdpSocket createListeningSocket(TCPSocket socket, ConnectionIdentifier owner) {
 		TcpSocketSettings tcpSocketSettings = socket.getSocketSettings();
 		UdpSocketSettings udpSocketSettings = new UdpSocketSettings(socket.getInetAddress(), tcpSocketSettings.getLocalPort(),
 				tcpSocketSettings.getDestinationPort());
@@ -35,7 +35,7 @@ public class UdpSocketFactory {
 		}
 	}
 
-	public UdpSocket createSendingSocket(TCPSocket socket, Opponent owner) {
+	public UdpSocket createSendingSocket(TCPSocket socket, ConnectionIdentifier owner) {
 		try {
 			TcpSocketSettings tcpSocketSettings = socket.getSocketSettings();
 			UdpSocketSettings udpSocketSettings = new UdpSocketSettings(socket.getInetAddress(), tcpSocketSettings.getLocalPort(),
@@ -49,13 +49,13 @@ public class UdpSocketFactory {
 		}
 	}
 
-	public UdpSocket createUdpSocket(UdpSocketSettings settings, Opponent opponent) throws SocketException {
+	public UdpSocket createUdpSocket(UdpSocketSettings settings, ConnectionIdentifier opponent) throws SocketException {
 		DatagramSocket socket = new DatagramSocket(null);
 		socket.setBroadcast(false);
 		return new UdpSocket(socket, opponent, settings);
 	}
 
-	public UdpSocket createBroadcastSocket(UdpSocketSettings settings, Opponent opponent) {
+	public UdpSocket createBroadcastSocket(UdpSocketSettings settings, ConnectionIdentifier opponent) {
 		LOGGER.info("Creating Broadcast UDP socket on port %d and address %s ", settings.getDestinationPort(), settings.getDestinationAddress());
 		try {
 			DatagramSocket socket = new DatagramSocket(null);
