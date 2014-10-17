@@ -36,7 +36,6 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
@@ -44,6 +43,7 @@ import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
@@ -96,7 +96,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	private LocalSettings createLocalSettings() {
-		return new LocalSettings(InputConfiguration.KEYBOARD, 1, true, false);
+		return new LocalSettings(new KeyboardInputConfiguration(), 1, true, false);
 	}
 
 	private void startGameWithAi() {

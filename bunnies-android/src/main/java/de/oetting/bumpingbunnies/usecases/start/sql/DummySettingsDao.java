@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.start.sql;
 
-import de.oetting.bumpingbunnies.core.configuration.DefaultConfiguration;
+import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 
 public class DummySettingsDao implements SettingsStorage {

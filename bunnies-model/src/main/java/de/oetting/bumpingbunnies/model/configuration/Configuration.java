@@ -2,6 +2,8 @@ package de.oetting.bumpingbunnies.model.configuration;
 
 import java.util.List;
 
+import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
+
 public class Configuration {
 
 	private final List<OpponentConfiguration> otherPlayers;

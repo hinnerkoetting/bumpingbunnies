@@ -7,9 +7,9 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.core.configuration.DefaultConfiguration;
-import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
+import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
+import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.start.android.ProgressBarValueChanger;
 import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConverter;
 

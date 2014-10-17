@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.android.input.touchPrss;
+package de.oetting.bumpingbunnies.android.input.touchPress;
 
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.android.input.AbstractTouchService;

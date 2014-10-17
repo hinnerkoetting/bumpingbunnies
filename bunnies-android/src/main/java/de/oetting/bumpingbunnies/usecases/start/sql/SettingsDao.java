@@ -3,16 +3,16 @@ package de.oetting.bumpingbunnies.usecases.start.sql;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import de.oetting.bumpingbunnies.core.configuration.DefaultConfiguration;
+import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
+import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardinput;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
+import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 
 public class SettingsDao implements SettingsStorage, SettingsConstants {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SettingsDao.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SettingsDao.class);
 	private final SQLiteDatabase database;
 
 	public SettingsDao(SQLiteDatabase database) {
@@ -45,7 +45,7 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 	private ContentValues createDbValues(SettingsEntity settings) {
 		ContentValues values = new ContentValues();
 		values.put(ZOOM_COL, settings.getZoom());
-		values.put(INPUT_COL, settings.getInputConfiguration().toString());
+		values.put(INPUT_COL, settings.getInputConfiguration().getClass().getName());
 		values.put(NUMBER_PLAYER_COL, settings.getNumberPlayer());
 		values.put(SPEED_COL, settings.getSpeed());
 		values.put(NAME_COL, settings.getPlayerName());
@@ -61,9 +61,8 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 	 */
 	@Override
 	public SettingsEntity readStoredSettings() {
-		Cursor query = this.database.query(SETTINGS_TABLE, new String[] {
-				ZOOM_COL, INPUT_COL, NUMBER_PLAYER_COL, SPEED_COL, NAME_COL, BACKGROUND_COL, ALT_PIXELFORMAT },
-				null, null, null, null, null);
+		Cursor query = this.database.query(SETTINGS_TABLE, new String[] { ZOOM_COL, INPUT_COL, NUMBER_PLAYER_COL, SPEED_COL, NAME_COL, BACKGROUND_COL,
+				ALT_PIXELFORMAT }, null, null, null, null, null);
 		try {
 			query.moveToFirst();
 			if (!query.isAfterLast()) {
@@ -79,14 +78,22 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 	private SettingsEntity readLocalSettings(Cursor cursor) {
 		int zoom = cursor.getInt(0);
 		String inputConfiguration = cursor.getString(1);
-		InputConfiguration inputEnum = InputConfiguration
-				.valueOf(inputConfiguration);
+		InputConfiguration inputEnum = create(inputConfiguration);
 		int numberPlayer = cursor.getInt(2);
 		int speed = cursor.getInt(3);
 		String name = cursor.getString(4);
 		boolean background = cursor.getInt(5) == 1;
 		boolean altPixel = cursor.getInt(6) == 1;
 		return new SettingsEntity(inputEnum, zoom, numberPlayer, speed, name, background, altPixel);
+	}
+
+	private InputConfiguration create(String inputConfiguration) {
+		try {
+			return (InputConfiguration) Class.forName(inputConfiguration).newInstance();
+		} catch (Exception e) {
+			LOGGER.error("Error", e);
+			return new DistributedKeyboardinput();
+		}
 	}
 
 	@Override

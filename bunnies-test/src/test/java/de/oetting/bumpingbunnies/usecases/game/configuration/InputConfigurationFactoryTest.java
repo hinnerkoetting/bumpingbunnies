@@ -6,19 +6,30 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.android.input.analog.AnalogInputConfiguration;
 import de.oetting.bumpingbunnies.android.input.analog.AnalogInputFactory;
 import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardFactory;
+import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardinput;
 import de.oetting.bumpingbunnies.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.android.input.factory.TouchInputServicesFactory;
 import de.oetting.bumpingbunnies.android.input.factory.TouchJumpInputServicesFactory;
 import de.oetting.bumpingbunnies.android.input.gamepad.KeyboardInputServicesFactory;
 import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardFactory;
+import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardInputConfiguration;
+import de.oetting.bumpingbunnies.android.input.multiTouch.MultiTouchInput;
 import de.oetting.bumpingbunnies.android.input.multiTouch.MultiTouchJumpServicesFactory;
+import de.oetting.bumpingbunnies.android.input.pointer.PointerInput;
 import de.oetting.bumpingbunnies.android.input.pointer.PointerInputServiceFactory;
+import de.oetting.bumpingbunnies.android.input.touch.TouchInput;
+import de.oetting.bumpingbunnies.android.input.touch.TouchWithUpInput;
 import de.oetting.bumpingbunnies.android.input.touchFling.TouchFlingFactory;
-import de.oetting.bumpingbunnies.android.input.touchPrss.TouchPressInputFactory;
+import de.oetting.bumpingbunnies.android.input.touchFling.TouchFlingInput;
+import de.oetting.bumpingbunnies.android.input.touchPress.TouchPressInput;
+import de.oetting.bumpingbunnies.android.input.touchPress.TouchPressInputFactory;
 import de.oetting.bumpingbunnies.android.input.touchRelease.TouchReleaseFactory;
-import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
+import de.oetting.bumpingbunnies.android.input.touchRelease.TouchReleaseInput;
+import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.factories.InputConfigurationFactory;
 
@@ -27,67 +38,67 @@ public class InputConfigurationFactoryTest {
 
 	@Test
 	public void create_touch_returnsTouchInputServices() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.TOUCH);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new TouchInput());
 		assertThat(factory, instanceOf(TouchInputServicesFactory.class));
 	}
 
 	@Test
 	public void reate_touchWithUp_returnsTouchJumpInputService() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.TOUCH_WITH_UP);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new TouchWithUpInput());
 		assertThat(factory, instanceOf(TouchJumpInputServicesFactory.class));
 	}
 
 	@Test
 	public void create_keyboard_createsKeyboardService() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.KEYBOARD);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new KeyboardInputConfiguration());
 		assertThat(factory, instanceOf(KeyboardInputServicesFactory.class));
 	}
 
 	@Test
 	public void create_multiTouch_returnsMultiTouchService() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.MULTI_TOUCH);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new MultiTouchInput());
 		assertThat(factory, instanceOf(MultiTouchJumpServicesFactory.class));
 	}
 
 	@Test
 	public void create_point_returnsPointService() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.POINTER);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new PointerInput());
 		assertThat(factory, instanceOf(PointerInputServiceFactory.class));
 	}
 
 	@Test
 	public void create_analog_returnsAnlogService() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.ANALOG);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new AnalogInputConfiguration());
 		assertThat(factory, instanceOf(AnalogInputFactory.class));
 	}
 
 	@Test
 	public void create_touchFling_returnsTouchFlingService() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.TOUCH_FLING);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new TouchFlingInput());
 		assertThat(factory, instanceOf(TouchFlingFactory.class));
 	}
 
 	@Test
 	public void create_touchPress_returnsTouchPressService() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.TOUCH_PRESS);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new TouchPressInput());
 		assertThat(factory, instanceOf(TouchPressInputFactory.class));
 	}
 
 	@Test
 	public void create_touchRelease_returnsTouchReleaseFactory() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.TOUCH_RELEASE);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new TouchReleaseInput());
 		assertThat(factory, instanceOf(TouchReleaseFactory.class));
 	}
 
 	@Test
 	public void create_hardwareKeyboard_returnsHardwareKeyboardFactory() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.HARDWARE_KEYBOARD);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new HardwareKeyboardInputConfiguration());
 		assertThat(factory, instanceOf(HardwareKeyboardFactory.class));
 	}
 
 	@Test
 	public void create_distributedKeyboard_returnsDistributedKeyboardFactory() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(InputConfiguration.DISTRIBUTED_KEYBOARD);
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new DistributedKeyboardinput());
 		assertThat(factory, instanceOf(DistributedKeyboardFactory.class));
 	}
 

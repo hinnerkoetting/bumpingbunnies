@@ -40,7 +40,6 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
@@ -48,6 +47,7 @@ import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
@@ -80,7 +80,7 @@ public class BunniesMain extends Application {
 	}
 
 	public BunniesMain() {
-		LocalSettings localSettings = new LocalSettings(InputConfiguration.KEYBOARD, 1, true, false);
+		LocalSettings localSettings = new LocalSettings(new KeyboardInputConfiguration(), 1, true, false);
 		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
 		// List<OpponentConfiguration> opponents = Arrays.asList(new
 		// OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1,

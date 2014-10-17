@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.model.configuration;
 
+import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
+
 public class SettingsEntity {
 
 	private final InputConfiguration inputConfiguration;

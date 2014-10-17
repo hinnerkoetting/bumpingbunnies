@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.android.input.touchPrss;
+package de.oetting.bumpingbunnies.android.input.touchPress;
 
 import android.content.Context;
 import android.view.LayoutInflater;

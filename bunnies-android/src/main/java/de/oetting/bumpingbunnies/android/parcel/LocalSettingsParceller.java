@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.android.parcel;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
+import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 
 public class LocalSettingsParceller implements Parceller<LocalSettings> {
 
