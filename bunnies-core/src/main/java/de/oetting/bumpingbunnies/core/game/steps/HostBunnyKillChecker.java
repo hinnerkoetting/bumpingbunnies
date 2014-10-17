@@ -52,12 +52,10 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	private void killPlayer(Player playerKilled) {
 		playerKilled.setDead(true);
-		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
 		PlayerIsDeadMessage killedMessage = new PlayerIsDeadMessage(playerKilled.id());
 
 		this.messageSender.sendMessage(MessageId.PLAYER_IS_DEAD_MESSAGE, killedMessage);
-		this.messageSender.sendMessage(MessageId.SPAWN_POINT, new SpawnPointMessage(spawnPoint, playerKilled.id()));
-		ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, playerKilled);
+		assignSpawnpoint(playerKilled);
 	}
 
 	private void increaseScore(Player playerTop) {
@@ -87,8 +85,14 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	@Override
 	public void newEvent(Player p) {
-		killPlayer(p);
+		assignSpawnpoint(p);
 		revivePlayerDelayed(p);
+	}
+
+	private void assignSpawnpoint(Player player) {
+		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
+		this.messageSender.sendMessage(MessageId.SPAWN_POINT, new SpawnPointMessage(spawnPoint, player.id()));
+		ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, player);
 	}
 
 	@Override

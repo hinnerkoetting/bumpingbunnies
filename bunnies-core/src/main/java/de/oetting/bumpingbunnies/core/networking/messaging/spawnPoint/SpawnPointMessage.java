@@ -8,7 +8,6 @@ public class SpawnPointMessage {
 	private final int playerId;
 
 	public SpawnPointMessage(SpawnPoint spawnPoint, int playerId) {
-		super();
 		this.spawnPoint = spawnPoint;
 		this.playerId = playerId;
 	}

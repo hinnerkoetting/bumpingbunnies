@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
@@ -17,7 +18,7 @@ public class WorldTest {
 
 	private World fixture;
 
-	@Test(expected = World.PlayerDoesNotExist.class)
+	@Test(expected = PlayerDoesNotExist.class)
 	public void findPlayer_givenPlayerDoesNotExist_shouldThrowException() {
 		this.fixture.findPlayer(0);
 	}

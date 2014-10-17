@@ -93,12 +93,6 @@ public class World implements ObjectProvider {
 		return this.allWaters;
 	}
 
-	public class PlayerDoesNotExist extends RuntimeException {
-		public PlayerDoesNotExist(int playerId) {
-			super("Id not found: " + playerId);
-		}
-	}
-
 	public int getNextPlayerId() {
 		return findMaxPlayerId() + 1;
 	}

@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
+import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 /**
@@ -59,13 +60,7 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 				return c;
 			}
 		}
-		throw new PlayerDoesNotExist(p);
+		throw new PlayerDoesNotExist(p.id());
 	}
 
-	public static class PlayerDoesNotExist extends RuntimeException {
-
-		public PlayerDoesNotExist(Player p) {
-			super(p.toString());
-		}
-	}
 }
