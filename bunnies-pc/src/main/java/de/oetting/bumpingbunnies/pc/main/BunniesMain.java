@@ -49,7 +49,6 @@ import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.pc.game.factory.GameMainFactory;
@@ -114,7 +113,7 @@ public class BunniesMain extends Application {
 		List<PlayerConfig> players = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 		for (PlayerConfig config : players) {
 			Player otherPlayer = config.getPlayer();
-			if (config.getConfiguration().getOpponent().getType() == OpponentType.LOCAL_PLAYER) {
+			if (config.getConfiguration().getOpponent().isLocalHumanPlayer()) {
 				// TODO works only for one additional player
 				inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.LEFT.getName(), KeyCode.RIGHT.getName(), KeyCode.UP.getName(),
 						new PlayerMovement(otherPlayer)));

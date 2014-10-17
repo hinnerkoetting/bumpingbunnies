@@ -55,9 +55,9 @@ import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.HorizontalMovementState;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
@@ -204,8 +204,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
-		// TODO find out which player is directly connected
-		if (playerProperties.getPlayerId() == 0)
+		if (socket.getOwner().isDirectlyConnected())
 			return new RoomEntry(playerProperties, socket.getOwner());
 		else
 			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
@@ -213,7 +212,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	public void addPlayerEntry(RoomEntry entry) {
 		Player player = new PlayerFactory(-1).createPlayer(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(),
-				OpponentFactory.createRemoteOpponent(entry.getPlayerName(), OpponentType.LOCAL_PLAYER));
+				OpponentFactory.createRemoteOpponent(entry.getPlayerName(), entry.getOponent().getType()));
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
 
