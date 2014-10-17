@@ -310,8 +310,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
-		// TODO find out which player is directly connected
-		if (playerProperties.getPlayerId() == 0)
+		if (socket.getOwner().isDirectlyConnected())
 			return new RoomEntry(playerProperties, socket.getOwner());
 		else
 			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
