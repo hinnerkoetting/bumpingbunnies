@@ -57,7 +57,7 @@ public class GameMainFactory {
 
 	private static World createWorld(GameActivity activity, GameStartParameter parameter) {
 		WorldObjectsParser factory = new WorldConfigurationFactory().createWorldParser(parameter.getConfiguration().getWorldConfiguration());
-		return factory.build(new AndroidResourceProvider(new CachedBitmapReader(new AndroidBitmapReader(activity.getResources())), activity),
+		return factory.build(new AndroidResourceProvider(new CachedBitmapReader(new AndroidBitmapReader()), activity),
 				new AndroidXmlReader(activity, factory.getResourceId()));
 	}
 
