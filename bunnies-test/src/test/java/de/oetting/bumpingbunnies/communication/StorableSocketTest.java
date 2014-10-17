@@ -56,7 +56,7 @@ public class StorableSocketTest {
 
 	private void checkValues(StorableSocket storedSocket, int index) {
 		assertThat(storedSocket.getStoredSocket(), is(equalTo(this.socket)));
-		assertThat(storedSocket.getOwner().isMyPlayer(), is(true));
+		assertThat(storedSocket.getOwner().isLocalPlayer(), is(true));
 		assertThat(storedSocket.getIndex(), is(equalTo(index)));
 	}
 }

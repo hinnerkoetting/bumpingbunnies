@@ -22,7 +22,7 @@ public class OpponentInputFactoryImpl implements OpponentInputFactory {
 
 	@Override
 	public OpponentInput create(Player p) {
-		if (p.getOpponent().isMyPlayer()) {
+		if (p.getOpponent().isLocalHumanPlayer()) {
 			return new DummyInputService();
 		} else if (!p.getOpponent().isLocalPlayer()) {
 			PlayerFromNetworkInput input = new PlayerFromNetworkInput(p);

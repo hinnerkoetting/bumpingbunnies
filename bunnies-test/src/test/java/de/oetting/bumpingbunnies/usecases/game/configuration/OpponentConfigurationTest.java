@@ -43,7 +43,7 @@ public class OpponentConfigurationTest {
 		assertThat(configuration.getAiMode(), is(equalTo(AiModus.OFF)));
 		assertThat(configuration.getName(), is(equalTo("name")));
 		assertThat(configuration.getPlayerId(), is(equalTo(1)));
-		assertThat(configuration.getOpponent().isMyPlayer(), is(true));
+		assertThat(configuration.getOpponent().isLocalPlayer(), is(true));
 		assertThat(configuration.getOpponent().getType(), is(equalTo(OpponentType.LOCAL_PLAYER)));
 	}
 

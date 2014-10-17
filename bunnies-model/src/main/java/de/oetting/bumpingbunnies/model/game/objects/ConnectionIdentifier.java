@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-
 public class ConnectionIdentifier {
 
 	private final OpponentIdentifier identifier;
@@ -15,12 +14,12 @@ public class ConnectionIdentifier {
 		return this.identifier;
 	}
 
-	public boolean isMyPlayer() {
-		return OpponentType.LOCAL_PLAYER == this.type;
-	}
-
 	public boolean isLocalPlayer() {
 		return OpponentType.LOCAL_PLAYER == this.type || OpponentType.AI == this.type;
+	}
+
+	public boolean isLocalHumanPlayer() {
+		return OpponentType.LOCAL_PLAYER == this.type;
 	}
 
 	public OpponentType getType() {
