@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.pc.game.factory;
 
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.logic.CommonGameThreadFactory;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
@@ -64,7 +65,7 @@ public class GameMainFactory {
 	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, ThreadErrorCallback gameStopper,
 			Configuration configuration, Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor,
 			GameMain gameMain) {
-		return new GameThreadFactory().create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor,
-				gameMain);
+		return CommonGameThreadFactory.create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor,
+				gameMain, new DummyMusicPlayer());
 	}
 }
