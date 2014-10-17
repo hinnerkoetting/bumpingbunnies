@@ -60,7 +60,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 
 		registerScreenTouchListener(contentView);
 
-		ObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, this, parameter.getConfiguration(), calculations);
+		ObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, parameter.getConfiguration(), calculations);
 		AndroidDrawer drawer = new AndroidDrawer(objectsDrawer, parameter.getConfiguration().getLocalSettings().isAltPixelMode());
 		contentView.setCallback(drawer);
 		drawThread = new AndroidDrawThread(new DrawerFpsCounter(drawer, threadState), this);

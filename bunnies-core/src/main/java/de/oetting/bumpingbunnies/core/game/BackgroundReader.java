@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.pc.graphics;
+package de.oetting.bumpingbunnies.core.game;
 
 import java.io.InputStream;
 
