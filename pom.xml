@@ -14,6 +14,7 @@
 		<module>bunnies-common</module>
 		<module>bunnies-android</module>
 		<module>bunnies-network-tester</module>
+		<module>bunnies-levels</module>
 	</modules>
 
 	<dependencyManagement>

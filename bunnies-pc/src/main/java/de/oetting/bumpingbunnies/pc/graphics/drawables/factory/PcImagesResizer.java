@@ -8,12 +8,11 @@ import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 public class PcImagesResizer implements ImageResizer {
 
 	@Override
-	public ImageWrapper resize(ImageWrapper original, int targetWidth, int targetHeiht) {
+	public ImageWrapper resize(ImageWrapper original, int targetWidth, int targetHeight) {
 		Image image = (Image) original.getBitmap();
 		ImageView view = new ImageView(image);
 		view.setScaleX(targetWidth / image.getWidth());
-		view.setScaleY(targetHeiht / image.getHeight());
+		view.setScaleY(targetHeight / image.getHeight());
 		return new ImageFromViewExtractor().extractToWrapper(view);
 	}
-
 }
