@@ -9,7 +9,7 @@ public class CollisionHandling {
 
 	public void interactWith(Player player, GameObject fixedObject, CollisionDetection collisionDetection) {
 		if (fixedObject instanceof Water) {
-			player.setExactMovementY((int) (player.movementY() * 0.99));
+			player.setExactMovementY((int) Math.round(player.movementY() * 0.99));
 			if (player.movementY() <= ModelConstants.PLAYER_SPEED_WATER) {
 				player.setExactMovementY(ModelConstants.PLAYER_SPEED_WATER);
 			}
