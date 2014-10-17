@@ -13,10 +13,10 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
+import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.input.UserInputStep;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
 @Category(UnitTests.class)
 public class UserInputStepTest {

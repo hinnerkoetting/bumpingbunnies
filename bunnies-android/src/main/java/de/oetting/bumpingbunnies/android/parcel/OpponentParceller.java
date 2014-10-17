@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.android.parcel;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 
 public class OpponentParceller implements Parceller<Opponent> {

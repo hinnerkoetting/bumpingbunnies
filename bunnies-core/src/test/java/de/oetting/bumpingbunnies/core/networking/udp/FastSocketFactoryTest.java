@@ -16,11 +16,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.network.FastSocketFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;

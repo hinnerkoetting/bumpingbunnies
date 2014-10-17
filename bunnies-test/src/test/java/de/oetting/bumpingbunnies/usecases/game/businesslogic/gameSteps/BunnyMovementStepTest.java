@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
+import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
@@ -23,7 +24,6 @@ import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
 @Category(UnitTests.class)
 public class BunnyMovementStepTest {

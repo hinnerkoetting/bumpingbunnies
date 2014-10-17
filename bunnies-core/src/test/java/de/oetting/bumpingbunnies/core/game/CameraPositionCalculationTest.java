@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.game;
 
 import static de.oetting.bumpingbunnies.core.game.CameraPositionCalculation.SCROLLING_WHILE_PLAYER_IS_DEAD;
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
+import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createOpponentPlayer;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;

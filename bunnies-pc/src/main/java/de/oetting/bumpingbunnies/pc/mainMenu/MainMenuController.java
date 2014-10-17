@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
@@ -44,7 +45,6 @@ import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
@@ -175,8 +175,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
-		// TODO find out which player is directly connected
-		if (playerProperties.getPlayerId() == 0)
+		if (socket.getOwner().isDirectlyConnected())
 			return new RoomEntry(playerProperties, socket.getOwner());
 		else
 			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
@@ -213,9 +212,9 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	private List<OpponentConfiguration> createOtherPlayerconfigurations() {
 		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>();
 		for (RoomEntry otherPlayer : playersTable.getItems()) {
-			if (!otherPlayer.createOponent().isLocalPlayer()) {
+			if (!otherPlayer.getOponent().isLocalPlayer()) {
 				OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(AiModus.NORMAL, otherPlayer.getPlayerProperties(),
-						otherPlayer.createOponent());
+						otherPlayer.getOponent());
 				otherPlayers.add(otherPlayerConfiguration);
 			}
 		}
@@ -230,7 +229,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private RoomEntry findDisconnectedPlayerEntry(Opponent opponent) {
 		for (RoomEntry entry : playersTable.getItems()) {
-			if (entry.getPlayerName().equals(opponent.getIdentifier())) {
+			if (entry.getOponent().equals(opponent)) {
 				return entry;
 			}
 		}

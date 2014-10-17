@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.input.ai.AiInputService;
 import de.oetting.bumpingbunnies.core.input.ai.DummyInputService;
@@ -23,7 +24,6 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

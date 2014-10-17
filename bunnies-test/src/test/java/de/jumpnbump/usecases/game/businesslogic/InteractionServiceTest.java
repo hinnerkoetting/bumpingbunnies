@@ -1,6 +1,6 @@
 package de.jumpnbump.usecases.game.businesslogic;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createPlayerAtPosition;
+import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createPlayerAtPosition;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 

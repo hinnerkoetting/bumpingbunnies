@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 
 public class BunniesBluetoothServerSocket implements ServerSocket {
 

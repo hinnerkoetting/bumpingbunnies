@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.game.steps.HostBunnyKillChecker;
@@ -23,7 +24,6 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.tests.UnitTests;
-import de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory;
 
 @Category(UnitTests.class)
 public class HostBunnyKillCheckerTest {

@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
+import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createOpponentPlayer;
 import static org.junit.Assert.assertThat;
 
 import org.hamcrest.core.IsSame;

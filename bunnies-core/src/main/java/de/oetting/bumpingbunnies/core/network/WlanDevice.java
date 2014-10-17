@@ -6,11 +6,11 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.core.networking.FreePortFinder;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 
 public class WlanDevice implements ServerDevice {

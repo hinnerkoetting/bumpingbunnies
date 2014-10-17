@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Rect;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.tests.UnitTests;

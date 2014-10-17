@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
+
 public class Player implements GameObject {
 
 	private final int speedFaktor;

@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
 public class SendBroadcastFactory {

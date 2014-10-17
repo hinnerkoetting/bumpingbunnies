@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 
 public class TestSocket extends AbstractSocket {
 

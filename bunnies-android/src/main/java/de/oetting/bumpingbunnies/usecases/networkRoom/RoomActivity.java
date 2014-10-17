@@ -27,6 +27,7 @@ import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.DummyCommunication;
@@ -63,7 +64,6 @@ import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
 import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
@@ -296,7 +296,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
 			AiModus aiMode = AiModus.NORMAL;
 
-			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(), otherPlayer.createOponent());
+			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(), otherPlayer.getOponent());
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;

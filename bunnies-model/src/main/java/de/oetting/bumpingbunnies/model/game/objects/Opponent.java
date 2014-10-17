@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
+
 public class Opponent {
 
 	private final OpponentIdentifier identifier;

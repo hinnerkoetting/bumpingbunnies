@@ -18,8 +18,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket.UdpException;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 

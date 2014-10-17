@@ -26,7 +26,7 @@ public class RoomEntry {
 		return this.playerProperties.getPlayerId() + " " + this.playerProperties.getPlayerName();
 	}
 
-	public Opponent createOponent() {
+	public Opponent getOponent() {
 		return this.opponent;
 	}
 

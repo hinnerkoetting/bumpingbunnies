@@ -13,11 +13,11 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.UdpAndTcpNetworkSender;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.tests.UnitTests;

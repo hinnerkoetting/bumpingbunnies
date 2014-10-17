@@ -1,9 +1,7 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.core.game;
 
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentIdentifier;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 

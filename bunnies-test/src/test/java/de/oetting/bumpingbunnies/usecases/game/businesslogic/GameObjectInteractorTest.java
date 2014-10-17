@@ -11,13 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;

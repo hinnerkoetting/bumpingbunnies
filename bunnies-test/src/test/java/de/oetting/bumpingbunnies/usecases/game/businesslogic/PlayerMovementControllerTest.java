@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
-import static de.oetting.bumpingbunnies.usecases.game.businesslogic.TestPlayerFactory.createOpponentPlayer;
+import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createOpponentPlayer;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;

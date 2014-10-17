@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 
 public class WlanServerSocket implements de.oetting.bumpingbunnies.core.networking.sockets.ServerSocket {

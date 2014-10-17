@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.game.configuration;
 import java.util.Arrays;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.InputConfiguration;
@@ -13,7 +14,6 @@ import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentTestFactory;
 
 public class TestConfigurationFactory {
 

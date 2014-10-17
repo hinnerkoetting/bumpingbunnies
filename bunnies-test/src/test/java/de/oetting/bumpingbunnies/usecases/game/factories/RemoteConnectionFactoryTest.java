@@ -21,6 +21,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.android.game.GameActivity;
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkSendQueueThread;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
@@ -30,7 +31,6 @@ import de.oetting.bumpingbunnies.core.networking.messaging.NoopRemoteSender;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 

@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.core.game.player;
 
+import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
@@ -11,11 +12,12 @@ public class PlayerFactory {
 	private int speed;
 
 	public PlayerFactory(int speed) {
-		super();
 		this.speed = speed;
 	}
 
 	public Player createPlayer(int id, String name, Opponent opponent) {
+		Guard.againstNull(opponent);
+		Guard.againstNull(name);
 		Player p = new Player(id, name, this.speed, opponent);
 		PlayerState state = p.getState();
 		p.setDead(true);

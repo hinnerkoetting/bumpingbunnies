@@ -12,6 +12,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.network.BytePerSecondMeasurer;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
@@ -56,7 +58,6 @@ import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.HorizontalMovementState;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Opponent;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentFactory;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
@@ -211,7 +212,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void addPlayerEntry(RoomEntry entry) {
-		Player player = new Player(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(), -1,
+		Player player = new PlayerFactory(-1).createPlayer(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(),
 				OpponentFactory.createRemoteOpponent(entry.getPlayerName(), OpponentType.LOCAL_PLAYER));
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
@@ -219,7 +220,8 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void addMyPlayerRoomEntry(int myPlayerId) {
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
-		Player player = new Player(myPlayerId, settings.getPlayerName(), -1, OpponentFactory.createLocalPlayer(singlePlayerProperties.getPlayerName()));
+		Player player = new PlayerFactory(1).createPlayer(myPlayerId, settings.getPlayerName(),
+				OpponentFactory.createLocalPlayer(singlePlayerProperties.getPlayerName()));
 		playersTable.getItems().add(new DetailRoomEntry(new LocalPlayerEntry(singlePlayerProperties), player));
 	}
 
@@ -410,7 +412,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	private RoomEntry findPlayer(Opponent opponent) {
 		for (DetailRoomEntry entry : playersTable.getItems()) {
-			if (entry.getEntry().createOponent().equals(opponent.getIdentifier())) {
+			if (entry.getEntry().getOponent().equals(opponent.getIdentifier())) {
 				return entry.getEntry();
 			}
 		}
