@@ -8,7 +8,7 @@ public class LocalSettingsParceller implements Parceller<LocalSettings> {
 
 	@Override
 	public void writeToParcel(LocalSettings input, Parcel parcel) {
-		parcel.writeString(input.getInputConfiguration().toString());
+		parcel.writeSerializable(input.getInputConfiguration());
 		parcel.writeInt(input.getZoom());
 		parcel.writeInt(input.isAltPixelMode() ? 1 : 0);
 		parcel.writeInt(input.isBackground() ? 1 : 0);
@@ -16,7 +16,7 @@ public class LocalSettingsParceller implements Parceller<LocalSettings> {
 
 	@Override
 	public LocalSettings createFromParcel(Parcel parcel) {
-		InputConfiguration inputConfiguration = InputConfiguration.valueOf(parcel.readString());
+		InputConfiguration inputConfiguration = (InputConfiguration) parcel.readSerializable();
 		int zoom = parcel.readInt();
 		boolean background = parcel.readInt() == 1;
 		boolean altPixelMode = parcel.readInt() == 1;

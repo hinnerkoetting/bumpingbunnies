@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -44,7 +45,7 @@ public class PlayerMovementWithHigherSpeedTest extends AbstractTestPlayerMovemen
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.player = new PlayerFactory(speed).createPlayer(0, "player", null);
+		this.player = new PlayerFactory(speed).createPlayer(0, "player", OpponentTestFactory.create());
 		this.fixture = new PlayerMovementCalculation(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
 	}
 }
