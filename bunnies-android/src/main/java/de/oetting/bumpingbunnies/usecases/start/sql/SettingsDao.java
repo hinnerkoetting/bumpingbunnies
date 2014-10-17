@@ -91,7 +91,7 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 		try {
 			return (InputConfiguration) Class.forName(inputConfiguration).newInstance();
 		} catch (Exception e) {
-			LOGGER.error("Error", e);
+			LOGGER.error("Could not restore inputconfiguration from database. Creating distributed keyboard", e);
 			return new DistributedKeyboardinput();
 		}
 	}
