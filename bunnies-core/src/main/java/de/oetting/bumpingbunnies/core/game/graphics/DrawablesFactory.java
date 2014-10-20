@@ -61,7 +61,7 @@ public class DrawablesFactory {
 		double y = 0.05;
 		while (x > 1) {
 			x--;
-			x += 0.1;
+			y += 0.1;
 		}
 		return new ScoreDrawer(p, x, y);
 	}

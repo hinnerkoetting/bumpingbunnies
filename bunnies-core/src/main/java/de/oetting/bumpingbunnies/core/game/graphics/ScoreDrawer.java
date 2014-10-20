@@ -11,7 +11,6 @@ public class ScoreDrawer implements Drawable {
 	private double scoreY;
 
 	public ScoreDrawer(Player player, double scoreX, double scoreY) {
-		super();
 		this.player = player;
 		this.scoreX = scoreX;
 		this.scoreY = scoreY;
