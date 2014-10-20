@@ -3,12 +3,19 @@ package de.oetting.bumpingbunnies.pc.configMenu;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
+import de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication;
 
 public class ConfigController implements Initializable {
+
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ConfigController.class);
 
 	@FXML
 	TextField player1Name;
@@ -39,10 +46,38 @@ public class ConfigController implements Initializable {
 	@FXML
 	TextField speed;
 
+	private final Stage primaryStage;
+
+	public ConfigController(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+
 	@FXML
 	public void onButtonSave() {
 		PcConfiguration configuration = createConfiguration();
 		saveConfiguration(configuration);
+		startMenuApplication();
+	}
+
+	@FXML
+	public void onButtonCancel() {
+		startMenuApplication();
+	}
+
+	private void startMenuApplication() {
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					MainMenuApplication menuApplication = new MainMenuApplication();
+					menuApplication.start(primaryStage);
+				} catch (Exception e) {
+					LOGGER.error("", e);
+					Platform.exit();
+				}
+			}
+		});
 	}
 
 	private void saveConfiguration(PcConfiguration configuration) {

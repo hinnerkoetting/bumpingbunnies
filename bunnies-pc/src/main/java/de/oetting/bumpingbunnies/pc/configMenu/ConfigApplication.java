@@ -11,6 +11,7 @@ public class ConfigApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/configMenu.fxml"));
+		loader.setController(new ConfigController(primaryStage));
 		Pane myPane = (Pane) loader.load();
 		Scene myScene = new Scene(myPane);
 		primaryStage.setScene(myScene);

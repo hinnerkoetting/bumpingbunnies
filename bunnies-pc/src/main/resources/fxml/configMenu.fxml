@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oetting.bumpingbunnies.pc.configMenu.ConfigController">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" >
 	<Label text="Input" />
 	<FlowPane prefWidth="800" GridPane.rowIndex="1" hgap="10">
 		<Label text="Player 1  "  />
@@ -51,7 +51,7 @@
 	
 	<GridPane GridPane.rowIndex="5">
 		<Button text = "Save" onAction="#onButtonSave"/>
-		<Button text = "Cancel" GridPane.columnIndex="1"/>
+		<Button text = "Cancel" GridPane.columnIndex="1" onAction="#onButtonCancel"/>
 	</GridPane>
 	
 	
