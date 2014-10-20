@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.pc.configMenu;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -16,6 +17,7 @@ public class ConfigApplication extends Application {
 		Scene myScene = new Scene(myPane);
 		primaryStage.setScene(myScene);
 		primaryStage.show();
+		primaryStage.setOnCloseRequest((e) -> Platform.exit());
 	}
 
 	public static void main(String[] args) {

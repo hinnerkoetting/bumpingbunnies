@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
@@ -112,6 +113,11 @@ public class BunniesMain extends Application {
 		ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
 		inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter.getConfiguration().getInputConfiguration(),
 				new PlayerMovement(myPlayer)));
+
+		addOtherPlayers(inputFactory);
+	}
+
+	private void addOtherPlayers(ConfigurableKeyboardInputFactory inputFactory) {
 		List<PlayerConfig> players = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 		for (PlayerConfig config : players) {
 			Player otherPlayer = config.getPlayer();
@@ -140,7 +146,7 @@ public class BunniesMain extends Application {
 			public void handle(KeyEvent event) {
 				inputDispatcher.dispatchOnKeyUp(event.getCode());
 				if (event.getCode().equals(KeyCode.ESCAPE))
-					toScoreScreen();
+					goToScoreScreen();
 			}
 
 		});
@@ -151,7 +157,7 @@ public class BunniesMain extends Application {
 				inputDispatcher.dispatchOnKeyDown(event.getCode());
 			}
 		});
-		primaryStage.setOnCloseRequest(event -> Platform.exit());
+		primaryStage.setOnCloseRequest((e) -> onCloseRequest(e));
 	}
 
 	private void resizeCanvasWhenPanelGetsResised(Canvas canvas, FlowPane root) {
@@ -249,11 +255,6 @@ public class BunniesMain extends Application {
 		dialog.show();
 	}
 
-	private void toScoreScreen() {
-		List<ScoreEntry> scores = extractScores();
-		new ApplicationStarter().startApplication(new ScoreMenuApplication(scores), primaryStage);
-	}
-
 	private List<ScoreEntry> extractScores() {
 		List<Player> allPlayer = gameMain.getWorld().getAllPlayer();
 		List<ScoreEntry> entries = new ArrayList<>(allPlayer.size());
@@ -263,5 +264,15 @@ public class BunniesMain extends Application {
 			}
 		}
 		return entries;
+	}
+
+	private void onCloseRequest(WindowEvent e) {
+		e.consume();
+		goToScoreScreen();
+	}
+
+	private void goToScoreScreen() {
+		List<ScoreEntry> scores = extractScores();
+		new ApplicationStarter().startApplication(new ScoreMenuApplication(scores), primaryStage);
 	}
 }

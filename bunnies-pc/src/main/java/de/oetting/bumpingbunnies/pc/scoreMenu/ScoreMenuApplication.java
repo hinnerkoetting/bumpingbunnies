@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.pc.scoreMenu;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -24,6 +25,7 @@ public class ScoreMenuApplication extends Application {
 		Scene scene = new Scene(pane);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setOnCloseRequest((e) -> Platform.exit());
 	}
 
 	private void fillEntries(ScoreMenuController controller) {

@@ -8,12 +8,12 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oetting.bumpingbunnies.pc.scoreMenu.ScoreMenuController">
 	<TableView fx:id="scoreTable">
 		<columns>
-			<TableColumn text="Name">
+			<TableColumn text="Name" minWidth="100">
 				<cellValueFactory>
                     <PropertyValueFactory  property="playerName" />
                 </cellValueFactory>
 			</TableColumn>
-			<TableColumn text="Score">
+			<TableColumn text="Score" minWidth="100">
 				<cellValueFactory>
                     <PropertyValueFactory property="score" />
                 </cellValueFactory>
