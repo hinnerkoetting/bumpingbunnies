@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -48,6 +49,7 @@ import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfigur
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
+import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
@@ -59,6 +61,8 @@ import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcBackgroundDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableFactory;
+import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
+import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreMenuApplication;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.NoopResourceProvider;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
 
@@ -135,7 +139,10 @@ public class BunniesMain extends Application {
 			@Override
 			public void handle(KeyEvent event) {
 				inputDispatcher.dispatchOnKeyUp(event.getCode());
+				if (event.getCode().equals(KeyCode.ESCAPE))
+					toScoreScreen();
 			}
+
 		});
 		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 
@@ -242,4 +249,19 @@ public class BunniesMain extends Application {
 		dialog.show();
 	}
 
+	private void toScoreScreen() {
+		List<ScoreEntry> scores = extractScores();
+		new ApplicationStarter().startApplication(new ScoreMenuApplication(scores), primaryStage);
+	}
+
+	private List<ScoreEntry> extractScores() {
+		List<Player> allPlayer = gameMain.getWorld().getAllPlayer();
+		List<ScoreEntry> entries = new ArrayList<>(allPlayer.size());
+		synchronized (allPlayer) {
+			for (Player player : allPlayer) {
+				entries.add(new ScoreEntry(player.getName(), player.getScore()));
+			}
+		}
+		return entries;
+	}
 }
