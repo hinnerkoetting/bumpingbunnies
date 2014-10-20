@@ -101,13 +101,35 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 
-	private Configuration createConfiguration(List<OpponentConfiguration> opponents) {
+	private Configuration createConfiguration(List<OpponentConfiguration> opponentsFoo) {
+		List<OpponentConfiguration> opponents = readOpponents();
 		PcConfiguration pcConfiguration = new ConfigAccess().load();
 		LocalSettings localSettings = new PcConfigurationConverter().convert2LocalSettings(getConfiguration());
 		ServerSettings generalSettings = new PcConfigurationConverter().convert2ServerSettings(pcConfiguration);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
 		return configuration;
+	}
+
+	private List<OpponentConfiguration> readOpponents() {
+		List<OpponentConfiguration> opponents = new ArrayList<>(playersTable.getItems().size());
+		for (RoomEntry entry : playersTable.getItems()) {
+			if (!(entry instanceof LocalPlayerEntry))
+				opponents.add(createOpponentConfiguration(entry));
+		}
+		return opponents;
+	}
+
+	private OpponentConfiguration createOpponentConfiguration(RoomEntry entry) {
+		if (entry.getOponent().isLocalHumanPlayer()) {
+			PlayerConfiguration playerConfiguration = getConfiguration().getPlayerConfiguration(entry.getPlayerId());
+			return new OpponentConfiguration(AiModus.OFF, entry.getPlayerProperties(), entry.getOponent(),
+					new PcConfigurationConverter().createConfiguration(playerConfiguration));
+		} else if (entry.getOponent().isLocalPlayer()) {
+			return new OpponentConfiguration(AiModus.NORMAL, entry.getPlayerProperties(), entry.getOponent(), new NoopInputConfiguration());
+		} else {
+			return new OpponentConfiguration(AiModus.OFF, entry.getPlayerProperties(), entry.getOponent(), new NoopInputConfiguration());
+		}
 	}
 
 	private void startGameWithAi() {
@@ -204,6 +226,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
+		if (socket.getConnectionIdentifier().isLocalPlayer())
+			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		if (socket.getConnectionIdentifier().isDirectlyConnected())
 			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
@@ -299,6 +323,6 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	public void enableButtons() {
-		addPlayerButton.setDisable(playersTable.getItems().size() > 2);
+		Platform.runLater(() -> addPlayerButton.setDisable(playersTable.getItems().size() > 2));
 	}
 }
