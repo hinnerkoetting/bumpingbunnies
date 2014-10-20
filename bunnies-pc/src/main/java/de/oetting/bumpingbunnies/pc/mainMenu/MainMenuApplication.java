@@ -21,6 +21,7 @@ public class MainMenuApplication extends Application {
 		primaryStage.setScene(myScene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest((e) -> Platform.exit());
+		primaryStage.setTitle("Bumping Bunnies");
 	}
 
 	public static void main(String[] args) {

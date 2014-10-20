@@ -18,6 +18,7 @@ public class ConfigApplication extends Application {
 		primaryStage.setScene(myScene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest((e) -> Platform.exit());
+		primaryStage.setTitle("Bumping Bunnies: Configuration");
 	}
 
 	public static void main(String[] args) {

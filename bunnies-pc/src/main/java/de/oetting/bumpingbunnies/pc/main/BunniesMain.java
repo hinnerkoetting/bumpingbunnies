@@ -158,6 +158,7 @@ public class BunniesMain extends Application {
 			}
 		});
 		primaryStage.setOnCloseRequest((e) -> onCloseRequest(e));
+		primaryStage.setTitle("Bumping Bunnies");
 	}
 
 	private void resizeCanvasWhenPanelGetsResised(Canvas canvas, FlowPane root) {

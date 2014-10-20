@@ -26,6 +26,7 @@ public class ScoreMenuApplication extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest((e) -> Platform.exit());
+		primaryStage.setTitle("Bumping Bunnies: Score");
 	}
 
 	private void fillEntries(ScoreMenuController controller) {

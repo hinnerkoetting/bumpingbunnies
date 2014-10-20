@@ -12,7 +12,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
@@ -346,5 +348,16 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	public void enableButtons() {
 		Platform.runLater(() -> addPlayerButton.setDisable(findNextFreePlayerId() >= getConfiguration().getMaxNumberOfPlayers()));
+	}
+
+	public void onMouseClickOnPlayers(MouseEvent event) {
+		if (event.getClickCount() > 1) {
+			TablePosition<?, ?> focusedCell = playersTable.getFocusModel().getFocusedCell();
+			if (focusedCell.getRow() != -1) {
+				event.consume();
+				if (!(playersTable.getItems().get(focusedCell.getRow()) instanceof LocalPlayerEntry))
+					playersTable.getItems().remove(focusedCell.getRow());
+			}
+		}
 	}
 }

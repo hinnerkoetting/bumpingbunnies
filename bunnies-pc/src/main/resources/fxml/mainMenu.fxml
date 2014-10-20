@@ -36,7 +36,7 @@
      	
      </TableView>
      
-     <TableView fx:id="playersTable"	maxWidth="500"  maxHeight="250" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="4">
+     <TableView fx:id="playersTable"	maxWidth="500"  maxHeight="250" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="4" onMouseClicked="#onMouseClickOnPlayers">
      	 <columns>
      	 	<TableColumn text="Id" >
      	 		<cellValueFactory>
