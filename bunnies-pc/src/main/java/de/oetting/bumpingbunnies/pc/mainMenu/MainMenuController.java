@@ -45,6 +45,8 @@ import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
+import de.oetting.bumpingbunnies.pc.ApplicationStarter;
+import de.oetting.bumpingbunnies.pc.configMenu.ConfigApplication;
 import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
@@ -113,20 +115,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private void startGame(GameStartParameter parameter) {
 		listenForBroadcastsThread.stopListening();
-
-		Platform.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					BunniesMain bunniesMain = new BunniesMain(parameter);
-					bunniesMain.start(primaryStage);
-				} catch (Exception e) {
-					LOGGER.error("", e);
-					Platform.exit();
-				}
-			}
-		});
+		new ApplicationStarter().startApplication(new BunniesMain(parameter), primaryStage);
 	}
 
 	@Override
@@ -151,11 +140,17 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 			hostsTable.getItems().add(host);
 	}
 
+	@FXML
 	public void onButtonConnect() {
 		WlanDevice wlanDevice = new WlanDevice(hostsTable.getSelectionModel().getSelectedItem().getAddress());
 		MySocket socket = wlanDevice.createClientSocket();
 		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(socket, this);
 		connectToServerThread.start();
+	}
+
+	@FXML
+	public void onButtonConfiguration() {
+		new ApplicationStarter().startApplication(new ConfigApplication(), primaryStage);
 	}
 
 	@Override

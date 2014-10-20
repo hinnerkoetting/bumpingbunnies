@@ -18,9 +18,11 @@
      </padding>
         
      <Button text="With two players" fx:id="withTwoPlayersButton"   onAction="#onButtonWithTwoPlayers" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-     <Button text="With ai" fx:id="withAiButton" onAction="#onButtonWithAi" GridPane.rowIndex= "0" GridPane.columnIndex="1"/>
+     <Button text="With ai"  onAction="#onButtonWithAi" GridPane.rowIndex= "0" GridPane.columnIndex="1"/>
      <Button text="Single" onAction="#onHostButton" GridPane.rowIndex= "0" GridPane.columnIndex="2"/>
-	 <Button text="Connect" fx:id="connectButton" onAction="#onButtonConnect" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+	 <Button text="Connect"  onAction="#onButtonConnect" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+	 <Button text="Options"  onAction="#onButtonConfiguration"  GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+ 
  
               
      <TableView fx:id="hostsTable"	maxWidth="500" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="4">

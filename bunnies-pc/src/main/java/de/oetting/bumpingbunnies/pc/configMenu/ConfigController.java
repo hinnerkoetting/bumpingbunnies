@@ -3,13 +3,13 @@ package de.oetting.bumpingbunnies.pc.configMenu;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 import de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication;
 
@@ -65,19 +65,7 @@ public class ConfigController implements Initializable {
 	}
 
 	private void startMenuApplication() {
-		Platform.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					MainMenuApplication menuApplication = new MainMenuApplication();
-					menuApplication.start(primaryStage);
-				} catch (Exception e) {
-					LOGGER.error("", e);
-					Platform.exit();
-				}
-			}
-		});
+		new ApplicationStarter().startApplication(new MainMenuApplication(), primaryStage);
 	}
 
 	private void saveConfiguration(PcConfiguration configuration) {
