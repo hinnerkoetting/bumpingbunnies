@@ -34,8 +34,6 @@ import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServe
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
@@ -57,8 +55,6 @@ import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
 public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback,
 		ThreadErrorCallback {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(MainMenuController.class);
 
 	private final Stage primaryStage;
 	@FXML
@@ -187,14 +183,24 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	@FXML
 	public void onButtonAddPlayer() {
 		int nextIndex = getNextPlayerId();
-		PlayerConfiguration playerConfiguration = getConfiguration().getPlayerConfiguration(getNextPlayerId());
+		PlayerConfiguration playerConfiguration = findNextFreePlayerConfiguration();
 		PlayerProperties properties = new PlayerProperties(nextIndex, playerConfiguration.getPlayerName());
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createLocalPlayer(properties.getPlayerName())), properties, 0);
 		enableButtons();
 	}
 
+	private PlayerConfiguration findNextFreePlayerConfiguration() {
+		int index = 0;
+		for (RoomEntry entry : playersTable.getItems()) {
+			if (entry.getOponent().isLocalHumanPlayer()) {
+				index++;
+			}
+		}
+		return getConfiguration().getPlayerConfiguration(index);
+	}
+
 	private int getNextPlayerId() {
-		return playersTable.getItems().size() + 1;
+		return playersTable.getItems().size();
 	}
 
 	@FXML
