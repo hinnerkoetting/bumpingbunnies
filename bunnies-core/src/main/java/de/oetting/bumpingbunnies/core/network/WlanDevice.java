@@ -6,7 +6,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.networking.FreePortFinder;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -39,7 +39,7 @@ public class WlanDevice implements ServerDevice {
 		TcpSocketSettings settings = new TcpSocketSettings(socketAddress, localPort, NetworkConstants.SERVER_NETWORK_PORT);
 		Socket socket = new Socket();
 		bindToLocalPort(localPort, socket);
-		return new TCPSocket(socket, socketAddress, OpponentFactory.createWlanPlayer(address, localPort), settings);
+		return new TCPSocket(socket, socketAddress, ConnectionIdentifierFactory.createWlanPlayer(address, localPort), settings);
 	}
 
 	private void bindToLocalPort(int localPort, Socket socket) {

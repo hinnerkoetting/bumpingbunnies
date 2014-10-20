@@ -21,7 +21,7 @@ public class WlanOpponentTypeSendFactory implements OpponentTypeSendFactory {
 
 	@Override
 	public NetworkSender createFastNetworkSender(ThreadErrorCallback stopper, MySocket socket, PlayerDisconnectedCallback disconnectCallback) {
-		UdpSocket udpSocket = new UdpSocketFactory().createSendingSocket((TCPSocket) socket, socket.getOwner());
+		UdpSocket udpSocket = new UdpSocketFactory().createSendingSocket((TCPSocket) socket, socket.getConnectionIdentifier());
 		return SimpleNetworkSenderFactory.createNetworkSender(udpSocket, disconnectCallback);
 	}
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
@@ -50,7 +50,7 @@ public class SendBroadcastFactory {
 
 	private static UdpSocket openSocket(InetAddress address) throws IOException {
 		UdpSocketSettings settings = new UdpSocketSettings(address, NetworkConstants.BROADCAST_PORT, NetworkConstants.BROADCAST_PORT);
-		return new UdpSocketFactory().createBroadcastSocket(settings, OpponentFactory.createBroadcastOpponent());
+		return new UdpSocketFactory().createBroadcastSocket(settings, ConnectionIdentifierFactory.createBroadcastOpponent());
 	}
 
 }

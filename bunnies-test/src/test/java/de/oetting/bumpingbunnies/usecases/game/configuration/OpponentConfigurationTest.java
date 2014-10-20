@@ -12,7 +12,7 @@ import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.android.parcel.OpponentConfigurationParceller;
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
@@ -49,6 +49,6 @@ public class OpponentConfigurationTest {
 	}
 
 	public OpponentConfiguration createOpponentConfiguration() {
-		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), OpponentFactory.createLocalPlayer(""), new NoopInputConfiguration());
+		return new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "name"), ConnectionIdentifierFactory.createLocalPlayer(""), new NoopInputConfiguration());
 	}
 }

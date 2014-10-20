@@ -79,7 +79,7 @@ public class SocketStorage {
 
 	private MySocket findSocketOrNull(ConnectionIdentifier opponent) {
 		for (MySocket s : this.sockets) {
-			if (s.getOwner().equals(opponent)) {
+			if (s.getConnectionIdentifier().equals(opponent)) {
 				return s;
 			}
 		}

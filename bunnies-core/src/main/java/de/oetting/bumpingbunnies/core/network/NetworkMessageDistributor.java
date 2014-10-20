@@ -56,7 +56,7 @@ public class NetworkMessageDistributor implements NewSocketListener {
 		for (NetworkSender sender : sendThreads)
 			if (sender.usesThisSocket(p))
 				return sender;
-		throw new IllegalArgumentException("Could not find sendthread for socket " + p.getOwner());
+		throw new IllegalArgumentException("Could not find sendthread for socket " + p.getConnectionIdentifier());
 	}
 
 	public void sendMessageExceptToOneSocket(JsonWrapper wrapper, MySocket incomingSocket) {

@@ -16,7 +16,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
@@ -32,7 +32,7 @@ public class StorableSocketTest {
 	@Test
 	public void testParcelling() throws IOException {
 		int index = storeOriginalSocket();
-		StorableSocket storedSocket = new StorableSocket(this.socket, index, OpponentFactory.createLocalPlayer(""));
+		StorableSocket storedSocket = new StorableSocket(this.socket, index, ConnectionIdentifierFactory.createLocalPlayer(""));
 		checkValues(storedSocket, index);
 		StorableSocket after = serializeAndDeserialize(storedSocket);
 		checkValues(after, index);
@@ -56,7 +56,7 @@ public class StorableSocketTest {
 
 	private void checkValues(StorableSocket storedSocket, int index) {
 		assertThat(storedSocket.getStoredSocket(), is(equalTo(this.socket)));
-		assertThat(storedSocket.getOwner().isLocalPlayer(), is(true));
+		assertThat(storedSocket.getConnectionIdentifier().isLocalPlayer(), is(true));
 		assertThat(storedSocket.getIndex(), is(equalTo(index)));
 	}
 }

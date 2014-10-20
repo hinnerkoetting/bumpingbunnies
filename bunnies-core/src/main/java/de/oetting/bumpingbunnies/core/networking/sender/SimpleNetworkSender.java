@@ -32,7 +32,7 @@ public class SimpleNetworkSender implements NetworkSender {
 		try {
 			this.socket.sendMessage(json);
 		} catch (WriteFailed e) {
-			disconnectCallback.playerDisconnected(socket.getOwner());
+			disconnectCallback.playerDisconnected(socket.getConnectionIdentifier());
 			SocketStorage.getSingleton().removeSocket(socket);
 		}
 	}
@@ -50,7 +50,7 @@ public class SimpleNetworkSender implements NetworkSender {
 
 	@Override
 	public boolean isConnectionToPlayer(ConnectionIdentifier opponent) {
-		return this.socket.getOwner().equals(opponent);
+		return this.socket.getConnectionIdentifier().equals(opponent);
 	}
 
 	@Override

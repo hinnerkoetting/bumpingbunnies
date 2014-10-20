@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
@@ -23,7 +23,7 @@ public class BluetoothServerDevice implements ServerDevice {
 	public MySocket createClientSocket() {
 		try {
 			BluetoothSocket socket = this.device.createRfcommSocketToServiceRecord(NetworkConstants.MY_UUID);
-			return new MyBluetoothSocket(socket, OpponentFactory.createRemoteOpponent(device.getAddress(), OpponentType.BLUETOOTH));
+			return new MyBluetoothSocket(socket, ConnectionIdentifierFactory.createRemoteOpponent(device.getAddress(), OpponentType.BLUETOOTH));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

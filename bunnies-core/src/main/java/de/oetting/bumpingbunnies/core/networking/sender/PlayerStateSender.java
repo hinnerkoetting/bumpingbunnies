@@ -52,7 +52,7 @@ public class PlayerStateSender {
 	}
 
 	public boolean belongsToSocket(MySocket socket) {
-		return sender.isConnectionToPlayer(socket.getOwner());
+		return sender.isConnectionToPlayer(socket.getConnectionIdentifier());
 	}
 
 	public void cancel() {

@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 public class TestPlayerFactory {
 
 	public static Player createMyPlayer() {
-		return new Player(0, "", 1, OpponentFactory.createLocalPlayer(""));
+		return new Player(0, "", 1, ConnectionIdentifierFactory.createLocalPlayer(""));
 	}
 
 	public static Player createOpponentPlayer(OpponentType type) {

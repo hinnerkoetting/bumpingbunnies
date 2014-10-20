@@ -66,7 +66,7 @@ public class UdpSocket implements MySocket {
 	}
 
 	@Override
-	public ConnectionIdentifier getOwner() {
+	public ConnectionIdentifier getConnectionIdentifier() {
 		return this.owner;
 	}
 

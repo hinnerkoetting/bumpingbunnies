@@ -80,7 +80,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	@Override
 	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
 		Player player = new PlayerFactory(this.generalSettings.getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
-				playerProperties.getPlayerName(), socket.getOwner());
+				playerProperties.getPlayerName(), socket.getConnectionIdentifier());
 		LOGGER.info("Player joins %s", player);
 		signalPlayerToStartTheGame(socket);
 		this.mainJoinListener.newEvent(player);

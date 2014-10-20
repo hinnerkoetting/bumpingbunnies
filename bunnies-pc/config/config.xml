@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <pcConfiguration>
-    <player1Configuration>
+    <configurations>
         <playerName>Player 1</playerName>
         <playerLeft>Left</playerLeft>
         <playerUp>Up</playerUp>
         <playerRight>Right</playerRight>
-    </player1Configuration>
-    <player2Configuration>
+    </configurations>
+    <configurations>
         <playerName>Player 2</playerName>
         <playerLeft>A</playerLeft>
         <playerUp>W</playerUp>
         <playerRight>D</playerRight>
-    </player2Configuration>
-    <player3Configuration>
+    </configurations>
+    <configurations>
         <playerName>Player 3</playerName>
         <playerLeft>H</playerLeft>
         <playerUp>U</playerUp>
         <playerRight>K</playerRight>
-    </player3Configuration>
+    </configurations>
     <speed>25</speed>
 </pcConfiguration>

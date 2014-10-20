@@ -27,7 +27,7 @@ import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
@@ -312,10 +312,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
-		if (socket.getOwner().isDirectlyConnected())
-			return new RoomEntry(playerProperties, socket.getOwner());
+		if (socket.getConnectionIdentifier().isDirectlyConnected())
+			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
-			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
+			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
 	}
 
 	private void addPlayerEntry(final RoomEntry entry) {

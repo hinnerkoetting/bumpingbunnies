@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -26,7 +26,7 @@ public class UdpSocketFactory {
 	public UdpSocket createListeningSocket(UdpSocketSettings udpSocketSettings) {
 		try {
 			LOGGER.info("Creating listening UDP socket on local port %d ", udpSocketSettings.getLocalPort());
-			UdpSocket udpSocket = createUdpSocket(udpSocketSettings, OpponentFactory.createListeningOpponent());
+			UdpSocket udpSocket = createUdpSocket(udpSocketSettings, ConnectionIdentifierFactory.createListeningOpponent());
 			udpSocket.connect();
 			return udpSocket;
 		} catch (IOException e) {

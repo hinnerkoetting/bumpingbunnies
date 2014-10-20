@@ -16,10 +16,11 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.NoopSocket;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
@@ -48,6 +49,7 @@ import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configMenu.ConfigApplication;
 import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
+import de.oetting.bumpingbunnies.pc.configMenu.PlayerConfiguration;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
@@ -65,6 +67,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	private Button withAiButton;
 	@FXML
 	private Button connectButton;
+	@FXML
+	private Button addPlayerButton;
 	@FXML
 	private TableView<Host> hostsTable;
 	@FXML
@@ -92,7 +96,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	private void startGameWithTwoPlayers() {
 		KeyboardInputConfiguration configuration2 = new PcConfigurationConverter().createConfiguration(getConfiguration().getPlayer2Configuration());
 		OpponentConfiguration opponentConfiguration = new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "Player 2"),
-				OpponentFactory.createLocalPlayer("Player2"), configuration2);
+				ConnectionIdentifierFactory.createLocalPlayer("Player2"), configuration2);
 		Configuration configuration = createConfiguration(Arrays.asList(opponentConfiguration));
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
@@ -108,7 +112,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private void startGameWithAi() {
 		OpponentConfiguration aiOpponent = new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"),
-				OpponentFactory.createAiPlayer("Player2"), new NoopInputConfiguration());
+				ConnectionIdentifierFactory.createAiPlayer("Player2"), new NoopInputConfiguration());
 		Configuration configuration = createConfiguration(Arrays.asList(aiOpponent));
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
@@ -122,6 +126,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	public void initialize(URL location, ResourceBundle resources) {
 		hostsTable.getSelectionModel().selectedIndexProperty().addListener(event -> connectButton.setDisable(false));
 		listenForBroadcasts();
+		addMyPlayerRoomEntry(0);
 	}
 
 	private void listenForBroadcasts() {
@@ -142,10 +147,32 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@FXML
 	public void onButtonConnect() {
+		playersTable.getItems().clear();
 		WlanDevice wlanDevice = new WlanDevice(hostsTable.getSelectionModel().getSelectedItem().getAddress());
 		MySocket socket = wlanDevice.createClientSocket();
 		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(socket, this);
 		connectToServerThread.start();
+	}
+
+	@FXML
+	public void onButtonAddAi() {
+		String playerName = "AI" + getNextPlayerId();
+		PlayerProperties properties = new PlayerProperties(getNextPlayerId(), playerName);
+		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
+		enableButtons();
+	}
+
+	@FXML
+	public void onButtonAddPlayer() {
+		int nextIndex = getNextPlayerId();
+		PlayerConfiguration playerConfiguration = getConfiguration().getPlayerConfiguration(getNextPlayerId());
+		PlayerProperties properties = new PlayerProperties(nextIndex, playerConfiguration.getPlayerName());
+		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createLocalPlayer(properties.getPlayerName())), properties, 0);
+		enableButtons();
+	}
+
+	private int getNextPlayerId() {
+		return playersTable.getItems().size() + 1;
 	}
 
 	@FXML
@@ -173,13 +200,15 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
 		RoomEntry entry = createRoomEntry(serverSocket, properties);
 		playersTable.getItems().add(entry);
+		enableButtons();
 	}
 
 	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
-		if (socket.getOwner().isDirectlyConnected())
-			return new RoomEntry(playerProperties, socket.getOwner());
+		if (socket.getConnectionIdentifier().isDirectlyConnected())
+			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
-			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
+			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(),
+					playerProperties.getPlayerId()));
 	}
 
 	@Override
@@ -187,6 +216,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
 		playersTable.getItems().add(new LocalPlayerEntry(singlePlayerProperties));
+		enableButtons();
 	}
 
 	@Override
@@ -268,4 +298,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		return configuration;
 	}
 
+	public void enableButtons() {
+		addPlayerButton.setDisable(playersTable.getItems().size() > 2);
+	}
 }

@@ -5,6 +5,6 @@ import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 public class OpponentTestFactory {
 
 	public static ConnectionIdentifier create() {
-		return OpponentFactory.createAiPlayer("test");
+		return ConnectionIdentifierFactory.createAiPlayer("test");
 	}
 }

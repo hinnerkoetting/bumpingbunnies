@@ -80,7 +80,7 @@ public abstract class AbstractSocket implements MySocket {
 	}
 
 	@Override
-	public ConnectionIdentifier getOwner() {
+	public ConnectionIdentifier getConnectionIdentifier() {
 		return this.owner;
 	}
 

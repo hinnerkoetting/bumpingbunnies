@@ -14,7 +14,7 @@ public interface MySocket {
 
 	boolean isFastSocketPossible();
 
-	ConnectionIdentifier getOwner();
+	ConnectionIdentifier getConnectionIdentifier();
 
 	String getRemoteDescription();
 

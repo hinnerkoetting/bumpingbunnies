@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 
-public class OpponentFactory {
+public class ConnectionIdentifierFactory {
 
 	public static ConnectionIdentifier createLocalPlayer(String playerName) {
 		return createOpponent("LOCAL" + playerName, OpponentType.LOCAL_PLAYER);

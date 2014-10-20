@@ -10,12 +10,12 @@ public class NullOpponentTypeSendFactory implements OpponentTypeSendFactory {
 
 	@Override
 	public NetworkSender createNetworkSender(ThreadErrorCallback stopper, MySocket socket, PlayerDisconnectedCallback disconnectCallback) {
-		return new NoopRemoteSender(socket.getOwner());
+		return new NoopRemoteSender(socket.getConnectionIdentifier());
 	}
 
 	@Override
 	public NetworkSender createFastNetworkSender(ThreadErrorCallback stopper, MySocket socket, PlayerDisconnectedCallback disconnectCallback) {
-		return new NoopRemoteSender(socket.getOwner());
+		return new NoopRemoteSender(socket.getConnectionIdentifier());
 	}
 
 }

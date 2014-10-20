@@ -12,7 +12,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.network.BytePerSecondMeasurer;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
@@ -180,7 +180,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 
 	public void connectToServerSuccesfull(MySocket mmSocket) {
 		this.tcpSocketToServer = mmSocket;
-		udpSocketToServer = new UdpSocketFactory().createListeningSocket((TCPSocket) tcpSocketToServer, tcpSocketToServer.getOwner());
+		udpSocketToServer = new UdpSocketFactory().createListeningSocket((TCPSocket) tcpSocketToServer, tcpSocketToServer.getConnectionIdentifier());
 		LOGGER.info("Connected to server %s", mmSocket);
 		connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this, this);
 		connectedToServerService.onConnectionToServer();
@@ -204,15 +204,15 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
-		if (socket.getOwner().isDirectlyConnected())
-			return new RoomEntry(playerProperties, socket.getOwner());
+		if (socket.getConnectionIdentifier().isDirectlyConnected())
+			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
-			return new RoomEntry(playerProperties, OpponentFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
+			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
 	}
 
 	public void addPlayerEntry(RoomEntry entry) {
 		Player player = new PlayerFactory(-1).createPlayer(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(),
-				OpponentFactory.createRemoteOpponent(entry.getPlayerName(), entry.getOponent().getType()));
+				ConnectionIdentifierFactory.createRemoteOpponent(entry.getPlayerName(), entry.getOponent().getType()));
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
 
@@ -220,7 +220,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
 		Player player = new PlayerFactory(1).createPlayer(myPlayerId, settings.getPlayerName(),
-				OpponentFactory.createLocalPlayer(singlePlayerProperties.getPlayerName()));
+				ConnectionIdentifierFactory.createLocalPlayer(singlePlayerProperties.getPlayerName()));
 		playersTable.getItems().add(new DetailRoomEntry(new LocalPlayerEntry(singlePlayerProperties), player));
 	}
 
@@ -259,7 +259,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	private void addPlayerEntry(JsonWrapper messageWrapper) {
 		bpsMeasurer.newMessage(messageWrapper.getMessage(), System.currentTimeMillis());
 		PlayerProperties properties = MessageParserFactory.create().parseMessage(messageWrapper.getMessage(), PlayerProperties.class);
-		addPlayerEntry(new RoomEntry(properties, OpponentFactory.createRemoteOpponent(properties.getPlayerName(), OpponentType.WLAN)));
+		addPlayerEntry(new RoomEntry(properties, ConnectionIdentifierFactory.createRemoteOpponent(properties.getPlayerName(), OpponentType.WLAN)));
 	}
 
 	private void addUdpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {

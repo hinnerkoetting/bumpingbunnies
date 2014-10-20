@@ -17,12 +17,12 @@ public class RemoteConnectionFactory {
 	}
 
 	public NetworkSender create(MySocket socket) {
-		OpponentTypeSendFactory sendFactory = new OpponentTypeSendFactoryFactory().createSendFactory(socket.getOwner().getType());
+		OpponentTypeSendFactory sendFactory = new OpponentTypeSendFactoryFactory().createSendFactory(socket.getConnectionIdentifier().getType());
 		return sendFactory.createNetworkSender(this.stopper, socket, disconnectCallback);
 	}
 
 	public NetworkSender createFastSender(MySocket socket) {
-		OpponentTypeSendFactory sendFactory = new OpponentTypeSendFactoryFactory().createSendFactory(socket.getOwner().getType());
+		OpponentTypeSendFactory sendFactory = new OpponentTypeSendFactoryFactory().createSendFactory(socket.getConnectionIdentifier().getType());
 		return sendFactory.createFastNetworkSender(this.stopper, socket, disconnectCallback);
 	}
 

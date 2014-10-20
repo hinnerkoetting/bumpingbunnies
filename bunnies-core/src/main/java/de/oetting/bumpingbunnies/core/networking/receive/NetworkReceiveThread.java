@@ -52,7 +52,7 @@ public class NetworkReceiveThread extends BunniesThread implements NetworkReceiv
 
 	private void disconnectPlayer(ReadFailed e) {
 		LOGGER.warn("Read failed " + e.getMessage());
-		networkDispatcher.playerWasDisconnected(socket.getOwner());
+		networkDispatcher.playerWasDisconnected(socket.getConnectionIdentifier());
 	}
 
 	void oneRun() {
@@ -111,7 +111,7 @@ public class NetworkReceiveThread extends BunniesThread implements NetworkReceiv
 	}
 
 	public boolean belongsToPlayer(Player player) {
-		return player.getOpponent().equals(this.socket.getOwner());
+		return player.getOpponent().equals(this.socket.getConnectionIdentifier());
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class StorableSocket extends AbstractSocket implements MySocket, Parcelab
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(this.index);
-		new OpponentParceller().writeToParcel(getOwner(), dest);
+		new OpponentParceller().writeToParcel(getConnectionIdentifier(), dest);
 	}
 
 	public StorableSocket(Parcel in) throws IOException {

@@ -1,5 +1,8 @@
 package de.oetting.bumpingbunnies.pc.configMenu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,34 +11,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PcConfiguration {
 
-	private PlayerConfiguration player1Configuration = new PlayerConfiguration();
-	private PlayerConfiguration player2Configuration = new PlayerConfiguration();
-	private PlayerConfiguration player3Configuration = new PlayerConfiguration();
+	private final List<PlayerConfiguration> configurations = new ArrayList<PlayerConfiguration>();
+
+	public PcConfiguration() {
+		for (int i = 0; i < 3; i++)
+			configurations.add(new PlayerConfiguration());
+	}
 
 	private int speed;
 
 	public PlayerConfiguration getPlayer1Configuration() {
-		return player1Configuration;
-	}
-
-	public void setPlayer1Configuration(PlayerConfiguration player1Configuration) {
-		this.player1Configuration = player1Configuration;
+		return configurations.get(0);
 	}
 
 	public PlayerConfiguration getPlayer2Configuration() {
-		return player2Configuration;
-	}
-
-	public void setPlayer2Configuration(PlayerConfiguration player2Configuration) {
-		this.player2Configuration = player2Configuration;
+		return configurations.get(1);
 	}
 
 	public PlayerConfiguration getPlayer3Configuration() {
-		return player3Configuration;
+		return configurations.get(2);
 	}
 
-	public void setPlayer3Configuration(PlayerConfiguration player3Configuration) {
-		this.player3Configuration = player3Configuration;
+	public PlayerConfiguration getPlayerConfiguration(int index) {
+		return configurations.get(index);
 	}
 
 	public int getSpeed() {
