@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.pc.configMenu;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -42,6 +43,19 @@ public class PcConfiguration {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	public int getMaxNumberOfPlayers() {
+		return configurations.size();
+	}
+
+	public List<PlayerConfiguration> getPlayerConfigurations() {
+		return Collections.unmodifiableList(configurations);
+	}
+
+	@Override
+	public String toString() {
+		return "PcConfiguration [configurations=" + configurations + ", speed=" + speed + "]";
 	}
 
 }

@@ -118,7 +118,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private OpponentConfiguration createOpponentConfiguration(RoomEntry entry) {
 		if (entry.getOponent().isLocalHumanPlayer()) {
-			PlayerConfiguration playerConfiguration = getConfiguration().getPlayerConfiguration(entry.getPlayerId());
+			PlayerConfiguration playerConfiguration = findPlayerConfiguration(entry);
 			return new OpponentConfiguration(AiModus.OFF, entry.getPlayerProperties(), entry.getOponent(),
 					new PcConfigurationConverter().createConfiguration(playerConfiguration));
 		} else if (entry.getOponent().isLocalPlayer()) {
@@ -126,6 +126,17 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		} else {
 			return new OpponentConfiguration(AiModus.OFF, entry.getPlayerProperties(), entry.getOponent(), new NoopInputConfiguration());
 		}
+	}
+
+	private PlayerConfiguration findPlayerConfiguration(RoomEntry entry) {
+		for (PlayerConfiguration configuration : getConfiguration().getPlayerConfigurations()) {
+			if (configuration.getPlayerName().equals(entry.getPlayerName())) {
+				return configuration;
+			}
+		}
+		throw new IllegalArgumentException(String.format(
+				"Could not find player in list of player configurations. I looked for player with name %s. Existing configurations are %s",
+				entry.getPlayerName(), getConfiguration().getPlayerConfigurations()));
 	}
 
 	private void startGameWithAi() {
@@ -190,13 +201,18 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	private PlayerConfiguration findNextFreePlayerConfiguration() {
+		int index = findNextFreePlayerId();
+		return getConfiguration().getPlayerConfiguration(index);
+	}
+
+	private int findNextFreePlayerId() {
 		int index = 0;
 		for (RoomEntry entry : playersTable.getItems()) {
 			if (entry.getOponent().isLocalHumanPlayer()) {
 				index++;
 			}
 		}
-		return getConfiguration().getPlayerConfiguration(index);
+		return index;
 	}
 
 	private int getNextPlayerId() {
@@ -329,6 +345,6 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	public void enableButtons() {
-		Platform.runLater(() -> addPlayerButton.setDisable(playersTable.getItems().size() > 2));
+		Platform.runLater(() -> addPlayerButton.setDisable(findNextFreePlayerId() >= getConfiguration().getMaxNumberOfPlayers()));
 	}
 }

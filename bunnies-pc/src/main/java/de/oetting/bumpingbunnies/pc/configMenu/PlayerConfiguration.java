@@ -43,4 +43,9 @@ public class PlayerConfiguration {
 		this.playerRight = player1Right;
 	}
 
+	@Override
+	public String toString() {
+		return "PlayerConfiguration [playerName=" + playerName + ", playerLeft=" + playerLeft + ", playerUp=" + playerUp + ", playerRight=" + playerRight + "]";
+	}
+
 }
