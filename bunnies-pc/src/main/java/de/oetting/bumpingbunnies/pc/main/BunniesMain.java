@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -32,7 +31,7 @@ import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
-import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputService;
+import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputFactory;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
@@ -42,15 +41,16 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
-import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
-import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
+import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
+import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
+import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
 import de.oetting.bumpingbunnies.pc.game.factory.GameMainFactory;
 import de.oetting.bumpingbunnies.pc.game.input.PcInputDispatcher;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
@@ -80,14 +80,11 @@ public class BunniesMain extends Application {
 	}
 
 	public BunniesMain() {
-		LocalSettings localSettings = new LocalSettings(new KeyboardInputConfiguration(), 1, true, false);
-		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
-		// List<OpponentConfiguration> opponents = Arrays.asList(new
-		// OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1,
-		// "Player 2"), Opponent
-		// .createOpponent("Player2", OpponentType.AI)));
+		PcConfiguration pcConfiguration = new ConfigAccess().load();
+		LocalSettings localSettings = new PcConfigurationConverter().convert2LocalSettings(pcConfiguration);
+		ServerSettings generalSettings = new PcConfigurationConverter().convert2ServerSettings(pcConfiguration);
 		List<OpponentConfiguration> opponents = new ArrayList<>();
-		LocalPlayerSettings localPlayerSettings = new LocalPlayerSettings("Player 1");
+		LocalPlayerSettings localPlayerSettings = new PcConfigurationConverter().convert2LocalPlayerSettings(pcConfiguration);
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
 		parameter = GameParameterFactory.createSingleplayerParameter(configuration);
 	}
@@ -108,14 +105,14 @@ public class BunniesMain extends Application {
 		playerJoins(myPlayer);
 		startRendering();
 		inputDispatcher = new PcInputDispatcher();
-		inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.A.getName(), KeyCode.D.getName(), KeyCode.W.getName(), new PlayerMovement(
-				myPlayer)));
+		ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
+		inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter.getConfiguration().getInputConfiguration(),
+				new PlayerMovement(myPlayer)));
 		List<PlayerConfig> players = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 		for (PlayerConfig config : players) {
 			Player otherPlayer = config.getPlayer();
 			if (config.getConfiguration().getOpponent().isLocalHumanPlayer()) {
-				// TODO works only for one additional player
-				inputDispatcher.addInputService(new ConfigurableKeyboardInputService(KeyCode.LEFT.getName(), KeyCode.RIGHT.getName(), KeyCode.UP.getName(),
+				inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) config.getInputConfiguration(),
 						new PlayerMovement(otherPlayer)));
 			}
 			playerJoins(otherPlayer);

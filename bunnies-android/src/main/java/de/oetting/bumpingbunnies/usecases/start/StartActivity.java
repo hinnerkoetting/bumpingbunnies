@@ -15,6 +15,7 @@ import de.oetting.bumpingbunnies.android.sql.AsyncDatabaseCreation;
 import de.oetting.bumpingbunnies.android.sql.OnDatabaseCreation;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
@@ -91,7 +92,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		List<OpponentConfiguration> list = new ArrayList<OpponentConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
 			ConnectionIdentifier opponent = OpponentFactory.createAiPlayer("" + i);
-			list.add(new OpponentConfiguration(findSelectedAiMode(), new PlayerProperties(i, "Player " + i), opponent));
+			list.add(new OpponentConfiguration(findSelectedAiMode(), new PlayerProperties(i, "Player " + i), opponent, new NoopInputConfiguration()));
 		}
 		return list;
 	}

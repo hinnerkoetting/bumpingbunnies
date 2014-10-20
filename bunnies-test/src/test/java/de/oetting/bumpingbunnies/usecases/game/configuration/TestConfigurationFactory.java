@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.android.input.analog.AnalogInputConfiguration;
 import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
+import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
@@ -21,7 +22,7 @@ public class TestConfigurationFactory {
 		LocalSettings localSettings = new LocalSettings(new AnalogInputConfiguration(), 1, true, true);
 		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
 		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(0, "name"), OpponentTestFactory
-				.create()));
+				.create(), new NoopInputConfiguration()));
 		LocalPlayerSettings playerSettings = new LocalPlayerSettings("name");
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, playerSettings, true);
 		return configuration;

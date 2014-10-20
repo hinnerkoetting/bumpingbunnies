@@ -75,20 +75,20 @@ public class ConfigAccess {
 
 	private PcConfiguration createDefaultObject() {
 		PcConfiguration configuration = new PcConfiguration();
-		configuration.setPlayer1Left(KeyCode.LEFT.getName());
-		configuration.setPlayer1Up(KeyCode.UP.getName());
-		configuration.setPlayer1Right(KeyCode.RIGHT.getName());
-		configuration.setPlayer1Name("Player 1");
+		configuration.getPlayer1Configuration().setPlayerLeft(KeyCode.LEFT.getName());
+		configuration.getPlayer1Configuration().setPlayerUp(KeyCode.UP.getName());
+		configuration.getPlayer1Configuration().setPlayerRight(KeyCode.RIGHT.getName());
+		configuration.getPlayer1Configuration().setPlayerName("Player 1");
 
-		configuration.setPlayer1Left(KeyCode.A.getName());
-		configuration.setPlayer1Up(KeyCode.W.getName());
-		configuration.setPlayer1Right(KeyCode.D.getName());
-		configuration.setPlayer1Name("Player 2");
+		configuration.getPlayer2Configuration().setPlayerLeft(KeyCode.A.getName());
+		configuration.getPlayer2Configuration().setPlayerUp(KeyCode.W.getName());
+		configuration.getPlayer2Configuration().setPlayerRight(KeyCode.D.getName());
+		configuration.getPlayer2Configuration().setPlayerName("Player 2");
 
-		configuration.setPlayer1Left(KeyCode.H.getName());
-		configuration.setPlayer1Up(KeyCode.U.getName());
-		configuration.setPlayer1Right(KeyCode.K.getName());
-		configuration.setPlayer1Name("Player 3");
+		configuration.getPlayer3Configuration().setPlayerLeft(KeyCode.H.getName());
+		configuration.getPlayer3Configuration().setPlayerUp(KeyCode.U.getName());
+		configuration.getPlayer3Configuration().setPlayerRight(KeyCode.K.getName());
+		configuration.getPlayer3Configuration().setPlayerName("Player 3");
 
 		configuration.setSpeed(25);
 		return configuration;

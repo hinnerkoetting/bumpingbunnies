@@ -28,6 +28,7 @@ import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationF
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.DummyCommunication;
@@ -296,7 +297,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
 			AiModus aiMode = AiModus.NORMAL;
 
-			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(), otherPlayer.getOponent());
+			OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(aiMode, otherPlayer.getPlayerProperties(), otherPlayer.getOponent(),
+					new NoopInputConfiguration());
 			otherPlayers.add(otherPlayerConfiguration);
 		}
 		return otherPlayers;

@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <pcConfiguration>
-    <player1Name>d</player1Name>
-    <player1Left>LEFT</player1Left>
-    <player1Up>UP</player1Up>
-    <player1Right>RIGHT</player1Right>
-    <player2Name>B</player2Name>
-    <player2Left>A</player2Left>
-    <player2Up>W</player2Up>
-    <player2Right>D</player2Right>
-    <player3Name>C</player3Name>
-    <player3Left>H</player3Left>
-    <player3Up>U</player3Up>
-    <player3Right>K</player3Right>
+    <player1Configuration>
+        <playerName>Player 1</playerName>
+        <playerLeft>Left</playerLeft>
+        <playerUp>Up</playerUp>
+        <playerRight>Right</playerRight>
+    </player1Configuration>
+    <player2Configuration>
+        <playerName>Player 2</playerName>
+        <playerLeft>A</playerLeft>
+        <playerUp>W</playerUp>
+        <playerRight>D</playerRight>
+    </player2Configuration>
+    <player3Configuration>
+        <playerName>Player 3</playerName>
+        <playerLeft>H</playerLeft>
+        <playerUp>U</playerUp>
+        <playerRight>K</playerRight>
+    </player3Configuration>
     <speed>25</speed>
 </pcConfiguration>

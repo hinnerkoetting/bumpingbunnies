@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.android.parcel;
 
 import android.os.Parcel;
+import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
@@ -20,7 +21,7 @@ public class OpponentConfigurationParceller implements Parceller<OpponentConfigu
 		PlayerProperties otherPlayerState = new PlayerPropertiesParceller().createFromParcel(parcel);
 		AiModus aiMode = AiModus.valueOf(parcel.readString());
 		ConnectionIdentifier opponent = new OpponentParceller().createFromParcel(parcel);
-		return new OpponentConfiguration(aiMode, otherPlayerState, opponent);
+		return new OpponentConfiguration(aiMode, otherPlayerState, opponent, new NoopInputConfiguration());
 	}
 
 }

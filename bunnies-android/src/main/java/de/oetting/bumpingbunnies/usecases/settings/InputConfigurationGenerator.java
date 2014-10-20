@@ -13,7 +13,6 @@ import de.oetting.bumpingbunnies.android.input.touch.TouchWithUpInput;
 import de.oetting.bumpingbunnies.android.input.touchPress.TouchPressInput;
 import de.oetting.bumpingbunnies.android.input.touchRelease.TouchReleaseInput;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
-import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 
 public class InputConfigurationGenerator {
 
@@ -30,7 +29,7 @@ public class InputConfigurationGenerator {
 	public static InputConfiguration createInputConfigurationFromView(int id) {
 		switch (id) {
 		case R.id.start_button_keyboard:
-			return new KeyboardInputConfiguration();
+			return new DistributedKeyboardinput();
 		case R.id.start_button_touch:
 			return new TouchInput();
 		case R.id.start_button_touch_jump:

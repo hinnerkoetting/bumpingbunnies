@@ -10,6 +10,7 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
+import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerConfigFactory {
@@ -24,14 +25,14 @@ public class PlayerConfigFactory {
 		PlayerFactory playerfactory = new PlayerFactory(speed);
 		for (OpponentConfiguration config : configuration.getOtherPlayers()) {
 			Player p = playerfactory.createPlayer(config.getPlayerId(), config.getName(), config.getOpponent());
-			list.add(createPlayerConfig(p, config));
+			list.add(createPlayerConfig(p, config, config.getInput()));
 		}
 		return list;
 	}
 
-	public static PlayerConfig createPlayerConfig(Player player, OpponentConfiguration configuration) {
+	public static PlayerConfig createPlayerConfig(Player player, OpponentConfiguration configuration, InputConfiguration input) {
 		AiModus aiMode = configuration.getAiMode();
-		return new PlayerConfig(aiMode, player, configuration);
+		return new PlayerConfig(configuration, aiMode, player, input);
 	}
 
 	private static Player findMyPlayer(GameStartParameter gameParameter) {

@@ -14,8 +14,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.OpponentFactory;
+import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
@@ -38,13 +40,14 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
-import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
-import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
+import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
+import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
+import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
@@ -67,6 +70,9 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private ListenForBroadcastsThread listenForBroadcastsThread;
 
+	// Lazily loaded. only access via getConfiguration
+	private PcConfiguration configuration;
+
 	public MainMenuController(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
@@ -82,26 +88,26 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	private void startGameWithTwoPlayers() {
-		Configuration configuration = createConfiguration(Arrays.asList(new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "Player 2"),
-				OpponentFactory.createLocalPlayer("Player2"))));
+		KeyboardInputConfiguration configuration2 = new PcConfigurationConverter().createConfiguration(getConfiguration().getPlayer2Configuration());
+		OpponentConfiguration opponentConfiguration = new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "Player 2"),
+				OpponentFactory.createLocalPlayer("Player2"), configuration2);
+		Configuration configuration = createConfiguration(Arrays.asList(opponentConfiguration));
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 
 	private Configuration createConfiguration(List<OpponentConfiguration> opponents) {
-		LocalSettings localSettings = createLocalSettings();
-		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CLASSIC, 25, NetworkType.WLAN);
+		PcConfiguration pcConfiguration = new ConfigAccess().load();
+		LocalSettings localSettings = new PcConfigurationConverter().convert2LocalSettings(getConfiguration());
+		ServerSettings generalSettings = new PcConfigurationConverter().convert2ServerSettings(pcConfiguration);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
 		return configuration;
 	}
 
-	private LocalSettings createLocalSettings() {
-		return new LocalSettings(new KeyboardInputConfiguration(), 1, true, false);
-	}
-
 	private void startGameWithAi() {
-		Configuration configuration = createConfiguration(Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"),
-				OpponentFactory.createAiPlayer("Player2"))));
+		OpponentConfiguration aiOpponent = new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"),
+				OpponentFactory.createAiPlayer("Player2"), new NoopInputConfiguration());
+		Configuration configuration = createConfiguration(Arrays.asList(aiOpponent));
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 
@@ -165,7 +171,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public LocalPlayerSettings createLocalPlayerSettings() {
-		return new LocalPlayerSettings("test");
+		return new PcConfigurationConverter().convert2LocalPlayerSettings(getConfiguration());
 	}
 
 	@Override
@@ -190,8 +196,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public void launchGame(ServerSettings generalSettingsFromNetwork, boolean asHost) {
-
-		LocalSettings localSettings = createLocalSettings();
+		PcConfiguration pcConfiguration = new ConfigAccess().load();
+		LocalSettings localSettings = new PcConfigurationConverter().convert2LocalSettings(pcConfiguration);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		int myPlayerId = getLocalPlayerId();
 		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations();
@@ -214,7 +220,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		for (RoomEntry otherPlayer : playersTable.getItems()) {
 			if (!otherPlayer.getOponent().isLocalPlayer()) {
 				OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(AiModus.NORMAL, otherPlayer.getPlayerProperties(),
-						otherPlayer.getOponent());
+						otherPlayer.getOponent(), new NoopInputConfiguration());
 				otherPlayers.add(otherPlayerConfiguration);
 			}
 		}
@@ -258,6 +264,13 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	@Override
 	public void onThreadError() {
 		Platform.exit();
+	}
+
+	private synchronized PcConfiguration getConfiguration() {
+		if (configuration == null)
+			configuration = new ConfigAccess().load();
+		Guard.againstNull(configuration);
+		return configuration;
 	}
 
 }

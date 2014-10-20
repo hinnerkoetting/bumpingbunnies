@@ -50,7 +50,7 @@ public class InputConfigurationFactoryTest {
 
 	@Test
 	public void create_keyboard_createsKeyboardService() {
-		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new KeyboardInputConfiguration());
+		AbstractPlayerInputServicesFactory<?> factory = whenCreating(new KeyboardInputConfiguration("A", "B", "C"));
 		assertThat(factory, instanceOf(KeyboardInputServicesFactory.class));
 	}
 

@@ -59,24 +59,24 @@ public class ConfigController implements Initializable {
 	}
 
 	private void readPlayer1(PcConfiguration configuration) {
-		configuration.setPlayer1Name(player1Name.getText());
-		configuration.setPlayer1Up(player1Up.getText());
-		configuration.setPlayer1Left(player1Left.getText());
-		configuration.setPlayer1Right(player1Right.getText());
+		configuration.getPlayer1Configuration().setPlayerName(player1Name.getText());
+		configuration.getPlayer1Configuration().setPlayerUp(player1Up.getText());
+		configuration.getPlayer1Configuration().setPlayerLeft(player1Left.getText());
+		configuration.getPlayer1Configuration().setPlayerRight(player1Right.getText());
 	}
 
 	private void readPlayer2(PcConfiguration configuration) {
-		configuration.setPlayer2Name(player2Name.getText());
-		configuration.setPlayer2Up(player2Up.getText());
-		configuration.setPlayer2Left(player2Left.getText());
-		configuration.setPlayer2Right(player2Right.getText());
+		configuration.getPlayer2Configuration().setPlayerName(player2Name.getText());
+		configuration.getPlayer2Configuration().setPlayerUp(player2Up.getText());
+		configuration.getPlayer2Configuration().setPlayerLeft(player2Left.getText());
+		configuration.getPlayer2Configuration().setPlayerRight(player2Right.getText());
 	}
 
 	private void readPlayer3(PcConfiguration configuration) {
-		configuration.setPlayer3Name(player3Name.getText());
-		configuration.setPlayer3Up(player3Up.getText());
-		configuration.setPlayer3Left(player3Left.getText());
-		configuration.setPlayer3Right(player3Right.getText());
+		configuration.getPlayer3Configuration().setPlayerName(player3Name.getText());
+		configuration.getPlayer3Configuration().setPlayerUp(player3Up.getText());
+		configuration.getPlayer3Configuration().setPlayerLeft(player3Left.getText());
+		configuration.getPlayer3Configuration().setPlayerRight(player3Right.getText());
 	}
 
 	private void readSpeed(PcConfiguration configuration) {
@@ -97,24 +97,24 @@ public class ConfigController implements Initializable {
 	}
 
 	private void fillPlayer1(PcConfiguration configuration) {
-		player1Name.setText(configuration.getPlayer1Name());
-		player1Up.setText(configuration.getPlayer1Up());
-		player1Left.setText(configuration.getPlayer1Left());
-		player1Right.setText(configuration.getPlayer1Right());
+		player1Name.setText(configuration.getPlayer1Configuration().getPlayerName());
+		player1Up.setText(configuration.getPlayer1Configuration().getPlayerUp());
+		player1Left.setText(configuration.getPlayer1Configuration().getPlayerLeft());
+		player1Right.setText(configuration.getPlayer1Configuration().getPlayerRight());
 	}
 
 	private void fillPlayer2(PcConfiguration configuration) {
-		player2Name.setText(configuration.getPlayer2Name());
-		player2Up.setText(configuration.getPlayer2Up());
-		player2Left.setText(configuration.getPlayer2Left());
-		player2Right.setText(configuration.getPlayer2Right());
+		player2Name.setText(configuration.getPlayer2Configuration().getPlayerName());
+		player2Up.setText(configuration.getPlayer2Configuration().getPlayerUp());
+		player2Left.setText(configuration.getPlayer2Configuration().getPlayerLeft());
+		player2Right.setText(configuration.getPlayer2Configuration().getPlayerRight());
 	}
 
 	private void fillPlayer3(PcConfiguration configuration) {
-		player3Name.setText(configuration.getPlayer3Name());
-		player3Up.setText(configuration.getPlayer3Up());
-		player3Left.setText(configuration.getPlayer3Left());
-		player3Right.setText(configuration.getPlayer3Right());
+		player3Name.setText(configuration.getPlayer3Configuration().getPlayerName());
+		player3Up.setText(configuration.getPlayer3Configuration().getPlayerUp());
+		player3Left.setText(configuration.getPlayer3Configuration().getPlayerLeft());
+		player3Right.setText(configuration.getPlayer3Configuration().getPlayerRight());
 	}
 
 	private void fillSpeed(PcConfiguration configuration) {

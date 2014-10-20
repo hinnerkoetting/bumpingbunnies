@@ -1,19 +1,20 @@
 package de.oetting.bumpingbunnies.model.configuration;
 
+import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerConfig {
+
 	private final OpponentConfiguration configuration;
 	private final AiModus aiModus;
 	private final Player player;
+	private final InputConfiguration inputConfiguration;
 
-	public PlayerConfig(AiModus aiModus,
-			Player player,
-			OpponentConfiguration configuration) {
-		super();
+	public PlayerConfig(OpponentConfiguration configuration, AiModus aiModus, Player player, InputConfiguration inputConfiguration) {
+		this.configuration = configuration;
 		this.aiModus = aiModus;
 		this.player = player;
-		this.configuration = configuration;
+		this.inputConfiguration = inputConfiguration;
 	}
 
 	public Player getPlayer() {
@@ -26,6 +27,10 @@ public class PlayerConfig {
 
 	public OpponentConfiguration getConfiguration() {
 		return this.configuration;
+	}
+
+	public InputConfiguration getInputConfiguration() {
+		return inputConfiguration;
 	}
 
 }
