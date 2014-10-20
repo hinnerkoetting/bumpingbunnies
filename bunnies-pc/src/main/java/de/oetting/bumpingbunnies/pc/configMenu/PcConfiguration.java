@@ -11,17 +11,14 @@ public class PcConfiguration {
 	private String player1Name;
 	private String player1Left;
 	private String player1Up;
-	private String player1Down;
 	private String player1Right;
 	private String player2Name;
 	private String player2Left;
 	private String player2Up;
-	private String player2Down;
 	private String player2Right;
 	private String player3Name;
 	private String player3Left;
 	private String player3Up;
-	private String player3Down;
 	private String player3Right;
 
 	private int speed;
@@ -50,12 +47,12 @@ public class PcConfiguration {
 		this.player1Up = player1Up;
 	}
 
-	public String getPlayer1Down() {
-		return player1Down;
+	public String getPlayer1Right() {
+		return player1Right;
 	}
 
-	public void setPlayer1Down(String player1Down) {
-		this.player1Down = player1Down;
+	public void setPlayer1Right(String player1Right) {
+		this.player1Right = player1Right;
 	}
 
 	public String getPlayer2Name() {
@@ -82,12 +79,12 @@ public class PcConfiguration {
 		this.player2Up = player2Up;
 	}
 
-	public String getPlayer2Down() {
-		return player2Down;
+	public String getPlayer2Right() {
+		return player2Right;
 	}
 
-	public void setPlayer2Down(String player2Down) {
-		this.player2Down = player2Down;
+	public void setPlayer2Right(String player2Right) {
+		this.player2Right = player2Right;
 	}
 
 	public String getPlayer3Name() {
@@ -114,12 +111,12 @@ public class PcConfiguration {
 		this.player3Up = player3Up;
 	}
 
-	public String getPlayer3Down() {
-		return player3Down;
+	public String getPlayer3Right() {
+		return player3Right;
 	}
 
-	public void setPlayer3Down(String player3Down) {
-		this.player3Down = player3Down;
+	public void setPlayer3Right(String player3Right) {
+		this.player3Right = player3Right;
 	}
 
 	public int getSpeed() {
@@ -128,30 +125,6 @@ public class PcConfiguration {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
-	}
-
-	public String getPlayer1Right() {
-		return player1Right;
-	}
-
-	public void setPlayer1Right(String player1Right) {
-		this.player1Right = player1Right;
-	}
-
-	public String getPlayer2Right() {
-		return player2Right;
-	}
-
-	public void setPlayer2Right(String player2Right) {
-		this.player2Right = player2Right;
-	}
-
-	public String getPlayer3Right() {
-		return player3Right;
-	}
-
-	public void setPlayer3Right(String player3Right) {
-		this.player3Right = player3Right;
 	}
 
 }

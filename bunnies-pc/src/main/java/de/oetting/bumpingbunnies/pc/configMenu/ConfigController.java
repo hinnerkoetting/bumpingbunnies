@@ -1,10 +1,14 @@
 package de.oetting.bumpingbunnies.pc.configMenu;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 
-public class ConfigController {
+public class ConfigController implements Initializable {
 
 	@FXML
 	TextField player1Name;
@@ -64,6 +68,44 @@ public class ConfigController {
 
 		configuration.setSpeed(Integer.parseInt(speed.getText()));
 		return configuration;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		PcConfiguration loadedConfiguration = new ConfigAccess().load();
+		fillFields(loadedConfiguration);
+	}
+
+	private void fillFields(PcConfiguration configuration) {
+		fillPlayer1(configuration);
+		fillPlayer2(configuration);
+		fillPlayer3(configuration);
+		fillSpeed(configuration);
+	}
+
+	private void fillPlayer1(PcConfiguration configuration) {
+		player1Name.setText(configuration.getPlayer1Name());
+		player1Up.setText(configuration.getPlayer1Up());
+		player1Left.setText(configuration.getPlayer1Left());
+		player1Right.setText(configuration.getPlayer1Right());
+	}
+
+	private void fillPlayer2(PcConfiguration configuration) {
+		player2Name.setText(configuration.getPlayer2Name());
+		player2Up.setText(configuration.getPlayer2Up());
+		player2Left.setText(configuration.getPlayer2Left());
+		player2Right.setText(configuration.getPlayer2Right());
+	}
+
+	private void fillPlayer3(PcConfiguration configuration) {
+		player3Name.setText(configuration.getPlayer3Name());
+		player3Up.setText(configuration.getPlayer3Up());
+		player3Left.setText(configuration.getPlayer3Left());
+		player3Right.setText(configuration.getPlayer3Right());
+	}
+
+	private void fillSpeed(PcConfiguration configuration) {
+		speed.setText(Integer.toString(configuration.getSpeed()));
 	}
 
 }

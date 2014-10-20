@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pcConfiguration>
+    <player1Name>d</player1Name>
+    <player1Left>LEFT</player1Left>
+    <player1Up>UP</player1Up>
+    <player1Right>RIGHT</player1Right>
+    <player2Name>B</player2Name>
+    <player2Left>A</player2Left>
+    <player2Up>W</player2Up>
+    <player2Right>D</player2Right>
+    <player3Name>C</player3Name>
+    <player3Left>H</player3Left>
+    <player3Up>U</player3Up>
+    <player3Right>K</player3Right>
+    <speed>25</speed>
+</pcConfiguration>
