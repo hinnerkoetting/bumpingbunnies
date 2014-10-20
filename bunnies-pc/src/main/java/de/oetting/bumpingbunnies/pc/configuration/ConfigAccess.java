@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.pc.configuration;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,7 +20,7 @@ public class ConfigAccess {
 		try {
 			ensureConfigDirectoryExists();
 			JAXB.marshal(configuration, Files.newOutputStream(createConfigFilePath()));
-			LOGGER.info("Stored configuration at %s", configDirectory() + "/" + configFile());
+			LOGGER.info("Stored configuration at %s", createConfigFilePath().toAbsolutePath().toString());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -29,6 +28,7 @@ public class ConfigAccess {
 
 	public PcConfiguration load() {
 		if (!existsConfig()) {
+			LOGGER.info("Config does not exist. Creating default config...");
 			createDefaultConfig();
 		}
 		return loadConfig();
@@ -47,7 +47,7 @@ public class ConfigAccess {
 	}
 
 	private boolean existsConfig() {
-		return new File(configDirectory() + configFile()).exists();
+		return Files.exists(createConfigFilePath());
 	}
 
 	private void ensureConfigDirectoryExists() {
@@ -68,7 +68,12 @@ public class ConfigAccess {
 		return "config.xml";
 	}
 
-	private PcConfiguration createDefaultConfig() {
+	private void createDefaultConfig() {
+		PcConfiguration configuration = createDefaultObject();
+		saveConfiguration(configuration);
+	}
+
+	private PcConfiguration createDefaultObject() {
 		PcConfiguration configuration = new PcConfiguration();
 		configuration.setPlayer1Left(KeyCode.LEFT.getName());
 		configuration.setPlayer1Up(KeyCode.UP.getName());

@@ -51,23 +51,36 @@ public class ConfigController implements Initializable {
 
 	private PcConfiguration createConfiguration() {
 		PcConfiguration configuration = new PcConfiguration();
+		readPlayer1(configuration);
+		readPlayer2(configuration);
+		readPlayer3(configuration);
+		readSpeed(configuration);
+		return configuration;
+	}
+
+	private void readPlayer1(PcConfiguration configuration) {
 		configuration.setPlayer1Name(player1Name.getText());
 		configuration.setPlayer1Up(player1Up.getText());
 		configuration.setPlayer1Left(player1Left.getText());
 		configuration.setPlayer1Right(player1Right.getText());
+	}
 
+	private void readPlayer2(PcConfiguration configuration) {
 		configuration.setPlayer2Name(player2Name.getText());
 		configuration.setPlayer2Up(player2Up.getText());
 		configuration.setPlayer2Left(player2Left.getText());
 		configuration.setPlayer2Right(player2Right.getText());
+	}
 
+	private void readPlayer3(PcConfiguration configuration) {
 		configuration.setPlayer3Name(player3Name.getText());
 		configuration.setPlayer3Up(player3Up.getText());
 		configuration.setPlayer3Left(player3Left.getText());
 		configuration.setPlayer3Right(player3Right.getText());
+	}
 
+	private void readSpeed(PcConfiguration configuration) {
 		configuration.setSpeed(Integer.parseInt(speed.getText()));
-		return configuration;
 	}
 
 	@Override
