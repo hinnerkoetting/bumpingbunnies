@@ -146,7 +146,7 @@ public class BunniesMain extends Application {
 			public void handle(KeyEvent event) {
 				inputDispatcher.dispatchOnKeyUp(event.getCode());
 				if (event.getCode().equals(KeyCode.ESCAPE))
-					goToScoreScreen();
+					onClose();
 			}
 
 		});
@@ -269,6 +269,11 @@ public class BunniesMain extends Application {
 
 	private void onCloseRequest(WindowEvent e) {
 		e.consume();
+		onClose();
+	}
+
+	public void onClose() {
+		gameMain.stop();
 		goToScoreScreen();
 	}
 

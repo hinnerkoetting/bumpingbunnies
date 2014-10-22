@@ -1,36 +1,35 @@
 package de.oetting.bumpingbunnies.pc.music;
 
-import javafx.scene.media.MediaPlayer;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.OnMusicCompletionListener;
 
 public class PcMusicPlayer implements MusicPlayer {
 
-	private final MediaPlayer mediaPlayer;
+	private final MusicPlayerThread playerThread;
 
-	public PcMusicPlayer(MediaPlayer mediaPlayer) {
-		this.mediaPlayer = mediaPlayer;
+	public PcMusicPlayer(MusicPlayerThread playerThread) {
+		this.playerThread = playerThread;
 	}
 
 	@Override
 	public void start() {
-		mediaPlayer.play();
+		playerThread.play();
 	}
 
 	@Override
 	public void pauseBackground() {
-		mediaPlayer.pause();
+		playerThread.pause();
 	}
 
 	@Override
 	public void stopBackground() {
-		mediaPlayer.stop();
+		playerThread.cancel();
 	}
 
 	@Override
 	public void setOnCompletionListener(OnMusicCompletionListener listener) {
 		PcOnCompletionListener completionListener = (PcOnCompletionListener) listener;
-		mediaPlayer.setOnEndOfMedia(completionListener.getRunnable());
+		playerThread.setCompletionListener(completionListener);
 	}
 
 }

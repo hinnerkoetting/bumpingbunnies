@@ -22,6 +22,7 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
 import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
 public class GameMainFactory {
@@ -38,6 +39,7 @@ public class GameMainFactory {
 		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration(), gameStopper, world));
 		main.validateInitialised();
 		main.start();
+		main.onResume();
 		return main;
 	}
 
@@ -47,7 +49,7 @@ public class GameMainFactory {
 	}
 
 	private GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world) {
-		GameMain main = new GameMain(SocketStorage.getSingleton(), new DummyMusicPlayer());
+		GameMain main = new GameMain(SocketStorage.getSingleton(), new PcMusicPlayerFactory().create(null, gameStopper));
 		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, main);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory, gameStopper);
 		main.setNetworkSendThread(networkSendThread);

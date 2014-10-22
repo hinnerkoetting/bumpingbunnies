@@ -1,18 +1,14 @@
 package de.oetting.bumpingbunnies.pc.music;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javazoom.jl.player.Player;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 
 public class PcMusicPlayerFactory {
 
-	public static PcMusicPlayer create(String classpath) {
+	public PcMusicPlayer create(String classpath, ThreadErrorCallback stopper) {
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(String.class.getResourceAsStream("/audio/bad_bunnies_2.mp3"));
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start();
-			return new PcMusicPlayer(null);
+			Player player = new Player(getClass().getResourceAsStream("/audio/bad_bunnies_2.mp3"));
+			return new PcMusicPlayer(new MusicPlayerThread(stopper, player));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
