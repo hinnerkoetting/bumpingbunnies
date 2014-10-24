@@ -64,6 +64,7 @@ import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcBackgroundDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableFactory;
+import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreMenuApplication;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
@@ -188,7 +189,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer);
+		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new PcMusicPlayerFactory(this));
 		gameMain.addAllJoinListeners();
 		gameMain.addSocketListener();
 		gameMain.addJoinListener(drawerThread);

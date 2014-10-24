@@ -25,13 +25,15 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameMainFactory {
 
-	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer, CameraPositionCalculation cameraCalclation) {
+	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer, CameraPositionCalculation cameraCalclation,
+			ThreadErrorCallback errorCallback) {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), MusicPlayerFactory.createBackground(activity));
 		World world = createWorld(activity, parameter);
 
@@ -44,7 +46,7 @@ public class GameMainFactory {
 		main.setSendControl(sendControl);
 		main.setNewClientsAccepter(clientAccepter);
 
-		initGame(main, activity, parameter, sendControl, world, myPlayer, cameraCalclation);
+		initGame(main, MusicPlayerFactory.createJumper(activity), parameter, sendControl, world, myPlayer, cameraCalclation, errorCallback);
 
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 
@@ -71,13 +73,13 @@ public class GameMainFactory {
 		main.addSocketListener();
 	}
 
-	private static void initGame(GameMain main, GameActivity activity, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
-			Player myPlayer, CameraPositionCalculation cameraPositionCalculation) {
+	private static void initGame(GameMain main, MusicPlayer jumpMusicPlayer, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
+			Player myPlayer, CameraPositionCalculation cameraPositionCalculation, ThreadErrorCallback errorCallback) {
 
 		main.setWorld(world);
 
-		GameThread gameThread = GameThreadFactory.create(world, activity, parameter.getConfiguration(), cameraPositionCalculation, main, myPlayer, activity,
-				sendControl, main);
+		GameThread gameThread = GameThreadFactory.create(world, jumpMusicPlayer, parameter.getConfiguration(), cameraPositionCalculation, main, myPlayer,
+				sendControl, main, errorCallback);
 		main.setGameThread(gameThread);
 
 		addListener(main);

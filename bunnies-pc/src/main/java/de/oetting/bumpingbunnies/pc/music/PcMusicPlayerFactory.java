@@ -1,25 +1,32 @@
 package de.oetting.bumpingbunnies.pc.music;
 
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
 
-public class PcMusicPlayerFactory {
+public class PcMusicPlayerFactory implements BunniesMusicPlayerFactory {
 
-	public static PcMusicPlayer createBackground(ThreadErrorCallback stopper) {
-		PcMusicPlayer player = new PcMusicPlayerFactory().create("/audio/bad_bunnies_2.mp3", stopper);
+	private final ThreadErrorCallback errorCallback;
+
+	public PcMusicPlayerFactory(ThreadErrorCallback errorCallback) {
+		this.errorCallback = errorCallback;
+	}
+
+	public PcMusicPlayer createBackground() {
+		PcMusicPlayer player = create("/audio/bad_bunnies_2.mp3", errorCallback);
 		player.setOnCompletionListener(new PcOnCompletionListener(() -> player.start()));
 		return player;
 	}
 
-	public static PcMusicPlayer createJumper(ThreadErrorCallback stopper) {
-		return new PcMusicPlayerFactory().create("/audio/jumper.mp3", stopper);
+	public PcMusicPlayer createJumper() {
+		return create("/audio/jumper.mp3", errorCallback);
 	}
 
-	public static PcMusicPlayer createWater(ThreadErrorCallback stopper) {
-		return new PcMusicPlayerFactory().create("/audio/water.mp3", stopper);
+	public PcMusicPlayer createWater() {
+		return create("/audio/water.mp3", errorCallback);
 	}
 
-	public static PcMusicPlayer createNormalJump(ThreadErrorCallback stopper) {
-		return new PcMusicPlayerFactory().create("/audio/normal_jump.mp3", stopper);
+	public PcMusicPlayer createNormalJump() {
+		return create("/audio/normal_jump.mp3", errorCallback);
 	}
 
 	public PcMusicPlayer create(String classpath, ThreadErrorCallback stopper) {

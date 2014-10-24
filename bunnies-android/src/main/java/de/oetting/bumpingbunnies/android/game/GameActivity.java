@@ -54,7 +54,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 		GameThreadState threadState = new GameThreadState();
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		this.main = GameMainFactory.create(this, parameter, myPlayer, cameraCalculation);
+		this.main = GameMainFactory.create(this, parameter, myPlayer, cameraCalculation, this);
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation);
 		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 

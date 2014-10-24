@@ -11,11 +11,11 @@ import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
 public class PcResourceProvider implements ResourceProvider {
 
 	private final ClasspathImageReader imageReader;
-	private final ThreadErrorCallback errorCallback;
+	private final PcMusicPlayerFactory musicPlayerFactory;
 
 	public PcResourceProvider(ThreadErrorCallback errorCallback) {
-		this.errorCallback = errorCallback;
 		this.imageReader = new ClasspathImageReader();
+		this.musicPlayerFactory = new PcMusicPlayerFactory(errorCallback);
 	}
 
 	@Override
@@ -26,12 +26,12 @@ public class PcResourceProvider implements ResourceProvider {
 
 	@Override
 	public MusicPlayer readerJumperMusic() {
-		return PcMusicPlayerFactory.createJumper(errorCallback);
+		return musicPlayerFactory.createJumper();
 	}
 
 	@Override
 	public MusicPlayer readWaterMusic() {
-		return PcMusicPlayerFactory.createWater(errorCallback);
+		return musicPlayerFactory.createWater();
 	}
 
 }
