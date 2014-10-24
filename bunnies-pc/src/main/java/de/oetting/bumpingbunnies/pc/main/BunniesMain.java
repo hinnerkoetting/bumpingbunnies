@@ -34,6 +34,7 @@ import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
 import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputFactory;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
@@ -58,16 +59,16 @@ import de.oetting.bumpingbunnies.pc.game.factory.GameMainFactory;
 import de.oetting.bumpingbunnies.pc.game.input.PcInputDispatcher;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
 import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
+import de.oetting.bumpingbunnies.pc.graphics.PcResourceProvider;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcBackgroundDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableFactory;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreMenuApplication;
-import de.oetting.bumpingbunnies.pc.worldcreation.parser.NoopResourceProvider;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
 
-public class BunniesMain extends Application {
+public class BunniesMain extends Application implements ThreadErrorCallback {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(BunniesMain.class);
 
@@ -178,7 +179,7 @@ public class BunniesMain extends Application {
 	}
 
 	private void buildGame(Canvas canvas, Player myPlayer) {
-		World world = createWorld();
+		World world = createWorld(this);
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation((int) canvas.getWidth(),
 				(int) canvas.getHeight(), worldProperties));
@@ -227,9 +228,9 @@ public class BunniesMain extends Application {
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
 	}
 
-	private static World createWorld() {
+	private static World createWorld(ThreadErrorCallback errorCallback) {
 		XmlReader reader = new ClasspathXmlreader(World.class.getResourceAsStream("/worlds/classic.xml"));
-		return new PcWorldObjectsParser().build(new NoopResourceProvider(), reader);
+		return new PcWorldObjectsParser(errorCallback).build(new PcResourceProvider(errorCallback), reader);
 	}
 
 	private static void startApplication() {
@@ -280,5 +281,10 @@ public class BunniesMain extends Application {
 	private void goToScoreScreen() {
 		List<ScoreEntry> scores = extractScores();
 		new ApplicationStarter().startApplication(new ScoreMenuApplication(scores), primaryStage);
+	}
+
+	@Override
+	public void onThreadError() {
+		Platform.runLater(() -> showTechnicalError());
 	}
 }

@@ -13,8 +13,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.WorldFactory;
 import de.oetting.bumpingbunnies.core.worldCreation.XmlRectToObjectConverter;
@@ -31,23 +31,21 @@ import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.model.game.world.XmlRect;
 import de.oetting.bumpingbunnies.model.game.world.XmlWorldBuilderState;
-import de.oetting.bumpingbunnies.pc.graphics.PcResourceProvider;
 
 public class PcWorldObjectsParser implements WorldObjectsParser {
 
-	private final ResourceProvider resourceProvier;
 	private XmlWorldBuilderState state;
 	private WorldProperties worldProperties;
-	private MusicPlayer musicPlayer = new DummyMusicPlayer();
+	private ResourceProvider resourceProvider;
 
-	public PcWorldObjectsParser() {
+	public PcWorldObjectsParser(ThreadErrorCallback errorCallback) {
 		this.state = new XmlWorldBuilderState();
 		worldProperties = new WorldProperties();
-		resourceProvier = new PcResourceProvider();
 	}
 
 	@Override
 	public World build(ResourceProvider provider, XmlReader xmlReader) {
+		this.resourceProvider = provider;
 		try {
 			Document document = createXmlDocument(xmlReader);
 			fillDocumentIntoState(document);
@@ -83,12 +81,14 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 	}
 
 	private void addAllJumper(Document document) {
-		ObjectFactory<Jumper> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createJumper(xmlRect, musicPlayer, properties);
+		MusicPlayer jumperMusic = resourceProvider.readerJumperMusic();
+		ObjectFactory<Jumper> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createJumper(xmlRect, jumperMusic, properties);
 		state.getAllJumper().addAll(readAllElements(document.getElementsByTagName(XmlConstants.JUMPER), factory));
 	}
 
 	private void addAllWater(Document document) {
-		ObjectFactory<Water> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createWater(xmlRect, musicPlayer, properties);
+		MusicPlayer waterMusic = resourceProvider.readWaterMusic();
+		ObjectFactory<Water> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createWater(xmlRect, waterMusic, properties);
 		state.getWaters().addAll(readAllElements(document.getElementsByTagName(XmlConstants.WATER), factory));
 	}
 
@@ -104,7 +104,7 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 			S wall = factory.create(rect, worldProperties);
 			Node imageNode = item.getAttributes().getNamedItem(XmlConstants.IMAGE);
 			if (imageNode != null)
-				wall.setBitmap(resourceProvier.readBitmap(imageNode.getTextContent()));
+				wall.setBitmap(resourceProvider.readBitmap(imageNode.getTextContent()));
 			elements.add(wall);
 		}
 		return elements;

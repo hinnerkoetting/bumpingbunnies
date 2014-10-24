@@ -1,32 +1,43 @@
 package de.oetting.bumpingbunnies.pc.music;
 
-import javazoom.jl.player.Player;
 import de.oetting.bumpingbunnies.core.threads.BunniesThread;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
 public class MusicPlayerThread extends BunniesThread {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MusicPlayerThread.class);
+
 	private enum Status {
-		PLAYING, PAUSED, STOPPED
+		PLAYING, PAUSED, STOPPED, FINISHED
 	}
 
-	private final Player player;
+	private final PlayerFactory playerFactory;
+	// can be null.
+	private Mp3Player player;
 	private Status status = Status.PAUSED;
 	private boolean canceled;
 	private Object lock = new Object();
 	private PcOnCompletionListener completionListener;
+	private boolean reset;
 
-	public MusicPlayerThread(ThreadErrorCallback stopper, Player player) {
+	public MusicPlayerThread(ThreadErrorCallback stopper, PlayerFactory playerFactory) {
 		super("Musicplayer", stopper);
-		this.player = player;
+		this.playerFactory = playerFactory;
 	}
 
 	@Override
 	protected void doRun() throws Exception {
 		while (!canceled) {
 			if (status == Status.PLAYING) {
+				if (reset) {
+					player = playerFactory.createPlayer();
+					reset = false;
+				}
 				boolean played = player.play(1);
 				if (!played) {
+					status = Status.FINISHED;
 					if (completionListener != null)
 						completionListener.getRunnable().run();
 				}
@@ -47,12 +58,20 @@ public class MusicPlayerThread extends BunniesThread {
 	}
 
 	public void play() {
-		synchronized (lock) {
-			status = Status.PLAYING;
-			if (isAlive())
-				lock.notifyAll();
-			else
-				start();
+		if (status != Status.PLAYING) {
+			synchronized (lock) {
+				// if (status == Status.PLAYING)
+				reset = true;
+				status = Status.PLAYING;
+				if (isAlive())
+					lock.notifyAll();
+				else
+					try {
+						start();
+					} catch (IllegalThreadStateException e) {
+						LOGGER.error("Could not start thread. Previous error on thread?");
+					}
+			}
 		}
 	}
 

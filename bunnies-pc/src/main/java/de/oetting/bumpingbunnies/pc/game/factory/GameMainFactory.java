@@ -5,7 +5,6 @@ import de.oetting.bumpingbunnies.core.game.logic.CommonGameThreadFactory;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
-import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
@@ -49,7 +48,7 @@ public class GameMainFactory {
 	}
 
 	private GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world) {
-		GameMain main = new GameMain(SocketStorage.getSingleton(), new PcMusicPlayerFactory().create(null, gameStopper));
+		GameMain main = new GameMain(SocketStorage.getSingleton(), PcMusicPlayerFactory.createBackground(gameStopper));
 		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, main);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory, gameStopper);
 		main.setNetworkSendThread(networkSendThread);
@@ -68,6 +67,6 @@ public class GameMainFactory {
 			Configuration configuration, Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor,
 			GameMain gameMain) {
 		return CommonGameThreadFactory.create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor,
-				gameMain, new DummyMusicPlayer());
+				gameMain, PcMusicPlayerFactory.createJumper(gameStopper));
 	}
 }
