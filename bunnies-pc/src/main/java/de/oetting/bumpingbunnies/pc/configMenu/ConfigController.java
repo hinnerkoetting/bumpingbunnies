@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -43,8 +44,13 @@ public class ConfigController implements Initializable {
 	TextField player3Up;
 	@FXML
 	TextField player3Right;
+
 	@FXML
 	TextField speed;
+	@FXML
+	CheckBox musicCheckbox;
+	@FXML
+	CheckBox soundCheckbox;
 
 	private final Stage primaryStage;
 
@@ -116,7 +122,7 @@ public class ConfigController implements Initializable {
 		fillPlayer1(configuration);
 		fillPlayer2(configuration);
 		fillPlayer3(configuration);
-		fillSpeed(configuration);
+		fillSettings(configuration);
 	}
 
 	private void fillPlayer1(PcConfiguration configuration) {
@@ -140,8 +146,10 @@ public class ConfigController implements Initializable {
 		player3Right.setText(configuration.getPlayer3Configuration().getPlayerRight());
 	}
 
-	private void fillSpeed(PcConfiguration configuration) {
+	private void fillSettings(PcConfiguration configuration) {
 		speed.setText(Integer.toString(configuration.getSpeed()));
+		musicCheckbox.setSelected(configuration.isPlayMusic());
+		soundCheckbox.setSelected(configuration.isPlaySound());
 	}
 
 }

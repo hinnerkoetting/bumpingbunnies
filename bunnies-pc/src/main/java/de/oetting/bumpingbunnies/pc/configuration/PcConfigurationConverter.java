@@ -12,7 +12,8 @@ import de.oetting.bumpingbunnies.pc.configMenu.PlayerConfiguration;
 public class PcConfigurationConverter {
 
 	public LocalSettings convert2LocalSettings(PcConfiguration configuration) {
-		return new LocalSettings(createConfiguration(configuration.getPlayer1Configuration()), 1, true, false);
+		return new LocalSettings(createConfiguration(configuration.getPlayer1Configuration()), 1, true, false, configuration.isPlayMusic(),
+				configuration.isPlaySound());
 	}
 
 	public KeyboardInputConfiguration createConfiguration(PlayerConfiguration configuration) {

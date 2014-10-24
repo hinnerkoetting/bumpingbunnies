@@ -143,7 +143,8 @@ public class SettingsViewAccess {
 		String name = getName();
 		boolean background = isBackgroundChecked();
 		boolean isAltPixelFormat = isAltPixelformatChecked();
-		return new SettingsEntity(inputConfiguration, zoom, numberPlayer, speed, name, background, isAltPixelFormat);
+		// TODO add music and sound to view
+		return new SettingsEntity(inputConfiguration, zoom, numberPlayer, speed, name, background, isAltPixelFormat, true, true);
 	}
 
 	private String getName() {

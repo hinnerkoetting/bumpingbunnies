@@ -10,4 +10,6 @@ public interface SettingsConstants {
 	String NAME_COL = "player_name";
 	String BACKGROUND_COL = "background";
 	String ALT_PIXELFORMAT = "alt_pixelformat";
+	String PLAY_MUSIC = "play_music";
+	String PLAY_SOUND = "play_sound";
 }

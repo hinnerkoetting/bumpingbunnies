@@ -12,6 +12,8 @@ public class LocalSettingsParceller implements Parceller<LocalSettings> {
 		parcel.writeInt(input.getZoom());
 		parcel.writeInt(input.isAltPixelMode() ? 1 : 0);
 		parcel.writeInt(input.isBackground() ? 1 : 0);
+		parcel.writeInt(input.isPlayMusic() ? 1 : 0);
+		parcel.writeInt(input.isPlaySounds() ? 1 : 0);
 	}
 
 	@Override
@@ -20,7 +22,9 @@ public class LocalSettingsParceller implements Parceller<LocalSettings> {
 		int zoom = parcel.readInt();
 		boolean background = parcel.readInt() == 1;
 		boolean altPixelMode = parcel.readInt() == 1;
-		return new LocalSettings(inputConfiguration, zoom, background, altPixelMode);
+		boolean playMusic = parcel.readInt() == 1;
+		boolean playSound = parcel.readInt() == 1;
+		return new LocalSettings(inputConfiguration, zoom, background, altPixelMode, playMusic, playSound);
 	}
 
 }

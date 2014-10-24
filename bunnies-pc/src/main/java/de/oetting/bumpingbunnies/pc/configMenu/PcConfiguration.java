@@ -14,12 +14,14 @@ public class PcConfiguration {
 
 	private final List<PlayerConfiguration> configurations = new ArrayList<PlayerConfiguration>();
 
+	private int speed;
+	private boolean playMusic;
+	private boolean playSound;
+
 	public PcConfiguration() {
 		for (int i = 0; i < 3; i++)
 			configurations.add(new PlayerConfiguration());
 	}
-
-	private int speed;
 
 	public PlayerConfiguration getPlayer1Configuration() {
 		return configurations.get(0);
@@ -49,13 +51,29 @@ public class PcConfiguration {
 		return configurations.size();
 	}
 
+	public boolean isPlayMusic() {
+		return playMusic;
+	}
+
+	public void setPlayMusic(boolean playMusic) {
+		this.playMusic = playMusic;
+	}
+
+	public boolean isPlaySound() {
+		return playSound;
+	}
+
+	public void setPlaySound(boolean playSound) {
+		this.playSound = playSound;
+	}
+
 	public List<PlayerConfiguration> getPlayerConfigurations() {
 		return Collections.unmodifiableList(configurations);
 	}
 
 	@Override
 	public String toString() {
-		return "PcConfiguration [configurations=" + configurations + ", speed=" + speed + "]";
+		return "PcConfiguration [configurations=" + configurations + ", speed=" + speed + ", playMusic=" + playMusic + ", playSound=" + playSound + "]";
 	}
 
 }

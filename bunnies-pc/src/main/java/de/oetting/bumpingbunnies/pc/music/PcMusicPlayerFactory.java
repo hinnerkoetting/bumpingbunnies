@@ -1,8 +1,5 @@
 package de.oetting.bumpingbunnies.pc.music;
 
-import java.io.FileInputStream;
-import java.net.URL;
-
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 
 public class PcMusicPlayerFactory {
@@ -27,9 +24,7 @@ public class PcMusicPlayerFactory {
 
 	public PcMusicPlayer create(String classpath, ThreadErrorCallback stopper) {
 		try {
-			URL resource = getClass().getResource(classpath);
-
-			PlayerFactory playerFactory = new PlayerFactory(new FileInputStream(resource.getFile()), classpath);
+			PlayerFactory playerFactory = new PlayerFactory(classpath);
 			return new PcMusicPlayer(new MusicPlayerThread(stopper, playerFactory));
 		} catch (Exception e) {
 			throw new RuntimeException(e);

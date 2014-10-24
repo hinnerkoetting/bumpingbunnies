@@ -51,6 +51,8 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 		values.put(NAME_COL, settings.getPlayerName());
 		values.put(BACKGROUND_COL, settings.isBackground());
 		values.put(ALT_PIXELFORMAT, settings.isAltPixelformat());
+		values.put(PLAY_MUSIC, settings.isPlayMusic());
+		values.put(PLAY_SOUND, settings.isPlaySound());
 		return values;
 	}
 
@@ -62,7 +64,7 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 	@Override
 	public SettingsEntity readStoredSettings() {
 		Cursor query = this.database.query(SETTINGS_TABLE, new String[] { ZOOM_COL, INPUT_COL, NUMBER_PLAYER_COL, SPEED_COL, NAME_COL, BACKGROUND_COL,
-				ALT_PIXELFORMAT }, null, null, null, null, null);
+				ALT_PIXELFORMAT, PLAY_MUSIC, PLAY_SOUND }, null, null, null, null, null);
 		try {
 			query.moveToFirst();
 			if (!query.isAfterLast()) {
@@ -84,7 +86,9 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 		String name = cursor.getString(4);
 		boolean background = cursor.getInt(5) == 1;
 		boolean altPixel = cursor.getInt(6) == 1;
-		return new SettingsEntity(inputEnum, zoom, numberPlayer, speed, name, background, altPixel);
+		boolean playMusic = cursor.getInt(7) == 1;
+		boolean playSound = cursor.getInt(8) == 1;
+		return new SettingsEntity(inputEnum, zoom, numberPlayer, speed, name, background, altPixel, playMusic, playSound);
 	}
 
 	private InputConfiguration create(String inputConfiguration) {

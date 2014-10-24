@@ -10,12 +10,11 @@ import javazoom.jl.player.FactoryRegistry;
 
 public class PlayerFactory {
 
-	private final InputStream inputstream;
 	private final String classpath;
 	private AudioDevice audioDevice;
+	private byte[] cachedMp3;
 
-	public PlayerFactory(InputStream inputstream, String classpath) {
-		this.inputstream = inputstream;
+	public PlayerFactory(String classpath) {
 		this.classpath = classpath;
 		try {
 			audioDevice = FactoryRegistry.systemRegistry().createAudioDevice();
@@ -26,13 +25,16 @@ public class PlayerFactory {
 
 	public Mp3Player createPlayer() {
 		try {
-			return new Mp3Player(createInputStream(), audioDevice);
+			if (cachedMp3 == null) {
+				cacheMp3();
+			}
+			return new Mp3Player(new ByteArrayInputStream(cachedMp3), audioDevice);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public InputStream createInputStream() {
+	public byte[] cacheMp3() {
 		try {
 			ByteArrayOutputStream bais = new ByteArrayOutputStream(1024);
 			InputStream inputStream = getClass().getResourceAsStream(classpath);
@@ -41,7 +43,7 @@ public class PlayerFactory {
 			while ((bytesRead = inputStream.read(buffer)) > 0) {
 				bais.write(buffer, 0, bytesRead);
 			}
-			return new ByteArrayInputStream(bais.toByteArray());
+			return bais.toByteArray();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

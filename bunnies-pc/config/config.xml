@@ -19,4 +19,6 @@
         <playerRight>K</playerRight>
     </configurations>
     <speed>25</speed>
+    <playMusic>false</playMusic>
+    <playSound>false</playSound>
 </pcConfiguration>

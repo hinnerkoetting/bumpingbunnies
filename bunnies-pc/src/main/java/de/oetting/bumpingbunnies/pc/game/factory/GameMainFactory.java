@@ -22,20 +22,19 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
-import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
 public class GameMainFactory {
 
-	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer) {
-		PcGameStopper gameStopper = new PcGameStopper();
-		GameMain main = createGameMain(gameStopper, parameter, world);
-		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(gameStopper, main));
+	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer,
+			ThreadErrorCallback errorCallback) {
+		GameMain main = createGameMain(errorCallback, parameter, world);
+		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(errorCallback, main));
 		main.setSendControl(networkMessageDistributor);
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
-		main.setGameThread(createGameThread(cameraPositionCalculator, world, gameStopper, parameter.getConfiguration(), myPlayer, networkDispatcher,
+		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), myPlayer, networkDispatcher,
 				networkMessageDistributor, main));
 		main.setWorld(world);
-		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration(), gameStopper, world));
+		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration(), errorCallback, world));
 		main.validateInitialised();
 		main.start();
 		main.onResume();

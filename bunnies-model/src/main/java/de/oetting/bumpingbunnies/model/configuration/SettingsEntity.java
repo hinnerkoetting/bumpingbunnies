@@ -11,9 +11,11 @@ public class SettingsEntity {
 	private final String playerName;
 	private final boolean background;
 	private final boolean altPixelformat;
+	private final boolean playMusic;
+	private final boolean playSound;
 
-	public SettingsEntity(InputConfiguration inputConfiguration, int zoom, int numberPlayer, int speed, String playerName,
-			boolean background, boolean altPixelFormat) {
+	public SettingsEntity(InputConfiguration inputConfiguration, int zoom, int numberPlayer, int speed, String playerName, boolean background,
+			boolean altPixelFormat, boolean playMusic, boolean playSound) {
 		super();
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
@@ -22,6 +24,8 @@ public class SettingsEntity {
 		this.playerName = playerName;
 		this.background = background;
 		this.altPixelformat = altPixelFormat;
+		this.playMusic = playMusic;
+		this.playSound = playSound;
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -50,6 +54,14 @@ public class SettingsEntity {
 
 	public boolean isAltPixelformat() {
 		return this.altPixelformat;
+	}
+
+	public boolean isPlayMusic() {
+		return playMusic;
+	}
+
+	public boolean isPlaySound() {
+		return playSound;
 	}
 
 }

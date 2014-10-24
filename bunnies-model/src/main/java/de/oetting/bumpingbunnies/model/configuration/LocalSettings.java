@@ -2,20 +2,22 @@ package de.oetting.bumpingbunnies.model.configuration;
 
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 
-
 public class LocalSettings {
 
 	private final InputConfiguration inputConfiguration;
 	private final int zoom;
 	private final boolean background;
 	private final boolean altPixelMode;
+	private final boolean playMusic;
+	private final boolean playSounds;
 
-	public LocalSettings(InputConfiguration inputConfiguration, int zoom, boolean background, boolean altPixelMode) {
-		super();
+	public LocalSettings(InputConfiguration inputConfiguration, int zoom, boolean background, boolean altPixelMode, boolean playMusic, boolean playSounds) {
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
 		this.background = background;
 		this.altPixelMode = altPixelMode;
+		this.playMusic = playMusic;
+		this.playSounds = playSounds;
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -32,6 +34,14 @@ public class LocalSettings {
 
 	public boolean isAltPixelMode() {
 		return this.altPixelMode;
+	}
+
+	public boolean isPlayMusic() {
+		return playMusic;
+	}
+
+	public boolean isPlaySounds() {
+		return playSounds;
 	}
 
 }
