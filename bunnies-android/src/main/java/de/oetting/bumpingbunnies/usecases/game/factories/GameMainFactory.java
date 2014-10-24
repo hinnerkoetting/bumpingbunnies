@@ -25,16 +25,16 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
+import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
-import de.oetting.bumpingbunnies.usecases.game.sound.MusicPlayerFactory;
 
 public class GameMainFactory {
 
 	public static GameMain create(GameActivity activity, GameStartParameter parameter, Player myPlayer, CameraPositionCalculation cameraCalclation,
-			ThreadErrorCallback errorCallback) {
-		GameMain main = new GameMain(SocketStorage.getSingleton(), MusicPlayerFactory.createBackground(activity));
+			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory) {
+		GameMain main = new GameMain(SocketStorage.getSingleton(), musicPlayerFactory.createBackground());
 		World world = createWorld(activity, parameter);
 
 		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(activity, main);
@@ -46,7 +46,7 @@ public class GameMainFactory {
 		main.setSendControl(sendControl);
 		main.setNewClientsAccepter(clientAccepter);
 
-		initGame(main, MusicPlayerFactory.createJumper(activity), parameter, sendControl, world, myPlayer, cameraCalclation, errorCallback);
+		initGame(main, musicPlayerFactory.createJumper(), parameter, sendControl, world, myPlayer, cameraCalclation, errorCallback);
 
 		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 

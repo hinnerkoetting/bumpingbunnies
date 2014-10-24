@@ -30,6 +30,7 @@ import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.factories.DrawerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.InputDispatcherFactory;
+import de.oetting.bumpingbunnies.usecases.game.sound.AndroidMusicPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 
@@ -54,7 +55,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 		GameThreadState threadState = new GameThreadState();
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		this.main = GameMainFactory.create(this, parameter, myPlayer, cameraCalculation, this);
+		this.main = GameMainFactory.create(this, parameter, myPlayer, cameraCalculation, this, new AndroidMusicPlayerFactory(this));
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation);
 		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 
