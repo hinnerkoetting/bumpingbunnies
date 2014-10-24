@@ -1,10 +1,9 @@
-package de.oetting.bumpingbunnies.usecases.game.factories;
+package de.oetting.bumpingbunnies.core.game;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
+import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
-import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
@@ -26,13 +25,13 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 public class GameMainFactory {
 
 	public static GameMain create(GameStartParameter parameter, Player myPlayer, CameraPositionCalculation cameraCalclation, ThreadErrorCallback errorCallback,
-			BunniesMusicPlayerFactory musicPlayerFactory, World world) {
+			BunniesMusicPlayerFactory musicPlayerFactory, World world, ConnectionEstablisherFactory connectionEstablisherFactory) {
 		GameMain main = new GameMain(SocketStorage.getSingleton(), musicPlayerFactory.createBackground());
 
 		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(errorCallback, main);
 		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory, errorCallback);
-		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main, errorCallback);
+		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main, errorCallback, connectionEstablisherFactory);
 		clientAccepter.setMain(main);
 		main.setNetworkSendThread(networkSendThread);
 		main.setSendControl(sendControl);
@@ -50,8 +49,8 @@ public class GameMainFactory {
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback,
-			ThreadErrorCallback errorCallback) {
-		return CommonGameMainFactory.createClientAccepter(parameter, world, new AndroidConnectionEstablisherFactory(), callback, errorCallback);
+			ThreadErrorCallback errorCallback, ConnectionEstablisherFactory connectionEstablisherFactory) {
+		return CommonGameMainFactory.createClientAccepter(parameter, world, connectionEstablisherFactory, callback, errorCallback);
 	}
 
 	private static void addListener(GameMain main) {

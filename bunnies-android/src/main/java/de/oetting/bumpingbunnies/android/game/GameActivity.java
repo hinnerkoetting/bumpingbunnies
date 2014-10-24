@@ -18,8 +18,10 @@ import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWra
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidBitmapReader;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlReader;
+import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.GameMainFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
@@ -35,7 +37,6 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.DrawerFactory;
-import de.oetting.bumpingbunnies.usecases.game.factories.GameMainFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.InputDispatcherFactory;
 import de.oetting.bumpingbunnies.usecases.game.sound.AndroidMusicPlayerFactory;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
@@ -63,7 +64,8 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 		GameThreadState threadState = new GameThreadState();
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		World world = createWorld(this, parameter);
-		this.main = GameMainFactory.create(parameter, myPlayer, cameraCalculation, this, new AndroidMusicPlayerFactory(this), world);
+		this.main = GameMainFactory.create(parameter, myPlayer, cameraCalculation, this, new AndroidMusicPlayerFactory(this), world,
+				new AndroidConnectionEstablisherFactory());
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation);
 		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 
