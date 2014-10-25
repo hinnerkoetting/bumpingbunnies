@@ -1,81 +1,61 @@
 package de.oetting.bumpingbunnies.core.game;
 
-import java.util.List;
-
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
-import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
+import de.oetting.bumpingbunnies.core.game.logic.CommonGameThreadFactory;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
-import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
-import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
+import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
-import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
-import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
-import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
+import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
+import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
-import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class GameMainFactory {
 
-	public static GameMain create(GameStartParameter parameter, Player myPlayer, CameraPositionCalculation cameraCalclation, ThreadErrorCallback errorCallback,
-			BunniesMusicPlayerFactory musicPlayerFactory, World world, ConnectionEstablisherFactory connectionEstablisherFactory) {
-		GameMain main = new GameMain(SocketStorage.getSingleton(), musicPlayerFactory.createBackground());
+	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer,
+			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory) {
 
-		RemoteConnectionFactory remoteConnectionFactory = new RemoteConnectionFactory(errorCallback, main);
-		NetworkMessageDistributor sendControl = new NetworkMessageDistributor(remoteConnectionFactory);
-		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, remoteConnectionFactory, errorCallback);
-		NewClientsAccepter clientAccepter = createClientAccepter(parameter, world, main, errorCallback, connectionEstablisherFactory);
-		clientAccepter.setMain(main);
-		main.setNetworkSendThread(networkSendThread);
-		main.setSendControl(sendControl);
-		main.setNewClientsAccepter(clientAccepter);
-
-		initGame(main, musicPlayerFactory.createJumper(), parameter, sendControl, world, myPlayer, cameraCalclation, errorCallback);
-
-		List<PlayerConfig> otherPlayers = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
-
-		addPlayersToWorld(main, otherPlayers);
+		GameMain main = createGameMain(errorCallback, parameter, world, musicPlayerFactory, connectionEstablisherFactory);
+		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(errorCallback, main));
+		main.setSendControl(networkMessageDistributor);
+		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
+		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), myPlayer, networkDispatcher,
+				networkMessageDistributor, main, musicPlayerFactory));
+		main.setWorld(world);
+		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration(), errorCallback, world));
 		main.validateInitialised();
-
 		main.start();
+
+		main.addAllJoinListeners();
+		main.addSocketListener();
+
 		return main;
 	}
 
-	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback,
-			ThreadErrorCallback errorCallback, ConnectionEstablisherFactory connectionEstablisherFactory) {
-		return CommonGameMainFactory.createClientAccepter(parameter, world, connectionEstablisherFactory, callback, errorCallback);
+	private NetworkReceiveControl createNetworkReceiveFactory(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor networkMessageDistributor,
+			Configuration configuration, ThreadErrorCallback errorCallback, World world) {
+		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, configuration, errorCallback, world);
 	}
 
-	private static void addListener(GameMain main) {
-		main.addAllJoinListeners();
-		main.addSocketListener();
+	private GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world, BunniesMusicPlayerFactory musicPlayerFactory,
+			ConnectionEstablisherFactory establisherFactory) {
+		return CommonGameMainFactory.createGameMain(gameStopper, parameter, world, musicPlayerFactory, establisherFactory);
+
 	}
 
-	private static void initGame(GameMain main, MusicPlayer jumpMusicPlayer, GameStartParameter parameter, NetworkMessageDistributor sendControl, World world,
-			Player myPlayer, CameraPositionCalculation cameraPositionCalculation, ThreadErrorCallback errorCallback) {
-
-		main.setWorld(world);
-
-		GameThread gameThread = GameThreadFactory.create(world, jumpMusicPlayer, parameter.getConfiguration(), cameraPositionCalculation, main, myPlayer,
-				sendControl, main, errorCallback);
-		main.setGameThread(gameThread);
-
-		addListener(main);
-		main.newEvent(myPlayer);
-	}
-
-	private static void addPlayersToWorld(GameMain main, List<PlayerConfig> players) {
-
-		for (PlayerConfig pc : players) {
-			main.newEvent(pc.getPlayer());
-		}
+	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, ThreadErrorCallback gameStopper,
+			Configuration configuration, Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor,
+			GameMain gameMain, BunniesMusicPlayerFactory musicPlayerFactory) {
+		return CommonGameThreadFactory.create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor,
+				gameMain, musicPlayerFactory.createJumper());
 	}
 
 }

@@ -26,7 +26,7 @@ public class PlayerFactory {
 	public Mp3Player createPlayer() {
 		try {
 			if (cachedMp3 == null) {
-				cacheMp3();
+				cachedMp3 = cacheMp3();
 			}
 			return new Mp3Player(new ByteArrayInputStream(cachedMp3), audioDevice);
 		} catch (Exception e) {

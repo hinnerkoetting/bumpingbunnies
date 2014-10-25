@@ -84,7 +84,8 @@ public class MusicPlayerThread extends BunniesThread {
 	public void cancel() {
 		synchronized (lock) {
 			status = Status.STOPPED;
-			player.close();
+			if (player != null)
+				player.close();
 			canceled = true;
 		}
 	}

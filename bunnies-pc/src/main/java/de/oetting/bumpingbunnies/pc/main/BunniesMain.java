@@ -22,6 +22,7 @@ import javafx.stage.WindowEvent;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.GameMainFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
@@ -55,7 +56,7 @@ import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
-import de.oetting.bumpingbunnies.pc.game.factory.GameMainFactory;
+import de.oetting.bumpingbunnies.pc.game.factory.PcConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.pc.game.input.PcInputDispatcher;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
 import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
@@ -189,10 +190,10 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
-		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new PcMusicPlayerFactory(this));
-		gameMain.addAllJoinListeners();
-		gameMain.addSocketListener();
+		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new PcMusicPlayerFactory(this),
+				new PcConnectionEstablisherFactory());
 		gameMain.addJoinListener(drawerThread);
+		gameMain.onResume();
 	}
 
 	private void changeSizeInCoordinatesCalculationWhenScreenChanges(Canvas canvas, CoordinatesCalculation coordinatesCalculation) {
