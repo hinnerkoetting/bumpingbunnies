@@ -230,9 +230,9 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
 	}
 
-	private static World createWorld(ThreadErrorCallback errorCallback) {
+	private World createWorld(ThreadErrorCallback errorCallback) {
 		XmlReader reader = new ClasspathXmlreader(World.class.getResourceAsStream("/worlds/classic.xml"));
-		return new PcWorldObjectsParser(errorCallback).build(new PcResourceProvider(errorCallback), reader);
+		return new PcWorldObjectsParser(errorCallback).build(new PcResourceProvider(errorCallback, parameter.getConfiguration().getLocalSettings()), reader);
 	}
 
 	private static void startApplication() {

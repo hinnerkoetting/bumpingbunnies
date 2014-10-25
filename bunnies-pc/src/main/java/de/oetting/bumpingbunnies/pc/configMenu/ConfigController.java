@@ -83,7 +83,7 @@ public class ConfigController implements Initializable {
 		readPlayer1(configuration);
 		readPlayer2(configuration);
 		readPlayer3(configuration);
-		readSpeed(configuration);
+		readSettings(configuration);
 		return configuration;
 	}
 
@@ -108,8 +108,10 @@ public class ConfigController implements Initializable {
 		configuration.getPlayer3Configuration().setPlayerRight(player3Right.getText());
 	}
 
-	private void readSpeed(PcConfiguration configuration) {
+	private void readSettings(PcConfiguration configuration) {
 		configuration.setSpeed(Integer.parseInt(speed.getText()));
+		configuration.setPlayMusic(musicCheckbox.isSelected());
+		configuration.setPlaySound(soundCheckbox.isSelected());
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.pc.music;
 
-import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
@@ -33,8 +32,6 @@ public class PcMusicPlayerFactory implements BunniesMusicPlayerFactory {
 
 	public MusicPlayer create(String classpath, ThreadErrorCallback stopper) {
 		try {
-			if (true)
-				return new DummyMusicPlayer();
 			PlayerFactory playerFactory = new PlayerFactory(classpath);
 			return new PcMusicPlayer(new MusicPlayerThread(stopper, playerFactory));
 		} catch (Exception e) {

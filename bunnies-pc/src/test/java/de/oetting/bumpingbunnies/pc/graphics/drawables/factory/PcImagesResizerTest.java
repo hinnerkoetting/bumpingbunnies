@@ -17,7 +17,7 @@ public class PcImagesResizerTest {
 	@Ignore
 	@Test
 	public void resize_always_imageSizeIsEqualToTargetsie() {
-		ImageWrapper image = new PcResourceProvider(null).readBitmap("wiese1");
+		ImageWrapper image = new PcResourceProvider(null, null).readBitmap("wiese1");
 		ImageWrapper resizedImage = new PcImagesResizer().resize(image, 5, 5);
 		assertThat(resizedImage.getBitmap(), allOf(hasProperty("width"), is(5.0), hasProperty("height"), is(5.0)));
 	}

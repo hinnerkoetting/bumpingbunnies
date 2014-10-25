@@ -83,8 +83,8 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 
 	private World createWorld(GameActivity activity, GameStartParameter parameter) {
 		WorldObjectsParser factory = new WorldConfigurationFactory().createWorldParser(parameter.getConfiguration().getWorldConfiguration());
-		return factory.build(new AndroidResourceProvider(new CachedBitmapReader(new AndroidBitmapReader()), activity),
-				new AndroidXmlReader(activity, factory.getResourceId()));
+		return factory.build(new AndroidResourceProvider(new CachedBitmapReader(new AndroidBitmapReader()), activity, parameter.getConfiguration()
+				.getLocalSettings()), new AndroidXmlReader(activity, factory.getResourceId()));
 	}
 
 	private void registerScreenTouchListener(final GameView contentView) {

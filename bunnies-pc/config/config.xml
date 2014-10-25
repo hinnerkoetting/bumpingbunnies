@@ -20,5 +20,5 @@
     </configurations>
     <speed>25</speed>
     <playMusic>false</playMusic>
-    <playSound>false</playSound>
+    <playSound>true</playSound>
 </pcConfiguration>

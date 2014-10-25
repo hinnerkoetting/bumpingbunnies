@@ -91,6 +91,8 @@ public class ConfigAccess {
 		configuration.getPlayer3Configuration().setPlayerName("Player 3");
 
 		configuration.setSpeed(25);
+		configuration.setPlayMusic(true);
+		configuration.setPlaySound(true);
 		return configuration;
 	}
 }
