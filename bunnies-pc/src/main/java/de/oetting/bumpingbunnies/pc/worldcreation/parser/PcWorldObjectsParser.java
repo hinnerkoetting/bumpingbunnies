@@ -130,9 +130,4 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 		return new XmlRect(minX, minY, maxX, maxY);
 	}
 
-	@Override
-	public int getResourceId() {
-		return 0;
-	}
-
 }

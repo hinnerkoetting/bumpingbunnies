@@ -17,7 +17,7 @@ import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidBitmapReader;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
-import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlReader;
+import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlWorldParserTemplate;
 import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
@@ -31,7 +31,6 @@ import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
@@ -82,9 +81,10 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 	}
 
 	private World createWorld(GameActivity activity, GameStartParameter parameter) {
-		WorldObjectsParser factory = new WorldConfigurationFactory().createWorldParser(parameter.getConfiguration().getWorldConfiguration());
-		return factory.build(new AndroidResourceProvider(new CachedBitmapReader(new AndroidBitmapReader()), activity, parameter.getConfiguration()
-				.getLocalSettings()), new AndroidXmlReader(activity, factory.getResourceId()));
+		AndroidXmlWorldParserTemplate factory = new WorldConfigurationFactory().createWorldParser(parameter.getConfiguration().getWorldConfiguration());
+		CachedBitmapReader bitmapReader = new CachedBitmapReader(new AndroidBitmapReader());
+		AndroidResourceProvider resourceProvider = new AndroidResourceProvider(bitmapReader, activity, parameter.getConfiguration().getLocalSettings());
+		return factory.build(resourceProvider, activity);
 	}
 
 	private void registerScreenTouchListener(final GameView contentView) {

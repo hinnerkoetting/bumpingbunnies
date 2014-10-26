@@ -7,11 +7,4 @@ public interface WorldObjectsParser {
 
 	World build(ResourceProvider provider, XmlReader xmlReader);
 
-	/**
-	 * 
-	 * Bezieht sich zu stark auf Android
-	 */
-	@Deprecated
-	int getResourceId();
-
 }

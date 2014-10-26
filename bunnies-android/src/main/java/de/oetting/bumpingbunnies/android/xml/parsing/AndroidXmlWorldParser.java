@@ -34,10 +34,8 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private MusicPlayer jumperMusic;
 	private MusicPlayer waterMusic;
 	private ResourceProvider provider;
-	private int resourceId;
 
-	public AndroidXmlWorldParser(int resourceId) {
-		this.resourceId = resourceId;
+	public AndroidXmlWorldParser() {
 		this.state = new XmlWorldBuilderState();
 	}
 
@@ -152,11 +150,6 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private ImageWrapper readBitmap(String fileName) {
 		return provider.readBitmap(fileName);
-	}
-
-	@Override
-	public int getResourceId() {
-		return resourceId;
 	}
 
 }

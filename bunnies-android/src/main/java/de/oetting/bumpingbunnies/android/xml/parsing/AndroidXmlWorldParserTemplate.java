@@ -1,26 +1,22 @@
 package de.oetting.bumpingbunnies.android.xml.parsing;
 
+import android.content.Context;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 
-public class AndroidXmlWorldParserTemplate implements WorldObjectsParser {
+public class AndroidXmlWorldParserTemplate {
 
-	private WorldObjectsParser worldBuilder;
+	private final WorldObjectsParser worldBuilder;
+	private final int resourceId;
 
 	public AndroidXmlWorldParserTemplate(int resourceId) {
-		this.worldBuilder = new AndroidXmlWorldParser(resourceId);
+		this.resourceId = resourceId;
+		this.worldBuilder = new AndroidXmlWorldParser();
 	}
 
-	@Override
-	public World build(ResourceProvider provider, XmlReader reader) {
-		return this.worldBuilder.build(provider, reader);
-	}
-
-	@Override
-	public int getResourceId() {
-		return worldBuilder.getResourceId();
+	public World build(ResourceProvider provider, Context context) {
+		return this.worldBuilder.build(provider, new AndroidXmlReader(context, resourceId));
 	}
 
 }
