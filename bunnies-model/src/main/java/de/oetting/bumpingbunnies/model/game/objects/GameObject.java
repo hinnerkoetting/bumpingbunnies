@@ -10,8 +10,6 @@ public interface GameObject {
 
 	long minY();
 
-	int getColor();
-
 	int accelerationOnThisGround();
 
 	void interactWithPlayerOnTop(Player p);

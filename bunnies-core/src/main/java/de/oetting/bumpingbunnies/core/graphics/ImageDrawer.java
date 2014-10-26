@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.graphics;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithColor;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
@@ -12,7 +13,7 @@ public class ImageDrawer implements Drawable {
 	private final GameObject object;
 	private final Paint paint;
 
-	public ImageDrawer(ImageWrapper bitmap, GameObject object) {
+	public ImageDrawer(ImageWrapper bitmap, GameObjectWithColor object) {
 		super();
 		this.originalBbitmap = bitmap;
 		this.object = object;

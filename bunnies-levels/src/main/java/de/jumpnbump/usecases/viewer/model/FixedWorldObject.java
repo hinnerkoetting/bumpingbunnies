@@ -12,8 +12,7 @@ public abstract class FixedWorldObject implements GameObject {
 	private int color;
 	private ImageWrapper image;
 
-	public FixedWorldObject(int id, int minX, int minY, int maxX, int maxY,
-			int color) {
+	public FixedWorldObject(int id, int minX, int minY, int maxX, int maxY, int color) {
 		this.id = id;
 		this.minX = minX;
 		this.minY = minY;

@@ -33,11 +33,6 @@ public class TestableGameObject implements GameObject {
 	}
 
 	@Override
-	public int getColor() {
-		return this.color;
-	}
-
-	@Override
 	public int accelerationOnThisGround() {
 		return this.accelerationOnThisGround;
 	}

@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-
 public class Player implements GameObject {
 
 	private final int speedFaktor;
@@ -192,7 +191,6 @@ public class Player implements GameObject {
 		return this.state;
 	}
 
-	@Override
 	public int getColor() {
 		return this.color;
 	}

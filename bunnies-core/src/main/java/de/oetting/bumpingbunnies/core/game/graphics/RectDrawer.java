@@ -1,15 +1,15 @@
 package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithColor;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class RectDrawer implements Drawable {
 
-	private final GameObject object;
+	private final GameObjectWithColor object;
 	private Paint paint;
 
-	public RectDrawer(GameObject object) {
+	public RectDrawer(GameObjectWithColor object) {
 		this.object = object;
 		this.paint = new Paint();
 		this.paint.setColor(object.getColor());
