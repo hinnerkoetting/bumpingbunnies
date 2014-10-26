@@ -24,7 +24,6 @@ public class PlayerFactory {
 		state.setCenterX((int) (id * 0.35 * ModelConstants.STANDARD_WORLD_SIZE));
 		state.setCenterY((int) (0.99 * ModelConstants.STANDARD_WORLD_SIZE));
 		p.setColor(getColor(id));
-		p.calculateRect();
 		return p;
 	}
 

@@ -114,8 +114,19 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	@Override
 	public String toString() {
 		return "PlayerState [id=" + id + ", centerX=" + centerX + ", centerY=" + centerY + ", movementX=" + movementX + ", movementY=" + movementY
-				+ ", facingLeft=" + facingLeft + ", jumpingButtonPressed=" + jumping + ", horizontalMovementStatus=" + direction
-				+ "]";
+				+ ", facingLeft=" + facingLeft + ", jumpingButtonPressed=" + jumping + ", horizontalMovementStatus=" + direction + "]";
 	}
 
+	public void moveNextStep() {
+		moveNextStepX();
+		moveNextStepY();
+	}
+
+	public void moveNextStepX() {
+		centerX += movementX;
+	}
+
+	public void moveNextStepY() {
+		centerY += movementY;
+	}
 }

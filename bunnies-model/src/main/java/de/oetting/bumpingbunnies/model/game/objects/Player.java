@@ -10,9 +10,7 @@ public class Player implements GameObject {
 	private final String name;
 
 	private PlayerState state;
-	private Player simulatedObject;
-
-	private Rect rect;
+	private PlayerSimulation simulatedObject;
 
 	private int color;
 	private final ConnectionIdentifier opponent;
@@ -27,12 +25,11 @@ public class Player implements GameObject {
 		this.name = name;
 		this.speedFaktor = speedFaktor;
 		this.opponent = opponent;
-		this.rect = new Rect();
 		this.state = new PlayerState(id);
 		this.id = id;
 		this.halfHeight = ModelConstants.PLAYER_HEIGHT / 2;
 		this.halfWidth = ModelConstants.PLAYER_WIDTH / 2;
-		calculateRect();
+		simulatedObject = new PlayerSimulation(new PlayerState(id), halfWidth, halfHeight);
 	}
 
 	public Player(Player player) {
@@ -43,18 +40,9 @@ public class Player implements GameObject {
 		this.id = player.id;
 		this.name = player.name;
 		this.state = player.state.clone();
-		this.rect = player.rect.clone();
 		this.color = player.color;
 		this.opponent = player.opponent.clone();
-	}
-
-	public void calculateRect() {
-		long centerX = this.state.getCenterX();
-		long centerY = this.state.getCenterY();
-		this.rect.setMinX(centerX - this.halfWidth);
-		this.rect.setMaxX(centerX + this.halfWidth);
-		this.rect.setMinY(centerY - this.halfHeight);
-		this.rect.setMaxY(centerY + this.halfHeight);
+		simulatedObject = new PlayerSimulation(new PlayerState(id), halfWidth, halfHeight);
 	}
 
 	public long getCenterX() {
@@ -63,7 +51,6 @@ public class Player implements GameObject {
 
 	public void setCenterX(long centerX) {
 		this.state.setCenterX(centerX);
-		calculateRect();
 	}
 
 	public long getCenterY() {
@@ -72,7 +59,6 @@ public class Player implements GameObject {
 
 	public void setCenterY(long centerY) {
 		this.state.setCenterY(centerY);
-		calculateRect();
 	}
 
 	public void setMovementX(int movementX) {
@@ -113,28 +99,30 @@ public class Player implements GameObject {
 
 	@Override
 	public long maxX() {
-		return this.rect.getMaxX();
+		long centerX = this.state.getCenterX();
+		return centerX + this.halfWidth;
 	}
 
 	@Override
 	public long maxY() {
-		return this.rect.getMaxY();
+		long centerY = this.state.getCenterY();
+		return centerY + this.halfHeight;
 	}
 
 	@Override
 	public long minX() {
-		return this.rect.getMinX();
+		long centerX = this.state.getCenterX();
+		return centerX - this.halfWidth;
 	}
 
 	@Override
 	public long minY() {
-		return this.rect.getMinY();
+		long centerY = this.state.getCenterY();
+		return centerY - this.halfHeight;
 	}
 
 	public void moveNextStep() {
-		moveNextStepX();
-		moveNextStepY();
-		calculateRect();
+		state.moveNextStep();
 	}
 
 	public void calculateNextSpeed() {
@@ -169,18 +157,7 @@ public class Player implements GameObject {
 	 * Careful: each new simulation will overwrite previous results
 	 */
 	public GameObject simulateNextStep() {
-		resetSimulatedObject();
-		this.simulatedObject.moveNextStep();
-		return this.simulatedObject;
-	}
-
-	public void resetSimulatedObject() {
-		if (simulatedObject == null)
-			simulatedObject = new Player(this);
-		this.simulatedObject.setCenterX(this.state.getCenterX());
-		this.simulatedObject.setExactMovementX(this.state.getMovementX());
-		this.simulatedObject.setCenterY(this.state.getCenterY());
-		this.simulatedObject.setExactMovementY(this.state.getMovementY());
+		return simulatedObject.moveNextStep(state);
 	}
 
 	public int id() {
@@ -217,25 +194,11 @@ public class Player implements GameObject {
 	}
 
 	public GameObject simulateNextStepX() {
-		resetSimulatedObject();
-		this.simulatedObject.moveNextStepX();
-		this.simulatedObject.calculateRect();
-		return this.simulatedObject;
+		return simulatedObject.moveNextStepX(state);
 	}
 
 	public GameObject simulateNextStepY() {
-		resetSimulatedObject();
-		this.simulatedObject.moveNextStepY();
-		this.simulatedObject.calculateRect();
-		return this.simulatedObject;
-	}
-
-	private void moveNextStepX() {
-		this.state.setCenterX(this.state.getCenterX() + this.state.getMovementX());
-	}
-
-	private void moveNextStepY() {
-		this.state.setCenterY(this.state.getCenterY() + this.state.getMovementY());
+		return simulatedObject.moveNextStepY(state);
 	}
 
 	public boolean isFacingLeft() {
@@ -256,7 +219,6 @@ public class Player implements GameObject {
 
 	public synchronized void applyState(PlayerState state) {
 		state.copyContentTo(this.state);
-		calculateRect();
 	}
 
 	public int getScore() {
@@ -343,7 +305,8 @@ public class Player implements GameObject {
 	@Override
 	public String toString() {
 		return "Player [speedFaktor=" + speedFaktor + ", halfWidth=" + halfWidth + ", halfHeight=" + halfHeight + ", id=" + id + ", name=" + name + ", state="
-				+ state + ", simulatedObject=" + simulatedObject + ", rect=" + rect + ", color=" + color + ", opponent=" + opponent + "]";
+				+ state + ", simulatedObject=" + simulatedObject + ", color=" + color + ", opponent=" + opponent + ", score=" + score + ", dead=" + dead
+				+ ", accelerationX=" + accelerationX + ", accelerationY=" + accelerationY + "]";
 	}
 
 	public void setJumping(boolean isJumping) {

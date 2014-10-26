@@ -2,26 +2,38 @@ package de.oetting.bumpingbunnies.model.game.objects;
 
 public class PlayerSimulation implements GameObject {
 
-	private Rect rect;
+	private PlayerState state;
+	private final int halfWidth;
+	private final int halfHeight;
+
+	public PlayerSimulation(PlayerState state, int halfWidth, int halfHeight) {
+		this.state = state;
+		this.halfWidth = halfWidth;
+		this.halfHeight = halfHeight;
+	}
 
 	@Override
 	public long maxX() {
-		return rect.getMaxX();
+		long centerX = this.state.getCenterX();
+		return centerX + this.halfWidth;
 	}
 
 	@Override
 	public long maxY() {
-		return rect.getMaxY();
+		long centerY = this.state.getCenterY();
+		return centerY + this.halfHeight;
 	}
 
 	@Override
 	public long minX() {
-		return rect.getMinX();
+		long centerX = this.state.getCenterX();
+		return centerX - this.halfWidth;
 	}
 
 	@Override
 	public long minY() {
-		return rect.getMinY();
+		long centerY = this.state.getCenterY();
+		return centerY - this.halfHeight;
 	}
 
 	@Override
@@ -32,6 +44,24 @@ public class PlayerSimulation implements GameObject {
 	@Override
 	public void interactWithPlayerOnTop(Player p) {
 		throw new IllegalArgumentException("The simulated player must not interact with other players.");
+	}
+
+	public GameObject moveNextStep(PlayerState currentPlayerState) {
+		currentPlayerState.copyContentTo(state);
+		state.moveNextStep();
+		return this;
+	}
+
+	public GameObject moveNextStepX(PlayerState currentPlayerState) {
+		currentPlayerState.copyContentTo(state);
+		state.moveNextStepX();
+		return this;
+	}
+
+	public GameObject moveNextStepY(PlayerState currentPlayerState) {
+		currentPlayerState.copyContentTo(state);
+		state.moveNextStepY();
+		return this;
 	}
 
 }
