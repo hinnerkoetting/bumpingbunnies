@@ -122,7 +122,6 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	private ServerSettings createGeneralSettings(SettingsEntity settings) {
 		WorldConfiguration world = findWorldConfiguration();
 		int speed = settings.getSpeed();
-		/** TODO */
 		ServerSettings generalSettings = new ServerSettings(world, speed, NetworkType.WLAN);
 		return generalSettings;
 	}
