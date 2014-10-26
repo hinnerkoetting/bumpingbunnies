@@ -232,7 +232,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 
 	private World createWorld(ThreadErrorCallback errorCallback) {
 		XmlReader reader = new ClasspathXmlreader(World.class.getResourceAsStream("/worlds/classic.xml"));
-		return new PcWorldObjectsParser(errorCallback).build(new PcResourceProvider(errorCallback, parameter.getConfiguration().getLocalSettings()), reader);
+		return new PcWorldObjectsParser(errorCallback).build(new PcResourceProvider(), reader);
 	}
 
 	private static void startApplication() {

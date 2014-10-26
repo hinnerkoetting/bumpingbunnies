@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.core.worldCreation;
 
-import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
@@ -27,8 +26,8 @@ public class WallFactory {
 		return wall;
 	}
 
-	public static Water createWater(long x, long y, long maxX, long maxY, MusicPlayer musicPlayer) {
-		Water water = new Water(x, y, maxX, maxY, musicPlayer);
+	public static Water createWater(long x, long y, long maxX, long maxY) {
+		Water water = new Water(x, y, maxX, maxY);
 		return water;
 	}
 
@@ -43,19 +42,19 @@ public class WallFactory {
 		return wall;
 	}
 
-	public static Jumper createJumperFromDouble(double x, double y, double maxX, double maxY, MusicPlayer mediaPlayer, WorldProperties properties) {
+	public static Jumper createJumperFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties) {
 		return createJumper((int) (x * properties.getWorldWidth()), (int) (y * properties.getWorldHeight()), (int) (maxX * properties.getWorldWidth()),
-				(int) (maxY * properties.getWorldHeight()), mediaPlayer);
+				(int) (maxY * properties.getWorldHeight()));
 	}
 
-	public static Water createWaterFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties, MusicPlayer musicPlayer) {
+	public static Water createWaterFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties) {
 		return createWater((int) (x * properties.getWorldWidth()), (int) (y * properties.getWorldHeight()), (int) (maxX * properties.getWorldWidth()),
-				(int) (maxY * properties.getWorldHeight()), musicPlayer);
+				(int) (maxY * properties.getWorldHeight()));
 	}
 
-	public static Jumper createJumper(long x, long y, long maxX, long maxY, MusicPlayer mediaPlayer) {
+	public static Jumper createJumper(long x, long y, long maxX, long maxY) {
 		int id = IdCounter.getNextId();
-		Jumper jumper = new Jumper(id, x, y, maxX, maxY, mediaPlayer);
+		Jumper jumper = new Jumper(id, x, y, maxX, maxY);
 		return jumper;
 	}
 }

@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.core.worldCreation;
 
-import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
@@ -19,12 +18,12 @@ public class XmlRectToObjectConverter {
 		return WallFactory.createIceWallFromDouble(rect.getMinX(), rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties);
 	}
 
-	public static Jumper createJumper(XmlRect rect, MusicPlayer mediaPlayer, WorldProperties properties) {
-		return WallFactory.createJumperFromDouble(rect.getMinX(), rect.getMinY(), rect.getMaxX(), rect.getMaxY(), mediaPlayer, properties);
+	public static Jumper createJumper(XmlRect rect, WorldProperties properties) {
+		return WallFactory.createJumperFromDouble(rect.getMinX(), rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties);
 	}
 
-	public static Water createWater(XmlRect rect, MusicPlayer musicPlayer, WorldProperties properties) {
-		return WallFactory.createWaterFromDouble(rect.getMinX(), rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties, musicPlayer);
+	public static Water createWater(XmlRect rect, WorldProperties properties) {
+		return WallFactory.createWaterFromDouble(rect.getMinX(), rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties);
 	}
 
 	public static SpawnPoint createSpawn(String x, String y, WorldProperties properties) {

@@ -16,7 +16,6 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -31,8 +30,6 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidXmlWorldParser.class);
 	private XmlWorldBuilderState state;
 	private WorldProperties worldProperties = new WorldProperties();
-	private MusicPlayer jumperMusic;
-	private MusicPlayer waterMusic;
 	private ResourceProvider provider;
 
 	public AndroidXmlWorldParser() {
@@ -42,8 +39,6 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private void parse(ResourceProvider provider, XmlReader xmlReader) {
 		this.provider = provider;
 		InputStream worldXml = xmlReader.openXmlStream();
-		this.jumperMusic = provider.readerJumperMusic();
-		this.waterMusic = provider.readWaterMusic();
 		readXmlFile(worldXml);
 	}
 
@@ -96,7 +91,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private void readWater(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
-		Water water = XmlRectToObjectConverter.createWater(rect, this.waterMusic, this.worldProperties);
+		Water water = XmlRectToObjectConverter.createWater(rect, this.worldProperties);
 		this.state.getWaters().add(water);
 	}
 
@@ -108,7 +103,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private void readJumper(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
-		Jumper jumper = XmlRectToObjectConverter.createJumper(rect, this.jumperMusic, this.worldProperties);
+		Jumper jumper = XmlRectToObjectConverter.createJumper(rect, this.worldProperties);
 		this.state.getAllJumper().add(jumper);
 	}
 

@@ -21,7 +21,6 @@ import de.oetting.bumpingbunnies.core.worldCreation.XmlRectToObjectConverter;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
-import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -81,14 +80,12 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 	}
 
 	private void addAllJumper(Document document) {
-		MusicPlayer jumperMusic = resourceProvider.readerJumperMusic();
-		ObjectFactory<Jumper> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createJumper(xmlRect, jumperMusic, properties);
+		ObjectFactory<Jumper> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createJumper(xmlRect, properties);
 		state.getAllJumper().addAll(readAllElements(document.getElementsByTagName(XmlConstants.JUMPER), factory));
 	}
 
 	private void addAllWater(Document document) {
-		MusicPlayer waterMusic = resourceProvider.readWaterMusic();
-		ObjectFactory<Water> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createWater(xmlRect, waterMusic, properties);
+		ObjectFactory<Water> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createWater(xmlRect, properties);
 		state.getWaters().addAll(readAllElements(document.getElementsByTagName(XmlConstants.WATER), factory));
 	}
 

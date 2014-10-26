@@ -83,7 +83,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 	private World createWorld(GameActivity activity, GameStartParameter parameter) {
 		AndroidXmlWorldParserTemplate factory = new WorldConfigurationFactory().createWorldParser(parameter.getConfiguration().getWorldConfiguration());
 		CachedBitmapReader bitmapReader = new CachedBitmapReader(new AndroidBitmapReader());
-		AndroidResourceProvider resourceProvider = new AndroidResourceProvider(bitmapReader, activity, parameter.getConfiguration().getLocalSettings());
+		AndroidResourceProvider resourceProvider = new AndroidResourceProvider(bitmapReader);
 		return factory.build(resourceProvider, activity);
 	}
 

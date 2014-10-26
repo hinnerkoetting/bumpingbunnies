@@ -17,7 +17,6 @@ import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionHandling;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
-import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
@@ -54,8 +53,7 @@ public class GameObjectInteractorTest {
 	}
 
 	private void givenWaterIsBelowPlayer() {
-		Water water = new Water(-ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT, ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT / 2,
-				new DummyMusicPlayer());
+		Water water = new Water(-ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT, ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT / 2);
 		when(objectProvider.getAllWaters()).thenReturn(Arrays.asList(water));
 	}
 

@@ -1,23 +1,18 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
 import de.oetting.bumpingbunnies.model.color.Color;
-import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 
 public class Water implements GameObjectWithImage {
 
 	private final Rect rect;
-	private final MusicPlayer musicPlayer;
 	private ImageWrapper bitmap;
 
-	public Water(long minX, long minY, long maxX, long maxY, MusicPlayer musicPlayer) {
-		this.musicPlayer = musicPlayer;
+	public Water(long minX, long minY, long maxX, long maxY) {
 		this.rect = new Rect(minX, maxX, minY, maxY);
 	}
 
-	public Water(Rect rect, MusicPlayer musicPlayer) {
-		super();
+	public Water(Rect rect) {
 		this.rect = rect;
-		this.musicPlayer = musicPlayer;
 	}
 
 	@Override
@@ -58,10 +53,6 @@ public class Water implements GameObjectWithImage {
 	@Override
 	public void setBitmap(ImageWrapper b) {
 		this.bitmap = b;
-	}
-
-	public void playMusic() {
-		this.musicPlayer.start();
 	}
 
 }

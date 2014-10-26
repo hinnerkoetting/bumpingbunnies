@@ -13,14 +13,13 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
-import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.pc.graphics.PcResourceProvider;
 
 public class PcWorldObjectsParserTest {
 
 	@Test
 	public void build_classicWorld_hasAllValuesFilled() {
-		ResourceProvider provider = new PcResourceProvider(mock(ThreadErrorCallback.class), new LocalSettings(null, 1, false, false, true, true));
+		ResourceProvider provider = new PcResourceProvider();
 		XmlReader reader = new ClasspathXmlreader(getClass().getResourceAsStream("/test.xml"));
 		World world = new PcWorldObjectsParser(mock(ThreadErrorCallback.class)).build(provider, reader);
 		assertThat(world, hasNoEmptyList());

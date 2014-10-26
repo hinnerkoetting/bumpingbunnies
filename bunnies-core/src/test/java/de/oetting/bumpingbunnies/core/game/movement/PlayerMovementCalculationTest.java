@@ -100,7 +100,7 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 	}
 
 	private void givenPlayerIsStandingInWater() {
-		when(this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.player)).thenReturn(new Water(new Rect(), null));
+		when(this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.player)).thenReturn(new Water(new Rect()));
 	}
 
 	private void givenPlayerIsStandingOnGround() {
