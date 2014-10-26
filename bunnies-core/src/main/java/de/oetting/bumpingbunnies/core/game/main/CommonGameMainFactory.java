@@ -20,10 +20,10 @@ public class CommonGameMainFactory {
 
 	public static GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world,
 			BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory establisherFactory) {
-		GameMain main = new GameMain(SocketStorage.getSingleton(), createMusic(musicPlayerFactory, parameter.getConfiguration()));
-		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper, main);
+		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory, gameStopper);
-		main.setNetworkSendThread(networkSendThread);
+		GameMain main = new GameMain(SocketStorage.getSingleton(), createMusic(musicPlayerFactory, parameter.getConfiguration()), networkSendThread);
+		connectionFactory.setDisconnectCallback(main);
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main, gameStopper, establisherFactory);
 		newClientsAccepter.setMain(main);
 		main.setNewClientsAccepter(newClientsAccepter);

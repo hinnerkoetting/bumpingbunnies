@@ -9,11 +9,10 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 public class RemoteConnectionFactory {
 
 	private final ThreadErrorCallback stopper;
-	private final PlayerDisconnectedCallback disconnectCallback;
+	private PlayerDisconnectedCallback disconnectCallback;
 
-	public RemoteConnectionFactory(ThreadErrorCallback stopper, PlayerDisconnectedCallback disconnectCallback) {
+	public RemoteConnectionFactory(ThreadErrorCallback stopper) {
 		this.stopper = stopper;
-		this.disconnectCallback = disconnectCallback;
 	}
 
 	public NetworkSender create(MySocket socket) {
@@ -24,6 +23,10 @@ public class RemoteConnectionFactory {
 	public NetworkSender createFastSender(MySocket socket) {
 		OpponentTypeSendFactory sendFactory = new OpponentTypeSendFactoryFactory().createSendFactory(socket.getConnectionIdentifier().getType());
 		return sendFactory.createFastNetworkSender(this.stopper, socket, disconnectCallback);
+	}
+
+	public void setDisconnectCallback(PlayerDisconnectedCallback disconnectCallback) {
+		this.disconnectCallback = disconnectCallback;
 	}
 
 }

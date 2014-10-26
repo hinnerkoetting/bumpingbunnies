@@ -28,7 +28,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	private final SocketStorage sockets;
 	private final PlayerJoinObservable playerObservable;
 	private final MusicPlayer musicPlayer;
-	private NetworkPlayerStateSenderThread networkSenderThread;
+	private final NetworkPlayerStateSenderThread networkSendThread;
 	private NetworkMessageDistributor sendControl;
 	private NewClientsAccepter newClientsAccepter;
 	private GameThread gameThread;
@@ -36,9 +36,10 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	private NetworkReceiveControl receiveControl;
 	private World world;
 
-	public GameMain(SocketStorage sockets, MusicPlayer musicPlayer) {
+	public GameMain(SocketStorage sockets, MusicPlayer musicPlayer, NetworkPlayerStateSenderThread networkSendThread) {
 		this.sockets = sockets;
 		this.musicPlayer = musicPlayer;
+		this.networkSendThread = networkSendThread;
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
@@ -79,7 +80,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		for (NetworkSender sender : this.sendControl.getSendThreads()) {
 			sender.cancel();
 		}
-		networkSenderThread.cancel();
+		this.networkSendThread.cancel();
 		this.receiveControl.shutDownThreads();
 		this.musicPlayer.stopBackground();
 	}
@@ -136,14 +137,14 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		Guard.againstNull(receiveControl);
 		Guard.againstNull(musicPlayer);
 		Guard.againstNull(world);
-		Guard.againstNull(networkSenderThread);
+		Guard.againstNull(networkSendThread);
 		Guard.againstNull(sendControl);
 	}
 
 	public void start() {
 		gameThread.start();
 		newClientsAccepter.start();
-		networkSenderThread.start();
+		networkSendThread.start();
 		sendControl.start();
 		receiveControl.start();
 	}
@@ -180,14 +181,10 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		this.sendControl = sendControl;
 	}
 
-	public void setNetworkSendThread(NetworkPlayerStateSenderThread networkSendThread) {
-		this.networkSenderThread = networkSendThread;
-	}
-
 	public void addSocketListener() {
 		sockets.addObserver(sendControl);
 		sockets.addObserver(receiveControl);
-		sockets.addObserver(networkSenderThread);
+		sockets.addObserver(this.networkSendThread);
 		sockets.notifyListenersAboutExistingSockets();
 	}
 

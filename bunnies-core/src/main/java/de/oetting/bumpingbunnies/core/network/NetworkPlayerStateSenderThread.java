@@ -100,4 +100,5 @@ public class NetworkPlayerStateSenderThread extends BunniesThread implements New
 	public static class CouldNotFindStateSenderException extends RuntimeException {
 
 	}
+
 }

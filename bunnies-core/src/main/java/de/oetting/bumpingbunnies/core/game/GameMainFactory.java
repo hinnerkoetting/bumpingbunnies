@@ -24,7 +24,7 @@ public class GameMainFactory {
 			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory) {
 
 		GameMain main = createGameMain(errorCallback, parameter, world, musicPlayerFactory, connectionEstablisherFactory);
-		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(errorCallback, main));
+		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(errorCallback));
 		main.setSendControl(networkMessageDistributor);
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), myPlayer, networkDispatcher,
