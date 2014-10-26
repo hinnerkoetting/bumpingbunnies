@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import de.oetting.bumpingbunnies.core.network.IncomingNetworkDispatcher;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket.ReceiveFailure;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.AbstractSocket.ReadFailed;
 import de.oetting.bumpingbunnies.core.threads.BunniesThread;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
@@ -56,11 +57,18 @@ public class NetworkReceiveThread extends BunniesThread implements NetworkReceiv
 	}
 
 	void oneRun() {
-		String input = this.socket.blockingReceive();
-		if (input != null) {
-			if (!this.canceled) {
-				dispatchMessage(input);
+		try {
+			String input = this.socket.blockingReceive();
+			if (input != null) {
+				if (!this.canceled) {
+					dispatchMessage(input);
+				}
 			}
+		} catch (ReceiveFailure e) {
+			if (!canceled)
+				throw e;
+			else
+				LOGGER.info("Error when reading on socket. But thread is already canceled...");
 		}
 	}
 
@@ -117,5 +125,11 @@ public class NetworkReceiveThread extends BunniesThread implements NetworkReceiv
 	@Override
 	public boolean belongsToSocket(MySocket socket) {
 		return this.socket.equals(socket);
+	}
+
+	@Override
+	public void shutdown() {
+		cancel();
+		socket.close();
 	}
 }

@@ -75,19 +75,6 @@ public class UdpSocket implements MySocket {
 		return false;
 	}
 
-	public static class ReceiveFailure extends RuntimeException {
-		public ReceiveFailure(Exception e) {
-			super(e);
-		}
-	}
-
-	public static class UdpException extends RuntimeException {
-
-		public UdpException(Throwable throwable) {
-			super(throwable);
-		}
-	}
-
 	@Override
 	public String getRemoteDescription() {
 		return socket.getInetAddress().getHostAddress() + ":" + socket.getPort();
@@ -101,6 +88,19 @@ public class UdpSocket implements MySocket {
 	@Override
 	public String toString() {
 		return "UdpSocket [socket=" + socket + ", owner=" + owner + ", receivingPacket=" + receivingPacket + ", settings=" + settings + "]";
+	}
+
+	public static class ReceiveFailure extends RuntimeException {
+		public ReceiveFailure(Exception e) {
+			super(e);
+		}
+	}
+
+	public static class UdpException extends RuntimeException {
+
+		public UdpException(Throwable throwable) {
+			super(throwable);
+		}
 	}
 
 }

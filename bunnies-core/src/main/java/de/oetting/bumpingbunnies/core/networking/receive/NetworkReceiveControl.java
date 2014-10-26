@@ -20,9 +20,8 @@ public class NetworkReceiveControl implements NewSocketListener {
 	}
 
 	public void shutDownThreads() {
-		for (NetworkReceiver receiver : this.networkReceiveThreads) {
-			receiver.cancel();
-		}
+		for (NetworkReceiver receiver : this.networkReceiveThreads)
+			receiver.shutdown();
 	}
 
 	@Override
@@ -51,6 +50,11 @@ public class NetworkReceiveControl implements NewSocketListener {
 			}
 		}
 		return threads;
+	}
+
+	public void start() {
+		for (NetworkReceiver receiver : networkReceiveThreads)
+			receiver.start();
 	}
 
 }

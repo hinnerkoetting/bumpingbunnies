@@ -149,6 +149,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		newClientsAccepter.start();
 		networkSenderThread.start();
 		sendControl.start();
+		receiveControl.start();
 	}
 
 	@Override

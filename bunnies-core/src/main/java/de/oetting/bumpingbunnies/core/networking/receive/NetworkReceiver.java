@@ -6,7 +6,15 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public interface NetworkReceiver {
 
+	/**
+	 * Stops the thread but does not close any sockets.
+	 */
 	void cancel();
+
+	/**
+	 * Stops the thread and all sockets
+	 */
+	void shutdown();
 
 	void start();
 

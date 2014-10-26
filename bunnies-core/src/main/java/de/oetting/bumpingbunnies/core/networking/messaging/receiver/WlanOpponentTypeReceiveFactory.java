@@ -42,7 +42,6 @@ public class WlanOpponentTypeReceiveFactory implements OpponentTypeReceiveFactor
 		UdpSocket listeningSocket = new UdpSocketFactory().createListeningSocket(socketSettings);
 		// UDP messages are not directly distributed to other clients.
 		NetworkReceiver networkReceiver = NetworkReceiverDispatcherThreadFactory.createNetworkReceiver(listeningSocket, networkDispatcher, errorCallback);
-		networkReceiver.start();
 		return Arrays.asList(networkReceiver);
 	}
 
