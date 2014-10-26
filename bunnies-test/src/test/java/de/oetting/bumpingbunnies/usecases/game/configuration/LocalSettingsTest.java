@@ -12,7 +12,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
-import de.oetting.bumpingbunnies.android.input.analog.AnalogInputConfiguration;
+import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParceller;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
@@ -24,7 +24,7 @@ public class LocalSettingsTest {
 
 	@Test
 	public void testParcelling() {
-		LocalSettings settings = new LocalSettings(new AnalogInputConfiguration(), 1, true, true, true, true);
+		LocalSettings settings = new LocalSettings(new HardwareKeyboardInputConfiguration(), 1, true, true, true, true);
 		checkValues(settings);
 		LocalSettings after = serializeAndDeserialize(settings);
 		checkValues(after);
@@ -38,7 +38,7 @@ public class LocalSettingsTest {
 	}
 
 	private void checkValues(LocalSettings settings) {
-		assertThat(settings.getInputConfiguration(), is(instanceOf(AnalogInputConfiguration.class)));
+		assertThat(settings.getInputConfiguration(), is(instanceOf(HardwareKeyboardInputConfiguration.class)));
 		assertThat(settings.getZoom(), is(equalTo(1)));
 		assertThat(settings.isBackground(), is(true));
 		assertThat(settings.isAltPixelMode(), is(true));
