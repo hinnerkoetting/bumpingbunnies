@@ -17,11 +17,4 @@ public class Jumper extends FixedWorldObject {
 		return ModelConstants.ACCELERATION_X_JUMPER;
 	}
 
-	@Override
-	public void interactWithPlayerOnTop(Player p) {
-		this.mediaPlayer.start();
-		p.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_JUMPER);
-		p.setAccelerationY(0);
-		p.simulateNextStep();
-	}
 }

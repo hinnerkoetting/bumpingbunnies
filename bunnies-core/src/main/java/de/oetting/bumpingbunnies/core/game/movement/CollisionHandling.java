@@ -10,9 +10,11 @@ import de.oetting.bumpingbunnies.model.game.objects.Water;
 public class CollisionHandling {
 
 	private final MusicPlayer waterMusicPlayer;
+	private final MusicPlayer jumperMusicPlayer;
 
-	public CollisionHandling(MusicPlayer waterMusicPlayer) {
+	public CollisionHandling(MusicPlayer waterMusicPlayer, MusicPlayer jumperMusicPlayer) {
 		this.waterMusicPlayer = waterMusicPlayer;
+		this.jumperMusicPlayer = jumperMusicPlayer;
 	}
 
 	public void interactWithWater(PlayerSimulation nextStep, Player player, Water object, CollisionDetection collisionDetection) {
@@ -22,18 +24,27 @@ public class CollisionHandling {
 		}
 		player.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WATER);
 		if (isFirstTimeThePlayerHitsTheWater(player, object, collisionDetection)) {
-			object.playMusic();
+			waterMusicPlayer.start();
 		}
+	}
+
+	public void interactWithJumper(Player player, GameObject fixedObject, CollisionDetection collisionDetection) {
+		interactWith(player, fixedObject, collisionDetection);
+		GameObject updatedNextStep = player.simulateNextStep();
+		if (collisionDetection.isExactlyUnderObject(updatedNextStep, fixedObject)) {
+			handlePlayerStandingOnJumper(player);
+		}
+	}
+
+	private void handlePlayerStandingOnJumper(Player player) {
+		jumperMusicPlayer.start();
+		player.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_JUMPER);
+		player.setAccelerationY(0);
+		player.simulateNextStep();
 	}
 
 	public void interactWith(Player player, GameObject fixedObject, CollisionDetection collisionDetection) {
 		reducePlayerTooMaxSpeedToNotCollide(player, fixedObject, collisionDetection);
-
-		GameObject updatedNextStep = player.simulateNextStep();
-		if (collisionDetection.isExactlyUnderObject(updatedNextStep, fixedObject)) {
-			fixedObject.interactWithPlayerOnTop(player);
-		} else if (collisionDetection.isExactlyOverObject(updatedNextStep, fixedObject)) {
-		}
 	}
 
 	/**

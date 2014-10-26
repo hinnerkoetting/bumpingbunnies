@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game;
 
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class TestableGameObject implements GameObject {
 
@@ -35,10 +34,6 @@ public class TestableGameObject implements GameObject {
 	@Override
 	public int accelerationOnThisGround() {
 		return this.accelerationOnThisGround;
-	}
-
-	@Override
-	public void interactWithPlayerOnTop(Player p) {
 	}
 
 }

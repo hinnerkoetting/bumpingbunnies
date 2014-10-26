@@ -90,7 +90,7 @@ public class GameObjectInteractorTest {
 	}
 
 	private GameObjectInteractor createInteractor() {
-		return new GameObjectInteractor(collisionDetection, objectProvider, new CollisionHandling(mock(MusicPlayer.class)));
+		return new GameObjectInteractor(collisionDetection, objectProvider, new CollisionHandling(mock(MusicPlayer.class), mock(MusicPlayer.class)));
 	}
 
 	@Before

@@ -51,10 +51,6 @@ public class Water implements GameObjectWithImage {
 	}
 
 	@Override
-	public void interactWithPlayerOnTop(Player p) {
-	}
-
-	@Override
 	public ImageWrapper getBitmap() {
 		return this.bitmap;
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerSimulation;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
@@ -25,10 +26,18 @@ public class GameObjectInteractor {
 		// careful: next step is updated in interactWith if player collides with
 		// objects
 		interactWithPlayers(player, nextStep);
-		interactWith(player, nextStep, this.objectProvider.getAllJumper());
+		interactWithJumper(player, nextStep, this.objectProvider.getAllJumper());
 		interactWithWater(player, nextStep, this.objectProvider.getAllWaters());
 		interactWith(player, nextStep, this.objectProvider.getAllWalls());
 		interactWith(player, nextStep, this.objectProvider.getAllIcyWalls());
+	}
+
+	private void interactWithJumper(Player player, PlayerSimulation nextStep, List<Jumper> allJumper) {
+		for (Jumper object : allJumper) {
+			if (this.collisionDetection.collides(nextStep, object)) {
+				collisionHandling.interactWithJumper(player, object, collisionDetection);
+			}
+		}
 	}
 
 	private void interactWithWater(Player player, PlayerSimulation nextStep, List<Water> allWaters) {

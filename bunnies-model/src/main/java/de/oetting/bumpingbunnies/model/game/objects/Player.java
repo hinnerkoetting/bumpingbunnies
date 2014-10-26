@@ -189,10 +189,6 @@ public class Player implements GameObject {
 		return 0;
 	}
 
-	@Override
-	public void interactWithPlayerOnTop(Player p) {
-	}
-
 	public GameObject simulateNextStepX() {
 		return simulatedObject.moveNextStepX(state);
 	}

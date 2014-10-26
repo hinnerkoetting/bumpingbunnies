@@ -58,11 +58,17 @@ public class CommonGameThreadFactory {
 			LocalSettings settings) {
 		CollisionDetection collisionDetection = new CollisionDetection(world);
 		GameObjectInteractor gameObjectInteractor = new GameObjectInteractor(collisionDetection, world, new CollisionHandling(createWaterSound(
-				musicPlayerFactory, settings)));
-		return new PlayerMovementCalculationFactory(gameObjectInteractor, collisionDetection, createJumperSound(musicPlayerFactory, settings));
+				musicPlayerFactory, settings), createJumperSound(musicPlayerFactory, settings)));
+		return new PlayerMovementCalculationFactory(gameObjectInteractor, collisionDetection, createJumpSound(musicPlayerFactory, settings));
 	}
 
 	private static MusicPlayer createJumperSound(BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
+		if (settings.isPlaySounds())
+			return musicPlayerFactory.createJumper();
+		return new DummyMusicPlayer();
+	}
+
+	private static MusicPlayer createJumpSound(BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
 		if (settings.isPlaySounds())
 			return musicPlayerFactory.createNormalJump();
 		return new DummyMusicPlayer();

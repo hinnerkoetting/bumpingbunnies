@@ -41,11 +41,6 @@ public class PlayerSimulation implements GameObject {
 		throw new IllegalArgumentException("The simulated player must not interact with other players.");
 	}
 
-	@Override
-	public void interactWithPlayerOnTop(Player p) {
-		throw new IllegalArgumentException("The simulated player must not interact with other players.");
-	}
-
 	public PlayerSimulation moveNextStep(PlayerState currentPlayerState) {
 		currentPlayerState.copyContentTo(state);
 		state.moveNextStep();

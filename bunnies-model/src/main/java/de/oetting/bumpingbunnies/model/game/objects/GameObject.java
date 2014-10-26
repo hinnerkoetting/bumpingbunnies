@@ -12,6 +12,4 @@ public interface GameObject {
 
 	int accelerationOnThisGround();
 
-	void interactWithPlayerOnTop(Player p);
-
 }

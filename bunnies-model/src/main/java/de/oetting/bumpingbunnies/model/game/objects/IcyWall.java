@@ -11,8 +11,4 @@ public class IcyWall extends FixedWorldObject implements ModelConstants {
 		return ModelConstants.ACCELERATION_X_ICE;
 	}
 
-	@Override
-	public void interactWithPlayerOnTop(Player p) {
-	}
-
 }

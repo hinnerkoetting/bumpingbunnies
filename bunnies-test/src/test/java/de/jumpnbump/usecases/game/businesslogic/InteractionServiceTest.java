@@ -206,7 +206,8 @@ public class InteractionServiceTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.collisionDetection = new CollisionDetection(this.objectProvider);
-		this.interactionService = new GameObjectInteractor(this.collisionDetection, this.objectProvider, new CollisionHandling(mock(MusicPlayer.class)));
+		this.interactionService = new GameObjectInteractor(this.collisionDetection, this.objectProvider, new CollisionHandling(mock(MusicPlayer.class),
+				mock(MusicPlayer.class)));
 	}
 
 	private void givenObjectExists(Wall gameObject) {

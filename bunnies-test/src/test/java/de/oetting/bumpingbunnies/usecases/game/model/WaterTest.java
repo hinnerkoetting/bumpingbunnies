@@ -62,7 +62,7 @@ public class WaterTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		water = new Water(new Rect(), this.waterMusic);
-		this.fixture = new CollisionHandling(mock(MusicPlayer.class));
+		this.fixture = new CollisionHandling(mock(MusicPlayer.class), mock(MusicPlayer.class));
 		this.player = createOpponentPlayer();
 	}
 }
