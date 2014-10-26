@@ -9,9 +9,7 @@ public class PlayerMovementCalculationFactory {
 	private final CollisionDetection collisionDetection;
 	private final MusicPlayer jumpMusic;
 
-	public PlayerMovementCalculationFactory(GameObjectInteractor interactionService, CollisionDetection collisionDetection,
-			MusicPlayer jumpMusic) {
-		super();
+	public PlayerMovementCalculationFactory(GameObjectInteractor interactionService, CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
 		this.interactionService = interactionService;
 		this.collisionDetection = collisionDetection;
 		this.jumpMusic = jumpMusic;

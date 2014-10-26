@@ -46,7 +46,7 @@ public class PlayerSimulation implements GameObject {
 		throw new IllegalArgumentException("The simulated player must not interact with other players.");
 	}
 
-	public GameObject moveNextStep(PlayerState currentPlayerState) {
+	public PlayerSimulation moveNextStep(PlayerState currentPlayerState) {
 		currentPlayerState.copyContentTo(state);
 		state.moveNextStep();
 		return this;

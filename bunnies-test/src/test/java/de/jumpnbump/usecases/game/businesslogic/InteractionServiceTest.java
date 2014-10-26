@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.game.businesslogic;
 
 import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createPlayerAtPosition;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -12,8 +13,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
+import de.oetting.bumpingbunnies.core.game.movement.CollisionHandling;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 
@@ -31,9 +34,7 @@ public class InteractionServiceTest {
 		Player player = givenPlayerAt00WithXMovement(1);
 		givenPlayerStandsDirectlyLeftToWall(player);
 		whenPlayerInteractsWithWorld(player);
-		assertEquals(
-				"Player Movement x must be 0 after it ran into a wall on the right",
-				0, player.movementX(), 0.001);
+		assertEquals("Player Movement x must be 0 after it ran into a wall on the right", 0, player.movementX(), 0.001);
 	}
 
 	@Test
@@ -205,12 +206,10 @@ public class InteractionServiceTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.collisionDetection = new CollisionDetection(this.objectProvider);
-		this.interactionService = new GameObjectInteractor(
-				this.collisionDetection, this.objectProvider);
+		this.interactionService = new GameObjectInteractor(this.collisionDetection, this.objectProvider, new CollisionHandling(mock(MusicPlayer.class)));
 	}
 
 	private void givenObjectExists(Wall gameObject) {
-		when(this.objectProvider.getAllWalls()).thenReturn(
-				Arrays.asList(gameObject));
+		when(this.objectProvider.getAllWalls()).thenReturn(Arrays.asList(gameObject));
 	}
 }

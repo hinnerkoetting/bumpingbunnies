@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.model;
 
 import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createOpponentPlayer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -39,8 +40,7 @@ public class WaterTest {
 	}
 
 	private void givenPlayerWasNotInWaterBefore() {
-		when(this.collisionDetection.collides(this.water, this.player))
-				.thenReturn(false);
+		when(this.collisionDetection.collides(this.water, this.player)).thenReturn(false);
 	}
 
 	@Test
@@ -55,15 +55,14 @@ public class WaterTest {
 	}
 
 	private void givenPlayerWasInWaterBefore() {
-		when(this.collisionDetection.collides(this.water, this.player))
-				.thenReturn(true);
+		when(this.collisionDetection.collides(this.water, this.player)).thenReturn(true);
 	}
 
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
 		water = new Water(new Rect(), this.waterMusic);
-		this.fixture = new CollisionHandling();
+		this.fixture = new CollisionHandling(mock(MusicPlayer.class));
 		this.player = createOpponentPlayer();
 	}
 }

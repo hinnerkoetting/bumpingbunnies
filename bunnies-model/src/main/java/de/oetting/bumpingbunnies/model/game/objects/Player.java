@@ -156,7 +156,7 @@ public class Player implements GameObject {
 	/**
 	 * Careful: each new simulation will overwrite previous results
 	 */
-	public GameObject simulateNextStep() {
+	public PlayerSimulation simulateNextStep() {
 		return simulatedObject.moveNextStep(state);
 	}
 
