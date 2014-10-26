@@ -5,7 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
-import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.init.DefaultClientAccepter;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
@@ -15,9 +15,9 @@ public class BluetoothClientsAccepter implements ClientAccepter {
 
 	private final BluetoothActivater activater;
 	private final Activity origin;
-	private final DefaultConnectionEstablisher connectionEstablisher;
+	private final DefaultClientAccepter connectionEstablisher;
 
-	public BluetoothClientsAccepter(BluetoothActivater activater, Activity origin, DefaultConnectionEstablisher connectionEstablisher) {
+	public BluetoothClientsAccepter(BluetoothActivater activater, Activity origin, DefaultClientAccepter connectionEstablisher) {
 		this.activater = activater;
 		this.origin = origin;
 		this.connectionEstablisher = connectionEstablisher;

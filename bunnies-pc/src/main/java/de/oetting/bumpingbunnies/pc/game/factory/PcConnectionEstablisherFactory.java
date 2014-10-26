@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
-import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.init.DefaultClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -20,12 +20,7 @@ public class PcConnectionEstablisherFactory implements ConnectionEstablisherFact
 	@Override
 	public ClientAccepter create(AcceptsClientConnections newClientsAccepter, ServerSettings settings, ThreadErrorCallback errorCallback) {
 		SocketFactory factory = createSocketFactory(settings);
-		DefaultConnectionEstablisher rci = new DefaultConnectionEstablisher(newClientsAccepter, null/**
-		 * 
-		 * 
-		 * TODO not needed
-		 */
-		, factory, errorCallback);
+		DefaultClientAccepter rci = new DefaultClientAccepter(factory, newClientsAccepter, errorCallback);
 		return createRemotCommunication(rci, settings);
 	}
 
@@ -40,7 +35,7 @@ public class PcConnectionEstablisherFactory implements ConnectionEstablisherFact
 		}
 	}
 
-	private ClientAccepter createRemotCommunication(DefaultConnectionEstablisher rci, ServerSettings settings) {
+	private ClientAccepter createRemotCommunication(DefaultClientAccepter rci, ServerSettings settings) {
 		if (settings.getNetworkType().equals(NetworkType.WLAN)) {
 			LOGGER.info("Creating Wlan communication");
 			return rci;

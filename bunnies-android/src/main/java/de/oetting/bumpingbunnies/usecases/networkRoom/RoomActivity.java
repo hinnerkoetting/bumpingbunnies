@@ -119,7 +119,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private void switchToBluetooth() {
 		LOGGER.info("selected bluetooth");
-		this.remoteCommunication = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this, this);
+		this.remoteCommunication = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this);
 		clientAccepter = BluetoothCommunicationFactory.createClientAccepter(BluetoothAdapter.getDefaultAdapter(), this, this);
 	}
 

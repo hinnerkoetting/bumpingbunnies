@@ -10,6 +10,6 @@ public class WlanCommunicationFactory {
 
 	public static ConnectionEstablisher create(RoomActivity origin) {
 		SocketFactory socketFactory = new WlanSocketFactory();
-		return new DefaultConnectionEstablisher(origin, origin, socketFactory, origin);
+		return new DefaultConnectionEstablisher(origin, socketFactory);
 	}
 }
