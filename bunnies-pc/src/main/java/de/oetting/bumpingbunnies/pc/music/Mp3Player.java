@@ -12,21 +12,16 @@ import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.FactoryRegistry;
 
 public class Mp3Player {
-	/**
-	 * The current frame number.
-	 */
-	private int frame = 0;
 
 	/**
 	 * The MPEG audio bitstream.
 	 */
-	// javac blank final bug.
-	/* final */private Bitstream bitstream;
+	private final Bitstream bitstream;
 
 	/**
 	 * The MPEG audio decoder.
 	 */
-	/* final */private Decoder decoder;
+	private final Decoder decoder;
 
 	/**
 	 * The AudioDevice the audio samples are written to.
@@ -90,8 +85,8 @@ public class Mp3Player {
 			if (out != null) {
 				out.flush();
 				synchronized (this) {
-					// complete = (!closed);
-					// close();
+					complete = (!closed);
+					close();
 				}
 			}
 		}
