@@ -96,16 +96,15 @@ public class SocketStorage {
 		observable.addListener(observer);
 	}
 
+	public synchronized void notifyListenersAboutExistingSockets() {
+		for (MySocket socket : sockets)
+			observable.socketAdded(socket);
+	}
+
 	public static class OpponentDoesNotExist extends RuntimeException {
 
 		public OpponentDoesNotExist(ConnectionIdentifier opponent) {
 			super("Opponentidentifier = " + opponent.getIdentifier());
-		}
-	}
-
-	public synchronized void notifyListenersAboutAllSockets() {
-		for (MySocket socket : sockets) {
-			observable.socketAdded(socket);
 		}
 	}
 }

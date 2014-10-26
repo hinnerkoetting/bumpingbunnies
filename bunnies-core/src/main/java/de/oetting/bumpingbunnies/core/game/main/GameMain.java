@@ -186,9 +186,9 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	public void addSocketListener() {
 		sockets.addObserver(sendControl);
-		sockets.addObserver(this.receiveControl);
+		sockets.addObserver(receiveControl);
 		sockets.addObserver(networkSenderThread);
-		SocketStorage.getSingleton().notifyListenersAboutAllSockets();
+		sockets.notifyListenersAboutExistingSockets();
 	}
 
 }
