@@ -106,8 +106,7 @@ public class GameMainTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.sendThreads = new ArrayList<>();
-		this.fixture = new GameMain(this.sockets, new DummyMusicPlayer(), mock(NetworkPlayerStateSenderThread.class));
-		fixture.setSendControl(new NetworkMessageDistributor(mock(RemoteConnectionFactory.class)));
+		this.fixture = new GameMain(this.sockets, new DummyMusicPlayer(), mock(NetworkPlayerStateSenderThread.class), mock(NetworkMessageDistributor.class));
 		fixture.setNewClientsAccepter(this.accepter);
 		this.fixture.setWorld(new World());
 		when(this.sockets.findSocket(any(ConnectionIdentifier.class))).thenReturn(mock(MySocket.class));

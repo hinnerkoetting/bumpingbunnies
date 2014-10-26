@@ -26,7 +26,6 @@ public class NetworkPlayerStateSenderThread extends BunniesThread implements New
 		super("Send player states", errorCallback);
 		this.loop = loop;
 		this.sendStep = sendStep;
-		setDaemon(true);
 	}
 
 	@Override

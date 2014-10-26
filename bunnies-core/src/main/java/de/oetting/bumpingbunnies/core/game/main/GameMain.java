@@ -29,17 +29,18 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	private final PlayerJoinObservable playerObservable;
 	private final MusicPlayer musicPlayer;
 	private final NetworkPlayerStateSenderThread networkSendThread;
-	private NetworkMessageDistributor sendControl;
+	private final NetworkMessageDistributor sendControl;
 	private NewClientsAccepter newClientsAccepter;
 	private GameThread gameThread;
 
 	private NetworkReceiveControl receiveControl;
 	private World world;
 
-	public GameMain(SocketStorage sockets, MusicPlayer musicPlayer, NetworkPlayerStateSenderThread networkSendThread) {
+	public GameMain(SocketStorage sockets, MusicPlayer musicPlayer, NetworkPlayerStateSenderThread networkSendThread, NetworkMessageDistributor sendControl) {
 		this.sockets = sockets;
 		this.musicPlayer = musicPlayer;
 		this.networkSendThread = networkSendThread;
+		this.sendControl = sendControl;
 		this.playerObservable = new PlayerJoinObservable();
 	}
 
@@ -175,10 +176,6 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 				return p;
 		}
 		throw new IllegalArgumentException("Could not find player " + playerId);
-	}
-
-	public void setSendControl(NetworkMessageDistributor sendControl) {
-		this.sendControl = sendControl;
 	}
 
 	public void addSocketListener() {

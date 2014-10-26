@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.game.main;
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.core.configuration.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
+import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
@@ -19,10 +20,11 @@ import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 public class CommonGameMainFactory {
 
 	public static GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world,
-			BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory establisherFactory) {
+			BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory establisherFactory, NetworkMessageDistributor sendControl) {
 		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory, gameStopper);
-		GameMain main = new GameMain(SocketStorage.getSingleton(), createMusic(musicPlayerFactory, parameter.getConfiguration()), networkSendThread);
+		GameMain main = new GameMain(SocketStorage.getSingleton(), createMusic(musicPlayerFactory, parameter.getConfiguration()), networkSendThread,
+				sendControl);
 		connectionFactory.setDisconnectCallback(main);
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main, gameStopper, establisherFactory);
 		newClientsAccepter.setMain(main);

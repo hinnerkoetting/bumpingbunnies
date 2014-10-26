@@ -23,9 +23,9 @@ public class GameMainFactory {
 	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer,
 			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory) {
 
-		GameMain main = createGameMain(errorCallback, parameter, world, musicPlayerFactory, connectionEstablisherFactory);
 		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(errorCallback));
-		main.setSendControl(networkMessageDistributor);
+		GameMain main = CommonGameMainFactory.createGameMain(errorCallback, parameter, world, musicPlayerFactory, connectionEstablisherFactory,
+				networkMessageDistributor);
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), myPlayer, networkDispatcher,
 				networkMessageDistributor, main, musicPlayerFactory));
@@ -43,12 +43,6 @@ public class GameMainFactory {
 	private NetworkReceiveControl createNetworkReceiveFactory(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor networkMessageDistributor,
 			Configuration configuration, ThreadErrorCallback errorCallback, World world) {
 		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, configuration, errorCallback, world);
-	}
-
-	private GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world, BunniesMusicPlayerFactory musicPlayerFactory,
-			ConnectionEstablisherFactory establisherFactory) {
-		return CommonGameMainFactory.createGameMain(gameStopper, parameter, world, musicPlayerFactory, establisherFactory);
-
 	}
 
 	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, ThreadErrorCallback gameStopper,
