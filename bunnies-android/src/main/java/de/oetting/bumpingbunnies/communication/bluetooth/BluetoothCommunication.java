@@ -24,24 +24,14 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 	private boolean receiversRegistered;
 	private DefaultConnectionEstablisher commonBehaviour;
 	private final RoomActivity origin;
+	private final BluetoothActivater activater;
 
-	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, DefaultConnectionEstablisher commonBehaviour) {
+	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, DefaultConnectionEstablisher commonBehaviour,
+			BluetoothActivater activater) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
 		this.commonBehaviour = commonBehaviour;
-	}
-
-	@Override
-	public void startThreadToAcceptClients() {
-		LOGGER.info("Starting server");
-		boolean bluetoothWorking = checkBluetoothSettings();
-		if (bluetoothWorking) {
-			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-			this.origin.startActivity(discoverableIntent);
-			closeOpenConnections();
-			this.commonBehaviour.startThreadToAcceptClients();
-		}
+		this.activater = activater;
 	}
 
 	@Override
@@ -71,20 +61,8 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 		this.commonBehaviour.connectToServer(device);
 	}
 
-	@Override
 	public boolean activate() {
-		LOGGER.info("Activating Bluetooth");
-		if (this.mBluetoothAdapter == null) {
-			Toast makeText = Toast.makeText(this.origin, "Bluetooth not supported", Toast.LENGTH_LONG);
-			makeText.show();
-			return false;
-		} else {
-			if (!this.mBluetoothAdapter.isEnabled()) {
-				Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				this.origin.startActivityForResult(enableBtIntent, RoomActivity.REQUEST_BT_ENABLE);
-			}
-			return true;
-		}
+		return activater.activateBluetooth();
 	}
 
 	@Override

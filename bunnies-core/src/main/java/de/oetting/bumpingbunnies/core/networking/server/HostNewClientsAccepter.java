@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
@@ -33,7 +33,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostNewClientsAccepter.class);
 
 	private final NetworkBroadcaster broadcaster;
-	private final ConnectionEstablisher remoteCommunication;
+	private final ClientAccepter remoteCommunication;
 	private final World world;
 	private final ServerSettings generalSettings;
 	private final PlayerDisconnectedCallback callback;
@@ -41,7 +41,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private PlayerJoinListener mainJoinListener;
 
-	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ConnectionEstablisher remoteCommunication, World world, ServerSettings generalSettings,
+	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ClientAccepter remoteCommunication, World world, ServerSettings generalSettings,
 			PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;

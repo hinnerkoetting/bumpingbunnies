@@ -65,7 +65,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		World world = createWorld(this, parameter);
 		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new AndroidMusicPlayerFactory(this),
-				new AndroidConnectionEstablisherFactory());
+				new AndroidConnectionEstablisherFactory(this));
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation);
 		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 

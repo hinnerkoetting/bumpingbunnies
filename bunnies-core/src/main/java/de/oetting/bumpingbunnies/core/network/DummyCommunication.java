@@ -1,8 +1,9 @@
 package de.oetting.bumpingbunnies.core.network;
 
+import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 
-public class DummyCommunication implements ConnectionEstablisher {
+public class DummyCommunication implements ConnectionEstablisher, ClientAccepter {
 
 	@Override
 	public void startThreadToAcceptClients() {
@@ -14,11 +15,6 @@ public class DummyCommunication implements ConnectionEstablisher {
 
 	@Override
 	public void connectToServer(ServerDevice device) {
-	}
-
-	@Override
-	public boolean activate() {
-		return false;
 	}
 
 	@Override

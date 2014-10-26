@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class DefaultConnectionEstablisher implements ConnectionEstablisher {
+public class DefaultConnectionEstablisher implements ConnectionEstablisher, ClientAccepter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConnectionEstablisher.class);
 
@@ -53,11 +53,6 @@ public class DefaultConnectionEstablisher implements ConnectionEstablisher {
 	public void connectToServer(final ServerDevice device) {
 		connectThread = new ConnectionToServerEstablisher(serverSocketFactory.createClientSocket(device), connectsToServer);
 		connectThread.start();
-	}
-
-	@Override
-	public boolean activate() {
-		return true;
 	}
 
 	@Override

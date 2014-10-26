@@ -44,6 +44,7 @@ import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSoc
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
+import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
@@ -77,6 +78,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private BluetoothArrayAdapter listAdapter;
 
 	private ConnectionEstablisher remoteCommunication;
+	private ClientAccepter clientAccepter;
 	private RoomArrayAdapter playersAA;
 	private NetworkBroadcaster broadcastService;
 
@@ -118,6 +120,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void switchToBluetooth() {
 		LOGGER.info("selected bluetooth");
 		this.remoteCommunication = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this, this);
+		clientAccepter = BluetoothCommunicationFactory.createClientAccepter(BluetoothAdapter.getDefaultAdapter(), this, this);
 	}
 
 	private void switchToWlan() {
@@ -237,7 +240,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void startHostThread() {
 		this.playerCounter = 0;
 		int myPlayerId = getNextPlayerId();
-		this.remoteCommunication.startThreadToAcceptClients();
+		this.clientAccepter.startThreadToAcceptClients();
 		enableButtons(false);
 		createNewRoom(myPlayerId);
 		startBroadCast();
@@ -315,7 +318,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		if (socket.getConnectionIdentifier().isDirectlyConnected())
 			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
-			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
+			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(),
+					playerProperties.getPlayerId()));
 	}
 
 	private void addPlayerEntry(final RoomEntry entry) {
