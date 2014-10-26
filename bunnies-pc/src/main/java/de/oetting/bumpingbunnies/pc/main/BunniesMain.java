@@ -276,7 +276,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 	}
 
 	public void onClose() {
-		gameMain.stop();
+		gameMain.destroy();
 		goToScoreScreen();
 	}
 

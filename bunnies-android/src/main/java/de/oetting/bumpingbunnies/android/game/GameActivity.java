@@ -107,7 +107,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 
 	@Override
 	public void onThreadError() {
-		this.main.stop();
+		this.main.destroy();
 		drawThread.cancel();
 		ActivityLauncher.startResult(this, extractResult());
 	}

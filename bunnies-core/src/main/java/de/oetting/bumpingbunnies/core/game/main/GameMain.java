@@ -84,10 +84,6 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		this.musicPlayer.stopBackground();
 	}
 
-	public void stop() {
-		shutdownAllThreads();
-	}
-
 	public void sendStopMessage() {
 		for (NetworkSender rs : this.sendControl.getSendThreads()) {
 			new StopGameSender(rs).sendMessage("");
