@@ -63,7 +63,7 @@ public class Rect {
 
 	public void setCenterY(long gameY) {
 		long height = maxY - minY;
-		minX = gameY - height / 2;
-		maxX = gameY + height / 2;
+		minY = gameY - height / 2;
+		maxY = gameY + height / 2;
 	}
 }

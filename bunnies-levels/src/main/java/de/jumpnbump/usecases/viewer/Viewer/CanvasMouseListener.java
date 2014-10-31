@@ -79,19 +79,19 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 			int pixelMaxY = coordinatesCalculation.getScreenCoordinateY(selectedGameObject.maxY());
 			if (isMouseOverSelectedObject(e, selectedGameObject)) {
 				this.nextAction = new MoveAction(this.canvas, this.coordinatesCalculation);
-				if (Math.abs(e.getX() - translateToPixelX(pixelMinX)) < TOLERANCE) {
+				if (Math.abs(e.getX() - pixelMinX) < TOLERANCE) {
 					this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 					this.nextAction = new ResizeLeftAction(selectedGameObject, this.canvas, this.coordinatesCalculation);
 				}
-				if (Math.abs(e.getX() - translateToPixelX(pixelMaxX)) < TOLERANCE) {
+				if (Math.abs(e.getX() - pixelMaxX) < TOLERANCE) {
 					this.canvas.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 					this.nextAction = new ResizeRightAction(selectedGameObject, this.canvas, this.coordinatesCalculation);
 				}
-				if (Math.abs(e.getY() - translateToPixelY(pixelMinY)) < TOLERANCE) {
+				if (Math.abs(e.getY() - pixelMinY) < TOLERANCE) {
 					this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 					this.nextAction = new ResizeDownAction(selectedGameObject, this.canvas, this.coordinatesCalculation);
 				}
-				if (Math.abs(e.getY() - translateToPixelY(pixelMaxY)) < TOLERANCE) {
+				if (Math.abs(e.getY() - pixelMaxY) < TOLERANCE) {
 					this.canvas.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 					this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.canvas, this.coordinatesCalculation);
 				}
@@ -107,8 +107,7 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 		int pixelMaxX = translateToPixelX(selectedGameObject.maxX());
 		int pixelMinY = translateToPixelY(selectedGameObject.minY());
 		int pixelMaxY = translateToPixelY(selectedGameObject.maxY());
-		return (e.getX() + TOLERANCE > translateToPixelX(pixelMinX) && e.getX() - TOLERANCE < translateToPixelX(pixelMaxX)
-				&& e.getY() - TOLERANCE < translateToPixelY(pixelMinY) && e.getY() + TOLERANCE > translateToPixelY(pixelMaxY));
+		return (e.getX() + TOLERANCE > pixelMinX && e.getX() - TOLERANCE < pixelMaxX && e.getY() - TOLERANCE < pixelMinY && e.getY() + TOLERANCE > pixelMaxY);
 	}
 
 	private void resetAction() {
