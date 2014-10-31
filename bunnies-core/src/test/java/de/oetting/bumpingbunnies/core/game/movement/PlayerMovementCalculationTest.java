@@ -13,7 +13,6 @@ import org.junit.experimental.categories.Category;
 import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Rect;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
@@ -100,7 +99,7 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 	}
 
 	private void givenPlayerIsStandingInWater() {
-		when(this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.player)).thenReturn(new Water(new Rect()));
+		when(this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.player)).thenReturn(new Water(0, 0, 0, 0, 0));
 	}
 
 	private void givenPlayerIsStandingOnGround() {

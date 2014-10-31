@@ -3,8 +3,8 @@ package de.jumpnbump.usecases.viewer.Viewer.actions;
 import java.awt.event.MouseEvent;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
-import de.jumpnbump.usecases.viewer.Viewer.CoordinatesCalculation;
-import de.jumpnbump.usecases.viewer.model.GameObject;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 
 public class MoveAction implements MouseAction {
 
@@ -21,8 +21,8 @@ public class MoveAction implements MouseAction {
 	public void newMousePosition(MouseEvent event) {
 		GameObject selectedGameObject = this.canvas.getSelectedGameObject();
 		if (selectedGameObject != null) {
-			int gameX = this.coordinatesCalculation.translateToGameX(event.getX());
-			int gameY = this.coordinatesCalculation.translateToGameY(event.getY(), this.canvas.getHeight());
+			long gameX = this.coordinatesCalculation.getGameCoordinateX(event.getX());
+			long gameY = this.coordinatesCalculation.getGameCoordinateY(event.getY());
 			selectedGameObject.setCenterX(gameX);
 			selectedGameObject.setCenterY(gameY);
 			this.canvas.repaint();

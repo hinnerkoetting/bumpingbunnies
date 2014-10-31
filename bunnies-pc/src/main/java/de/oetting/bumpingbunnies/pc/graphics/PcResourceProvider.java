@@ -16,7 +16,7 @@ public class PcResourceProvider implements ResourceProvider {
 	@Override
 	public ImageWrapper readBitmap(String fileName) {
 		Image image = new Image(imageReader.readAsStream(fileName));
-		return new ImageWrapper(image);
+		return new ImageWrapper(image, fileName);
 	}
 
 }

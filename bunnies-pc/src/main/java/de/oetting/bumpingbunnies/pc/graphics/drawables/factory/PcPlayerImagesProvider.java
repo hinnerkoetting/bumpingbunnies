@@ -45,7 +45,7 @@ public class PcPlayerImagesProvider implements PlayerImagesProvider {
 	private List<ImageWrapper> load(List<InputStream> images, int width, int heigth) {
 		List<ImageWrapper> wrappers = new ArrayList<ImageWrapper>(images.size());
 		for (InputStream is : images) {
-			wrappers.add(new ImageWrapper(new Image(is, width, heigth, false, true)));
+			wrappers.add(new ImageWrapper(new Image(is, width, heigth, false, true), ""));
 		}
 		return wrappers;
 	}

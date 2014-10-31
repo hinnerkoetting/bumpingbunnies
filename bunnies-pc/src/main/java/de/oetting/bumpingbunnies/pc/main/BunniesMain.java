@@ -181,7 +181,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 	}
 
 	private void buildGame(Canvas canvas, Player myPlayer) {
-		World world = createWorld(this);
+		World world = createWorld();
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		CoordinatesCalculation coordinatesCalculation = new YCoordinateInverterCalculation(new AbsoluteCoordinatesCalculation((int) canvas.getWidth(),
 				(int) canvas.getHeight(), worldProperties));
@@ -230,9 +230,9 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
 	}
 
-	private World createWorld(ThreadErrorCallback errorCallback) {
+	private World createWorld() {
 		XmlReader reader = new ClasspathXmlreader(World.class.getResourceAsStream("/worlds/classic.xml"));
-		return new PcWorldObjectsParser(errorCallback).build(new PcResourceProvider(), reader);
+		return new PcWorldObjectsParser().build(new PcResourceProvider(), reader);
 	}
 
 	private static void startApplication() {

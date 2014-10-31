@@ -4,17 +4,18 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
-import de.jumpnbump.usecases.viewer.Viewer.CoordinatesCalculation;
-import de.jumpnbump.usecases.viewer.model.GameObject;
-import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public class SelectAction implements MouseAction {
 
 	private final MyCanvas canvas;
-	private final ObjectContainer container;
+	private final World container;
 	private final CoordinatesCalculation coordinatesCalculation;
 
-	public SelectAction(MyCanvas canvas, ObjectContainer container, CoordinatesCalculation coordinatesCalculation) {
+	public SelectAction(MyCanvas canvas, World container, CoordinatesCalculation coordinatesCalculation) {
 		super();
 		this.canvas = canvas;
 		this.container = container;
@@ -23,8 +24,8 @@ public class SelectAction implements MouseAction {
 
 	@Override
 	public void newMousePosition(MouseEvent e) {
-		long gameX = this.coordinatesCalculation.translateToGameX((e.getX()));
-		long gameY = this.coordinatesCalculation.translateToGameY((e.getY()), this.canvas.getHeight());
+		long gameX = this.coordinatesCalculation.getGameCoordinateX((e.getX()));
+		long gameY = this.coordinatesCalculation.getGameCoordinateY((e.getY()));
 		GameObject go = findGameObject(gameX, gameY);
 		this.canvas.setSelectedObject(go);
 		this.canvas.repaint();
@@ -32,7 +33,7 @@ public class SelectAction implements MouseAction {
 	}
 
 	private GameObject findGameObject(long gameX, long gameY) {
-		List<GameObject> allObjects = this.container.allObjects();
+		List<GameObjectWithImage> allObjects = this.container.getAllObjects();
 		for (GameObject go : allObjects) {
 			if (go.minX() < gameX && go.maxX() > gameX && go.minY() < gameY && go.maxY() > gameY) {
 				return go;

@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import de.jumpnbump.usecases.viewer.model.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 
 public class SpawnpointRender implements ListCellRenderer<SpawnPoint> {
 
@@ -18,8 +18,7 @@ public class SpawnpointRender implements ListCellRenderer<SpawnPoint> {
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends SpawnPoint> list, SpawnPoint value, int index, boolean isSelected,
-			boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends SpawnPoint> list, SpawnPoint value, int index, boolean isSelected, boolean cellHasFocus) {
 		this.label.setText(String.format("[%d, %d]", value.getX(), value.getY()));
 		if (isSelected) {
 			this.label.setBackground(list.getSelectionBackground());

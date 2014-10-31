@@ -12,4 +12,18 @@ public interface GameObject {
 
 	int accelerationOnThisGround();
 
+	void setCenterX(long gameX);
+
+	void setCenterY(long gameY);
+
+	void setMinY(long newBottomY);
+
+	void setMinX(long newLeft);
+
+	int id();
+
+	void setMaxX(long newRight);
+
+	void setMaxY(long newTopY);
+
 }

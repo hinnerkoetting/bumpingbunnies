@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 public class ImageFromViewExtractor {
 
 	public ImageWrapper extractToWrapper(ImageView imageView) {
-		return new ImageWrapper(extract(imageView));
+		return new ImageWrapper(extract(imageView), "");
 	}
 
 	public Image extract(ImageView imageView) {

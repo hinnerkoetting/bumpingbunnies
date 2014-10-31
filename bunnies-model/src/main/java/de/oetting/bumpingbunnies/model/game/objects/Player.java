@@ -309,4 +309,24 @@ public class Player implements GameObject {
 		state.setJumpingButtonPressed(isJumping);
 	}
 
+	@Override
+	public void setMinY(long newBottomY) {
+		state.setCenterY(newBottomY + halfHeight);
+	}
+
+	@Override
+	public void setMinX(long newLeft) {
+		state.setCenterX(newLeft + halfWidth);
+	}
+
+	@Override
+	public void setMaxX(long newRight) {
+		state.setCenterX(newRight - halfWidth);
+	}
+
+	@Override
+	public void setMaxY(long newTopY) {
+		state.setCenterY(newTopY - halfHeight);
+	}
+
 }

@@ -15,6 +15,6 @@ public class AndroidBitmapReader implements BitmapReader {
 
 	@Override
 	public ImageWrapper readBitmap(String filename) {
-		return new ImageWrapper(BitmapFactory.decodeStream(imageReader.readAsStream(filename)));
+		return new ImageWrapper(BitmapFactory.decodeStream(imageReader.readAsStream(filename)), filename);
 	}
 }

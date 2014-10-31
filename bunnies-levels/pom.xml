@@ -47,4 +47,14 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencies>
+		<dependency>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+			<artifactId>bunnies-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+			<artifactId>bunnies-pc</artifactId>
+		</dependency>
+	</dependencies>
 </project>

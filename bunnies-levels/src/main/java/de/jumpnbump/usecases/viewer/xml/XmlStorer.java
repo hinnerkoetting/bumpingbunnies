@@ -13,20 +13,21 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import de.jumpnbump.usecases.viewer.model.Background;
-import de.jumpnbump.usecases.viewer.model.GameObject;
-import de.jumpnbump.usecases.viewer.model.IcyWall;
-import de.jumpnbump.usecases.viewer.model.Jumper;
-import de.jumpnbump.usecases.viewer.model.ModelConstants;
-import de.jumpnbump.usecases.viewer.model.SpawnPoint;
-import de.jumpnbump.usecases.viewer.model.Wall;
-import de.jumpnbump.usecases.viewer.model.Water;
+import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.Background;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
+import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.Wall;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class XmlStorer {
 
-	private final ObjectContainer container;
+	private final World container;
 
-	public XmlStorer(ObjectContainer container) {
+	public XmlStorer(World container) {
 		super();
 		this.container = container;
 	}
@@ -81,7 +82,7 @@ public class XmlStorer {
 
 	private org.w3c.dom.Element createWalls(Document doc) {
 		Element walls = doc.createElement(XmlConstants.WALLS);
-		for (Wall w : this.container.getWalls()) {
+		for (Wall w : this.container.getAllWalls()) {
 			Element wall = createGameObjectElement(doc, w, XmlConstants.WALL);
 			walls.appendChild(wall);
 		}
@@ -90,7 +91,7 @@ public class XmlStorer {
 
 	private Element createIceWalls(Document doc) {
 		Element walls = doc.createElement(XmlConstants.ICEWALLS);
-		for (IcyWall w : this.container.getIceWalls()) {
+		for (IcyWall w : this.container.getAllIcyWalls()) {
 			Element wall = createGameObjectElement(doc, w, XmlConstants.ICEWALL);
 			walls.appendChild(wall);
 		}
@@ -99,7 +100,7 @@ public class XmlStorer {
 
 	private Element createJumpers(Document doc) {
 		Element walls = doc.createElement(XmlConstants.JUMPERS);
-		for (Jumper j : this.container.getJumpers()) {
+		for (Jumper j : this.container.getAllJumper()) {
 			Element jumper = createGameObjectElement(doc, j, XmlConstants.JUMPER);
 			walls.appendChild(jumper);
 		}
@@ -117,20 +118,20 @@ public class XmlStorer {
 
 	private Element createWaters(Document doc) {
 		Element waters = doc.createElement(XmlConstants.WATERS);
-		for (Water w : this.container.getWaters()) {
+		for (Water w : this.container.getAllWaters()) {
 			Element waterElement = createGameObjectElement(doc, w, XmlConstants.WATER);
 			waters.appendChild(waterElement);
 		}
 		return waters;
 	}
 
-	private Element createGameObjectElement(Document doc, GameObject go, String name) {
+	private Element createGameObjectElement(Document doc, GameObjectWithImage go, String name) {
 		Element element = doc.createElement(name);
 		element.setAttribute(XmlConstants.MIN_X, Double.toString((double) go.minX() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MAX_X, Double.toString((double) go.maxX() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MIN_Y, Double.toString((double) go.minY() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MAX_Y, Double.toString((double) go.maxY() / ModelConstants.MAX_VALUE));
-		if (go.hasImage()) {
+		if (go.getBitmap() != null) {
 			element.setAttribute(XmlConstants.image, go.getImageKey());
 		}
 		return element;

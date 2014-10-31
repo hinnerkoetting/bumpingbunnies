@@ -59,4 +59,39 @@ public class PlayerSimulation implements GameObject {
 		return this;
 	}
 
+	@Override
+	public void setCenterX(long gameX) {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public void setCenterY(long gameY) {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public void setMinY(long newBottomY) {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public void setMinX(long newLeft) {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public int id() {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public void setMaxX(long newRight) {
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public void setMaxY(long newTopY) {
+		throw new IllegalArgumentException();
+	}
+
 }

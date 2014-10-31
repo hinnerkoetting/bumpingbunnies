@@ -9,7 +9,7 @@ public class MirrorBitmapResizer implements ImageResizer {
 
 	@Override
 	public ImageWrapper resize(ImageWrapper original, int targetWidth, int targetHeight) {
-		return new ImageWrapper(resize((Bitmap) original.getBitmap(), targetWidth, targetHeight));
+		return new ImageWrapper(resize((Bitmap) original.getBitmap(), targetWidth, targetHeight), original.getImageKey());
 	}
 
 	public Bitmap resize(Bitmap original, int targetWidth, int targetHeigth) {

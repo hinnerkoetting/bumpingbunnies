@@ -8,10 +8,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.game.objects.Background;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
-import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
@@ -28,6 +29,7 @@ public class World implements ObjectProvider {
 	private List<Player> allPlayer;
 	private List<SpawnPoint> allSpawnPoints;
 	private List<Water> allWaters;
+	private List<Background> backgrounds;
 
 	public World() {
 		super();
@@ -38,6 +40,7 @@ public class World implements ObjectProvider {
 		this.allJumpers = new LinkedList<Jumper>();
 		this.allWaters = new LinkedList<Water>();
 		this.allSpawnPoints = new ArrayList<SpawnPoint>();
+		this.backgrounds = new LinkedList<Background>();
 	}
 
 	public void addToAllObjects() {
@@ -92,6 +95,10 @@ public class World implements ObjectProvider {
 	@Override
 	public List<Water> getAllWaters() {
 		return this.allWaters;
+	}
+
+	public List<Background> getBackgrounds() {
+		return backgrounds;
 	}
 
 	public int getNextPlayerId() {
@@ -162,6 +169,11 @@ public class World implements ObjectProvider {
 			}
 		}
 		throw new IllegalArgumentException("No player on this connection exists " + owner);
+	}
+
+	public void replaceBackgrounds(List<Background> parseBackgrounds) {
+		this.backgrounds.clear();
+		backgrounds.addAll(parseBackgrounds);
 	}
 
 }

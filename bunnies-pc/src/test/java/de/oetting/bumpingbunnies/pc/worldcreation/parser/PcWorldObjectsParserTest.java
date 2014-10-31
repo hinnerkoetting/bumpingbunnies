@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.pc.worldcreation.parser;
 
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -9,7 +8,6 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
-import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
@@ -21,7 +19,7 @@ public class PcWorldObjectsParserTest {
 	public void build_classicWorld_hasAllValuesFilled() {
 		ResourceProvider provider = new PcResourceProvider();
 		XmlReader reader = new ClasspathXmlreader(getClass().getResourceAsStream("/test.xml"));
-		World world = new PcWorldObjectsParser(mock(ThreadErrorCallback.class)).build(provider, reader);
+		World world = new PcWorldObjectsParser().build(provider, reader);
 		assertThat(world, hasNoEmptyList());
 	}
 

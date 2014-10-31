@@ -14,7 +14,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
-import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.WorldFactory;
 import de.oetting.bumpingbunnies.core.worldCreation.XmlRectToObjectConverter;
@@ -37,7 +36,7 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 	private WorldProperties worldProperties;
 	private ResourceProvider resourceProvider;
 
-	public PcWorldObjectsParser(ThreadErrorCallback errorCallback) {
+	public PcWorldObjectsParser() {
 		this.state = new XmlWorldBuilderState();
 		worldProperties = new WorldProperties();
 	}

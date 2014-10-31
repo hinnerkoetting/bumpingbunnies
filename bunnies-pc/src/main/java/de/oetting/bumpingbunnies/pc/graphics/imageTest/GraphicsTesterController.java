@@ -31,7 +31,7 @@ public class GraphicsTesterController implements Initializable {
 		if ((int) color != color) {
 			throw new IllegalArgumentException("Number is too big");
 		}
-		ImageWrapper coloredImage = new PcImagesColoror().colorImage(new ImageWrapper(sourceImage), (int) color);
+		ImageWrapper coloredImage = new PcImagesColoror().colorImage(new ImageWrapper(sourceImage, ""), (int) color);
 		imageView.setImage((Image) coloredImage.getBitmap());
 	}
 }

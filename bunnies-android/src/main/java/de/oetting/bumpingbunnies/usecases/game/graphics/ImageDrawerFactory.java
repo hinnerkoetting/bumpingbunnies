@@ -10,7 +10,7 @@ public class ImageDrawerFactory {
 
 	public static ImageDrawer create(Bitmap bitmap, GameObjectWithColor gameObject, int screenWidth, int screenHeight) {
 		SimpleBitmapResizer resizer = new SimpleBitmapResizer();
-		ImageWrapper wrapper = new ImageWrapper(bitmap);
+		ImageWrapper wrapper = new ImageWrapper(bitmap, "");
 		ImageWrapper resizedImage = resizer.resize(wrapper, screenWidth, screenHeight);
 		return new ImageDrawer(resizedImage, gameObject);
 	}

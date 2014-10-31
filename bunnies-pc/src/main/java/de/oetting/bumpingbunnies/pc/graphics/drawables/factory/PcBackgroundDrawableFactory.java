@@ -11,7 +11,7 @@ public class PcBackgroundDrawableFactory implements BackgroundDrawableFactory {
 	@Override
 	public BackgroundDrawer create(int screenWidth, int screenHeight) {
 		Image image = new Image(new BackgroundReader().readBackground(), screenWidth, screenHeight, false, true);
-		return new BackgroundDrawer(new ImageWrapper(image), true);
+		return new BackgroundDrawer(new ImageWrapper(image, ""), true);
 	}
 
 }

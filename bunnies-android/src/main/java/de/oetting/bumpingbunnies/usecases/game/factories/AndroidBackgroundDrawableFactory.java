@@ -20,6 +20,6 @@ public class AndroidBackgroundDrawableFactory implements BackgroundDrawableFacto
 	public BackgroundDrawer create(int screenWidth, int screenHeight) {
 		Bitmap background = BitmapFactory.decodeStream(new BackgroundReader().readBackground());
 		Bitmap resizedImage = new SimpleBitmapResizer().resize(background, screenWidth, screenHeight);
-		return new BackgroundDrawer(new ImageWrapper(resizedImage), this.drawBackground);
+		return new BackgroundDrawer(new ImageWrapper(resizedImage, ""), this.drawBackground);
 	}
 }

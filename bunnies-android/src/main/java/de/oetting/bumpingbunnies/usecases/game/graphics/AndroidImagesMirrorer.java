@@ -13,7 +13,7 @@ public class AndroidImagesMirrorer implements ImageMirroror {
 		Matrix mirror = new Matrix();
 		mirror.preScale(-1.0f, 1.0f);
 		Bitmap mirroredBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mirror, false);
-		return new ImageWrapper(mirroredBitmap);
+		return new ImageWrapper(mirroredBitmap, wrapper.getImageKey());
 	}
 
 }

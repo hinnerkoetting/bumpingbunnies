@@ -54,4 +54,16 @@ public class Rect {
 	public Rect clone() {
 		return new Rect(minX, maxX, minY, maxY);
 	}
+
+	public void setCenterX(long gameX) {
+		long width = maxX - minX;
+		minX = gameX - width / 2;
+		maxX = gameX + width / 2;
+	}
+
+	public void setCenterY(long gameY) {
+		long height = maxY - minY;
+		minX = gameY - height / 2;
+		maxX = gameY + height / 2;
+	}
 }

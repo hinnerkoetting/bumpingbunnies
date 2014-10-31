@@ -8,7 +8,7 @@ public class AndroidImagesColoror implements ImagesColorer {
 
 	@Override
 	public ImageWrapper colorImage(ImageWrapper image, int color) {
-		return new ImageWrapper(GrayScaleToColorConverter.convertToColor((Bitmap) image.getBitmap(), color));
+		return new ImageWrapper(GrayScaleToColorConverter.convertToColor((Bitmap) image.getBitmap(), color), image.getImageKey());
 	}
 
 }

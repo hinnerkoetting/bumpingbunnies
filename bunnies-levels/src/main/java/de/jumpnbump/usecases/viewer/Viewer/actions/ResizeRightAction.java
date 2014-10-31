@@ -3,8 +3,8 @@ package de.jumpnbump.usecases.viewer.Viewer.actions;
 import java.awt.event.MouseEvent;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
-import de.jumpnbump.usecases.viewer.Viewer.CoordinatesCalculation;
-import de.jumpnbump.usecases.viewer.model.GameObject;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 
 public class ResizeRightAction implements MouseAction {
 
@@ -21,7 +21,7 @@ public class ResizeRightAction implements MouseAction {
 
 	@Override
 	public void newMousePosition(MouseEvent event) {
-		int newRight = this.coordinatesCalculation.translateToGameX(event.getX());
+		int newRight = this.coordinatesCalculation.getGameCoordinateX(event.getX());
 		if (newRight > this.selectedObject.minX()) {
 			this.selectedObject.setMaxX(newRight);
 		}

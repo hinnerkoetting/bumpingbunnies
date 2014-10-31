@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.core.worldCreation;
 
+import de.oetting.bumpingbunnies.model.color.Color;
+import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
@@ -27,7 +29,8 @@ public class WallFactory {
 	}
 
 	public static Water createWater(long x, long y, long maxX, long maxY) {
-		Water water = new Water(x, y, maxX, maxY);
+		int id = IdCounter.getNextId();
+		Water water = new Water(id, x, y, maxX, maxY);
 		return water;
 	}
 
@@ -56,5 +59,16 @@ public class WallFactory {
 		int id = IdCounter.getNextId();
 		Jumper jumper = new Jumper(id, x, y, maxX, maxY);
 		return jumper;
+	}
+
+	public static Background createBackgroundFromDouble(double x, double y, double maxX, double maxY, WorldProperties properties) {
+		return createBackground((int) (x * properties.getWorldWidth()), (int) (y * properties.getWorldHeight()), (int) (maxX * properties.getWorldWidth()),
+				(int) (maxY * properties.getWorldHeight()));
+	}
+
+	public static Background createBackground(long x, long y, long maxX, long maxY) {
+		int id = IdCounter.getNextId();
+		Background background = new Background(id, x, y, maxX, maxY, Color.BLACK);
+		return background;
 	}
 }

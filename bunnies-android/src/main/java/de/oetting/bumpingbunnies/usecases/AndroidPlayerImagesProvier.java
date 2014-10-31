@@ -50,7 +50,7 @@ public class AndroidPlayerImagesProvier implements PlayerImagesProvider {
 		List<ImageWrapper> wrappers = new ArrayList<ImageWrapper>(images.size());
 		for (InputStream is : images) {
 			Bitmap bitmap = BitmapFactory.decodeStream(is);
-			wrappers.add(new ImageWrapper(imageResizer.resize(bitmap, width, heigth)));
+			wrappers.add(new ImageWrapper(imageResizer.resize(bitmap, width, heigth), ""));
 		}
 		return wrappers;
 	}

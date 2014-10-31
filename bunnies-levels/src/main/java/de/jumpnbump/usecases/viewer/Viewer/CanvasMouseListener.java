@@ -13,24 +13,28 @@ import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeLeftAction;
 import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeRightAction;
 import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeTopMouseAction;
 import de.jumpnbump.usecases.viewer.Viewer.actions.SelectAction;
-import de.jumpnbump.usecases.viewer.model.GameObject;
-import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
 public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
 	private static final int TOLERANCE = 5;
-	private final ObjectContainer container;
+	private final World container;
 	private final MyCanvas canvas;
 	private final ViewerPanel viewerPanel;
 	private MouseAction nextAction;
 	private final CoordinatesCalculation coordinatesCalculation;
 
-	public CanvasMouseListener(ObjectContainer container, MyCanvas canvas, ViewerPanel viewerPanel) {
+	public CanvasMouseListener(World container, MyCanvas canvas, ViewerPanel viewerPanel) {
 		super();
 		this.container = container;
 		this.canvas = canvas;
 		this.viewerPanel = viewerPanel;
-		this.coordinatesCalculation = new CoordinatesCalculation(canvas);
+		WorldProperties properties = new WorldProperties();
+		this.coordinatesCalculation = new AbsoluteCoordinatesCalculation(canvas.getWidth(), canvas.getHeight(), properties);
 		resetAction();
 	}
 
@@ -69,10 +73,10 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 		GameObject selectedGameObject = this.canvas.getSelectedGameObject();
 		if (selectedGameObject != null) {
 
-			int pixelMinX = selectedGameObject.minX();
-			int pixelMaxX = selectedGameObject.maxX();
-			int pixelMinY = selectedGameObject.minY();
-			int pixelMaxY = selectedGameObject.maxY();
+			int pixelMinX = coordinatesCalculation.getScreenCoordinateX(selectedGameObject.minX());
+			int pixelMaxX = coordinatesCalculation.getScreenCoordinateX(selectedGameObject.maxX());
+			int pixelMinY = coordinatesCalculation.getScreenCoordinateY(selectedGameObject.minY());
+			int pixelMaxY = coordinatesCalculation.getScreenCoordinateY(selectedGameObject.maxY());
 			if (isMouseOverSelectedObject(e, selectedGameObject)) {
 				this.nextAction = new MoveAction(this.canvas, this.coordinatesCalculation);
 				if (Math.abs(e.getX() - translateToPixelX(pixelMinX)) < TOLERANCE) {
@@ -99,10 +103,10 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	}
 
 	private boolean isMouseOverSelectedObject(MouseEvent e, GameObject selectedGameObject) {
-		int pixelMinX = selectedGameObject.minX();
-		int pixelMaxX = selectedGameObject.maxX();
-		int pixelMinY = selectedGameObject.minY();
-		int pixelMaxY = selectedGameObject.maxY();
+		int pixelMinX = translateToPixelX(selectedGameObject.minX());
+		int pixelMaxX = translateToPixelX(selectedGameObject.maxX());
+		int pixelMinY = translateToPixelY(selectedGameObject.minY());
+		int pixelMaxY = translateToPixelY(selectedGameObject.maxY());
 		return (e.getX() + TOLERANCE > translateToPixelX(pixelMinX) && e.getX() - TOLERANCE < translateToPixelX(pixelMaxX)
 				&& e.getY() - TOLERANCE < translateToPixelY(pixelMinY) && e.getY() + TOLERANCE > translateToPixelY(pixelMaxY));
 	}
@@ -112,12 +116,12 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 		this.nextAction = new SelectAction(this.canvas, this.container, this.coordinatesCalculation);
 	}
 
-	private int translateToPixelX(int gameX) {
-		return this.coordinatesCalculation.calculatePixelX(gameX);
+	private int translateToPixelX(long gameX) {
+		return this.coordinatesCalculation.getScreenCoordinateX(gameX);
 	}
 
-	private int translateToPixelY(int gameY) {
-		return (this.coordinatesCalculation.calculatePixelY(gameY, (this.canvas.getHeight())));
+	private int translateToPixelY(long gameY) {
+		return (this.coordinatesCalculation.getScreenCoordinateY(gameY));
 	}
 
 }

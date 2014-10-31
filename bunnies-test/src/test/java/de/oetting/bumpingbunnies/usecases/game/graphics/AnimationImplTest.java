@@ -32,7 +32,7 @@ public class AnimationImplTest {
 	private List<ImageWrapper> createNumberOfPictures(int number) {
 		List<ImageWrapper> bitmaps = new ArrayList<>();
 		for (int i = 0; i < number; i++) {
-			ImageWrapper bitmap = new ImageWrapper(Bitmap.createBitmap(0, 0, null));
+			ImageWrapper bitmap = new ImageWrapper(Bitmap.createBitmap(0, 0, null), "");
 			bitmaps.add(bitmap);
 		}
 		return bitmaps;

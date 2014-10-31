@@ -28,17 +28,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
-import de.jumpnbump.usecases.viewer.model.Background;
-import de.jumpnbump.usecases.viewer.model.GameObject;
-import de.jumpnbump.usecases.viewer.model.IcyWall;
-import de.jumpnbump.usecases.viewer.model.Jumper;
-import de.jumpnbump.usecases.viewer.model.ModelConstants;
-import de.jumpnbump.usecases.viewer.model.SpawnPoint;
-import de.jumpnbump.usecases.viewer.model.Wall;
-import de.jumpnbump.usecases.viewer.model.Water;
-import de.jumpnbump.usecases.viewer.xml.ObjectContainer;
 import de.jumpnbump.usecases.viewer.xml.XmlBuilder;
 import de.jumpnbump.usecases.viewer.xml.XmlStorer;
+import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.Background;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
+import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
+import de.oetting.bumpingbunnies.model.game.objects.Wall;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class ViewerPanel extends JPanel {
 
@@ -46,7 +47,7 @@ public class ViewerPanel extends JPanel {
 	private MyCanvas myCanvas;
 	private final XmlBuilder builder;
 	private String lastFile;
-	private ObjectContainer model;
+	private World model;
 	private JList<Wall> wall;
 	private JList<IcyWall> icyWallList;
 	private JList<Jumper> jumpersList;
@@ -61,7 +62,7 @@ public class ViewerPanel extends JPanel {
 
 	public ViewerPanel() {
 		this.builder = new XmlBuilder();
-		this.model = new ObjectContainer();
+		model = new World();
 	}
 
 	public void build() {
@@ -157,7 +158,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void round() {
-		List<GameObject> allObjects = this.model.allObjects();
+		List<GameObjectWithImage> allObjects = this.model.getAllObjects();
 		for (GameObject go : allObjects) {
 			round(go);
 		}
@@ -249,7 +250,7 @@ public class ViewerPanel extends JPanel {
 
 	private void setWallModel() {
 		final MyListModel<Wall> defaultListModel = new MyListModel<>();
-		for (Wall w : this.model.getWalls()) {
+		for (Wall w : this.model.getAllWalls()) {
 			defaultListModel.addElement(w);
 		}
 		this.wall.setCellRenderer(new GameObjectRenderer());
@@ -265,7 +266,7 @@ public class ViewerPanel extends JPanel {
 
 	private void setIcyWallModel() {
 		MyListModel<IcyWall> defaultListModel = new MyListModel<>();
-		for (IcyWall w : this.model.getIceWalls()) {
+		for (IcyWall w : this.model.getAllIcyWalls()) {
 			defaultListModel.addElement(w);
 		}
 		this.icyWallList.setCellRenderer(new GameObjectRenderer());
@@ -281,7 +282,7 @@ public class ViewerPanel extends JPanel {
 
 	private void setJumperModel() {
 		MyListModel<Jumper> defaultListModel = new MyListModel<>();
-		for (Jumper w : this.model.getJumpers()) {
+		for (Jumper w : this.model.getAllJumper()) {
 			defaultListModel.addElement(w);
 		}
 		this.jumpersList.setCellRenderer(new GameObjectRenderer());
@@ -297,7 +298,7 @@ public class ViewerPanel extends JPanel {
 
 	private void setWaterModel() {
 		MyListModel<Water> defaultListModel = new MyListModel<>();
-		for (Water w : this.model.getWaters()) {
+		for (Water w : this.model.getAllWaters()) {
 			defaultListModel.addElement(w);
 		}
 		this.watersList.setCellRenderer(new GameObjectRenderer());
@@ -364,7 +365,7 @@ public class ViewerPanel extends JPanel {
 
 	private void displayFile() {
 		parsexml();
-		this.myCanvas.setObjectContainer(this.model);
+		this.myCanvas.setWorld(this.model);
 		setWallModel();
 		setIcyWallModel();
 		setJumperModel();

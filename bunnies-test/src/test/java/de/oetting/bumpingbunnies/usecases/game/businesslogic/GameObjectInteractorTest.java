@@ -53,7 +53,7 @@ public class GameObjectInteractorTest {
 	}
 
 	private void givenWaterIsBelowPlayer() {
-		Water water = new Water(-ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT, ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT / 2);
+		Water water = new Water(-1, -ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT, ModelConstants.PLAYER_WIDTH, -ModelConstants.PLAYER_HEIGHT / 2);
 		when(objectProvider.getAllWaters()).thenReturn(Arrays.asList(water));
 	}
 

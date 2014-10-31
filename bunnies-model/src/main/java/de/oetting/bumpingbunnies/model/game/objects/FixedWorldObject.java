@@ -57,4 +57,41 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	public ImageWrapper getBitmap() {
 		return this.image;
 	}
+
+	public void applyImage(ImageWrapper extractImage) {
+		this.image = extractImage;
+	}
+
+	@Override
+	public void setCenterX(long gameX) {
+		rect.setCenterX(gameX);
+	}
+
+	@Override
+	public void setCenterY(long gameY) {
+		rect.setCenterY(gameY);
+	}
+
+	public void setMinX(long minX) {
+		rect.setMinX(minX);
+	}
+
+	public void setMaxX(long maxX) {
+		rect.setMaxX(maxX);
+	}
+
+	public void setMinY(long minY) {
+		rect.setMinY(minY);
+	}
+
+	public void setMaxY(long maxY) {
+		rect.setMaxY(maxY);
+	}
+
+	@Override
+	public String getImageKey() {
+		if (image != null)
+			return image.getImageKey();
+		return null;
+	}
 }
