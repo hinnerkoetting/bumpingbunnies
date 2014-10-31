@@ -11,7 +11,6 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalcu
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
-import de.oetting.bumpingbunnies.model.game.objects.Wall;
 
 public class SelectAction implements MouseAction {
 
@@ -130,16 +129,17 @@ public class SelectAction implements MouseAction {
 	private void move(MouseEvent event, MoveAction action) {
 		GameObject go = findObject(event);
 		if (go != null) {
-			if (container.getAllWalls().contains(go)) {
-				List<Wall> allWalls = container.getAllWalls();
-				action.moveObject(go, allWalls);
-				int index = allWalls.indexOf(go);
-				if (index < allWalls.size() - 1) {
-					Wall wall = allWalls.remove(index);
-					allWalls.add(index + 1, wall);
-				}
-			}
+			moveIfContains(go, container.getAllIcyWalls(), action);
+			moveIfContains(go, container.getAllJumper(), action);
+			moveIfContains(go, container.getAllWalls(), action);
+			moveIfContains(go, container.getAllWaters(), action);
+			moveIfContains(go, container.getBackgrounds(), action);
 		}
+	}
+
+	public <S extends GameObject> void moveIfContains(GameObject object, List<S> list, MoveAction action) {
+		if (list.contains(object))
+			action.moveObject(object, list);
 	}
 
 	public static interface MoveAction {
