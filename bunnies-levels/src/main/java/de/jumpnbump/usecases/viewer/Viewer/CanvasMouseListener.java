@@ -44,7 +44,10 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		this.nextAction.newMousePosition(e);
+		if (e.getButton() == MouseEvent.BUTTON1)
+			this.nextAction.newMousePosition(e);
+		else
+			this.nextAction.rightMouseClick(e);
 	}
 
 	@Override

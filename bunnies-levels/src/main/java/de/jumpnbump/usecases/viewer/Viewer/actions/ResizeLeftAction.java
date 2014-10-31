@@ -27,4 +27,8 @@ public class ResizeLeftAction implements MouseAction {
 		}
 		this.canvas.repaint();
 	}
+
+	@Override
+	public void rightMouseClick(MouseEvent event) {
+	}
 }

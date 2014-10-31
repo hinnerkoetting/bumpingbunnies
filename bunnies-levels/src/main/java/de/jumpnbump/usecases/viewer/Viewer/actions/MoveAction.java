@@ -29,4 +29,8 @@ public class MoveAction implements MouseAction {
 		}
 	}
 
+	@Override
+	public void rightMouseClick(MouseEvent event) {
+	}
+
 }

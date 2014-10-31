@@ -27,4 +27,8 @@ public class ResizeDownAction implements MouseAction {
 		}
 		this.canvas.repaint();
 	}
+
+	@Override
+	public void rightMouseClick(MouseEvent event) {
+	}
 }
