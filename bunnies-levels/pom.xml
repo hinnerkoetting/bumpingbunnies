@@ -23,25 +23,41 @@
 				<version>2.5</version>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4.1</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>Main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
 				<executions>
 					<execution>
+						<id>jar-with-dependencies</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>de.jumpnbump.usecases.viewer.Main</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<finalName>bunny-levels</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
+					</execution>
+					<execution>
+						<id>assemble-zip</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/assembly/src.xml</descriptor>
+							</descriptors>
+							<finalName>bunny-levels</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

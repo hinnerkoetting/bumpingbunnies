@@ -86,10 +86,12 @@ public class SelectAction implements MouseAction {
 
 	private void itemUp(MouseEvent event) {
 		move(event, (object, list) -> moveUp(object, list));
+		canvas.repaint();
 	}
 
 	private void itemDown(MouseEvent event) {
 		move(event, (object, list) -> moveDown(object, list));
+		canvas.repaint();
 	}
 
 	private <S> void moveUp(GameObject object, List<S> list) {
@@ -110,10 +112,12 @@ public class SelectAction implements MouseAction {
 
 	private void itemToFront(MouseEvent event) {
 		move(event, (object, list) -> moveToFront(object, list));
+		canvas.repaint();
 	}
 
 	private void itemToBack(MouseEvent event) {
 		move(event, (object, list) -> moveToBack(object, list));
+		canvas.repaint();
 	}
 
 	private <S> void moveToBack(GameObject object, List<S> list) {
