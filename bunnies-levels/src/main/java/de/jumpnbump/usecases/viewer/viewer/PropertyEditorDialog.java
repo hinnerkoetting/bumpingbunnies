@@ -74,7 +74,7 @@ public class PropertyEditorDialog {
 	}
 
 	private String toDoubleText(long value) {
-		return String.format("%.4f", (float) value / ModelConstants.STANDARD_WORLD_SIZE);
+		return String.format("%.4f", (double) value / ModelConstants.STANDARD_WORLD_SIZE);
 	}
 
 	private Component createControlButtonPanel() {

@@ -24,7 +24,7 @@ public class Rect {
 	}
 
 	public void setMinX(long minX) {
-		validate(minX, minY, maxY, maxY);
+		validate(minX, minY, maxX, maxY);
 		this.minX = minX;
 	}
 
