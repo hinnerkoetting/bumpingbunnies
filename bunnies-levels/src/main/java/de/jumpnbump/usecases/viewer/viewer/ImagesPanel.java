@@ -4,10 +4,10 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Map.Entry;
-import java.util.Properties;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -28,17 +28,23 @@ public class ImagesPanel extends JPanel {
 	}
 
 	public void build() {
-		Properties props = loadProperties();
-		for (Entry<Object, Object> prop : props.entrySet()) {
-			addImage(prop);
+		Path directory = Paths.get("files");
+		try {
+			Files.newDirectoryStream(directory, (path) -> isImage(path)).forEach((path) -> addImage(path));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
-	private void addImage(Entry<Object, Object> prop) {
-		final String key = (String) prop.getKey();
-		BufferedImage image = readImage(key);
+	private boolean isImage(Path path) {
+		// TODO why is toString() necessary?
+		return !Files.isDirectory(path) && path.getFileName().toString().endsWith(".png");
+	}
+
+	private void addImage(Path path) {
+		BufferedImage image = readImage(path);
 		Image scaledImage = scaleImage(image);
-		final ImagePanel picLabel = new ImagePanel(image, new ImageIcon(scaledImage), (String) prop.getKey());
+		final ImagePanel picLabel = new ImagePanel(image, new ImageIcon(scaledImage), path.getFileName().toString());
 		add(picLabel);
 		picLabel.addMouseListener(new MouseListener() {
 
@@ -50,7 +56,7 @@ public class ImagesPanel extends JPanel {
 			public void mousePressed(MouseEvent arg0) {
 				GameObjectWithImage selectedGameObject = ImagesPanel.this.canvas.getSelectedGameObject();
 				if (selectedGameObject != null) {
-					ImageWrapper wrapper = new ImageWrapper(picLabel.getOriginal(), key);
+					ImageWrapper wrapper = new ImageWrapper(picLabel.getOriginal(), path.getFileName().toString());
 					selectedGameObject.applyImage(wrapper);
 
 					ImagesPanel.this.canvas.repaint();
@@ -71,21 +77,12 @@ public class ImagesPanel extends JPanel {
 		});
 	}
 
-	private BufferedImage readImage(String resource) {
-		return ImageReader.readImage(resource + ".png");
+	private BufferedImage readImage(Path path) {
+		return ImageReader.readImage(path);
 	}
 
 	private Image scaleImage(BufferedImage in) {
 		return in.getScaledInstance(100, 100, 0);
 	}
 
-	private Properties loadProperties() {
-		Properties prop = new Properties();
-		try {
-			prop.load(new FileInputStream("files/config"));
-			return prop;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
 }
