@@ -98,12 +98,17 @@ public class ViewerPanel extends JPanel {
 		group.add(createIceButton());
 		group.add(createWaterButton());
 		group.add(createJumperButton());
+		group.add(createBackgroundButton());
 		Enumeration<AbstractButton> enumeration = group.getElements();
 		while (enumeration.hasMoreElements()) {
 			box.add(enumeration.nextElement());
 			box.add(Box.createVerticalStrut(10));
 		}
 		return box;
+	}
+
+	private AbstractButton createBackgroundButton() {
+		return new JToggleButton(readIcon("/images/background.png"));
 	}
 
 	private AbstractButton createTrashButton() {
