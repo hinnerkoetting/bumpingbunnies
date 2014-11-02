@@ -24,6 +24,7 @@ public class Viewer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1200, 900);
 		frame.add(panel, BorderLayout.CENTER);
+		panel.setFrame(frame);
 
 		return frame;
 	}

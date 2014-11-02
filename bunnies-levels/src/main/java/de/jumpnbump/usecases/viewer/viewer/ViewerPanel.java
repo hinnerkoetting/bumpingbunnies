@@ -64,6 +64,7 @@ public class ViewerPanel extends JPanel {
 	private JList<SpawnPoint> spawns;
 	private JList<Background> backgrounds;
 	private EditingModePanel editingModePanel;
+	private JFrame frame;
 
 	public ViewerPanel(String file) {
 		this.lastFile = file;
@@ -260,6 +261,7 @@ public class ViewerPanel extends JPanel {
 	private JList<Wall> createWallList() {
 		this.wall = new JList<>();
 		setWallModel();
+		configureList(wall);
 		return this.wall;
 	}
 
@@ -269,14 +271,19 @@ public class ViewerPanel extends JPanel {
 
 	public <S extends GameObject> void setObjectsModel(List<S> objects, JList<S> list) {
 		final MyListModel<S> defaultListModel = new MyListModel<>(objects);
-		list.setCellRenderer(new GameObjectRenderer());
 		list.setModel(defaultListModel);
+	}
+
+	private <S extends GameObject> void configureList(JList<S> list) {
+		list.setCellRenderer(new GameObjectRenderer());
 		list.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
+		list.addMouseListener(new ListMouseAdapter(this));
 	}
 
 	private JList<IcyWall> createIceWallList() {
 		this.icyWallList = new JList<>();
 		setIcyWallModel();
+		configureList(icyWallList);
 		return this.icyWallList;
 	}
 
@@ -287,6 +294,7 @@ public class ViewerPanel extends JPanel {
 	private JList<Jumper> createJumperList() {
 		this.jumpersList = new JList<>();
 		setJumperModel();
+		configureList(jumpersList);
 		return this.jumpersList;
 	}
 
@@ -297,6 +305,7 @@ public class ViewerPanel extends JPanel {
 	private JList<Water> createWatersList() {
 		this.watersList = new JList<>();
 		setWaterModel();
+		configureList(watersList);
 		return this.watersList;
 	}
 
@@ -313,6 +322,7 @@ public class ViewerPanel extends JPanel {
 	private JList<Background> createBackgroundsList() {
 		this.backgrounds = new JList<>();
 		setBackgroundsModel();
+		configureList(backgrounds);
 		return this.backgrounds;
 	}
 
@@ -433,6 +443,18 @@ public class ViewerPanel extends JPanel {
 	private void refreshList(JList<?> list) {
 		MyListModel<?> lModel = (MyListModel<?>) list.getModel();
 		lModel.fireContentsChanged(this, 0, lModel.getSize() - 1);
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void repaintCanvas() {
+		myCanvas.repaint();
 	}
 
 }
