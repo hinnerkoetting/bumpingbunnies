@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.util.Optional;
 
+import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
 import de.jumpnbump.usecases.viewer.viewer.actions.MouseAction;
 import de.jumpnbump.usecases.viewer.viewer.actions.MoveAction;
 import de.jumpnbump.usecases.viewer.viewer.actions.ResizeDownAction;
@@ -11,10 +12,8 @@ import de.jumpnbump.usecases.viewer.viewer.actions.ResizeLeftAction;
 import de.jumpnbump.usecases.viewer.viewer.actions.ResizeRightAction;
 import de.jumpnbump.usecases.viewer.viewer.actions.ResizeTopMouseAction;
 import de.jumpnbump.usecases.viewer.viewer.actions.SelectAction;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
-import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
 public class SelectModeMouseListener implements ModeMouseListener {
 
@@ -25,8 +24,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	public SelectModeMouseListener(SelectionModeProvider provider) {
 		this.provider = provider;
-		WorldProperties properties = new WorldProperties();
-		this.coordinatesCalculation = new AbsoluteCoordinatesCalculation(provider.getCanvas().getWidth(), provider.getCanvas().getHeight(), properties);
+		this.coordinatesCalculation = provider.createCoordinatesCalculation();
 		resetAction();
 	}
 
@@ -105,7 +103,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	private void resetAction() {
 		provider.setCanvasCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		this.nextAction = new SelectAction(this.coordinatesCalculation, provider);
+		this.nextAction = new SelectAction(this.coordinatesCalculation, provider, new CanvasObjectsFinder(provider));
 	}
 
 	private int translateToPixelX(long gameX) {

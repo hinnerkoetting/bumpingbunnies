@@ -26,7 +26,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
+import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.DefaultSelectionModeProvider;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.DeleteModeMouseListener;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.ModeMouseListener;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectModeMouseListener;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
@@ -75,7 +77,7 @@ public class ViewerPanel extends JPanel {
 		add(new JScrollPane(this.myCanvas), BorderLayout.CENTER);
 		add(createRightBox(), BorderLayout.LINE_END);
 		add(createBottomImages(), BorderLayout.PAGE_END);
-		addMouseListener();
+		activateNewEditingMode();
 	}
 
 	private BorderLayout createLayout() {
@@ -86,7 +88,15 @@ public class ViewerPanel extends JPanel {
 
 	private Component createModeButtons() {
 		editingModePanel = new EditingModePanel();
+		editingModePanel.addModeClickListener((event) -> activateNewEditingMode());
 		return editingModePanel;
+	}
+
+	private void activateNewEditingMode() {
+		removeExistingMouseListeners();
+		ModeMouseListener ml = findCurrentModeMouseListener();
+		this.myCanvas.addMouseListener(ml);
+		this.myCanvas.addMouseMotionListener(ml);
 	}
 
 	private JPanel createBottomImages() {
@@ -336,9 +346,8 @@ public class ViewerPanel extends JPanel {
 		setWaterModel();
 		setSpawnModel();
 		setBackgroundsModel();
-		addMouseListener();
+		activateNewEditingMode();
 		this.myCanvas.repaint();
-
 	}
 
 	private void loadFilecontent() {
@@ -364,18 +373,12 @@ public class ViewerPanel extends JPanel {
 		return button;
 	}
 
-	private void addMouseListener() {
-		removeExistingMouseListeners();
-		ModeMouseListener ml = findCurrentModeMouseListener();
-		this.myCanvas.addMouseListener(ml);
-		this.myCanvas.addMouseMotionListener(ml);
-	}
-
 	private ModeMouseListener findCurrentModeMouseListener() {
 		if (editingModePanel.isSelectModeActive())
 			return new SelectModeMouseListener(createSelectionModeProvider());
-		else
-			return new SelectModeMouseListener(createSelectionModeProvider());
+		else if (editingModePanel.isDeleteModeActive())
+			return new DeleteModeMouseListener(createSelectionModeProvider(), new CanvasObjectsFinder(createSelectionModeProvider()));
+		return new SelectModeMouseListener(createSelectionModeProvider());
 	}
 
 	private SelectionModeProvider createSelectionModeProvider() {

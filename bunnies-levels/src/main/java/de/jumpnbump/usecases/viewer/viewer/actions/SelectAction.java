@@ -17,15 +17,17 @@ public class SelectAction implements MouseAction {
 
 	private final CoordinatesCalculation coordinatesCalculation;
 	private final SelectionModeProvider provider;
+	private final CanvasObjectsFinder objectsFinder;
 
-	public SelectAction(CoordinatesCalculation coordinatesCalculation, SelectionModeProvider provider) {
+	public SelectAction(CoordinatesCalculation coordinatesCalculation, SelectionModeProvider provider, CanvasObjectsFinder objectsFinder) {
 		this.coordinatesCalculation = coordinatesCalculation;
 		this.provider = provider;
+		this.objectsFinder = objectsFinder;
 	}
 
 	@Override
 	public void newMousePosition(MouseEvent e) {
-		Optional<GameObjectWithImage> go = findObject(e);
+		Optional<? extends GameObject> go = objectsFinder.findClickedObject(e);
 		provider.setSelectedObject(go);
 	}
 

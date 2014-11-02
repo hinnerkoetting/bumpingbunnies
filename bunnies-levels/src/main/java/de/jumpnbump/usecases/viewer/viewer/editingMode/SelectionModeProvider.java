@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.util.Collection;
 import java.util.Optional;
 
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
@@ -21,9 +22,11 @@ public interface SelectionModeProvider {
 
 	void setCanvasCursor(Cursor cursor);
 
-	void setSelectedObject(Optional<? extends GameObjectWithImage> go);
+	void setSelectedObject(Optional<? extends GameObject> go);
 
 	Collection<GameObjectWithImage> getAllDrawingObjects();
 
 	Component getCanvas();
+
+	CoordinatesCalculation createCoordinatesCalculation();
 }

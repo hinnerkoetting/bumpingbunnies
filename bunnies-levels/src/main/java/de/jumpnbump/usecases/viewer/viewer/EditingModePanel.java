@@ -1,7 +1,9 @@
 package de.jumpnbump.usecases.viewer.viewer;
 
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
@@ -20,10 +22,11 @@ public class EditingModePanel extends Box {
 	private JToggleButton iceWallButton;
 	private JToggleButton waterButton;
 	private JToggleButton jumperButton;
+	private ButtonGroup group;
 
 	public EditingModePanel() {
 		super(BoxLayout.Y_AXIS);
-		ButtonGroup group = new ButtonGroup();
+		group = new ButtonGroup();
 		group.add(createPointerButton());
 		group.add(createTrashButton());
 		group.add(createWallButton());
@@ -31,11 +34,12 @@ public class EditingModePanel extends Box {
 		group.add(createWaterButton());
 		group.add(createJumperButton());
 		group.add(createBackgroundButton());
-		Enumeration<AbstractButton> enumeration = group.getElements();
-		while (enumeration.hasMoreElements()) {
-			add(enumeration.nextElement());
-			add(Box.createVerticalStrut(10));
-		}
+		forEachButton((button) -> addButtonToPanel(button));
+	}
+
+	private void addButtonToPanel(AbstractButton button) {
+		add(button);
+		add(Box.createVerticalStrut(10));
 	}
 
 	private AbstractButton createBackgroundButton() {
@@ -83,6 +87,21 @@ public class EditingModePanel extends Box {
 
 	public boolean isSelectModeActive() {
 		return selectButton.isSelected();
+	}
+
+	public boolean isDeleteModeActive() {
+		return deleteButton.isSelected();
+	}
+
+	public void addModeClickListener(ActionListener listener) {
+		forEachButton((button) -> button.addActionListener(listener));
+	}
+
+	private void forEachButton(Consumer<AbstractButton> consumer) {
+		Enumeration<AbstractButton> enumeration = group.getElements();
+		while (enumeration.hasMoreElements()) {
+			consumer.accept(enumeration.nextElement());
+		}
 	}
 
 }

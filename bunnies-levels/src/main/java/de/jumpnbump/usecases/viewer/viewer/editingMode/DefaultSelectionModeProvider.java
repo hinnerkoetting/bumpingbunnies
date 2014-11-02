@@ -7,9 +7,12 @@ import java.util.Optional;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.viewer.ViewerPanel;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
 public class DefaultSelectionModeProvider implements SelectionModeProvider {
 
@@ -50,12 +53,13 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	}
 
 	@Override
-	public void setSelectedObject(Optional<? extends GameObjectWithImage> go) {
+	public void setSelectedObject(Optional<? extends GameObject> go) {
 		if (go.isPresent())
 			canvas.setSelectedObject(go.get());
 		else
 			canvas.setSelectedObject(null);
-
+		repaintCanvas();
+		refreshTables();
 	}
 
 	@Override
@@ -66,6 +70,12 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	@Override
 	public Component getCanvas() {
 		return canvas;
+	}
+
+	@Override
+	public CoordinatesCalculation createCoordinatesCalculation() {
+		WorldProperties properties = new WorldProperties();
+		return new AbsoluteCoordinatesCalculation(canvas.getWidth(), canvas.getHeight(), properties);
 	}
 
 }
