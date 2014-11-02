@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
-public class WallFactory {
+public class ObjectsFactory {
 
 	public static Wall createWall(long x, long y) {
 		int id = IdCounter.getNextId();
@@ -71,4 +71,5 @@ public class WallFactory {
 		Background background = new Background(id, x, y, maxX, maxY, Color.BLACK);
 		return background;
 	}
+
 }

@@ -12,6 +12,7 @@ public class WorldFactory {
 		world.replaceAllJumpers(state.getAllJumper());
 		world.replaceAllWaters(state.getWaters());
 		world.replaceAllSpawnPoints(state.getSpawnPoints());
+		world.replaceBackgrounds(state.getBackground());
 		world.addToAllObjects();
 		return world;
 	}

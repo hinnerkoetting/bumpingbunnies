@@ -12,6 +12,8 @@ public interface XmlConstants {
 	String SPAWNPOINT = "spawnpoint";
 	String WATER = "water";
 	String WATERS = "waters";
+	String BACKGROUND = "background";
+	String BACKGROUNDS = "backgrounds";
 
 	String MIN_X = "minX";
 	String MIN_Y = "minY";

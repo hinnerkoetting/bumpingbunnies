@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
-import de.oetting.bumpingbunnies.core.worldCreation.WallFactory;
+import de.oetting.bumpingbunnies.core.worldCreation.ObjectsFactory;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 
 public class CollisionDetectionTest {
@@ -145,7 +145,7 @@ public class CollisionDetectionTest {
 	}
 
 	private GameObject createObject(int x, int y, int maxX, int maxY) {
-		return WallFactory.createWall(x, y, maxX, maxY);
+		return ObjectsFactory.createWall(x, y, maxX, maxY);
 	}
 
 	@Before

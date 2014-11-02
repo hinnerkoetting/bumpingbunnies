@@ -16,6 +16,7 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -84,9 +85,17 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 			readSpawnpoint(parser);
 		} else if (XmlConstants.WATER.equals(name)) {
 			readWater(parser);
+		} else if (XmlConstants.BACKGROUND.equals(name)) {
+			readBackground(parser);
 		} else {
 			LOGGER.debug("Found tag %s", name);
 		}
+	}
+
+	private void readBackground(XmlPullParser parser) {
+		XmlRect rect = readRect(parser);
+		Background background = XmlRectToObjectConverter.createBackground(rect, this.worldProperties);
+		this.state.getBackground().add(background);
 	}
 
 	private void readWater(XmlPullParser parser) {

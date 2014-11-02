@@ -20,6 +20,7 @@ import de.oetting.bumpingbunnies.core.worldCreation.XmlRectToObjectConverter;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
+import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -66,6 +67,7 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 		addAllJumper(document);
 		addAllWater(document);
 		addAllSpawns(document);
+		addAllBackgrounds(document);
 	}
 
 	private void addAllIceWalls(Document document) {
@@ -90,6 +92,11 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 
 	private void addAllSpawns(Document document) {
 		state.getSpawnPoints().addAll(readAllSpawns(document.getElementsByTagName(XmlConstants.SPAWNPOINT)));
+	}
+
+	private void addAllBackgrounds(Document document) {
+		ObjectFactory<Background> factory = (xmlRect, properties) -> XmlRectToObjectConverter.createBackground(xmlRect, properties);
+		state.getBackground().addAll(readAllElements(document.getElementsByTagName(XmlConstants.BACKGROUND), factory));
 	}
 
 	private <S extends GameObjectWithImage> List<S> readAllElements(NodeList nodeList, ObjectFactory<S> factory) {

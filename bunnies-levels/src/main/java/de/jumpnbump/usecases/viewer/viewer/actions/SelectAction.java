@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.viewer.viewer.actions;
 
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -27,27 +28,26 @@ public class SelectAction implements MouseAction {
 
 	@Override
 	public void newMousePosition(MouseEvent e) {
-		GameObject go = findObject(e);
-		this.canvas.setSelectedObject(go);
+		Optional<GameObjectWithImage> go = findObject(e);
+		if (go.isPresent())
+			this.canvas.setSelectedObject(go.get());
+		else
+			this.canvas.setSelectedObject(null);
 		this.canvas.repaint();
-		this.canvas.setSelectedObject(go);
 	}
 
-	private GameObject findObject(MouseEvent e) {
+	private Optional<GameObjectWithImage> findObject(MouseEvent e) {
 		long gameX = this.coordinatesCalculation.getGameCoordinateX((e.getX()));
 		long gameY = this.coordinatesCalculation.getGameCoordinateY((e.getY()));
-		GameObject go = findGameObject(gameX, gameY);
-		return go;
+		return findGameObject(gameX, gameY);
 	}
 
-	private GameObject findGameObject(long gameX, long gameY) {
-		List<GameObjectWithImage> allObjects = this.container.getAllObjects();
-		for (GameObject go : allObjects) {
-			if (go.minX() < gameX && go.maxX() > gameX && go.minY() < gameY && go.maxY() > gameY) {
-				return go;
-			}
-		}
-		return null;
+	private Optional<GameObjectWithImage> findGameObject(long gameX, long gameY) {
+		return this.container.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY)).findFirst();
+	}
+
+	private boolean isSelected(GameObjectWithImage go, long gameX, long gameY) {
+		return go.minX() < gameX && go.maxX() > gameX && go.minY() < gameY && go.maxY() > gameY;
 	}
 
 	@Override
@@ -131,14 +131,16 @@ public class SelectAction implements MouseAction {
 	}
 
 	private void move(MouseEvent event, MoveAction action) {
-		GameObject go = findObject(event);
-		if (go != null) {
-			moveIfContains(go, container.getAllIcyWalls(), action);
-			moveIfContains(go, container.getAllJumper(), action);
-			moveIfContains(go, container.getAllWalls(), action);
-			moveIfContains(go, container.getAllWaters(), action);
-			moveIfContains(go, container.getBackgrounds(), action);
-		}
+		Optional<GameObjectWithImage> go = findObject(event);
+		go.ifPresent((object) -> moveExistingObject(object, action));
+	}
+
+	private void moveExistingObject(GameObject go, MoveAction action) {
+		moveIfContains(go, container.getAllIcyWalls(), action);
+		moveIfContains(go, container.getAllJumper(), action);
+		moveIfContains(go, container.getAllWalls(), action);
+		moveIfContains(go, container.getAllWaters(), action);
+		moveIfContains(go, container.getBackgrounds(), action);
 	}
 
 	public <S extends GameObject> void moveIfContains(GameObject object, List<S> list, MoveAction action) {

@@ -16,11 +16,15 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 
 	@Override
 	public int getGameCoordinateX(float touchX) {
+		if (width == 0)
+			return 0;
 		return (int) (this.properties.getWorldWidth() / this.width * touchX);
 	}
 
 	@Override
 	public int getGameCoordinateY(float touchY) {
+		if (height == 0)
+			return 0;
 		return (int) (this.properties.getWorldHeight() - this.properties.getWorldHeight() / this.height * touchY);
 	}
 

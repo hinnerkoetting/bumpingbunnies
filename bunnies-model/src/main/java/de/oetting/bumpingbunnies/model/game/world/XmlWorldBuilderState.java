@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.model.game.world;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
@@ -16,6 +17,7 @@ public class XmlWorldBuilderState {
 	private List<Jumper> allJumper = new LinkedList<Jumper>();
 	private List<SpawnPoint> spawnPoints = new LinkedList<SpawnPoint>();
 	private List<Water> waters = new LinkedList<Water>();
+	private List<Background> background = new LinkedList<Background>();
 
 	public List<Wall> getAllWalls() {
 		return this.allWalls;
@@ -55,6 +57,14 @@ public class XmlWorldBuilderState {
 
 	public void setWaters(List<Water> waters) {
 		this.waters = waters;
+	}
+
+	public List<Background> getBackground() {
+		return background;
+	}
+
+	public void setBackground(List<Background> background) {
+		this.background = background;
 	}
 
 }

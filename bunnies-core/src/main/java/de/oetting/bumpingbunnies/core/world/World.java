@@ -23,6 +23,7 @@ public class World implements ObjectProvider {
 	private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
 
 	private List<GameObjectWithImage> allObjects;
+	private List<GameObjectWithImage> allDrawingObjects;
 	private List<Wall> allWalls;
 	private List<IcyWall> allIcyWalls;
 	private List<Jumper> allJumpers;
@@ -32,9 +33,9 @@ public class World implements ObjectProvider {
 	private List<Background> backgrounds;
 
 	public World() {
-		super();
 		this.allPlayer = new CopyOnWriteArrayList<Player>();
 		this.allObjects = new LinkedList<GameObjectWithImage>();
+		this.allDrawingObjects = new LinkedList<GameObjectWithImage>();
 		this.allWalls = new ArrayList<Wall>();
 		this.allIcyWalls = new LinkedList<IcyWall>();
 		this.allJumpers = new LinkedList<Jumper>();
@@ -44,10 +45,16 @@ public class World implements ObjectProvider {
 	}
 
 	public void addToAllObjects() {
-		this.allObjects.addAll(this.allWalls);
-		this.allObjects.addAll(this.allIcyWalls);
-		this.allObjects.addAll(this.allJumpers);
-		this.allObjects.addAll(this.allWaters);
+		addCollidingObjects(allObjects);
+		addCollidingObjects(allDrawingObjects);
+		allDrawingObjects.addAll(backgrounds);
+	}
+
+	private void addCollidingObjects(List<? super GameObjectWithImage> addToList) {
+		addToList.addAll(this.allWalls);
+		addToList.addAll(this.allIcyWalls);
+		addToList.addAll(this.allJumpers);
+		addToList.addAll(this.allWaters);
 	}
 
 	@Override
@@ -176,4 +183,7 @@ public class World implements ObjectProvider {
 		backgrounds.addAll(parseBackgrounds);
 	}
 
+	public List<GameObjectWithImage> getAllDrawingObjects() {
+		return allDrawingObjects;
+	}
 }
