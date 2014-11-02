@@ -12,16 +12,10 @@ import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Enumeration;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -30,9 +24,12 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.DefaultSelectionModeProvider;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.ModeMouseListener;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectModeMouseListener;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
 import de.jumpnbump.usecases.viewer.xml.XmlBuilder;
 import de.jumpnbump.usecases.viewer.xml.XmlStorer;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -58,6 +55,7 @@ public class ViewerPanel extends JPanel {
 	private JList<Water> watersList;
 	private JList<SpawnPoint> spawns;
 	private JList<Background> backgrounds;
+	private EditingModePanel editingModePanel;
 
 	public ViewerPanel(String file) {
 		this.lastFile = file;
@@ -87,57 +85,8 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private Component createModeButtons() {
-		Box box = Box.createVerticalBox();
-		ButtonGroup group = new ButtonGroup();
-		group.add(createPointerButton());
-		group.add(createTrashButton());
-		group.add(createWallButton());
-		group.add(createIceButton());
-		group.add(createWaterButton());
-		group.add(createJumperButton());
-		group.add(createBackgroundButton());
-		Enumeration<AbstractButton> enumeration = group.getElements();
-		while (enumeration.hasMoreElements()) {
-			box.add(enumeration.nextElement());
-			box.add(Box.createVerticalStrut(10));
-		}
-		return box;
-	}
-
-	private AbstractButton createBackgroundButton() {
-		return new JToggleButton(readIcon("/images/background.png"));
-	}
-
-	private AbstractButton createTrashButton() {
-		return new JToggleButton(readIcon("/images/trash.png"));
-	}
-
-	private AbstractButton createWallButton() {
-		return new JToggleButton(readIcon("/images/wall.png"));
-	}
-
-	private AbstractButton createIceButton() {
-		return new JToggleButton(readIcon("/images/ice.png"));
-	}
-
-	private AbstractButton createWaterButton() {
-		return new JToggleButton(readIcon("/images/water.png"));
-	}
-
-	private AbstractButton createJumperButton() {
-		return new JToggleButton(readIcon("/images/jumper.png"));
-	}
-
-	private AbstractButton createPointerButton() {
-		return new JToggleButton(readIcon("/images/pointer.png"));
-	}
-
-	private ImageIcon readIcon(String resource) {
-		try {
-			return new ImageIcon(ImageIO.read(getClass().getResourceAsStream(resource)));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		editingModePanel = new EditingModePanel();
+		return editingModePanel;
 	}
 
 	private JPanel createBottomImages() {
@@ -417,9 +366,20 @@ public class ViewerPanel extends JPanel {
 
 	private void addMouseListener() {
 		removeExistingMouseListeners();
-		SelectModeMouseListener ml = new SelectModeMouseListener(this.model, this.myCanvas, this);
+		ModeMouseListener ml = findCurrentModeMouseListener();
 		this.myCanvas.addMouseListener(ml);
 		this.myCanvas.addMouseMotionListener(ml);
+	}
+
+	private ModeMouseListener findCurrentModeMouseListener() {
+		if (editingModePanel.isSelectModeActive())
+			return new SelectModeMouseListener(createSelectionModeProvider());
+		else
+			return new SelectModeMouseListener(createSelectionModeProvider());
+	}
+
+	private SelectionModeProvider createSelectionModeProvider() {
+		return new DefaultSelectionModeProvider(model, myCanvas, this);
 	}
 
 	private void removeExistingMouseListeners() {

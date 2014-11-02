@@ -7,7 +7,7 @@ import java.util.Optional;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import de.jumpnbump.usecases.viewer.MyCanvas;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
@@ -15,25 +15,18 @@ import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public class SelectAction implements MouseAction {
 
-	private final MyCanvas canvas;
-	private final World container;
 	private final CoordinatesCalculation coordinatesCalculation;
+	private final SelectionModeProvider provider;
 
-	public SelectAction(MyCanvas canvas, World container, CoordinatesCalculation coordinatesCalculation) {
-		super();
-		this.canvas = canvas;
-		this.container = container;
+	public SelectAction(CoordinatesCalculation coordinatesCalculation, SelectionModeProvider provider) {
 		this.coordinatesCalculation = coordinatesCalculation;
+		this.provider = provider;
 	}
 
 	@Override
 	public void newMousePosition(MouseEvent e) {
 		Optional<GameObjectWithImage> go = findObject(e);
-		if (go.isPresent())
-			this.canvas.setSelectedObject(go.get());
-		else
-			this.canvas.setSelectedObject(null);
-		this.canvas.repaint();
+		provider.setSelectedObject(go);
 	}
 
 	private Optional<GameObjectWithImage> findObject(MouseEvent e) {
@@ -43,7 +36,7 @@ public class SelectAction implements MouseAction {
 	}
 
 	private Optional<GameObjectWithImage> findGameObject(long gameX, long gameY) {
-		return this.container.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY)).findFirst();
+		return this.provider.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY)).findFirst();
 	}
 
 	private boolean isSelected(GameObjectWithImage go, long gameX, long gameY) {
@@ -57,7 +50,7 @@ public class SelectAction implements MouseAction {
 		menu.add(createOneUpItem(event));
 		menu.add(createOneDownItem(event));
 		menu.add(createToBackItem(event));
-		menu.show(canvas, event.getX(), event.getY());
+		menu.show(provider.getCanvas(), event.getX(), event.getY());
 	}
 
 	private JMenuItem createOneUpItem(MouseEvent event) {
@@ -86,12 +79,10 @@ public class SelectAction implements MouseAction {
 
 	private void itemUp(MouseEvent event) {
 		move(event, (object, list) -> moveUp(object, list));
-		canvas.repaint();
 	}
 
 	private void itemDown(MouseEvent event) {
 		move(event, (object, list) -> moveDown(object, list));
-		canvas.repaint();
 	}
 
 	private <S> void moveUp(GameObject object, List<S> list) {
@@ -112,12 +103,10 @@ public class SelectAction implements MouseAction {
 
 	private void itemToFront(MouseEvent event) {
 		move(event, (object, list) -> moveToFront(object, list));
-		canvas.repaint();
 	}
 
 	private void itemToBack(MouseEvent event) {
 		move(event, (object, list) -> moveToBack(object, list));
-		canvas.repaint();
 	}
 
 	private <S> void moveToBack(GameObject object, List<S> list) {
@@ -133,9 +122,11 @@ public class SelectAction implements MouseAction {
 	private void move(MouseEvent event, MoveAction action) {
 		Optional<GameObjectWithImage> go = findObject(event);
 		go.ifPresent((object) -> moveExistingObject(object, action));
+		provider.repaintCanvas();
 	}
 
 	private void moveExistingObject(GameObject go, MoveAction action) {
+		World container = provider.getWorld();
 		moveIfContains(go, container.getAllIcyWalls(), action);
 		moveIfContains(go, container.getAllJumper(), action);
 		moveIfContains(go, container.getAllWalls(), action);
