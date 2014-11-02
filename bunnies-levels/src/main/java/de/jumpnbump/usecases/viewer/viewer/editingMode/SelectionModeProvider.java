@@ -29,4 +29,6 @@ public interface SelectionModeProvider {
 	Component getCanvas();
 
 	CoordinatesCalculation createCoordinatesCalculation();
+
+	void refreshAll();
 }

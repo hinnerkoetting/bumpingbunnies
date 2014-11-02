@@ -104,4 +104,8 @@ public class EditingModePanel extends Box {
 		}
 	}
 
+	public boolean isWallModeActive() {
+		return wallButton.isSelected();
+	}
+
 }

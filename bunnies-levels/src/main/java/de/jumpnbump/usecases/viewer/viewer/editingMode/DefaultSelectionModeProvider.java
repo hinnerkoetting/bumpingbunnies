@@ -78,4 +78,10 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 		return new AbsoluteCoordinatesCalculation(canvas.getWidth(), canvas.getHeight(), properties);
 	}
 
+	@Override
+	public void refreshAll() {
+		repaintCanvas();
+		refreshTables();
+	}
+
 }

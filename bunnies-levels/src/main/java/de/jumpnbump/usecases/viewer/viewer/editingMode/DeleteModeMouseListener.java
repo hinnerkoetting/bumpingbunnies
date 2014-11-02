@@ -7,6 +7,9 @@ import java.util.Optional;
 import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
+import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class DeleteModeMouseListener implements ModeMouseListener {
 
@@ -34,10 +37,14 @@ public class DeleteModeMouseListener implements ModeMouseListener {
 
 	private void deleteObject(GameObject selectedObject) {
 		World world = provider.getWorld();
-		world.getAllIcyWalls().remove(selectedObject);
-		world.getAllJumper().remove(selectedObject);
-		world.getAllWaters().remove(selectedObject);
-		world.getAllWalls().remove(selectedObject);
+		if (selectedObject instanceof IcyWall)
+			world.removeIcyWall((IcyWall) selectedObject);
+		else if (selectedObject instanceof IcyWall)
+			world.removeIcyWall((IcyWall) selectedObject);
+		else if (selectedObject instanceof Jumper)
+			world.removeJumper((Jumper) selectedObject);
+		else if (selectedObject instanceof Water)
+			world.removeWater((Water) selectedObject);
 		provider.repaintCanvas();
 	}
 

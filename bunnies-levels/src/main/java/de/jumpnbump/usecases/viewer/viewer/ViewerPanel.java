@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.CreateWallEditingMode;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.DefaultSelectionModeProvider;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.DeleteModeMouseListener;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.ModeMouseListener;
@@ -378,6 +379,9 @@ public class ViewerPanel extends JPanel {
 			return new SelectModeMouseListener(createSelectionModeProvider());
 		else if (editingModePanel.isDeleteModeActive())
 			return new DeleteModeMouseListener(createSelectionModeProvider(), new CanvasObjectsFinder(createSelectionModeProvider()));
+		else if (editingModePanel.isWallModeActive()) {
+			return new CreateWallEditingMode(createSelectionModeProvider());
+		}
 		return new SelectModeMouseListener(createSelectionModeProvider());
 	}
 

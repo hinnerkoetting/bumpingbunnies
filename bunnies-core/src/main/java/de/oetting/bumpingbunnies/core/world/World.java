@@ -186,4 +186,29 @@ public class World implements ObjectProvider {
 	public List<GameObjectWithImage> getAllDrawingObjects() {
 		return allDrawingObjects;
 	}
+
+	public void addWall(Wall newWall) {
+		allWalls.add(newWall);
+		allObjects.add(newWall);
+	}
+
+	public void removeIcyWall(IcyWall object) {
+		allIcyWalls.remove(object);
+		allObjects.remove(object);
+	}
+
+	public void removeWall(Wall object) {
+		allWalls.remove(object);
+		allObjects.remove(object);
+	}
+
+	public void removeJumper(Jumper object) {
+		allJumpers.remove(object);
+		allObjects.remove(object);
+	}
+
+	public void removeWater(Water object) {
+		allWaters.remove(object);
+		allObjects.remove(object);
+	}
 }
