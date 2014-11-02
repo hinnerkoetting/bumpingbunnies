@@ -15,6 +15,7 @@
 		<module>bunnies-android</module>
 		<module>bunnies-network-tester</module>
 		<module>bunnies-levels</module>
+		<module>bunnies-music</module>
 	</modules>
 
 	<dependencyManagement>
@@ -28,6 +29,11 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>bunnies-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.oetting.bumping-bunnies</groupId>
+				<artifactId>bunnies-music</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

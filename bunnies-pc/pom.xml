@@ -57,6 +57,11 @@
 			<artifactId>bunnies-model</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+			<artifactId>bunnies-music</artifactId>
+			<optional>true</optional>
+		</dependency> 
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>

@@ -71,6 +71,6 @@
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-pc</artifactId>
-		</dependency>
+		</dependency> 
 	</dependencies>
 </project>
