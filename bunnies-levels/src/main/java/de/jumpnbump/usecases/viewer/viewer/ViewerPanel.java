@@ -14,10 +14,16 @@ import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -26,6 +32,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.xml.XmlBuilder;
@@ -66,13 +73,69 @@ public class ViewerPanel extends JPanel {
 	}
 
 	public void build() {
-		setLayout(new BorderLayout());
-		parsexml();
+		setLayout(createLayout());
+		parseXml();
 		this.myCanvas = new MyCanvas(this.model);
+		add(createModeButtons(), BorderLayout.LINE_START);
 		add(new JScrollPane(this.myCanvas), BorderLayout.CENTER);
 		add(createRightBox(), BorderLayout.LINE_END);
 		add(createBottomImages(), BorderLayout.PAGE_END);
 		addMouseListener();
+	}
+
+	private BorderLayout createLayout() {
+		BorderLayout borderLayout = new BorderLayout();
+		borderLayout.setHgap(10);
+		return borderLayout;
+	}
+
+	private Component createModeButtons() {
+		Box box = Box.createVerticalBox();
+		ButtonGroup group = new ButtonGroup();
+		group.add(createPointerButton());
+		group.add(createTrashButton());
+		group.add(createWallButton());
+		group.add(createIceButton());
+		group.add(createWaterButton());
+		group.add(createJumperButton());
+		Enumeration<AbstractButton> enumeration = group.getElements();
+		while (enumeration.hasMoreElements()) {
+			box.add(enumeration.nextElement());
+			box.add(Box.createVerticalStrut(10));
+		}
+		return box;
+	}
+
+	private AbstractButton createTrashButton() {
+		return new JToggleButton(readIcon("/images/trash.png"));
+	}
+
+	private AbstractButton createWallButton() {
+		return new JToggleButton(readIcon("/images/wall.png"));
+	}
+
+	private AbstractButton createIceButton() {
+		return new JToggleButton(readIcon("/images/ice.png"));
+	}
+
+	private AbstractButton createWaterButton() {
+		return new JToggleButton(readIcon("/images/water.png"));
+	}
+
+	private AbstractButton createJumperButton() {
+		return new JToggleButton(readIcon("/images/jumper.png"));
+	}
+
+	private AbstractButton createPointerButton() {
+		return new JToggleButton(readIcon("/images/pointer.png"));
+	}
+
+	private ImageIcon readIcon(String resource) {
+		try {
+			return new ImageIcon(ImageIO.read(getClass().getResourceAsStream(resource)));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private JPanel createBottomImages() {
@@ -364,7 +427,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void displayFile() {
-		parsexml();
+		parseXml();
 		this.myCanvas.setWorld(this.model);
 		setWallModel();
 		setIcyWallModel();
@@ -384,7 +447,7 @@ public class ViewerPanel extends JPanel {
 		displayFile();
 	}
 
-	private void parsexml() {
+	private void parseXml() {
 		try {
 			if (this.lastFile != null) {
 				this.model = this.builder.parse(new FileInputStream(this.lastFile));
