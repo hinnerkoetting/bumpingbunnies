@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.viewer.Viewer;
+package de.jumpnbump.usecases.viewer.viewer;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
@@ -6,13 +6,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
-import de.jumpnbump.usecases.viewer.Viewer.actions.MouseAction;
-import de.jumpnbump.usecases.viewer.Viewer.actions.MoveAction;
-import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeDownAction;
-import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeLeftAction;
-import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeRightAction;
-import de.jumpnbump.usecases.viewer.Viewer.actions.ResizeTopMouseAction;
-import de.jumpnbump.usecases.viewer.Viewer.actions.SelectAction;
+import de.jumpnbump.usecases.viewer.viewer.actions.MouseAction;
+import de.jumpnbump.usecases.viewer.viewer.actions.MoveAction;
+import de.jumpnbump.usecases.viewer.viewer.actions.ResizeDownAction;
+import de.jumpnbump.usecases.viewer.viewer.actions.ResizeLeftAction;
+import de.jumpnbump.usecases.viewer.viewer.actions.ResizeRightAction;
+import de.jumpnbump.usecases.viewer.viewer.actions.ResizeTopMouseAction;
+import de.jumpnbump.usecases.viewer.viewer.actions.SelectAction;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;

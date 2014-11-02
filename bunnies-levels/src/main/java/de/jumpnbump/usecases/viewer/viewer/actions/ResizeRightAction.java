@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.viewer.Viewer.actions;
+package de.jumpnbump.usecases.viewer.viewer.actions;
 
 import java.awt.event.MouseEvent;
 
@@ -6,13 +6,13 @@ import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 
-public class ResizeTopMouseAction implements MouseAction {
+public class ResizeRightAction implements MouseAction {
 
 	private final GameObject selectedObject;
 	private final MyCanvas canvas;
 	private final CoordinatesCalculation coordinatesCalculation;
 
-	public ResizeTopMouseAction(GameObject selectedObject, MyCanvas canvas, CoordinatesCalculation coordinatesCalculation) {
+	public ResizeRightAction(GameObject selectedObject, MyCanvas canvas, CoordinatesCalculation coordinatesCalculation) {
 		super();
 		this.selectedObject = selectedObject;
 		this.canvas = canvas;
@@ -21,9 +21,9 @@ public class ResizeTopMouseAction implements MouseAction {
 
 	@Override
 	public void newMousePosition(MouseEvent event) {
-		int newTopY = this.coordinatesCalculation.getGameCoordinateY(event.getY());
-		if (newTopY > this.selectedObject.minY()) {
-			this.selectedObject.setMaxY(newTopY);
+		int newRight = this.coordinatesCalculation.getGameCoordinateX(event.getX());
+		if (newRight > this.selectedObject.minX()) {
+			this.selectedObject.setMaxX(newRight);
 		}
 		this.canvas.repaint();
 	}

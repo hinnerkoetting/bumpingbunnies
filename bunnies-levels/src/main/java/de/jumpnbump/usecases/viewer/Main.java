@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import de.jumpnbump.usecases.viewer.Viewer.Viewer;
+import de.jumpnbump.usecases.viewer.viewer.Viewer;
 
 public class Main {
 

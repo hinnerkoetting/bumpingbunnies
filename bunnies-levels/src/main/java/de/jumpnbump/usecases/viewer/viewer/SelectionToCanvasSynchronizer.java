@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.viewer.Viewer;
+package de.jumpnbump.usecases.viewer.viewer;
 
 import javax.swing.JList;
 import javax.swing.ListModel;

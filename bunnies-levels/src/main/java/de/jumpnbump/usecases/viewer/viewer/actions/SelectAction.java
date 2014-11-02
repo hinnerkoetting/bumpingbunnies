@@ -1,4 +1,4 @@
-package de.jumpnbump.usecases.viewer.Viewer.actions;
+package de.jumpnbump.usecases.viewer.viewer.actions;
 
 import java.awt.event.MouseEvent;
 import java.util.List;
