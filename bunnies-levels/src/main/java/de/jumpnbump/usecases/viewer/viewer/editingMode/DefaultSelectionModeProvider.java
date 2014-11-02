@@ -5,6 +5,8 @@ import java.awt.Cursor;
 import java.util.Collection;
 import java.util.Optional;
 
+import javax.swing.JFrame;
+
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.viewer.ViewerPanel;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
@@ -84,4 +86,8 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 		refreshTables();
 	}
 
+	@Override
+	public JFrame getFrame() {
+		return panel.getFrame();
+	}
 }

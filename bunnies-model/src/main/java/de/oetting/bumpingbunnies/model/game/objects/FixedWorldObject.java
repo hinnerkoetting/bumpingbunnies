@@ -11,12 +11,6 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 		this.id = id;
 		this.rect = new Rect(minX, maxX, minY, maxY);
 		this.color = color;
-		if (minX > maxX) {
-			throw new IllegalArgumentException("minX must be smaller than maxX");
-		}
-		if (minY > maxY) {
-			throw new IllegalArgumentException("minY must be smaller than maxY");
-		}
 	}
 
 	@Override
@@ -94,4 +88,5 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 			return image.getImageKey();
 		return null;
 	}
+
 }

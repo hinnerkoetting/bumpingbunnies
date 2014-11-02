@@ -5,6 +5,8 @@ import java.awt.Cursor;
 import java.util.Collection;
 import java.util.Optional;
 
+import javax.swing.JFrame;
+
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
@@ -31,4 +33,6 @@ public interface SelectionModeProvider {
 	CoordinatesCalculation createCoordinatesCalculation();
 
 	void refreshAll();
+
+	JFrame getFrame();
 }

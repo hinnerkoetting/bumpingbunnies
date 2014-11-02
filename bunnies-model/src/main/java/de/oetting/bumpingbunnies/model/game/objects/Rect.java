@@ -16,6 +16,7 @@ public class Rect {
 		this.maxX = maxX;
 		this.minY = minY;
 		this.maxY = maxY;
+		validate(minX, minY, maxX, maxY);
 	}
 
 	public long getMinX() {
@@ -23,6 +24,7 @@ public class Rect {
 	}
 
 	public void setMinX(long minX) {
+		validate(minX, minY, maxY, maxY);
 		this.minX = minX;
 	}
 
@@ -31,6 +33,7 @@ public class Rect {
 	}
 
 	public void setMaxX(long maxX) {
+		validate(minX, minY, maxX, maxY);
 		this.maxX = maxX;
 	}
 
@@ -39,6 +42,7 @@ public class Rect {
 	}
 
 	public void setMinY(long minY) {
+		validate(minX, minY, maxX, maxY);
 		this.minY = minY;
 	}
 
@@ -47,6 +51,7 @@ public class Rect {
 	}
 
 	public void setMaxY(long maxY) {
+		validate(minX, minY, maxX, maxY);
 		this.maxY = maxY;
 	}
 
@@ -65,5 +70,14 @@ public class Rect {
 		long height = maxY - minY;
 		minY = gameY - height / 2;
 		maxY = gameY + height / 2;
+	}
+
+	private void validate(long minX, long minY, long maxX, long maxY) {
+		if (minX > maxX) {
+			throw new IllegalArgumentException("minX must be smaller than maxX");
+		}
+		if (minY > maxY) {
+			throw new IllegalArgumentException("minY must be smaller than maxY");
+		}
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import de.jumpnbump.usecases.viewer.viewer.PropertyEditorDialog;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -52,7 +53,24 @@ public class SelectAction implements MouseAction {
 		menu.add(createOneUpItem(event));
 		menu.add(createOneDownItem(event));
 		menu.add(createToBackItem(event));
+		menu.addSeparator();
+		menu.add(createPropertyItem(event));
 		menu.show(provider.getCanvas(), event.getX(), event.getY());
+	}
+
+	private JMenuItem createPropertyItem(MouseEvent event) {
+		JMenuItem item = new JMenuItem("Properties");
+		item.addActionListener((actionVent) -> showProperties(event));
+		return item;
+	}
+
+	private void showProperties(MouseEvent event) {
+		Optional<GameObjectWithImage> go = findObject(event);
+		if (go.isPresent()) {
+			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go.get());
+			dialog.show();
+			provider.refreshAll();
+		}
 	}
 
 	private JMenuItem createOneUpItem(MouseEvent event) {
