@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.core.worldCreation;
 
-import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -68,7 +67,7 @@ public class ObjectsFactory {
 
 	public static Background createBackground(long x, long y, long maxX, long maxY) {
 		int id = IdCounter.getNextId();
-		Background background = new Background(id, x, y, maxX, maxY, Color.BLACK);
+		Background background = new Background(id, x, y, maxX, maxY);
 		return background;
 	}
 
