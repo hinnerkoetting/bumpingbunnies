@@ -5,8 +5,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
@@ -40,7 +38,6 @@ import de.jumpnbump.usecases.viewer.xml.XmlStorer;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
-import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
@@ -169,13 +166,7 @@ public class ViewerPanel extends JPanel {
 		panel.add(new JLabel("Zoom"));
 		final JTextField zoomField = new JTextField(5);
 		zoomField.setText("1");
-		zoomField.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				applyZoom(zoomField);
-			}
-		});
+		zoomField.addActionListener((event) -> applyZoom(zoomField));
 		zoomField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -214,22 +205,13 @@ public class ViewerPanel extends JPanel {
 
 	private Component createRoundButton() {
 		JButton button = new JButton("Round");
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				round();
-			}
-
-		});
+		button.addActionListener((event) -> round());
 		return button;
 	}
 
 	private void round() {
-		List<GameObjectWithImage> allObjects = this.model.getAllObjects();
-		for (GameObject go : allObjects) {
-			round(go);
-		}
+		this.model.getAllObjects().stream().forEach((object) -> round(object));
+		myCanvas.repaint();
 	}
 
 	private void round(GameObject go) {
@@ -317,13 +299,15 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setWallModel() {
-		final MyListModel<Wall> defaultListModel = new MyListModel<>();
-		for (Wall w : this.model.getAllWalls()) {
-			defaultListModel.addElement(w);
-		}
-		this.wall.setCellRenderer(new GameObjectRenderer());
-		this.wall.setModel(defaultListModel);
-		this.wall.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
+		setObjectsModel(model.getAllWalls(), wall);
+	}
+
+	public <S extends GameObject> void setObjectsModel(List<S> objects, JList<S> list) {
+		final MyListModel<S> defaultListModel = new MyListModel<>();
+		objects.stream().forEach((wall) -> defaultListModel.addElement(wall));
+		list.setCellRenderer(new GameObjectRenderer());
+		list.setModel(defaultListModel);
+		list.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 	}
 
 	private JList<IcyWall> createIceWallList() {
@@ -333,13 +317,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setIcyWallModel() {
-		MyListModel<IcyWall> defaultListModel = new MyListModel<>();
-		for (IcyWall w : this.model.getAllIcyWalls()) {
-			defaultListModel.addElement(w);
-		}
-		this.icyWallList.setCellRenderer(new GameObjectRenderer());
-		this.icyWallList.setModel(defaultListModel);
-		this.icyWallList.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
+		setObjectsModel(model.getAllIcyWalls(), icyWallList);
 	}
 
 	private JList<Jumper> createJumperList() {
@@ -349,13 +327,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setJumperModel() {
-		MyListModel<Jumper> defaultListModel = new MyListModel<>();
-		for (Jumper w : this.model.getAllJumper()) {
-			defaultListModel.addElement(w);
-		}
-		this.jumpersList.setCellRenderer(new GameObjectRenderer());
-		this.jumpersList.setModel(defaultListModel);
-		this.jumpersList.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
+		setObjectsModel(model.getAllJumper(), jumpersList);
 	}
 
 	private JList<Water> createWatersList() {
@@ -365,13 +337,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setWaterModel() {
-		MyListModel<Water> defaultListModel = new MyListModel<>();
-		for (Water w : this.model.getAllWaters()) {
-			defaultListModel.addElement(w);
-		}
-		this.watersList.setCellRenderer(new GameObjectRenderer());
-		this.watersList.setModel(defaultListModel);
-		this.watersList.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
+		setObjectsModel(model.getAllWaters(), watersList);
 	}
 
 	private JList<SpawnPoint> createSpawnList() {
@@ -397,37 +363,18 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setBackgroundsModel() {
-		MyListModel<Background> defaultListModel = new MyListModel<>();
-		for (Background w : this.model.getBackgrounds()) {
-			defaultListModel.addElement(w);
-		}
-		this.backgrounds.setCellRenderer(new GameObjectRenderer());
-		this.backgrounds.setModel(defaultListModel);
-		this.backgrounds.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
+		setObjectsModel(model.getBackgrounds(), backgrounds);
 	}
 
 	private JButton createRefreshButton() {
 		JButton button = new JButton("Refresh");
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				displayFile();
-			}
-		});
+		button.addActionListener((event) -> displayFile());
 		return button;
 	}
 
 	private JButton createLoadButton() {
 		JButton button = new JButton("Load");
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loadFilecontent();
-			}
-
-		});
+		button.addActionListener((event) -> loadFilecontent());
 		return button;
 	}
 
@@ -464,13 +411,7 @@ public class ViewerPanel extends JPanel {
 
 	private JButton createSaveButton() {
 		JButton button = new JButton("save");
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				save();
-			}
-		});
+		button.addActionListener((event) -> save());
 		return button;
 	}
 
