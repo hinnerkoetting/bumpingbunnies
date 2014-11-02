@@ -108,4 +108,20 @@ public class EditingModePanel extends Box {
 		return wallButton.isSelected();
 	}
 
+	public boolean isIceWallModeActive() {
+		return iceWallButton.isSelected();
+	}
+
+	public boolean isJumperModeActive() {
+		return jumperButton.isSelected();
+	}
+
+	public boolean isBackgroundModeActive() {
+		return backgroundButton.isSelected();
+	}
+
+	public boolean isWaterModeActive() {
+		return waterButton.isSelected();
+	}
+
 }

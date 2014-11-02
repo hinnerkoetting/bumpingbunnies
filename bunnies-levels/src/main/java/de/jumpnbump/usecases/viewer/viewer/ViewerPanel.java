@@ -27,7 +27,11 @@ import javax.swing.JTextField;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.CreateBackgroundEditingMode;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.CreateIceWallEditingMode;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.CreateJumperEditingMode;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.CreateWallEditingMode;
+import de.jumpnbump.usecases.viewer.viewer.editingMode.CreateWaterEditingMode;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.DefaultSelectionModeProvider;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.DeleteModeMouseListener;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.ModeMouseListener;
@@ -36,6 +40,7 @@ import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
 import de.jumpnbump.usecases.viewer.xml.XmlBuilder;
 import de.jumpnbump.usecases.viewer.xml.XmlStorer;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.ObjectsFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
@@ -376,8 +381,16 @@ public class ViewerPanel extends JPanel {
 		else if (editingModePanel.isDeleteModeActive())
 			return new DeleteModeMouseListener(createSelectionModeProvider(), new CanvasObjectsFinder(createSelectionModeProvider()));
 		else if (editingModePanel.isWallModeActive()) {
-			return new CreateWallEditingMode(createSelectionModeProvider());
-		}
+			return new CreateWallEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createWall(minX, minY, maxX, maxY));
+		} else if (editingModePanel.isIceWallModeActive()) {
+			return new CreateIceWallEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createIceWall(minX, minY, maxX, maxY));
+		} else if (editingModePanel.isJumperModeActive()) {
+			return new CreateJumperEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createJumper(minX, minY, maxX, maxY));
+		} else if (editingModePanel.isWaterModeActive()) {
+			return new CreateWaterEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createWater(minX, minY, maxX, maxY));
+		} else if (editingModePanel.isBackgroundModeActive())
+			return new CreateBackgroundEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createBackground(minX, minY, maxX,
+					maxY));
 		return new SelectModeMouseListener(createSelectionModeProvider());
 	}
 

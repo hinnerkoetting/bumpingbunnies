@@ -189,35 +189,61 @@ public class World implements ObjectProvider {
 
 	public void addWall(Wall newWall) {
 		allWalls.add(newWall);
-		allObjects.add(newWall);
+		addDrawingAndCollidingObject(newWall);
 	}
 
 	public void removeIcyWall(IcyWall object) {
 		allIcyWalls.remove(object);
-		allObjects.remove(object);
-		allDrawingObjects.remove(object);
+		removeDrawingAndCollidingObject(object);
 	}
 
 	public void removeWall(Wall object) {
 		allWalls.remove(object);
-		allObjects.remove(object);
-		allDrawingObjects.remove(object);
+		removeDrawingAndCollidingObject(object);
 	}
 
 	public void removeJumper(Jumper object) {
 		allJumpers.remove(object);
-		allObjects.remove(object);
-		allDrawingObjects.remove(object);
+		removeDrawingAndCollidingObject(object);
 	}
 
 	public void removeWater(Water object) {
 		allWaters.remove(object);
-		allObjects.remove(object);
-		allDrawingObjects.remove(object);
+		removeDrawingAndCollidingObject(object);
 	}
 
 	public void removeBackground(Background object) {
 		backgrounds.remove(object);
 		allDrawingObjects.remove(object);
+	}
+
+	public void addIcyWall(IcyWall newWall) {
+		allIcyWalls.add(newWall);
+		addDrawingAndCollidingObject(newWall);
+	}
+
+	private void addDrawingAndCollidingObject(GameObjectWithImage object) {
+		allObjects.add(object);
+		allDrawingObjects.add(object);
+	}
+
+	private void removeDrawingAndCollidingObject(GameObjectWithImage object) {
+		allObjects.remove(object);
+		allDrawingObjects.remove(object);
+	}
+
+	public void addJumper(Jumper newJumper) {
+		allJumpers.add(newJumper);
+		addDrawingAndCollidingObject(newJumper);
+	}
+
+	public void addBackground(Background newBackground) {
+		backgrounds.add(newBackground);
+		allDrawingObjects.add(newBackground);
+	}
+
+	public void addWater(Water newWater) {
+		allWaters.add(newWater);
+		addDrawingAndCollidingObject(newWater);
 	}
 }
