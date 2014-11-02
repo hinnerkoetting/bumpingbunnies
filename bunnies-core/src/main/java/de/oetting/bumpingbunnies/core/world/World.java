@@ -195,20 +195,29 @@ public class World implements ObjectProvider {
 	public void removeIcyWall(IcyWall object) {
 		allIcyWalls.remove(object);
 		allObjects.remove(object);
+		allDrawingObjects.remove(object);
 	}
 
 	public void removeWall(Wall object) {
 		allWalls.remove(object);
 		allObjects.remove(object);
+		allDrawingObjects.remove(object);
 	}
 
 	public void removeJumper(Jumper object) {
 		allJumpers.remove(object);
 		allObjects.remove(object);
+		allDrawingObjects.remove(object);
 	}
 
 	public void removeWater(Water object) {
 		allWaters.remove(object);
 		allObjects.remove(object);
+		allDrawingObjects.remove(object);
+	}
+
+	public void removeBackground(Background object) {
+		backgrounds.remove(object);
+		allDrawingObjects.remove(object);
 	}
 }

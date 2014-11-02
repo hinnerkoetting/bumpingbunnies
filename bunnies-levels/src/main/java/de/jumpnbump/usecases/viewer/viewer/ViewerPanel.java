@@ -263,8 +263,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	public <S extends GameObject> void setObjectsModel(List<S> objects, JList<S> list) {
-		final MyListModel<S> defaultListModel = new MyListModel<>();
-		objects.stream().forEach((wall) -> defaultListModel.addElement(wall));
+		final MyListModel<S> defaultListModel = new MyListModel<>(objects);
 		list.setCellRenderer(new GameObjectRenderer());
 		list.setModel(defaultListModel);
 		list.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
@@ -313,10 +312,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setSpawnModel() {
-		MyListModel<SpawnPoint> defaultListModel = new MyListModel<>();
-		for (SpawnPoint w : this.model.getSpawnPoints()) {
-			defaultListModel.addElement(w);
-		}
+		MyListModel<SpawnPoint> defaultListModel = new MyListModel<>(model.getSpawnPoints());
 		this.spawns.setCellRenderer(new SpawnpointRender());
 		this.spawns.setModel(defaultListModel);
 		this.spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
@@ -423,7 +419,7 @@ public class ViewerPanel extends JPanel {
 
 	private void refreshList(JList<?> list) {
 		MyListModel<?> lModel = (MyListModel<?>) list.getModel();
-		lModel.fireContentsChanged(this, 0, lModel.size() - 1);
+		lModel.fireContentsChanged(this, 0, lModel.getSize() - 1);
 	}
 
 }
