@@ -19,7 +19,7 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
-public class CanvasMouseListener implements MouseListener, MouseMotionListener {
+public class SelectModeMouseListener implements MouseListener, MouseMotionListener {
 
 	private static final int TOLERANCE = 5;
 	private final World container;
@@ -28,7 +28,7 @@ public class CanvasMouseListener implements MouseListener, MouseMotionListener {
 	private MouseAction nextAction;
 	private final CoordinatesCalculation coordinatesCalculation;
 
-	public CanvasMouseListener(World container, MyCanvas canvas, ViewerPanel viewerPanel) {
+	public SelectModeMouseListener(World container, MyCanvas canvas, ViewerPanel viewerPanel) {
 		super();
 		this.container = container;
 		this.canvas = canvas;

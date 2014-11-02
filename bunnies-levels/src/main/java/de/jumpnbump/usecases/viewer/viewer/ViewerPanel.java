@@ -416,15 +416,19 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void addMouseListener() {
+		removeExistingMouseListeners();
+		SelectModeMouseListener ml = new SelectModeMouseListener(this.model, this.myCanvas, this);
+		this.myCanvas.addMouseListener(ml);
+		this.myCanvas.addMouseMotionListener(ml);
+	}
+
+	private void removeExistingMouseListeners() {
 		for (MouseListener ml : this.myCanvas.getMouseListeners()) {
 			this.myCanvas.removeMouseListener(ml);
 		}
 		for (MouseMotionListener ml : this.myCanvas.getMouseMotionListeners()) {
 			this.myCanvas.removeMouseMotionListener(ml);
 		}
-		CanvasMouseListener ml = new CanvasMouseListener(this.model, this.myCanvas, this);
-		this.myCanvas.addMouseListener(ml);
-		this.myCanvas.addMouseMotionListener(ml);
 	}
 
 	private void save() {
