@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
@@ -67,7 +68,7 @@ public class ToClientConnector {
 	private void notifyExistingClients(PlayerProperties playerProperties) {
 		LOGGER.info("Notifying existing clients about new player with id %d", playerProperties.getPlayerId());
 		synchronized (sockets) {
-			List<MySocket> allOtherPlayers = this.sockets.getAllSockets();
+			List<MySocket> allOtherPlayers = new ArrayList<MySocket>(this.sockets.getAllSockets());
 			for (MySocket otherPlayer : allOtherPlayers) {
 				SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(otherPlayer, disconnectCallback);
 				new OtherPlayerClientIdSender(networkSender).sendMessage(playerProperties);

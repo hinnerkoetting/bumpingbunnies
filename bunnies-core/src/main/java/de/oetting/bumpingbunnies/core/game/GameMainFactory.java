@@ -1,6 +1,9 @@
 package de.oetting.bumpingbunnies.core.game;
 
+import java.util.List;
+
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
+import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.logic.CommonGameThreadFactory;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
@@ -15,6 +18,7 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
@@ -23,21 +27,32 @@ public class GameMainFactory {
 	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer,
 			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory) {
 
-		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(new RemoteConnectionFactory(errorCallback));
+		RemoteConnectionFactory factory = new RemoteConnectionFactory(errorCallback);
+		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(factory);
 		GameMain main = CommonGameMainFactory.createGameMain(errorCallback, parameter, world, musicPlayerFactory, connectionEstablisherFactory,
 				networkMessageDistributor);
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), myPlayer, networkDispatcher,
 				networkMessageDistributor, main, musicPlayerFactory));
+		factory.setDisconnectCallback(main);
 		main.setWorld(world);
 		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration(), errorCallback, world));
 		main.validateInitialised();
-		main.start();
 
 		main.addAllJoinListeners();
 		main.addSocketListener();
-
+		main.newEvent(myPlayer);
+		addOtherPlayers(main, parameter);
+		main.start();
 		return main;
+	}
+
+	private void addOtherPlayers(GameMain gameMain, GameStartParameter parameter) {
+		List<PlayerConfig> players = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
+		for (PlayerConfig config : players) {
+			Player otherPlayer = config.getPlayer();
+			gameMain.newEvent(otherPlayer);
+		}
 	}
 
 	private NetworkReceiveControl createNetworkReceiveFactory(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor networkMessageDistributor,

@@ -110,7 +110,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
 		buildGame(canvas, myPlayer);
-		playerJoins(myPlayer);
+
 		startRendering();
 		inputDispatcher = new PcInputDispatcher();
 		ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
@@ -128,12 +128,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 				inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) config.getInputConfiguration(),
 						new PlayerMovement(otherPlayer)));
 			}
-			playerJoins(otherPlayer);
 		}
-	}
-
-	private void playerJoins(Player myPlayer) {
-		gameMain.newEvent(myPlayer);
 	}
 
 	private void createPanel(Stage primaryStage, Canvas canvas) {

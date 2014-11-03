@@ -115,7 +115,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	@Override
 	public void newEvent(Player player) {
 		LOGGER.info("Player joined %d", player.id());
-		this.world.getAllPlayer().add(player);
+		world.addPlayer(player);
 		this.playerObservable.playerJoined(player);
 	}
 

@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.core.world;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -64,7 +65,11 @@ public class World implements ObjectProvider {
 
 	@Override
 	public List<Player> getAllPlayer() {
-		return this.allPlayer;
+		return Collections.unmodifiableList(this.allPlayer);
+	}
+
+	public void addPlayer(Player player) {
+		allPlayer.add(player);
 	}
 
 	public Player findPlayer(int id) {
@@ -83,10 +88,6 @@ public class World implements ObjectProvider {
 
 	public List<SpawnPoint> getSpawnPoints() {
 		return this.allSpawnPoints;
-	}
-
-	public void addPlayer(Player p) {
-		this.allPlayer.add(p);
 	}
 
 	@Override

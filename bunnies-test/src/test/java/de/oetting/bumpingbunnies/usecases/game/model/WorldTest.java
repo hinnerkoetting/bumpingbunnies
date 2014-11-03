@@ -32,7 +32,7 @@ public class WorldTest {
 	}
 
 	private void addPlayer(Player p) {
-		this.fixture.getAllPlayer().add(p);
+		this.fixture.addPlayer(p);
 	}
 
 	@Before

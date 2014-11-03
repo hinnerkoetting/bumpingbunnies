@@ -61,7 +61,7 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 
 	public RoomEntry findEntry(ConnectionIdentifier opponent) {
 		for (int i = 0; i < getCount(); i++) {
-			if (getItem(i).getPlayerName().equals(opponent.getIdentifier()))
+			if (getItem(i).getOponent().equals(opponent))
 				return getItem(i);
 		}
 		throw new IllegalArgumentException("Player does not exist " + opponent);
