@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.usecases.game.businesslogic;
+package de.oetting.bumpingbunnies.core.game;
 
 import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createOpponentPlayer;
 import static org.hamcrest.Matchers.hasSize;
@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.android.game.GameActivity;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
@@ -28,6 +27,7 @@ import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
+import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
@@ -105,7 +105,7 @@ public class GameMainTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.sendThreads = new ArrayList<>();
+		this.sendThreads = new ArrayList<NetworkSender>();
 		this.fixture = new GameMain(this.sockets, new DummyMusicPlayer(), mock(NetworkPlayerStateSenderThread.class), mock(NetworkMessageDistributor.class));
 		fixture.setNewClientsAccepter(this.accepter);
 		this.fixture.setWorld(new World());
@@ -115,7 +115,8 @@ public class GameMainTest {
 	}
 
 	private NetworkMessageDistributor createNetworkSendControl() {
-		NetworkMessageDistributor networkSendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(mock(GameActivity.class)), this.sendThreads);
+		NetworkMessageDistributor networkSendControl = new NetworkMessageDistributor(new RemoteConnectionFactory(mock(ThreadErrorCallback.class)),
+				this.sendThreads);
 		return networkSendControl;
 	}
 }
