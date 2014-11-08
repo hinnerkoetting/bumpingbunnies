@@ -1,32 +1,38 @@
 package de.oetting.bumpingbunnies.pc.graphics.drawables.factory;
 
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
-import de.oetting.bumpingbunnies.core.graphics.Paint;
+import de.oetting.bumpingbunnies.core.graphics.ImageColoror;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.pc.graphics.PaintConverter;
 
 public class PcImagesColoror implements ImagesColorer {
 
 	@Override
 	public ImageWrapper colorImage(ImageWrapper image, int color) {
 		Image fxImage = (Image) image.getBitmap();
-		ColorAdjust colorAdjust = createColorAdjust(color);
-		ImageView imageView = new ImageView(fxImage);
-		imageView.setEffect(colorAdjust);
-		return new ImageFromViewExtractor().extractToWrapper(imageView);
+		WritableImage writableImage = createColoredImage(color, fxImage);
+		return new ImageFromViewExtractor().extractToWrapper(new ImageView(writableImage));
 	}
 
-	private ColorAdjust createColorAdjust(int color) {
-		Paint paint = new Paint(color);
-		Color convert = (Color) new PaintConverter().convert(paint);
-		ColorAdjust colorAdjust = new ColorAdjust();
-		colorAdjust.setHue((convert.getHue()) / 180.0);
-		colorAdjust.setSaturation(convert.getSaturation());
-		colorAdjust.setContrast(colorAdjust.getContrast());
-		return colorAdjust;
+	private WritableImage createColoredImage(int color, Image fxImage) {
+		PixelReader pixelReader = fxImage.getPixelReader();
+		WritableImage writableImage = new WritableImage((int) fxImage.getWidth(), (int) fxImage.getHeight());
+		PixelWriter pixelWriter = writableImage.getPixelWriter();
+		colorAllPixels(color, fxImage, pixelReader, pixelWriter);
+		return writableImage;
+	}
+
+	private void colorAllPixels(int color, Image fxImage, PixelReader pixelReader, PixelWriter pixelWriter) {
+		for (int row = 0; row < fxImage.getHeight(); row++) {
+			for (int column = 0; column < fxImage.getWidth(); column++) {
+				int origColor = pixelReader.getArgb(column, row);
+				int targetColor = ImageColoror.colorPixel(origColor, color);
+				pixelWriter.setArgb(column, row, targetColor);
+			}
+		}
 	}
 }

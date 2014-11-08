@@ -146,8 +146,8 @@
 										<include>target/*.apk</include>
 									</includes>
 									<keystore>/media/hinni/AE52D41052D3DAE3/develop/keystore/keystore</keystore>
-									<storepass>AAAAAAA</storepass>
-									<keypass>BBBBBBB</keypass>
+									<storepass>${password}</storepass>
+									<keypass>${password}</keypass>
 									<alias>bumpingbunnies</alias>
 									<arguments>
 										<argument>-sigalg</argument>
