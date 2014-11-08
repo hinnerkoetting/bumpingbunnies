@@ -99,7 +99,6 @@ public class GameMainTest {
 
 	private void whenPlayerLeaves(Player p) {
 		this.fixture.removeEvent(p);
-		this.fixture.getWorld().getAllPlayer().remove(p);
 	}
 
 	@Before
