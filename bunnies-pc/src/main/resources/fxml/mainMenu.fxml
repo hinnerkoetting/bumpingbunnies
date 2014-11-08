@@ -10,56 +10,70 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
 
-
-<GridPane alignment="center" hgap="10.0" vgap="10.0"
-	xmlns:fx="http://javafx.com/fxml">
+<FlowPane orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml" vgap="25">
 	<padding>
 		<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 	</padding>
+	<GridPane alignment="center" hgap="10.0" vgap="10.0">
+		<Label text="Local" GridPane.rowIndex="0" />
+		<Button text="Start" onAction="#onHostButton"
+			GridPane.rowIndex="1" GridPane.columnIndex="0" />
+		<Button text="Add AI" onAction="#onButtonAddAi"
+			GridPane.rowIndex="1" GridPane.columnIndex="1" />
+		<Button text="Add Player" fx:id="addPlayerButton" onAction="#onButtonAddPlayer"
+			GridPane.rowIndex="1" GridPane.columnIndex="2" />
 
-	<Button text="Connect" fx:id="connectButton" onAction="#onButtonConnect"
-		disable="true" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-	<Button text="Options" onAction="#onButtonConfiguration"
-		GridPane.rowIndex="0" GridPane.columnIndex="1" />
+		<TableView fx:id="playersTable" maxWidth="500" maxHeight="250"
+			prefHeight="100" GridPane.rowIndex="2" GridPane.columnIndex="0"
+			GridPane.columnSpan="4" onMouseClicked="#onMouseClickOnPlayers">
+			<placeholder>
+				<Label text="No players yet" />
+			</placeholder>
+			<columns>
+				<TableColumn text="Id">
+					<cellValueFactory>
+						<PropertyValueFactory property="playerId" />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn text="Name">
+					<cellValueFactory>
+						<PropertyValueFactory property="playerName" />
+					</cellValueFactory>
+				</TableColumn>
+			</columns>
 
-	<Label text="Servers"  GridPane.rowIndex="1"/>
-	<TableView fx:id="hostsTable" maxWidth="500" maxHeight="250"
-		GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="4">
-		<columns>
-			<TableColumn text="Name">
-				<cellValueFactory>
-					<PropertyValueFactory property="name" />
-				</cellValueFactory>
-			</TableColumn>
-		</columns>
+		</TableView>
 
-	</TableView>
+	</GridPane>
+	
+	
+	<GridPane alignment="center" hgap="10.0" vgap="10.0"
+		xmlns:fx="http://javafx.com/fxml">
+	
+		<Label text="Servers" GridPane.rowIndex="0" />
 
-	<Label text="Local server" GridPane.rowIndex="3" />
-	<Button text="Start" onAction="#onHostButton" GridPane.rowIndex="4"
-		GridPane.columnIndex="0" />
-	<Button text="Add AI" onAction="#onButtonAddAi"
-		GridPane.rowIndex="4" GridPane.columnIndex="1" />
-	<Button text="Add Player" fx:id="addPlayerButton" onAction="#onButtonAddPlayer"
-		GridPane.rowIndex="4" GridPane.columnIndex="2" />
+		<Button text="Connect" fx:id="connectButton" onAction="#onButtonConnect"
+			disable="true" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+		<Button text="Options" onAction="#onButtonConfiguration"
+			GridPane.rowIndex="1" GridPane.columnIndex="1" />
 
-	<TableView fx:id="playersTable" maxWidth="500" maxHeight="250"
-		GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="4"
-		onMouseClicked="#onMouseClickOnPlayers">
-		<columns>
-			<TableColumn text="Id">
-				<cellValueFactory>
-					<PropertyValueFactory property="playerId" />
-				</cellValueFactory>
-			</TableColumn>
-			<TableColumn text="Name">
-				<cellValueFactory>
-					<PropertyValueFactory property="playerName" />
-				</cellValueFactory>
-			</TableColumn>
-		</columns>
+		<TableView fx:id="hostsTable" maxWidth="500" maxHeight="250"
+			prefHeight="100" GridPane.rowIndex="2" GridPane.columnIndex="0"
+			GridPane.columnSpan="4">
+			<placeholder>
+				<Label text="No server found..." />
+			</placeholder>
+			<columns>
+				<TableColumn text="Name">
+					<cellValueFactory>
+						<PropertyValueFactory property="name" />
+					</cellValueFactory>
+				</TableColumn>
+			</columns>
 
-	</TableView>
+		</TableView>
+	</GridPane>
 
-</GridPane>
+</FlowPane>
