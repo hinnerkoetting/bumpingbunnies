@@ -51,7 +51,7 @@ public class NetworkSendQueueThread extends BunniesThread implements NetworkSend
 			String poll = this.messageQueue.take();
 			sendOneMessage(poll);
 		} catch (WriteFailed e) {
-			LOGGER.info("Could not write message. Disconnecting player " + socket.getConnectionIdentifier());
+			LOGGER.info("Could not write message. Disconnecting player " + socket.getConnectionIdentifier() + ". Error was :" + e.getMessage());
 			disconnectCallback.playerDisconnected(socket.getConnectionIdentifier());
 		}
 	}

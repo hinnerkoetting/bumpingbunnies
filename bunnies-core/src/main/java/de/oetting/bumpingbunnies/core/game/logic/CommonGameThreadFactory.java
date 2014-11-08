@@ -14,13 +14,13 @@ import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 /**
  * Unified creation of gamethread belongs here.
@@ -30,18 +30,18 @@ public class CommonGameThreadFactory {
 
 	private static final int MAX_GAME_LOOPS_PER_SECOND = 100;
 
-	public static GameThread create(World world, ThreadErrorCallback gameStopper, Configuration configuration, CameraPositionCalculation cameraCalculation,
-			Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, GameMain main,
-			BunniesMusicPlayerFactory musicPlayerFactory) {
+	public static GameThread create(World world, ThreadErrorCallback errorCallback, Configuration configuration, CameraPositionCalculation cameraCalculation,
+			NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, GameMain main, BunniesMusicPlayerFactory musicPlayerFactory,
+			GameStopper gameStopper) {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
-		initInputServices(main, gameStopper, world, networkDispatcher, sendControl, configuration);
+		initInputServices(main, errorCallback, world, networkDispatcher, sendControl, configuration, gameStopper);
 
 		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world, musicPlayerFactory,
 				configuration.getLocalSettings());
 		GameStepController stepController = CommonGameThreadFactory.createStepController(cameraCalculation, world, stateDispatcher, factory, sendControl,
 				configuration);
 
-		return CommonGameThreadFactory.create(stepController, gameStopper);
+		return CommonGameThreadFactory.create(stepController, errorCallback);
 	}
 
 	public static GameThread create(GameStepController worldController, ThreadErrorCallback errorCallback) {
@@ -80,8 +80,8 @@ public class CommonGameThreadFactory {
 		return new DummyMusicPlayer();
 	}
 
-	private static void initInputServices(GameMain main, ThreadErrorCallback gameStopper, World world, NetworkToGameDispatcher networkDispatcher,
-			NetworkMessageDistributor sendControl, Configuration configuration) {
-		NetworkListeners.allNetworkListeners(networkDispatcher, world, gameStopper, main, configuration);
+	private static void initInputServices(GameMain main, ThreadErrorCallback errorCallback, World world, NetworkToGameDispatcher networkDispatcher,
+			NetworkMessageDistributor sendControl, Configuration configuration, GameStopper gameStopper) {
+		NetworkListeners.allNetworkListeners(networkDispatcher, world, errorCallback, main, configuration, gameStopper);
 	}
 }

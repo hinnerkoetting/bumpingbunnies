@@ -35,6 +35,7 @@ import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
 import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
@@ -70,7 +71,7 @@ import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreMenuApplication;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
 
-public class BunniesMain extends Application implements ThreadErrorCallback {
+public class BunniesMain extends Application implements ThreadErrorCallback, GameStopper {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(BunniesMain.class);
 
@@ -144,7 +145,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 			public void handle(KeyEvent event) {
 				inputDispatcher.dispatchOnKeyUp(event.getCode());
 				if (event.getCode().equals(KeyCode.ESCAPE))
-					onClose();
+					gameStopped();
 			}
 
 		});
@@ -186,7 +187,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new PcMusicPlayerFactory(this),
-				new PcConnectionEstablisherFactory());
+				new PcConnectionEstablisherFactory(), this);
 		gameMain.addJoinListener(drawerThread);
 		gameMain.onResume();
 	}
@@ -247,7 +248,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 				Platform.exit();
 			}
 		});
-		dialogVbox.getChildren().add(new Text("Ein technischer Fehler ist aufgetreten."));
+		dialogVbox.getChildren().add(new Text("Technical error."));
 		dialogVbox.getChildren().add(button);
 		Scene dialogScene = new Scene(dialogVbox, 300, 200);
 		dialog.setScene(dialogScene);
@@ -267,12 +268,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 
 	private void onCloseRequest(WindowEvent e) {
 		e.consume();
-		onClose();
-	}
-
-	public void onClose() {
-		gameMain.destroy();
-		goToScoreScreen();
+		gameStopped();
 	}
 
 	private void goToScoreScreen() {
@@ -283,5 +279,11 @@ public class BunniesMain extends Application implements ThreadErrorCallback {
 	@Override
 	public void onThreadError() {
 		Platform.runLater(() -> showTechnicalError());
+	}
+
+	@Override
+	public void gameStopped() {
+		gameMain.endGame();
+		goToScoreScreen();
 	}
 }

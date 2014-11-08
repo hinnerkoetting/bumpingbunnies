@@ -12,6 +12,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
@@ -25,15 +26,16 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
 public class GameMainFactory {
 
 	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer,
-			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory) {
+			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory,
+			GameStopper gameStopper) {
 
 		RemoteConnectionFactory factory = new RemoteConnectionFactory(errorCallback);
 		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(factory);
 		GameMain main = CommonGameMainFactory.createGameMain(errorCallback, parameter, world, musicPlayerFactory, connectionEstablisherFactory,
-				networkMessageDistributor);
+				networkMessageDistributor, parameter.getConfiguration());
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
-		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), myPlayer, networkDispatcher,
-				networkMessageDistributor, main, musicPlayerFactory));
+		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), networkDispatcher,
+				networkMessageDistributor, main, musicPlayerFactory, gameStopper));
 		factory.setDisconnectCallback(main);
 		main.setWorld(world);
 		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration(), errorCallback, world));
@@ -60,11 +62,11 @@ public class GameMainFactory {
 		return NetworkReceiveControlFactory.create(networkDispatcher, networkMessageDistributor, configuration, errorCallback, world);
 	}
 
-	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, ThreadErrorCallback gameStopper,
-			Configuration configuration, Player myPlayer, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor,
-			GameMain gameMain, BunniesMusicPlayerFactory musicPlayerFactory) {
-		return CommonGameThreadFactory.create(world, gameStopper, configuration, cameraPositionCalculator, myPlayer, networkDispatcher, messageDistributor,
-				gameMain, musicPlayerFactory);
+	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, ThreadErrorCallback errorCallback,
+			Configuration configuration, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor, GameMain gameMain,
+			BunniesMusicPlayerFactory musicPlayerFactory, GameStopper gameStopper) {
+		return CommonGameThreadFactory.create(world, errorCallback, configuration, cameraPositionCalculator, networkDispatcher, messageDistributor, gameMain,
+				musicPlayerFactory, gameStopper);
 	}
 
 }

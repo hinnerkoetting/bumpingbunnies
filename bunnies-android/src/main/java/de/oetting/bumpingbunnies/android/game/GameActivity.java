@@ -28,6 +28,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordina
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
@@ -44,7 +45,7 @@ import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
 /**
  * Controls the bumping-bunnies game.
  */
-public class GameActivity extends Activity implements ThreadErrorCallback {
+public class GameActivity extends Activity implements ThreadErrorCallback, GameStopper {
 
 	private GameMain main;
 	private InputDispatcher<?> inputDispatcher;
@@ -64,7 +65,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
 		World world = createWorld(this, parameter);
 		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new AndroidMusicPlayerFactory(this),
-				new AndroidConnectionEstablisherFactory(this));
+				new AndroidConnectionEstablisherFactory(this), this);
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation);
 		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 
@@ -107,7 +108,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 
 	@Override
 	public void onThreadError() {
-		this.main.destroy();
+		this.main.endGame();
 		drawThread.cancel();
 		ActivityLauncher.startResult(this, extractResult());
 	}
@@ -141,7 +142,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		this.main.destroy();
+		this.main.endGame();
 		drawThread.cancel();
 	}
 
@@ -174,12 +175,13 @@ public class GameActivity extends Activity implements ThreadErrorCallback {
 
 	@Override
 	public void onBackPressed() {
-		sendStopMessage();
-		ActivityLauncher.startResult(this, extractResult());
+		gameStopped();
 	}
 
-	private void sendStopMessage() {
-		this.main.sendStopMessage();
+	@Override
+	public void gameStopped() {
+		main.endGame();
+		ActivityLauncher.startResult(this, extractResult());
 	}
 
 }
