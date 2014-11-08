@@ -18,6 +18,7 @@ public class MainMenuApplication extends Application {
 		loader.setController(controller);
 		Pane myPane = (Pane) loader.load();
 		Scene myScene = new Scene(myPane);
+		myScene.getStylesheets().addAll(this.getClass().getResource("/css/mainMenu.css").toExternalForm());
 		primaryStage.setScene(myScene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest((e) -> Platform.exit());
