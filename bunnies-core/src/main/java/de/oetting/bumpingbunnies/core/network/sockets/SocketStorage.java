@@ -37,7 +37,7 @@ public class SocketStorage {
 		return this.sockets.get(index);
 	}
 
-	public synchronized void closeExistingSocket() {
+	public synchronized void closeExistingSockets() {
 		for (MySocket socket : this.sockets) {
 			closeOneSocket(socket);
 		}
@@ -99,6 +99,10 @@ public class SocketStorage {
 	public synchronized void notifyListenersAboutExistingSockets() {
 		for (MySocket socket : sockets)
 			observable.socketAdded(socket);
+	}
+
+	public synchronized void removeListeners() {
+		observable.removeListeners();
 	}
 
 	public static class OpponentDoesNotExist extends RuntimeException {

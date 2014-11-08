@@ -84,7 +84,7 @@ public class RemoteConnectionFactoryTest {
 
 	@After
 	public void afterEveryTest() {
-		sockets.closeExistingSocket();
+		sockets.closeExistingSockets();
 	}
 
 }

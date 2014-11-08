@@ -12,4 +12,5 @@ public class SocketObservable extends Observable<MySocket> {
 	public void socketRemoved(MySocket socket) {
 		notifyAboutRemoveEvent(socket);
 	}
+
 }

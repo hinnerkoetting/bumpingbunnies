@@ -92,6 +92,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SocketStorage.getSingleton().removeListeners();
 		setContentView(R.layout.activity_room);
 		ListView list = (ListView) findViewById(R.id.start_bt_list);
 		this.listAdapter = new BluetoothArrayAdapter(getBaseContext(), this);

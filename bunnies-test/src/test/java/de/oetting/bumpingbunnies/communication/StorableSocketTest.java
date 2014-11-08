@@ -49,7 +49,7 @@ public class StorableSocketTest {
 	private int storeOriginalSocket() {
 		this.socket = new TestSocket(mock(OutputStream.class), mock(InputStream.class));
 		SocketStorage storage = SocketStorage.getSingleton();
-		storage.closeExistingSocket();
+		storage.closeExistingSockets();
 		int index = storage.addSocket(this.socket);
 		return index;
 	}

@@ -28,4 +28,8 @@ public class Observable<S> {
 			throw new NullPointerException();
 		this.listeners.add(listener);
 	}
+
+	public void removeListeners() {
+		listeners.clear();
+	}
 }

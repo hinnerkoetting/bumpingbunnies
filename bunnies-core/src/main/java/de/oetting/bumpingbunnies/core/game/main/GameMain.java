@@ -72,8 +72,9 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	public void destroy() {
 		shutdownAllThreads();
-		this.sockets.closeExistingSocket();
+		this.sockets.closeExistingSockets();
 		this.newClientsAccepter.cancel();
+		this.sockets.removeListeners();
 	}
 
 	public void shutdownAllThreads() {

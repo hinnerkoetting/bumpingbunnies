@@ -39,7 +39,7 @@ public class BluetoothClientsAccepter implements ClientAccepter {
 	@Override
 	public void closeOpenConnections() {
 		LOGGER.info("Closing connections");
-		SocketStorage.getSingleton().closeExistingSocket();
+		SocketStorage.getSingleton().closeExistingSockets();
 		this.connectionEstablisher.closeOpenConnections();
 	}
 

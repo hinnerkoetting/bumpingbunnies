@@ -40,7 +40,7 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 		if (this.discoveryRunning) {
 			this.mBluetoothAdapter.cancelDiscovery();
 		}
-		SocketStorage.getSingleton().closeExistingSocket();
+		SocketStorage.getSingleton().closeExistingSockets();
 		if (this.mReceiver != null) {
 			if (this.receiversRegistered) {
 				this.origin.unregisterReceiver(this.mReceiver);
