@@ -12,12 +12,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.FlowPane?>
 
-<FlowPane orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml" vgap="25">
+<FlowPane orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml"
+	vgap="25">
 	<padding>
-		<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+		<Insets bottom="0.0" left="10.0" right="10.0" top="10.0" />
 	</padding>
 	<GridPane alignment="center" hgap="10.0" vgap="10.0">
-		<Label text="Local" GridPane.rowIndex="0" />
 		<Button text="Start" onAction="#onHostButton"
 			GridPane.rowIndex="1" GridPane.columnIndex="0" />
 		<Button text="Add AI" onAction="#onButtonAddAi"
@@ -28,16 +28,11 @@
 		<TableView fx:id="playersTable" maxWidth="500" maxHeight="250"
 			prefHeight="100" GridPane.rowIndex="2" GridPane.columnIndex="0"
 			GridPane.columnSpan="4" onMouseClicked="#onMouseClickOnPlayers">
-			<placeholder>
-				<Label text="No players yet" />
-			</placeholder>
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
 			<columns>
-				<TableColumn text="Id">
-					<cellValueFactory>
-						<PropertyValueFactory property="playerId" />
-					</cellValueFactory>
-				</TableColumn>
-				<TableColumn text="Name">
+				<TableColumn text="Local">
 					<cellValueFactory>
 						<PropertyValueFactory property="playerName" />
 					</cellValueFactory>
@@ -47,12 +42,10 @@
 		</TableView>
 
 	</GridPane>
-	
-	
+
+
 	<GridPane alignment="center" hgap="10.0" vgap="10.0"
 		xmlns:fx="http://javafx.com/fxml">
-	
-		<Label text="Servers" GridPane.rowIndex="0" />
 
 		<Button text="Connect" fx:id="connectButton" onAction="#onButtonConnect"
 			disable="true" GridPane.rowIndex="1" GridPane.columnIndex="0" />
@@ -62,11 +55,14 @@
 		<TableView fx:id="hostsTable" maxWidth="500" maxHeight="250"
 			prefHeight="100" GridPane.rowIndex="2" GridPane.columnIndex="0"
 			GridPane.columnSpan="4">
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
 			<placeholder>
 				<Label text="No server found..." />
 			</placeholder>
 			<columns>
-				<TableColumn text="Name">
+				<TableColumn text="Servers">
 					<cellValueFactory>
 						<PropertyValueFactory property="name" />
 					</cellValueFactory>

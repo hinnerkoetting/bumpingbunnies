@@ -119,6 +119,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 				new PlayerMovement(myPlayer)));
 
 		addOtherPlayers(inputFactory);
+		primaryStage.setResizable(true);
 	}
 
 	private void addOtherPlayers(ConfigurableKeyboardInputFactory inputFactory) {
