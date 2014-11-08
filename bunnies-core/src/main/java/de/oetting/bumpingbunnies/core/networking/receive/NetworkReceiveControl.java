@@ -12,6 +12,7 @@ public class NetworkReceiveControl implements NewSocketListener {
 
 	private List<NetworkReceiver> networkReceiveThreads;
 	private NetworkReceiveThreadFactory factory;
+	private boolean isStarted = false;
 
 	public NetworkReceiveControl(NetworkReceiveThreadFactory factory, List<NetworkReceiver> networkReceiveThreads) {
 		this.factory = factory;
@@ -25,12 +26,16 @@ public class NetworkReceiveControl implements NewSocketListener {
 	}
 
 	@Override
-	public void newEvent(MySocket socket) {
+	public synchronized void newEvent(MySocket socket) {
 		List<NetworkReceiver> newThreads = this.factory.create(socket);
 		this.networkReceiveThreads.addAll(newThreads);
-		for (NetworkReceiver nrt : newThreads) {
+		if (isStarted)
+			startThreads(newThreads);
+	}
+
+	private void startThreads(List<NetworkReceiver> newThreads) {
+		for (NetworkReceiver nrt : newThreads)
 			nrt.start();
-		}
 	}
 
 	@Override
@@ -52,9 +57,10 @@ public class NetworkReceiveControl implements NewSocketListener {
 		return threads;
 	}
 
-	public void start() {
+	public synchronized void start() {
 		for (NetworkReceiver receiver : networkReceiveThreads)
 			receiver.start();
+		isStarted = true;
 	}
 
 }

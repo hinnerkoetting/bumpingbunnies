@@ -23,6 +23,7 @@ public class NetworkMessageDistributor implements NewSocketListener {
 	private final List<NetworkSender> sendThreads;
 	private final RemoteConnectionFactory factory;
 	private final MessageParser messageParser;
+	private boolean isStarted = false;
 
 	public NetworkMessageDistributor(RemoteConnectionFactory factory) {
 		this(factory, new CopyOnWriteArrayList<NetworkSender>());
@@ -39,9 +40,10 @@ public class NetworkMessageDistributor implements NewSocketListener {
 	}
 
 	@Override
-	public void newEvent(MySocket socket) {
+	public synchronized void newEvent(MySocket socket) {
 		NetworkSender newSender = this.factory.create(socket);
-		newSender.start();
+		if (isStarted)
+			newSender.start();
 		this.sendThreads.add(newSender);
 	}
 
@@ -108,9 +110,10 @@ public class NetworkMessageDistributor implements NewSocketListener {
 		throw new IllegalArgumentException("Could not find sendthread for " + opponent);
 	}
 
-	public void start() {
+	public synchronized void start() {
 		for (NetworkSender sender : sendThreads)
 			sender.start();
+		isStarted = true;
 	}
 
 	public static class ConnectionDoesNotExist extends RuntimeException {

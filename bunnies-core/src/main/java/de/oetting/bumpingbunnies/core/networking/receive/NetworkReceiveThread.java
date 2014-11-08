@@ -118,6 +118,7 @@ public class NetworkReceiveThread extends BunniesThread implements NetworkReceiv
 		}
 	}
 
+	@Override
 	public boolean belongsToPlayer(Player player) {
 		return player.getOpponent().equals(this.socket.getConnectionIdentifier());
 	}
@@ -131,5 +132,10 @@ public class NetworkReceiveThread extends BunniesThread implements NetworkReceiv
 	public void shutdown() {
 		cancel();
 		socket.close();
+	}
+
+	@Override
+	public synchronized void start() {
+		super.start();
 	}
 }

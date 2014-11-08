@@ -87,4 +87,9 @@ public class NetworkSendQueueThread extends BunniesThread implements NetworkSend
 	public boolean isConnectionToPlayer(ConnectionIdentifier opponent) {
 		return this.socket.getConnectionIdentifier().equals(opponent);
 	}
+
+	@Override
+	public synchronized void start() {
+		super.start();
+	}
 }
