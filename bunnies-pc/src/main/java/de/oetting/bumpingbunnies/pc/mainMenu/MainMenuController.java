@@ -358,6 +358,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 				if (!(playersTable.getItems().get(focusedCell.getRow()) instanceof LocalPlayerEntry))
 					playersTable.getItems().remove(focusedCell.getRow());
 			}
+			enableButtons();
 		}
 	}
 

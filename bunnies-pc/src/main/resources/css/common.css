@@ -32,6 +32,8 @@
 
 .table-cell {
     -fx-alignment: CENTER;
+    -fx-fill: white;
+    -fx-text-fill: white;
 }
 
 .table-row-cell:selected {
@@ -39,10 +41,6 @@
 }
 
 .table-row-cell:selected .text {
-	-fx-fill: black;
-}
-
-.table-row-cell .table-cell {
 	-fx-fill: black;
 }
 
