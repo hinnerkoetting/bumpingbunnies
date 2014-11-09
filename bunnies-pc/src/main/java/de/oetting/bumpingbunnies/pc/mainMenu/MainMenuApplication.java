@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.pc.CssLoader;
 
 public class MainMenuApplication extends Application {
 
@@ -18,7 +19,7 @@ public class MainMenuApplication extends Application {
 		loader.setController(controller);
 		Pane myPane = (Pane) loader.load();
 		Scene myScene = new Scene(myPane);
-		myScene.getStylesheets().addAll(this.getClass().getResource("/css/mainMenu.css").toExternalForm());
+		myScene.getStylesheets().addAll(new CssLoader().loadCssForMainMenu());
 		primaryStage.setScene(myScene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest((e) -> Platform.exit());
