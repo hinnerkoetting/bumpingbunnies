@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.pc.main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
@@ -68,6 +69,7 @@ import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawa
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableFactory;
 import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
+import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntryComparator;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreMenuApplication;
 import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
 
@@ -264,6 +266,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 				entries.add(new ScoreEntry(player.getName(), player.getScore(), player.getColor()));
 			}
 		}
+		Collections.sort(entries, new ScoreEntryComparator());
 		return entries;
 	}
 
