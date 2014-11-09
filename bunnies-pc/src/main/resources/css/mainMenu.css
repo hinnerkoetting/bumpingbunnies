@@ -22,6 +22,7 @@
     -fx-table-header-border-color: transparent;
     -fx-padding: 5;
 }
+
 .table-view .column-header .label {
 	-fx-background-color: 
 		  #a6b5c9,
@@ -30,6 +31,30 @@
     -fx-text-fill: white;
     -fx-alignment: center;
     -fx-opacity: 1;
+    -fx-background-insets: 0 0 -1 0,0,1;
+    -fx-background-radius: 5,5,4;
+}
+
+.table-row-cell:selected {
+   -fx-background-color: transparent; 
+}
+
+.table-row-cell:selected .text {
+       -fx-fill: black;
+}
+
+
+.table-row-cell: .table-cell {
+       -fx-fill: black;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: transparent;
+}
+
+.table-row-cell:focused:odd {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 1, 2;
 }
 
 .button {
@@ -44,4 +69,11 @@
     -fx-font-family: "Helvetica";
     -fx-font-size: 12px;
     -fx-text-fill: white;
+}
+
+.button:armed {
+   	-fx-focus-color: transparent;
+    -fx-background-color:
+        #4645e9,
+        linear-gradient(#303842 0%, #3e5577 20%, #375074 100%);
 }
