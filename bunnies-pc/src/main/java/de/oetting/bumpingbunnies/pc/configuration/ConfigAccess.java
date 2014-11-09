@@ -78,17 +78,17 @@ public class ConfigAccess {
 		configuration.getPlayer1Configuration().setPlayerLeft(KeyCode.LEFT.getName());
 		configuration.getPlayer1Configuration().setPlayerUp(KeyCode.UP.getName());
 		configuration.getPlayer1Configuration().setPlayerRight(KeyCode.RIGHT.getName());
-		configuration.getPlayer1Configuration().setPlayerName("Player 1");
+		configuration.getPlayer1Configuration().setPlayerName("Angel");
 
 		configuration.getPlayer2Configuration().setPlayerLeft(KeyCode.A.getName());
 		configuration.getPlayer2Configuration().setPlayerUp(KeyCode.W.getName());
 		configuration.getPlayer2Configuration().setPlayerRight(KeyCode.D.getName());
-		configuration.getPlayer2Configuration().setPlayerName("Player 2");
+		configuration.getPlayer2Configuration().setPlayerName("Siggi");
 
 		configuration.getPlayer3Configuration().setPlayerLeft(KeyCode.H.getName());
 		configuration.getPlayer3Configuration().setPlayerUp(KeyCode.U.getName());
 		configuration.getPlayer3Configuration().setPlayerRight(KeyCode.K.getName());
-		configuration.getPlayer3Configuration().setPlayerName("Player 3");
+		configuration.getPlayer3Configuration().setPlayerName("Uschi");
 
 		configuration.setSpeed(25);
 		configuration.setPlayMusic(true);

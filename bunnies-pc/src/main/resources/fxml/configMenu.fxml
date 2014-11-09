@@ -14,8 +14,9 @@
 <?import javafx.scene.control.ToggleButton?>
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1" vgap="10">
+
 	<padding>
-		<Insets bottom="0.0" left="10.0" right="10.0" top="10.0" />
+		<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 	</padding>
 	<GridPane vgap="10" hgap="5">
 
@@ -78,11 +79,10 @@
 	</GridPane>
 
 
-	<GridPane GridPane.rowIndex="5">
+	<GridPane GridPane.rowIndex="5" vgap="5" hgap="5">
 		<Button text="Save" onAction="#onButtonSave" />
 		<Button text="Cancel" GridPane.columnIndex="1" onAction="#onButtonCancel" />
 	</GridPane>
-
 
 </GridPane>
 
