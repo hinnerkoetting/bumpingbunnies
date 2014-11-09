@@ -179,6 +179,7 @@ public class ConfigController implements Initializable {
 			field.setText(event.getCode().getName());
 		}
 		field.selectedProperty().set(false);
+		event.consume();
 	}
 
 	private void selectWholeTextOnSelection() {

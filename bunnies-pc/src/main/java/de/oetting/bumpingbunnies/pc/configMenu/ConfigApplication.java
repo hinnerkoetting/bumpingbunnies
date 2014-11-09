@@ -33,7 +33,7 @@ public class ConfigApplication extends Application {
 	}
 
 	private void onKeyPressed(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ESCAPE)) {
+		if (event.getCode().equals(KeyCode.ESCAPE) && !event.isConsumed()) {
 			new ApplicationStarter().startApplication(new MainMenuApplication(), primaryStage);
 		}
 	}
