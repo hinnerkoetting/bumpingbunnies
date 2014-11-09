@@ -34,6 +34,10 @@ public class PlayerImagesReader {
 		return streams;
 	}
 
+	public InputStream loadOneImage() {
+		return loadImage("v1d_run_1");
+	}
+
 	private InputStream loadImage(String name) {
 		String resource = "/drawable/" + name + ".png";
 		InputStream is = getClass().getResourceAsStream(resource);

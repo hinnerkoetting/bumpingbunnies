@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.pc.CssLoader;
 
 public class ScoreMenuApplication extends Application {
 
@@ -23,6 +24,7 @@ public class ScoreMenuApplication extends Application {
 		Pane pane = loader.load();
 		fillEntries(loader.getController());
 		Scene scene = new Scene(pane);
+		scene.getStylesheets().addAll(new CssLoader().loadScoreCss());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest((e) -> Platform.exit());

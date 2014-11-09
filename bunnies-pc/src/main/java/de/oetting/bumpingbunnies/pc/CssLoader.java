@@ -24,4 +24,8 @@ public class CssLoader {
 	private String loadConfigurationCss() {
 		return this.getClass().getResource("/css/configuration.css").toExternalForm();
 	}
+
+	public String loadScoreCss() {
+		return loadCommonCss();
+	}
 }

@@ -30,6 +30,10 @@
 	-fx-background-radius: 5, 5, 4;
 }
 
+.table-cell {
+    -fx-alignment: CENTER;
+}
+
 .table-row-cell:selected {
 	-fx-background-color: transparent;
 }

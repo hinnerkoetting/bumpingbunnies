@@ -4,10 +4,21 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreCellFactory?>
+<?import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreImageValueFactory?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oetting.bumpingbunnies.pc.scoreMenu.ScoreMenuController">
 	<TableView fx:id="scoreTable">
 		<columns>
+			<TableColumn text="" minWidth="100" fx:id="image">
+				<cellFactory>
+					<ScoreCellFactory/>
+				</cellFactory>
+				<cellValueFactory>
+					<ScoreImageValueFactory />
+				</cellValueFactory>
+			</TableColumn>
+			
 			<TableColumn text="Name" minWidth="100">
 				<cellValueFactory>
                     <PropertyValueFactory  property="playerName" />
