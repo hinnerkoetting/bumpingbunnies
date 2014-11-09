@@ -143,6 +143,8 @@ public class ConfigController implements Initializable {
 	}
 
 	private void changeKey(ToggleButton field) {
+		if (!field.isSelected())
+			field.setSelected(true);
 		if (field.isFocused())
 			changeTextOnKeyPress(field);
 		else
@@ -159,7 +161,7 @@ public class ConfigController implements Initializable {
 	}
 
 	private void onKeyTyped(KeyEvent event, ToggleButton field) {
-		if (!event.getCode().equals(KeyCode.ESCAPE)) {
+		if (!event.getCode().equals(KeyCode.ESCAPE) && !event.getCode().equals(KeyCode.TAB)) {
 			field.setText(event.getCode().getName());
 		}
 		field.selectedProperty().set(false);

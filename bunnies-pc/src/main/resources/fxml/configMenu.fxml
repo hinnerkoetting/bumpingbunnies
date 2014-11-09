@@ -37,11 +37,11 @@
 		</HBox>
 		<TextField text="A" fx:id="player1Name" GridPane.rowIndex="1"
 			GridPane.columnIndex="1" prefWidth="100" />
-		<ToggleButton  text="LEFT" fx:id="player1Left" 
+		<ToggleButton  text="LEFT" fx:id="player1Left"   ellipsisString=""
 			GridPane.rowIndex="1" GridPane.columnIndex="2" />
-		<ToggleButton text="UP" fx:id="player1Up" GridPane.rowIndex="1"
+		<ToggleButton text="UP" fx:id="player1Up" GridPane.rowIndex="1"  ellipsisString=""
 			GridPane.columnIndex="3" />
-		<ToggleButton text="RIGHT" fx:id="player1Right"
+		<ToggleButton text="RIGHT" fx:id="player1Right"  ellipsisString=""
 			GridPane.rowIndex="1" GridPane.columnIndex="4" />
 
 
@@ -49,22 +49,22 @@
 			GridPane.columnIndex="0" />
 		<TextField text="B" fx:id="player2Name" GridPane.rowIndex="2"
 			GridPane.columnIndex="1" prefWidth="100"/>
-		<ToggleButton text="A" fx:id="player2Left" GridPane.rowIndex="2" 
+		<ToggleButton text="A" fx:id="player2Left" GridPane.rowIndex="2"   ellipsisString=""
 			GridPane.columnIndex="2" />
-		<ToggleButton text="W" fx:id="player2Up" GridPane.rowIndex="2"
+		<ToggleButton text="W" fx:id="player2Up" GridPane.rowIndex="2" ellipsisString=""
 			GridPane.columnIndex="3" />
-		<ToggleButton text="D" fx:id="player2Right" GridPane.rowIndex="2"
+		<ToggleButton text="D" fx:id="player2Right" GridPane.rowIndex="2" ellipsisString=""
 			GridPane.columnIndex="4" />
 
 		<Label text="Player 3" GridPane.rowIndex="3"
 			GridPane.columnIndex="0" />
-		<TextField text="C" fx:id="player3Name" GridPane.rowIndex="3"
+		<TextField text="C" fx:id="player3Name" GridPane.rowIndex="3" 
 			GridPane.columnIndex="1" prefWidth="100"/>
-		<ToggleButton text="H" fx:id="player3Left" GridPane.rowIndex="3"
+		<ToggleButton text="H" fx:id="player3Left" GridPane.rowIndex="3" ellipsisString=""
 			GridPane.columnIndex="2" />
-		<ToggleButton text="U" fx:id="player3Up" GridPane.rowIndex="3"
+		<ToggleButton text="U" fx:id="player3Up" GridPane.rowIndex="3" ellipsisString=""
 			GridPane.columnIndex="3" />
-		<ToggleButton text="K" fx:id="player3Right" GridPane.rowIndex="3"
+		<ToggleButton text="K" fx:id="player3Right" GridPane.rowIndex="3"  ellipsisString=""
 			GridPane.columnIndex="4" />
 
 	</GridPane>
