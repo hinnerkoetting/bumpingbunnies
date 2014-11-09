@@ -7,8 +7,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -23,29 +25,29 @@ public class ConfigController implements Initializable {
 	@FXML
 	TextField player1Name;
 	@FXML
-	Labeled player1Left;
+	ToggleButton player1Left;
 	@FXML
-	Labeled player1Up;
+	ToggleButton player1Up;
 	@FXML
-	Labeled player1Right;
+	ToggleButton player1Right;
 
 	@FXML
 	TextField player2Name;
 	@FXML
-	Labeled player2Left;
+	ToggleButton player2Left;
 	@FXML
-	Labeled player2Up;
+	ToggleButton player2Up;
 	@FXML
-	Labeled player2Right;
+	ToggleButton player2Right;
 
 	@FXML
 	TextField player3Name;
 	@FXML
-	Labeled player3Left;
+	ToggleButton player3Left;
 	@FXML
-	Labeled player3Up;
+	ToggleButton player3Up;
 	@FXML
-	Labeled player3Right;
+	ToggleButton player3Right;
 
 	@FXML
 	TextField speed;
@@ -120,10 +122,58 @@ public class ConfigController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		PcConfiguration loadedConfiguration = new ConfigAccess().load();
 		fillFields(loadedConfiguration);
-		player1Name.focusedProperty().addListener((event) -> selectWholeText(player1Name));
-		player2Name.focusedProperty().addListener((event) -> selectWholeText(player2Name));
-		player3Name.focusedProperty().addListener((event) -> selectWholeText(player3Name));
-		speed.focusedProperty().addListener((event) -> selectWholeText(speed));
+		selectWholeTextOnSelection();
+		changeKeyOnSelection();
+	}
+
+	private void changeKeyOnSelection() {
+		registerSetOnKeyPress(player1Left);
+		registerSetOnKeyPress(player1Right);
+		registerSetOnKeyPress(player1Up);
+		registerSetOnKeyPress(player2Left);
+		registerSetOnKeyPress(player2Right);
+		registerSetOnKeyPress(player2Up);
+		registerSetOnKeyPress(player3Left);
+		registerSetOnKeyPress(player3Right);
+		registerSetOnKeyPress(player3Up);
+	}
+
+	private void registerSetOnKeyPress(ToggleButton button) {
+		button.focusedProperty().addListener((event) -> changeKey(button));
+	}
+
+	private void changeKey(ToggleButton field) {
+		if (field.isFocused())
+			changeTextOnKeyPress(field);
+		else
+			removeFocusFromButton(field);
+	}
+
+	private void removeFocusFromButton(ToggleButton field) {
+		field.selectedProperty().set(false);
+		field.setOnKeyPressed(null);
+	}
+
+	private void changeTextOnKeyPress(ToggleButton field) {
+		field.setOnKeyPressed((event) -> (onKeyTyped(event, field)));
+	}
+
+	private void onKeyTyped(KeyEvent event, ToggleButton field) {
+		if (!event.getCode().equals(KeyCode.ESCAPE)) {
+			field.setText(event.getCode().getName());
+		}
+		field.selectedProperty().set(false);
+	}
+
+	private void selectWholeTextOnSelection() {
+		selectWholeTextOnSelection(player1Name);
+		selectWholeTextOnSelection(player2Name);
+		selectWholeTextOnSelection(player3Name);
+		selectWholeTextOnSelection(speed);
+	}
+
+	private void selectWholeTextOnSelection(TextField textfield) {
+		textfield.focusedProperty().addListener((event) -> selectWholeText(textfield));
 	}
 
 	private void fillFields(PcConfiguration configuration) {
