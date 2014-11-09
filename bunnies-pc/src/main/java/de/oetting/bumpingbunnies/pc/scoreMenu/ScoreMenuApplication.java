@@ -6,13 +6,18 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.CssLoader;
+import de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication;
 
 public class ScoreMenuApplication extends Application {
 
 	private final List<ScoreEntry> entries;
+	private Stage primaryStage;
 
 	public ScoreMenuApplication(List<ScoreEntry> entries) {
 		this.entries = entries;
@@ -20,6 +25,7 @@ public class ScoreMenuApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ScoreMenu.fxml"));
 		Pane pane = loader.load();
 		fillEntries(loader.getController());
@@ -30,6 +36,16 @@ public class ScoreMenuApplication extends Application {
 		primaryStage.setOnCloseRequest((e) -> Platform.exit());
 		primaryStage.setTitle("Bumping Bunnies: Score");
 		primaryStage.setResizable(false);
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, (event) -> onKeyPressed(event));
+	}
+
+	private void onKeyPressed(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ESCAPE))
+			toToMainScreen();
+	}
+
+	private void toToMainScreen() {
+		new ApplicationStarter().startApplication(new MainMenuApplication(), primaryStage);
 	}
 
 	private void fillEntries(ScoreMenuController controller) {
