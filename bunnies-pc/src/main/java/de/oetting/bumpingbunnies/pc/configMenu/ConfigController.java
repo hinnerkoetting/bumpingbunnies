@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.pc.configMenu;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -119,6 +120,10 @@ public class ConfigController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		PcConfiguration loadedConfiguration = new ConfigAccess().load();
 		fillFields(loadedConfiguration);
+		player1Name.focusedProperty().addListener((event) -> selectWholeText(player1Name));
+		player2Name.focusedProperty().addListener((event) -> selectWholeText(player2Name));
+		player3Name.focusedProperty().addListener((event) -> selectWholeText(player3Name));
+		speed.focusedProperty().addListener((event) -> selectWholeText(speed));
 	}
 
 	private void fillFields(PcConfiguration configuration) {
@@ -153,6 +158,14 @@ public class ConfigController implements Initializable {
 		speed.setText(Integer.toString(configuration.getSpeed()));
 		musicCheckbox.setSelected(configuration.isPlayMusic());
 		soundCheckbox.setSelected(configuration.isPlaySound());
+	}
+
+	private void selectWholeText(TextField tf) {
+		Platform.runLater(() -> {
+			if (tf.isFocused() && !tf.getText().isEmpty()) {
+				tf.selectAll();
+			}
+		});
 	}
 
 }

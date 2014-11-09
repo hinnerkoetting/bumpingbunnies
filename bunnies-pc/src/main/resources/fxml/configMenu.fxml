@@ -35,7 +35,7 @@
 			</padding>
 		</HBox>
 		<TextField text="A" fx:id="player1Name" GridPane.rowIndex="1"
-			GridPane.columnIndex="1" prefWidth="100"/>
+			GridPane.columnIndex="1" prefWidth="100" />
 		<ToggleButton  text="LEFT" fx:id="player1Left" 
 			GridPane.rowIndex="1" GridPane.columnIndex="2" />
 		<ToggleButton text="UP" fx:id="player1Up" GridPane.rowIndex="1"
