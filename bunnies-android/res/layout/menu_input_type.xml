@@ -39,11 +39,6 @@
             android:checked="true"
             android:text="@string/distributed_keyboard" />
 
-        <RadioButton
-            android:id="@+id/start_button_analog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/analog" />
 
         <RadioButton
             android:id="@+id/start_button_multi_touch"
@@ -51,23 +46,6 @@
             android:layout_height="wrap_content"
             android:text="@string/multi_touch" />
 
-        <RadioButton
-            android:id="@+id/start_button_pointer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pointer" />
-
-        <RadioButton
-            android:id="@+id/start_button_touch_press"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/touch_press" />
-
-        <RadioButton
-            android:id="@+id/start_button_touch_release"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/touch_release" />
 
         <RadioButton
             android:id="@+id/start_button_hardware_keyboard"

@@ -9,8 +9,7 @@ public class ProgressBarValueChanger implements OnSeekBarChangeListener {
 	private final TextView controlledTextview;
 	private final ProgressToValueConverter converter;
 
-	public ProgressBarValueChanger(TextView controlledTextview,
-			ProgressToValueConverter converter, int startValue) {
+	public ProgressBarValueChanger(TextView controlledTextview, ProgressToValueConverter converter, int startValue) {
 		super();
 		this.controlledTextview = controlledTextview;
 		this.converter = converter;
@@ -18,8 +17,7 @@ public class ProgressBarValueChanger implements OnSeekBarChangeListener {
 	}
 
 	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress,
-			boolean fromUser) {
+	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		setNewValueToTextfield(progress);
 	}
 
