@@ -124,6 +124,22 @@ public class ConfigController implements Initializable {
 		fillFields(loadedConfiguration);
 		selectWholeTextOnSelection();
 		changeKeyOnSelection();
+		speed.addEventFilter(KeyEvent.KEY_TYPED, (event) -> allowOnlyDigits(event, speed));
+		speed.focusedProperty().addListener((event, oldValue, newValue) -> allowMaxValue(speed, 15, 50));
+	}
+
+	private void allowMaxValue(TextField field, int minValue, int maxValue) {
+		String value = field.getText();
+		Integer enteredValue = Integer.valueOf(value);
+		if (enteredValue > maxValue)
+			field.setText(Integer.toString(maxValue));
+		else if (enteredValue < minValue)
+			field.setText(Integer.toString(minValue));
+	}
+
+	private void allowOnlyDigits(KeyEvent event, TextField textfield) {
+		if (!event.getCharacter().matches("[0-9]"))
+			event.consume();
 	}
 
 	private void changeKeyOnSelection() {
@@ -139,13 +155,11 @@ public class ConfigController implements Initializable {
 	}
 
 	private void registerSetOnKeyPress(ToggleButton button) {
-		button.focusedProperty().addListener((event) -> changeKey(button));
+		button.selectedProperty().addListener((event) -> changeKey(button));
 	}
 
 	private void changeKey(ToggleButton field) {
-		if (!field.isSelected())
-			field.setSelected(true);
-		if (field.isFocused())
+		if (field.isFocused() && field.isSelected())
 			changeTextOnKeyPress(field);
 		else
 			removeFocusFromButton(field);

@@ -2,8 +2,8 @@
 <pcConfiguration>
     <configurations>
         <playerName>Angel</playerName>
-        <playerLeft>Space</playerLeft>
-        <playerUp>Space</playerUp>
+        <playerLeft>Left</playerLeft>
+        <playerUp>Up</playerUp>
         <playerRight>Right</playerRight>
     </configurations>
     <configurations>
@@ -18,7 +18,7 @@
         <playerUp>Back Slash</playerUp>
         <playerRight>K</playerRight>
     </configurations>
-    <speed>25</speed>
+    <speed>50</speed>
     <playMusic>false</playMusic>
     <playSound>true</playSound>
 </pcConfiguration>
