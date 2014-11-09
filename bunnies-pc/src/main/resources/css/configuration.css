@@ -1,0 +1,21 @@
+.root {
+	-fx-background-image: url("configuration_background.png");
+	-fx-background-size: stretch;
+}
+
+.bordered-titled-title {
+  -fx-background-color: white;
+  -fx-translate-y: -10; /* play around with this value when changing the title font to get a vertically centered title */
+}
+
+.bordered-titled-border {
+  -fx-content-display: top;
+  -fx-border-insets: 20 15 15 15;
+  -fx-background-color: white;
+  -fx-border-color: black;
+  -fx-border-width: 2;
+}
+
+.bordered-titled-content {
+  -fx-padding: 26 10 10 10;
+}

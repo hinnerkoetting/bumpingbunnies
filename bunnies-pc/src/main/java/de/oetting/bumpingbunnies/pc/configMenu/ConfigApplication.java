@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.pc.CssLoader;
 
 public class ConfigApplication extends Application {
 
@@ -15,10 +16,11 @@ public class ConfigApplication extends Application {
 		loader.setController(new ConfigController(primaryStage));
 		Pane myPane = (Pane) loader.load();
 		Scene myScene = new Scene(myPane);
+		myScene.getStylesheets().addAll(new CssLoader().loadCssForConfiguration());
 		primaryStage.setScene(myScene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest((e) -> Platform.exit());
-		primaryStage.setTitle("Bumping Bunnies: Configuration");
+		primaryStage.setTitle("Configuration");
 		primaryStage.setResizable(false);
 	}
 

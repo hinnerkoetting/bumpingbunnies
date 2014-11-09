@@ -38,7 +38,7 @@
 	-fx-fill: black;
 }
 
-.table-row-cell: .table-cell {
+.table-row-cell .table-cell {
 	-fx-fill: black;
 }
 
@@ -63,6 +63,16 @@
 	-fx-font-family: "Helvetica";
 	-fx-font-size: 12px;
 	-fx-text-fill: white;
+}
+
+.label {
+	-fx-background-insets: 0 0 -1 0, 0, 1;
+	-fx-background-radius: 5, 5, 4;
+	-fx-text-fill: #242d35;
+	-fx-font-family: "Helvetica";
+	-fx-font-size: 12px;
+	-fx-text-fill: white;
+	-fx-text-alignment: center;
 }
 
 .button:armed {

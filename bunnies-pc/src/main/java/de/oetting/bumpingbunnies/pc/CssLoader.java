@@ -9,11 +9,19 @@ public class CssLoader {
 		return Arrays.asList(loadCommonCss(), loadMainMenuCss());
 	}
 
+	public List<String> loadCssForConfiguration() {
+		return Arrays.asList(loadCommonCss(), loadConfigurationCss());
+	}
+
 	private String loadCommonCss() {
 		return this.getClass().getResource("/css/common.css").toExternalForm();
 	}
 
 	private String loadMainMenuCss() {
 		return this.getClass().getResource("/css/mainMenu.css").toExternalForm();
+	}
+
+	private String loadConfigurationCss() {
+		return this.getClass().getResource("/css/configuration.css").toExternalForm();
 	}
 }
