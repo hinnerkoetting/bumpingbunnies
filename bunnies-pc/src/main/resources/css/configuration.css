@@ -3,19 +3,24 @@
 	-fx-background-size: stretch;
 }
 
-.bordered-titled-title {
-  -fx-background-color: white;
-  -fx-translate-y: -10; /* play around with this value when changing the title font to get a vertically centered title */
+
+.toggle-button {
+	-fx-pref-width: 75;
+	-fx-background-color: #a6b5c9,
+		linear-gradient(#303842 0%, #3e5577 20%, #375074 100%),
+		linear-gradient(#768aa5 0%, #849cbb 5%, #5877a2 50%, #486a9a 51%,
+		#4a6c9b 100%);
+	-fx-background-insets: 0 0 -1 0, 0, 1;
+	-fx-background-radius: 5, 5, 4;
+	-fx-padding: 5 20 5 20;
+	-fx-text-fill: #242d35;
+	-fx-font-family: "Helvetica";
+	-fx-font-size: 12px;
+	-fx-text-fill: white;
 }
 
-.bordered-titled-border {
-  -fx-content-display: top;
-  -fx-border-insets: 20 15 15 15;
-  -fx-background-color: white;
-  -fx-border-color: black;
-  -fx-border-width: 2;
-}
-
-.bordered-titled-content {
-  -fx-padding: 26 10 10 10;
+.toggle-button:selected {
+	-fx-focus-color: transparent;
+	-fx-background-color: #4645e9,
+		linear-gradient(#303842 0%, #3e5577 20%, #375074 100%);
 }

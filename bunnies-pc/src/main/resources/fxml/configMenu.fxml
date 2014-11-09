@@ -11,6 +11,7 @@
 <?import de.oetting.bumpingbunnies.pc.configMenu.TitledBorder?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ToggleButton?>
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1" vgap="10">
 	<padding>
@@ -27,42 +28,42 @@
 		<Label text="Right" GridPane.rowIndex="0" GridPane.columnIndex="4"
 			GridPane.halignment="CENTER" />
 
-		<HBox spacing="50" GridPane.rowIndex="1" alignment="CENTER_LEFT">
+		<HBox GridPane.rowIndex="1" alignment="CENTER_LEFT">
 			<Label text="Player 1" GridPane.rowIndex="1" />
 			<padding>
 				<Insets right="25.0" />
 			</padding>
 		</HBox>
 		<TextField text="A" fx:id="player1Name" GridPane.rowIndex="1"
-			GridPane.columnIndex="1" />
-		<TextField text="LEFT" fx:id="player1Left"
+			GridPane.columnIndex="1" prefWidth="100"/>
+		<ToggleButton  text="LEFT" fx:id="player1Left" 
 			GridPane.rowIndex="1" GridPane.columnIndex="2" />
-		<TextField text="UP" fx:id="player1Up" GridPane.rowIndex="1"
+		<ToggleButton text="UP" fx:id="player1Up" GridPane.rowIndex="1"
 			GridPane.columnIndex="3" />
-		<TextField text="RIGHT" fx:id="player1Right"
+		<ToggleButton text="RIGHT" fx:id="player1Right"
 			GridPane.rowIndex="1" GridPane.columnIndex="4" />
 
 
 		<Label text="Player 2" GridPane.rowIndex="2"
 			GridPane.columnIndex="0" />
 		<TextField text="B" fx:id="player2Name" GridPane.rowIndex="2"
-			GridPane.columnIndex="1" />
-		<TextField text="A" fx:id="player2Left" GridPane.rowIndex="2"
+			GridPane.columnIndex="1" prefWidth="100"/>
+		<ToggleButton text="A" fx:id="player2Left" GridPane.rowIndex="2" 
 			GridPane.columnIndex="2" />
-		<TextField text="W" fx:id="player2Up" GridPane.rowIndex="2"
+		<ToggleButton text="W" fx:id="player2Up" GridPane.rowIndex="2"
 			GridPane.columnIndex="3" />
-		<TextField text="D" fx:id="player2Right" GridPane.rowIndex="2"
+		<ToggleButton text="D" fx:id="player2Right" GridPane.rowIndex="2"
 			GridPane.columnIndex="4" />
 
 		<Label text="Player 3" GridPane.rowIndex="3"
 			GridPane.columnIndex="0" />
 		<TextField text="C" fx:id="player3Name" GridPane.rowIndex="3"
-			GridPane.columnIndex="1" />
-		<TextField text="H" fx:id="player3Left" GridPane.rowIndex="3"
+			GridPane.columnIndex="1" prefWidth="100"/>
+		<ToggleButton text="H" fx:id="player3Left" GridPane.rowIndex="3"
 			GridPane.columnIndex="2" />
-		<TextField text="U" fx:id="player3Up" GridPane.rowIndex="3"
+		<ToggleButton text="U" fx:id="player3Up" GridPane.rowIndex="3"
 			GridPane.columnIndex="3" />
-		<TextField text="K" fx:id="player3Right" GridPane.rowIndex="3"
+		<ToggleButton text="K" fx:id="player3Right" GridPane.rowIndex="3"
 			GridPane.columnIndex="4" />
 
 	</GridPane>

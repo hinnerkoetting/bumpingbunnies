@@ -2,7 +2,7 @@
 <pcConfiguration>
     <configurations>
         <playerName>Player 1</playerName>
-        <playerLeft>LEFT</playerLeft>
+        <playerLeft>Left</playerLeft>
         <playerUp>Up</playerUp>
         <playerRight>Right</playerRight>
     </configurations>

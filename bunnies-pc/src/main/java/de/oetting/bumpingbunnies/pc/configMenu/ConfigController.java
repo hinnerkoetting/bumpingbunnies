@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -21,29 +22,29 @@ public class ConfigController implements Initializable {
 	@FXML
 	TextField player1Name;
 	@FXML
-	TextField player1Left;
+	Labeled player1Left;
 	@FXML
-	TextField player1Up;
+	Labeled player1Up;
 	@FXML
-	TextField player1Right;
+	Labeled player1Right;
 
 	@FXML
 	TextField player2Name;
 	@FXML
-	TextField player2Left;
+	Labeled player2Left;
 	@FXML
-	TextField player2Up;
+	Labeled player2Up;
 	@FXML
-	TextField player2Right;
+	Labeled player2Right;
 
 	@FXML
 	TextField player3Name;
 	@FXML
-	TextField player3Left;
+	Labeled player3Left;
 	@FXML
-	TextField player3Up;
+	Labeled player3Up;
 	@FXML
-	TextField player3Right;
+	Labeled player3Right;
 
 	@FXML
 	TextField speed;
