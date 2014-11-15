@@ -24,7 +24,7 @@ public interface ModelConstants {
 
 	// y Movement
 
-	int PLAYER_JUMP_SPEED = (int) (+0.000225 * STANDARD_WORLD_SIZE);
+	int PLAYER_JUMP_SPEED = (int) (+0.00021 * STANDARD_WORLD_SIZE);
 	int PLAYER_JUMP_SPEED_WATER = (int) (+0.000175 * STANDARD_WORLD_SIZE);
 	int PLAYER_JUMP_SPEED_JUMPER = (int) (+0.00026 * STANDARD_WORLD_SIZE);
 
