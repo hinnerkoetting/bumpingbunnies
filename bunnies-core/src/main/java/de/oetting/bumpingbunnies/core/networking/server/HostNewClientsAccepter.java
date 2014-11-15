@@ -89,7 +89,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private void signalPlayerToStartTheGame(MySocket socket) {
 		SimpleNetworkSender sender = new SimpleNetworkSender(MessageParserFactory.create(), socket, callback);
 		new GameSettingSender(sender).sendMessage(this.generalSettings);
-		new StartGameSender(new SimpleNetworkSender(MessageParserFactory.create(), socket, callback)).sendMessage("");
+		new StartGameSender(sender).sendMessage("");
 	}
 
 	@Override
