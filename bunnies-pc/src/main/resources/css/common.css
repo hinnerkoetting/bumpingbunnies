@@ -36,22 +36,13 @@
     -fx-text-fill: white;
 }
 
-.table-row-cell:selected {
-	-fx-background-color: transparent;
-}
-
-.table-row-cell:selected .text {
-	-fx-fill: black;
-}
-
-.table-row-cell:odd {
-	-fx-background-color: transparent;
-}
-
-.table-row-cell:focused:odd {
-	-fx-background-color: transparent;
+.table-row-cell:focused {
+	-fx-background-color: #8695a9;
 	-fx-background-insets: 0, 1, 2;
 }
+
+
+
 
 .button {
 	-fx-background-color: #a6b5c9,

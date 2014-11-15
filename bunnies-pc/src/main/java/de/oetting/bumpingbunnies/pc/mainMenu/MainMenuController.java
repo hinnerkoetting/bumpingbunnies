@@ -3,12 +3,10 @@ package de.oetting.bumpingbunnies.pc.mainMenu;
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -44,7 +42,6 @@ import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
-import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configMenu.ConfigApplication;
@@ -79,24 +76,6 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	public MainMenuController(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-	}
-
-	@FXML
-	public void onButtonWithTwoPlayers(ActionEvent event) {
-		startGameWithTwoPlayers();
-	}
-
-	@FXML
-	public void onButtonWithAi(ActionEvent event) {
-		startGameWithAi();
-	}
-
-	private void startGameWithTwoPlayers() {
-		KeyboardInputConfiguration configuration2 = new PcConfigurationConverter().createConfiguration(getConfiguration().getPlayer2Configuration());
-		OpponentConfiguration opponentConfiguration = new OpponentConfiguration(AiModus.OFF, new PlayerProperties(1, "Player 2"),
-				ConnectionIdentifierFactory.createLocalPlayer("Player2"), configuration2);
-		Configuration configuration = createConfiguration(Arrays.asList(opponentConfiguration));
-		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 
 	private Configuration createConfiguration(List<OpponentConfiguration> opponentsFoo) {
@@ -141,13 +120,6 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 				entry.getPlayerName(), getConfiguration().getPlayerConfigurations()));
 	}
 
-	private void startGameWithAi() {
-		OpponentConfiguration aiOpponent = new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(1, "Player 2"),
-				ConnectionIdentifierFactory.createAiPlayer("Player2"), new NoopInputConfiguration());
-		Configuration configuration = createConfiguration(Arrays.asList(aiOpponent));
-		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
-	}
-
 	private void startGame(GameStartParameter parameter) {
 		listenForBroadcastsThread.stopListening();
 		new ApplicationStarter().startApplication(new BunniesMain(parameter), primaryStage);
@@ -172,8 +144,11 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	@Override
 	public void broadcastReceived(InetAddress senderAddress) {
 		Host host = new Host(senderAddress);
-		if (!hostsTable.getItems().contains(host))
+		if (!hostsTable.getItems().contains(host)) {
 			hostsTable.getItems().add(host);
+			if (hostsTable.getItems().size() == 1)
+				hostsTable.selectionModelProperty().get().select(host);
+		}
 	}
 
 	@FXML
