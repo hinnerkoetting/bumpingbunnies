@@ -4,9 +4,14 @@ import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.ResetToScorePoint;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.network.MessageSender;
+import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;
+import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointSender;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
+import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
@@ -23,15 +28,16 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final SpawnPointGenerator spawnPointGenerator;
 	private final MessageSender messageSender;
 	private final PlayerReviver reviver;
+	private final PlayerDisconnectedCallback disconnectCallback;
 
 	public HostBunnyKillChecker(CollisionDetection collisionDetection, World world, SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver,
-			MessageSender messageSender) {
-		super();
+			MessageSender messageSender, PlayerDisconnectedCallback disconnectCallback) {
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
 		this.world = world;
 		this.messageSender = messageSender;
+		this.disconnectCallback = disconnectCallback;
 	}
 
 	@Override
@@ -85,8 +91,18 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	@Override
 	public void newEvent(Player p) {
-		assignSpawnpoint(p);
+		sendSpawnPointOnlyToThisPlayer(p);
 		revivePlayerDelayed(p);
+	}
+
+	private void sendSpawnPointOnlyToThisPlayer(Player player) {
+		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
+		if (!player.getOpponent().isLocalPlayer()) {
+			MySocket playerSocket = SocketStorage.getSingleton().findSocket(player.getOpponent());
+			SpawnPointMessage message = new SpawnPointMessage(spawnPoint, player.id());
+			new SpawnPointSender(SimpleNetworkSenderFactory.createNetworkSender(playerSocket, disconnectCallback)).sendMessage(message);
+		}
+		ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, player);
 	}
 
 	private void assignSpawnpoint(Player player) {

@@ -15,6 +15,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
@@ -39,7 +40,7 @@ public class CommonGameThreadFactory {
 		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world, musicPlayerFactory,
 				configuration.getLocalSettings());
 		GameStepController stepController = CommonGameThreadFactory.createStepController(cameraCalculation, world, stateDispatcher, factory, sendControl,
-				configuration);
+				configuration, main);
 
 		return CommonGameThreadFactory.create(stepController, errorCallback);
 	}
@@ -50,8 +51,9 @@ public class CommonGameThreadFactory {
 	}
 
 	public static GameStepController createStepController(CameraPositionCalculation cameraCalculation, World world, PlayerStateDispatcher stateDispatcher,
-			PlayerMovementCalculationFactory factory, NetworkMessageDistributor sendControl, Configuration configuration) {
-		return GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl, configuration);
+			PlayerMovementCalculationFactory factory, NetworkMessageDistributor sendControl, Configuration configuration,
+			PlayerDisconnectedCallback disconnectCallback) {
+		return GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl, configuration, disconnectCallback);
 	}
 
 	public static PlayerMovementCalculationFactory createMovementCalculationFactory(World world, BunniesMusicPlayerFactory musicPlayerFactory,
