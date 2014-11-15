@@ -6,14 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
@@ -130,6 +137,23 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		hostsTable.getSelectionModel().selectedIndexProperty().addListener(event -> connectButton.setDisable(false));
 		listenForBroadcasts();
 		addMyPlayerRoomEntry(0);
+		createBlinkEffectForConnectButton();
+	}
+
+	private void createBlinkEffectForConnectButton() {
+		ColorAdjust adjustcolorEffect = new ColorAdjust();
+		final DoubleProperty brightness = adjustcolorEffect.brightnessProperty();
+		connectButton.setEffect(adjustcolorEffect);
+		connectButton.disabledProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> blink(brightness)));
+	}
+
+	private void blink(DoubleProperty brightness) {
+		Timeline flash = new Timeline( //
+				new KeyFrame(Duration.seconds(0.5), new KeyValue(brightness, 0.2, Interpolator.LINEAR)),//
+				new KeyFrame(Duration.seconds(0.7), new KeyValue(brightness, 0.0, Interpolator.LINEAR)));
+		flash.setAutoReverse(false);
+		flash.setCycleCount(2);
+		flash.play();
 	}
 
 	private void listenForBroadcasts() {
@@ -146,8 +170,9 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		Host host = new Host(senderAddress);
 		if (!hostsTable.getItems().contains(host)) {
 			hostsTable.getItems().add(host);
-			if (hostsTable.getItems().size() == 1)
-				hostsTable.selectionModelProperty().get().select(host);
+			if (hostsTable.getItems().size() == 1) {
+				Platform.runLater(() -> hostsTable.selectionModelProperty().get().select(host));
+			}
 		}
 	}
 
