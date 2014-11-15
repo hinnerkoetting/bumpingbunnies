@@ -10,6 +10,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkReceiveThreadFactory;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.receiver.WlanOpponentTypeReceiveFactory;
+import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket.UdpException;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -21,17 +22,21 @@ public class NetworkReceiveControlFactory {
 			ThreadErrorCallback errorCallback, World world) {
 		NetworkReceiveThreadFactory threadFactory = new NetworkReceiveThreadFactory(networkDispatcher, sendControl, errorCallback, world);
 
-		List<NetworkReceiver> allThreads = createExistingReceiverThreads(networkDispatcher, sendControl, configuration, errorCallback);
+		List<NetworkReceiver> allThreads = createReceiverThreadsForExistingPlayers(networkDispatcher, sendControl, configuration, errorCallback);
 		NetworkReceiveControl receiveControl = new NetworkReceiveControl(threadFactory, allThreads);
 		return receiveControl;
 	}
 
-	private static List<NetworkReceiver> createExistingReceiverThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,
-			Configuration configuration, ThreadErrorCallback errorCallback) {
-		List<NetworkReceiver> udpReceiverThreads = createUdpReceiverThreads(networkDispatcher, sendControl, configuration, errorCallback);
-		List<NetworkReceiver> allThreads = new ArrayList<NetworkReceiver>();
-		allThreads.addAll(udpReceiverThreads);
-		return allThreads;
+	private static List<NetworkReceiver> createReceiverThreadsForExistingPlayers(NetworkToGameDispatcher networkDispatcher,
+			NetworkMessageDistributor sendControl, Configuration configuration, ThreadErrorCallback errorCallback) {
+		try {
+			List<NetworkReceiver> udpReceiverThreads = createUdpReceiverThreads(networkDispatcher, sendControl, configuration, errorCallback);
+			List<NetworkReceiver> allThreads = new ArrayList<NetworkReceiver>();
+			allThreads.addAll(udpReceiverThreads);
+			return allThreads;
+		} catch (UdpException e) {
+			throw new CouldNotCreateListeningSocketsException("UDP", e.getPort(), e);
+		}
 	}
 
 	private static List<NetworkReceiver> createUdpReceiverThreads(NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl,

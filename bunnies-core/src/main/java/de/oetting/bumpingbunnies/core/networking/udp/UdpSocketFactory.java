@@ -31,21 +31,21 @@ public class UdpSocketFactory {
 			return udpSocket;
 		} catch (IOException e) {
 			LOGGER.info("Cannot bind to local port " + udpSocketSettings.getLocalPort());
-			throw new UdpSocket.UdpException(e);
+			throw new UdpSocket.UdpException(e, udpSocketSettings.getLocalPort());
 		}
 	}
 
 	public UdpSocket createSendingSocket(TCPSocket socket, ConnectionIdentifier owner) {
+		TcpSocketSettings tcpSocketSettings = socket.getSocketSettings();
+		UdpSocketSettings udpSocketSettings = new UdpSocketSettings(socket.getInetAddress(), tcpSocketSettings.getLocalPort(),
+				tcpSocketSettings.getDestinationPort());
 		try {
-			TcpSocketSettings tcpSocketSettings = socket.getSocketSettings();
-			UdpSocketSettings udpSocketSettings = new UdpSocketSettings(socket.getInetAddress(), tcpSocketSettings.getLocalPort(),
-					tcpSocketSettings.getDestinationPort());
 			LOGGER.info("Creating sending UDP socket on port %d and address %s ", udpSocketSettings.getDestinationPort(),
 					udpSocketSettings.getDestinationAddress());
 			UdpSocket udpSocket = createUdpSocket(udpSocketSettings, owner);
 			return udpSocket;
 		} catch (IOException e) {
-			throw new UdpSocket.UdpException(e);
+			throw new UdpSocket.UdpException(e, udpSocketSettings.getLocalPort());
 		}
 	}
 
@@ -62,7 +62,7 @@ public class UdpSocketFactory {
 			socket.setBroadcast(true);
 			return new UdpSocket(socket, opponent, settings);
 		} catch (IOException e) {
-			throw new UdpSocket.UdpException(e);
+			throw new UdpSocket.UdpException(e, settings.getLocalPort());
 		}
 	}
 }

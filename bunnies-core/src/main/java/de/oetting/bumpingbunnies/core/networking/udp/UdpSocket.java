@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.nio.charset.Charset;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.networking.NetworkException;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.network.UdpSocketSettings;
 
@@ -40,7 +41,7 @@ public class UdpSocket implements MySocket {
 			SocketAddress localSocketAddress = new InetSocketAddress(settings.getLocalPort());
 			socket.bind(localSocketAddress);
 		} catch (SocketException e) {
-			throw new UdpException(e);
+			throw new UdpException(e, settings.getLocalPort());
 		}
 	}
 
@@ -51,7 +52,7 @@ public class UdpSocket implements MySocket {
 					this.settings.getDestinationPort());
 			this.socket.send(packet);
 		} catch (IOException e) {
-			throw new UdpException(e);
+			throw new UdpException(e, socket.getPort());
 		}
 	}
 
@@ -96,11 +97,19 @@ public class UdpSocket implements MySocket {
 		}
 	}
 
-	public static class UdpException extends RuntimeException {
+	public static class UdpException extends NetworkException {
 
-		public UdpException(Throwable throwable) {
-			super(throwable);
+		private final int port;
+
+		public UdpException(Throwable cause, int port) {
+			super(cause);
+			this.port = port;
 		}
+
+		public int getPort() {
+			return port;
+		}
+
 	}
 
 }

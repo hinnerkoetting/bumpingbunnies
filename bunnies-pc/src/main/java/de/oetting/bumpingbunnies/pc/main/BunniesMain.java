@@ -7,7 +7,6 @@ import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import de.oetting.bumpingbunnies.core.BunniesException;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
@@ -106,22 +106,30 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
-		Canvas canvas = new Canvas(1000, 600);
-		createPanel(primaryStage, canvas);
+		try {
+			this.primaryStage = primaryStage;
+			Canvas canvas = new Canvas(1000, 600);
+			createPanel(primaryStage, canvas);
 
-		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
+			Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
-		buildGame(canvas, myPlayer);
+			buildGame(canvas, myPlayer);
 
-		startRendering();
-		inputDispatcher = new PcInputDispatcher();
-		ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
-		inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter.getConfiguration().getInputConfiguration(),
-				new PlayerMovement(myPlayer)));
+			startRendering();
+			inputDispatcher = new PcInputDispatcher();
+			ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
+			inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter.getConfiguration().getInputConfiguration(),
+					new PlayerMovement(myPlayer)));
 
-		addOtherPlayers(inputFactory);
-		primaryStage.setResizable(true);
+			addOtherPlayers(inputFactory);
+			primaryStage.setResizable(true);
+		} catch (BunniesException e) {
+			LOGGER.error("", e);
+			showError(e.getUserMessage());
+		} catch (Exception e) {
+			LOGGER.error("", e);
+			showTechnicalError();
+		}
 	}
 
 	private void addOtherPlayers(ConfigurableKeyboardInputFactory inputFactory) {
@@ -239,23 +247,25 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private void showTechnicalError() {
+		showError("Technical error.");
+	}
+
+	private void showError(String text) {
 		final Stage dialog = new Stage();
 		dialog.initModality(Modality.APPLICATION_MODAL);
 		dialog.initOwner(primaryStage);
 		VBox dialogVbox = new VBox(20);
-		javafx.scene.control.Button button = new javafx.scene.control.Button("Ok");
-		button.setOnAction(new EventHandler<ActionEvent>() {
+		javafx.scene.control.Button button = new javafx.scene.control.Button("Quit");
+		button.setOnAction((event) -> Platform.exit());
 
-			@Override
-			public void handle(ActionEvent event) {
-				Platform.exit();
-			}
-		});
-		dialogVbox.getChildren().add(new Text("Technical error."));
+		dialogVbox.getChildren().add(new Text(text));
 		dialogVbox.getChildren().add(button);
-		Scene dialogScene = new Scene(dialogVbox, 300, 200);
+		Scene dialogScene = new Scene(dialogVbox, primaryStage.getWidth(), primaryStage.getHeight());
+		dialog.setResizable(false);
 		dialog.setScene(dialogScene);
 		dialog.show();
+		dialog.setX(primaryStage.getX());
+		dialog.setY(primaryStage.getY());
 	}
 
 	private List<ScoreEntry> extractScores() {
