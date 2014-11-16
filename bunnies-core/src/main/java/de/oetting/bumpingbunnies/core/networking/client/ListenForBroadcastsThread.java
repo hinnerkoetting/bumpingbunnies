@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import de.oetting.bumpingbunnies.core.network.WlanDevice;
 import de.oetting.bumpingbunnies.core.threads.BunniesThread;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -48,7 +49,7 @@ public class ListenForBroadcastsThread extends BunniesThread {
 		LOGGER.verbose("received broadcast message");
 		if (this.packet.getData().length > 0) {
 			InetAddress senderAddress = this.packet.getAddress();
-			this.callback.broadcastReceived(senderAddress);
+			this.callback.broadcastReceived(new WlanDevice(senderAddress));
 		}
 	}
 

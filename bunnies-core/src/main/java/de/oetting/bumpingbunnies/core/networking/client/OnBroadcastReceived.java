@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.core.networking.client;
 
-import java.net.InetAddress;
+import de.oetting.bumpingbunnies.core.network.ServerDevice;
 
 public interface OnBroadcastReceived {
 
-	void broadcastReceived(InetAddress senderAddress);
+	void broadcastReceived(ServerDevice device);
 
 }

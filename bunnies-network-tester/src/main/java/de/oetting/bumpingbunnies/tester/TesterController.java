@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.tester;
 
-import java.net.InetAddress;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,7 +16,7 @@ import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
 import de.oetting.bumpingbunnies.core.network.BytePerSecondMeasurer;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
-import de.oetting.bumpingbunnies.core.network.WlanDevice;
+import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.network.room.DetailRoomEntry;
@@ -123,6 +122,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	@FXML
 	TextField remoteAddressTextfield;
 
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		listenForBroadcasts = ListenforBroadCastsThreadFactory.create(this, this);
 		listenForBroadcasts.start();
@@ -155,8 +155,9 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		updateBps.start();
 	}
 
-	public void broadcastReceived(InetAddress senderAddress) {
-		Host host = new Host(senderAddress);
+	@Override
+	public void broadcastReceived(ServerDevice device) {
+		Host host = new Host(device);
 		if (!broadcastTable.getItems().contains(host))
 			broadcastTable.getItems().add(host);
 	}
@@ -169,15 +170,17 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void onButtonConnect() {
 		ReadOnlyObjectProperty<Host> selectedItem = broadcastTable.getSelectionModel().selectedItemProperty();
 		SocketFactory factory = new WlanSocketFactory();
-		WlanDevice wlanDevice = new WlanDevice(selectedItem.getValue().getAddress());
+		ServerDevice wlanDevice = selectedItem.getValue().getDevice();
 		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(factory.createClientSocket(wlanDevice), this);
 		connectToServerThread.start();
 	}
 
+	@Override
 	public void connectionNotSuccesful(String message) {
 		Platform.exit();
 	}
 
+	@Override
 	public void connectToServerSuccesfull(MySocket mmSocket) {
 		this.tcpSocketToServer = mmSocket;
 		udpSocketToServer = new UdpSocketFactory().createListeningSocket((TCPSocket) tcpSocketToServer, tcpSocketToServer.getConnectionIdentifier());
@@ -198,6 +201,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		});
 	}
 
+	@Override
 	public void addPlayerEntry(MySocket serverSocket, PlayerProperties properties, int socketIndex) {
 		RoomEntry entry = createRoomEntry(serverSocket, properties);
 		addPlayerEntry(entry);
@@ -207,7 +211,8 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		if (socket.getConnectionIdentifier().isDirectlyConnected())
 			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
-			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
+			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(),
+					playerProperties.getPlayerId()));
 	}
 
 	public void addPlayerEntry(RoomEntry entry) {
@@ -216,6 +221,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
 
+	@Override
 	public void addMyPlayerRoomEntry(int myPlayerId) {
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
@@ -224,10 +230,12 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		playersTable.getItems().add(new DetailRoomEntry(new LocalPlayerEntry(singlePlayerProperties), player));
 	}
 
+	@Override
 	public LocalPlayerSettings createLocalPlayerSettings() {
 		return new LocalPlayerSettings(myPlayerNameTextfield.getText());
 	}
 
+	@Override
 	public void launchGame(ServerSettings generalSettingsFromNetwork, boolean asHost) {
 		connectedToServerService.cancel();
 		EasyNetworkToGameDispatcher tcpNetworkToGameDispatcher = new EasyNetworkToGameDispatcher(this);
@@ -373,7 +381,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		state.setCenterY(readStateY());
 		state.setFacingLeft(facingLeftCheckbox.isSelected());
 		state.setJumpingButtonPressed(jumpingCheckbox.isSelected());
-		state.setHorizontalMovementStatus(HorizontalMovementState.valueOf((String) playerStateMovement.getSelectionModel().getSelectedItem()));
+		state.setHorizontalMovementStatus(HorizontalMovementState.valueOf(playerStateMovement.getSelectionModel().getSelectedItem()));
 		return state;
 	}
 
@@ -397,6 +405,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		return (long) (ModelConstants.STANDARD_WORLD_SIZE * y);
 	}
 
+	@Override
 	public void playerDisconnected(ConnectionIdentifier opponent) {
 		RoomEntry player = findPlayer(opponent);
 		playersTable.getItems().remove(player);

@@ -7,24 +7,61 @@
     android:paddingLeft="@dimen/game_padding_left_right"
     android:paddingRight="@dimen/game_padding_left_right" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/room_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onClickStart"
+            android:text="@string/room_start" />
+
+        <Button
+            android:id="@+id/room_add_ai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onClickAddAi"
+            android:text="@string/room_add_ai" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/start_remote_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bluetooth" />
+
+            <RadioButton
+                android:id="@+id/start_remote_wlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wlan" />
+        </RadioGroup>
+    </LinearLayout>
+
     <ListView
-        android:id="@+id/start_bt_list"
+        android:id="@+id/hosts_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <include layout="@layout/room_buttons" />
+    <Button
+        android:id="@+id/room_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:onClick="onClickConnect"
+        android:text="@string/room_connect" />
 
     <ListView
         android:id="@+id/room_players"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/room_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/room_start"
-        android:enabled="false"
-        android:onClick="onClickStart" />
 
 </LinearLayout>

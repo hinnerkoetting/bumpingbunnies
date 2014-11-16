@@ -1,37 +1,24 @@
 package de.oetting.bumpingbunnies.core.network.room;
 
-import java.net.InetAddress;
+import de.oetting.bumpingbunnies.core.network.ServerDevice;
 
 public class Host {
 
-	private final InetAddress address;
-	private final String name;
+	private final ServerDevice device;
 
-	public Host(InetAddress address) {
-		this.address = address;
-		this.name = null;
-	}
-
-	public Host(String name) {
-		this.address = null;
-		this.name = name;
+	public Host(ServerDevice device) {
+		this.device = device;
 	}
 
 	public String getName() {
-		return name == null ? address.getHostAddress() : name;
-	}
-
-	public InetAddress getAddress() {
-		if (address == null)
-			throw new IllegalArgumentException("Host does not exist.");
-		return address;
+		return device.getName();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((device == null) ? 0 : device.hashCode());
 		return result;
 	}
 
@@ -44,12 +31,16 @@ public class Host {
 		if (getClass() != obj.getClass())
 			return false;
 		Host other = (Host) obj;
-		if (address == null) {
-			if (other.address != null)
+		if (device == null) {
+			if (other.device != null)
 				return false;
-		} else if (!address.equals(other.address))
+		} else if (!device.equals(other.device))
 			return false;
 		return true;
+	}
+
+	public ServerDevice getDevice() {
+		return device;
 	}
 
 }

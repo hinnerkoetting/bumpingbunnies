@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.pc.mainMenu;
 
-import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,8 @@ import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NoopSocket;
-import de.oetting.bumpingbunnies.core.network.WlanDevice;
+import de.oetting.bumpingbunnies.core.network.NullServerDevice;
+import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
 import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
@@ -161,13 +161,13 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 			listenForBroadcastsThread = ListenforBroadCastsThreadFactory.create(this, new PcGameStopper());
 			listenForBroadcastsThread.start();
 		} catch (CouldNotOpenBroadcastSocketException e) {
-			hostsTable.getItems().add(new Host("Cannot listen to broadcasts..."));
+			hostsTable.getItems().add(new Host(new NullServerDevice()));
 		}
 	}
 
 	@Override
-	public void broadcastReceived(InetAddress senderAddress) {
-		Host host = new Host(senderAddress);
+	public void broadcastReceived(ServerDevice device) {
+		Host host = new Host(device);
 		if (!hostsTable.getItems().contains(host)) {
 			hostsTable.getItems().add(host);
 			if (hostsTable.getItems().size() == 1) {
@@ -179,7 +179,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	@FXML
 	public void onButtonConnect() {
 		playersTable.getItems().clear();
-		WlanDevice wlanDevice = new WlanDevice(hostsTable.getSelectionModel().getSelectedItem().getAddress());
+		ServerDevice wlanDevice = hostsTable.getSelectionModel().getSelectedItem().getDevice();
 		MySocket socket = wlanDevice.createClientSocket();
 		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(socket, this);
 		connectToServerThread.start();

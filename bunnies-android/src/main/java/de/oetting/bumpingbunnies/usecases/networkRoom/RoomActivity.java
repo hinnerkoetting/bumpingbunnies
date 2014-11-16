@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -23,8 +21,8 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalPlayerSettingsParcellableWrapper;
 import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
-import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunication;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothServerDevice;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
@@ -35,7 +33,7 @@ import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.network.WlanDevice;
+import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
@@ -68,14 +66,13 @@ import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.networkRoom.services.DummyConnectionToServer;
-import de.oetting.bumpingbunnies.usecases.start.BluetoothArrayAdapter;
 
 public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections, ConnectionToServerSuccesfullCallback,
 		OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback, ThreadErrorCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
-	private BluetoothArrayAdapter listAdapter;
+	private HostsListViewAdapter hostsAdapter;
 
 	private ConnectionEstablisher remoteCommunication;
 	private ClientAccepter clientAccepter;
@@ -94,22 +91,15 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		super.onCreate(savedInstanceState);
 		SocketStorage.getSingleton().removeListeners();
 		setContentView(R.layout.activity_room);
-		ListView list = (ListView) findViewById(R.id.start_bt_list);
-		this.listAdapter = new BluetoothArrayAdapter(getBaseContext(), this);
+		ListView list = getHostsView();
+		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
 		this.remoteCommunication = new DummyCommunication();
-		list.setAdapter(this.listAdapter);
+		list.setAdapter(this.hostsAdapter);
 		initRemoteCbListeners();
 		initRoom();
-		displayDefaultIp();
 		this.connectedToServerService = new DummyConnectionToServer();
 		this.broadcastService = new NetworkBroadcaster(this);
-	}
-
-	private void displayDefaultIp() {
-		EditText ipText = (EditText) findViewById(R.id.room_ip);
-		String ipAddress = Utils.getIPAddress(true);
-		int lastDot = ipAddress.lastIndexOf('.');
-		ipText.setText(ipAddress.substring(0, lastDot + 1));
+		listenForBroadcasts();
 	}
 
 	private void initRoom() {
@@ -146,26 +136,19 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 		LOGGER.info("found %d devices", pairedDevices.size());
-		this.listAdapter.clear();
+		this.hostsAdapter.clear();
 		for (BluetoothDevice device : pairedDevices) {
-			this.listAdapter.add(device);
+			hostsAdapter.add(createBluetoothHostsEntry(device));
 		}
 	}
 
-	public void onClickDiscovery(View v) {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					listAdapter.clear();
-					broadcastService.listenForBroadCasts(RoomActivity.this);
-				} catch (CouldNotOpenBroadcastSocketException e) {
-					displayErrorAddressInUse();
-					LOGGER.warn("Error when trying to search for host", e);
-				}
-			}
-		});
+	private void listenForBroadcasts() {
+		try {
+			broadcastService.listenForBroadCasts(this);
+		} catch (CouldNotOpenBroadcastSocketException e) {
+			displayErrorAddressInUse();
+			LOGGER.warn("Error when trying to search for host", e);
+		}
 	}
 
 	public void displayErrorAddressInUse() {
@@ -186,11 +169,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 				Toast.makeText(RoomActivity.this, message, Toast.LENGTH_SHORT).show();
 			}
 		});
-	}
-
-	private String getInputIp() {
-		EditText ipText = (EditText) findViewById(R.id.room_ip);
-		return ipText.getText().toString();
 	}
 
 	@Override
@@ -258,8 +236,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	private void enableButtons(boolean enable) {
-		findViewById(R.id.room_host).setEnabled(enable);
-		findViewById(R.id.room_find).setEnabled(enable);
 		findViewById(R.id.room_connect).setEnabled(enable);
 	}
 
@@ -373,8 +349,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	public void addServer(BluetoothDevice device) {
 		LOGGER.info("Adding server");
-		RoomActivity.this.listAdapter.add(device);
-		this.listAdapter.notifyDataSetChanged();
+		hostsAdapter.add(createBluetoothHostsEntry(device));
+		hostsAdapter.notifyDataSetChanged();
+	}
+
+	private Host createBluetoothHostsEntry(BluetoothDevice device) {
+		return new Host(new BluetoothServerDevice(device));
 	}
 
 	@Override
@@ -471,32 +451,35 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	@Override
-	public void broadcastReceived(final InetAddress senderAddress) {
+	public void broadcastReceived(final ServerDevice device) {
 		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
-				EditText ipText = (EditText) findViewById(R.id.room_ip);
-				ipText.setText(senderAddress.getHostAddress());
+				Host object = new Host(device);
+				if (!hostsAdapter.contains(object)) {
+					hostsAdapter.add(object);
+				}
 			}
 		});
+	}
 
+	private ListView getHostsView() {
+		return (ListView) findViewById(R.id.hosts_list);
 	}
 
 	public void onClickConnect(View v) {
-		// TODO make independent of wlan vs bluetooth
-		if (!(remoteCommunication instanceof BluetoothCommunication)) {
-			new Thread(new Runnable() {
+		new Thread(new Runnable() {
 
-				@Override
-				public void run() {
-					WlanDevice device = new WlanDevice(getInputIp());
+			@Override
+			public void run() {
+				Host selectedItem = (Host) getHostsView().getSelectedItem();
+				if (selectedItem != null) {
+					ServerDevice device = selectedItem.getDevice();
 					remoteCommunication.connectToServer(device);
 				}
-			}).start();
-		} else {
-			this.remoteCommunication.searchServer();
-		}
+			}
+		}).start();
 	}
 
 	@Override
