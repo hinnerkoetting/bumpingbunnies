@@ -6,8 +6,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 
@@ -16,21 +15,14 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 	private final ConnectToServerCallback callback;
 
 	public HostsListViewAdapter(Context context, ConnectToServerCallback callback) {
-		super(context, -1);
+		super(context, R.layout.room_player_entry);
 		this.callback = callback;
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		LinearLayout layout = new LinearLayout(getContext());
-		layout.setOrientation(LinearLayout.VERTICAL);
-		TextView view = new TextView(getContext());
-		Host bt = getItem(position);
-		view.setText(bt.getName());
-		view.setTextSize(40);
-		TouchListener touchListener = new TouchListener(getItem(position).getDevice());
-		layout.setOnTouchListener(touchListener);
-		view.setOnTouchListener(touchListener);
+		View view = super.getView(position, convertView, parent);
+		view.setOnTouchListener(new TouchListener(getItem(position).getDevice()));
 		return view;
 	}
 

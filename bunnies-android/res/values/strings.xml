@@ -71,4 +71,7 @@
     <string name="world_castle">Castle</string>
     <string name="room_add_ai">Add Ai</string>
     <string name="room_connect">Connect</string>
+    <string name="players_table_header">Local</string>
+    <string name="hosts_table_header">Servers</string>
+    
 </resources>

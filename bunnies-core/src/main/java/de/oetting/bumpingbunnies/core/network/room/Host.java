@@ -43,4 +43,9 @@ public class Host {
 		return device;
 	}
 
+	@Override
+	public String toString() {
+		return getName();
+	}
+
 }

@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/players_table_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/header_gradient"
+        android:text="@string/players_table_header"
+        android:textColor="@color/text_color"
+        android:padding="5dp"
+        android:textSize="@dimen/room_table_header_height" />
+
+    <ListView
+        android:id="@+id/room_players"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/room_table_height"
+        android:layout_below="@id/players_table_header"
+        android:background="@color/background_table" />
+
+</RelativeLayout>

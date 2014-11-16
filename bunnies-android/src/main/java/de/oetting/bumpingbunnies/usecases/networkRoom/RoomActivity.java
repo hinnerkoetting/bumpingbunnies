@@ -31,6 +31,7 @@ import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.MySocket;
+import de.oetting.bumpingbunnies.core.network.NoopSocket;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.room.Host;
@@ -236,7 +237,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	private void enableButtons(boolean enable) {
-		findViewById(R.id.room_connect).setEnabled(enable);
+		findViewById(R.id.room_start).setEnabled(enable);
+		findViewById(R.id.room_add_ai).setEnabled(enable);
 	}
 
 	private void initRemoteCbListeners() {
@@ -517,4 +519,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		});
 	}
 
+	public void onClickAddAi(View view) {
+		String playerName = "AI" + getNextPlayerId();
+		PlayerProperties properties = new PlayerProperties(getNextPlayerId(), playerName);
+		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
+	}
 }

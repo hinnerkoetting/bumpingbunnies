@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
@@ -35,26 +38,6 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 		return list;
 	}
 
-	public RoomArrayAdapter(Context context, int resource, int textViewResourceId, List<RoomEntry> objects) {
-		super(context, resource, textViewResourceId, objects);
-	}
-
-	public RoomArrayAdapter(Context context, int resource, int textViewResourceId, RoomEntry[] objects) {
-		super(context, resource, textViewResourceId, objects);
-	}
-
-	public RoomArrayAdapter(Context context, int resource, int textViewResourceId) {
-		super(context, resource, textViewResourceId);
-	}
-
-	public RoomArrayAdapter(Context context, int textViewResourceId, List<RoomEntry> objects) {
-		super(context, textViewResourceId, objects);
-	}
-
-	public RoomArrayAdapter(Context context, int textViewResourceId, RoomEntry[] objects) {
-		super(context, textViewResourceId, objects);
-	}
-
 	public RoomArrayAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 	}
@@ -73,5 +56,18 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 				return getItem(i);
 		}
 		throw new IllegalArgumentException("Player does not exist " + playerId);
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		View view = super.getView(position, convertView, parent);
+		view.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				remove(getItem(position));
+			}
+		});
+		return view;
 	}
 }

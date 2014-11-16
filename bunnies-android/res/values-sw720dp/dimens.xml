@@ -8,5 +8,6 @@
     <dimen name="button_padding_left_right">50dp</dimen>
     <dimen name="button_text_size">50dp</dimen>
     <dimen name="button_margin">5dp</dimen>
+    <dimen name="room_table_height">300dp</dimen>
 
 </resources>
