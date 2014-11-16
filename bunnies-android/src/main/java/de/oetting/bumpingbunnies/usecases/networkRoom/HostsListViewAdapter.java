@@ -44,8 +44,17 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			v.performClick();
-			callback.startConnectToServer(device);
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				callback.startConnectToServer(device);
+				v.setEnabled(false);
+				break;
+			case MotionEvent.ACTION_UP:
+				v.performClick();
+				break;
+			default:
+				break;
+			}
 			return true;
 		}
 
