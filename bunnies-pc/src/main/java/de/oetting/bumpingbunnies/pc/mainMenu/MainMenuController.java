@@ -187,17 +187,18 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@FXML
 	public void onButtonAddAi() {
-		String playerName = "AI" + getNextPlayerId();
-		PlayerProperties properties = new PlayerProperties(getNextPlayerId(), playerName);
+		int nextPlayerId = getNextPlayerId();
+		String playerName = "AI" + nextPlayerId;
+		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerName);
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
 		enableButtons();
 	}
 
 	@FXML
 	public void onButtonAddPlayer() {
-		int nextIndex = getNextPlayerId();
+		int nextPlayerId = getNextPlayerId();
 		PlayerConfiguration playerConfiguration = findNextFreePlayerConfiguration();
-		PlayerProperties properties = new PlayerProperties(nextIndex, playerConfiguration.getPlayerName());
+		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerConfiguration.getPlayerName());
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createLocalPlayer(properties.getPlayerName())), properties, 0);
 		enableButtons();
 	}

@@ -520,8 +520,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	public void onClickAddAi(View view) {
-		String playerName = "AI" + getNextPlayerId();
-		PlayerProperties properties = new PlayerProperties(getNextPlayerId(), playerName);
+		int nextPlayerId = getNextPlayerId();
+		String playerName = "AI" + nextPlayerId;
+		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerName);
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
 	}
 }
