@@ -21,7 +21,7 @@ public class GraphicsTesterController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		sourceImage = new Image(getClass().getResourceAsStream("/drawable/v1d_down_1.png"));
+		sourceImage = new Image(getClass().getResourceAsStream("/v1d_down_1.png"));
 		imageView.setImage(sourceImage);
 	}
 

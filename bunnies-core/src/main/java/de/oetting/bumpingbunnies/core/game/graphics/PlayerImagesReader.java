@@ -39,7 +39,7 @@ public class PlayerImagesReader {
 	}
 
 	private InputStream loadImage(String name) {
-		String resource = "/drawable/" + name + ".png";
+		String resource = "/" + name + ".png";
 		InputStream is = getClass().getResourceAsStream(resource);
 		if (is == null)
 			throw new IllegalArgumentException("Could not find resource: " + resource);

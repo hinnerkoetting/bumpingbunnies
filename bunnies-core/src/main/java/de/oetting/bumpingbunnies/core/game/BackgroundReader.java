@@ -5,6 +5,6 @@ import java.io.InputStream;
 public class BackgroundReader {
 
 	public InputStream readBackground() {
-		return getClass().getResourceAsStream("/drawable/hintergrund2.png");
+		return getClass().getResourceAsStream("/hintergrund2.png");
 	}
 }
