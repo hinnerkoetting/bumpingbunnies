@@ -22,17 +22,40 @@ public class ResultArrayAdapter extends ArrayAdapter<ResultPlayerEntry> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Activity context = (Activity) getContext();
 		LayoutInflater layoutInflater = context.getLayoutInflater();
+		return createOneEntryView(layoutInflater, parent, position);
+	}
+	
+	private View createOneEntryView(LayoutInflater layoutInflater, ViewGroup parent, int position) {
 		View entryView = layoutInflater.inflate(R.layout.result_screen_one_entry, parent,
 				false);
-		TextView id = (TextView) entryView
-				.findViewById(R.id.result_player_score);
+		styleView(entryView, position);
+		modifyScore(entryView, position);
+		modifyName(entryView, position);
+		return entryView;
+	}
+
+	private void styleView(View entryView, int position) {
+		if (isEven(position)) 
+			entryView.setBackgroundColor(getContext().getResources().getColor(R.color.table_row_even));
+		else 
+			entryView.setBackgroundColor(getContext().getResources().getColor(R.color.table_row_odd));
+	}
+
+	private boolean isEven(int position) {
+		return position % 2 == 0;
+	}
+
+	private void modifyName(View entryView, int position) {
 		TextView name = (TextView) entryView
 				.findViewById(R.id.result_player_name);
-		ResultPlayerEntry item = getItem(position);
-		id.setTextColor(item.getPlayerColor());
-		name.setTextColor(item.getPlayerColor());
-		id.setText(Integer.toString(item.getPlayerScore()));
-		name.setText(item.getPlayerName());
-		return entryView;
+		name.setTextColor(getItem(position).getPlayerColor());
+		name.setText(getItem(position).getPlayerName());
+	}
+
+	private void modifyScore(View entryView, int position) {
+		TextView scoreEntry = (TextView) entryView
+				.findViewById(R.id.result_player_score);
+		scoreEntry.setTextColor(getItem(position).getPlayerColor());
+		scoreEntry.setText(Integer.toString(getItem(position).getPlayerScore()));
 	}
 }
