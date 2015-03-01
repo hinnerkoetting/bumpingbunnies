@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/result_player_name_header"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/result_entry_height"
+        android:background="@drawable/background_button"
+        android:text="@string/result_player_name_header"
+        android:textSize="@dimen/result_entry_text_size" />
+
+    <Button
+        android:id="@+id/result_player_score_header"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/result_entry_height"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/background_button"
+        android:text="@string/result_player_score_header"
+        android:textSize="@dimen/result_entry_text_size" />
+
+</RelativeLayout>

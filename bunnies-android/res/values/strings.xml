@@ -73,5 +73,7 @@
     <string name="room_connect">Connect</string>
     <string name="players_table_header">Local</string>
     <string name="hosts_table_header">Servers</string>
+    <string name="result_player_name_header">Name</string>
+    <string name="result_player_score_header">Score</string>
     
 </resources>

@@ -4,5 +4,7 @@
     <color name="button_color">#000000</color>
     <color name="text_color">#242d35</color>
     <color name="background_table">#c6d5e9</color>
+    <color name="gradient_start">#768aa5</color>
+    <color name="gradient_end">#4a6c9b</color>
 
 </resources>

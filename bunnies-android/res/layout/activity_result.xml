@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/result_header"
-        layout="@layout/result_screen_one_entry" />
+        layout="@layout/result_screen_header" />
 
     <ListView
         android:id="@+id/result_player"
