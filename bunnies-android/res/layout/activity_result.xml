@@ -7,6 +7,10 @@
     android:paddingLeft="@dimen/game_padding_left_right"
     android:paddingRight="@dimen/game_padding_left_right" >
 
+    <include
+        android:id="@+id/result_header"
+        layout="@layout/result_screen_one_entry" />
+
     <ListView
         android:id="@+id/result_player"
         android:layout_width="match_parent"
