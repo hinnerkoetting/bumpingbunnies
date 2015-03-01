@@ -108,11 +108,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	}
 
 	public void onClickMultiplayer(View v) {
-		SettingsEntity settings = readSettingsFromDb();
-		LocalSettings localSettings = createLocalSettings(settings);
-		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings(settings);
-		ServerSettings generalSettings = createGeneralSettings(settings);
-		ActivityLauncher.startRoom(this, localSettings, generalSettings, localPlayerSettings);
+		ActivityLauncher.startRoom(this);
 	}
 
 	private SettingsEntity readSettingsFromDb() {

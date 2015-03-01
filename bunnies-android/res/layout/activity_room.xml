@@ -93,7 +93,8 @@
         android:id="@+id/room_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settings"
-        android:onClick="onClickSettings" />
+        android:background="@drawable/header_gradient"
+        android:onClick="onClickSettings"
+        android:text="@string/settings" />
 
 </LinearLayout>

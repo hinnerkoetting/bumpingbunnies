@@ -32,6 +32,6 @@ public class ResultActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		ActivityLauncher.toStart(this);
+		ActivityLauncher.startRoom(this);
 	}
 }
