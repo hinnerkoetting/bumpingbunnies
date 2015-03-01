@@ -3,6 +3,9 @@ package de.oetting.bumpingbunnies.model.game.objects;
 public class ImageWrapper {
 
 	private final Object image;
+	/**
+	 * Reference of the image, which is used in levels.
+	 */
 	private final String key;
 
 	public ImageWrapper(Object image, String key) {

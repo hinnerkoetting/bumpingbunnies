@@ -20,8 +20,8 @@ public class LocalSettingsParceller implements Parceller<LocalSettings> {
 	public LocalSettings createFromParcel(Parcel parcel) {
 		InputConfiguration inputConfiguration = (InputConfiguration) parcel.readSerializable();
 		int zoom = parcel.readInt();
-		boolean background = parcel.readInt() == 1;
 		boolean altPixelMode = parcel.readInt() == 1;
+		boolean background = parcel.readInt() == 1;
 		boolean playMusic = parcel.readInt() == 1;
 		boolean playSound = parcel.readInt() == 1;
 		return new LocalSettings(inputConfiguration, zoom, background, altPixelMode, playMusic, playSound);
