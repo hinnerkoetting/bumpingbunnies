@@ -101,6 +101,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.connectedToServerService = new DummyConnectionToServer();
 		this.broadcastService = new NetworkBroadcaster(this);
 		listenForBroadcasts();
+		addMyPlayerRoomEntry(0);
 	}
 
 	private void initRoom() {
@@ -402,11 +403,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.generalSettings = generalSettings;
 		this.asHost = asHost;
 		canLaunchGame = true;
-		try {
-			playersAA.getMyself();
-		} catch (IllegalStateException e) {
-			return;
-		}
 		launchGameActiviti();
 	}
 
@@ -471,6 +467,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	public void onClickConnect(View v) {
+		playersAA.clear();
 		new Thread(new Runnable() {
 
 			@Override
