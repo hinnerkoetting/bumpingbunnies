@@ -23,7 +23,7 @@ public class RoomEntry {
 
 	@Override
 	public String toString() {
-		return this.playerProperties.getPlayerId() + " " + this.playerProperties.getPlayerName();
+		return this.playerProperties.getPlayerName();
 	}
 
 	public ConnectionIdentifier getOponent() {

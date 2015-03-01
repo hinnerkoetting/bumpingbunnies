@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/result_entry_height"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/background_button"
+        android:background="@drawable/header_gradient"
         android:text="@string/result_player_name_header"
         android:textSize="@dimen/result_entry_text_size" />
 
@@ -19,7 +19,7 @@
         android:layout_height="@dimen/result_entry_height"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/background_button"
+        android:background="@drawable/header_gradient"
         android:text="@string/result_player_score_header"
         android:textSize="@dimen/result_entry_text_size" />
 
