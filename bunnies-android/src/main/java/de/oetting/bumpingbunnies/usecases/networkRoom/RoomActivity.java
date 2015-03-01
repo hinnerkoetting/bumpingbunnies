@@ -101,7 +101,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.connectedToServerService = new DummyConnectionToServer();
 		this.broadcastService = new NetworkBroadcaster(this);
 		listenForBroadcasts();
-		addMyPlayerRoomEntry(0);
+		addMyPlayerRoomEntry(getNextPlayerId());
 	}
 
 	private void initRoom() {
@@ -295,7 +295,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	private RoomEntry createRoomEntry(MySocket socket, PlayerProperties playerProperties) {
-		if (socket.getConnectionIdentifier().isDirectlyConnected())
+		if (socket.getConnectionIdentifier().isDirectlyConnected() || socket.getConnectionIdentifier().isLocalPlayer())
 			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
 			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(),
@@ -522,4 +522,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerName);
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
 	}
+	
+	public void onClickSettings(View view) {
+		ActivityLauncher.startSettings(this);
+	}
+	
 }

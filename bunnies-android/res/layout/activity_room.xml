@@ -70,7 +70,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:orientation="horizontal" >
 
@@ -88,5 +88,12 @@
             android:layout_weight=".50"
             layout="@layout/room_hosts" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/room_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:onClick="onClickSettings" />
 
 </LinearLayout>
