@@ -16,8 +16,9 @@
     
     <dimen name="result_entry_height">50dp</dimen>
     <dimen name="result_entry_text_size">40dp</dimen>
-    <dimen name="room_table_height">200dp</dimen>
-    <dimen name="room_table_header_height">50dp</dimen>
-    <dimen name="room_button_height">30dp</dimen>
+    <dimen name="room_table_height">100dp</dimen>
+    <dimen name="room_table_header_height">30dp</dimen>
+    <dimen name="room_button_height">25dp</dimen>
+    <dimen name="room_radiogroup_height">30dp</dimen>
     <dimen name="room_checkbox_height">15dp</dimen>
 </resources>

@@ -19,12 +19,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/header_gradient"
             android:onClick="onClickStart"
             android:padding="5dp"
             android:text="@string/room_start"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/room_button_height" />
+            android:textSize="@dimen/room_button_height" /> 
 
         <Button
             android:id="@+id/room_add_ai"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/room_start"
+            android:layout_toEndOf="@+id/room_start"
             android:background="@drawable/header_gradient"
             android:onClick="onClickAddAi"
             android:padding="5dp"
@@ -43,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:orientation="horizontal" >
 
             <RadioButton
@@ -50,11 +53,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/header_gradient"
                 android:padding="5dp"
                 android:text="@string/bluetooth"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/room_button_height" />
+                android:textSize="@dimen/room_radiogroup_height" />
 
             <RadioButton
                 android:id="@+id/start_remote_wlan"
@@ -64,7 +68,7 @@
                 android:padding="5dp"
                 android:text="@string/wlan"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/room_button_height" />
+                android:textSize="@dimen/room_radiogroup_height" />
         </RadioGroup>
     </RelativeLayout>
 

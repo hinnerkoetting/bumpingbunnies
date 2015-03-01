@@ -69,7 +69,7 @@
     <string name="could_not_connect">Konnte keine Verbindung zum Server aufbauen</string>
     <string name="could_not_open_server">Konnte keinen Server starten. Bitte starten Sie die Anwendung neu und versuchen es erneut.</string>
     <string name="world_castle">Castle</string>
-    <string name="room_add_ai">Add Ai</string>
+    <string name="room_add_ai">+Ai</string>
     <string name="room_connect">Connect</string>
     <string name="players_table_header">Local</string>
     <string name="hosts_table_header">Server</string>
