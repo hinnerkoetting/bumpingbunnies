@@ -11,29 +11,6 @@
         <TextView
             android:layout_width="@dimen/settings_label_width"
             android:layout_height="wrap_content"
-            android:text="@string/number_player" />
-
-        <SeekBar
-            android:id="@+id/number_player"
-            android:layout_width="@dimen/slider_width"
-            android:layout_height="wrap_content"
-            android:max="30" />
-
-        <TextView
-            android:id="@+id/settings_number_player_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textIsSelectable="false" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="@dimen/settings_label_width"
-            android:layout_height="wrap_content"
             android:text="@string/zoom" />
 
         <SeekBar
@@ -63,7 +40,7 @@
             android:id="@+id/speed"
             android:layout_width="@dimen/slider_width"
             android:layout_height="wrap_content"
-            android:max="99" />
+            android:max="30" />
 
         <TextView
             android:id="@+id/settings_speed"

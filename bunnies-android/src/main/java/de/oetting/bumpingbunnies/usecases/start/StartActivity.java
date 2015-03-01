@@ -89,7 +89,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	}
 
 	private List<OpponentConfiguration> createSpOtherPlayerConfiguration(SettingsEntity settings) {
-		int numberPlayer = settings.getNumberPlayer();
+		int numberPlayer = 2;
 		List<OpponentConfiguration> list = new ArrayList<OpponentConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
 			ConnectionIdentifier opponent = ConnectionIdentifierFactory.createAiPlayer("" + i);

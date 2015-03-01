@@ -10,13 +10,12 @@ import de.oetting.bumpingbunnies.usecases.start.sql.SettingsConstants;
 public class SqlHelper extends SQLiteOpenHelper implements SettingsConstants {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SqlHelper.class);
-	private static final int DB_VERSION = 9;
+	private static final int DB_VERSION = 10;
 	private static final String DATABASE_NAME = "bumpingbunnies.db";
 
 	private static final String CREATE_SETTINGS = //
 	// @formatter:off
 	"CREATE TABLE " + SETTINGS_TABLE + " ("//
-			+ NUMBER_PLAYER_COL + " INTEGER NOT NULL, "//
 			+ ZOOM_COL + " INTEGER NOT NULL,"//
 			+ INPUT_COL + " VARCHAR(80),"//
 			+ NAME_COL + " VARCHAR(80),"//

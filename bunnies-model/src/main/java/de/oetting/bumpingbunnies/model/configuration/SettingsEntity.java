@@ -6,7 +6,6 @@ public class SettingsEntity {
 
 	private final InputConfiguration inputConfiguration;
 	private final int zoom;
-	private final int numberPlayer;
 	private final int speed;
 	private final String playerName;
 	private final boolean background;
@@ -14,12 +13,12 @@ public class SettingsEntity {
 	private final boolean playMusic;
 	private final boolean playSound;
 
-	public SettingsEntity(InputConfiguration inputConfiguration, int zoom, int numberPlayer, int speed, String playerName, boolean background,
+	public SettingsEntity(InputConfiguration inputConfiguration, int zoom,
+			int speed, String playerName, boolean background,
 			boolean altPixelFormat, boolean playMusic, boolean playSound) {
 		super();
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
-		this.numberPlayer = numberPlayer;
 		this.speed = speed;
 		this.playerName = playerName;
 		this.background = background;
@@ -34,10 +33,6 @@ public class SettingsEntity {
 
 	public int getZoom() {
 		return this.zoom;
-	}
-
-	public int getNumberPlayer() {
-		return this.numberPlayer;
 	}
 
 	public int getSpeed() {

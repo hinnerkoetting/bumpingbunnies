@@ -46,7 +46,6 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 		ContentValues values = new ContentValues();
 		values.put(ZOOM_COL, settings.getZoom());
 		values.put(INPUT_COL, settings.getInputConfiguration().getClass().getName());
-		values.put(NUMBER_PLAYER_COL, settings.getNumberPlayer());
 		values.put(SPEED_COL, settings.getSpeed());
 		values.put(NAME_COL, settings.getPlayerName());
 		values.put(BACKGROUND_COL, settings.isBackground());
@@ -63,7 +62,7 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 	 */
 	@Override
 	public SettingsEntity readStoredSettings() {
-		Cursor query = this.database.query(SETTINGS_TABLE, new String[] { ZOOM_COL, INPUT_COL, NUMBER_PLAYER_COL, SPEED_COL, NAME_COL, BACKGROUND_COL,
+		Cursor query = this.database.query(SETTINGS_TABLE, new String[] { ZOOM_COL, INPUT_COL, SPEED_COL, NAME_COL, BACKGROUND_COL,
 				ALT_PIXELFORMAT, PLAY_MUSIC, PLAY_SOUND }, null, null, null, null, null);
 		try {
 			query.moveToFirst();
@@ -81,14 +80,13 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 		int zoom = cursor.getInt(0);
 		String inputConfiguration = cursor.getString(1);
 		InputConfiguration inputEnum = create(inputConfiguration);
-		int numberPlayer = cursor.getInt(2);
-		int speed = cursor.getInt(3);
-		String name = cursor.getString(4);
-		boolean background = cursor.getInt(5) == 1;
-		boolean altPixel = cursor.getInt(6) == 1;
-		boolean playMusic = cursor.getInt(7) == 1;
-		boolean playSound = cursor.getInt(8) == 1;
-		return new SettingsEntity(inputEnum, zoom, numberPlayer, speed, name, background, altPixel, playMusic, playSound);
+		int speed = cursor.getInt(2);
+		String name = cursor.getString(3);
+		boolean background = cursor.getInt(4) == 1;
+		boolean altPixel = cursor.getInt(5) == 1;
+		boolean playMusic = cursor.getInt(6) == 1;
+		boolean playSound = cursor.getInt(7) == 1;
+		return new SettingsEntity(inputEnum, zoom, speed, name, background, altPixel, playMusic, playSound);
 	}
 
 	private InputConfiguration create(String inputConfiguration) {
