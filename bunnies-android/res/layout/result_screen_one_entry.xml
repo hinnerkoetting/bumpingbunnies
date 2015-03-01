@@ -4,22 +4,27 @@
     android:orientation="horizontal"
     android:background="#7a8cab" >
 
+    <ImageView android:id="@+id/result_player_image"
+        android:contentDescription="@string/result_player_image"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/result_entry_height"
+        android:background="@null"/>
 
     <TextView
         android:id="@+id/result_player_name"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/result_entry_height"
         android:textSize="@dimen/result_entry_text_size"
+        android:layout_centerHorizontal="true"
         android:text="@string/placeholder" />
 
     <TextView
         android:id="@+id/result_player_score"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/result_entry_height"
-        android:gravity="right"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:text="@string/placeholder_int"
-        android:textSize="@dimen/result_entry_text_size"
-        android:paddingRight="25dp" />
+        android:textSize="@dimen/result_entry_text_size" />
 
 </RelativeLayout>

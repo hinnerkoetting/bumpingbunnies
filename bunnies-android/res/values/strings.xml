@@ -75,5 +75,6 @@
     <string name="hosts_table_header">Servers</string>
     <string name="result_player_name_header">Name</string>
     <string name="result_player_score_header">Score</string>
+    <string name="result_player_image">Player image</string>
     
 </resources>

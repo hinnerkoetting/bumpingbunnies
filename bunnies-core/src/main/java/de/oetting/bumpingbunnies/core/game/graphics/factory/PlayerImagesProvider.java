@@ -15,4 +15,6 @@ public interface PlayerImagesProvider {
 	List<ImageWrapper> loadAllSittingImages(int width, int heigth);
 
 	List<ImageWrapper> loadAllJumpingUpImages(int width, int heigth);
+	
+	ImageWrapper loadOneImage(int width, int heigth);
 }

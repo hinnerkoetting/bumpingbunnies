@@ -14,7 +14,7 @@ import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvier;
+import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvider;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasDelegate;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesColoror;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesMirrorer;
@@ -36,7 +36,7 @@ public class DrawerFactory {
 
 	private static AndroidPlayerDrawableFactory createPlayerDrawerFactory() {
 		PlayerImagesReader imagesReader = new PlayerImagesReader();
-		PlayerImagesProvider imagesProvider = new AndroidPlayerImagesProvier(imagesReader);
+		PlayerImagesProvider imagesProvider = new AndroidPlayerImagesProvider(imagesReader);
 		ImagesColorer colorer = new AndroidImagesColoror();
 		ImageMirroror mirrorer = new AndroidImagesMirrorer();
 		return new AndroidPlayerDrawableFactory(new PlayerDrawerFactory(imagesProvider, colorer, mirrorer));

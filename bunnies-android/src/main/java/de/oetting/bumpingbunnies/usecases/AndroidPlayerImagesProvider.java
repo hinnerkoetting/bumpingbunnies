@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.graphics.Bitmap;
@@ -11,12 +12,12 @@ import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
-public class AndroidPlayerImagesProvier implements PlayerImagesProvider {
+public class AndroidPlayerImagesProvider implements PlayerImagesProvider {
 
 	private final PlayerImagesReader reader;
 	private final SimpleBitmapResizer imageResizer;
 
-	public AndroidPlayerImagesProvier(PlayerImagesReader reader) {
+	public AndroidPlayerImagesProvider(PlayerImagesReader reader) {
 		this.reader = reader;
 		this.imageResizer = new SimpleBitmapResizer();
 	}
@@ -45,14 +46,23 @@ public class AndroidPlayerImagesProvier implements PlayerImagesProvider {
 	public List<ImageWrapper> loadAllJumpingUpImages(int width, int heigth) {
 		return load(reader.loadAllJumpingUpImages(), width, heigth);
 	}
+	@Override
+	public ImageWrapper loadOneImage(int width, int heigth) {
+		return load(Collections.singletonList(reader.loadOneImage()), width, heigth).get(0);
+	}
 
 	private List<ImageWrapper> load(List<InputStream> images, int width, int heigth) {
 		List<ImageWrapper> wrappers = new ArrayList<ImageWrapper>(images.size());
 		for (InputStream is : images) {
-			Bitmap bitmap = BitmapFactory.decodeStream(is);
-			wrappers.add(new ImageWrapper(imageResizer.resize(bitmap, width, heigth), ""));
+			wrappers.add(loadOneImage(width, heigth, is));
 		}
 		return wrappers;
+	}
+
+	private ImageWrapper loadOneImage(int width, int heigth,
+			 InputStream is) {
+		Bitmap bitmap = BitmapFactory.decodeStream(is);
+		return new ImageWrapper(imageResizer.resize(bitmap, width, heigth), "");
 	}
 
 }
