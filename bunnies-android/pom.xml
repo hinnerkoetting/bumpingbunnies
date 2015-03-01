@@ -119,6 +119,7 @@
 			</build>
 		</profile>
 		<profile>
+			<!--  release for android playstore call with mvn install -P release -Dpassword=XXX-->
 			<id>release</id>
 			<properties>
 				<android.zipalign.skip>false</android.zipalign.skip>
