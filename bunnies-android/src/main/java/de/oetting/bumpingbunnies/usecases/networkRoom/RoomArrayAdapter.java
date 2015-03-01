@@ -65,7 +65,8 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 
 			@Override
 			public void onClick(View v) {
-				remove(getItem(position));
+				if (getItem(position) != me)
+					remove(getItem(position));
 			}
 		});
 		return view;
