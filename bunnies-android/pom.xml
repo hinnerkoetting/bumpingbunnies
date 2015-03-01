@@ -55,8 +55,7 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -67,16 +66,16 @@
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>
-											org.codehaus.mojo
+											com.jayway.maven.plugins.android.generation2
 										</groupId>
 										<artifactId>
-											build-helper-maven-plugin
+											android-maven-plugin
 										</artifactId>
 										<versionRange>
-											[1.7,)
+											[3.8.2,)
 										</versionRange>
 										<goals>
-											<goal>add-source</goal>
+											<goal>consume-aar</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
@@ -87,7 +86,6 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -98,6 +96,7 @@
 	</properties>
 	<!--define android sdk path depending on os -->
 	<profiles>
+		<!--  deploy project on locally connected android devices -->
 		<profile>
 			<id>deploy</id>
 			<build>
