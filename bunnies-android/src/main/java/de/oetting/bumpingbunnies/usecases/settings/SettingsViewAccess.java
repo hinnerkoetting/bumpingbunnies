@@ -20,6 +20,9 @@ import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConver
  */
 public class SettingsViewAccess {
 
+	private static final int MIN_SPEED_VALUE = 30;
+	private static final int MIN_ZOOM_VALUE = 4;
+	
 	private final Activity origin;
 
 	public SettingsViewAccess(Activity origin) {
@@ -37,12 +40,12 @@ public class SettingsViewAccess {
 
 	public int getZoom() {
 		SeekBar zoom = findZoomSeekbar();
-		return zoom.getProgress() + 1;
+		return zoom.getProgress() + MIN_ZOOM_VALUE;
 	}
 
 	public void setZoom(int zoomValue) {
 		SeekBar zoom = findZoomSeekbar();
-		zoom.setProgress(zoomValue - 1);
+		zoom.setProgress(zoomValue - MIN_ZOOM_VALUE);
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -53,7 +56,7 @@ public class SettingsViewAccess {
 
 	public int getSpeed() {
 		SeekBar seekbar = findSpeedSeekbar();
-		return seekbar.getProgress() + 20;
+		return seekbar.getProgress() + MIN_SPEED_VALUE;
 	}
 
 	public boolean isBackgroundChecked() {
@@ -70,21 +73,21 @@ public class SettingsViewAccess {
 
 	private void initSpeed() {
 		SeekBar speed = findSpeedSeekbar();
-		int startValue = 5;
+		int startValue = 10;
 		TextView view = (TextView) this.origin
 				.findViewById(R.id.settings_speed);
 		speed.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
-				new ProgressToIntValueConverter(5), startValue));
+				new ProgressToIntValueConverter(MIN_SPEED_VALUE), startValue));
 		speed.setProgress(startValue);
 	}
 
 	private void initZoom() {
 		SeekBar zoom = findZoomSeekbar();
-		int startValue = 4;
+		int startValue = 3;
 		TextView view = (TextView) this.origin
 				.findViewById(R.id.settings_zoom_number);
 		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
-				new ProgressToIntValueConverter(1), 4));
+				new ProgressToIntValueConverter(MIN_ZOOM_VALUE), startValue));
 		zoom.setProgress(startValue);
 	}
 
@@ -104,7 +107,7 @@ public class SettingsViewAccess {
 
 	private void setSpeed(int speed) {
 		SeekBar speedSeekbar = findSpeedSeekbar();
-		speedSeekbar.setProgress(speed - 20);
+		speedSeekbar.setProgress(speed - MIN_SPEED_VALUE);
 	}
 
 	private void fillInputConfiguration(SettingsEntity settings) {

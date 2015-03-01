@@ -15,37 +15,11 @@
         android:layout_height="wrap_content" >
 
         <RadioButton
-            android:id="@+id/start_button_touch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/touch" />
-
-        <RadioButton
-            android:id="@+id/start_button_touch_jump"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/touch_with_jump" />
-
-        <RadioButton
-            android:id="@+id/start_button_keyboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/keyboard" />
-
-        <RadioButton
             android:id="@+id/start_button_distributed_keyboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/distributed_keyboard" />
-
-
-        <RadioButton
-            android:id="@+id/start_button_multi_touch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/multi_touch" />
-
 
         <RadioButton
             android:id="@+id/start_button_hardware_keyboard"
