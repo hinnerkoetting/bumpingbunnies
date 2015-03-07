@@ -29,7 +29,7 @@ import de.oetting.bumpingbunnies.model.game.MusicPlayer;
  */
 public class CommonGameThreadFactory {
 
-	private static final int MAX_GAME_LOOPS_PER_SECOND = 100;
+	private static final int MAX_GAME_LOOPS_PER_SECOND = 10;
 
 	public static GameThread create(World world, ThreadErrorCallback errorCallback, Configuration configuration, CameraPositionCalculation cameraCalculation,
 			NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, GameMain main, BunniesMusicPlayerFactory musicPlayerFactory,

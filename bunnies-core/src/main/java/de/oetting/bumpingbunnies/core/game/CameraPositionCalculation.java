@@ -50,8 +50,6 @@ public class CameraPositionCalculation implements GameStepAction {
 		int diffBetweenPlayerAndScreenX = (int) (this.movedPlayer.getCenterX() - this.currentScreenX);
 		int diffBetweenPlayerAndScreenY = (int) (this.movedPlayer.getCenterY() - this.currentScreenY);
 		int scrollingSpeed = determineScrollingSpeed(diffBetweenPlayerAndScreenX, diffBetweenPlayerAndScreenY);
-		if (diffBetweenPlayerAndScreenX != 0 || diffBetweenPlayerAndScreenY != 0)
-			LOGGER.info("Scrolling speed %d", scrollingSpeed);
 		int maxScrollValueX = (int) (scrollingSpeed * delta * Math.signum(diffBetweenPlayerAndScreenX));
 		int maxScrollValueY = (int) (scrollingSpeed * delta * Math.signum(diffBetweenPlayerAndScreenY));
 		if (Math.abs(diffBetweenPlayerAndScreenX) <= Math.abs(maxScrollValueX)) {
