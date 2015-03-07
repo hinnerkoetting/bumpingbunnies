@@ -13,7 +13,8 @@ import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasWrapper;
 
 public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidDrawer.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AndroidDrawer.class);
 
 	private SurfaceHolder holder;
 	private final ObjectsDrawer objectsDrawer;
@@ -33,20 +34,21 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	public void draw() {
 		if (isDrawingPossible) {
 			Canvas lockCanvas = this.holder.lockCanvas();
-			CanvasWrapper canvas = new AndroidCanvasWrapper(lockCanvas);
-			try {
-				if (lockCanvas != null) {
-					synchronized (this.holder) {
+			if (lockCanvas != null) {
+				synchronized (this.holder) {
+					try {
+						CanvasWrapper canvas = new AndroidCanvasWrapper(
+								lockCanvas);
 						if (needsUpdate) {
-							objectsDrawer.buildAllDrawables(canvas, lockCanvas.getWidth(), lockCanvas.getHeight());
+							objectsDrawer.buildAllDrawables(canvas,
+									lockCanvas.getWidth(),
+									lockCanvas.getHeight());
 							needsUpdate = false;
 						}
 						this.objectsDrawer.draw(canvas);
+					} finally {
+						this.holder.unlockCanvasAndPost(lockCanvas);
 					}
-				}
-			} finally {
-				if (lockCanvas != null) {
-					this.holder.unlockCanvasAndPost(lockCanvas);
 				}
 			}
 		}
@@ -70,7 +72,8 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
 		this.holder = holder;
 		needsUpdate = true;
 	}
