@@ -21,7 +21,8 @@ public class PlayerMovementCalculation {
 	private final CollisionDetection collisionDetection;
 	private final MusicPlayer jumpMusic;
 
-	public PlayerMovementCalculation(Player movedPlayer, GameObjectInteractor interactionService, CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
+	public PlayerMovementCalculation(Player movedPlayer, GameObjectInteractor interactionService,
+			CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
 		this.movedPlayer = movedPlayer;
 		this.interactionService = interactionService;
 		this.collisionDetection = collisionDetection;
@@ -47,11 +48,19 @@ public class PlayerMovementCalculation {
 	}
 
 	private boolean isInWater() {
-		GameObject collidingObject = this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.movedPlayer);
+		GameObject collidingObject = findCollidingObject();
 		if (collidingObject != null) {
 			return collidingObject instanceof Water;
 		}
 		return false;
+	}
+
+	private boolean isStandingOnObject() {
+		return this.collisionDetection.findObjectThisPlayerIsStandingOn(this.movedPlayer) != null;
+	}
+
+	private GameObject findCollidingObject() {
+		return this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.movedPlayer);
 	}
 
 	private boolean standsOnFixedObject() {
@@ -62,11 +71,6 @@ public class PlayerMovementCalculation {
 		return false;
 	}
 
-	private void setJumpMovement() {
-		this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED);
-		this.movedPlayer.setAccelerationY(0);
-	}
-
 	private void computeMovement() {
 		computeVerticalMovement();
 		computeHorizontalMovement();
@@ -74,26 +78,29 @@ public class PlayerMovementCalculation {
 	}
 
 	public void computeVerticalMovement() {
+		movedPlayer.setAccelerationY(computeVerticalAcceleration());
 		if (this.movedPlayer.isJumpingButtonPressed()) {
-			handleJumpButtonPressed();
-		} else {
-			if (standsOnFixedObject()) {
-				this.movedPlayer.setAccelerationY(0);
-			} else {
-				this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY);
-			}
+			computeMovementYForJumpingBunny();
 		}
 	}
 
-	private void handleJumpButtonPressed() {
+	private int computeVerticalAcceleration() {
+		if (isStandingOnObject())
+			return 0;
+		else {
+			if (this.movedPlayer.isJumpingButtonPressed()) {
+				return ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING;
+			}
+			return ModelConstants.PLAYER_GRAVITY;
+		}
+	}
+
+	private void computeMovementYForJumpingBunny() {
 		if (standsOnFixedObject()) {
-			setJumpMovement();
+			this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED);
 			this.jumpMusic.start();
 		} else if (isInWater()) {
 			this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_WATER);
-			this.movedPlayer.setAccelerationY(0);
-		} else {
-			this.movedPlayer.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING);
 		}
 	}
 
@@ -117,7 +124,8 @@ public class PlayerMovementCalculation {
 
 	void steerAgainstMovement() {
 		int breakAcceleration = (int) -Math.signum(this.movedPlayer.movementX()) * findAccelerationForObject();
-		if (Math.abs(this.movedPlayer.movementX()) <= Math.abs(breakAcceleration) * Math.pow(this.movedPlayer.getSpeedFaktor(), 2)) {
+		if (Math.abs(this.movedPlayer.movementX()) <= Math.abs(breakAcceleration)
+				* Math.pow(this.movedPlayer.getSpeedFaktor(), 2)) {
 			this.movedPlayer.setMovementX(0);
 			this.movedPlayer.setAccelerationX(0);
 		} else {
