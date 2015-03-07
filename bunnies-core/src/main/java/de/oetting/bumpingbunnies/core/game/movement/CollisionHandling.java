@@ -17,7 +17,8 @@ public class CollisionHandling {
 		this.jumperMusicPlayer = jumperMusicPlayer;
 	}
 
-	public void interactWithWater(PlayerSimulation nextStep, Player player, Water object, CollisionDetection collisionDetection) {
+	public void interactWithWater(PlayerSimulation nextStep, Player player, Water object,
+			CollisionDetection collisionDetection) {
 		player.setExactMovementY((int) Math.round(player.movementY() * 0.99));
 		if (player.movementY() <= ModelConstants.PLAYER_SPEED_WATER) {
 			player.setExactMovementY(ModelConstants.PLAYER_SPEED_WATER);
@@ -55,38 +56,44 @@ public class CollisionHandling {
 		return !collisionDetection.collides(water, player);
 	}
 
-	private void reducePlayerTooMaxSpeedToNotCollide(Player player, GameObject object, CollisionDetection collisionDetection) {
-		reduceXSpeed(player, object, collisionDetection);
-		reduceYSpeed(player, object, collisionDetection);
-	}
-
-	private void reduceXSpeed(Player player, GameObject object, CollisionDetection collisionDetection) {
-		GameObject nextStepX = player.simulateNextStepX();
-		if (collisionDetection.collides(nextStepX, object)) {
-			if (player.movementX() > 0) {
-				int diffX = (int) (object.minX() - player.maxX());
-				player.setExactMovementX(diffX);
-				player.setAccelerationX(0);
-			} else if (player.movementX() < 0) {
-				int diffX = (int) (object.maxX() - player.minX());
-				player.setExactMovementX(diffX);
-				player.setAccelerationX(0);
-			}
+	private void reducePlayerTooMaxSpeedToNotCollide(Player player, GameObject object,
+			CollisionDetection collisionDetection) {
+		//We do not want the player to move into a wall.
+		//So the idea is to simulate the next step of the player.
+		//if this step collides with an object we find out if the player needs to reduce its X or Y speed.
+		//We assume the player needs to reduce its X speed if was currently (as opposed to the next step) not in the same X position as the object.
+		//The same is done for the Y position
+		//This algorithm is the result of many try and errors.
+		GameObject nextStep = player.simulateNextStep();
+		if (collisionDetection.collides(nextStep, object)) {
+			if (!collisionDetection.sharesHorizontalPosition(player, object))
+				reduceXSpeed(player, object);
+			if (!collisionDetection.sharesVerticalPosition(player, object))
+				reduceYSpeed(player, object);
 		}
 	}
 
-	private void reduceYSpeed(Player player, GameObject object, CollisionDetection collisionDetection) {
-		GameObject nextStepY = player.simulateNextStepY();
-		if (collisionDetection.collides(nextStepY, object)) {
-			if (player.movementY() > 0) {
-				int diffY = (int) (object.minY() - player.maxY());
-				player.setExactMovementY(diffY);
-				player.setAccelerationY(0);
-			} else if (player.movementY() < 0) {
-				int diffY = (int) (object.maxY() - player.minY());
-				player.setExactMovementY(diffY);
-				player.setAccelerationY(0);
-			}
+	private void reduceXSpeed(Player player, GameObject object) {
+		if (player.movementX() > 0) {
+			int diffX = (int) (object.minX() - player.maxX());
+			player.setExactMovementX(diffX);
+			player.setAccelerationX(0);
+		} else if (player.movementX() < 0) {
+			int diffX = (int) (object.maxX() - player.minX());
+			player.setExactMovementX(diffX);
+			player.setAccelerationX(0);
+		}
+	}
+
+	private void reduceYSpeed(Player player, GameObject object) {
+		if (player.movementY() > 0) {
+			int diffY = (int) (object.minY() - player.maxY());
+			player.setExactMovementY(diffY);
+			player.setAccelerationY(0);
+		} else if (player.movementY() < 0) {
+			int diffY = (int) (object.maxY() - player.minY());
+			player.setExactMovementY(diffY);
+			player.setAccelerationY(0);
 		}
 	}
 
