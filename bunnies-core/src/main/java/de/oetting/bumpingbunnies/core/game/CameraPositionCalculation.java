@@ -28,12 +28,12 @@ public class CameraPositionCalculation implements GameStepAction {
 
 	void updateScreenPosition() {
 		long currentTime = System.currentTimeMillis();
-		if (!this.movedPlayer.isDead()) {
-			immediateUpdateScreenPosition();
-		} else {
+//		if (!this.movedPlayer.isDead()) {
+//			immediateUpdateScreenPosition();
+//		} else {
 			int delta = (int) ((this.lastUpdate - currentTime) / 5);
 			smoothlyUpdateScreenPosition(delta);
-		}
+//		}
 		this.lastUpdate = currentTime;
 	}
 
