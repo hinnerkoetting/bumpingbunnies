@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,9 +21,6 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParcelableWrapper;
-import de.oetting.bumpingbunnies.android.parcel.LocalPlayerSettingsParcellableWrapper;
-import de.oetting.bumpingbunnies.android.parcel.LocalSettingsParcelableWrapper;
 import de.oetting.bumpingbunnies.android.sql.AsyncDatabaseCreation;
 import de.oetting.bumpingbunnies.android.sql.OnDatabaseCreation;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
@@ -126,14 +125,41 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private void switchToBluetooth() {
 		LOGGER.info("selected bluetooth");
+		if (clientAccepter != null)
+			clientAccepter.closeOpenConnections();
 		this.remoteCommunication = BluetoothCommunicationFactory.create(
 				BluetoothAdapter.getDefaultAdapter(), this);
 		clientAccepter = BluetoothCommunicationFactory.createClientAccepter(
 				BluetoothAdapter.getDefaultAdapter(), this, this);
+
+		openHostOrClientBluetoothDialog();
+	}
+
+	private void openHostOrClientBluetoothDialog() {
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case DialogInterface.BUTTON_POSITIVE:
+					startGame();
+				case DialogInterface.BUTTON_NEGATIVE:
+					remoteCommunication.searchServer();
+					break;
+				}
+			}
+		};
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.host_bluetooth_game_question)
+				.setPositiveButton(R.string.host_bluetooth_game,
+						dialogClickListener)
+				.setNegativeButton(R.string.client_bluetooth_game,
+						dialogClickListener).show();
 	}
 
 	private void switchToWlan() {
 		LOGGER.info("selected wlan");
+		if (clientAccepter != null)
+			clientAccepter.closeOpenConnections();
 		this.remoteCommunication = WlanCommunicationFactory.create(this);
 	}
 
@@ -205,6 +231,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	@Override
 	public void startConnectToServer(final ServerDevice device) {
+		playersAA.clear();
 		new Thread(new Runnable() {
 
 			@Override
@@ -417,6 +444,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	public void onClickStart(View v) {
+		startGame();
+	}
+
+	private void startGame() {
+		LOGGER.info("Starting game");
 		notifyClientsAboutlaunch();
 		ServerSettings generalSettings = createGeneralSettings();
 		launchGame(generalSettings, true);
@@ -441,7 +473,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		this.generalSettings = generalSettings;
 		this.asHost = asHost;
 		canLaunchGame = true;
-		launchGameActiviti();
+		if (playersAA.myPlayerExists()) {
+			launchGameActiviti();
+		}
 	}
 
 	private void launchGameActiviti() {
@@ -471,9 +505,17 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		SettingsEntity settings = readSettingsFromDb();
 		WorldConfiguration world = WorldConfiguration.CLASSIC;
 		int speed = settings.getSpeed();
-		ServerSettings generalSettings = new ServerSettings(world, speed,
-				NetworkType.WLAN);
+		ServerSettings generalSettings = createServerSettings(world, speed);
 		return generalSettings;
+	}
+
+	private ServerSettings createServerSettings(WorldConfiguration world,
+			int speed) {
+		if (((RadioButton) findViewById(R.id.start_remote_bt)).isChecked()) {
+			return new ServerSettings(world, speed, NetworkType.BLUETOOTH);
+		} else {
+			return new ServerSettings(world, speed, NetworkType.WLAN);
+		}
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
@@ -499,7 +541,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		return this.playerCounter++;
 	}
 
-	public List<RoomEntry> getAllOtherPlayers() {
+	private List<RoomEntry> getAllOtherPlayers() {
 		return this.playersAA.getAllOtherPlayers();
 	}
 
@@ -521,21 +563,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		return (ListView) findViewById(R.id.hosts_list);
 	}
 
-	public void onClickConnect(View v) {
-		playersAA.clear();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				Host selectedItem = (Host) getHostsView().getSelectedItem();
-				if (selectedItem != null) {
-					ServerDevice device = selectedItem.getDevice();
-					remoteCommunication.connectToServer(device);
-				}
-			}
-		}).start();
-	}
-
 	@Override
 	public List<PlayerProperties> getAllPlayersProperties() {
 		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(
@@ -548,9 +575,16 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	@Override
-	public void playerDisconnected(ConnectionIdentifier opponent) {
-		RoomEntry entry = playersAA.findEntry(opponent);
-		playersAA.remove(entry);
+	public void playerDisconnected(final ConnectionIdentifier opponent) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				RoomEntry entry = playersAA.findEntry(opponent);
+
+				playersAA.remove(entry);
+			}
+		});
 	}
 
 	@Override

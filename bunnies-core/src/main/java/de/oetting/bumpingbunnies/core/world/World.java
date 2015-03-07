@@ -69,6 +69,7 @@ public class World implements ObjectProvider {
 	}
 
 	public void addPlayer(Player player) {
+		LOGGER.info("Adding player %s", player);
 		allPlayer.add(player);
 	}
 

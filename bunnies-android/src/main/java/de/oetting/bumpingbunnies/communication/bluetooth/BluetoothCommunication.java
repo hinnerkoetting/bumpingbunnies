@@ -40,7 +40,6 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 		if (this.discoveryRunning) {
 			this.mBluetoothAdapter.cancelDiscovery();
 		}
-		SocketStorage.getSingleton().closeExistingSockets();
 		if (this.mReceiver != null) {
 			if (this.receiversRegistered) {
 				this.origin.unregisterReceiver(this.mReceiver);
@@ -93,6 +92,7 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 	}
 
 	private void registerReceiver() {
+		closeOpenConnections();
 		LOGGER.info("Register Receivers");
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		IntentFilter filterStop = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
@@ -101,6 +101,7 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 		this.origin.registerReceiver(this.mReceiver, filterStop);
 		this.origin.registerReceiver(this.mReceiver, filter);
 		this.origin.registerReceiver(this.mReceiver, filterStart);
+		receiversRegistered = true;
 	}
 
 	private BroadcastReceiver createBroadCastReceiver() {

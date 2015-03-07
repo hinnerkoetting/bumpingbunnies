@@ -22,7 +22,7 @@ public class BluetoothServerDevice implements ServerDevice {
 	@Override
 	public MySocket createClientSocket() {
 		try {
-			BluetoothSocket socket = this.device.createRfcommSocketToServiceRecord(NetworkConstants.MY_UUID);
+			BluetoothSocket socket = this.device.createRfcommSocketToServiceRecord(NetworkConstants.MY_UUID_3);
 			return new MyBluetoothSocket(socket, ConnectionIdentifierFactory.createRemoteOpponent(device.getAddress(), OpponentType.BLUETOOTH));
 		} catch (IOException e) {
 			throw new RuntimeException(e);

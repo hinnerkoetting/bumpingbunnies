@@ -15,10 +15,12 @@ import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MyBluetoothSocket.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(MyBluetoothSocket.class);
 	private final BluetoothSocket socket;
 
-	public MyBluetoothSocket(BluetoothSocket socket, ConnectionIdentifier opponent) throws IOException {
+	public MyBluetoothSocket(BluetoothSocket socket,
+			ConnectionIdentifier opponent) throws IOException {
 		super(opponent);
 		this.socket = socket;
 		LOGGER.info("Created bluetooth socket");
@@ -50,11 +52,6 @@ public class MyBluetoothSocket extends AbstractSocket implements MySocket {
 	@Override
 	protected OutputStream getOutputStream() throws IOException {
 		return this.socket.getOutputStream();
-	}
-
-	@Override
-	public String blockingReceive() {
-		throw new MethodNotImplemented();
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class BluetoothSocketFactory implements SocketFactory {
 		try {
 			// MY_UUID is the app's UUID string, also used by the client code
 			tmp = this.btAdapter.listenUsingRfcommWithServiceRecord(
-					NetworkConstants.NAME, NetworkConstants.MY_UUID);
+					NetworkConstants.NAME, NetworkConstants.MY_UUID_3);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

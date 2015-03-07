@@ -23,6 +23,8 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 	}
 
 	public void addMe(RoomEntry entry) {
+		if (me != null)
+			remove(getMyself());
 		add(entry);
 		this.me = entry;
 	}
@@ -71,4 +73,15 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 		});
 		return view;
 	}
+
+	@Override
+	public void clear() {
+		super.clear();
+		me = null;
+	}
+
+	public boolean myPlayerExists() {
+		return me != null;
+	}
+
 }
