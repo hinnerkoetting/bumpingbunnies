@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.core.game;
 
-import static de.oetting.bumpingbunnies.core.game.CameraPositionCalculation.SCROLLING_WHILE_PLAYER_IS_DEAD;
+import static de.oetting.bumpingbunnies.core.game.CameraPositionCalculation.FAST_SCROLLING_SPEED;
+import static de.oetting.bumpingbunnies.core.game.CameraPositionCalculation.SLOW_SCROLLING_SPEED;
 import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createOpponentPlayer;
 import static org.junit.Assert.assertEquals;
 
@@ -24,7 +25,7 @@ public class CameraPositionCalculationTest {
 	public void updateCoordinats_givenPlayerIsNotDead_setsScreenCoordinatesToPlayerCoordinates() {
 		this.player.setCenterX(100);
 		this.player.setCenterY(100);
-		this.fixture.updateScreenPosition();
+		this.fixture.immediateUpdateScreenPosition();
 		assertEquals(100, this.fixture.getCurrentScreenX());
 		assertEquals(100, this.fixture.getCurrentScreenY());
 	}
@@ -38,8 +39,8 @@ public class CameraPositionCalculationTest {
 
 	@Test
 	public void smoothUpdateCoordinats_givenScreenIsALittleDifferent_updatesScreenToPlayerPosition() {
-		this.player.setCenterX(SCROLLING_WHILE_PLAYER_IS_DEAD / 2);
-		this.player.setCenterY(SCROLLING_WHILE_PLAYER_IS_DEAD / 2);
+		this.player.setCenterX(SLOW_SCROLLING_SPEED / 2);
+		this.player.setCenterY(SLOW_SCROLLING_SPEED / 2);
 		smoothUpdate();
 		assertEquals(this.player.getCenterX(), this.fixture.getCurrentScreenX());
 		assertEquals(this.player.getCenterY(), this.fixture.getCurrentScreenY());
@@ -47,8 +48,8 @@ public class CameraPositionCalculationTest {
 
 	@Test
 	public void smoothUpdate_givenScreenIsExactlyByOffsetAway_updatesScreenToPlayerPosition() {
-		this.player.setCenterX(SCROLLING_WHILE_PLAYER_IS_DEAD);
-		this.player.setCenterY(SCROLLING_WHILE_PLAYER_IS_DEAD);
+		this.player.setCenterX(SLOW_SCROLLING_SPEED);
+		this.player.setCenterY(SLOW_SCROLLING_SPEED);
 		smoothUpdate();
 		assertEquals(this.player.getCenterX(), this.fixture.getCurrentScreenX());
 		assertEquals(this.player.getCenterY(), this.fixture.getCurrentScreenY());
@@ -56,12 +57,11 @@ public class CameraPositionCalculationTest {
 
 	@Test
 	public void smoothUpdate_givenScreenIsMoreThanOffsetAway_updatesOnlyByScrollLimit() {
-		this.player.setCenterX(SCROLLING_WHILE_PLAYER_IS_DEAD * 2);
-		this.player.setCenterY(SCROLLING_WHILE_PLAYER_IS_DEAD * 2);
+		this.player.setCenterX(FAST_SCROLLING_SPEED * 2);
+		this.player.setCenterY(FAST_SCROLLING_SPEED * 2);
 		smoothUpdate();
-		// why is this negative?
-		assertEquals(-SCROLLING_WHILE_PLAYER_IS_DEAD, this.fixture.getCurrentScreenX());
-		assertEquals(-SCROLLING_WHILE_PLAYER_IS_DEAD, this.fixture.getCurrentScreenY());
+		assertEquals(FAST_SCROLLING_SPEED, this.fixture.getCurrentScreenX());
+		assertEquals(FAST_SCROLLING_SPEED, this.fixture.getCurrentScreenY());
 	}
 
 	public void smoothUpdate() {
@@ -71,7 +71,7 @@ public class CameraPositionCalculationTest {
 	@Before
 	public void beforeEveryTest() {
 		this.player = createOpponentPlayer();
-		this.fixture = new CameraPositionCalculation(this.player);
+		this.fixture = new CameraPositionCalculation(this.player, 1);
 
 	}
 }

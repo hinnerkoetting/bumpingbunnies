@@ -62,7 +62,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		GameStartParameter parameter = ((GamestartParameterParcellableWrapper) getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER)).getParameter();
 		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 		GameThreadState threadState = new GameThreadState();
-		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
+		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter.getConfiguration().getZoom());
 		World world = createWorld(this, parameter);
 		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new AndroidMusicPlayerFactory(this),
 				new AndroidConnectionEstablisherFactory(this), this);

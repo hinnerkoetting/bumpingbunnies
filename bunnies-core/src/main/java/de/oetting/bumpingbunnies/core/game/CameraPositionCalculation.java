@@ -1,43 +1,43 @@
 package de.oetting.bumpingbunnies.core.game;
 
 import de.oetting.bumpingbunnies.core.game.steps.GameStepAction;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class CameraPositionCalculation implements GameStepAction {
 
-	protected static final int SCROLLING_WHILE_PLAYER_IS_DEAD = ModelConstants.STANDARD_WORLD_SIZE / 200;
+	private static final Logger LOGGER = LoggerFactory.getLogger(CameraPositionCalculation.class);
+	protected static final int SLOW_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 1000;
+	protected static final int MEDIUM_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 250;
+	protected static final int FAST_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 50;
 	private final Player movedPlayer;
 
 	private long currentScreenX;
 	private long currentScreenY;
-	private long lastUpdate;
+	private int zoom;
 
-	public CameraPositionCalculation(Player movedPlayer) {
-		super();
+	public CameraPositionCalculation(Player movedPlayer, int zoom) {
 		this.movedPlayer = movedPlayer;
+		this.zoom = zoom;
 		this.currentScreenX = 0;
 		this.currentScreenY = 0;
-		this.lastUpdate = System.currentTimeMillis();
 	}
 
 	@Override
 	public void executeNextStep(long deltaStepsSinceLastCall) {
-		updateScreenPosition();
+		updateScreenPosition(deltaStepsSinceLastCall);
 	}
 
-	void updateScreenPosition() {
-		long currentTime = System.currentTimeMillis();
-//		if (!this.movedPlayer.isDead()) {
-//			immediateUpdateScreenPosition();
-//		} else {
-			int delta = (int) ((this.lastUpdate - currentTime) / 5);
-			smoothlyUpdateScreenPosition(delta);
-//		}
-		this.lastUpdate = currentTime;
+	void updateScreenPosition(long deltaStepsSinceLastCall) {
+		if (movedPlayer.isDead())
+			immediateUpdateScreenPosition();
+		else
+			smoothlyUpdateScreenPosition(deltaStepsSinceLastCall);
 	}
 
-	private void immediateUpdateScreenPosition() {
+	public void immediateUpdateScreenPosition() {
 		this.currentScreenX = this.movedPlayer.getCenterX();
 		this.currentScreenY = this.movedPlayer.getCenterY();
 	}
@@ -46,21 +46,33 @@ public class CameraPositionCalculation implements GameStepAction {
 	 * we want to smoothly move to the players position if he is dead. This will
 	 * avoid fast jumps because of next spawnpoint.
 	 */
-	public void smoothlyUpdateScreenPosition(int delta) {
-		int diffBetweenPlayerAndScreenX = (int) (-this.currentScreenX + this.movedPlayer.getCenterX());
+	public void smoothlyUpdateScreenPosition(long delta) {
+		int diffBetweenPlayerAndScreenX = (int) (this.movedPlayer.getCenterX() - this.currentScreenX);
 		int diffBetweenPlayerAndScreenY = (int) (this.movedPlayer.getCenterY() - this.currentScreenY);
-		int maxScrollValueX = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta * Math.signum(diffBetweenPlayerAndScreenX));
-		int maxScrollValueY = (int) (SCROLLING_WHILE_PLAYER_IS_DEAD * delta * Math.signum(diffBetweenPlayerAndScreenY));
+		int scrollingSpeed = determineScrollingSpeed(diffBetweenPlayerAndScreenX, diffBetweenPlayerAndScreenY);
+		if (diffBetweenPlayerAndScreenX != 0 || diffBetweenPlayerAndScreenY != 0)
+			LOGGER.info("Scrolling speed %d", scrollingSpeed);
+		int maxScrollValueX = (int) (scrollingSpeed * delta * Math.signum(diffBetweenPlayerAndScreenX));
+		int maxScrollValueY = (int) (scrollingSpeed * delta * Math.signum(diffBetweenPlayerAndScreenY));
 		if (Math.abs(diffBetweenPlayerAndScreenX) <= Math.abs(maxScrollValueX)) {
 			this.currentScreenX = this.movedPlayer.getCenterX();
 		} else {
-			this.currentScreenX = this.currentScreenX - maxScrollValueX;
+			this.currentScreenX = this.currentScreenX + maxScrollValueX;
 		}
 		if (Math.abs(diffBetweenPlayerAndScreenY) <= Math.abs(maxScrollValueY)) {
 			this.currentScreenY = this.movedPlayer.getCenterY();
 		} else {
-			this.currentScreenY = this.currentScreenY - maxScrollValueY;
+			this.currentScreenY = this.currentScreenY + maxScrollValueY;
 		}
+	}
+
+	private int determineScrollingSpeed(int diffBetweenPlayerAndScreenX, int diffBetweenPlayerAndScreenY) {
+		int max = Math.max(diffBetweenPlayerAndScreenX, diffBetweenPlayerAndScreenY);
+		if (max < ModelConstants.STANDARD_WORLD_SIZE / 100 / zoom)
+			return SLOW_SCROLLING_SPEED;
+		if (max < ModelConstants.STANDARD_WORLD_SIZE / 25 / zoom)
+			return MEDIUM_SCROLLING_SPEED;
+		return FAST_SCROLLING_SPEED;
 	}
 
 	public long getCurrentScreenX() {

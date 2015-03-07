@@ -81,7 +81,7 @@ public class CoordinatesCalculationTest {
 	@Before
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
-		this.camPosition = new CameraPositionCalculation(createOpponentPlayer());
+		this.camPosition = new CameraPositionCalculation(createOpponentPlayer(), 1);
 		this.fixture = new RelativeCoordinatesCalculation(this.camPosition);
 		this.fixture.updateCanvas(1000, 1000);
 	}

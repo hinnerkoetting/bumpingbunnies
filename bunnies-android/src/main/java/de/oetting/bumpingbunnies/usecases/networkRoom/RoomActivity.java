@@ -287,6 +287,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private void enableButtons(boolean enable) {
 		findViewById(R.id.room_start).setEnabled(enable);
 		findViewById(R.id.room_add_ai).setEnabled(enable);
+		findViewById(R.id.start_remote_bt).setEnabled(enable);
+		findViewById(R.id.start_remote_wlan).setEnabled(enable);
 	}
 
 	private void initRemoteCbListeners() {
@@ -444,6 +446,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	}
 
 	public void onClickStart(View v) {
+		enableButtons(false);
 		startGame();
 	}
 

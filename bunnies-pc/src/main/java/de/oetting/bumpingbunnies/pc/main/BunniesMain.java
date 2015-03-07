@@ -196,7 +196,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		GameThreadState gameThreadState = new GameThreadState();
 		initDrawer(canvas, world, coordinatesCalculation, gameThreadState);
 
-		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer);
+		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter.getConfiguration().getZoom());
 		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new PcMusicPlayerFactory(this),
 				new PcConnectionEstablisherFactory(), this);
 		gameMain.addJoinListener(drawerThread);
