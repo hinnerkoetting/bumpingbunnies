@@ -79,5 +79,7 @@
     <string name="host_bluetooth_game_question">Host game?</string>
     <string name="host_bluetooth_game">Host</string>
     <string name="client_bluetooth_game">Client</string>
+    <string name="menu_sound">Sound</string>
+    <string name="menu_music">Music</string>
     
 </resources>

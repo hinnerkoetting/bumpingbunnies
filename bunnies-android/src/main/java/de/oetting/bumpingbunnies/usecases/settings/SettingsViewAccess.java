@@ -22,20 +22,19 @@ public class SettingsViewAccess {
 
 	private static final int MIN_SPEED_VALUE = 30;
 	private static final int MIN_ZOOM_VALUE = 4;
-	
+
 	private final Activity origin;
 
 	public SettingsViewAccess(Activity origin) {
-		super();
 		this.origin = origin;
 	}
 
 	public void init() {
 		initSpeed();
 		initZoom();
-		SettingsEntity defaultEntity = DefaultConfiguration
-				.createDefaultEntity();
+		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity();
 		fillView(defaultEntity);
+		setPlayerName(android.os.Build.MODEL);
 	}
 
 	public int getZoom() {
@@ -50,8 +49,7 @@ public class SettingsViewAccess {
 
 	public InputConfiguration getInputConfiguration() {
 		RadioGroup inputRG = findInputConfigurationRadioGroup();
-		return InputConfigurationGenerator
-				.createInputConfigurationFromRadioGroup(inputRG);
+		return InputConfigurationGenerator.createInputConfigurationFromRadioGroup(inputRG);
 	}
 
 	public int getSpeed() {
@@ -60,34 +58,30 @@ public class SettingsViewAccess {
 	}
 
 	public boolean isBackgroundChecked() {
-		CheckBox view = (CheckBox) this.origin
-				.findViewById(R.id.settings_background);
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_background);
 		return view.isChecked();
 	}
 
 	public boolean isAltPixelformatChecked() {
-		CheckBox view = (CheckBox) this.origin
-				.findViewById(R.id.settings_pixelformat);
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_pixelformat);
 		return view.isChecked();
 	}
 
 	private void initSpeed() {
 		SeekBar speed = findSpeedSeekbar();
 		int startValue = 10;
-		TextView view = (TextView) this.origin
-				.findViewById(R.id.settings_speed);
-		speed.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
-				new ProgressToIntValueConverter(MIN_SPEED_VALUE), startValue));
+		TextView view = (TextView) this.origin.findViewById(R.id.settings_speed);
+		speed.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(
+				MIN_SPEED_VALUE), startValue));
 		speed.setProgress(startValue);
 	}
 
 	private void initZoom() {
 		SeekBar zoom = findZoomSeekbar();
 		int startValue = 3;
-		TextView view = (TextView) this.origin
-				.findViewById(R.id.settings_zoom_number);
-		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view,
-				new ProgressToIntValueConverter(MIN_ZOOM_VALUE), startValue));
+		TextView view = (TextView) this.origin.findViewById(R.id.settings_zoom_number);
+		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(
+				MIN_ZOOM_VALUE), startValue));
 		zoom.setProgress(startValue);
 	}
 
@@ -98,6 +92,8 @@ public class SettingsViewAccess {
 		setPlayerName(settings.getPlayerName());
 		setBackgroundChecked(settings.isBackground());
 		setAltPixelformatChecked(settings.isAltPixelformat());
+		setMusic(settings.isPlayMusic());
+		setSound(settings.isPlaySound());
 	}
 
 	private void setPlayerName(String playerName) {
@@ -112,22 +108,28 @@ public class SettingsViewAccess {
 
 	private void fillInputConfiguration(SettingsEntity settings) {
 		RadioGroup inputconfiguration = findInputConfiguration();
-		InputConfiguration storedInputConfiguration = settings
-				.getInputConfiguration();
-		InputConfigurationGenerator.selectInputConfiguration(
-				storedInputConfiguration, inputconfiguration);
+		InputConfiguration storedInputConfiguration = settings.getInputConfiguration();
+		InputConfigurationGenerator.selectInputConfiguration(storedInputConfiguration, inputconfiguration);
 	}
 
 	public void setBackgroundChecked(boolean b) {
-		CheckBox view = (CheckBox) this.origin
-				.findViewById(R.id.settings_background);
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_background);
 		view.setChecked(b);
 	}
 
 	public void setAltPixelformatChecked(boolean b) {
-		CheckBox view = (CheckBox) this.origin
-				.findViewById(R.id.settings_pixelformat);
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_pixelformat);
 		view.setChecked(b);
+	}
+
+	private void setMusic(boolean playMusic) {
+		CheckBox view = getMusicCheckbox();
+		view.setChecked(playMusic);
+	}
+
+	private void setSound(boolean playSound) {
+		CheckBox view = (CheckBox) this.origin.findViewById(R.id.menu_sound_button);
+		view.setChecked(playSound);
 	}
 
 	public SettingsEntity readFromView() {
@@ -137,9 +139,26 @@ public class SettingsViewAccess {
 		String name = getName();
 		boolean background = isBackgroundChecked();
 		boolean isAltPixelFormat = isAltPixelformatChecked();
-		// TODO add music and sound to view
-		return new SettingsEntity(inputConfiguration, zoom, 
-				speed, name, background, isAltPixelFormat, true, true);
+		boolean playMusic = isPlayMusicChecked();
+		boolean playSound = isPlaySoundChecked();
+		return new SettingsEntity(inputConfiguration, zoom, speed, name, background, isAltPixelFormat, playMusic,
+				playSound);
+	}
+
+	private boolean isPlayMusicChecked() {
+		return getMusicCheckbox().isChecked();
+	}
+
+	private boolean isPlaySoundChecked() {
+		return getSoundCheckbox().isChecked();
+	}
+
+	private CheckBox getMusicCheckbox() {
+		return (CheckBox) this.origin.findViewById(R.id.menu_music_button);
+	}
+
+	private CheckBox getSoundCheckbox() {
+		return (CheckBox) this.origin.findViewById(R.id.menu_sound_button);
 	}
 
 	private String getName() {

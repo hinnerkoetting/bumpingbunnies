@@ -127,6 +127,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		LOGGER.info("selected bluetooth");
 		if (clientAccepter != null)
 			clientAccepter.closeOpenConnections();
+		hostsAdapter.clear();
 		this.remoteCommunication = BluetoothCommunicationFactory.create(
 				BluetoothAdapter.getDefaultAdapter(), this);
 		clientAccepter = BluetoothCommunicationFactory.createClientAccepter(
@@ -160,6 +161,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		LOGGER.info("selected wlan");
 		if (clientAccepter != null)
 			clientAccepter.closeOpenConnections();
+		hostsAdapter.clear();
 		this.remoteCommunication = WlanCommunicationFactory.create(this);
 	}
 

@@ -5,34 +5,45 @@
     android:orientation="vertical"
     android:padding="10dp" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name" />
-
-        <EditText
-            android:id="@+id/settings_playername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:text="@string/dummy_content" />
-    </LinearLayout>
-
-    <include layout="@layout/other_settings" />
+    <!-- nested views are used to that the background cannot be scrolled but the menu can be scrolled if the display is too small -->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <include
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/menu_input_type" />
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name" />
+
+                <EditText
+                    android:id="@+id/settings_playername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:text="@string/dummy_content" />
+            </LinearLayout>
+
+            <include
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/other_settings" />
+
+            <include
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/menu_input_type" />
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>
