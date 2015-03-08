@@ -10,6 +10,11 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 	private int zoom;
 	private int width;
 	private int height;
+	//This will avoid flickering on the screen.
+	//otherwise the player might move while objects are drawn.
+	//we set this fields before any object is drawn and reset it after all objects are drawn.
+	private long currentGameCenterX;
+	private long currentGameCenterY;
 
 	public RelativeCoordinatesCalculation(CameraPositionCalculation cameraPositionCalculation,
 			WorldProperties properties) {
@@ -40,15 +45,17 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 
 	@Override
 	public int getScreenCoordinateX(long gameX) {
-		return getScreenCoordinateX(gameX, getGameCenterX());
+		return getScreenCoordinateX(gameX, currentGameCenterX);
 	}
 
 	@Override
 	public int getScreenCoordinateY(long gameY) {
-		return getScreenCoordinateY(gameY, getGameCenterY());
+		return getScreenCoordinateY(gameY, currentGameCenterY);
 	}
 
 	public int getScreenCoordinateY(long gameY, long gameCenterY) {
+		if (gameCenterY == Integer.MIN_VALUE) 
+			throw new IllegalStateException("Need so fix current location before drawing");
 		return (int) (this.height / 2 - (((+gameY - gameCenterY)) / this.zoom));
 	}
 
@@ -82,6 +89,8 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 	}
 
 	private int getScreenCoordinateX(long gameX, long gameCenterX) {
+		if (gameCenterX == Integer.MIN_VALUE) 
+			throw new IllegalStateException("Need so fix current location before drawing");
 		return (int) (this.width / 2 + (gameX - gameCenterX) / this.zoom);
 	}
 
@@ -123,6 +132,18 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 
 	private long maximalYPosition() {
 		return height * zoom / 2;
+	}
+
+	@Override
+	public void fixCurrentLocation() {
+		currentGameCenterX = getGameCenterX();
+		currentGameCenterY = getGameCenterY();
+	}
+
+	@Override
+	public void resetCurrentLocation() {
+		currentGameCenterX = Integer.MIN_VALUE;
+		currentGameCenterY = Integer.MIN_VALUE;
 	}
 
 }

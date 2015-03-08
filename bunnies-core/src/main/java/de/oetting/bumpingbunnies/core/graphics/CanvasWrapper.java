@@ -16,4 +16,5 @@ public abstract class CanvasWrapper {
 
 	public abstract int getCanvasHeight();
 
+
 }

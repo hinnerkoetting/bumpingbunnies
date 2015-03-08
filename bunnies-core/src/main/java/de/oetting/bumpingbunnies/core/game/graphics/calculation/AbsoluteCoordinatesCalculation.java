@@ -53,4 +53,12 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 		return yCoordinate > 0.5 * this.height;
 	}
 
+	@Override
+	public void fixCurrentLocation() {
+	}
+
+	@Override
+	public void resetCurrentLocation() {
+	}
+
 }

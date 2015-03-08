@@ -83,4 +83,12 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 		return this.heigth;
 	}
 
+	@Override
+	public void startDrawPhase() {
+	}
+
+	@Override
+	public void endDrawPhase() {
+	}
+
 }

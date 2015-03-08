@@ -48,4 +48,14 @@ public class YCoordinateInverterCalculation implements CoordinatesCalculation {
 		return delegate.isClickOnUpperHalf(screenHeight - yCoordinate);
 	}
 
+	@Override
+	public void fixCurrentLocation() {
+		delegate.fixCurrentLocation();
+	}
+
+	@Override
+	public void resetCurrentLocation() {
+		delegate.resetCurrentLocation();		
+	}
+
 }

@@ -16,4 +16,8 @@ public interface CoordinatesCalculation {
 	void setZoom(int zoom);
 
 	boolean isClickOnUpperHalf(int yCoordinate);
+
+	void fixCurrentLocation();
+
+	void resetCurrentLocation();
 }

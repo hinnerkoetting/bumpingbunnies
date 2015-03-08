@@ -102,4 +102,12 @@ public class PcCanvasDelegate implements CanvasDelegate {
 		return (int) canvas.getHeight();
 	}
 
+	@Override
+	public void startDrawPhase() {
+	}
+
+	@Override
+	public void endDrawPhase() {
+	}
+
 }

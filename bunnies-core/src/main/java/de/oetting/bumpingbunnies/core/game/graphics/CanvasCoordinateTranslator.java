@@ -85,4 +85,14 @@ public class CanvasCoordinateTranslator implements CanvasDelegate {
 		return coordinatesCalculation.getScreenCoordinateY(y);
 	}
 
+	@Override
+	public void startDrawPhase() {
+		coordinatesCalculation.fixCurrentLocation();
+	}
+
+	@Override
+	public void endDrawPhase() {
+		coordinatesCalculation.resetCurrentLocation();
+	}
+
 }

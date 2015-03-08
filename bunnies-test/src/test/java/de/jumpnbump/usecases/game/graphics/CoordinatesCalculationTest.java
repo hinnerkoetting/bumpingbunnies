@@ -23,6 +23,7 @@ public class CoordinatesCalculationTest {
 	public void screenCoordinate0x0_givenPlayerIsAtPosition0x0_shouldReturnBottomLeftOfScreen() {
 		givenPlayerAtPosition(0, 0);
 		givenZoom(1);
+		fixture.fixCurrentLocation();
 		float pixelX = this.fixture.getScreenCoordinateX(0);
 		float pixelY = this.fixture.getScreenCoordinateY(0);
 		assertThat(pixelX, equalTo(0.0f));
@@ -34,6 +35,7 @@ public class CoordinatesCalculationTest {
 	public void screenCoordinate500x500_givenPlayerIsAtPosition_500x500_shouldReturnCenterOfScreen() {
 		givenPlayerAtPosition(500, 500);
 		givenZoom(1);
+		fixture.fixCurrentLocation();
 		float pixelX = this.fixture.getScreenCoordinateX(500);
 		float pixelY = this.fixture.getScreenCoordinateY(500);
 		assertThat(pixelX, equalTo(500.0f));
@@ -44,6 +46,7 @@ public class CoordinatesCalculationTest {
 	public void screenCoordinate0x0_givenPlayerIsAtPosition_500x500_shouldReturnBottomLeftOfScreen() {
 		givenPlayerAtPosition(500, 500);
 		givenZoom(1);
+		fixture.fixCurrentLocation();
 		float pixelX = this.fixture.getScreenCoordinateX(0);
 		float pixelY = this.fixture.getScreenCoordinateY(0);
 		assertThat(pixelX, equalTo(0.0f));
@@ -55,6 +58,7 @@ public class CoordinatesCalculationTest {
 	public void screenCoordinate0x0_givenPlayerIsAtPosition0x0AndZoomIs2_shouldReturnBottomLeftOfScreen() {
 		givenPlayerAtPosition(0, 0);
 		givenZoom(2);
+		fixture.fixCurrentLocation();
 		float pixelX = this.fixture.getScreenCoordinateX(0);
 		float pixelY = this.fixture.getScreenCoordinateY(0);
 		assertThat(pixelX, equalTo(0.0f));
@@ -65,6 +69,7 @@ public class CoordinatesCalculationTest {
 	public void screenCoordinate0x0_givenPlayerIsAtPosition1000x1000AndZoomIsHalf_shouldReturnBottomLeftOfScreen() {
 		givenPlayerAtPosition(1000, 1000);
 		givenZoom(2);
+		fixture.fixCurrentLocation();
 		float pixelX = this.fixture.getScreenCoordinateX(0);
 		float pixelY = this.fixture.getScreenCoordinateY(0);
 		assertThat(pixelX, equalTo(0.0f));

@@ -32,4 +32,8 @@ public interface CanvasDelegate {
 
 	int getOriginalHeight();
 
+	void startDrawPhase();
+
+	void endDrawPhase();
+
 }

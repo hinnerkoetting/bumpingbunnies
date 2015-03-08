@@ -55,9 +55,11 @@ public class ObjectsDrawer implements PlayerJoinListener {
 	}
 
 	private void drawEverything() {
+		canvasDelegate.startDrawPhase();
 		for (Drawable d : this.allDrawables) {
 			d.draw(this.canvasDelegate);
 		}
+		canvasDelegate.endDrawPhase();
 	}
 
 	@Override
