@@ -7,7 +7,7 @@
     <Button
         android:id="@+id/button_up"
         style="@style/button_style"
-        android:layout_gravity="right|bottom"
+        android:layout_gravity="bottom|end"
         android:paddingBottom="0dp"
         android:text="@string/arrow_up" />
 
@@ -15,7 +15,7 @@
         android:id="@+id/input_distributed_left_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|bottom" >
+        android:layout_gravity="start|bottom" >
 
         <Button
             android:id="@+id/button_left"

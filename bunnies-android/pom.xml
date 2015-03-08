@@ -8,6 +8,14 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
 	<packaging>apk</packaging>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -55,7 +63,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -96,7 +105,7 @@
 	</properties>
 	<!--define android sdk path depending on os -->
 	<profiles>
-		<!--  deploy project on locally connected android devices -->
+		<!-- deploy project on locally connected android devices -->
 		<profile>
 			<id>deploy</id>
 			<build>
@@ -119,7 +128,7 @@
 			</build>
 		</profile>
 		<profile>
-			<!--  release for android playstore call with mvn install -P release -Dpassword=XXX-->
+			<!-- release for android playstore call with mvn install -P release -Dpassword=XXX -->
 			<id>release</id>
 			<properties>
 				<android.zipalign.skip>false</android.zipalign.skip>
