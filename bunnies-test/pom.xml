@@ -19,6 +19,15 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+		<!--  wenn die Klassen signiert werden koennen die Tests von roboeletric nicht mehr angepasst werden -->
+			<id>release</id>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.robolectric</groupId>
