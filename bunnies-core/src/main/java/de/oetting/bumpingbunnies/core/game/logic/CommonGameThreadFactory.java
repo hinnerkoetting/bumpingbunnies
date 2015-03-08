@@ -75,12 +75,6 @@ public class CommonGameThreadFactory {
 			return musicPlayerFactory.createNormalJump();
 		return new DummyMusicPlayer();
 	}
-	
-	private static MusicPlayer createDeadPlayerSound(BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
-		if (settings.isPlaySounds())
-			return musicPlayerFactory.createDeadPlayer();
-		return new DummyMusicPlayer();
-	}
 
 	private static MusicPlayer createWaterSound(BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
 		if (settings.isPlaySounds())

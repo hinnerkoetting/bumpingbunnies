@@ -40,6 +40,7 @@ public class MyCanvas extends JPanel {
 		this.coordinatesCalculation = new AbsoluteCoordinatesCalculation(getWidth(), getHeight(), properties);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void resize(Dimension arg0) {
 		super.resize(arg0);

@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/progressBar1"
-            android:text="Please wait..." />
+            android:layout_toEndOf="@id/progressBar1"
+            android:text="@string/please_wait" />
     </RelativeLayout>
 
 </RelativeLayout>

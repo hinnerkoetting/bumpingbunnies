@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javafx.application.Platform;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

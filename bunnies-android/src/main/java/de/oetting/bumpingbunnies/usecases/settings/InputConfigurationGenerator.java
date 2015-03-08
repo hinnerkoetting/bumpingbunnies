@@ -5,9 +5,6 @@ import android.widget.RadioGroup;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardinput;
 import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardInputConfiguration;
-import de.oetting.bumpingbunnies.android.input.multiTouch.MultiTouchInput;
-import de.oetting.bumpingbunnies.android.input.touch.TouchInput;
-import de.oetting.bumpingbunnies.android.input.touch.TouchWithUpInput;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 
 public class InputConfigurationGenerator {

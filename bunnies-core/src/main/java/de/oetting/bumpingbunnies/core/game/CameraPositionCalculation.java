@@ -1,14 +1,11 @@
 package de.oetting.bumpingbunnies.core.game;
 
 import de.oetting.bumpingbunnies.core.game.steps.GameStepAction;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class CameraPositionCalculation implements GameStepAction {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CameraPositionCalculation.class);
 	protected static final int SLOW_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 1000;
 	protected static final int MEDIUM_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 250;
 	protected static final int FAST_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 50;

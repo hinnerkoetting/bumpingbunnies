@@ -81,5 +81,6 @@
     <string name="client_bluetooth_game">Client</string>
     <string name="menu_sound">Sound</string>
     <string name="menu_music">Music</string>
+    <string name="please_wait">Please wait...</string>
     
 </resources>
