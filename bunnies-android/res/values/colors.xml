@@ -4,8 +4,6 @@
     <color name="button_color">#000000</color>
     <color name="text_color">#242d35</color>
     <color name="background_table">#c6d5e9</color>
-    <color name="gradient_start">#a6b5c9</color>
-    <color name="gradient_end">#4a6c9b</color>
     <color name="table_row_even">#a6b5c9</color>
     <color name="table_row_odd">#96a5b9</color>
     <color name="background_activiti">#a6b5c9</color>

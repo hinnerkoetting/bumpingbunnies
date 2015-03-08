@@ -22,7 +22,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/header_gradient"
             android:onClick="onClickStart"
-            android:padding="5dp"
+            android:padding="@dimen/room_button_padding"
             android:text="@string/room_start"
             android:textColor="@color/text_color"
             android:textSize="@dimen/room_button_height" />
@@ -36,7 +36,7 @@
             android:layout_toRightOf="@+id/room_start"
             android:background="@drawable/header_gradient"
             android:onClick="onClickAddAi"
-            android:padding="5dp"
+            android:padding="@dimen/room_button_padding"
             android:text="@string/room_add_ai"
             android:textColor="@color/text_color"
             android:textSize="@dimen/room_button_height" />
@@ -55,7 +55,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/header_gradient"
-                android:padding="5dp"
+                android:padding="12dp"
                 android:text="@string/bluetooth"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/room_radiogroup_height" />
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/header_gradient"
-                android:padding="5dp"
+                android:padding="12dp"
                 android:text="@string/wlan"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/room_radiogroup_height" />
@@ -101,6 +101,7 @@
         android:background="@drawable/header_gradient"
         android:onClick="onClickSettings"
         android:padding="5dp"
-        android:text="@string/settings" />
+        android:text="@string/settings"
+        android:textSize="@dimen/room_button_height" />
 
 </LinearLayout>

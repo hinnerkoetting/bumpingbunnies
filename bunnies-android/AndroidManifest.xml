@@ -3,7 +3,7 @@
     package="de.oetting.bumpingbunnies"
     android:installLocation="auto"
     android:versionCode="48"
-    android:versionName="0.4.8" >
+    android:versionName="0.4.8" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -20,7 +20,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" tools:ignore="UnusedAttribute">
         <activity
             android:name="de.oetting.bumpingbunnies.android.game.GameActivity"
             android:configChanges="keyboardHidden"
