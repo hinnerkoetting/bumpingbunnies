@@ -87,6 +87,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		this.sockets.closeExistingSockets();
 		this.newClientsAccepter.cancel();
 		this.sockets.removeListeners();
+		musicPlayer.stopBackground();
 	}
 
 	private void notifyOthersAboutEnd() {

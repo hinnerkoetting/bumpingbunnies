@@ -58,12 +58,11 @@ public class InteractionServiceTest {
 	@Test
 	public void interaction_givenPlayerMovingLeftRunningIntoWall_ShouldHaveMomentEqualToDistanceToWall() {
 		Player player = givenPlayerAt00WithXMovement(-2);
-		long wallXPosition = -1;
+		long wallXPosition = player.minX() - 1;
 		givenCollidingWallAt(wallXPosition, 0);
 		whenPlayerInteractsWithWorld(player);
 		long distanceToWall = wallXPosition - player.minX();
 		assertEquals(distanceToWall, player.movementX());
-
 	}
 
 	@Test
@@ -206,8 +205,8 @@ public class InteractionServiceTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.collisionDetection = new CollisionDetection(this.objectProvider);
-		this.interactionService = new GameObjectInteractor(this.collisionDetection, this.objectProvider, new CollisionHandling(mock(MusicPlayer.class),
-				mock(MusicPlayer.class)));
+		this.interactionService = new GameObjectInteractor(this.collisionDetection, this.objectProvider,
+				new CollisionHandling(mock(MusicPlayer.class), mock(MusicPlayer.class)));
 	}
 
 	private void givenObjectExists(Wall gameObject) {

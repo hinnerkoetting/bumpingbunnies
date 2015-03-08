@@ -12,6 +12,7 @@ public class MultiTrackMusicPlayer implements MusicPlayer, OnCompletionListener 
 
 	private final List<MusicPlayer> musicPlayer;
 	private int currentIndex = -1;
+	private boolean playing;
 
 	public MultiTrackMusicPlayer(List<MusicPlayer> tracks) {
 		this.musicPlayer = tracks;
@@ -22,6 +23,7 @@ public class MultiTrackMusicPlayer implements MusicPlayer, OnCompletionListener 
 
 	@Override
 	public void start() {
+		playing = true;
 		if (this.musicPlayer.size() == 0) {
 			throw new NoTrackExists();
 		} else {
@@ -36,15 +38,15 @@ public class MultiTrackMusicPlayer implements MusicPlayer, OnCompletionListener 
 
 	@Override
 	public void stopBackground() {
+		playing = false;
 		this.musicPlayer.get(this.currentIndex).stopBackground();
 	}
 
-	public class NoTrackExists extends RuntimeException {
-	}
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
-		this.musicPlayer.get(getNextIndex()).start();
+		if (playing)
+			this.musicPlayer.get(getNextIndex()).start();
 	}
 
 	private int getNextIndex() {
@@ -58,5 +60,8 @@ public class MultiTrackMusicPlayer implements MusicPlayer, OnCompletionListener 
 
 	@Override
 	public void setOnCompletionListener(OnMusicCompletionListener listener) {
+	}
+
+	public class NoTrackExists extends RuntimeException {
 	}
 }
