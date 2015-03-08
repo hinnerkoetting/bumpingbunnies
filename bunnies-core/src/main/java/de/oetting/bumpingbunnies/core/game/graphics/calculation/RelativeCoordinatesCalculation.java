@@ -1,16 +1,21 @@
 package de.oetting.bumpingbunnies.core.game.graphics.calculation;
 
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
 public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 
-	private CameraPositionCalculation cameraPositionCalculation;
+	private final WorldProperties properties;
+	private final CameraPositionCalculation cameraPositionCalculation;
 	private int zoom;
 	private int width;
 	private int height;
 
-	public RelativeCoordinatesCalculation(CameraPositionCalculation cameraPositionCalculation) {
+	public RelativeCoordinatesCalculation(CameraPositionCalculation cameraPositionCalculation,
+			WorldProperties properties) {
 		this.cameraPositionCalculation = cameraPositionCalculation;
+		this.properties = properties;
 	}
 
 	@Override
@@ -25,38 +30,100 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 	}
 
 	@Override
-	public int getGameCoordinateX(float touchX) {
-		return (int) (this.zoom * touchX + (getCurrentCenterX() - this.width / 2 * this.zoom));
+	public int getGameCoordinateX(float displayX) {
+		return (int) (this.zoom * displayX + (getGameCenterX() - this.width / 2 * this.zoom));
 	}
 
 	@Override
-	public int getGameCoordinateY(float touchY) {
-		return (int) (-(touchY - this.height / 2) * this.zoom + getCurrentCenterY());
+	public int getGameCoordinateY(float displayX) {
+		return (int) (-(displayX - this.height / 2) * this.zoom + getGameCenterY());
 	}
 
 	@Override
 	public int getScreenCoordinateX(long gameX) {
-		int res = (int) (this.width / 2 + (gameX - getCurrentCenterX()) / this.zoom);
-		return res;
+		return getScreenCoordinateX(gameX, getGameCenterX());
 	}
 
 	@Override
 	public int getScreenCoordinateY(long gameY) {
-		int res = (int) (this.height / 2 - (((+gameY - getCurrentCenterY())) / this.zoom));
-		return res;
+		return getScreenCoordinateY(gameY, getGameCenterY());
+	}
+
+	public int getScreenCoordinateY(long gameY, long gameCenterY) {
+		return (int) (this.height / 2 - (((+gameY - gameCenterY)) / this.zoom));
 	}
 
 	@Override
 	public boolean isClickOnUpperHalf(int yCoordinate) {
-		return getGameCoordinateY(yCoordinate) > getCurrentCenterY();
+		return getGameCoordinateY(yCoordinate) > getGameCenterY();
 	}
 
-	public long getCurrentCenterX() {
-		return this.cameraPositionCalculation.getCurrentScreenX();
+	public long getGameCenterX() {
+		if (canSeeBehindBothBordersFromCenter())
+			return properties.getWorldWidth() / 2;
+		long centerFromCalculation = this.cameraPositionCalculation.getCurrentScreenX();
+		if (cameraSeesBehindLeftBorder(centerFromCalculation))
+			return minimalXPosition();
+		if (cameraSeesBehindRightBorder(centerFromCalculation))
+			return maximalXPosition();
+		return centerFromCalculation;
 	}
 
-	public long getCurrentCenterY() {
-		return this.cameraPositionCalculation.getCurrentScreenY();
+	private boolean canSeeBehindBothBordersFromCenter() {
+		return cameraSeesBehindLeftBorder(properties.getWorldWidth() / 2)
+				&& cameraSeesBehindRightBorder(properties.getWorldWidth() / 2);
+	}
+
+	private boolean cameraSeesBehindLeftBorder(long centerFromCalculation) {
+		return getScreenCoordinateX(-1, centerFromCalculation) > 0;
+	}
+
+	private boolean cameraSeesBehindRightBorder(long centerFromCalculation) {
+		return getScreenCoordinateX(properties.getWorldWidth() + 1, centerFromCalculation) < width;
+	}
+
+	private int getScreenCoordinateX(long gameX, long gameCenterX) {
+		return (int) (this.width / 2 + (gameX - gameCenterX) / this.zoom);
+	}
+
+	private long minimalXPosition() {
+		return width * zoom / 2;
+	}
+
+	private long maximalXPosition() {
+		return properties.getWorldWidth() - (width / 2) * zoom;
+	}
+
+	public long getGameCenterY() {
+		if (canSeeBehindTopAndBottomFromCenter())
+			return properties.getWorldHeight() / 2;
+		long centerFromCalculation = this.cameraPositionCalculation.getCurrentScreenY();
+		if (cameraSeesBehindTopBorder(centerFromCalculation))
+			return minimalYPosition();
+		if (cameraSeesBehindBottomBorder(centerFromCalculation))
+			return maximalYPosition();
+		return centerFromCalculation;
+	}
+
+	private boolean canSeeBehindTopAndBottomFromCenter() {
+		return cameraSeesBehindTopBorder(properties.getWorldHeight() / 2)
+				&& cameraSeesBehindBottomBorder(properties.getWorldHeight() / 2);
+	}
+
+	private boolean cameraSeesBehindBottomBorder(long gameCenterY) {
+		return getScreenCoordinateY(-1, gameCenterY) < height;
+	}
+
+	private boolean cameraSeesBehindTopBorder(long gameCenterY) {
+		return getScreenCoordinateY(properties.getWorldHeight() + 1, gameCenterY) > 0;
+	}
+
+	private long minimalYPosition() {
+		return properties.getWorldHeight() - (height / 2) * zoom;
+	}
+
+	private long maximalYPosition() {
+		return height * zoom / 2;
 	}
 
 }

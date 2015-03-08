@@ -2,9 +2,7 @@ package de.oetting.bumpingbunnies.usecases.resultScreen;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;

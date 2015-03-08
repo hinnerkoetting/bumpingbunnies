@@ -34,6 +34,7 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.DrawerFactory;
@@ -66,7 +67,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		World world = createWorld(this, parameter);
 		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new AndroidMusicPlayerFactory(this),
 				new AndroidConnectionEstablisherFactory(this), this);
-		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation);
+		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation, new WorldProperties());
 		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 
 		registerScreenTouchListener(contentView);

@@ -11,20 +11,22 @@ import org.mockito.MockitoAnnotations;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
 public class CoordinatesCalculationTest {
 
 	private CameraPositionCalculation camPosition;
 	private CoordinatesCalculation fixture;
+	private WorldProperties properties = new WorldProperties();
 
 	@Test
-	public void screenCoordinate0x0_givenPlayerIsAtPosition0x0_shouldReturnCenterOfScreen() {
+	public void screenCoordinate0x0_givenPlayerIsAtPosition0x0_shouldReturnBottomLeftOfScreen() {
 		givenPlayerAtPosition(0, 0);
 		givenZoom(1);
 		float pixelX = this.fixture.getScreenCoordinateX(0);
 		float pixelY = this.fixture.getScreenCoordinateY(0);
-		assertThat(pixelX, equalTo(500.0f));
-		assertThat(pixelY, equalTo(500.0f));
+		assertThat(pixelX, equalTo(0.0f));
+		assertThat(pixelY, equalTo(1000.0f));
 		// Y-Koordinate ist im Vergleich zu Android gespiegelt
 	}
 
@@ -50,13 +52,13 @@ public class CoordinatesCalculationTest {
 
 	//
 	@Test
-	public void screenCoordinate0x0_givenPlayerIsAtPosition0x0AndZoomIs2_shouldReturntCenterOfScreen() {
+	public void screenCoordinate0x0_givenPlayerIsAtPosition0x0AndZoomIs2_shouldReturnBottomLeftOfScreen() {
 		givenPlayerAtPosition(0, 0);
 		givenZoom(2);
 		float pixelX = this.fixture.getScreenCoordinateX(0);
 		float pixelY = this.fixture.getScreenCoordinateY(0);
-		assertThat(pixelX, equalTo(500.0f));
-		assertThat(pixelY, equalTo(500.0f));
+		assertThat(pixelX, equalTo(0.0f));
+		assertThat(pixelY, equalTo(1000.0f));
 	}
 
 	@Test
@@ -82,7 +84,7 @@ public class CoordinatesCalculationTest {
 	public void beforeEveryTest() {
 		MockitoAnnotations.initMocks(this);
 		this.camPosition = new CameraPositionCalculation(createOpponentPlayer(), 1);
-		this.fixture = new RelativeCoordinatesCalculation(this.camPosition);
+		this.fixture = new RelativeCoordinatesCalculation(this.camPosition, properties);
 		this.fixture.updateCanvas(1000, 1000);
 	}
 }
