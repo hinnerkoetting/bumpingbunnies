@@ -40,7 +40,7 @@ public class CommonGameThreadFactory {
 		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world, musicPlayerFactory,
 				configuration.getLocalSettings());
 		GameStepController stepController = CommonGameThreadFactory.createStepController(cameraCalculation, world, stateDispatcher, factory, sendControl,
-				configuration, main);
+				configuration, main, musicPlayerFactory.createDeadPlayer());
 
 		return CommonGameThreadFactory.create(stepController, errorCallback);
 	}
@@ -52,8 +52,8 @@ public class CommonGameThreadFactory {
 
 	public static GameStepController createStepController(CameraPositionCalculation cameraCalculation, World world, PlayerStateDispatcher stateDispatcher,
 			PlayerMovementCalculationFactory factory, NetworkMessageDistributor sendControl, Configuration configuration,
-			PlayerDisconnectedCallback disconnectCallback) {
-		return GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl, configuration, disconnectCallback);
+			PlayerDisconnectedCallback disconnectCallback, MusicPlayer deadPlayerMusic) {
+		return GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl, configuration, disconnectCallback, deadPlayerMusic);
 	}
 
 	public static PlayerMovementCalculationFactory createMovementCalculationFactory(World world, BunniesMusicPlayerFactory musicPlayerFactory,
@@ -73,6 +73,12 @@ public class CommonGameThreadFactory {
 	private static MusicPlayer createJumpSound(BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
 		if (settings.isPlaySounds())
 			return musicPlayerFactory.createNormalJump();
+		return new DummyMusicPlayer();
+	}
+	
+	private static MusicPlayer createDeadPlayerSound(BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
+		if (settings.isPlaySounds())
+			return musicPlayerFactory.createDeadPlayer();
 		return new DummyMusicPlayer();
 	}
 

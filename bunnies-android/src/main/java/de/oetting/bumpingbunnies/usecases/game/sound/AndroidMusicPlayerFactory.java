@@ -39,6 +39,10 @@ public class AndroidMusicPlayerFactory implements BunniesMusicPlayerFactory {
 		return create(MediaPlayer.create(context, R.raw.normal_jump));
 	}
 
+	public MusicPlayer createDeadPlayer() {
+		return create(MediaPlayer.create(context, R.raw.sprung_bunny2bunny));
+	}
+
 	private static MusicPlayer createMultiTrack(List<MediaPlayer> mediaplayers) {
 		return new MultiTrackMusicPlayer(createListOfMusicPlayers(mediaplayers));
 	}

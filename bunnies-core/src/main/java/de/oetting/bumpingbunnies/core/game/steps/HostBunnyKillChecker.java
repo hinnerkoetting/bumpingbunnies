@@ -13,6 +13,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPoint
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.network.MessageId;
@@ -29,15 +30,17 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final MessageSender messageSender;
 	private final PlayerReviver reviver;
 	private final PlayerDisconnectedCallback disconnectCallback;
+	private final MusicPlayer musicPlayer;
 
 	public HostBunnyKillChecker(CollisionDetection collisionDetection, World world, SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver,
-			MessageSender messageSender, PlayerDisconnectedCallback disconnectCallback) {
+			MessageSender messageSender, PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer) {
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
 		this.world = world;
 		this.messageSender = messageSender;
 		this.disconnectCallback = disconnectCallback;
+		this.musicPlayer = musicPlayer;
 	}
 
 	@Override
@@ -54,6 +57,11 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		increaseScore(playerTop);
 		killPlayer(playerUnder);
 		revivePlayerDelayed(playerUnder);
+		playSound();
+	}
+
+	private void playSound() {
+		musicPlayer.start();
 	}
 
 	private void killPlayer(Player playerKilled) {

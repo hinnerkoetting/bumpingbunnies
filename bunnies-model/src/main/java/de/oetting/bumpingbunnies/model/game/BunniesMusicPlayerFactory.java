@@ -7,6 +7,8 @@ public interface BunniesMusicPlayerFactory {
 	MusicPlayer createJumper();
 
 	MusicPlayer createNormalJump();
+	
+	MusicPlayer createDeadPlayer();
 
 	MusicPlayer createWater();
 }

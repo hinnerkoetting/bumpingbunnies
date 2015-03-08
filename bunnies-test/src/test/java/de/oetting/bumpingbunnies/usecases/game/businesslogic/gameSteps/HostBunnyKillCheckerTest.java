@@ -24,6 +24,7 @@ import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
 import de.oetting.bumpingbunnies.core.network.MessageSender;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.tests.UnitTests;
@@ -75,7 +76,7 @@ public class HostBunnyKillCheckerTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.fixture = new HostBunnyKillChecker(mock(CollisionDetection.class), this.world, this.spawnGenerator, this.reviver, this.sendControl,
-				mock(PlayerDisconnectedCallback.class));
+				mock(PlayerDisconnectedCallback.class), mock(MusicPlayer.class));
 		givenNextSpawnPointIsAt(0, 0);
 	}
 }
