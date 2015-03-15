@@ -19,6 +19,8 @@ import de.oetting.bumpingbunnies.android.input.pointer.PointerInput;
 import de.oetting.bumpingbunnies.android.input.pointer.PointerInputServiceFactory;
 import de.oetting.bumpingbunnies.android.input.touch.TouchInput;
 import de.oetting.bumpingbunnies.android.input.touch.TouchWithUpInput;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 
@@ -67,6 +69,7 @@ public class InputConfigurationFactoryTest {
 	}
 
 	private AbstractPlayerInputServicesFactory<?> whenCreating(InputConfiguration touch) {
-		return new InputConfigurationFactory().create(touch);
+		Configuration configuration = new Configuration(new LocalSettings(touch, 1, false, false, false, false, false), null, null, null, false);
+		return new InputConfigurationFactory().create(configuration);
 	}
 }

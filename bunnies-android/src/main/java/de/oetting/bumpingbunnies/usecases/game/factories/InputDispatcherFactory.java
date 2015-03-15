@@ -15,8 +15,7 @@ public class InputDispatcherFactory {
 
 	public static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter, Player myPlayer,
 			CoordinatesCalculation coordinatesCalculation) {
-		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = new InputConfigurationFactory().create(parameter.getConfiguration()
-				.getInputConfiguration());
+		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = new InputConfigurationFactory().create(parameter.getConfiguration());
 		InputService touchService = myPlayerFactory.createInputService(new PlayerMovement(myPlayer), activity, coordinatesCalculation);
 		InputDispatcher<?> inputDispatcher = myPlayerFactory.createInputDispatcher(touchService);
 		myPlayerFactory.insertGameControllerViews((ViewGroup) activity.findViewById(R.id.game_root), activity.getLayoutInflater(), inputDispatcher);

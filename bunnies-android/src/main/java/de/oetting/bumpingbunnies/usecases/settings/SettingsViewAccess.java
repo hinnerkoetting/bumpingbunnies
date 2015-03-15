@@ -102,7 +102,7 @@ public class SettingsViewAccess {
 	}
 	
 	private CheckBox findLefthandedCheckbox() {
-		return (CheckBox) origin.findViewById(R.id.left_handed);
+		return (CheckBox) origin.findViewById(R.id.left_handed_cb);
 	}
 
 	private void setPlayerName(String playerName) {

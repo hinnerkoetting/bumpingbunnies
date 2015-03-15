@@ -15,31 +15,33 @@ import de.oetting.bumpingbunnies.android.input.pointer.PointerInputServiceFactor
 import de.oetting.bumpingbunnies.android.input.touch.TouchInput;
 import de.oetting.bumpingbunnies.android.input.touch.TouchWithUpInput;
 import de.oetting.bumpingbunnies.core.input.InputService;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 
 public class InputConfigurationFactory {
 
 	@SuppressWarnings("unchecked")
-	public AbstractPlayerInputServicesFactory<InputService> create(InputConfiguration touch) {
-		return (AbstractPlayerInputServicesFactory<InputService>) createIntern(touch);
+	public AbstractPlayerInputServicesFactory<InputService> create(Configuration configuration) {
+		return (AbstractPlayerInputServicesFactory<InputService>) createIntern(configuration);
 	}
 
-	private AbstractPlayerInputServicesFactory<? extends InputService> createIntern(InputConfiguration touch) {
-		if (touch instanceof TouchInput)
+	private AbstractPlayerInputServicesFactory<? extends InputService> createIntern(Configuration configuration) {
+		InputConfiguration input = configuration.getInputConfiguration();
+		if (input instanceof TouchInput)
 			return new TouchInputServicesFactory();
-		else if (touch instanceof TouchWithUpInput)
+		else if (input instanceof TouchWithUpInput)
 			return new TouchJumpInputServicesFactory();
-		else if (touch instanceof KeyboardInputConfiguration)
+		else if (input instanceof KeyboardInputConfiguration)
 			return new KeyboardInputServicesFactory();
-		else if (touch instanceof MultiTouchInput)
+		else if (input instanceof MultiTouchInput)
 			return new MultiTouchJumpServicesFactory();
-		else if (touch instanceof PointerInput)
+		else if (input instanceof PointerInput)
 			return new PointerInputServiceFactory();
-		else if (touch instanceof HardwareKeyboardInputConfiguration)
-			return new HardwareKeyboardFactory();
-		else if (touch instanceof DistributedKeyboardinput)
-			return new DistributedKeyboardFactory();
-		throw new IllegalArgumentException(touch.toString());
+		else if (input instanceof HardwareKeyboardInputConfiguration)
+			return new HardwareKeyboardFactory(configuration.getLocalSettings().isLefthanded());
+		else if (input instanceof DistributedKeyboardinput)
+			return new DistributedKeyboardFactory(configuration.getLocalSettings().isLefthanded());
+		throw new IllegalArgumentException(input.toString());
 	}
 }

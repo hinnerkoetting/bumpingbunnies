@@ -10,9 +10,16 @@ import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 
 public class HardwareKeyboardFactory extends AbstractPlayerInputServicesFactory<HardwareKeyboardInputService> {
 
+	private final boolean leftHanded;
+
+	public HardwareKeyboardFactory(boolean leftHanded) {
+		this.leftHanded = leftHanded;
+	}
+
 	@Override
-	public HardwareKeyboardInputService createInputService(PlayerMovement movement, Context context, CoordinatesCalculation calculations) {
-		return new HardwareKeyboardInputService(movement);
+	public HardwareKeyboardInputService createInputService(PlayerMovement movement, Context context,
+			CoordinatesCalculation calculations) {
+		return new HardwareKeyboardInputService(movement, leftHanded);
 	}
 
 	@Override
@@ -21,7 +28,8 @@ public class HardwareKeyboardFactory extends AbstractPlayerInputServicesFactory<
 	}
 
 	@Override
-	public void insertGameControllerViews(ViewGroup rootView, LayoutInflater inflater, InputDispatcher<?> inputDispatcher) {
+	public void insertGameControllerViews(ViewGroup rootView, LayoutInflater inflater,
+			InputDispatcher<?> inputDispatcher) {
 	}
 
 }

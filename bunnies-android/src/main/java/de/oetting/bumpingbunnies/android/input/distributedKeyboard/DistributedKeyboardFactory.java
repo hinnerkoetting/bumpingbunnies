@@ -18,6 +18,13 @@ import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 
 public class DistributedKeyboardFactory extends AbstractPlayerInputServicesFactory<DistributedInputService> {
 
+	private final boolean lefthanded;
+	
+	
+	public DistributedKeyboardFactory(boolean lefthanded) {
+		this.lefthanded = lefthanded;
+	}
+
 	@Override
 	public DistributedInputService createInputService(PlayerMovement movement, Context context, CoordinatesCalculation calculations) {
 		VibratorService vibrator = createvibratorService(context);
@@ -36,8 +43,14 @@ public class DistributedKeyboardFactory extends AbstractPlayerInputServicesFacto
 
 	@Override
 	public void insertGameControllerViews(ViewGroup rootView, LayoutInflater inflater, InputDispatcher<?> inputDispatcher) {
-		View v = inflater.inflate(R.layout.input_distributed_keyboard, rootView, true);
+		View v = inflater.inflate(getLayout(), rootView, true);
 		registerTouchEvents(v, inputDispatcher);
+	}
+
+	private int getLayout() {
+		if (lefthanded)
+			return R.layout.input_distributed_keyboard_lefthanded;
+		return R.layout.input_distributed_keyboard;
 	}
 
 	private void registerTouchEvents(View v, final InputDispatcher<?> inputDispatcher) {
