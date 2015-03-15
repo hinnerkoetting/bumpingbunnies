@@ -22,7 +22,7 @@ public class AiInputService implements OpponentInput {
 	private boolean rememberMoveRight;
 	private int counter = 0;
 	private boolean rememberMoveUp;
-	private long nextdurationOfMovement = 0;
+	private long nextMovementDuration = 0;
 	private Random random;
 
 	private final World world;
@@ -39,12 +39,11 @@ public class AiInputService implements OpponentInput {
 	public void executeNextStep(long deltaSinceLastLast) {
 		this.otherPlayer = findNearestOtherPlayer();
 		this.counter += deltaSinceLastLast;
-		if (this.counter < this.nextdurationOfMovement) {
-			moveRememberedMovement();
-		} else {
+		if (this.counter > this.nextMovementDuration) {
 			reset();
-			moveNormalMovement();
+			computeNextMovement();
 		}
+		moveRememberedMovement();
 	}
 
 	private Player findNearestOtherPlayer() {
@@ -74,25 +73,23 @@ public class AiInputService implements OpponentInput {
 		this.rememberMoveRight = false;
 		this.rememberMoveLeft = false;
 		this.rememberMoveUp = false;
-		this.nextdurationOfMovement = this.random.nextInt((int) TimeUnit.MILLISECONDS.toMillis(50));
+		this.nextMovementDuration = generateRandom(TimeUnit.MILLISECONDS.toMillis(50));
 		this.counter = 0;
 	}
 
-	private void moveNormalMovement() {
+	private void computeNextMovement() {
 		if (isAtSimilarWidth()) {
 			if (isOtherPlayerOverMe()) {
-				this.nextdurationOfMovement = TimeUnit.MILLISECONDS.toMillis(100);
+				this.nextMovementDuration = generateRandom(TimeUnit.MILLISECONDS.toMillis(100));
 				runAway();
 			} else {
 				runTowardsOtherPlayer();
+				if (attackIsPossible())
+					moveUp();
 			}
 		} else {
 			if (shouldIBreakOutOfSurrounding()) {
-				if (this.player.getCenterX() < ModelConstants.STANDARD_WORLD_SIZE * 0.5) {
-					doMoveRight();
-				} else {
-					doMoveLeft();
-				}
+				breakOutOfSurrounding();
 			} else {
 				chaseOtherPlayer();
 				if (isOtherPlayerOverMe()) {
@@ -105,10 +102,30 @@ public class AiInputService implements OpponentInput {
 		jumpIfStuck();
 	}
 
+	private void breakOutOfSurrounding() {
+		if (this.player.getCenterX() < ModelConstants.STANDARD_WORLD_SIZE * 0.5) {
+			doMoveRight();
+		} else {
+			doMoveLeft();
+		}
+	}
+
+	private boolean attackIsPossible() {
+		return isAtSimilarWidth() && isAtSimilarHeight();
+	}
+
+	private boolean isAtSimilarHeight() {
+		return Math.abs(this.player.getCenterY() - this.otherPlayer.getCenterY()) < ModelConstants.STANDARD_WORLD_SIZE * 0.15;
+	}
+
+	private int generateRandom(long milliseconds) {
+		double randomNumber = (this.random.nextGaussian() + Math.PI / 2) / Math.PI;
+		return (int) (randomNumber * milliseconds);
+	}
+
 	public void jumpIfStuck() {
 		if (stuckAgainstWall()) {
 			moveUp();
-			nextdurationOfMovement = TimeUnit.MILLISECONDS.toMillis(10);
 		}
 	}
 
@@ -127,40 +144,40 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private void runAway() {
-		if (isLeftToOtherPlayer()) {
-			doMoveLeft();
+		if (shouldIBreakOutOfSurrounding()) {
+			breakOutOfSurrounding();
 		} else {
-			doMoveRight();
+			if (isLeftToOtherPlayer()) {
+				doMoveLeft();
+			} else {
+				doMoveRight();
+			}
 		}
 	}
 
 	private void doMoveLeft() {
-		this.playerMovement.tryMoveLeft();
 		this.rememberMoveLeft = true;
 		this.rememberMoveRight = false;
 	}
 
 	private void doMoveRight() {
-		this.playerMovement.tryMoveRight();
 		this.rememberMoveLeft = false;
 		this.rememberMoveRight = true;
 	}
 
 	private void moveUp() {
-		this.playerMovement.tryMoveUp();
 		this.rememberMoveUp = true;
 	}
 
 	private void moveDown() {
-		this.playerMovement.tryMoveDown();
 		this.rememberMoveUp = false;
 	}
 
 	private void runTowardsOtherPlayer() {
 		if (isLeftToOtherPlayer()) {
-			this.playerMovement.tryMoveRight();
+			doMoveRight();
 		} else {
-			this.playerMovement.tryMoveLeft();
+			doMoveLeft();
 		}
 	}
 
@@ -173,15 +190,23 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private void moveRememberedMovement() {
-		if (this.rememberMoveLeft) {
-			this.playerMovement.tryMoveLeft();
-		}
-		if (this.rememberMoveRight) {
-			this.playerMovement.tryMoveRight();
-		}
-		if (this.rememberMoveUp) {
+		moveRememberedHorizontal();
+		moveRememberedVertical();
+	}
+
+	private void moveRememberedVertical() {
+		if (this.rememberMoveUp)
 			this.playerMovement.tryMoveUp();
-		}
+		else
+			playerMovement.tryMoveDown();
+	}
+
+	private void moveRememberedHorizontal() {
+		playerMovement.removeHorizontalMovement();
+		if (this.rememberMoveLeft)
+			this.playerMovement.tryMoveLeft();
+		if (this.rememberMoveRight)
+			this.playerMovement.tryMoveRight();
 	}
 
 	private boolean isAtSimilarWidth() {
@@ -203,7 +228,7 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private boolean isOtherPlayerOverMe() {
-		return this.player.maxY() < this.otherPlayer.minY();
+		return this.otherPlayer.minY() > this.player.maxY();
 	}
 
 }
