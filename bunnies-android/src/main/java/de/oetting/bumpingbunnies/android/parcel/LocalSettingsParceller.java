@@ -14,6 +14,7 @@ public class LocalSettingsParceller implements Parceller<LocalSettings> {
 		parcel.writeInt(input.isBackground() ? 1 : 0);
 		parcel.writeInt(input.isPlayMusic() ? 1 : 0);
 		parcel.writeInt(input.isPlaySounds() ? 1 : 0);
+		parcel.writeInt(input.isLefthanded() ? 1 : 0);
 	}
 
 	@Override
@@ -24,7 +25,8 @@ public class LocalSettingsParceller implements Parceller<LocalSettings> {
 		boolean background = parcel.readInt() == 1;
 		boolean playMusic = parcel.readInt() == 1;
 		boolean playSound = parcel.readInt() == 1;
-		return new LocalSettings(inputConfiguration, zoom, background, altPixelMode, playMusic, playSound);
+		boolean lefthanded = parcel.readInt() == 1;
+		return new LocalSettings(inputConfiguration, zoom, background, altPixelMode, playMusic, playSound, lefthanded);
 	}
 
 }

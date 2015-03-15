@@ -53,5 +53,6 @@
     <string name="menu_sound">Sound</string>
     <string name="menu_music">Music</string>
     <string name="please_wait">Bitte warten&#8230;</string>
+    <string name="lefthanded">Linkshänder</string>
     
 </resources>

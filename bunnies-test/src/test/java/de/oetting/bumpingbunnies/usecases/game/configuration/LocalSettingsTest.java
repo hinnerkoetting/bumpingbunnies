@@ -24,7 +24,7 @@ public class LocalSettingsTest {
 
 	@Test
 	public void testParcelling() {
-		LocalSettings settings = new LocalSettings(new HardwareKeyboardInputConfiguration(), 1, true, true, true, true);
+		LocalSettings settings = new LocalSettings(new HardwareKeyboardInputConfiguration(), 1, true, true, true, true, true);
 		checkValues(settings);
 		LocalSettings after = serializeAndDeserialize(settings);
 		checkValues(after);
@@ -44,5 +44,6 @@ public class LocalSettingsTest {
 		assertThat(settings.isAltPixelMode(), is(true));
 		assertThat(settings.isPlayMusic(), is(true));
 		assertThat(settings.isPlaySounds(), is(true));
+		assertThat(settings.isLefthanded(), is(true));
 	}
 }

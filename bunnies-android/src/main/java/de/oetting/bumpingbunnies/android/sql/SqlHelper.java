@@ -23,7 +23,8 @@ public class SqlHelper extends SQLiteOpenHelper implements SettingsConstants {
 			+ ALT_PIXELFORMAT + " INTEGER NOT NULL,"//
 			+ SPEED_COL + " INTEGER NOT NULL,"//
 			+ PLAY_MUSIC + " INTEGER NOT NULL,"//
-			+ PLAY_SOUND + " INTEGER NOT NULL"//
+			+ PLAY_SOUND + " INTEGER NOT NULL,"//
+			+ LEFTHANDED + " INTEGER NOT NULL"//
 			+ " );";
 
 	private static final String DROP_SETTINGS = "DROP TABLE " + SETTINGS_TABLE + ";";

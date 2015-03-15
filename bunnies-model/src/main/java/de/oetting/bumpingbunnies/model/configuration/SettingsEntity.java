@@ -12,10 +12,12 @@ public class SettingsEntity {
 	private final boolean altPixelformat;
 	private final boolean playMusic;
 	private final boolean playSound;
+	private final boolean lefthanded;
 
 	public SettingsEntity(InputConfiguration inputConfiguration, int zoom,
 			int speed, String playerName, boolean background,
-			boolean altPixelFormat, boolean playMusic, boolean playSound) {
+			boolean altPixelFormat, boolean playMusic, boolean playSound,
+			boolean leftHanded) {
 		super();
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
@@ -25,6 +27,7 @@ public class SettingsEntity {
 		this.altPixelformat = altPixelFormat;
 		this.playMusic = playMusic;
 		this.playSound = playSound;
+		lefthanded = leftHanded;
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -57,6 +60,10 @@ public class SettingsEntity {
 
 	public boolean isPlaySound() {
 		return playSound;
+	}
+
+	public boolean isLefthanded() {
+		return lefthanded;
 	}
 
 }

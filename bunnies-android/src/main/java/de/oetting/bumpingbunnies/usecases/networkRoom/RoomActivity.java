@@ -518,7 +518,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
 		return new LocalSettings(settings.getInputConfiguration(), settings.getZoom(), settings.isBackground(),
-				settings.isAltPixelformat(), settings.isPlayMusic(), settings.isPlaySound());
+				settings.isAltPixelformat(), settings.isPlayMusic(), settings.isPlaySound(), settings.isLefthanded());
 	}
 
 	private SettingsEntity readSettingsFromDb() {

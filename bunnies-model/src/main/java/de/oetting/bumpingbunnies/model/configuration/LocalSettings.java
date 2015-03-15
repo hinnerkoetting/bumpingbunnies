@@ -10,14 +10,18 @@ public class LocalSettings {
 	private final boolean altPixelMode;
 	private final boolean playMusic;
 	private final boolean playSounds;
+	private final boolean lefthanded;
 
-	public LocalSettings(InputConfiguration inputConfiguration, int zoom, boolean background, boolean altPixelMode, boolean playMusic, boolean playSounds) {
+	public LocalSettings(InputConfiguration inputConfiguration, int zoom,
+			boolean background, boolean altPixelMode, boolean playMusic,
+			boolean playSounds, boolean leftHanded) {
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
 		this.background = background;
 		this.altPixelMode = altPixelMode;
 		this.playMusic = playMusic;
 		this.playSounds = playSounds;
+		lefthanded = leftHanded;
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -42,6 +46,10 @@ public class LocalSettings {
 
 	public boolean isPlaySounds() {
 		return playSounds;
+	}
+
+	public boolean isLefthanded() {
+		return lefthanded;
 	}
 
 }

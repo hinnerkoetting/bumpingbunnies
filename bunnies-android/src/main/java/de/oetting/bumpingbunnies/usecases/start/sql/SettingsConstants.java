@@ -11,4 +11,5 @@ public interface SettingsConstants {
 	String ALT_PIXELFORMAT = "alt_pixelformat";
 	String PLAY_MUSIC = "play_music";
 	String PLAY_SOUND = "play_sound";
+	String LEFTHANDED = "lefthanded";
 }
