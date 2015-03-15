@@ -15,31 +15,32 @@ public class AiInputService implements OpponentInput {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(AiInputService.class);
 
-	private Player otherPlayer;
-	private final Player player;
+	private final Player aiPlayer;
 	private final PlayerMovement playerMovement;
+	private final Random randomGenerator;
+	private final World world;
+	
 	private boolean rememberMoveLeft;
 	private boolean rememberMoveRight;
-	private int counter = 0;
 	private boolean rememberMoveUp;
-	private long nextMovementDuration = 0;
-	private Random random;
+	private int durationOfCurrentMovementPhase = 0;
+	private long nextMovementDurationPhase = 0;
+	private Player closestEnemyPlayer;
 
-	private final World world;
 
 	public AiInputService(PlayerMovement playerMovement, World world) {
 		this.playerMovement = playerMovement;
 		this.world = world;
-		this.player = playerMovement.getPlayer();
-		this.random = new Random(System.currentTimeMillis());
-		LOGGER.info("initialising ai for player %d", this.player.id());
+		this.aiPlayer = playerMovement.getPlayer();
+		this.randomGenerator = new Random(System.currentTimeMillis());
+		LOGGER.info("initialising ai for player %d", this.aiPlayer.id());
 	}
 
 	@Override
 	public void executeNextStep(long deltaSinceLastLast) {
-		this.otherPlayer = findNearestOtherPlayer();
-		this.counter += deltaSinceLastLast;
-		if (this.counter > this.nextMovementDuration) {
+		this.closestEnemyPlayer = findNearestOtherPlayer();
+		this.durationOfCurrentMovementPhase += deltaSinceLastLast;
+		if (this.durationOfCurrentMovementPhase > this.nextMovementDurationPhase) {
 			reset();
 			computeNextMovement();
 		}
@@ -50,8 +51,8 @@ public class AiInputService implements OpponentInput {
 		double nearest = Double.MAX_VALUE;
 		Player nearestPlayer = null;
 		for (Player p : this.world.getAllPlayer()) {
-			if (p.id() != this.player.id()) {
-				double distance = distance(p, this.player);
+			if (p.id() != this.aiPlayer.id()) {
+				double distance = distance(p, this.aiPlayer);
 				if (distance < nearest) {
 					nearest = distance;
 					nearestPlayer = p;
@@ -62,7 +63,7 @@ public class AiInputService implements OpponentInput {
 			return nearestPlayer;
 		}
 		LOGGER.warn("No nearest player found");
-		return this.player;
+		return this.aiPlayer;
 	}
 
 	private double distance(Player p1, Player p2) {
@@ -73,14 +74,14 @@ public class AiInputService implements OpponentInput {
 		this.rememberMoveRight = false;
 		this.rememberMoveLeft = false;
 		this.rememberMoveUp = false;
-		this.nextMovementDuration = generateRandom(TimeUnit.MILLISECONDS.toMillis(50));
-		this.counter = 0;
+		this.nextMovementDurationPhase = generateRandom(TimeUnit.MILLISECONDS.toMillis(50));
+		this.durationOfCurrentMovementPhase = 0;
 	}
 
 	private void computeNextMovement() {
 		if (isAtSimilarWidth()) {
 			if (isOtherPlayerOverMe()) {
-				this.nextMovementDuration = generateRandom(TimeUnit.MILLISECONDS.toMillis(100));
+				this.nextMovementDurationPhase = generateRandom(TimeUnit.MILLISECONDS.toMillis(100));
 				runAway();
 			} else {
 				runTowardsOtherPlayer();
@@ -103,7 +104,7 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private void breakOutOfSurrounding() {
-		if (this.player.getCenterX() < ModelConstants.STANDARD_WORLD_SIZE * 0.5) {
+		if (this.aiPlayer.getCenterX() < ModelConstants.STANDARD_WORLD_SIZE * 0.5) {
 			doMoveRight();
 		} else {
 			doMoveLeft();
@@ -115,11 +116,11 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private boolean isAtSimilarHeight() {
-		return Math.abs(this.player.getCenterY() - this.otherPlayer.getCenterY()) < ModelConstants.STANDARD_WORLD_SIZE * 0.15;
+		return Math.abs(this.aiPlayer.getCenterY() - this.closestEnemyPlayer.getCenterY()) < ModelConstants.STANDARD_WORLD_SIZE * 0.15;
 	}
 
 	private int generateRandom(long milliseconds) {
-		double randomNumber = (this.random.nextGaussian() + Math.PI / 2) / Math.PI;
+		double randomNumber = (this.randomGenerator.nextGaussian() + Math.PI / 2) / Math.PI;
 		return (int) (randomNumber * milliseconds);
 	}
 
@@ -130,7 +131,7 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private boolean stuckAgainstWall() {
-		return player.movementX() == 0;
+		return aiPlayer.movementX() == 0;
 	}
 
 	private boolean shouldIBreakOutOfSurrounding() {
@@ -210,25 +211,25 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private boolean isAtSimilarWidth() {
-		return Math.abs(this.player.getCenterX() - this.otherPlayer.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.15;
+		return Math.abs(this.aiPlayer.getCenterX() - this.closestEnemyPlayer.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.15;
 	}
 
 	private boolean isLeftToOtherPlayer() {
-		return this.otherPlayer.getCenterX() > this.player.getCenterX();
+		return this.closestEnemyPlayer.getCenterX() > this.aiPlayer.getCenterX();
 	}
 
 	private boolean atRightBorderAndOtherPlayerClose() {
-		return this.player.getCenterX() > ModelConstants.STANDARD_WORLD_SIZE * 0.85
-				&& Math.abs(this.player.getCenterX() - this.otherPlayer.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.1;
+		return this.aiPlayer.getCenterX() > ModelConstants.STANDARD_WORLD_SIZE * 0.85
+				&& Math.abs(this.aiPlayer.getCenterX() - this.closestEnemyPlayer.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.1;
 	}
 
 	private boolean atLeftBorderAndOtherPlayerClose() {
-		return this.player.getCenterX() < ModelConstants.STANDARD_WORLD_SIZE * 0.15
-				&& Math.abs(this.otherPlayer.getCenterX() - this.player.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.1;
+		return this.aiPlayer.getCenterX() < ModelConstants.STANDARD_WORLD_SIZE * 0.15
+				&& Math.abs(this.closestEnemyPlayer.getCenterX() - this.aiPlayer.getCenterX()) < ModelConstants.STANDARD_WORLD_SIZE * 0.1;
 	}
 
 	private boolean isOtherPlayerOverMe() {
-		return this.otherPlayer.minY() > this.player.maxY();
+		return this.closestEnemyPlayer.minY() > this.aiPlayer.maxY();
 	}
 
 }
