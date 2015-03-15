@@ -94,6 +94,15 @@ public class SettingsViewAccess {
 		setAltPixelformatChecked(settings.isAltPixelformat());
 		setMusic(settings.isPlayMusic());
 		setSound(settings.isPlaySound());
+		setLefthanded(settings.isLefthanded());
+	}
+
+	private void setLefthanded(boolean lefthanded) {
+		findLefthandedCheckbox().setChecked(lefthanded);
+	}
+	
+	private CheckBox findLefthandedCheckbox() {
+		return (CheckBox) origin.findViewById(R.id.left_handed);
 	}
 
 	private void setPlayerName(String playerName) {
@@ -141,8 +150,13 @@ public class SettingsViewAccess {
 		boolean isAltPixelFormat = isAltPixelformatChecked();
 		boolean playMusic = isPlayMusicChecked();
 		boolean playSound = isPlaySoundChecked();
+		boolean leftHanded = isLefthandedChecked();
 		return new SettingsEntity(inputConfiguration, zoom, speed, name, background, isAltPixelFormat, playMusic,
-				playSound);
+				playSound, leftHanded);
+	}
+
+	private boolean isLefthandedChecked() {
+		return findLefthandedCheckbox().isChecked();
 	}
 
 	private boolean isPlayMusicChecked() {
