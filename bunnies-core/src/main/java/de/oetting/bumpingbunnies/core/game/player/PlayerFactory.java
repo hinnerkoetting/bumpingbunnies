@@ -20,7 +20,6 @@ public class PlayerFactory {
 		Guard.againstNull(name);
 		Player p = new Player(id, name, this.speed, opponent);
 		PlayerState state = p.getState();
-		p.setDead(true);
 		state.setCenterX((int) (id * 0.35 * ModelConstants.STANDARD_WORLD_SIZE));
 		state.setCenterY((int) (0.99 * ModelConstants.STANDARD_WORLD_SIZE));
 		p.setColor(getColor(id));

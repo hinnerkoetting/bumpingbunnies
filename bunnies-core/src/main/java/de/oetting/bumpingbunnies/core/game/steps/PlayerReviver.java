@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class PlayerReviver implements GameStepAction {
 
-	private static final int KILL_TIME_MILLISECONDS = 1000;
+	private static final int KILL_TIME_MILLISECONDS = 2000;
 
 	private final List<PlayerReviveEntry> reviveEntries;
 	private final MessageSender messageSender;
