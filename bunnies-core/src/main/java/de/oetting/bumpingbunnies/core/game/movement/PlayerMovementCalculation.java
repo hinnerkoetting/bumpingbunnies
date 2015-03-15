@@ -17,14 +17,14 @@ public class PlayerMovementCalculation {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerMovementCalculation.class);
 
 	private final Player movedPlayer;
-	private final GameObjectInteractor interactionService;
+	private final GameObjectInteractor objectInteraction;
 	private final CollisionDetection collisionDetection;
 	private final MusicPlayer jumpMusic;
 
 	public PlayerMovementCalculation(Player movedPlayer, GameObjectInteractor interactionService,
 			CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
 		this.movedPlayer = movedPlayer;
-		this.interactionService = interactionService;
+		this.objectInteraction = interactionService;
 		this.collisionDetection = collisionDetection;
 		this.jumpMusic = jumpMusic;
 	}
@@ -43,7 +43,7 @@ public class PlayerMovementCalculation {
 
 	private void executeOneStep() {
 		computeMovement();
-		this.interactionService.interactWith(this.movedPlayer);
+		this.objectInteraction.interactWith(this.movedPlayer);
 		this.movedPlayer.moveNextStep();
 	}
 
@@ -85,7 +85,7 @@ public class PlayerMovementCalculation {
 	}
 
 	private int computeVerticalAcceleration() {
-		if (isStandingOnObject())
+		if (standsOnFixedObject())
 			return 0;
 		else {
 			if (this.movedPlayer.isJumpingButtonPressed()) {

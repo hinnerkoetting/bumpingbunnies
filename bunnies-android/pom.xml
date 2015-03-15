@@ -85,6 +85,9 @@
 										</versionRange>
 										<goals>
 											<goal>consume-aar</goal>
+											<goal>
+												generate-sources
+											</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <pcConfiguration>
     <configurations>
-        <playerName>Angel</playerName>
+        <playerName>Hinni</playerName>
         <playerLeft>Left</playerLeft>
         <playerUp>Up</playerUp>
         <playerRight>Right</playerRight>
@@ -19,6 +19,6 @@
         <playerRight>K</playerRight>
     </configurations>
     <speed>30</speed>
-    <playMusic>true</playMusic>
+    <playMusic>false</playMusic>
     <playSound>true</playSound>
 </pcConfiguration>
