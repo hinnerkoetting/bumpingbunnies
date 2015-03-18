@@ -43,10 +43,10 @@ public class HostBunnyKillCheckerTest {
 	private MessageSender sendControl;
 
 	@Test
-	public void playerJoins_thenPlayerIsDead() {
+	public void playerJoins_thenPlayerIsAlive() {
 		Player player = new PlayerFactory(1).createPlayer(1, "", OpponentTestFactory.create());
 		whenPlayerJoins(player);
-		assertThat(player.isDead(), is(true));
+		assertThat(player.isDead(), is(false));
 	}
 
 	@Test

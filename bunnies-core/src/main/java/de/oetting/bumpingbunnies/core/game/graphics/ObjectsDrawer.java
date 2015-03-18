@@ -38,12 +38,13 @@ public class ObjectsDrawer implements PlayerJoinListener {
 
 	public void draw(CanvasWrapper canvas) {
 		LOGGER.verbose("drawing...");
-		if (!toBeUpdatedPlayers.isEmpty())
+		if (!toBeUpdatedPlayers.isEmpty()) 
 			updateDrawables();
 		drawEverything();
 	}
 
 	private void updateDrawables() {
+		canvasDelegate.startDrawPhase();
 		synchronized (toBeUpdatedPlayers) {
 			for (Player p : toBeUpdatedPlayers) {
 				Drawable playerDrawer = this.factory.createPlayerDrawable(p, canvasDelegate);
@@ -52,6 +53,7 @@ public class ObjectsDrawer implements PlayerJoinListener {
 			}
 			toBeUpdatedPlayers.clear();
 		}
+		canvasDelegate.endDrawPhase();
 	}
 
 	private void drawEverything() {
