@@ -54,5 +54,8 @@
     <string name="menu_music">Music</string>
     <string name="please_wait">Please wait&#8230;</string>
     <string name="lefthanded">Lefthanded</string>
+    <string name="medium_speed">Medium</string>
+    <string name="fast_speed">Fast</string>
+    <string name="very_fast_speed">Very fast</string>
     
 </resources>

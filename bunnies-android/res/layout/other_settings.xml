@@ -36,17 +36,27 @@
             android:layout_height="wrap_content"
             android:text="@string/speed" />
 
-        <SeekBar
-            android:id="@+id/speed"
-            android:layout_width="@dimen/slider_width"
-            android:layout_height="wrap_content"
-            android:max="20" />
-
-        <TextView
-            android:id="@+id/settings_speed"
+        <RadioGroup
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textIsSelectable="false" />
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/medium_speed" />
+            <RadioButton
+                android:id="@+id/fast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fast_speed" />
+            <RadioButton
+                android:id="@+id/very_fast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/very_fast_speed" />
+        </RadioGroup>
+
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/menu_music" />
-
     </LinearLayout>
 
 </LinearLayout>

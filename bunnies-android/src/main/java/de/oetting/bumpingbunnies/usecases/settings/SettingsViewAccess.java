@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.usecases.settings;
 import android.app.Activity;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -53,8 +54,23 @@ public class SettingsViewAccess {
 	}
 
 	public int getSpeed() {
-		SeekBar seekbar = findSpeedSeekbar();
-		return seekbar.getProgress() + MIN_SPEED_VALUE;
+		if (getMediumSpeedButton().isChecked())
+			return mediumSpeed();
+		if (getFastSpeedButton().isChecked())
+			return fastSpeed();
+		return veryFastSpeed();
+	}
+
+	private int mediumSpeed() {
+		return 25;
+	}
+
+	private int fastSpeed() {
+		return 30;
+	}
+
+	private int veryFastSpeed() {
+		return 35;
 	}
 
 	public boolean isBackgroundChecked() {
@@ -66,12 +82,20 @@ public class SettingsViewAccess {
 	}
 
 	private void initSpeed() {
-		SeekBar speed = findSpeedSeekbar();
-		int startValue = 10;
-		TextView view = (TextView) this.origin.findViewById(R.id.settings_speed);
-		speed.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(
-				MIN_SPEED_VALUE), startValue));
-		speed.setProgress(startValue);
+		RadioButton button = getMediumSpeedButton();
+		button.setChecked(true);
+	}
+
+	private RadioButton getMediumSpeedButton() {
+		return (RadioButton) origin.findViewById(R.id.medium);
+	}
+
+	private RadioButton getFastSpeedButton() {
+		return (RadioButton) origin.findViewById(R.id.fast);
+	}
+
+	private RadioButton getVeryFastSpeedButton() {
+		return (RadioButton) origin.findViewById(R.id.very_fast);
 	}
 
 	private void initZoom() {
@@ -107,8 +131,12 @@ public class SettingsViewAccess {
 	}
 
 	private void setSpeed(int speed) {
-		SeekBar speedSeekbar = findSpeedSeekbar();
-		speedSeekbar.setProgress(speed - MIN_SPEED_VALUE);
+		if (speed == veryFastSpeed())
+			getVeryFastSpeedButton().setChecked(true);
+		else if (speed == fastSpeed()) 
+			getFastSpeedButton().setChecked(true);
+		else 
+			getMediumSpeedButton().setChecked(true);
 	}
 
 	private void fillInputConfiguration(SettingsEntity settings) {
@@ -180,10 +208,6 @@ public class SettingsViewAccess {
 
 	private SeekBar findZoomSeekbar() {
 		return (SeekBar) this.origin.findViewById(R.id.zoom);
-	}
-
-	private SeekBar findSpeedSeekbar() {
-		return (SeekBar) this.origin.findViewById(R.id.speed);
 	}
 
 }
