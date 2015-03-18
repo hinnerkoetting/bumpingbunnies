@@ -22,9 +22,7 @@ public class AndroidMusicPlayerFactory implements BunniesMusicPlayerFactory {
 	public MusicPlayer createBackground() {
 		MediaPlayer music1 = MediaPlayer.create(context, R.raw.bunny_poppig_schnell);
 		music1.setVolume(0.5f, 0.5f);
-		MediaPlayer music2 = MediaPlayer.create(context, R.raw.bad_bunnies_2);
-		music2.setVolume(0.5f, 0.5f);
-		return createMultiTrack(Arrays.asList(music1, music2));
+		return createMultiTrack(Arrays.asList(music1));
 	}
 
 	public MusicPlayer createWater() {
