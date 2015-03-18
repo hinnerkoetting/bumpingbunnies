@@ -58,13 +58,11 @@ public class SettingsViewAccess {
 	}
 
 	public boolean isBackgroundChecked() {
-		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_background);
-		return view.isChecked();
+		return true;
 	}
 
 	public boolean isAltPixelformatChecked() {
-		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_pixelformat);
-		return view.isChecked();
+		return false;
 	}
 
 	private void initSpeed() {
@@ -90,8 +88,6 @@ public class SettingsViewAccess {
 		setZoom(settings.getZoom());
 		setSpeed(settings.getSpeed());
 		setPlayerName(settings.getPlayerName());
-		setBackgroundChecked(settings.isBackground());
-		setAltPixelformatChecked(settings.isAltPixelformat());
 		setMusic(settings.isPlayMusic());
 		setSound(settings.isPlaySound());
 		setLefthanded(settings.isLefthanded());
@@ -100,7 +96,7 @@ public class SettingsViewAccess {
 	private void setLefthanded(boolean lefthanded) {
 		findLefthandedCheckbox().setChecked(lefthanded);
 	}
-	
+
 	private CheckBox findLefthandedCheckbox() {
 		return (CheckBox) origin.findViewById(R.id.left_handed_cb);
 	}
@@ -119,16 +115,6 @@ public class SettingsViewAccess {
 		RadioGroup inputconfiguration = findInputConfiguration();
 		InputConfiguration storedInputConfiguration = settings.getInputConfiguration();
 		InputConfigurationGenerator.selectInputConfiguration(storedInputConfiguration, inputconfiguration);
-	}
-
-	public void setBackgroundChecked(boolean b) {
-		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_background);
-		view.setChecked(b);
-	}
-
-	public void setAltPixelformatChecked(boolean b) {
-		CheckBox view = (CheckBox) this.origin.findViewById(R.id.settings_pixelformat);
-		view.setChecked(b);
 	}
 
 	private void setMusic(boolean playMusic) {

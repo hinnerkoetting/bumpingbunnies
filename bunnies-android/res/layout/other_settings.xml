@@ -66,17 +66,6 @@
             android:layout_height="wrap_content"
             android:text="@string/menu_music" />
 
-        <CheckBox
-            android:id="@+id/settings_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/background" />
-
-        <CheckBox
-            android:id="@+id/settings_pixelformat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/alternative_pixelformat" />
     </LinearLayout>
 
 </LinearLayout>
