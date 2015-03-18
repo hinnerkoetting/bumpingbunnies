@@ -106,13 +106,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		ListView list = getHostsView();
 		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
 		this.remoteCommunication = new DummyCommunication();
-		settingsDao = new DummySettingsDao();
 		list.setAdapter(this.hostsAdapter);
 		initRemoteCbListeners();
 		initRoom();
 		this.connectedToServerService = new DummyConnectionToServer();
 		this.broadcastService = new NetworkBroadcaster(this);
 		listenForBroadcasts();
+		settingsDao = new DummySettingsDao();
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 	}
 

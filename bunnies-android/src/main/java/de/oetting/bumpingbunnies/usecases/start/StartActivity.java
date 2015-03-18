@@ -45,7 +45,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
-		this.settingsDao = new DummySettingsDao();
+		settingsDao = new DummySettingsDao();
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 	}
 
