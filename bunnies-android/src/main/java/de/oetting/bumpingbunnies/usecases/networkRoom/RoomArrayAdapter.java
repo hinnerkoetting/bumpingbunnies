@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
+import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 
 public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
@@ -82,6 +83,14 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 
 	public boolean myPlayerExists() {
 		return me != null;
+	}
+
+	public void setMyPlayerName(String playerName) {
+		if (myPlayerExists()) {
+			RoomEntry old = getMyself();
+			
+			addMe(new RoomEntry(new PlayerProperties(old.getPlayerId(), playerName), old.getOponent()));
+		}
 	}
 
 }

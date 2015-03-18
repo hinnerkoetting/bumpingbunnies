@@ -624,4 +624,14 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		finish();
 		super.moveTaskToBack(true);
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setMyPlayerName();
+	}
+
+	private void setMyPlayerName() {
+		playersAA.setMyPlayerName(readSettingsFromDb().getPlayerName());
+	}
 }
