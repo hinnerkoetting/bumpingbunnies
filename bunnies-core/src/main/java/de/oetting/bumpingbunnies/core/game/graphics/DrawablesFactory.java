@@ -57,7 +57,7 @@ public class DrawablesFactory {
 	}
 
 	public ScoreDrawer createScoreDrawer(Player p) {
-		double x = (p.id() + 1) * 0.2;
+		double x = 0.1 + (p.id() ) * 0.2;
 		double y = 0.05;
 		while (x > 1) {
 			x--;

@@ -63,7 +63,7 @@ public class PlayerDrawer implements Drawable {
 		int centerOfMarkerY = getCenterOfBorderMarkerY(canvas);
 		int width = 30;
 		int height = 30;
-		canvas.drawRectRelativeToScreen(centerOfMarkerX - width / 2, centerOfMarkerY - height / 2, centerOfMarkerX + width / 2, centerOfMarkerY + height / 2, paint);
+		canvas.drawRectAbsoluteScreen(centerOfMarkerX - width / 2, centerOfMarkerY - height / 2, centerOfMarkerX + width / 2, centerOfMarkerY + height / 2, paint);
 	}
 
 	private int getCenterOfBorderMarkerX(CanvasDelegate canvas) {

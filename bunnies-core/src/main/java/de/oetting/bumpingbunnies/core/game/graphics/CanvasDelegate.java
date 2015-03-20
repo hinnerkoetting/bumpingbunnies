@@ -22,6 +22,8 @@ public interface CanvasDelegate {
 	 * Does not draw in game coordinates but relative to the screen. This should be used for drawings which are situated at a fixed position on the screen.
 	 */
 	void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint);
+	
+	void drawRectAbsoluteScreen(int left, int top, int right, int bottom, Paint paint);
 
 	void drawImage(ImageWrapper bitmap, long left, long top, Paint paint);
 

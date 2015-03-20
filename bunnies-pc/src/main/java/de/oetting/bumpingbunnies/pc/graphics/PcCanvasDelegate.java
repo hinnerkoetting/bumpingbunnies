@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.pc.graphics;
 
+import java.awt.Font;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
@@ -58,7 +60,7 @@ public class PcCanvasDelegate implements CanvasDelegate {
 
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
-		drawRect((long) left, (long) top, (long) right, (long) bottom, paint);
+		drawRect((long) (left * getOriginalWidth()), (long) (top * getOriginalHeight()), (long) (right * getOriginalWidth()), (long) (bottom * getOriginalHeight()), paint);
 	}
 
 	@Override
@@ -115,6 +117,11 @@ public class PcCanvasDelegate implements CanvasDelegate {
 		boolean xVisible = centerX >= 0 && centerX <= getOriginalWidth();
 		boolean yVisible = centerY >= 0 && centerY <= getOriginalHeight();
 		return xVisible && yVisible;
+	}
+
+	@Override
+	public void drawRectAbsoluteScreen(int left, int top, int right, int bottom, Paint paint) {
+		drawRect(left, top, right, bottom, paint);
 	}
 
 }

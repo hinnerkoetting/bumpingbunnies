@@ -64,8 +64,8 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
-		this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth), (float) (right * this.width), (float) (bottom * this.heigth),
-				paintConverter.convert(paint));
+		this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth), (float) (right * this.width),
+				(float) (bottom * this.heigth), paintConverter.convert(paint));
 	}
 
 	@Override
@@ -96,6 +96,11 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 		boolean xVisible = centerX >= 0 && centerX <= width;
 		boolean yVisible = centerY >= 0 && centerY <= heigth;
 		return xVisible && yVisible;
+	}
+
+	@Override
+	public void drawRectAbsoluteScreen(int left, int top, int right, int bottom, Paint paint) {
+		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint));
 	}
 
 }
