@@ -95,4 +95,9 @@ public class CanvasCoordinateTranslator implements CanvasDelegate {
 		coordinatesCalculation.resetCurrentLocation();
 	}
 
+	@Override
+	public boolean isVisible(long centerX, long centerY) {
+		return next.isVisible(transformX(centerX), transformY(centerY));
+	}
+
 }

@@ -91,4 +91,11 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	public void endDrawPhase() {
 	}
 
+	@Override
+	public boolean isVisible(long centerX, long centerY) {
+		boolean xVisible = centerX >= 0 && centerX <= width;
+		boolean yVisible = centerY >= 0 && centerY <= heigth;
+		return xVisible && yVisible;
+	}
+
 }

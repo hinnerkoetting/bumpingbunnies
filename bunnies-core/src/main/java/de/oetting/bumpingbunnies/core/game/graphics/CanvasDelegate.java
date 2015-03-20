@@ -18,6 +18,9 @@ public interface CanvasDelegate {
 
 	void drawRect(long left, long top, long right, long bottom, Paint paint);
 
+	/**
+	 * Does not draw in game coordinates but relative to the screen. This should be used for drawings which are situated at a fixed position on the screen.
+	 */
 	void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint);
 
 	void drawImage(ImageWrapper bitmap, long left, long top, Paint paint);
@@ -35,5 +38,7 @@ public interface CanvasDelegate {
 	void startDrawPhase();
 
 	void endDrawPhase();
+
+	boolean isVisible(long centerX, long centerY);
 
 }

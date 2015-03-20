@@ -26,19 +26,27 @@ public class PlayerDrawer implements Drawable {
 	@Override
 	public void draw(CanvasDelegate canvas) {
 		synchronized (player) {
-			if (!this.player.isDead()) {
-				this.paint.setAlpha(ALPHA_WHILE_ALIVE);
-			} else {
-				this.paint.setAlpha(ALPHA_WHILE_DEAD);
-			}
-			drawAnimation(canvas);
+			setAlpha();
+			if (canvas.isVisible(player.getCenterX(), player.getCenterY()))
+				drawAnimation(canvas);
+			else 
+				drawMarkerAtBorder(canvas);
 		}
 	}
 
+	private void setAlpha() {
+		if (!this.player.isDead()) {
+			this.paint.setAlpha(ALPHA_WHILE_ALIVE);
+		} else {
+			this.paint.setAlpha(ALPHA_WHILE_DEAD);
+		}
+	}
+
+
 	private void drawAnimation(CanvasDelegate canvas) {
-		// copy to avoid changes in player which might lead to a sitatuation
+		// copy to avoid changes in player which might lead to a situation
 		// where no animation should be animated because the player is changed
-		// in between
+		// in between condition checks.
 		Player copiedPlayer = player.clone();
 		for (ConditionalMirroredAnimation ani : this.animations) {
 			if (ani.shouldBeExecuted(copiedPlayer)) {
@@ -49,6 +57,47 @@ public class PlayerDrawer implements Drawable {
 		}
 		LOGGER.error(this.player.toString());
 		throw new IllegalStateException("cannot find animation");
+	}
+	private void drawMarkerAtBorder(CanvasDelegate canvas) {
+		int centerOfMarkerX = getCenterOfBorderMarkerX(canvas);
+		int centerOfMarkerY = getCenterOfBorderMarkerY(canvas);
+		int width = 30;
+		int height = 30;
+		canvas.drawRectRelativeToScreen(centerOfMarkerX - width / 2, centerOfMarkerY - height / 2, centerOfMarkerX + width / 2, centerOfMarkerY + height / 2, paint);
+	}
+
+	private int getCenterOfBorderMarkerX(CanvasDelegate canvas) {
+		long deltaX = getDeltaX(canvas);
+		long deltaY = getDeltaY(canvas);
+		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+		double factor = deltaX / length;
+		double tan = Math.tan(factor);
+		return (int) (canvas.getOriginalWidth() / 2 *  (1 - tan));
+	}
+
+	private int getCenterOfBorderMarkerY(CanvasDelegate canvas) {
+		long deltaX = getDeltaX(canvas);
+		long deltaY = getDeltaY(canvas);
+		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+		double factor = deltaY / length; 
+		double tan = Math.tan(factor);
+		return (int) (canvas.getOriginalHeight() / 2 * (tan + 1));
+	}
+
+	private long getDeltaY(CanvasDelegate canvas) {
+		return (canvas.getOriginalHeight() / 2 - getYOfPlayer());
+	}
+
+	private long getDeltaX(CanvasDelegate canvas) {
+		return canvas.getOriginalWidth() / 2 - getXOfPlayer();
+	}
+
+	private long getYOfPlayer() {
+		return player.getCenterX();
+	}
+
+	private long getXOfPlayer() {
+		return player.getCenterY();
 	}
 
 	@Override

@@ -33,8 +33,8 @@ public class DrawablesFactory {
 
 		List<Drawable> drawables = new ArrayList<Drawable>();
 		drawables.add(createBackground(canvas));
-		drawables.addAll(createAllPlayer(canvas));
 		drawables.addAll(createStaticObjects(canvas));
+		drawables.addAll(createAllPlayer(canvas));
 		drawables.addAll(createAllScores());
 		drawables.add(new FpsDrawer(gameThreadState));
 		return drawables;
