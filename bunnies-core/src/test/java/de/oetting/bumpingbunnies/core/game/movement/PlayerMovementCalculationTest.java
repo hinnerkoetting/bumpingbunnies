@@ -64,7 +64,7 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 		this.player.getState().setJumpingButtonPressed(true);
 		givenPlayerIsInTheAir();
 		computeVerticalMovement();
-		assertThat(this.player.getAccelerationY(), is(equalTo(ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING)));
+		assertThat(this.player.getAccelerationY(), is(equalTo(ModelConstants.BUNNY_GRAVITY_WHILE_JUMPING)));
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 		givenPlayerIsStandingOnGround();
 		computeVerticalMovement();
 		assertThat(this.player.getAccelerationY(), is(equalTo(0)));
-		assertThat(this.player.movementY(), is(equalTo(ModelConstants.PLAYER_JUMP_SPEED)));
+		assertThat(this.player.movementY(), is(equalTo(ModelConstants.BUNNY_JUMP_SPEED)));
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 		givenPlayerIsStandingInWater();
 		computeVerticalMovement();
 //		assertThat(this.player.getAccelerationY(), is(equalTo(0)));
-		assertThat(this.player.movementY(), is(equalTo(ModelConstants.PLAYER_JUMP_SPEED_WATER)));
+		assertThat(this.player.movementY(), is(equalTo(ModelConstants.BUNNY_JUMP_SPEED_WATER)));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 	@Test
 	public void computeVerticalGravity_givenPlayerIsFalling_thenGravityShouldBeFallGravity() {
 		computeVerticalMovement();
-		assertThat(this.player.getAccelerationY(), is(equalTo(ModelConstants.PLAYER_GRAVITY)));
+		assertThat(this.player.getAccelerationY(), is(equalTo(ModelConstants.BUNNY_GRAVITY)));
 	}
 
 	private void givenPlayerIsStandingInWater() {

@@ -89,18 +89,18 @@ public class PlayerMovementCalculation {
 			return 0;
 		else {
 			if (this.movedPlayer.isJumpingButtonPressed()) {
-				return ModelConstants.PLAYER_GRAVITY_WHILE_JUMPING;
+				return ModelConstants.BUNNY_GRAVITY_WHILE_JUMPING;
 			}
-			return ModelConstants.PLAYER_GRAVITY;
+			return ModelConstants.BUNNY_GRAVITY;
 		}
 	}
 
 	private void computeMovementYForJumpingBunny() {
 		if (standsOnFixedObject()) {
-			this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED);
+			this.movedPlayer.setMovementY(ModelConstants.BUNNY_JUMP_SPEED);
 			this.jumpMusic.start();
 		} else if (isInWater()) {
-			this.movedPlayer.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_WATER);
+			this.movedPlayer.setMovementY(ModelConstants.BUNNY_JUMP_SPEED_WATER);
 		}
 	}
 

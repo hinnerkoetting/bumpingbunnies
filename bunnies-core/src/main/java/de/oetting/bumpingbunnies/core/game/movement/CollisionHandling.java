@@ -20,10 +20,10 @@ public class CollisionHandling {
 	public void interactWithWater(PlayerSimulation nextStep, Player player, Water object,
 			CollisionDetection collisionDetection) {
 		player.setExactMovementY((int) Math.round(player.movementY() * 0.99));
-		if (player.movementY() <= ModelConstants.PLAYER_SPEED_WATER) {
-			player.setExactMovementY(ModelConstants.PLAYER_SPEED_WATER);
+		if (player.movementY() <= ModelConstants.BUNNY_SPEED_WATER) {
+			player.setExactMovementY(ModelConstants.BUNNY_SPEED_WATER);
 		}
-		player.setAccelerationY(ModelConstants.PLAYER_GRAVITY_WATER);
+		player.setAccelerationY(ModelConstants.BUNNY_GRAVITY_WATER);
 		if (isFirstTimeThePlayerHitsTheWater(player, object, collisionDetection)) {
 			waterMusicPlayer.start();
 		}
@@ -39,7 +39,7 @@ public class CollisionHandling {
 
 	private void handlePlayerStandingOnJumper(Player player) {
 		jumperMusicPlayer.start();
-		player.setMovementY(ModelConstants.PLAYER_JUMP_SPEED_JUMPER);
+		player.setMovementY(ModelConstants.BUNNY_JUMP_SPEED_JUMPER);
 		player.setAccelerationY(0);
 		player.simulateNextStep();
 	}
