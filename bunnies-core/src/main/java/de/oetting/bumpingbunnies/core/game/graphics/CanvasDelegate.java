@@ -43,4 +43,8 @@ public interface CanvasDelegate {
 
 	boolean isVisible(long centerX, long centerY);
 
+	boolean isVisibleX(long centerX);
+
+	boolean isVisibleY(long centerY);
+
 }

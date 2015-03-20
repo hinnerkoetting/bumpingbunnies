@@ -105,4 +105,14 @@ public class CanvasCoordinateTranslator implements CanvasDelegate {
 		next.drawRectAbsoluteScreen(left, top, right, bottom, paint);
 	}
 
+	@Override
+	public boolean isVisibleX(long centerX) {
+		return next.isVisibleX(transformX(centerX));
+	}
+
+	@Override
+	public boolean isVisibleY(long centerY) {
+		return next.isVisibleY(centerY); 
+	}
+
 }

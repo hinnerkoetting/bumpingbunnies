@@ -67,36 +67,25 @@ public class PlayerDrawer implements Drawable {
 	}
 
 	private int getCenterOfBorderMarkerX(CanvasDelegate canvas) {
-		long deltaX = getDeltaX(canvas);
-		long deltaY = getDeltaY(canvas);
-		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-		double factor = deltaX / length;
-		return (int) (canvas.getOriginalWidth() / 2 *  (1 - factor));
+		if (canvas.isVisibleX(player.centerX()))
+			return canvas.transformX(player.centerX());
+		else {
+			if (canvas.transformX(player.centerX()) < 0)
+				return 0;
+			return canvas.getOriginalWidth();
+		}
 	}
 
 	private int getCenterOfBorderMarkerY(CanvasDelegate canvas) {
-		long deltaX = getDeltaX(canvas);
-		long deltaY = getDeltaY(canvas);
-		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-		double factor = deltaY / length; 
-		return (int) (canvas.getOriginalHeight() / 2 * (1 - factor));
+		if (canvas.isVisibleY(player.centerY()))
+			return canvas.transformX(player.centerY());
+		else {
+			if (canvas.transformY(player.centerY()) < 0) 
+				return 0;
+			return canvas.getOriginalHeight();
+		}
 	}
 
-	private long getDeltaY(CanvasDelegate canvas) {
-		return (canvas.getOriginalHeight() / 2 - getYOfPlayer(canvas));
-	}
-
-	private long getDeltaX(CanvasDelegate canvas) {
-		return canvas.getOriginalWidth() / 2 - getXOfPlayer(canvas);
-	}
-
-	private long getYOfPlayer(CanvasDelegate canvas) {
-		return canvas.transformY(player.getCenterY());
-	}
-
-	private long getXOfPlayer(CanvasDelegate canvas) {
-		return canvas.transformX( player.getCenterX());
-	}
 
 	@Override
 	public boolean drawsPlayer(Player p) {
