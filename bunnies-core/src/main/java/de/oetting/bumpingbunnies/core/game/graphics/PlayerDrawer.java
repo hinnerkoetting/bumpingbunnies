@@ -71,8 +71,7 @@ public class PlayerDrawer implements Drawable {
 		long deltaY = getDeltaY(canvas);
 		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 		double factor = deltaX / length;
-		double tan = Math.tan(factor);
-		return (int) (canvas.getOriginalWidth() / 2 *  (1 - tan));
+		return (int) (canvas.getOriginalWidth() / 2 *  (1 - factor));
 	}
 
 	private int getCenterOfBorderMarkerY(CanvasDelegate canvas) {
@@ -80,24 +79,23 @@ public class PlayerDrawer implements Drawable {
 		long deltaY = getDeltaY(canvas);
 		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 		double factor = deltaY / length; 
-		double tan = Math.tan(factor);
-		return (int) (canvas.getOriginalHeight() / 2 * (tan + 1));
+		return (int) (canvas.getOriginalHeight() / 2 * (1 - factor));
 	}
 
 	private long getDeltaY(CanvasDelegate canvas) {
-		return (canvas.getOriginalHeight() / 2 - getYOfPlayer());
+		return (canvas.getOriginalHeight() / 2 - getYOfPlayer(canvas));
 	}
 
 	private long getDeltaX(CanvasDelegate canvas) {
-		return canvas.getOriginalWidth() / 2 - getXOfPlayer();
+		return canvas.getOriginalWidth() / 2 - getXOfPlayer(canvas);
 	}
 
-	private long getYOfPlayer() {
-		return player.getCenterX();
+	private long getYOfPlayer(CanvasDelegate canvas) {
+		return canvas.transformY(player.getCenterY());
 	}
 
-	private long getXOfPlayer() {
-		return player.getCenterY();
+	private long getXOfPlayer(CanvasDelegate canvas) {
+		return canvas.transformX( player.getCenterX());
 	}
 
 	@Override
