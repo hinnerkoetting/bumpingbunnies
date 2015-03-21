@@ -27,10 +27,13 @@ public class ScoreDrawer implements Drawable {
 	public void draw(CanvasDelegate canvas) {
 		int score = this.player.getScore();
 		
-		int leftAbsolute = (int) ((scoreX) * canvas.getOriginalWidth() - 10);
-		int topAbsolute = (int) ((scoreY) * canvas.getOriginalHeight() - 15);
-		canvas.drawRectAbsoluteScreen(leftAbsolute, topAbsolute, leftAbsolute + 25, topAbsolute + 20, backgroundPaint);
-		canvas.drawTextRelativeToScreen(Integer.toString(score), this.scoreX, this.scoreY, this.paint);
+		int leftAbsolute = (int) ((scoreX) * canvas.getOriginalWidth() - 5);
+		int topAbsolute = (int) ((scoreY) * canvas.getOriginalHeight() - paint.getTextSize());
+		String text = Integer.toString(score);
+		int height = canvas.getTextHeight(text, paint);
+		int width = canvas.getTextWidth(text, paint);
+		canvas.drawRectAbsoluteScreen(leftAbsolute, topAbsolute, leftAbsolute + width + 5, topAbsolute + height + 5, backgroundPaint);
+		canvas.drawTextRelativeToScreen(text, this.scoreX, this.scoreY, this.paint);
 	}
 
 	@Override

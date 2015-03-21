@@ -47,4 +47,8 @@ public interface CanvasDelegate {
 
 	boolean isVisibleY(long centerY);
 
+	int getTextHeight(String text, Paint paint);
+
+	int getTextWidth(String text, Paint paint);
+
 }

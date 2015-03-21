@@ -5,6 +5,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMessage> {
@@ -12,10 +13,12 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMe
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerIsDeadReceiver.class);
 
 	private final World world;
+	private final MusicPlayer deadPlayerMusic;
 
-	public PlayerIsDeadReceiver(NetworkToGameDispatcher dispatcher, World world) {
+	public PlayerIsDeadReceiver(NetworkToGameDispatcher dispatcher, World world, MusicPlayer deadPlayerMusic) {
 		super(dispatcher, new PlayerIsDeadMetaData());
 		this.world = world;
+		this.deadPlayerMusic = deadPlayerMusic;
 	}
 
 	@Override
@@ -23,6 +26,7 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMe
 		if (world.existsPlayer(object.getPlayerId())) {
 			Player p = findPlayer(object);
 			p.setDead(true);
+			deadPlayerMusic.start();
 		} else {
 			LOGGER.warn("Received player is dead message but player does not exist %d ", object.getPlayerId());
 		}

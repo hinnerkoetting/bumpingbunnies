@@ -35,7 +35,7 @@ public class CommonGameThreadFactory {
 			NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, GameMain main, BunniesMusicPlayerFactory musicPlayerFactory,
 			GameStopper gameStopper) {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
-		initInputServices(main, errorCallback, world, networkDispatcher, sendControl, configuration, gameStopper);
+		initInputServices(main, errorCallback, world, networkDispatcher, sendControl, configuration, gameStopper, musicPlayerFactory.createDeadPlayer());
 
 		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world, musicPlayerFactory,
 				configuration.getLocalSettings());
@@ -83,7 +83,7 @@ public class CommonGameThreadFactory {
 	}
 
 	private static void initInputServices(GameMain main, ThreadErrorCallback errorCallback, World world, NetworkToGameDispatcher networkDispatcher,
-			NetworkMessageDistributor sendControl, Configuration configuration, GameStopper gameStopper) {
-		NetworkListeners.allNetworkListeners(networkDispatcher, world, errorCallback, main, configuration, gameStopper);
+			NetworkMessageDistributor sendControl, Configuration configuration, GameStopper gameStopper, MusicPlayer deadPlayerMusic) {
+		NetworkListeners.allNetworkListeners(networkDispatcher, world, errorCallback, main, configuration, gameStopper, deadPlayerMusic);
 	}
 }

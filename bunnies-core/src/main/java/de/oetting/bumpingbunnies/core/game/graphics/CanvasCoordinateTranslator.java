@@ -115,4 +115,14 @@ public class CanvasCoordinateTranslator implements CanvasDelegate {
 		return next.isVisibleY(centerY); 
 	}
 
+	@Override
+	public int getTextHeight(String text, Paint paint) {
+		return next.getTextHeight(text, paint);
+	}
+
+	@Override
+	public int getTextWidth(String text, Paint paint) {
+		return next.getTextWidth(text, paint);
+	}
+
 }

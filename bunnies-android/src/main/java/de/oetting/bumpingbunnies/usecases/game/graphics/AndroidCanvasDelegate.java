@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
@@ -13,6 +14,12 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	private int width;
 	private int heigth;
 	private PaintConverter paintConverter = new PaintConverter();
+	private Context context;
+
+	
+	public AndroidCanvasDelegate(Context context) {
+		this.context = context;
+	}
 
 	@Override
 	public void updateDelegate(CanvasWrapper canvasWrapper) {
@@ -28,22 +35,22 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 
 	@Override
 	public void drawLine(long startX, long startY, long stopX, long stopY, Paint paint) {
-		this.canvas.drawLine(startX, startY, stopX, stopY, paintConverter.convert(paint));
+		this.canvas.drawLine(startX, startY, stopX, stopY, paintConverter.convert(paint, context));
 	}
 
 	@Override
 	public void drawText(String text, long x, long y, Paint paint) {
-		this.canvas.drawText(text, x, y, paintConverter.convert(paint));
+		this.canvas.drawText(text, x, y, paintConverter.convert(paint, context));
 	}
 
 	@Override
 	public void drawRect(long left, long top, long right, long bottom, Paint paint) {
-		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint));
+		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint, context));
 	}
 
 	@Override
 	public void drawImage(ImageWrapper bitmap, long left, long top, Paint paint) {
-		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint));
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint, context));
 	}
 
 	@Override
@@ -58,19 +65,20 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 
 	@Override
 	public void drawTextRelativeToScreen(String text, double x, double y, Paint paint) {
-		this.canvas.drawText(text, (int) (x * this.width), (int) (y * this.heigth), paintConverter.convert(paint));
+		android.graphics.Paint androidPaint = paintConverter.convert(paint, context);
+		this.canvas.drawText(text, (int) (x * this.width), (int) (y * this.heigth) + androidPaint.getTextSize() / 2, androidPaint);
 
 	}
 
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
 		this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth), (float) (right * this.width),
-				(float) (bottom * this.heigth), paintConverter.convert(paint));
+				(float) (bottom * this.heigth), paintConverter.convert(paint, context));
 	}
 
 	@Override
 	public void drawImageDirect(ImageWrapper bitmap, long left, long top, Paint paint) {
-		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint));
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint, context));
 	}
 
 	@Override
@@ -111,7 +119,19 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 
 	@Override
 	public void drawRectAbsoluteScreen(int left, int top, int right, int bottom, Paint paint) {
-		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint));
+		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint, context));
+	}
+
+	@Override
+	public int getTextHeight(String text, Paint paint) {
+		android.graphics.Paint androidPaint = paintConverter.convert(paint, context);
+		return (int) androidPaint.getTextSize();
+	}
+
+	@Override
+	public int getTextWidth(String text, Paint paint) {
+		android.graphics.Paint androidPaint = paintConverter.convert(paint, context);
+		return (int) androidPaint.measureText(text);
 	}
 
 }

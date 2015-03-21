@@ -13,13 +13,14 @@ import de.oetting.bumpingbunnies.core.networking.receive.PlayerPropertiesReceive
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 
 public class NetworkListeners {
 
 	public static void allNetworkListeners(NetworkToGameDispatcher networkDispatcher, World world, ThreadErrorCallback activity, GameMain main,
-			Configuration configuration, GameStopper gameStopper) {
+			Configuration configuration, GameStopper gameStopper, MusicPlayer deadPlayerMusic) {
 		new StopGameReceiver(networkDispatcher, gameStopper);
-		new PlayerIsDeadReceiver(networkDispatcher, world);
+		new PlayerIsDeadReceiver(networkDispatcher, world, deadPlayerMusic);
 		new PlayerScoreReceiver(networkDispatcher, world);
 		new PlayerIsRevivedReceiver(networkDispatcher, world);
 		new SpawnPointReceiver(networkDispatcher, world);

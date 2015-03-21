@@ -8,7 +8,7 @@ public abstract class Color {
 	public static final int LTGRAY = 0xFFCCCCCC;
 	public static final int WHITE = 0xFFFFFFFF;
 	public static final int TRANS_WHITE = 0x88FFFFFF;
-	public static final int TRANS_LTGRAY = 0xa0CCCCCC;
+	public static final int TRANS_LTGRAY = 0xcDCCCCCC;
 	public static final int RED = 0xFFFF0000;
 	public static final int GREEN = 0xFF00FF00;
 	public static final int BLUE = 0xFF0000FF;

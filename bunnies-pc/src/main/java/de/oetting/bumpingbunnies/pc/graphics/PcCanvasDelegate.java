@@ -1,11 +1,14 @@
 package de.oetting.bumpingbunnies.pc.graphics;
 
+import static javafx.scene.text.Font.font;
+
 import java.awt.Font;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
@@ -45,8 +48,10 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	@Override
 	public void drawTextRelativeToScreen(String text, double x, double y, Paint paint) {
 		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
+		graphicsContext2D.setFont(font("Verdana", paint.getTextSize()));
 		graphicsContext2D.setStroke(paintConverter.convert(paint));
-		graphicsContext2D.strokeText(text, (int) (x * getOriginalWidth()), (int) (y * getOriginalHeight()));
+		graphicsContext2D.setFill(paintConverter.convert(paint));
+		graphicsContext2D.fillText(text, (int) (x * getOriginalWidth()), (int) (y * getOriginalHeight()));
 	}
 
 	@Override
@@ -133,6 +138,16 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	@Override
 	public void drawRectAbsoluteScreen(int left, int top, int right, int bottom, Paint paint) {
 		drawRect(left, top, right, bottom, paint);
+	}
+
+	@Override
+	public int getTextHeight(String text, Paint paint) {
+		return (int) paint.getTextSize();
+	}
+
+	@Override
+	public int getTextWidth(String text, Paint paint) {
+		return text.length() *  16;
 	}
 
 }
