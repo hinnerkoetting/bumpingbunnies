@@ -109,7 +109,7 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	
 	@Override
 	public boolean isVisibleX(long centerX) {
-		return centerX >= 0 && centerX <= width;
+		return  centerX >= 0 && centerX <= width;
 	}
 	
 	@Override

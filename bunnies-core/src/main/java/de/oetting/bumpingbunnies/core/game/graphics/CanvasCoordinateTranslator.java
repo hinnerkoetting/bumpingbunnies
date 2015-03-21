@@ -112,7 +112,7 @@ public class CanvasCoordinateTranslator implements CanvasDelegate {
 
 	@Override
 	public boolean isVisibleY(long centerY) {
-		return next.isVisibleY(centerY); 
+		return next.isVisibleY(transformY(centerY)); 
 	}
 
 	@Override

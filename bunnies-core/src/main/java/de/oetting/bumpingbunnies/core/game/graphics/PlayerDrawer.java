@@ -78,7 +78,7 @@ public class PlayerDrawer implements Drawable {
 
 	private int getCenterOfBorderMarkerY(CanvasDelegate canvas) {
 		if (canvas.isVisibleY(player.centerY()))
-			return canvas.transformX(player.centerY());
+			return canvas.transformY(player.centerY());
 		else {
 			if (canvas.transformY(player.centerY()) < 0) 
 				return 0;
