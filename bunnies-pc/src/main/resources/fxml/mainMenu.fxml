@@ -52,7 +52,7 @@
 
 		<TableView fx:id="hostsTable" maxWidth="500" maxHeight="250"
 			prefHeight="100" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="300"
-			GridPane.columnSpan="4">
+			GridPane.columnSpan="4" onMouseClicked="#onMouseClickOnServer">
 			<columnResizePolicy>
 				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 			</columnResizePolicy>

@@ -362,6 +362,14 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 			enableButtons();
 		}
 	}
+	
+	public void onMouseClickOnServer(MouseEvent event) {
+		if (event.getClickCount() > 1) {
+			TablePosition<?, ?> focusedCell = hostsTable.getFocusModel().getFocusedCell();
+			if (focusedCell.getRow() != -1) 	
+				onButtonConnect();
+		}
+	}
 
 	public void onButtonClose() {
 		Platform.exit();
