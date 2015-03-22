@@ -1,14 +1,10 @@
 package de.oetting.bumpingbunnies.pc.graphics;
 
 import static javafx.scene.text.Font.font;
-
-import java.awt.Font;
-
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
-import javafx.scene.text.Text;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
@@ -77,8 +73,8 @@ public class PcCanvasDelegate implements CanvasDelegate {
 	public void drawImage(ImageWrapper bitmap, long left, long top, Paint paint) {
 		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 		Image image = (Image) bitmap.getBitmap();
-		ColorAdjust adjust = new ColorAdjust();
 		if (paint.getAlpha() < 255) {
+			ColorAdjust adjust = new ColorAdjust();
 			// simulate alpha effect. maybe there is a better way?
 			adjust.setBrightness((255 - paint.getAlpha()) / 255.0 / 2);
 			graphicsContext2D.setEffect(adjust);
