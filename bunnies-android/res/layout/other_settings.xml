@@ -38,25 +38,27 @@
 
         <RadioGroup
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
 
             <RadioButton
                 android:id="@+id/medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/medium_speed" />
+
             <RadioButton
                 android:id="@+id/fast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fast_speed" />
+
             <RadioButton
                 android:id="@+id/very_fast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/very_fast_speed" />
         </RadioGroup>
-
     </LinearLayout>
 
     <LinearLayout
