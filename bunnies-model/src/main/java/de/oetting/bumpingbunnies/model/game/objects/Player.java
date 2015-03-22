@@ -20,6 +20,7 @@ public class Player implements GameObject {
 
 	private int accelerationX;
 	private int accelerationY;
+	private boolean isInWater;
 
 	public Player(int id, String name, int speedFaktor, ConnectionIdentifier opponent) {
 		this.name = name;
@@ -300,8 +301,9 @@ public class Player implements GameObject {
 
 	@Override
 	public String toString() {
-		return "Player [speedFaktor=" + speedFaktor + ", halfWidth=" + halfWidth + ", halfHeight=" + halfHeight + ", id=" + id + ", name=" + name + ", state="
-				+ state + ", simulatedObject=" + simulatedObject + ", color=" + color + ", opponent=" + opponent + ", score=" + score + ", dead=" + dead
+		return "Player [speedFaktor=" + speedFaktor + ", halfWidth=" + halfWidth + ", halfHeight=" + halfHeight
+				+ ", id=" + id + ", name=" + name + ", state=" + state + ", simulatedObject=" + simulatedObject
+				+ ", color=" + color + ", opponent=" + opponent + ", score=" + score + ", dead=" + dead
 				+ ", accelerationX=" + accelerationX + ", accelerationY=" + accelerationY + "]";
 	}
 
@@ -327,6 +329,14 @@ public class Player implements GameObject {
 	@Override
 	public void setMaxY(long newTopY) {
 		state.setCenterY(newTopY - halfHeight);
+	}
+
+	public boolean isInWater() {
+		return isInWater;
+	}
+
+	public void setInWater(boolean isInWater) {
+		this.isInWater = isInWater;
 	}
 
 }

@@ -11,6 +11,7 @@ public class PlayerDrawer implements Drawable {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDrawer.class);
 	private static final int ALPHA_WHILE_ALIVE = 255;
+	private static final int ALPHA_WHILE_IN_WATER = 96;
 	private static final int ALPHA_WHILE_DEAD = 64;
 	private final Player player;
 	private final Paint paint;
@@ -25,23 +26,22 @@ public class PlayerDrawer implements Drawable {
 
 	@Override
 	public void draw(CanvasDelegate canvas) {
-		synchronized (player) {
-			setAlpha();
-			if (canvas.isVisible(player.getCenterX(), player.getCenterY()))
-				drawAnimation(canvas);
-			else 
-				drawMarkerAtBorder(canvas);
-		}
+		paint.setAlpha(computeAlpha());
+		if (canvas.isVisible(player.getCenterX(), player.getCenterY()))
+			drawAnimation(canvas);
+		else
+			drawMarkerAtBorder(canvas);
 	}
 
-	private void setAlpha() {
+	private int computeAlpha() {
 		if (!this.player.isDead()) {
-			this.paint.setAlpha(ALPHA_WHILE_ALIVE);
+			if (player.isInWater()) 
+				return ALPHA_WHILE_IN_WATER;
+			return ALPHA_WHILE_ALIVE;
 		} else {
-			this.paint.setAlpha(ALPHA_WHILE_DEAD);
+			return ALPHA_WHILE_DEAD;
 		}
 	}
-
 
 	private void drawAnimation(CanvasDelegate canvas) {
 		// copy to avoid changes in player which might lead to a situation
@@ -58,12 +58,14 @@ public class PlayerDrawer implements Drawable {
 		LOGGER.error(this.player.toString());
 		throw new IllegalStateException("cannot find animation");
 	}
+
 	private void drawMarkerAtBorder(CanvasDelegate canvas) {
 		int centerOfMarkerX = getCenterOfBorderMarkerX(canvas);
 		int centerOfMarkerY = getCenterOfBorderMarkerY(canvas);
 		int width = 30;
 		int height = 30;
-		canvas.drawRectAbsoluteScreen(centerOfMarkerX - width / 2, centerOfMarkerY - height / 2, centerOfMarkerX + width / 2, centerOfMarkerY + height / 2, paint);
+		canvas.drawRectAbsoluteScreen(centerOfMarkerX - width / 2, centerOfMarkerY - height / 2, centerOfMarkerX
+				+ width / 2, centerOfMarkerY + height / 2, paint);
 	}
 
 	private int getCenterOfBorderMarkerX(CanvasDelegate canvas) {
@@ -80,12 +82,11 @@ public class PlayerDrawer implements Drawable {
 		if (canvas.isVisibleY(player.centerY()))
 			return canvas.transformY(player.centerY());
 		else {
-			if (canvas.transformY(player.centerY()) < 0) 
+			if (canvas.transformY(player.centerY()) < 0)
 				return 0;
 			return canvas.getOriginalHeight();
 		}
 	}
-
 
 	@Override
 	public boolean drawsPlayer(Player p) {

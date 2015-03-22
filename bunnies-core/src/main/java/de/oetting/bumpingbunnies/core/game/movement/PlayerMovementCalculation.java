@@ -30,9 +30,8 @@ public class PlayerMovementCalculation {
 	}
 
 	public void nextStep(long delta) {
-		synchronized (movedPlayer) {
-			movePlayerNextStep(delta);
-		}
+		movePlayerNextStep(delta);
+		movedPlayer.setInWater(isInWater());
 	}
 
 	private void movePlayerNextStep(long delta) {
