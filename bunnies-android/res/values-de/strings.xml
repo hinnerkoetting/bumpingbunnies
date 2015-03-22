@@ -42,7 +42,7 @@
     <string name="could_not_connect">Konnte keine Verbindung zum Server aufbauen</string>
     <string name="world_castle">Castle</string>
     <string name="room_add_ai">+KI</string>
-    <string name="players_table_header">Local</string>
+    <string name="players_table_header">Player</string>
     <string name="hosts_table_header">Server</string>
     <string name="result_player_name_header">Name</string>
     <string name="result_player_score_header">Score</string>
