@@ -210,11 +210,11 @@ public class Player implements GameObject {
 		return this.name;
 	}
 
-	public synchronized void applyStateTo(Player player) {
+	public  void applyStateTo(Player player) {
 		this.state.copyContentTo(player.state);
 	}
 
-	public synchronized void applyState(PlayerState state) {
+	public  void applyState(PlayerState state) {
 		state.copyContentTo(this.state);
 	}
 
