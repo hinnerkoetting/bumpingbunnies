@@ -4,6 +4,7 @@
     
     <dimen name="room_button_padding">0dp</dimen>
 	<dimen name="room_button_height">20sp</dimen>
-	<dimen name="button_padding">40dp</dimen>
-	<dimen name="button_padding_left_right">60dp</dimen>
+	
+	<dimen name="button_padding_top_bottom">50dp</dimen>
+    <dimen name="button_padding_left_right">50dp</dimen>
 </resources>

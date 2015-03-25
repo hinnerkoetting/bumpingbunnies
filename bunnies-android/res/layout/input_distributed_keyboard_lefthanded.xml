@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-
     <Button
         android:id="@+id/button_up"
         style="@style/button_style"
-        android:layout_gravity="start|bottom"
+        android:layout_gravity="start|bottom" 
+        android:background="@drawable/button_ingame"
         android:paddingBottom="0dp"
         android:text="@string/arrow_up" />
-    
+
     <LinearLayout
         android:id="@+id/input_distributed_left_right"
         android:layout_width="wrap_content"
@@ -21,11 +21,13 @@
         <Button
             android:id="@+id/button_left"
             style="@style/button_style"
+            android:background="@drawable/button_ingame"
             android:text="@string/arrow_left" />
 
         <Button
             android:id="@+id/button_right"
             style="@style/button_style"
+            android:background="@drawable/button_ingame"
             android:text="@string/arrow_right" />
     </LinearLayout>
 
