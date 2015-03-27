@@ -31,16 +31,16 @@ public class BluetoothClientsAccepter implements ClientAccepter {
 			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 			this.origin.startActivity(discoverableIntent);
-			closeOpenConnections();
+			closeConnections();
 			this.connectionEstablisher.startThreadToAcceptClients();
 		}
 	}
 
 	@Override
-	public void closeOpenConnections() {
+	public void closeConnections() {
 		LOGGER.info("Closing connections");
 		SocketStorage.getSingleton().closeExistingSockets();
-		this.connectionEstablisher.closeOpenConnections();
+		this.connectionEstablisher.closeConnections();
 	}
 
 	private boolean checkBluetoothSettings() {

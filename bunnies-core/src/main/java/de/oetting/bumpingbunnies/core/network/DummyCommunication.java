@@ -10,7 +10,7 @@ public class DummyCommunication implements ConnectionEstablisher, ClientAccepter
 	}
 
 	@Override
-	public void closeOpenConnections() {
+	public void closeConnections() {
 	}
 
 	@Override

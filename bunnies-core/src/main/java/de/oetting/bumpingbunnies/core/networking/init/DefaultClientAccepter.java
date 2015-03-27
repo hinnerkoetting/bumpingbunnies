@@ -31,7 +31,7 @@ public class DefaultClientAccepter implements ClientAccepter {
 	}
 
 	@Override
-	public void closeOpenConnections() {
+	public void closeConnections() {
 		LOGGER.info("Closing connections");
 		if (acceptThread != null)
 			this.acceptThread.stopAcceptingRequests();

@@ -34,7 +34,7 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 	}
 
 	@Override
-	public void closeOpenConnections() {
+	public void closeConnections() {
 		LOGGER.info("Closing connections");
 		if (this.discoveryRunning) {
 			this.mBluetoothAdapter.cancelDiscovery();
@@ -45,7 +45,7 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 			}
 			this.receiversRegistered = false;
 		}
-		this.commonBehaviour.closeOpenConnections();
+		this.commonBehaviour.closeConnections();
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 	}
 
 	private void registerReceiver() {
-		closeOpenConnections();
+		closeConnections();
 		LOGGER.info("Register Receivers");
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		IntentFilter filterStop = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);

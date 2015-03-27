@@ -67,7 +67,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	@Override
 	public void cancel() {
 		this.broadcaster.cancel();
-		this.remoteCommunication.closeOpenConnections();
+		this.remoteCommunication.closeConnections();
 	}
 
 	@Override

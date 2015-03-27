@@ -125,7 +125,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void switchToBluetooth() {
 		LOGGER.info("selected bluetooth");
 		if (clientAccepter != null)
-			clientAccepter.closeOpenConnections();
+			clientAccepter.closeConnections();
 		hostsAdapter.clear();
 		this.remoteCommunication = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this);
 		clientAccepter = BluetoothCommunicationFactory.createClientAccepter(BluetoothAdapter.getDefaultAdapter(), this,
@@ -156,7 +156,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void switchToWlan() {
 		LOGGER.info("selected wlan");
 		if (clientAccepter != null)
-			clientAccepter.closeOpenConnections();
+			clientAccepter.closeConnections();
 		hostsAdapter.clear();
 		this.remoteCommunication = WlanCommunicationFactory.create(this);
 	}
@@ -218,7 +218,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		super.onDestroy();
 		this.connectedToServerService.cancel();
 		this.broadcastService.cancel();
-		this.remoteCommunication.closeOpenConnections();
+		this.remoteCommunication.closeConnections();
 		for (ToClientConnector connectionToClient : this.connectionToClientServices) {
 			connectionToClient.cancel();
 		}
@@ -232,7 +232,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			@Override
 			public void run() {
 				try {
-					remoteCommunication.closeOpenConnections();
+					remoteCommunication.closeConnections();
 					remoteCommunication.connectToServer(device);
 				} catch (Exception e) {
 					LOGGER.error("Error", e);

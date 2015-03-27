@@ -18,7 +18,7 @@ public class DefaultConnectionEstablisher implements ConnectionEstablisher {
 	}
 
 	@Override
-	public void closeOpenConnections() {
+	public void closeConnections() {
 	}
 
 	@Override

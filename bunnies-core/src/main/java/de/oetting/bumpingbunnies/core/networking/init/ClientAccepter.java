@@ -4,5 +4,5 @@ public interface ClientAccepter {
 
 	void startThreadToAcceptClients();
 
-	void closeOpenConnections();
+	void closeConnections();
 }

@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.network.ServerDevice;
 
 public interface ConnectionEstablisher {
 
-	void closeOpenConnections();
+	void closeConnections();
 
 	void connectToServer(ServerDevice device);
 
