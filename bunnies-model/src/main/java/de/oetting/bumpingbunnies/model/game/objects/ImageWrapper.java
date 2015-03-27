@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-public class ImageWrapper {
+public class ImageWrapper implements Comparable<ImageWrapper> {
 
 	private final Object image;
 	/**
@@ -21,4 +21,22 @@ public class ImageWrapper {
 		return key;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) 
+			return false;
+		if ((obj instanceof ImageWrapper)) 
+			return false;
+		return ((ImageWrapper) obj).getImageKey().equals(key);
+	}
+	
+	@Override
+	public int compareTo(ImageWrapper o) {
+		return key.compareTo(o.key);
+	}
+	
+	@Override
+	public int hashCode() {
+		return key.hashCode();
+	}
 }

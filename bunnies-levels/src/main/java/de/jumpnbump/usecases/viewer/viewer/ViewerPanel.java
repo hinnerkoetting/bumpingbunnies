@@ -21,6 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -37,10 +38,13 @@ import de.jumpnbump.usecases.viewer.viewer.editingMode.DeleteModeMouseListener;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.ModeMouseListener;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectModeMouseListener;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
+import de.jumpnbump.usecases.viewer.xml.LevelStorer;
 import de.jumpnbump.usecases.viewer.xml.XmlBuilder;
 import de.jumpnbump.usecases.viewer.xml.XmlStorer;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.ObjectsFactory;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
@@ -52,6 +56,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class ViewerPanel extends JPanel {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ViewerPanel.class);
 	private static final long serialVersionUID = 1L;
 	private MyCanvas myCanvas;
 	private final XmlBuilder builder;
@@ -425,9 +430,10 @@ public class ViewerPanel extends JPanel {
 			java.io.File newFile = new java.io.File(this.lastFile);
 			newFile.delete();
 			newFile.createNewFile();
-			new XmlStorer(this.model).saveXml(newFile);
+			new LevelStorer(new XmlStorer(model)).storeLevel(newFile, model);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			LOGGER.error("error", e);
+			JOptionPane.showMessageDialog(ViewerPanel.this, "An error occured: " + e.getMessage());
 		}
 	}
 
