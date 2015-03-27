@@ -13,7 +13,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -43,6 +46,7 @@ import de.jumpnbump.usecases.viewer.xml.LevelStorer;
 import de.jumpnbump.usecases.viewer.xml.XmlBuilder;
 import de.jumpnbump.usecases.viewer.xml.XmlStorer;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.NonClosingInputstream;
 import de.oetting.bumpingbunnies.core.worldCreation.ObjectsFactory;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -356,7 +360,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void displayFile() {
-		parseXml();
+		parseFile();
 		this.myCanvas.setWorld(this.model);
 		setWallModel();
 		setIcyWallModel();
@@ -368,12 +372,52 @@ public class ViewerPanel extends JPanel {
 		this.myCanvas.repaint();
 	}
 
+	private void parseFile() {
+		if (lastFile.endsWith("xml")) {
+			parseXml();
+		} else if (lastFile.endsWith("zip")) {
+			parseZip();
+		} else {
+			throw new RuntimeException("Unknown file type");
+		}
+	}
+
+	private void parseZip() {
+		try {
+			if (this.lastFile != null) {
+				ZipInputStream zipInput = new ZipInputStream(new FileInputStream(lastFile));
+				parseZip(zipInput);
+				zipInput.close();
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void parseZip(ZipInputStream zipInput) {
+		try {
+			ZipEntry entry = zipInput.getNextEntry();
+			while (entry != null) {
+				if (entry.getName().equals("world.xml"))
+					this.model = builder.parse(new NonClosingInputstream(zipInput));
+				entry = zipInput.getNextEntry();
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private void loadFilecontent() {
 		FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent());
 		dialog.setVisible(true);
 		this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
 		if (dialog.getFile() != null)
-			displayFile();
+			try {
+				displayFile();
+			} catch (Exception e) {
+				LOGGER.error("error", e);
+				JOptionPane.showMessageDialog(this, "error while loading file " + e.getMessage());
+			}
 	}
 
 	private void parseXml() {
@@ -396,18 +440,23 @@ public class ViewerPanel extends JPanel {
 		if (editingModePanel.isSelectModeActive())
 			return new SelectModeMouseListener(createSelectionModeProvider());
 		else if (editingModePanel.isDeleteModeActive())
-			return new DeleteModeMouseListener(createSelectionModeProvider(), new CanvasObjectsFinder(createSelectionModeProvider()));
+			return new DeleteModeMouseListener(createSelectionModeProvider(), new CanvasObjectsFinder(
+					createSelectionModeProvider()));
 		else if (editingModePanel.isWallModeActive()) {
-			return new CreateWallEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createWall(minX, minY, maxX, maxY));
+			return new CreateWallEditingMode(createSelectionModeProvider(),
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createWall(minX, minY, maxX, maxY));
 		} else if (editingModePanel.isIceWallModeActive()) {
-			return new CreateIceWallEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createIceWall(minX, minY, maxX, maxY));
+			return new CreateIceWallEditingMode(createSelectionModeProvider(),
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createIceWall(minX, minY, maxX, maxY));
 		} else if (editingModePanel.isJumperModeActive()) {
-			return new CreateJumperEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createJumper(minX, minY, maxX, maxY));
+			return new CreateJumperEditingMode(createSelectionModeProvider(),
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createJumper(minX, minY, maxX, maxY));
 		} else if (editingModePanel.isWaterModeActive()) {
-			return new CreateWaterEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createWater(minX, minY, maxX, maxY));
+			return new CreateWaterEditingMode(createSelectionModeProvider(),
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createWater(minX, minY, maxX, maxY));
 		} else if (editingModePanel.isBackgroundModeActive())
-			return new CreateBackgroundEditingMode(createSelectionModeProvider(), (minX, minY, maxX, maxY) -> ObjectsFactory.createBackground(minX, minY, maxX,
-					maxY));
+			return new CreateBackgroundEditingMode(createSelectionModeProvider(),
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createBackground(minX, minY, maxX, maxY));
 		return new SelectModeMouseListener(createSelectionModeProvider());
 	}
 
@@ -426,7 +475,8 @@ public class ViewerPanel extends JPanel {
 
 	private void save() {
 		try {
-			FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent(), "save", FileDialog.SAVE);
+			FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent(), "save",
+					FileDialog.SAVE);
 			dialog.setVisible(true);
 			if (dialog.getFile() != null) {
 				this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
