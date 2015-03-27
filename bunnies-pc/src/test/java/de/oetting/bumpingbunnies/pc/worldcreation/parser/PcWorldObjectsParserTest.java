@@ -7,6 +7,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
+import de.oetting.bumpingbunnies.core.game.ImageCache;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
@@ -17,7 +18,7 @@ public class PcWorldObjectsParserTest {
 
 	@Test
 	public void build_classicWorld_hasAllValuesFilled() {
-		ResourceProvider provider = new PcResourceProvider();
+		ResourceProvider provider = new PcResourceProvider(new ImageCache());
 		XmlReader reader = new ClasspathXmlreader(getClass().getResourceAsStream("/test.xml"));
 		World world = new PcWorldObjectsParser().build(provider, reader);
 		assertThat(world, hasNoEmptyList());

@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.android.xml.parsing;
 
+import java.io.InputStream;
+
 import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
 import de.oetting.bumpingbunnies.core.worldCreation.ClasspathImageReader;
@@ -15,6 +17,10 @@ public class AndroidBitmapReader implements BitmapReader {
 
 	@Override
 	public ImageWrapper readBitmap(String filename) {
-		return new ImageWrapper(BitmapFactory.decodeStream(imageReader.readAsStream(filename)), filename);
+		return readBitmap(imageReader.readAsStream(filename), filename);
+	}
+
+	public ImageWrapper readBitmap(InputStream stream, String filename) {
+		return new ImageWrapper(BitmapFactory.decodeStream(stream), filename);
 	}
 }

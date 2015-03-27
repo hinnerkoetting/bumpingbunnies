@@ -18,5 +18,9 @@ public class AndroidXmlWorldParserTemplate {
 	public World build(ResourceProvider provider, Context context) {
 		return this.worldBuilder.build(provider, new AndroidXmlReader(context, resourceId));
 	}
+	
+	public int getResourceId() {
+		return resourceId;
+	}
 
 }
