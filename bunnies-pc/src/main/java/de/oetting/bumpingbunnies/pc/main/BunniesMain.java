@@ -40,6 +40,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathZipreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -238,7 +239,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private World createWorld() {
-		XmlReader reader = new ClasspathXmlreader(World.class.getResourceAsStream("/worlds/classic.xml"));
+		XmlReader reader = new ClasspathZipreader(World.class.getResourceAsStream("/worlds/classic.zip"));
 		return new PcWorldObjectsParser().build(new PcResourceProvider(), reader);
 	}
 

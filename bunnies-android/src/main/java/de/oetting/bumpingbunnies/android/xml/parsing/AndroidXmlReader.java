@@ -1,9 +1,11 @@
 package de.oetting.bumpingbunnies.android.xml.parsing;
 
 import java.io.InputStream;
+import java.util.zip.ZipInputStream;
 
-import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import android.content.Context;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldZipReader;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 
 public class AndroidXmlReader implements XmlReader {
 
@@ -11,14 +13,14 @@ public class AndroidXmlReader implements XmlReader {
 	private final int resourceId;
 
 	public AndroidXmlReader(Context context, int resourceId) {
-		super();
 		this.context = context;
 		this.resourceId = resourceId;
 	}
 
 	@Override
 	public InputStream openXmlStream() {
-		return context.getResources().openRawResource(this.resourceId);
+		InputStream inputStream = context.getResources().openRawResource(this.resourceId);
+		return new WorldZipReader().findWorldXml((ZipInputStream) inputStream);
 	}
 
 }
