@@ -12,6 +12,7 @@ import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.util.List;
 
 import javax.swing.Box;
@@ -371,7 +372,8 @@ public class ViewerPanel extends JPanel {
 		FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent());
 		dialog.setVisible(true);
 		this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
-		displayFile();
+		if (dialog.getFile() != null)
+			displayFile();
 	}
 
 	private void parseXml() {
@@ -426,11 +428,13 @@ public class ViewerPanel extends JPanel {
 		try {
 			FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent(), "save", FileDialog.SAVE);
 			dialog.setVisible(true);
-			this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
-			java.io.File newFile = new java.io.File(this.lastFile);
-			newFile.delete();
-			newFile.createNewFile();
-			new LevelStorer(new XmlStorer(model)).storeLevel(newFile, model);
+			if (dialog.getFile() != null) {
+				this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
+				java.io.File newFile = new java.io.File(this.lastFile);
+				newFile.delete();
+				newFile.createNewFile();
+				new LevelStorer(new XmlStorer(model)).storeLevel(newFile, model);
+			}
 		} catch (Exception e) {
 			LOGGER.error("error", e);
 			JOptionPane.showMessageDialog(ViewerPanel.this, "An error occured: " + e.getMessage());
