@@ -3,7 +3,6 @@ package de.jumpnbump.usecases.viewer.viewer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FileDialog;
 import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -21,6 +20,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
@@ -64,7 +65,7 @@ public class ViewerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private MyCanvas myCanvas;
 	private final XmlBuilder builder;
-	private String lastFile;
+	private File lastFile;
 	private World model;
 	private JList<Wall> wall;
 	private JList<IcyWall> icyWallList;
@@ -76,7 +77,7 @@ public class ViewerPanel extends JPanel {
 	private JFrame frame;
 
 	public ViewerPanel(String file) {
-		this.lastFile = file;
+		this.lastFile = new File(file);
 		this.builder = new XmlBuilder();
 	}
 
@@ -372,9 +373,9 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void parseFile() {
-		if (lastFile.endsWith("xml")) {
+		if (lastFile.getName().endsWith("xml")) {
 			parseXml();
-		} else if (lastFile.endsWith("zip")) {
+		} else if (lastFile.getName().endsWith("zip")) {
 			parseZip();
 		} else {
 			throw new RuntimeException("Unknown file type");
@@ -407,10 +408,12 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void loadFilecontent() {
-		FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent());
-		dialog.setVisible(true);
-		this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
-		if (dialog.getFile() != null)
+		JFileChooser dialog = new JFileChooser(lastFile);
+		dialog.setFileFilter(new FileNameExtensionFilter("All", "zip", "xml"));
+		dialog.addChoosableFileFilter(new FileNameExtensionFilter("zip", "zip"));
+		dialog.showOpenDialog(this);
+		this.lastFile = dialog.getSelectedFile();
+		if (dialog.getSelectedFile() != null)
 			try {
 				displayFile();
 			} catch (Exception e) {
@@ -474,12 +477,12 @@ public class ViewerPanel extends JPanel {
 
 	private void save() {
 		try {
-			FileDialog dialog = new FileDialog((JFrame) ViewerPanel.this.getRootPane().getParent(), "save",
-					FileDialog.SAVE);
-			dialog.setVisible(true);
-			if (dialog.getFile() != null) {
-				this.lastFile = dialog.getDirectory() + File.separator + dialog.getFile();
-				java.io.File newFile = new java.io.File(this.lastFile);
+			JFileChooser dialog = new JFileChooser(lastFile);
+			dialog.setFileFilter(new FileNameExtensionFilter("Zip", "zip"));
+			dialog.showSaveDialog(this); 
+			if (dialog.getSelectedFile() != null) {
+				this.lastFile = dialog.getSelectedFile();
+				java.io.File newFile = lastFile;
 				newFile.delete();
 				newFile.createNewFile();
 				new LevelStorer(new XmlStorer(model)).storeLevel(newFile, model);
