@@ -446,19 +446,19 @@ public class ViewerPanel extends JPanel {
 					createSelectionModeProvider()));
 		else if (editingModePanel.isWallModeActive()) {
 			return new CreateWallEditingMode(createSelectionModeProvider(),
-					(minX, minY, maxX, maxY) -> ObjectsFactory.createWall(minX, minY, maxX, maxY));
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createWall(minX, minY, maxX, maxY), myCanvas);
 		} else if (editingModePanel.isIceWallModeActive()) {
 			return new CreateIceWallEditingMode(createSelectionModeProvider(),
-					(minX, minY, maxX, maxY) -> ObjectsFactory.createIceWall(minX, minY, maxX, maxY));
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createIceWall(minX, minY, maxX, maxY), myCanvas);
 		} else if (editingModePanel.isJumperModeActive()) {
 			return new CreateJumperEditingMode(createSelectionModeProvider(),
-					(minX, minY, maxX, maxY) -> ObjectsFactory.createJumper(minX, minY, maxX, maxY));
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createJumper(minX, minY, maxX, maxY), myCanvas);
 		} else if (editingModePanel.isWaterModeActive()) {
 			return new CreateWaterEditingMode(createSelectionModeProvider(),
-					(minX, minY, maxX, maxY) -> ObjectsFactory.createWater(minX, minY, maxX, maxY));
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createWater(minX, minY, maxX, maxY), myCanvas);
 		} else if (editingModePanel.isBackgroundModeActive())
 			return new CreateBackgroundEditingMode(createSelectionModeProvider(),
-					(minX, minY, maxX, maxY) -> ObjectsFactory.createBackground(minX, minY, maxX, maxY));
+					(minX, minY, maxX, maxY) -> ObjectsFactory.createBackground(minX, minY, maxX, maxY), myCanvas);
 		return new SelectModeMouseListener(createSelectionModeProvider());
 	}
 

@@ -32,6 +32,7 @@ public class MyCanvas extends JPanel {
 	private CoordinatesCalculation coordinatesCalculation;
 
 	private WorldProperties properties;
+	private GameObjectWithImage currentlyEditedObject;
 
 	public MyCanvas(World container) {
 		this.objectContainer = container;
@@ -56,6 +57,8 @@ public class MyCanvas extends JPanel {
 		drawObjects(objectContainer.getAllIcyWalls(), g);
 		drawObjects(objectContainer.getAllJumper(), g);
 		drawObjects(objectContainer.getAllWaters(), g);
+		if (currentlyEditedObject != null)
+			drawObject(g, currentlyEditedObject);
 		paintSpawnPoints(g);
 	}
 
@@ -141,6 +144,11 @@ public class MyCanvas extends JPanel {
 
 	public void setWorld(World model) {
 		this.objectContainer = model;
+	}
+	
+	public void setCurrentlyEditedObject(GameObjectWithImage object) {
+		currentlyEditedObject = object;
+		repaint();
 	}
 
 }

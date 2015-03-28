@@ -2,21 +2,24 @@ package de.jumpnbump.usecases.viewer.viewer.editingMode;
 
 import java.awt.event.MouseEvent;
 
+import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
-public abstract class CreateObjectEditingMode<S extends GameObject> implements ModeMouseListener {
+public abstract class CreateObjectEditingMode<S extends GameObjectWithImage> implements ModeMouseListener {
 
 	private final SelectionModeProvider provider;
 	private final CoordinatesCalculation coordinatesCalculation;
 	private final EditorObjectFactory<S> objectFactory;
+	private final MyCanvas canvas;
 
 	private int startX;
 	private int startY;
 
-	public CreateObjectEditingMode(SelectionModeProvider provider, EditorObjectFactory<S> objectFactory) {
+	public CreateObjectEditingMode(SelectionModeProvider provider, EditorObjectFactory<S> objectFactory, MyCanvas canvas) {
 		this.provider = provider;
 		this.objectFactory = objectFactory;
+		this.canvas = canvas;
 		coordinatesCalculation = provider.createCoordinatesCalculation();
 	}
 
@@ -40,24 +43,31 @@ public abstract class CreateObjectEditingMode<S extends GameObject> implements M
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
+		canvas.setCurrentlyEditedObject(null);
 		if (objectHasMinSize(arg0))
 			createWall(arg0);
 	}
 
 	private void createWall(MouseEvent arg0) {
+		S newWall = createObject(arg0);
+		addToWorld(newWall);
+		provider.refreshAll();
+	}
+
+	private S createObject(MouseEvent arg0) {
 		long gameX = coordinatesCalculation.getGameCoordinateX(startX);
 		long gameY = coordinatesCalculation.getGameCoordinateY(startY);
 		long gameEndX = coordinatesCalculation.getGameCoordinateX(arg0.getX());
 		long gameEndY = coordinatesCalculation.getGameCoordinateY(arg0.getY());
 		S newWall = create(gameX, gameY, gameEndX, gameEndY);
-		addToWorld(newWall);
-		provider.refreshAll();
+		return newWall;
 	}
 
 	protected abstract void addToWorld(S newWall);
 
 	private S create(long gameX, long gameY, long gameEndX, long gameEndY) {
-		return objectFactory.create(Math.min(gameX, gameEndX), Math.min(gameY, gameEndY), Math.max(gameX, gameEndX), Math.max(gameY, gameEndY));
+		return objectFactory.create(Math.min(gameX, gameEndX), Math.min(gameY, gameEndY), Math.max(gameX, gameEndX),
+				Math.max(gameY, gameEndY));
 	}
 
 	private boolean objectHasMinSize(MouseEvent arg0) {
@@ -72,6 +82,8 @@ public abstract class CreateObjectEditingMode<S extends GameObject> implements M
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
+		S newWall = createObject(arg0);
+		canvas.setCurrentlyEditedObject(newWall);
 	}
 
 	@Override
