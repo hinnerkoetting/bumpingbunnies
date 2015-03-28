@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -35,6 +36,7 @@ import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.CachedBitmapReader;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
@@ -88,19 +90,18 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 
 	private World createWorld(GameActivity activity, GameStartParameter parameter) {
 		AndroidXmlWorldParserTemplate factory = new WorldConfigurationFactory().createWorldParser(parameter.getConfiguration().getWorldConfiguration());
-		final AndroidBitmapReader bitMapReader = new AndroidBitmapReader();
-		ImageCache images = loadImages(activity, factory, bitMapReader);
+		ImageCache images = loadImages(activity, factory);
 		AndroidResourceProvider resourceProvider = new AndroidResourceProvider(images);
 		return factory.build(resourceProvider, activity);
 	}
 
-	private ImageCache loadImages(GameActivity activity, AndroidXmlWorldParserTemplate factory,
-			final AndroidBitmapReader bitMapReader) {
+	private ImageCache loadImages(GameActivity activity,
+			AndroidXmlWorldParserTemplate factory) {
 		ImageCache images = new ImagesZipLoader().loadAllImages(activity.getResources().openRawResource(factory.getResourceId()), new ImageCreator() {
 			
 			@Override
 			public ImageWrapper createImage(InputStream inputStream, String imageKey) {
-				return new ImageWrapper(bitMapReader.readBitmap(imageKey), imageKey);
+				return new ImageWrapper(BitmapFactory.decodeStream(inputStream), imageKey);
 			}
 		});
 		return images;

@@ -20,7 +20,7 @@ public class AndroidXmlReader implements XmlReader {
 	@Override
 	public InputStream openXmlStream() {
 		InputStream inputStream = context.getResources().openRawResource(this.resourceId);
-		return new WorldZipReader().findWorldXml((ZipInputStream) inputStream);
+		return new WorldZipReader().findWorldXml(new ZipInputStream(inputStream));
 	}
 
 }
