@@ -54,9 +54,6 @@ public class PlayerMovementCalculation {
 		return false;
 	}
 
-	private boolean isStandingOnObject() {
-		return this.collisionDetection.findObjectThisPlayerIsStandingOn(this.movedPlayer) != null;
-	}
 
 	private GameObject findCollidingObject() {
 		return this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.movedPlayer);

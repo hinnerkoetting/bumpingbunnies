@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.core.worldCreation.parser;
 
 import java.io.InputStream;
-import java.util.zip.ZipInputStream;
 
 public class ClasspathXmlreader implements XmlReader {
 

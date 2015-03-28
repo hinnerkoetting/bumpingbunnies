@@ -21,8 +21,6 @@ public class WorldConfigurationGenerator {
 		switch (id) {
 		case R.id.start_world_classic:
 			return WorldConfiguration.CLASSIC;
-		case R.id.start_world_test:
-			return WorldConfiguration.TEST;
 		case R.id.start_world_castle:
 			return WorldConfiguration.CASTLE;
 		default:

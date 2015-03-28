@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.start.sql;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
