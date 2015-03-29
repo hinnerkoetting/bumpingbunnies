@@ -58,17 +58,18 @@ public class CollisionHandling {
 
 	private void reducePlayerTooMaxSpeedToNotCollide(Player player, GameObject object,
 			CollisionDetection collisionDetection) {
-		//We do not want the player to move into a wall.
-		//So the idea is to simulate the next step of the player.
-		//if this step collides with an object we find out if the player needs to reduce its X or Y speed.
-		//We assume the player needs to reduce its X speed if was currently (as opposed to the next step) not in the same X position as the object.
-		//The same is done for the Y position
-		//This algorithm is the result of many try and errors.
+		//Goal: We do not want the player to move into a wall.
+		//Solution : We simulate the next step of the player.
+		//if this step collides with an object (it overlaps with this object) we have to find out if the player has to reduce his x oder y speed.
+		//We assume the player needs to reduce its X speed if was currently (as opposed to the next step) not in the same X position as the object (e.g. he is moving from the left into a wall).
+		//The same is done for the Y position (e.g. the player is falling down into a wall).
+		//Special case: If the player is currently not at the same x AND y position we only reduce the x velocity. Otherwise the player could get stuck if he was exactly at a diagonal position to a wall.
+		//I am not sure if there is better solution to this problem. It is the result of many failing attempts.
 		GameObject nextStep = player.simulateNextStep();
 		if (collisionDetection.collides(nextStep, object)) {
 			if (!collisionDetection.sharesHorizontalPosition(player, object))
 				reduceXSpeed(player, object);
-			if (!collisionDetection.sharesVerticalPosition(player, object))
+			if (!collisionDetection.sharesVerticalPosition(player, object) && collisionDetection.sharesHorizontalPosition(player, object))
 				reduceYSpeed(player, object);
 		}
 	}
