@@ -5,12 +5,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public abstract class AbstractPlayerInputServicesFactory<S extends InputService> {
 
-	public abstract S createInputService(PlayerMovement movement, Context context, CoordinatesCalculation calculations);
+	public abstract S createInputService(Player bunny, Context context, CoordinatesCalculation calculations);
 
 	public abstract InputDispatcher<?> createInputDispatcher(S inputService);
 

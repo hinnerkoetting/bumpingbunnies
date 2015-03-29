@@ -5,19 +5,19 @@ import android.view.View;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.VibratorService;
 import de.oetting.bumpingbunnies.android.input.gamepad.KeyboardInputService;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class DistributedInputService implements InputService, KeyboardInputService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DistributedInputService.class);
 
-	private PlayerMovement playerMovement;
+	private Player playerMovement;
 	private final VibratorService vibrator;
 
-	public DistributedInputService(PlayerMovement playerMovement, VibratorService vibrator) {
+	public DistributedInputService(Player playerMovement, VibratorService vibrator) {
 		this.playerMovement = playerMovement;
 		this.vibrator = vibrator;
 	}
@@ -46,10 +46,10 @@ public class DistributedInputService implements InputService, KeyboardInputServi
 
 	private void moveUp(boolean move) {
 		if (move) {
-			this.playerMovement.tryMoveUp();
+			this.playerMovement.setJumping(true);
 			this.vibrator.vibrate(R.id.button_up);
 		} else {
-			this.playerMovement.tryMoveDown();
+			this.playerMovement.setJumping(false);
 			this.vibrator.releaseVibrate(R.id.button_up);
 		}
 	}
@@ -57,18 +57,18 @@ public class DistributedInputService implements InputService, KeyboardInputServi
 	private void handleLeftRightMovement(View groupView, MotionEvent event, boolean isPressed) {
 		if (isOnrightHalf(groupView, event)) {
 			if (isPressed) {
-				this.playerMovement.tryMoveRight();
+				this.playerMovement.setMovingRight();
 				this.vibrator.vibrate(R.id.button_right);
 			} else {
-				this.playerMovement.removeHorizontalMovement();
+				this.playerMovement.setNotMoving();
 				this.vibrator.releaseVibrate(R.id.button_right);
 			}
 		} else {
 			if (isPressed) {
-				this.playerMovement.tryMoveLeft();
+				this.playerMovement.setMovingLeft();
 				this.vibrator.vibrate(R.id.button_left);
 			} else {
-				this.playerMovement.removeHorizontalMovement();
+				this.playerMovement.setNotMoving();
 				this.vibrator.releaseVibrate(R.id.button_left);
 			}
 		}

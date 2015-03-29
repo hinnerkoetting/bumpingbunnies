@@ -4,14 +4,13 @@ import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.android.input.pathFinder.PathFinder;
 import de.oetting.bumpingbunnies.android.input.touch.LeftRightTouchService;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class PointerInputService extends LeftRightTouchService {
 
 	private final PathFinder pathFinder;
 
-	public PointerInputService(PlayerMovement playerMovement, PathFinder pathFinder, CoordinatesCalculation calculations) {
+	public PointerInputService(Player playerMovement, PathFinder pathFinder, CoordinatesCalculation calculations) {
 		super(playerMovement, calculations);
 		this.pathFinder = pathFinder;
 	}

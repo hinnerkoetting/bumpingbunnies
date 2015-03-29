@@ -3,13 +3,13 @@ package de.oetting.bumpingbunnies.android.input.gamepad;
 import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class GamepadInputService implements KeyboardInputService {
 
-	private PlayerMovement playerMovement;
+	private Player playerMovement;
 
-	public GamepadInputService(PlayerMovement playerMovement) {
+	public GamepadInputService(Player playerMovement) {
 		this.playerMovement = playerMovement;
 	}
 
@@ -17,21 +17,21 @@ public class GamepadInputService implements KeyboardInputService {
 	public boolean onButtonTouch(View v, MotionEvent event) {
 		boolean isPressed = event.getAction() != MotionEvent.ACTION_UP;
 		if (!isPressed) {
-			this.playerMovement.removeMovement();
+			this.playerMovement.setNotMoving();
 			return true;
 		}
 		switch (v.getId()) {
 		case R.id.button_down:
-			this.playerMovement.tryMoveDown();
+			this.playerMovement.setJumping(false);
 			break;
 		case R.id.button_up:
-			this.playerMovement.tryMoveUp();
+			this.playerMovement.setJumping(true);
 			break;
 		case R.id.button_left:
-			this.playerMovement.tryMoveLeft();
+			this.playerMovement.setMovingLeft();
 			break;
 		case R.id.button_right:
-			this.playerMovement.tryMoveRight();
+			this.playerMovement.setMovingRight();
 			break;
 		default:
 			return false;

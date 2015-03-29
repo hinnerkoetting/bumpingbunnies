@@ -12,7 +12,7 @@ import android.view.View;
 public abstract class InputDispatcher<S extends InputService> {
 
 	private S inputService;
-
+ 
 	public InputDispatcher(S service) {
 		this.inputService = service;
 	}

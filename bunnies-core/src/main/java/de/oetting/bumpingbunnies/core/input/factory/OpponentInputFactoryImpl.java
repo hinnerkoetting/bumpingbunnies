@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.core.input.factory;
 
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.input.ai.AiInputService;
 import de.oetting.bumpingbunnies.core.input.ai.DummyInputService;
@@ -21,15 +20,15 @@ public class OpponentInputFactoryImpl implements OpponentInputFactory {
 	}
 
 	@Override
-	public OpponentInput create(Player p) {
-		if (p.getOpponent().isLocalHumanPlayer()) {
+	public OpponentInput create(Player player) {
+		if (player.getOpponent().isLocalHumanPlayer()) {
 			return new DummyInputService();
-		} else if (!p.getOpponent().isLocalPlayer()) {
-			PlayerFromNetworkInput input = new PlayerFromNetworkInput(p);
-			this.stateDispatcher.addInputService(p.id(), input);
+		} else if (!player.getOpponent().isLocalPlayer()) {
+			PlayerFromNetworkInput input = new PlayerFromNetworkInput(player);
+			this.stateDispatcher.addInputService(player.id(), input);
 			return input;
 		} else {
-			return new AiInputService(new PlayerMovement(p), this.world);
+			return new AiInputService(player, this.world);
 		}
 	}
 }

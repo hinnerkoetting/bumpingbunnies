@@ -2,14 +2,14 @@ package de.oetting.bumpingbunnies.android.input;
 
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.AbstractControlledMovement;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public abstract class AbstractTouchService extends AbstractControlledMovement {
 
 	private final CoordinatesCalculation calculations;
 
-	public AbstractTouchService(PlayerMovement playerMovement, CoordinatesCalculation calculations) {
+	public AbstractTouchService(Player playerMovement, CoordinatesCalculation calculations) {
 		super(playerMovement);
 		this.calculations = calculations;
 	}

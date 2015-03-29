@@ -3,11 +3,11 @@ package de.oetting.bumpingbunnies.android.input.touch;
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.android.input.AbstractTouchService;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class LeftRightTouchService extends AbstractTouchService {
 
-	public LeftRightTouchService(PlayerMovement playerMovement,
+	public LeftRightTouchService(Player playerMovement,
 			CoordinatesCalculation calculations) {
 		super(playerMovement, calculations);
 	}

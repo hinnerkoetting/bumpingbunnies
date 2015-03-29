@@ -3,17 +3,17 @@ package de.oetting.bumpingbunnies.core.input;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class ConfigurableKeyboardInputService implements InputService {
 
 	private final String leftKey;
 	private final String rightKey;
 	private final String upKey;
-	private PlayerMovement movementController;
+	private Player movementController;
 	private Map<String, Boolean> keyState = new HashMap<String, Boolean>();
 
-	public ConfigurableKeyboardInputService(String leftKey, String rightKey, String upKey, PlayerMovement movementController) {
+	public ConfigurableKeyboardInputService(String leftKey, String rightKey, String upKey, Player  movementController) {
 		this.leftKey = leftKey;
 		this.rightKey = rightKey;
 		this.upKey = upKey;
@@ -49,16 +49,14 @@ public class ConfigurableKeyboardInputService implements InputService {
 
 	private void evaluateKeys() {
 		if (keyState.get(upKey).booleanValue())
-			movementController.tryMoveUp();
+			movementController.setJumping(true);
 		else
-			movementController.tryMoveDown();
+			movementController.setJumping(false);
 		if (keyState.get(rightKey).booleanValue()) {
-			movementController.removeLeftMovement();
-			movementController.tryMoveRight();
+			movementController.setMovingRight();
 		} else if (keyState.get(leftKey).booleanValue()) {
-			movementController.removeRightMovement();
-			movementController.tryMoveLeft();
+			movementController.setMovingLeft();
 		} else
-			movementController.removeHorizontalMovement();
+			movementController.setNotMoving();
 	}
 }

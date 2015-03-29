@@ -10,12 +10,12 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class KeyboardInputServicesFactory extends AbstractPlayerInputServicesFactory<GamepadInputService> {
 
 	@Override
-	public GamepadInputService createInputService(PlayerMovement movement, Context context, CoordinatesCalculation calculations) {
+	public GamepadInputService createInputService(Player movement, Context context, CoordinatesCalculation calculations) {
 		return new GamepadInputService(movement);
 	}
 

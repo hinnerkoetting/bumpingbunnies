@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.core.input.ai;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -16,7 +15,6 @@ public class AiInputService implements OpponentInput {
 	private static Logger LOGGER = LoggerFactory.getLogger(AiInputService.class);
 
 	private final Player aiPlayer;
-	private final PlayerMovement playerMovement;
 	private final Random randomGenerator;
 	private final World world;
 	
@@ -28,10 +26,9 @@ public class AiInputService implements OpponentInput {
 	private Player closestEnemyPlayer;
 
 
-	public AiInputService(PlayerMovement playerMovement, World world) {
-		this.playerMovement = playerMovement;
+	public AiInputService(Player playerMovement, World world) {
 		this.world = world;
-		this.aiPlayer = playerMovement.getPlayer();
+		this.aiPlayer = playerMovement;
 		this.randomGenerator = new Random(System.currentTimeMillis());
 		LOGGER.info("initialising ai for player %d", this.aiPlayer.id());
 	}
@@ -197,17 +194,17 @@ public class AiInputService implements OpponentInput {
 
 	private void moveRememberedVertical() {
 		if (this.rememberMoveUp)
-			this.playerMovement.tryMoveUp();
+			this.aiPlayer.setJumping(true);
 		else
-			playerMovement.tryMoveDown();
+			this.aiPlayer.setJumping(false);
 	}
 
 	private void moveRememberedHorizontal() {
-		playerMovement.removeHorizontalMovement();
+		aiPlayer.setNotMoving();
 		if (this.rememberMoveLeft)
-			this.playerMovement.tryMoveLeft();
+			this.aiPlayer.setMovingLeft();
 		if (this.rememberMoveRight)
-			this.playerMovement.tryMoveRight();
+			aiPlayer.setMovingRight();
 	}
 
 	private boolean isAtSimilarWidth() {

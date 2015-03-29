@@ -1,30 +1,32 @@
 package de.oetting.bumpingbunnies.android.input.hardwareKeyboard;
 
 import android.view.KeyEvent;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.input.InputService;
+import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public class HardwareKeyboardInputService implements InputService {
 
-	private final PlayerMovement movementController;
+	private final Player movedPlayer;
 	private final boolean leftHanded;
 
-	public HardwareKeyboardInputService(PlayerMovement movementController, boolean leftHanded) {
-		this.movementController = movementController;
+	public HardwareKeyboardInputService(Player movedPl1ayer, boolean leftHanded) {
+		movedPlayer = movedPl1ayer;
 		this.leftHanded = leftHanded;
 	}
 
 	public boolean onKeyUp(int keyCode) {
 		if (keyCode == getKeyLeft()) {
-			this.movementController.removeLeftMovement();
+			if (this.movedPlayer.getAccelerationX() < 0) 
+				movedPlayer.setNotMoving();
 			return true;
 		}
 		if (keyCode == getKeyRight()) {
-			this.movementController.removeRightMovement();
+			if (this.movedPlayer.getAccelerationX() > 0) 
+				movedPlayer.setNotMoving();
 			return true;
 		}
 		if (keyCode == getKeyUp()) {
-			this.movementController.tryMoveDown();
+			this.movedPlayer.setJumping(false);
 			return true;
 		}
 		return false;
@@ -32,15 +34,15 @@ public class HardwareKeyboardInputService implements InputService {
 
 	public boolean onKeyDown(int keyCode) {
 		if (keyCode == getKeyLeft()) {
-			this.movementController.tryMoveLeft();
+			movedPlayer.setMovingLeft();
 			return true;
 		}
 		if (keyCode == getKeyRight()) {
-			this.movementController.tryMoveRight();
+			movedPlayer.setMovingRight();
 			return true;
 		}
 		if (keyCode == getKeyUp()) {
-			this.movementController.tryMoveUp();
+			movedPlayer.setJumping(true);
 			return true;
 		}
 		return false;

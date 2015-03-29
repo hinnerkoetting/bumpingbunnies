@@ -1,46 +1,41 @@
 package de.oetting.bumpingbunnies.core.input;
 
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 public abstract class AbstractControlledMovement implements InputService {
 
-	private PlayerMovement playerMovement;
+	private Player playerMovement;
 
-	public AbstractControlledMovement(PlayerMovement playerMovement) {
+	public AbstractControlledMovement(Player playerMovement) {
 		this.playerMovement = playerMovement;
 	}
 
 	protected void reset() {
-		this.playerMovement.removeMovement();
-	}
-
-	protected PlayerMovement getPlayerMovement() {
-		return this.playerMovement;
+		this.playerMovement.setNotMoving();
 	}
 
 	protected Player getMovedPlayer() {
-		return this.playerMovement.getPlayer();
+		return this.playerMovement;
 	}
 
 	protected void moveUp() {
-		this.playerMovement.tryMoveUp();
+		this.playerMovement.setJumping(true);
 	}
 
 	protected void moveLeft() {
-		this.playerMovement.tryMoveLeft();
+		this.playerMovement.setMovingLeft();
 	}
 
 	protected void moveRight() {
-		this.playerMovement.tryMoveRight();
+		this.playerMovement.setMovingRight();
 	}
 
 	protected void moveDown() {
-		this.playerMovement.tryMoveDown();
+		this.playerMovement.setJumping(false);
 	}
 
 	protected void removeHorizontalMovement() {
-		this.playerMovement.removeHorizontalMovement();
+		this.playerMovement.setNotMoving();
 	}
 
 	protected boolean touchesPlayerThisVerticalPosition(double yPosition) {

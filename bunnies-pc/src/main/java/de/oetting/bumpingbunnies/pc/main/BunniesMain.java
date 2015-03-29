@@ -35,7 +35,6 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordina
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
@@ -126,7 +125,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			inputDispatcher = new PcInputDispatcher();
 			ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
 			inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter
-					.getConfiguration().getInputConfiguration(), new PlayerMovement(myPlayer)));
+					.getConfiguration().getInputConfiguration(), myPlayer));
 
 			addOtherPlayers(inputFactory);
 			primaryStage.setResizable(true);
@@ -145,7 +144,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			Player otherPlayer = config.getPlayer();
 			if (config.getConfiguration().getOpponent().isLocalHumanPlayer()) {
 				inputDispatcher.addInputService(inputFactory.create(
-						(KeyboardInputConfiguration) config.getInputConfiguration(), new PlayerMovement(otherPlayer)));
+						(KeyboardInputConfiguration) config.getInputConfiguration(), otherPlayer));
 			}
 		}
 	}
