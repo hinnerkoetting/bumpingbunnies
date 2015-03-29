@@ -12,7 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
-import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.network.BytePerSecondMeasurer;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
@@ -216,7 +216,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void addPlayerEntry(RoomEntry entry) {
-		Player player = new PlayerFactory(-1).createPlayer(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(),
+		Player player = new BunnyFactory(-1).createPlayer(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(),
 				ConnectionIdentifierFactory.createRemoteOpponent(entry.getPlayerName(), entry.getOponent().getType()));
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
@@ -225,7 +225,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void addMyPlayerRoomEntry(int myPlayerId) {
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
-		Player player = new PlayerFactory(1).createPlayer(myPlayerId, settings.getPlayerName(),
+		Player player = new BunnyFactory(1).createPlayer(myPlayerId, settings.getPlayerName(),
 				ConnectionIdentifierFactory.createLocalPlayer(singlePlayerProperties.getPlayerName()));
 		playersTable.getItems().add(new DetailRoomEntry(new LocalPlayerEntry(singlePlayerProperties), player));
 	}

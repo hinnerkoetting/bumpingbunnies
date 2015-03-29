@@ -16,7 +16,7 @@ import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionHandling;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
-import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
@@ -63,7 +63,7 @@ public class GameObjectInteractorTest {
 	}
 
 	private void createPlayerAtCenterOfWorld() {
-		player = new PlayerFactory(1).createPlayer(-1, "test", OpponentTestFactory.create());
+		player = new BunnyFactory(1).createPlayer(-1, "test", OpponentTestFactory.create());
 		player.setCenterX(0);
 		player.setCenterY(0);
 	}

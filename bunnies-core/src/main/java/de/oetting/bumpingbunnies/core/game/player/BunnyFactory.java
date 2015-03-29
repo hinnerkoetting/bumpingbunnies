@@ -7,11 +7,11 @@ import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
-public class PlayerFactory {
+public class BunnyFactory {
 
 	private int speed;
 
-	public PlayerFactory(int speed) {
+	public BunnyFactory(int speed) {
 		this.speed = speed;
 	}
 
@@ -37,17 +37,15 @@ public class PlayerFactory {
 		case 3:
 			return Color.CYAN;
 		case 4:
-			return Color.BLACK;
-		case 7:
-			return Color.MAGENTA;
-		case 8:
-			return Color.WHITE;
-		case 9:
 			return Color.YELLOW;
 		case 5:
-			return Color.DKGRAY;
-		case 6:
 			return Color.GRAY;
+		case 6:
+			return Color.MAGENTA;
+		case 7:
+			return Color.WHITE;
+		case 8:
+			return Color.BLACK;
 		default:
 			return createRandomColor();
 		}

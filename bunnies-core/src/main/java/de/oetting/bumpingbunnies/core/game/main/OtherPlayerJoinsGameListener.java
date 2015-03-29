@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.game.main;
 
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
-import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerPropertiesReceiveListener;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
@@ -30,6 +30,6 @@ public class OtherPlayerJoinsGameListener implements PlayerPropertiesReceiveList
 		int playerId = object.getPlayerId();
 		String playerName = object.getPlayerName();
 		ConnectionIdentifier opponent = ConnectionIdentifierFactory.createJoinedPlayer(playerName, playerId);
-		return new PlayerFactory(speedSetting).createPlayer(playerId, playerName, opponent);
+		return new BunnyFactory(speedSetting).createPlayer(playerId, playerName, opponent);
 	}
 }

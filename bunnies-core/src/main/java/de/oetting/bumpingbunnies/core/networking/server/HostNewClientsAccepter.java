@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.networking.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
@@ -79,7 +79,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
-		Player player = new PlayerFactory(this.generalSettings.getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
+		Player player = new BunnyFactory(this.generalSettings.getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
 				playerProperties.getPlayerName(), socket.getConnectionIdentifier());
 		LOGGER.info("Player joins %s", player);
 		signalPlayerToStartTheGame(socket);

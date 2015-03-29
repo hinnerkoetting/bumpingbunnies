@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
-import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.game.steps.HostBunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
@@ -44,7 +44,7 @@ public class HostBunnyKillCheckerTest {
 
 	@Test
 	public void playerJoins_thenPlayerIsAlive() {
-		Player player = new PlayerFactory(1).createPlayer(1, "", OpponentTestFactory.create());
+		Player player = new BunnyFactory(1).createPlayer(1, "", OpponentTestFactory.create());
 		whenPlayerJoins(player);
 		assertThat(player.isDead(), is(false));
 	}

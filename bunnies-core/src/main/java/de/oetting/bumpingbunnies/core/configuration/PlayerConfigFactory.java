@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
-import de.oetting.bumpingbunnies.core.game.player.PlayerFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
@@ -22,7 +22,7 @@ public class PlayerConfigFactory {
 	public static List<PlayerConfig> createOtherPlayers(Configuration configuration) {
 		int speed = configuration.getGeneralSettings().getSpeedSetting();
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
-		PlayerFactory playerfactory = new PlayerFactory(speed);
+		BunnyFactory playerfactory = new BunnyFactory(speed);
 		for (OpponentConfiguration config : configuration.getOtherPlayers()) {
 			Player p = playerfactory.createPlayer(config.getPlayerId(), config.getName(), config.getOpponent());
 			list.add(createPlayerConfig(p, config, config.getInput()));
@@ -37,7 +37,7 @@ public class PlayerConfigFactory {
 
 	private static Player findMyPlayer(GameStartParameter gameParameter) {
 		int speed = gameParameter.getConfiguration().getGeneralSettings().getSpeedSetting();
-		PlayerFactory playerfactory = new PlayerFactory(speed);
+		BunnyFactory playerfactory = new BunnyFactory(speed);
 		String playerName = gameParameter.getConfiguration().getLocalPlayerSettings().getPlayerName();
 		return playerfactory.createPlayer(gameParameter.getPlayerId(), playerName, ConnectionIdentifierFactory.createLocalPlayer(playerName));
 	}
