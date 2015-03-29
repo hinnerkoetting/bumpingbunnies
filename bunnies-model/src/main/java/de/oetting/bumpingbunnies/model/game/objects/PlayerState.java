@@ -129,4 +129,9 @@ public class PlayerState implements GameObjectState<PlayerState> {
 	public void moveNextStepY() {
 		centerY += movementY;
 	}
+	
+	public void moveBackwards() {
+		centerX -= movementX;
+		centerY -= movementY;
+	}
 }

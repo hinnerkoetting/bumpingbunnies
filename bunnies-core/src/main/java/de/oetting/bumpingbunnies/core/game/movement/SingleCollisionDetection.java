@@ -121,4 +121,18 @@ public class SingleCollisionDetection {
 		}
 	}
 
+	public static boolean sharesHorizontalPosition(GameObject gameObject, GameObject other) {
+		return gameObject.maxX() > other.minX() && gameObject.minX() < other.maxX();
+	}
+
+	public static boolean sharesVerticalPosition(GameObject gameObject, GameObject other) {
+		return gameObject.maxY() > other.minY() && gameObject.minY() < other.maxY();
+	}
+
+	public static boolean collides(GameObject gameObject, GameObject other) {
+		boolean collidesX = sharesHorizontalPosition(gameObject, other);
+		boolean collidesY = sharesVerticalPosition(gameObject, other);
+		return collidesX && collidesY;
+	}
+
 }

@@ -89,23 +89,21 @@ public class CollisionDetection {
 	}
 
 	public boolean collides(GameObject gameObject, GameObject other) {
-		boolean collidesX = sharesHorizontalPosition(gameObject, other);
-		boolean collidesY = sharesVerticalPosition(gameObject, other);
-		return collidesX && collidesY;
+		return SingleCollisionDetection.collides(gameObject, other);
 	}
 
 	/**
 	 * This does not mean that vertical position is the same.
 	 */
 	public boolean sharesHorizontalPosition(GameObject gameObject, GameObject other) {
-		return gameObject.maxX() > other.minX() && gameObject.minX() < other.maxX();
+		return SingleCollisionDetection.sharesHorizontalPosition(gameObject, other);
 	}
 
 	/**
 	 * This does not mean that horizontal position is the same.
 	 */
 	public boolean sharesVerticalPosition(GameObject gameObject, GameObject other) {
-		return gameObject.maxY() > other.minY() && gameObject.minY() < other.maxY();
+		return SingleCollisionDetection.sharesVerticalPosition(gameObject, other);
 	}
 
 	public boolean isExactlyOverObject(GameObject gameObject, GameObject other) {

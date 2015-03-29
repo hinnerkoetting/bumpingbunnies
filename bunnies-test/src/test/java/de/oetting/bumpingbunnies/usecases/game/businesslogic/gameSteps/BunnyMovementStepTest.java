@@ -21,6 +21,7 @@ import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
+import de.oetting.bumpingbunnies.core.game.steps.FixPlayerPosition;
 import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.tests.UnitTests;
@@ -102,7 +103,7 @@ public class BunnyMovementStepTest {
 		initMocks(this);
 		initMovementFactory();
 		this.movedPlayer = TestPlayerFactory.createMyPlayer();
-		this.fixture = new BunnyMovementStep(this.killChecker, this.calculationFactory);
+		this.fixture = new BunnyMovementStep(this.killChecker, this.calculationFactory, new FixPlayerPosition());
 		this.fixture.newEvent(this.movedPlayer);
 	}
 

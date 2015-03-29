@@ -339,4 +339,8 @@ public class Player implements GameObject {
 		this.isInWater = isInWater;
 	}
 
+	public void moveBackwards() {
+		state.moveBackwards();
+	}
+
 }

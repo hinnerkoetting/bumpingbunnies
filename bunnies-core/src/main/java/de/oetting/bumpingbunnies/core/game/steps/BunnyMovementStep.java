@@ -17,16 +17,18 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 	private final List<PlayerMovementCalculation> playermovements;
 	private final BunnyKillChecker killChecker;
 	private final PlayerMovementCalculationFactory calculationFactory;
+	private final FixPlayerPosition fixPlayerPosition;
 
-	public BunnyMovementStep(BunnyKillChecker killChecker, PlayerMovementCalculationFactory calculationFactory) {
-		super();
+	public BunnyMovementStep(BunnyKillChecker killChecker, PlayerMovementCalculationFactory calculationFactory, FixPlayerPosition fixPlayerPosition) {
 		this.killChecker = killChecker;
 		this.calculationFactory = calculationFactory;
+		this.fixPlayerPosition = fixPlayerPosition;
 		this.playermovements = new CopyOnWriteArrayList<PlayerMovementCalculation>();
 	}
 
 	@Override
 	public void executeNextStep(long deltaStepsSinceLastCall) {
+		fixPlayerPosition.movePlayerBackwards();
 		for (PlayerMovementCalculation movement : this.playermovements) {
 			movement.nextStep(deltaStepsSinceLastCall);
 			// must be in this line otherwise kill checks will not work
