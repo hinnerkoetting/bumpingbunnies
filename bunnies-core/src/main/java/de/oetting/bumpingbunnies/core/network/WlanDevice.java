@@ -18,13 +18,16 @@ public class WlanDevice implements ServerDevice {
 	private static final Logger LOGGER = LoggerFactory.getLogger(WlanSocketFactory.class);
 	private final String address;
 	private final FreePortFinder freePortFinder;
+	private final String name;
 
-	public WlanDevice(String address) {
+	public WlanDevice(String address, String name) {
 		this.address = address;
+		this.name = name;
 		freePortFinder = new FreePortFinder();
 	}
 
-	public WlanDevice(InetAddress address) {
+	public WlanDevice(InetAddress address, String name) {
+		this.name = name;
 		this.address = address.getHostAddress();
 		freePortFinder = new FreePortFinder();
 	}
@@ -77,6 +80,6 @@ public class WlanDevice implements ServerDevice {
 
 	@Override
 	public String getName() {
-		return address;
+		return name;
 	}
 }

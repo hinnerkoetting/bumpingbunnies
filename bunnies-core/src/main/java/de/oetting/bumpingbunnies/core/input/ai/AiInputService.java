@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.core.input.ai;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;

@@ -255,29 +255,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	}
 
-	public void onClickMakeVisible(View v) {
-		startHostThread();
-	}
-
-	private void startHostThread() {
-		this.playerCounter = 0;
-		int myPlayerId = getNextPlayerId();
-		this.clientAccepter.startThreadToAcceptClients();
-		enableButtons(false);
-		createNewRoom(myPlayerId);
-		startBroadCast();
-	}
-
-	private void startBroadCast() {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				broadcastService.startRegularServerBroadcast();
-			}
-		}).start();
-	}
-
 	private void enableButtons(boolean enable) {
 		findViewById(R.id.room_start).setEnabled(enable);
 		findViewById(R.id.room_add_ai).setEnabled(enable);
@@ -432,7 +409,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void startGame() {
 		LOGGER.info("Starting game");
 		showLoadingAnimation();
-		//so that the animation is show first
+		// so that the animation is show first
 		startGameLater();
 	}
 
@@ -624,7 +601,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		finish();
 		super.moveTaskToBack(true);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();

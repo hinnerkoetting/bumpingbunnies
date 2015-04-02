@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardinput;

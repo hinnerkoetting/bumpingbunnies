@@ -21,7 +21,8 @@ public class ListenForBroadcastsThread extends BunniesThread {
 
 	private boolean canceled;
 
-	public ListenForBroadcastsThread(DatagramSocket socket, OnBroadcastReceived callback, ThreadErrorCallback errorCallback) {
+	public ListenForBroadcastsThread(DatagramSocket socket, OnBroadcastReceived callback,
+			ThreadErrorCallback errorCallback) {
 		super("Listening for broadcasts", errorCallback);
 		this.socket = socket;
 		this.callback = callback;
@@ -49,7 +50,7 @@ public class ListenForBroadcastsThread extends BunniesThread {
 		LOGGER.verbose("received broadcast message");
 		if (this.packet.getData().length > 0) {
 			InetAddress senderAddress = this.packet.getAddress();
-			this.callback.broadcastReceived(new WlanDevice(senderAddress));
+			this.callback.broadcastReceived(new WlanDevice(senderAddress, new String(packet.getData())));
 		}
 	}
 

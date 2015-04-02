@@ -20,9 +20,9 @@ public class NetworkBroadcaster {
 		this.errorCallback = errorCallback;
 	}
 
-	public void startRegularServerBroadcast() {
+	public void startRegularServerBroadcast(String hostname) {
 		cancel();
-		sendBroadcastsThread = SendBroadcastFactory.create(errorCallback);
+		sendBroadcastsThread = SendBroadcastFactory.create(errorCallback, hostname);
 		sendBroadcastsThread.start();
 	}
 

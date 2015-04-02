@@ -21,10 +21,10 @@ public class SendBroadcastFactory {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendBroadcastFactory.class);
 
-	public static SendBroadCastsThread create(ThreadErrorCallback errorCallback) {
+	public static SendBroadCastsThread create(ThreadErrorCallback errorCallback, String hostname) {
 		try {
 			List<UdpSocket> broadCastAddresses = getAllBroadCastSockets();
-			return new SendBroadCastsThread(broadCastAddresses, errorCallback);
+			return new SendBroadCastsThread(broadCastAddresses, errorCallback, hostname);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

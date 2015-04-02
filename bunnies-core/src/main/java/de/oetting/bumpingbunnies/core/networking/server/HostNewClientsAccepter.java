@@ -18,8 +18,8 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
 /**
@@ -35,18 +35,19 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private final NetworkBroadcaster broadcaster;
 	private final ClientAccepter remoteCommunication;
 	private final World world;
-	private final ServerSettings generalSettings;
 	private final PlayerDisconnectedCallback callback;
 	private final ThreadErrorCallback errorCallback;
+	private final Configuration configuration;
 
 	private PlayerJoinListener mainJoinListener;
 
-	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ClientAccepter remoteCommunication, World world, ServerSettings generalSettings,
+
+	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ClientAccepter remoteCommunication, World world, Configuration configuration,
 			PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
 		this.world = world;
-		this.generalSettings = generalSettings;
+		this.configuration = configuration;
 		this.callback = callback;
 		this.errorCallback = errorCallback;
 	}
@@ -58,7 +59,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 			@Override
 			public void run() {
 				LOGGER.info("Start to accept clients");
-				broadcaster.startRegularServerBroadcast();
+				broadcaster.startRegularServerBroadcast(configuration.getLocalPlayerSettings().getPlayerName());
 				remoteCommunication.startThreadToAcceptClients();
 			}
 		}).start();
@@ -79,7 +80,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
-		Player player = new BunnyFactory(this.generalSettings.getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
+		Player player = new BunnyFactory(configuration.getGeneralSettings().getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
 				playerProperties.getPlayerName(), socket.getConnectionIdentifier());
 		LOGGER.info("Player joins %s", player);
 		signalPlayerToStartTheGame(socket);
@@ -88,7 +89,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private void signalPlayerToStartTheGame(MySocket socket) {
 		SimpleNetworkSender sender = new SimpleNetworkSender(MessageParserFactory.create(), socket, callback);
-		new GameSettingSender(sender).sendMessage(this.generalSettings);
+		new GameSettingSender(sender).sendMessage(configuration.getGeneralSettings());
 		new StartGameSender(sender).sendMessage("");
 	}
 

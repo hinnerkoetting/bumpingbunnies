@@ -12,12 +12,14 @@ public class SendBroadCastsThread extends BunniesThread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendBroadCastsThread.class);
 	private static final int BROASTCAST_SLEEP = 1000;
-	private boolean canceled;
 	private final List<UdpSocket> broadcastSockets;
+	private final String hostName;
+	private boolean canceled;
 
-	public SendBroadCastsThread(List<UdpSocket> broadcastSockets, ThreadErrorCallback errorCallback) {
+	public SendBroadCastsThread(List<UdpSocket> broadcastSockets, ThreadErrorCallback errorCallback, String hostName) {
 		super("Sending broadcasts", errorCallback);
 		this.broadcastSockets = broadcastSockets;
+		this.hostName = hostName;
 		LOGGER.info("Found %d broadcast addresses", broadcastSockets.size());
 	}
 
@@ -38,13 +40,8 @@ public class SendBroadCastsThread extends BunniesThread {
 	}
 
 	private void sendBroadcastMessage() {
-		LOGGER.debug("sending a new broadcast");
 		for (UdpSocket socket : this.broadcastSockets) {
-			String data = "hello";
-			// DatagramPacket packet = new DatagramPacket(data.getBytes(),
-			// data.length(), socket.getAddress(),
-			// NetworkConstants.BROADCAST_PORT);
-			socket.sendMessage(data);
+			socket.sendMessage(hostName);
 		}
 	}
 
