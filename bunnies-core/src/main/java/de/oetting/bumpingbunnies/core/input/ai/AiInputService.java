@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.input.ai;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -82,7 +83,7 @@ public class AiInputService implements OpponentInput {
 				runAway();
 			} else {
 				runTowardsOtherPlayer();
-				if (attackIsPossible())
+				if (attackIsPossible() && !isInWater())
 					moveUp();
 			}
 		} else {
@@ -98,6 +99,10 @@ public class AiInputService implements OpponentInput {
 			}
 		}
 		jumpIfStuck();
+	}
+
+	private boolean isInWater() {
+		return aiPlayer.isInWater();
 	}
 
 	private void breakOutOfSurrounding() {
