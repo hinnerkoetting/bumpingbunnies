@@ -5,14 +5,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 @SuppressLint("ParcelCreator")
-public class ResultPlayerEntry implements Parcelable {
+public class ResultPlayerEntry implements Parcelable, Comparable<ResultPlayerEntry> {
 
 	private final String playerName;
 	private final int playerScore;
 	private final int playerColor;
 
 	public ResultPlayerEntry(String playerName, int playerScore, int playerColor) {
-		super();
 		this.playerName = playerName;
 		this.playerScore = playerScore;
 		this.playerColor = playerColor;
@@ -46,6 +45,11 @@ public class ResultPlayerEntry implements Parcelable {
 
 	public int getPlayerColor() {
 		return this.playerColor;
+	}
+
+	@Override
+	public int compareTo(ResultPlayerEntry o) {
+		return Integer.compare(playerScore, o.playerScore);
 	}
 
 }
