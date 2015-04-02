@@ -7,7 +7,7 @@ public class DummySettingsDao implements SettingsStorage {
 
 	@Override
 	public SettingsEntity readStoredSettings() {
-		return DefaultConfiguration.createDefaultEntity();
+		return DefaultConfiguration.createDefaultEntity(5);
 	}
 
 	@Override

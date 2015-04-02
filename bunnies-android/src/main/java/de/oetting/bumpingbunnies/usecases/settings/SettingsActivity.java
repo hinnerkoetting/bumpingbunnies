@@ -71,7 +71,7 @@ public class SettingsActivity extends Activity implements OnDatabaseCreation {
 
 	@Override
 	public void databaseCreated(SQLiteDatabase database) {
-		this.settingsDao = new SettingsDao(database);
+		this.settingsDao = new SettingsDao(database, this);
 		fillStoredSettings();
 	}
 	

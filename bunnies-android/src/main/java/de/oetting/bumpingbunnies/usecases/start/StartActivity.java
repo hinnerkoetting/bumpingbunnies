@@ -130,7 +130,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	@Override
 	public void databaseCreated(SQLiteDatabase database) {
 		LOGGER.info("Db created");
-		this.settingsDao = new SettingsDao(database);
+		this.settingsDao = new SettingsDao(database, this);
 	}
 
 	@Override

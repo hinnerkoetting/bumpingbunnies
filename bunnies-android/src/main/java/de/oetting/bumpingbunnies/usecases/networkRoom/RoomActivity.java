@@ -615,7 +615,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	@Override
 	public void databaseCreated(SQLiteDatabase database) {
 		LOGGER.info("Db created");
-		this.settingsDao = new SettingsDao(database);
+		this.settingsDao = new SettingsDao(database, this);
 		addMyPlayerRoomEntry(getNextPlayerId());
 	}
 

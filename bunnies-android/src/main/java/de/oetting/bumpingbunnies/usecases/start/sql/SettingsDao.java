@@ -1,8 +1,11 @@
 package de.oetting.bumpingbunnies.usecases.start.sql;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.util.DisplayMetrics;
 import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardinput;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -15,9 +18,11 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SettingsDao.class);
 	private final SQLiteDatabase database;
+	private final Context context;
 
-	public SettingsDao(SQLiteDatabase database) {
+	public SettingsDao(SQLiteDatabase database, Context context) {
 		this.database = database;
+		this.context = context;
 	}
 
 	@Override
@@ -74,11 +79,18 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 			if (!query.isAfterLast()) {
 				return readLocalSettings(query);
 			}
-			LOGGER.info("Retuning default entity settings");
-			return DefaultConfiguration.createDefaultEntity();
+			LOGGER.info("Returning default entity settings");
+			return DefaultConfiguration.createDefaultEntity(computeDefaultZoom());
 		} finally {
 			query.close();
 		}
+	}
+
+	private int computeDefaultZoom() {
+		 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+		 int minPixel = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+		 int appropriateZoom = 5000 / minPixel;
+		 return Math.max(Math.min(4, appropriateZoom), 10);
 	}
 
 	private SettingsEntity readLocalSettings(Cursor cursor) {

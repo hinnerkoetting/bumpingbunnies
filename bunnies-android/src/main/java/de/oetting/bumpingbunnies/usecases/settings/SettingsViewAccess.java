@@ -33,7 +33,7 @@ public class SettingsViewAccess {
 	public void init() {
 		initSpeed();
 		initZoom();
-		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity();
+		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity(5);
 		fillView(defaultEntity);
 		setPlayerName(android.os.Build.MODEL);
 	}

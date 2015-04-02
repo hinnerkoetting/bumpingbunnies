@@ -6,8 +6,8 @@ import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 
 public class DefaultConfiguration {
 
-	public static SettingsEntity createDefaultEntity() {
-		return new SettingsEntity(new DistributedKeyboardinput(), 5, 30, getUsername(), true, false, true, true, false);
+	public static SettingsEntity createDefaultEntity(int defaultZoom) {
+		return new SettingsEntity(new DistributedKeyboardinput(), defaultZoom, 30, getUsername(), true, false, true, true, false);
 	}
 	
 	public static String getUsername() {
