@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.pc.scoreMenu;
 
+import java.util.Collections;
 import java.util.List;
 
 import javafx.application.Application;
@@ -21,6 +22,7 @@ public class ScoreMenuApplication extends Application {
 
 	public ScoreMenuApplication(List<ScoreEntry> entries) {
 		this.entries = entries;
+		Collections.sort(entries, new ScoreEntryComparator());
 	}
 
 	@Override

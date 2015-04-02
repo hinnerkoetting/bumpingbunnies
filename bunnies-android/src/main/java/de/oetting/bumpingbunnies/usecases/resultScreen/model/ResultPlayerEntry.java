@@ -49,7 +49,7 @@ public class ResultPlayerEntry implements Parcelable, Comparable<ResultPlayerEnt
 
 	@Override
 	public int compareTo(ResultPlayerEntry o) {
-		return Integer.compare(playerScore, o.playerScore);
+		return Integer.compare(o.playerScore, playerScore);
 	}
 
 }
