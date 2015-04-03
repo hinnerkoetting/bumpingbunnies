@@ -33,8 +33,8 @@ public class SelectAction implements MouseAction {
 	}
 
 	private Optional<GameObjectWithImage> findObject(MouseEvent e) {
-		long gameX = this.coordinatesCalculation.getGameCoordinateX((e.getX()));
-		long gameY = this.coordinatesCalculation.getGameCoordinateY((e.getY()));
+		long gameX = this.coordinatesCalculation.getGameCoordinateX(e.getX());
+		long gameY = this.coordinatesCalculation.getGameCoordinateY(e.getY());
 		return findGameObject(gameX, gameY);
 	}
 
@@ -159,7 +159,7 @@ public class SelectAction implements MouseAction {
 			action.moveObject(object, list);
 	}
 
-	public static interface MoveAction {
+	public interface MoveAction {
 		void moveObject(GameObject object, List<? extends GameObject> list);
 	}
 }

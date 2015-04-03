@@ -34,7 +34,6 @@ public class Player implements GameObject {
 	}
 
 	public Player(Player player) {
-		super();
 		this.speedFaktor = player.speedFaktor;
 		this.halfWidth = player.halfWidth;
 		this.halfHeight = player.halfHeight;

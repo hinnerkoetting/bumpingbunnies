@@ -31,7 +31,6 @@ public class XmlStorer {
 	private final World container;
 
 	public XmlStorer(World container) {
-		super();
 		this.container = container;
 	}
 
@@ -109,7 +108,7 @@ public class XmlStorer {
 		return transformer;
 	}
 
-	private org.w3c.dom.Element createWalls(Document doc) {
+	private Element createWalls(Document doc) {
 		Element walls = doc.createElement(XmlConstants.WALLS);
 		for (Wall w : this.container.getAllWalls()) {
 			Element wall = createGameObjectElement(doc, w, XmlConstants.WALL);

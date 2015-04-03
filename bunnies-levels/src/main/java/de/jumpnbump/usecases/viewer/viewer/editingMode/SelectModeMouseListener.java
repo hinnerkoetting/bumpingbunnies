@@ -98,7 +98,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 		int pixelMaxX = translateToPixelX(selectedGameObject.maxX());
 		int pixelMinY = translateToPixelY(selectedGameObject.minY());
 		int pixelMaxY = translateToPixelY(selectedGameObject.maxY());
-		return (e.getX() + TOLERANCE > pixelMinX && e.getX() - TOLERANCE < pixelMaxX && e.getY() - TOLERANCE < pixelMinY && e.getY() + TOLERANCE > pixelMaxY);
+		return e.getX() + TOLERANCE > pixelMinX && e.getX() - TOLERANCE < pixelMaxX && e.getY() - TOLERANCE < pixelMinY && e.getY() + TOLERANCE > pixelMaxY;
 	}
 
 	private void resetAction() {
@@ -111,7 +111,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 	}
 
 	private int translateToPixelY(long gameY) {
-		return (this.coordinatesCalculation.getScreenCoordinateY(gameY));
+		return this.coordinatesCalculation.getScreenCoordinateY(gameY);
 	}
 
 }

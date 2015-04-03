@@ -26,7 +26,7 @@ public class ConfigurableKeyboardInputService implements InputService {
 	public boolean onKeyUp(String keyName) {
 		boolean relevant = isRelevant(keyName);
 		if (relevant) {
-			keyState.put(keyName, true);
+			keyState.put(keyName, false);
 			evaluateKeys();
 			return true;
 		}
@@ -36,7 +36,7 @@ public class ConfigurableKeyboardInputService implements InputService {
 	public boolean onKeyDown(String keyName) {
 		boolean relevant = isRelevant(keyName);
 		if (relevant) {
-			keyState.put(keyName, false);
+			keyState.put(keyName, true);
 			evaluateKeys();
 			return true;
 		}

@@ -64,10 +64,6 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	private final Stage primaryStage;
 	@FXML
-	private Button withTwoPlayersButton;
-	@FXML
-	private Button withAiButton;
-	@FXML
 	private Button connectButton;
 	@FXML
 	private Button addPlayerButton;
@@ -85,7 +81,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		this.primaryStage = primaryStage;
 	}
 
-	private Configuration createConfiguration(List<OpponentConfiguration> opponentsFoo) {
+	private Configuration createConfiguration() {
 		List<OpponentConfiguration> opponents = readOpponents();
 		PcConfiguration pcConfiguration = new ConfigAccess().load();
 		LocalSettings localSettings = new PcConfigurationConverter().convert2LocalSettings(getConfiguration());
@@ -331,7 +327,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@FXML
 	public void onHostButton() {
-		Configuration configuration = createConfiguration(new ArrayList<>());
+		Configuration configuration = createConfiguration();
 		startGame(GameParameterFactory.createSingleplayerParameter(configuration));
 	}
 

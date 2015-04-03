@@ -25,7 +25,7 @@ public class ImageWrapper implements Comparable<ImageWrapper> {
 	public boolean equals(Object obj) {
 		if (obj == null) 
 			return false;
-		if ((obj instanceof ImageWrapper)) 
+		if (obj instanceof ImageWrapper) 
 			return false;
 		return ((ImageWrapper) obj).getImageKey().equals(key);
 	}

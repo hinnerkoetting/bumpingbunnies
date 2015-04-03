@@ -127,7 +127,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter
 					.getConfiguration().getInputConfiguration(), myPlayer));
 
-			addOtherPlayers(inputFactory);
+			addInputForOtherPlayers(inputFactory);
 			primaryStage.setResizable(true);
 		} catch (BunniesException e) {
 			LOGGER.error("", e);
@@ -138,13 +138,13 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		}
 	}
 
-	private void addOtherPlayers(ConfigurableKeyboardInputFactory inputFactory) {
-		List<PlayerConfig> players = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
-		for (PlayerConfig config : players) {
-			Player otherPlayer = config.getPlayer();
-			if (config.getConfiguration().getOpponent().isLocalHumanPlayer()) {
+	private void addInputForOtherPlayers(ConfigurableKeyboardInputFactory inputFactory) {
+		List<OpponentConfiguration> players = parameter.getConfiguration().getOtherPlayers();
+		for (OpponentConfiguration config : players) {
+			if (config.getOpponent().isLocalHumanPlayer()) {
+				Player otherPlayer = gameMain.getWorld().findPlayer(config.getPlayerId());
 				inputDispatcher.addInputService(inputFactory.create(
-						(KeyboardInputConfiguration) config.getInputConfiguration(), otherPlayer));
+						(KeyboardInputConfiguration) config.getInput(), otherPlayer));
 			}
 		}
 	}
@@ -160,7 +160,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 
 			@Override
 			public void handle(KeyEvent event) {
-				inputDispatcher.dispatchOnKeyUp(event.getCode());
+				inputDispatcher.dispatchOnKeyDown(event.getCode());
 				if (event.getCode().equals(KeyCode.ESCAPE))
 					gameStopped();
 			}
@@ -170,7 +170,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 
 			@Override
 			public void handle(KeyEvent event) {
-				inputDispatcher.dispatchOnKeyDown(event.getCode());
+				inputDispatcher.dispatchOnKeyUp(event.getCode());
 			}
 		});
 		primaryStage.setOnCloseRequest((e) -> onCloseRequest(e));

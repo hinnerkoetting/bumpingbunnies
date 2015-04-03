@@ -81,11 +81,11 @@ public class MyCanvas extends JPanel {
 	}
 
 	private int calculatePixelY(long y) {
-		return (this.coordinatesCalculation.getScreenCoordinateY(y));
+		return this.coordinatesCalculation.getScreenCoordinateY(y);
 	}
 
 	private int calculatePixelX(long x) {
-		return (this.coordinatesCalculation.getScreenCoordinateX(x));
+		return this.coordinatesCalculation.getScreenCoordinateX(x);
 	}
 
 	private void drawObject(Graphics g, GameObjectWithImage w) {

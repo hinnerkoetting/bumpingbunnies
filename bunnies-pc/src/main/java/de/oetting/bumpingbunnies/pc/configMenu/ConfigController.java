@@ -124,7 +124,7 @@ public class ConfigController implements Initializable {
 		fillFields(loadedConfiguration);
 		selectWholeTextOnSelection();
 		changeKeyOnSelection();
-		speed.addEventFilter(KeyEvent.KEY_TYPED, (event) -> allowOnlyDigits(event, speed));
+		speed.addEventFilter(KeyEvent.KEY_TYPED, (event) -> allowOnlyDigits(event));
 		speed.focusedProperty().addListener((event, oldValue, newValue) -> allowMaxValue(speed, 15, 50));
 	}
 
@@ -137,7 +137,7 @@ public class ConfigController implements Initializable {
 			field.setText(Integer.toString(minValue));
 	}
 
-	private void allowOnlyDigits(KeyEvent event, TextField textfield) {
+	private void allowOnlyDigits(KeyEvent event) {
 		if (!event.getCharacter().matches("[0-9]"))
 			event.consume();
 	}

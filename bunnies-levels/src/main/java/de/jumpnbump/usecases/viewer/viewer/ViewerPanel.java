@@ -482,7 +482,7 @@ public class ViewerPanel extends JPanel {
 			dialog.showSaveDialog(this); 
 			if (dialog.getSelectedFile() != null) {
 				this.lastFile = dialog.getSelectedFile();
-				java.io.File newFile = lastFile;
+				File newFile = lastFile;
 				newFile.delete();
 				newFile.createNewFile();
 				new LevelStorer(new XmlStorer(model)).storeLevel(newFile, model);

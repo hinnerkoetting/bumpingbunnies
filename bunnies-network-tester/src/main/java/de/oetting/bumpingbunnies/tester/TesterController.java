@@ -74,7 +74,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	@FXML
 	private TableView<DetailRoomEntry> playersTable;
 	@FXML
-	private javafx.scene.control.TextField myPlayerNameTextfield;
+	private TextField myPlayerNameTextfield;
 	@FXML
 	private TextField killPlayerIdTextfield;
 	@FXML
