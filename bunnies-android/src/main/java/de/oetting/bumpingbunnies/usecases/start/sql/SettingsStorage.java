@@ -8,6 +8,6 @@ public interface SettingsStorage {
 
 	void store(SettingsEntity settings);
 
-	public abstract void close();
+	void close();
 
 }

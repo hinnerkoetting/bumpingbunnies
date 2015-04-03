@@ -14,7 +14,7 @@ public class GrayScaleToColorConverter {
 				int origColor = origin.getPixel(i, j);
 				int gray = origColor & 0xFF;
 				if (gray < 10) {
-					if ((Color.alpha(origColor) > 50)) {
+					if (Color.alpha(origColor) > 50) {
 						target.setPixel(i, j, 0xFF999999);
 					}
 				} else {

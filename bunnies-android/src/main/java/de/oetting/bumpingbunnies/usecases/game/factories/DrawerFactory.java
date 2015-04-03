@@ -29,7 +29,7 @@ public class DrawerFactory {
 				.isBackground()), new AndroidGameObjectsDrawableFactory(), playerDrawerFactory);
 
 		CanvasDelegate canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasDelegate(context), calculations);
-		calculations.setZoom((ModelConstants.STANDARD_WORLD_SIZE / 7500 * configuration.getZoom()));
+		calculations.setZoom(ModelConstants.STANDARD_WORLD_SIZE / 7500 * configuration.getZoom());
 
 		ObjectsDrawer drawer = new ObjectsDrawer(drawFactory, canvasDelegate);
 		return drawer;
