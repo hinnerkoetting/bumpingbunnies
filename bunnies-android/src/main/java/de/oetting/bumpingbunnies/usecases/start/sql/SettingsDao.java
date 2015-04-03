@@ -89,7 +89,7 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 		 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		 int minPixel = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
 		 int appropriateZoom = 5000 / minPixel;
-		 return Math.max(Math.min(4, appropriateZoom), 10);
+		 return Math.min(Math.max(4, appropriateZoom), 10);
 	}
 
 	private SettingsEntity readLocalSettings(Cursor cursor) {
