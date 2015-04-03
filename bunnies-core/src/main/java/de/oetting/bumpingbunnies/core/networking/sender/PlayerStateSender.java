@@ -29,7 +29,7 @@ public class PlayerStateSender {
 	private boolean ownerOfSocketNeedsToKnowThisPlayersState(Player player) {
 		boolean isLocalPlayer = player.getOpponent().isLocalPlayer();
 		boolean playerIsControlledByOwnerOfSocket = belongsToPlayer(player);
-		return isLocalPlayer || (!playerIsControlledByOwnerOfSocket && player.getOpponent().isDirectlyConnected());
+		return isLocalPlayer || !playerIsControlledByOwnerOfSocket && player.getOpponent().isDirectlyConnected();
 	}
 
 	private long getNextMessageCounter(Player player) {

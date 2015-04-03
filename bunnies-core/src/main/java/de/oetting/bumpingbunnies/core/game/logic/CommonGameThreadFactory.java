@@ -31,16 +31,18 @@ public class CommonGameThreadFactory {
 
 	private static final int MAX_GAME_LOOPS_PER_SECOND = 100;
 
-	public static GameThread create(World world, ThreadErrorCallback errorCallback, Configuration configuration, CameraPositionCalculation cameraCalculation,
-			NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor sendControl, GameMain main, BunniesMusicPlayerFactory musicPlayerFactory,
+	public static GameThread create(World world, ThreadErrorCallback errorCallback, Configuration configuration,
+			CameraPositionCalculation cameraCalculation, NetworkToGameDispatcher networkDispatcher,
+			NetworkMessageDistributor sendControl, GameMain main, BunniesMusicPlayerFactory musicPlayerFactory,
 			GameStopper gameStopper) {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
-		initInputServices(main, errorCallback, world, networkDispatcher, sendControl, configuration, gameStopper, musicPlayerFactory.createDeadPlayer());
+		initInputServices(main, errorCallback, world, networkDispatcher, configuration, gameStopper,
+				musicPlayerFactory.createDeadPlayer());
 
-		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world, musicPlayerFactory,
-				configuration.getLocalSettings());
-		GameStepController stepController = CommonGameThreadFactory.createStepController(cameraCalculation, world, stateDispatcher, factory, sendControl,
-				configuration, main, musicPlayerFactory.createDeadPlayer());
+		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world,
+				musicPlayerFactory, configuration.getLocalSettings());
+		GameStepController stepController = CommonGameThreadFactory.createStepController(cameraCalculation, world,
+				stateDispatcher, factory, sendControl, configuration, main, musicPlayerFactory.createDeadPlayer());
 
 		return CommonGameThreadFactory.create(stepController, errorCallback);
 	}
@@ -50,18 +52,22 @@ public class CommonGameThreadFactory {
 		return new GameThread(worldController, threadLoop, errorCallback);
 	}
 
-	public static GameStepController createStepController(CameraPositionCalculation cameraCalculation, World world, PlayerStateDispatcher stateDispatcher,
-			PlayerMovementCalculationFactory factory, NetworkMessageDistributor sendControl, Configuration configuration,
+	public static GameStepController createStepController(CameraPositionCalculation cameraCalculation, World world,
+			PlayerStateDispatcher stateDispatcher, PlayerMovementCalculationFactory factory,
+			NetworkMessageDistributor sendControl, Configuration configuration,
 			PlayerDisconnectedCallback disconnectCallback, MusicPlayer deadPlayerMusic) {
-		return GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl, configuration, disconnectCallback, deadPlayerMusic);
+		return GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl,
+				configuration, disconnectCallback, deadPlayerMusic);
 	}
 
-	public static PlayerMovementCalculationFactory createMovementCalculationFactory(World world, BunniesMusicPlayerFactory musicPlayerFactory,
-			LocalSettings settings) {
+	public static PlayerMovementCalculationFactory createMovementCalculationFactory(World world,
+			BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
 		CollisionDetection collisionDetection = new CollisionDetection(world);
-		GameObjectInteractor gameObjectInteractor = new GameObjectInteractor(collisionDetection, world, new CollisionHandling(createWaterSound(
-				musicPlayerFactory, settings), createJumperSound(musicPlayerFactory, settings)));
-		return new PlayerMovementCalculationFactory(gameObjectInteractor, collisionDetection, createJumpSound(musicPlayerFactory, settings));
+		GameObjectInteractor gameObjectInteractor = new GameObjectInteractor(collisionDetection, world,
+				new CollisionHandling(createWaterSound(musicPlayerFactory, settings), createJumperSound(
+						musicPlayerFactory, settings)));
+		return new PlayerMovementCalculationFactory(gameObjectInteractor, collisionDetection, createJumpSound(
+				musicPlayerFactory, settings));
 	}
 
 	private static MusicPlayer createJumperSound(BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
@@ -82,8 +88,10 @@ public class CommonGameThreadFactory {
 		return new DummyMusicPlayer();
 	}
 
-	private static void initInputServices(GameMain main, ThreadErrorCallback errorCallback, World world, NetworkToGameDispatcher networkDispatcher,
-			NetworkMessageDistributor sendControl, Configuration configuration, GameStopper gameStopper, MusicPlayer deadPlayerMusic) {
-		NetworkListeners.allNetworkListeners(networkDispatcher, world, errorCallback, main, configuration, gameStopper, deadPlayerMusic);
+	private static void initInputServices(GameMain main, ThreadErrorCallback errorCallback, World world,
+			NetworkToGameDispatcher networkDispatcher, Configuration configuration, GameStopper gameStopper,
+			MusicPlayer deadPlayerMusic) {
+		NetworkListeners.allNetworkListeners(networkDispatcher, world, errorCallback, main, configuration, gameStopper,
+				deadPlayerMusic);
 	}
 }

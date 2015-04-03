@@ -35,7 +35,7 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 
 	@Override
 	public int getGameCoordinateX(float displayX) {
-		return (int) (this.zoom * displayX + (getGameCenterX() - this.width / 2 * this.zoom));
+		return (int) (this.zoom * displayX + getGameCenterX() - this.width / 2 * this.zoom);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class RelativeCoordinatesCalculation implements CoordinatesCalculation {
 	public int getScreenCoordinateY(long gameY, long gameCenterY) {
 		if (gameCenterY == Integer.MIN_VALUE) 
 			throw new IllegalStateException("Need so fix current location before drawing");
-		return (int) (this.height / 2 - (((+gameY - gameCenterY)) / this.zoom));
+		return (int) (this.height / 2 - ((+gameY - gameCenterY)) / this.zoom);
 	}
 
 	@Override

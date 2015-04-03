@@ -15,7 +15,7 @@ public class AnimationWithMirrorFactory {
 
 			@Override
 			public boolean shouldBeExecuted(Player player) {
-				return (Math.abs(player.movementX()) >= ModelConstants.MOVEMENT_LIMIT) && Math.abs(player.movementY()) <= ModelConstants.MOVEMENT_LIMIT;
+				return Math.abs(player.movementX()) >= ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementY()) <= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
 	}
