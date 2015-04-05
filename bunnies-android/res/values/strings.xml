@@ -57,5 +57,6 @@
     <string name="medium_speed">Medium</string>
     <string name="fast_speed">Fast</string>
     <string name="very_fast_speed">Very fast</string>
+    <string name="slow_speed">Slow</string>
     
 </resources>

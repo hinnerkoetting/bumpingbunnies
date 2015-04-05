@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.settings;
 
 import android.app.Activity;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -58,7 +59,7 @@ public class SettingsViewAccess {
 			return mediumSpeed();
 		if (getFastSpeedButton().isChecked())
 			return fastSpeed();
-		return veryFastSpeed();
+		return slowSpeed();
 	}
 
 	private int mediumSpeed() {
@@ -69,8 +70,8 @@ public class SettingsViewAccess {
 		return 30;
 	}
 
-	private int veryFastSpeed() {
-		return 35;
+	private int slowSpeed() {
+		return 22;
 	}
 
 	public boolean isBackgroundChecked() {
@@ -94,8 +95,8 @@ public class SettingsViewAccess {
 		return (RadioButton) origin.findViewById(R.id.fast);
 	}
 
-	private RadioButton getVeryFastSpeedButton() {
-		return (RadioButton) origin.findViewById(R.id.very_fast);
+	private CompoundButton getSlowSpeedButton() {
+		return (RadioButton) origin.findViewById(R.id.slow);
 	}
 
 	private void initZoom() {
@@ -131,11 +132,11 @@ public class SettingsViewAccess {
 	}
 
 	private void setSpeed(int speed) {
-		if (speed == veryFastSpeed())
-			getVeryFastSpeedButton().setChecked(true);
-		else if (speed == fastSpeed()) 
+		if (speed == slowSpeed())
+			getSlowSpeedButton().setChecked(true);
+		else if (speed == fastSpeed())
 			getFastSpeedButton().setChecked(true);
-		else 
+		else
 			getMediumSpeedButton().setChecked(true);
 	}
 

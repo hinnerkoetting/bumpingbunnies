@@ -56,6 +56,5 @@
     <string name="lefthanded">Linkshänder</string>
     <string name="medium_speed">Mittel</string>
     <string name="fast_speed">Schnell</string>
-    <string name="very_fast_speed">Sehr schnell</string>
-    
+    <string name="slow_speed">Langsam</string>
 </resources>
