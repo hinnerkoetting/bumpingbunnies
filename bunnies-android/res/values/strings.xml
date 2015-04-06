@@ -48,8 +48,7 @@
     <string name="result_player_score_header">Score</string>
     <string name="result_player_image">Player image</string>
     <string name="host_bluetooth_game_question">Host game?</string>
-    <string name="host_bluetooth_game">Host</string>
-    <string name="client_bluetooth_game">Client</string>
+    <string name="client_bluetooth_game">Find server</string>
     <string name="menu_sound">Sound</string>
     <string name="menu_music">Music</string>
     <string name="please_wait">Please wait&#8230;</string>
