@@ -51,6 +51,10 @@ public class CollisionDetection {
 		return null;
 	}
 
+	public boolean collidesWithAnyFixedObjec(Player player) {
+		return findObjectThisPlayerIsCollidingWith(player) != null;
+	}
+	
 	public GameObject findObjectThisPlayerIsCollidingWith(Player player) {
 		for (GameObject go : this.world.getAllObjects()) {
 			if (collides(player, go)) {

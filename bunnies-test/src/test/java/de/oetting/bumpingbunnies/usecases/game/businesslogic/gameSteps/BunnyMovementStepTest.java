@@ -13,10 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
+import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
@@ -103,7 +105,7 @@ public class BunnyMovementStepTest {
 		initMocks(this);
 		initMovementFactory();
 		this.movedPlayer = TestPlayerFactory.createMyPlayer();
-		this.fixture = new BunnyMovementStep(this.killChecker, this.calculationFactory, new FixPlayerPosition());
+		this.fixture = new BunnyMovementStep(this.killChecker, this.calculationFactory, new FixPlayerPosition(Mockito.mock(GameObjectInteractor.class)));
 		this.fixture.newEvent(this.movedPlayer);
 	}
 
