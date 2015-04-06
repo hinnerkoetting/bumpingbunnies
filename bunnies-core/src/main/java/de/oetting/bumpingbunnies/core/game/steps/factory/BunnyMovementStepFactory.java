@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.core.game.steps.factory;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
-import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;

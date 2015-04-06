@@ -32,7 +32,7 @@ public class GameStepControllerFactory {
 		BunnyKillChecker killChecker = createKillChecker(configuration, world, spawnPointGenerator, reviver, new CollisionDetection(world), sendControl,
 				disconnectCallback, musicPlayer);
 		UserInputStep userInputStep = new UserInputStep(createInputServiceFactory(world, stateDispatcher));
-		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory);
+		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory, world);
 		return new GameStepController(userInputStep, movementStep, reviver, cameraPositionCalculator);
 	}
 
