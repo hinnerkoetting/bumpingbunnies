@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public interface SelectionModeProvider {
@@ -20,11 +19,11 @@ public interface SelectionModeProvider {
 
 	void repaintCanvas();
 
-	Optional<? extends GameObject> getCurrentSelectedObject();
+	Optional<? extends GameObjectWithImage> getCurrentSelectedObject();
 
 	void setCanvasCursor(Cursor cursor);
 
-	void setSelectedObject(Optional<? extends GameObject> go);
+	void setSelectedObject(Optional<? extends GameObjectWithImage> go);
 
 	Collection<GameObjectWithImage> getAllDrawingObjects();
 

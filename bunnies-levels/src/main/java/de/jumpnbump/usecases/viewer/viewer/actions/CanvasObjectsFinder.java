@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public class CanvasObjectsFinder {
@@ -18,7 +17,7 @@ public class CanvasObjectsFinder {
 		this.provider = provider;
 	}
 
-	public Optional<? extends GameObject> findClickedObject(MouseEvent event) {
+	public Optional<? extends GameObjectWithImage> findClickedObject(MouseEvent event) {
 		long gameX = this.coordinatesCalculation.getGameCoordinateX(event.getX());
 		long gameY = this.coordinatesCalculation.getGameCoordinateY(event.getY());
 		return findGameObject(gameX, gameY);

@@ -14,7 +14,6 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordina
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
@@ -46,9 +45,9 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	}
 
 	@Override
-	public Optional<? extends GameObject> getCurrentSelectedObject() {
-		GameObject selectedObject = canvas.getSelectedGameObject();
-		return Optional.ofNullable((GameObject) selectedObject);
+	public Optional<? extends GameObjectWithImage> getCurrentSelectedObject() {
+		GameObjectWithImage selectedObject = canvas.getSelectedGameObject();
+		return Optional.ofNullable((GameObjectWithImage) selectedObject);
 	}
 
 	@Override
@@ -57,7 +56,7 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	}
 
 	@Override
-	public void setSelectedObject(Optional<? extends GameObject> go) {
+	public void setSelectedObject(Optional<? extends GameObjectWithImage> go) {
 		if (go.isPresent())
 			canvas.setSelectedObject(go.get());
 		else

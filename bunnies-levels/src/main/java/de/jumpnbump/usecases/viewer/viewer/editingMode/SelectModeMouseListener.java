@@ -72,19 +72,23 @@ public class SelectModeMouseListener implements ModeMouseListener {
 				this.nextAction = new MoveAction(this.provider, this.coordinatesCalculation);
 				if (Math.abs(e.getX() - pixelMinX) < TOLERANCE) {
 					provider.setCanvasCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-					this.nextAction = new ResizeLeftAction(selectedGameObject, this.provider, this.coordinatesCalculation);
+					this.nextAction = new ResizeLeftAction(selectedGameObject, this.provider,
+							this.coordinatesCalculation);
 				}
 				if (Math.abs(e.getX() - pixelMaxX) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-					this.nextAction = new ResizeRightAction(selectedGameObject, this.provider, this.coordinatesCalculation);
+					this.nextAction = new ResizeRightAction(selectedGameObject, this.provider,
+							this.coordinatesCalculation);
 				}
 				if (Math.abs(e.getY() - pixelMinY) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-					this.nextAction = new ResizeDownAction(selectedGameObject, this.provider, this.coordinatesCalculation);
+					this.nextAction = new ResizeDownAction(selectedGameObject, this.provider,
+							this.coordinatesCalculation);
 				}
 				if (Math.abs(e.getY() - pixelMaxY) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-					this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.provider, this.coordinatesCalculation);
+					this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.provider,
+							this.coordinatesCalculation);
 				}
 			} else {
 				resetAction();
@@ -98,12 +102,13 @@ public class SelectModeMouseListener implements ModeMouseListener {
 		int pixelMaxX = translateToPixelX(selectedGameObject.maxX());
 		int pixelMinY = translateToPixelY(selectedGameObject.minY());
 		int pixelMaxY = translateToPixelY(selectedGameObject.maxY());
-		return e.getX() + TOLERANCE > pixelMinX && e.getX() - TOLERANCE < pixelMaxX && e.getY() - TOLERANCE < pixelMinY && e.getY() + TOLERANCE > pixelMaxY;
+		return e.getX() + TOLERANCE > pixelMinX && e.getX() - TOLERANCE < pixelMaxX && e.getY() - TOLERANCE < pixelMinY
+				&& e.getY() + TOLERANCE > pixelMaxY;
 	}
 
 	private void resetAction() {
 		provider.setCanvasCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		this.nextAction = new SelectAction(this.coordinatesCalculation, provider, new CanvasObjectsFinder(provider));
+		this.nextAction = new SelectAction(provider, new CanvasObjectsFinder(provider));
 	}
 
 	private int translateToPixelX(long gameX) {

@@ -8,6 +8,7 @@ import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
@@ -25,8 +26,8 @@ public class DeleteModeMouseListener implements ModeMouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Optional<? extends GameObject> objectOnScreen = objectsFinder.findClickedObject(e);
-		Optional<? extends GameObject> selectedObject = provider.getCurrentSelectedObject();
+		Optional<? extends GameObjectWithImage> objectOnScreen = objectsFinder.findClickedObject(e);
+		Optional<? extends GameObjectWithImage> selectedObject = provider.getCurrentSelectedObject();
 		if (objectOnScreen.isPresent() && selectedObject.isPresent()) {
 			if (objectOnScreen.get().equals(selectedObject.get()))
 				deleteObject(selectedObject.get());

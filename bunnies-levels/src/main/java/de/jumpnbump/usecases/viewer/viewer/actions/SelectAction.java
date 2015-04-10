@@ -9,55 +9,41 @@ import javax.swing.JPopupMenu;
 
 import de.jumpnbump.usecases.viewer.viewer.PropertyEditorDialog;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
-import de.oetting.bumpingbunnies.core.game.graphics.ZIndexComparator;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public class SelectAction implements MouseAction {
 
-	private final CoordinatesCalculation coordinatesCalculation;
 	private final SelectionModeProvider provider;
 	private final CanvasObjectsFinder objectsFinder;
 
-	public SelectAction(CoordinatesCalculation coordinatesCalculation, SelectionModeProvider provider,
-			CanvasObjectsFinder objectsFinder) {
-		this.coordinatesCalculation = coordinatesCalculation;
+	public SelectAction(SelectionModeProvider provider, CanvasObjectsFinder objectsFinder) {
 		this.provider = provider;
 		this.objectsFinder = objectsFinder;
 	}
 
 	@Override
 	public void newMousePosition(MouseEvent e) {
-		Optional<? extends GameObject> go = objectsFinder.findClickedObject(e);
+		Optional<? extends GameObjectWithImage> go = objectsFinder.findClickedObject(e);
 		provider.setSelectedObject(go);
 	}
 
-	private Optional<GameObjectWithImage> findObject(MouseEvent e) {
-		long gameX = this.coordinatesCalculation.getGameCoordinateX(e.getX());
-		long gameY = this.coordinatesCalculation.getGameCoordinateY(e.getY());
-		return findGameObject(gameX, gameY);
-	}
-
-	private Optional<GameObjectWithImage> findGameObject(long gameX, long gameY) {
-		 return this.provider.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY)).sorted(new ZIndexComparator()).findFirst();
-	}
-
-	private boolean isSelected(GameObjectWithImage go, long gameX, long gameY) {
-		return go.minX() < gameX && go.maxX() > gameX && go.minY() < gameY && go.maxY() > gameY;
+	private Optional<? extends GameObjectWithImage> findObject(MouseEvent e) {
+		return provider.getCurrentSelectedObject();
 	}
 
 	@Override
 	public void rightMouseClick(MouseEvent event) {
-		JPopupMenu menu = new JPopupMenu();
-		menu.add(createToFrontItem(event));
-		menu.add(createOneUpItem(event));
-		menu.add(createOneDownItem(event));
-		menu.add(createToBackItem(event));
-		menu.addSeparator();
-		menu.add(createPropertyItem(event));
-		menu.show(provider.getCanvas(), event.getX(), event.getY());
+		if (provider.getCurrentSelectedObject().isPresent()) {
+			JPopupMenu menu = new JPopupMenu();
+			menu.add(createToFrontItem(event));
+			menu.add(createOneUpItem(event));
+			menu.add(createOneDownItem(event));
+			menu.add(createToBackItem(event));
+			menu.addSeparator();
+			menu.add(createPropertyItem(event));
+			menu.show(provider.getCanvas(), event.getX(), event.getY());
+		}
 	}
 
 	private JMenuItem createPropertyItem(MouseEvent event) {
@@ -67,7 +53,7 @@ public class SelectAction implements MouseAction {
 	}
 
 	private void showProperties(MouseEvent event) {
-		Optional<GameObjectWithImage> go = findObject(event);
+		Optional<? extends GameObjectWithImage> go = findObject(event);
 		if (go.isPresent()) {
 			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go.get());
 			dialog.show();
@@ -158,7 +144,7 @@ public class SelectAction implements MouseAction {
 	}
 
 	private void move(MouseEvent event, MoveAction action) {
-		Optional<GameObjectWithImage> go = findObject(event);
+		Optional<? extends GameObjectWithImage> go = findObject(event);
 		go.ifPresent((object) -> moveExistingObject(object, action));
 		provider.repaintCanvas();
 		provider.refreshTables();
