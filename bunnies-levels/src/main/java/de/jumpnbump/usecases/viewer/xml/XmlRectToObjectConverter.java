@@ -1,7 +1,6 @@
 package de.jumpnbump.usecases.viewer.xml;
 
 import de.oetting.bumpingbunnies.core.worldCreation.ObjectsFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;

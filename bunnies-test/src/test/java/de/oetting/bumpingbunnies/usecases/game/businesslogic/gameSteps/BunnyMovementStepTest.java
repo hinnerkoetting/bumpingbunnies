@@ -19,7 +19,6 @@ import org.mockito.stubbing.Answer;
 
 import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
-import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;

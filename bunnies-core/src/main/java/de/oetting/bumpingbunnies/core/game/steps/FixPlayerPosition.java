@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
-import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.SingleCollisionDetection;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;

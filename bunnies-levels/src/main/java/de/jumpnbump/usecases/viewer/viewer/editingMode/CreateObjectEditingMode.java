@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
-import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public abstract class CreateObjectEditingMode<S extends FixedWorldObject> implements ModeMouseListener {
 
@@ -21,7 +20,7 @@ public abstract class CreateObjectEditingMode<S extends FixedWorldObject> implem
 		this.provider = provider;
 		this.objectFactory = objectFactory;
 		this.canvas = canvas;
-		coordinatesCalculation = provider.createCoordinatesCalculation();
+		this.coordinatesCalculation = provider.createCoordinatesCalculation();
 	}
 
 	@Override
