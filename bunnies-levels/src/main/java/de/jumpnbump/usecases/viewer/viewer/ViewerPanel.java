@@ -52,6 +52,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
@@ -284,7 +285,7 @@ public class ViewerPanel extends JPanel {
 		list.setModel(defaultListModel);
 	}
 
-	private <S extends GameObject> void configureList(JList<S> list) {
+	private <S extends GameObjectWithImage> void configureList(JList<S> list) {
 		list.setCellRenderer(new GameObjectRenderer());
 		list.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		list.addMouseListener(new ListMouseAdapter(this));
@@ -373,13 +374,10 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void parseFile() {
-		if (lastFile.getName().endsWith("xml")) {
+		if (lastFile.getName().endsWith("xml")) 
 			parseXml();
-		} else if (lastFile.getName().endsWith("zip")) {
+		else 
 			parseZip();
-		} else {
-			throw new RuntimeException("Unknown file type");
-		}
 	}
 
 	private void parseZip() {

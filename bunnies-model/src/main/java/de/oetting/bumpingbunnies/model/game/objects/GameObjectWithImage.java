@@ -5,5 +5,9 @@ public interface GameObjectWithImage extends GameObjectWithColor, ImageContainer
 	String getImageKey();
 
 	void applyImage(ImageWrapper wrapper);
+	
+	int getzIndex();
+	
+	void setzIndex(int index);
 
 }

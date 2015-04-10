@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.factory.BackgroundDrawableFa
 import de.oetting.bumpingbunnies.core.game.graphics.factory.GameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 
@@ -67,12 +69,18 @@ public class DrawablesFactory {
 	}
 
 	private List<Drawable> createStaticObjects(CanvasDelegate canvas) {
-		List<Drawable> drawables = new ArrayList<Drawable>();
-		drawables.addAll(createAllDrawables(world.getAllWalls(), canvas));
-		drawables.addAll(createAllDrawables(world.getAllIcyWalls(), canvas));
-		drawables.addAll(createAllDrawables(world.getAllJumper(), canvas));
-		drawables.addAll(createAllDrawables(world.getAllWaters(), canvas));
-		return drawables;
+		List<FixedWorldObject> allStaticObjects = createAlleStaticObjects();
+		Collections.sort(allStaticObjects, new ZIndexComparator());
+		return createAllDrawables(allStaticObjects, canvas);
+	}
+
+	private List<FixedWorldObject> createAlleStaticObjects() {
+		List<FixedWorldObject> list = new ArrayList<FixedWorldObject>();
+		list.addAll(world.getAllWalls());
+		list.addAll(world.getAllIcyWalls());
+		list.addAll(world.getAllJumper());
+		list.addAll(world.getAllWaters());
+		return list;
 	}
 
 	private Drawable createBackground(CanvasDelegate canvas) {

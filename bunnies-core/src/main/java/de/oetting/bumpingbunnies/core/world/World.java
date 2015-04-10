@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import de.oetting.bumpingbunnies.core.game.graphics.ZIndexComparator;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
@@ -158,8 +159,9 @@ public class World implements ObjectProvider {
 
 	@Override
 	public String toString() {
-		return "World [allObjects=" + allObjects + ", allWalls=" + allWalls + ", allIcyWalls=" + allIcyWalls + ", allJumpers=" + allJumpers + ", allPlayer="
-				+ allPlayer + ", allSpawnPoints=" + allSpawnPoints + ", allWaters=" + allWaters + "]";
+		return "World [allObjects=" + allObjects + ", allWalls=" + allWalls + ", allIcyWalls=" + allIcyWalls
+				+ ", allJumpers=" + allJumpers + ", allPlayer=" + allPlayer + ", allSpawnPoints=" + allSpawnPoints
+				+ ", allWaters=" + allWaters + "]";
 	}
 
 	public boolean existsPlayer(int playerId) {
@@ -247,5 +249,9 @@ public class World implements ObjectProvider {
 	public void addWater(Water newWater) {
 		allWaters.add(newWater);
 		addDrawingAndCollidingObject(newWater);
+	}
+
+	public void sortObjectsByZIndex() {
+		Collections.sort(allDrawingObjects, new ZIndexComparator());
 	}
 }

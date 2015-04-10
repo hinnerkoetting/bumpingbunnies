@@ -4,6 +4,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.zip.ZipEntry;
@@ -11,6 +12,7 @@ import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 
+import de.oetting.bumpingbunnies.core.game.graphics.ZIndexComparator;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
@@ -24,10 +26,19 @@ public class LevelStorer {
 	}
 
 	public void storeLevel(File file, World world) {
+		normalizeZIndex(world);
 		ZipOutputStream os = createFile(file);
 		writeWorld(os);
 		writeImages(os, world);
 		close(os);
+	}
+
+	private void normalizeZIndex(World world) {
+		Collections.sort(world.getAllDrawingObjects(), new ZIndexComparator());
+		int currentIndex = 0;
+		for (GameObjectWithImage go: world.getAllDrawingObjects()) {
+			go.setzIndex(currentIndex++);
+		}
 	}
 
 	private void close(ZipOutputStream os) {

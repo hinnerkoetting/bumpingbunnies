@@ -20,7 +20,8 @@ public class SelectAction implements MouseAction {
 	private final SelectionModeProvider provider;
 	private final CanvasObjectsFinder objectsFinder;
 
-	public SelectAction(CoordinatesCalculation coordinatesCalculation, SelectionModeProvider provider, CanvasObjectsFinder objectsFinder) {
+	public SelectAction(CoordinatesCalculation coordinatesCalculation, SelectionModeProvider provider,
+			CanvasObjectsFinder objectsFinder) {
 		this.coordinatesCalculation = coordinatesCalculation;
 		this.provider = provider;
 		this.objectsFinder = objectsFinder;
@@ -39,7 +40,8 @@ public class SelectAction implements MouseAction {
 	}
 
 	private Optional<GameObjectWithImage> findGameObject(long gameX, long gameY) {
-		return this.provider.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY)).findFirst();
+		return this.provider.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY))
+				.findFirst();
 	}
 
 	private boolean isSelected(GameObjectWithImage go, long gameX, long gameY) {
@@ -105,20 +107,28 @@ public class SelectAction implements MouseAction {
 		move(event, (object, list) -> moveDown(object, list));
 	}
 
-	private <S> void moveUp(GameObject object, List<S> list) {
+	private <S extends GameObjectWithImage> void moveUp(GameObjectWithImage object, List<S> list) {
 		int index = list.indexOf(object);
 		if (index < list.size() - 1) {
 			S wall = list.remove(index);
 			list.add(index + 1, wall);
+			switchIndex(object, list, index);
 		}
 	}
 
-	private <S> void moveDown(GameObject object, List<S> list) {
+	private <S extends GameObjectWithImage> void moveDown(GameObjectWithImage object, List<S> list) {
 		int index = list.indexOf(object);
 		if (index > 0) {
 			S wall = list.remove(index);
 			list.add(index - 1, wall);
+			switchIndex(object, list, index);
 		}
+	}
+
+	private <S extends GameObjectWithImage> void switchIndex(GameObjectWithImage object, List<S> list, int index) {
+		int tempIndex = list.get(index).getzIndex();
+		list.get(index).setzIndex(object.getzIndex());
+		object.setzIndex(tempIndex);
 	}
 
 	private void itemToFront(MouseEvent event) {
@@ -129,37 +139,43 @@ public class SelectAction implements MouseAction {
 		move(event, (object, list) -> moveToBack(object, list));
 	}
 
-	private <S> void moveToBack(GameObject object, List<S> list) {
-		list.remove(object);
-		list.add(0, (S) object);
+	private <S extends GameObjectWithImage> void moveToBack(GameObjectWithImage object, List<S> list) {
+		if (list.indexOf(object) != 0) {
+			list.remove(object);
+			list.add(0, (S) object);
+			provider.getAllDrawingObjects().stream().forEach((element) -> element.setzIndex(element.getzIndex() + 1));
+			object.setzIndex(0);
+		}
 	}
 
-	private <S> void moveToFront(GameObject object, List<S> list) {
-		list.remove(object);
-		list.add(list.size(), (S) object);
+	private <S> void moveToFront(GameObjectWithImage object, List<S> list) {
+		if (list.indexOf(object) != list.size() - 1) {
+			list.remove(object);
+			list.add(list.size(), (S) object);
+			provider.getAllDrawingObjects().stream().forEach((element) -> element.setzIndex(element.getzIndex() - 1));
+			object.setzIndex(provider.getAllDrawingObjects().size() - 1);
+		}
 	}
 
 	private void move(MouseEvent event, MoveAction action) {
 		Optional<GameObjectWithImage> go = findObject(event);
 		go.ifPresent((object) -> moveExistingObject(object, action));
 		provider.repaintCanvas();
+		provider.refreshTables();
 	}
 
-	private void moveExistingObject(GameObject go, MoveAction action) {
+	private void moveExistingObject(GameObjectWithImage go, MoveAction action) {
 		World container = provider.getWorld();
-		moveIfContains(go, container.getAllIcyWalls(), action);
-		moveIfContains(go, container.getAllJumper(), action);
-		moveIfContains(go, container.getAllWalls(), action);
-		moveIfContains(go, container.getAllWaters(), action);
-		moveIfContains(go, container.getBackgrounds(), action);
+		moveIfContains(go, container.getAllDrawingObjects(), action);
 	}
 
-	public <S extends GameObject> void moveIfContains(GameObject object, List<S> list, MoveAction action) {
+	public <S extends GameObjectWithImage> void moveIfContains(GameObjectWithImage object, List<S> list,
+			MoveAction action) {
 		if (list.contains(object))
 			action.moveObject(object, list);
 	}
 
 	public interface MoveAction {
-		void moveObject(GameObject object, List<? extends GameObject> list);
+		void moveObject(GameObjectWithImage object, List<? extends GameObjectWithImage> list);
 	}
 }

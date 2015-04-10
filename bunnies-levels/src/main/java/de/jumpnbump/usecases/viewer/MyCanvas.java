@@ -52,11 +52,7 @@ public class MyCanvas extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.clearRect(0, 0, getWidth(), getHeight());
-		drawObjects(objectContainer.getBackgrounds(), g);
-		drawObjects(objectContainer.getAllWalls(), g);
-		drawObjects(objectContainer.getAllIcyWalls(), g);
-		drawObjects(objectContainer.getAllJumper(), g);
-		drawObjects(objectContainer.getAllWaters(), g);
+		drawObjects(objectContainer.getAllDrawingObjects(), g);
 		if (currentlyEditedObject != null)
 			drawObject(g, currentlyEditedObject);
 		paintSpawnPoints(g);
