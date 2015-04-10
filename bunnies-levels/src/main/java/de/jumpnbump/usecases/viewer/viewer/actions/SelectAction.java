@@ -9,6 +9,7 @@ import javax.swing.JPopupMenu;
 
 import de.jumpnbump.usecases.viewer.viewer.PropertyEditorDialog;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
+import de.oetting.bumpingbunnies.core.game.graphics.ZIndexComparator;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
@@ -40,8 +41,7 @@ public class SelectAction implements MouseAction {
 	}
 
 	private Optional<GameObjectWithImage> findGameObject(long gameX, long gameY) {
-		return this.provider.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY))
-				.findFirst();
+		 return this.provider.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY)).sorted(new ZIndexComparator()).findFirst();
 	}
 
 	private boolean isSelected(GameObjectWithImage go, long gameX, long gameY) {

@@ -34,6 +34,7 @@ public class EditingModePanel extends Box {
 		group.add(createWaterButton());
 		group.add(createJumperButton());
 		group.add(createBackgroundButton());
+		group.setSelected(group.getElements().nextElement().getModel(), true);
 		forEachButton((button) -> addButtonToPanel(button));
 	}
 
