@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -347,10 +348,15 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void parseFile() {
-		if (lastFile.getName().endsWith("xml"))
-			parseXml();
-		else
-			parseZip();
+		try {
+			if (lastFile.getName().endsWith("xml"))
+				parseXml();
+			else
+				parseZip();
+		} catch (Exception e) {
+			model = new World();
+			JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+		}
 	}
 
 	private void parseZip() {
