@@ -53,6 +53,7 @@ public class World implements ObjectProvider {
 	}
 
 	private void addCollidingObjects(List<? super GameObjectWithImage> addToList) {
+		//Objects which are added here first are first used during the collision detection.
 		addToList.addAll(this.allWaters);
 		addToList.addAll(this.allJumpers);
 		addToList.addAll(this.allIcyWalls);
