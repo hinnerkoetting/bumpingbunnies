@@ -61,4 +61,14 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 	public void resetCurrentLocation() {
 	}
 
+	@Override
+	public int getDifferenceInGameCoordinateX(float screenX1, float screenX2) {
+		return getGameCoordinateX(screenX1) - getGameCoordinateX(screenX2);
+	}
+
+	@Override
+	public int getDifferenceInGameCoordinateY(float screenY1, float screenY2) {
+		return getGameCoordinateY(screenY1) - getGameCoordinateY(screenY2);
+	}
+
 }

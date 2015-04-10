@@ -58,4 +58,14 @@ public class YCoordinateInverterCalculation implements CoordinatesCalculation {
 		delegate.resetCurrentLocation();		
 	}
 
+	@Override
+	public int getDifferenceInGameCoordinateX(float screenX1, float screenX2) {
+		return delegate.getDifferenceInGameCoordinateX(screenX1, screenX2);
+	}
+
+	@Override
+	public int getDifferenceInGameCoordinateY(float screenY1, float screenY2) {
+		return delegate.getDifferenceInGameCoordinateY(screenY1, screenY2);
+	}
+
 }

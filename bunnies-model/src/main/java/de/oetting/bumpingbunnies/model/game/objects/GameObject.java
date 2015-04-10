@@ -15,6 +15,10 @@ public interface GameObject {
 	void setCenterX(long gameX);
 
 	void setCenterY(long gameY);
+	
+	long getCenterX();
+	
+	long getCenterY();
 
 	void setMinY(long newBottomY);
 

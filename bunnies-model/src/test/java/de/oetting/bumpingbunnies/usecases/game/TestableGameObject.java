@@ -71,4 +71,14 @@ public class TestableGameObject implements GameObject {
 		throw new IllegalArgumentException();
 	}
 
+	@Override
+	public long getCenterX() {
+		return (minX + maxX) / 2;
+	}
+
+	@Override
+	public long getCenterY() {
+		return (minY + maxY) / 2;
+	}
+
 }

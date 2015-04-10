@@ -1,11 +1,14 @@
 package de.oetting.bumpingbunnies.core.game.graphics.calculation;
 
-
 public interface CoordinatesCalculation {
 
-	int getGameCoordinateY(float touchY);
+	int getGameCoordinateY(float screenY);
 
-	int getGameCoordinateX(float touchX);
+	int getGameCoordinateX(float screenX);
+
+	int getDifferenceInGameCoordinateX(float screenX1, float screenX2);
+	
+	int getDifferenceInGameCoordinateY(float screenY1, float screenY2);
 
 	int getScreenCoordinateY(long gameY);
 

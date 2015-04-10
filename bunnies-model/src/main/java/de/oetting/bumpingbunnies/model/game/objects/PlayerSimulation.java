@@ -94,4 +94,14 @@ public class PlayerSimulation implements GameObject {
 		throw new IllegalArgumentException();
 	}
 
+	@Override
+	public long getCenterX() {
+		return state.getCenterX();
+	}
+
+	@Override
+	public long getCenterY() {
+		return state.getCenterY();
+	}
+
 }
