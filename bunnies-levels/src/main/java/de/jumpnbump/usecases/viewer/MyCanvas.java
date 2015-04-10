@@ -43,7 +43,7 @@ public class MyCanvas extends JPanel {
 	@Override
 	public void resize(Dimension arg0) {
 		super.resize(arg0);
-		this.coordinatesCalculation = new AbsoluteCoordinatesCalculation(getWidth(), getHeight(), properties);
+		coordinatesCalculation.updateCanvas(getWidth(), getHeight());
 	}
 
 	@Override
@@ -138,5 +138,11 @@ public class MyCanvas extends JPanel {
 		currentlyEditedObject = object;
 		repaint();
 	}
+
+	public CoordinatesCalculation getCoordinatesCalculation() {
+		return coordinatesCalculation;
+	}
+	
+	
 
 }

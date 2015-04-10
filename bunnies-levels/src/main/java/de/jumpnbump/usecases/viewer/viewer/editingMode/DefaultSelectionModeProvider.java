@@ -22,7 +22,7 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	private final World world;
 	private final MyCanvas canvas;
 	private final ViewerPanel panel;
-
+	
 	public DefaultSelectionModeProvider(World world, MyCanvas canvas, ViewerPanel panel) {
 		this.world = world;
 		this.canvas = canvas;
@@ -77,8 +77,7 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 
 	@Override
 	public CoordinatesCalculation createCoordinatesCalculation() {
-		WorldProperties properties = new WorldProperties();
-		return new AbsoluteCoordinatesCalculation(canvas.getWidth(), canvas.getHeight(), properties);
+		return canvas.getCoordinatesCalculation();
 	}
 
 	@Override

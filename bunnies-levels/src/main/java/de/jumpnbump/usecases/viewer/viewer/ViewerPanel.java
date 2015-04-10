@@ -291,6 +291,8 @@ public class ViewerPanel extends JPanel {
 
 	private JList<SpawnPoint> createSpawnList() {
 		this.spawns = new JList<>();
+		this.spawns.addMouseListener(new SpawnListAdapter(this));
+		this.spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		setSpawnModel();
 		return this.spawns;
 	}
@@ -306,8 +308,6 @@ public class ViewerPanel extends JPanel {
 		MyListModel<SpawnPoint> defaultListModel = new MyListModel<>(model.getSpawnPoints());
 		this.spawns.setCellRenderer(new SpawnpointRender());
 		this.spawns.setModel(defaultListModel);
-		this.spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
-		spawns.addMouseListener(new SpawnListAdapter(this));
 	}
 
 	private void setBackgroundsModel() {

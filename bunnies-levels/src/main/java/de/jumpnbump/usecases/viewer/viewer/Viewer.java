@@ -10,6 +10,8 @@ import java.util.Properties;
 
 import javax.swing.JFrame;
 
+import sun.launcher.resources.launcher;
+
 public class Viewer {
 
 	public JFrame createFrame(String file) {
@@ -33,7 +35,8 @@ public class Viewer {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				storeLastFile(panel);
+				if (panel.getLastFileName() != null)
+					storeLastFile(panel);
 			}
 
 			private void storeLastFile(ViewerPanel panel) {

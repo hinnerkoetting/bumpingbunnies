@@ -14,7 +14,6 @@ public class SelectionToCanvasSynchronizer implements javax.swing.event.ListSele
 		if (!e.getValueIsAdjusting()) {
 			@SuppressWarnings("unchecked")
 			JList<Object> source = (JList<Object>) e.getSource();
-			
 			this.canvas.setSelectedObject(source.getSelectedValue());
 			this.canvas.repaint();
 		}
