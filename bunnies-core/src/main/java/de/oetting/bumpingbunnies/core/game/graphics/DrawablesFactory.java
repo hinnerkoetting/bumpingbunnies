@@ -12,7 +12,7 @@ import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class DrawablesFactory {
 
@@ -44,7 +44,7 @@ public class DrawablesFactory {
 
 	private Collection<? extends Drawable> createAllPlayer(CanvasDelegate canvas) {
 		List<Drawable> players = new LinkedList<Drawable>();
-		for (Player player : this.world.getAllPlayer()) {
+		for (Bunny player : this.world.getAllPlayer()) {
 			players.add(createPlayerDrawable(player, canvas));
 		}
 		return players;
@@ -52,13 +52,13 @@ public class DrawablesFactory {
 
 	private Collection<? extends Drawable> createAllScores() {
 		List<Drawable> scores = new LinkedList<Drawable>();
-		for (Player p : this.world.getAllPlayer()) {
+		for (Bunny p : this.world.getAllPlayer()) {
 			scores.add(createScoreDrawer(p));
 		}
 		return scores;
 	}
 
-	public ScoreDrawer createScoreDrawer(Player p) {
+	public ScoreDrawer createScoreDrawer(Bunny p) {
 		double x = 0.1 + (p.id() ) * 0.2;
 		double y = 0.05;
 		while (x > 1) {
@@ -98,7 +98,7 @@ public class DrawablesFactory {
 		return drawers;
 	}
 
-	public Drawable createPlayerDrawable(Player p, CanvasDelegate canvas) {
+	public Drawable createPlayerDrawable(Bunny p, CanvasDelegate canvas) {
 		int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
 		int height = (int) (canvas.transformY(p.minY()) - canvas.transformY(p.maxY()));
 		return playerDrawableFactory.create(p, width, height);

@@ -11,11 +11,11 @@ import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PlayerConfigFactory {
 
-	public static Player createMyPlayer(GameStartParameter parameter) {
+	public static Bunny createMyPlayer(GameStartParameter parameter) {
 		return findMyPlayer(parameter);
 	}
 
@@ -24,18 +24,18 @@ public class PlayerConfigFactory {
 		List<PlayerConfig> list = new LinkedList<PlayerConfig>();
 		BunnyFactory playerfactory = new BunnyFactory(speed);
 		for (OpponentConfiguration config : configuration.getOtherPlayers()) {
-			Player p = playerfactory.createPlayer(config.getPlayerId(), config.getName(), config.getOpponent());
+			Bunny p = playerfactory.createPlayer(config.getPlayerId(), config.getName(), config.getOpponent());
 			list.add(createPlayerConfig(p, config, config.getInput()));
 		}
 		return list;
 	}
 
-	public static PlayerConfig createPlayerConfig(Player player, OpponentConfiguration configuration, InputConfiguration input) {
+	public static PlayerConfig createPlayerConfig(Bunny player, OpponentConfiguration configuration, InputConfiguration input) {
 		AiModus aiMode = configuration.getAiMode();
 		return new PlayerConfig(configuration, aiMode, player, input);
 	}
 
-	private static Player findMyPlayer(GameStartParameter gameParameter) {
+	private static Bunny findMyPlayer(GameStartParameter gameParameter) {
 		int speed = gameParameter.getConfiguration().getGeneralSettings().getSpeedSetting();
 		BunnyFactory playerfactory = new BunnyFactory(speed);
 		String playerName = gameParameter.getConfiguration().getLocalPlayerSettings().getPlayerName();

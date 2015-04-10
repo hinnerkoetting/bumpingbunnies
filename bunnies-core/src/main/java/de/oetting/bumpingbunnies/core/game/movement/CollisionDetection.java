@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.game.movement;
 
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class CollisionDetection {
 
@@ -12,7 +12,7 @@ public class CollisionDetection {
 		this.world = world;
 	}
 
-	public boolean objectStandsOnGround(Player gameobject) {
+	public boolean objectStandsOnGround(Bunny gameobject) {
 		return findObjectThisPlayerIsStandingOn(gameobject) != null;
 	}
 
@@ -29,11 +29,11 @@ public class CollisionDetection {
 		return false;
 	}
 
-	public GameObject findObjectThisPlayerIsStandingOn(Player player) {
+	public GameObject findObjectThisPlayerIsStandingOn(Bunny player) {
 		for (GameObject go : this.world.getAllObjects()) {
 			if (standsOn(player, go)) {
-				if (go instanceof Player) {
-					Player p = (Player) go;
+				if (go instanceof Bunny) {
+					Bunny p = (Bunny) go;
 					return p.isDead() ? null : p;
 				}
 				return go;
@@ -42,8 +42,8 @@ public class CollisionDetection {
 		return null;
 	}
 
-	public Player findPlayerThisPlayerIsStandingOn(Player player) {
-		for (Player p : this.world.getAllPlayer()) {
+	public Bunny findPlayerThisPlayerIsStandingOn(Bunny player) {
+		for (Bunny p : this.world.getAllPlayer()) {
 			if (!p.isDead() && standsOn(player, p)) {
 				return p;
 			}
@@ -51,11 +51,11 @@ public class CollisionDetection {
 		return null;
 	}
 
-	public boolean collidesWithAnyFixedObjec(Player player) {
+	public boolean collidesWithAnyFixedObjec(Bunny player) {
 		return findObjectThisPlayerIsCollidingWith(player) != null;
 	}
 	
-	public GameObject findObjectThisPlayerIsCollidingWith(Player player) {
+	public GameObject findObjectThisPlayerIsCollidingWith(Bunny player) {
 		for (GameObject go : this.world.getAllObjects()) {
 			if (collides(player, go)) {
 				return go;

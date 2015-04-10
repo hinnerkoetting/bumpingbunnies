@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithColor;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class ImageDrawer implements Drawable {
 
@@ -27,7 +27,7 @@ public class ImageDrawer implements Drawable {
 	}
 
 	@Override
-	public boolean drawsPlayer(Player p) {
+	public boolean drawsPlayer(Bunny p) {
 		return false;
 	}
 

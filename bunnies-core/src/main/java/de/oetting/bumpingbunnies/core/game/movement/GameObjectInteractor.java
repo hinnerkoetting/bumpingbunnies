@@ -5,7 +5,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerSimulation;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 
@@ -21,7 +21,7 @@ public class GameObjectInteractor {
 		this.collisionHandling = collisionHandling;
 	}
 
-	public final void interactWith(Player player) {
+	public final void interactWith(Bunny player) {
 		PlayerSimulation nextStep = player.simulateNextStep();
 		// careful: next step is updated in interactWith if player collides with
 		// objects
@@ -32,7 +32,7 @@ public class GameObjectInteractor {
 		interactWith(player, nextStep, this.objectProvider.getAllIcyWalls());
 	}
 
-	private void interactWithJumper(Player player, PlayerSimulation nextStep, List<Jumper> allJumper) {
+	private void interactWithJumper(Bunny player, PlayerSimulation nextStep, List<Jumper> allJumper) {
 		for (Jumper object : allJumper) {
 			if (this.collisionDetection.collides(nextStep, object)) {
 				collisionHandling.interactWithJumper(player, object, collisionDetection);
@@ -40,7 +40,7 @@ public class GameObjectInteractor {
 		}
 	}
 
-	private void interactWithWater(Player player, PlayerSimulation nextStep, List<Water> allWaters) {
+	private void interactWithWater(Bunny player, PlayerSimulation nextStep, List<Water> allWaters) {
 		for (Water object : allWaters) {
 			if (this.collisionDetection.collides(nextStep, object)) {
 				collisionHandling.interactWithWater(nextStep, player, object, collisionDetection);
@@ -48,21 +48,21 @@ public class GameObjectInteractor {
 		}
 	}
 
-	private void interactWithPlayers(Player player, PlayerSimulation nextStep) {
-		for (Player p : this.objectProvider.getAllPlayer()) {
+	private void interactWithPlayers(Bunny player, PlayerSimulation nextStep) {
+		for (Bunny p : this.objectProvider.getAllPlayer()) {
 			if (p.id() != player.id()) {
 				interactWith(nextStep, player, p);
 			}
 		}
 	}
 
-	private void interactWith(Player player, GameObject nextStep, List<? extends GameObject> allObjects) {
+	private void interactWith(Bunny player, GameObject nextStep, List<? extends GameObject> allObjects) {
 		for (GameObject object : allObjects) {
 			interactWith(nextStep, player, object);
 		}
 	}
 
-	private void interactWith(GameObject nextStep, Player player, GameObject object) {
+	private void interactWith(GameObject nextStep, Bunny player, GameObject object) {
 		if (this.collisionDetection.collides(nextStep, object)) {
 			collisionHandling.interactWith(player, object, collisionDetection);
 		}

@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.networking.receive;
 
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public interface NetworkReceiver {
 
@@ -20,7 +20,7 @@ public interface NetworkReceiver {
 
 	NetworkToGameDispatcher getGameDispatcher();
 
-	boolean belongsToPlayer(Player p);
+	boolean belongsToPlayer(Bunny p);
 
 	boolean belongsToSocket(MySocket socket);
 

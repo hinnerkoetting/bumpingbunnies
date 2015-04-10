@@ -6,7 +6,7 @@ import java.util.Map;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class PlayerStateSender {
@@ -19,20 +19,20 @@ public class PlayerStateSender {
 		this.sender = sender;
 	}
 
-	public void sendState(Player player) {
+	public void sendState(Bunny player) {
 		if (ownerOfSocketNeedsToKnowThisPlayersState(player)) {
 			PlayerStateMessage message = new PlayerStateMessage(getNextMessageCounter(player), player.getState());
 			sender.sendMessage(MessageId.SEND_PLAYER_STATE, message);
 		}
 	}
 
-	private boolean ownerOfSocketNeedsToKnowThisPlayersState(Player player) {
+	private boolean ownerOfSocketNeedsToKnowThisPlayersState(Bunny player) {
 		boolean isLocalPlayer = player.getOpponent().isLocalPlayer();
 		boolean playerIsControlledByOwnerOfSocket = belongsToPlayer(player);
 		return isLocalPlayer || !playerIsControlledByOwnerOfSocket && player.getOpponent().isDirectlyConnected();
 	}
 
-	private long getNextMessageCounter(Player player) {
+	private long getNextMessageCounter(Bunny player) {
 		assertEntryExists(player);
 		long currentId = currentMessageCounter.get(player.id());
 		long nextId = currentId + 1;
@@ -40,12 +40,12 @@ public class PlayerStateSender {
 		return nextId;
 	}
 
-	private void assertEntryExists(Player player) {
+	private void assertEntryExists(Bunny player) {
 		if (!currentMessageCounter.containsKey(player.id()))
 			currentMessageCounter.put(player.id(), 0L);
 	}
 
-	public boolean belongsToPlayer(Player player) {
+	public boolean belongsToPlayer(Bunny player) {
 		return sender.isConnectionToPlayer(player.getOpponent());
 	}
 

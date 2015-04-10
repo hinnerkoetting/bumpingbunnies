@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class SpawnPointReceiver extends MessageReceiverTemplate<SpawnPointMessage> {
 
@@ -26,7 +26,7 @@ public class SpawnPointReceiver extends MessageReceiverTemplate<SpawnPointMessag
 		int maxTries = 5;
 		while (count++ < maxTries) {
 			try {
-				Player p = findPlayer(object);
+				Bunny p = findPlayer(object);
 				ResetToScorePoint.resetPlayerToSpawnPoint(object.getSpawnPoint(), p);
 			} catch (PlayerDoesNotExist e) {
 				handleException(count, maxTries, e);
@@ -46,7 +46,7 @@ public class SpawnPointReceiver extends MessageReceiverTemplate<SpawnPointMessag
 		}
 	}
 
-	private Player findPlayer(SpawnPointMessage message) {
+	private Bunny findPlayer(SpawnPointMessage message) {
 		return this.world.findPlayer(message.getPlayerId());
 	}
 }

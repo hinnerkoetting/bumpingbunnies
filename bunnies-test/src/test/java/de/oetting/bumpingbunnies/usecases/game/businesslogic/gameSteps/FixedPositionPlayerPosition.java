@@ -1,13 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.businesslogic.gameSteps;
 
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class FixedPositionPlayerPosition extends PlayerMovement {
 
-	private Player player;
+	private Bunny player;
 
-	public FixedPositionPlayerPosition(Player movedPlayer) {
+	public FixedPositionPlayerPosition(Bunny movedPlayer) {
 		super(movedPlayer, null, null, null);
 		this.player = movedPlayer;
 	}

@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.input.ai.DummyInputService;
 import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class OpponentInputFactoryImpl implements OpponentInputFactory {
 
@@ -20,7 +20,7 @@ public class OpponentInputFactoryImpl implements OpponentInputFactory {
 	}
 
 	@Override
-	public OpponentInput create(Player player) {
+	public OpponentInput create(Bunny player) {
 		if (player.getOpponent().isLocalHumanPlayer()) {
 			return new DummyInputService();
 		} else if (!player.getOpponent().isLocalPlayer()) {

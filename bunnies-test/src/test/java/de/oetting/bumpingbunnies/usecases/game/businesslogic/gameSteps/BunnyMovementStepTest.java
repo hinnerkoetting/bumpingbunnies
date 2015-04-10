@@ -25,14 +25,14 @@ import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.core.game.steps.FixPlayerPosition;
 import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)
 public class BunnyMovementStepTest {
 
 	private BunnyMovementStep fixture;
-	private Player movedPlayer;
+	private Bunny movedPlayer;
 	@Mock
 	private BunnyKillChecker killChecker;
 	@Mock
@@ -58,7 +58,7 @@ public class BunnyMovementStepTest {
 
 	@Test
 	public void addPlayer_thenPlayerMovementShouldBeCalcuatedDuringExecutestep() {
-		Player newPlayer = createOpponentPlayer();
+		Bunny newPlayer = createOpponentPlayer();
 		whenAddingNewPlayer(newPlayer);
 		whenExecutingNextStep();
 		thenPlayerIsMoved(newPlayer);
@@ -66,7 +66,7 @@ public class BunnyMovementStepTest {
 
 	@Test(expected = PlayerDoesNotExist.class)
 	public void removePlayer_givenPlayerDoesNotExist_shouldthrowException() {
-		Player p = createOpponentPlayer();
+		Bunny p = createOpponentPlayer();
 		whenRemovingPlayer(p);
 	}
 
@@ -82,17 +82,17 @@ public class BunnyMovementStepTest {
 		assertThat(this.movedPlayer.getCenterY(), is(equalTo(0L)));
 	}
 
-	private void whenRemovingPlayer(Player p) {
+	private void whenRemovingPlayer(Bunny p) {
 		this.fixture.removeEvent(p);
 	}
 
-	private void thenPlayerIsMoved(Player p) {
+	private void thenPlayerIsMoved(Bunny p) {
 		// the fake player movement sets the player coordinate to this value
 		assertThat(p.getCenterX(), is(equalTo(100L)));
 		assertThat(p.getCenterY(), is(equalTo(100L)));
 	}
 
-	private void whenAddingNewPlayer(Player p) {
+	private void whenAddingNewPlayer(Bunny p) {
 		this.fixture.newEvent(p);
 	}
 
@@ -110,11 +110,11 @@ public class BunnyMovementStepTest {
 	}
 
 	private void initMovementFactory() {
-		when(this.calculationFactory.create(any(Player.class))).thenAnswer(new Answer<PlayerMovement>() {
+		when(this.calculationFactory.create(any(Bunny.class))).thenAnswer(new Answer<PlayerMovement>() {
 
 			@Override
 			public PlayerMovement answer(InvocationOnMock invocation) throws Throwable {
-				return new FixedPositionPlayerPosition((Player) invocation.getArguments()[0]);
+				return new FixedPositionPlayerPosition((Bunny) invocation.getArguments()[0]);
 			}
 		});
 	}

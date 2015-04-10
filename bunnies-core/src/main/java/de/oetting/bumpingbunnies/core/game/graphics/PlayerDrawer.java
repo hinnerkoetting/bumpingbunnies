@@ -5,7 +5,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PlayerDrawer implements Drawable {
 
@@ -13,11 +13,11 @@ public class PlayerDrawer implements Drawable {
 	private static final int ALPHA_WHILE_ALIVE = 255;
 	private static final int ALPHA_WHILE_IN_WATER = 96;
 	private static final int ALPHA_WHILE_DEAD = 64;
-	private final Player player;
+	private final Bunny player;
 	private final Paint paint;
 	private List<ConditionalMirroredAnimation> animations;
 
-	public PlayerDrawer(Player player, List<ConditionalMirroredAnimation> animations) {
+	public PlayerDrawer(Bunny player, List<ConditionalMirroredAnimation> animations) {
 		this.player = player;
 		this.animations = animations;
 		this.paint = new Paint();
@@ -47,7 +47,7 @@ public class PlayerDrawer implements Drawable {
 		// copy to avoid changes in player which might lead to a situation
 		// where no animation should be animated because the player is changed
 		// in between condition checks.
-		Player copiedPlayer = player.clone();
+		Bunny copiedPlayer = player.clone();
 		for (ConditionalMirroredAnimation ani : this.animations) {
 			if (ani.shouldBeExecuted(copiedPlayer)) {
 				ani.drawMirrored(copiedPlayer.isFacingLeft());
@@ -89,7 +89,7 @@ public class PlayerDrawer implements Drawable {
 	}
 
 	@Override
-	public boolean drawsPlayer(Player p) {
+	public boolean drawsPlayer(Bunny p) {
 		return this.player.equals(p);
 	}
 

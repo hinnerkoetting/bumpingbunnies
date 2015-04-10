@@ -7,7 +7,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PlayerDrawerFactory {
 
@@ -21,7 +21,7 @@ public class PlayerDrawerFactory {
 		this.mirroror = mirroror;
 	}
 
-	public PlayerDrawer create(int width, int heigth, Player player) {
+	public PlayerDrawer create(int width, int heigth, Bunny player) {
 		int timeBetweenPictures = 50;
 		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(createRunningAnimation(width, heigth, player), timeBetweenPictures,
 				mirroror);
@@ -38,32 +38,32 @@ public class PlayerDrawerFactory {
 		return new PlayerDrawer(player, animations);
 	}
 
-	private List<ImageWrapper> createRunningAnimation(int width, int heigth, Player player) {
+	private List<ImageWrapper> createRunningAnimation(int width, int heigth, Bunny player) {
 		List<ImageWrapper> originalBitmaps = imagesProvider.loadAllRunningImages(width, heigth);
 		return colorImageWrappers(originalBitmaps, player);
 	}
 
-	private List<ImageWrapper> createFallingAnimation(int width, int heigth, Player player) {
+	private List<ImageWrapper> createFallingAnimation(int width, int heigth, Bunny player) {
 		List<ImageWrapper> originalBitmaps = imagesProvider.loadAllFallingImages(width, heigth);
 		return colorImageWrappers(originalBitmaps, player);
 	}
 
-	private List<ImageWrapper> createJumpingAnimation(int width, int heigth, Player player) {
+	private List<ImageWrapper> createJumpingAnimation(int width, int heigth, Bunny player) {
 		List<ImageWrapper> originalBitmaps = imagesProvider.loadAllJumpingUpImages(width, heigth);
 		return colorImageWrappers(originalBitmaps, player);
 	}
 
-	private List<ImageWrapper> createSittingAnimation(int width, int heigth, Player player) {
+	private List<ImageWrapper> createSittingAnimation(int width, int heigth, Bunny player) {
 		List<ImageWrapper> originalBitmaps = imagesProvider.loadAllSittingImages(width, heigth);
 		return colorImageWrappers(originalBitmaps, player);
 	}
 
-	private List<ImageWrapper> createJumpingOnlyUpAnimation(int width, int heigth, Player player) {
+	private List<ImageWrapper> createJumpingOnlyUpAnimation(int width, int heigth, Bunny player) {
 		List<ImageWrapper> originalBitmaps = imagesProvider.loadAllJumpingUpImages(width, heigth);
 		return colorImageWrappers(originalBitmaps, player);
 	}
 
-	private List<ImageWrapper> colorImageWrappers(List<ImageWrapper> originalBitmaps, Player player) {
+	private List<ImageWrapper> colorImageWrappers(List<ImageWrapper> originalBitmaps, Bunny player) {
 		List<ImageWrapper> coloredBitmaps = new ArrayList<ImageWrapper>(originalBitmaps.size());
 		for (ImageWrapper originalBitmap : originalBitmaps) {
 			ImageWrapper coloredBitmap = coloror.colorImage(originalBitmap, player.getColor());

@@ -4,13 +4,13 @@ import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.android.input.pathFinder.PathFinder;
 import de.oetting.bumpingbunnies.android.input.touch.LeftRightTouchService;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PointerInputService extends LeftRightTouchService {
 
 	private final PathFinder pathFinder;
 
-	public PointerInputService(Player playerMovement, PathFinder pathFinder, CoordinatesCalculation calculations) {
+	public PointerInputService(Bunny playerMovement, PathFinder pathFinder, CoordinatesCalculation calculations) {
 		super(playerMovement, calculations);
 		this.pathFinder = pathFinder;
 	}
@@ -38,7 +38,7 @@ public class PointerInputService extends LeftRightTouchService {
 	}
 
 	private boolean isTooCloseToJump(MotionEvent motionEvent) {
-		Player player = getMovedPlayer();
+		Bunny player = getMovedPlayer();
 		double diffY = calculateDiffY(player, motionEvent);
 		return Math.abs(diffY) < 0.1;
 	}
@@ -47,7 +47,7 @@ public class PointerInputService extends LeftRightTouchService {
 		return this.pathFinder.canBeReachedByJumping(relativePointerPositionX(motionEvent), relativePointerPositionY(motionEvent));
 	}
 
-	private double calculateDiffY(Player player, MotionEvent motionEvent) {
+	private double calculateDiffY(Bunny player, MotionEvent motionEvent) {
 		double relativeClickPositionY = relativePointerPositionY(motionEvent);
 		return player.getCenterY() - relativeClickPositionY;
 	}

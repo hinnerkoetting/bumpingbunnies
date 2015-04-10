@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.game.graphics;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public interface Drawable {
 
@@ -9,5 +9,5 @@ public interface Drawable {
 	/**
 	 * Should return true if the drawable draws the passed player.
 	 */
-	boolean drawsPlayer(Player p);
+	boolean drawsPlayer(Bunny p);
 }

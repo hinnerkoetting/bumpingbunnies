@@ -3,13 +3,13 @@ package de.oetting.bumpingbunnies.android.input.gamepad;
 import android.view.MotionEvent;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class GamepadInputService implements KeyboardInputService {
 
-	private Player playerMovement;
+	private Bunny playerMovement;
 
-	public GamepadInputService(Player playerMovement) {
+	public GamepadInputService(Bunny playerMovement) {
 		this.playerMovement = playerMovement;
 	}
 

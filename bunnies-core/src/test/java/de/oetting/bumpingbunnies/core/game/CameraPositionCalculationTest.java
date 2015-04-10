@@ -11,7 +11,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)
@@ -19,7 +19,7 @@ import de.oetting.bumpingbunnies.tests.UnitTests;
 public class CameraPositionCalculationTest {
 
 	private CameraPositionCalculation fixture;
-	private Player player;
+	private Bunny player;
 
 	@Test
 	public void updateCoordinats_givenPlayerIsNotDead_setsScreenCoordinatesToPlayerCoordinates() {

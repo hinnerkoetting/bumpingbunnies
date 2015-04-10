@@ -8,11 +8,11 @@ import de.oetting.bumpingbunnies.android.input.factory.AbstractPlayerInputServic
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class InputDispatcherFactory {
 
-	public static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter, Player myPlayer,
+	public static InputDispatcher<?> createInputDispatcher(GameActivity activity, GameStartParameter parameter, Bunny myPlayer,
 			CoordinatesCalculation coordinatesCalculation) {
 		AbstractPlayerInputServicesFactory<InputService> myPlayerFactory = new InputConfigurationFactory().create(parameter.getConfiguration());
 		InputService touchService = myPlayerFactory.createInputService(myPlayer, activity, coordinatesCalculation);

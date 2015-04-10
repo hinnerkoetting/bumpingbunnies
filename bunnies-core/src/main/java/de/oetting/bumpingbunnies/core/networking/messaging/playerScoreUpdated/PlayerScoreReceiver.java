@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated;
 import de.oetting.bumpingbunnies.core.network.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PlayerScoreReceiver extends MessageReceiverTemplate<PlayerScoreMessage> {
 
@@ -16,7 +16,7 @@ public class PlayerScoreReceiver extends MessageReceiverTemplate<PlayerScoreMess
 
 	@Override
 	public void onReceiveMessage(PlayerScoreMessage object) {
-		Player player = this.world.findPlayer(object.getPlayerId());
+		Bunny player = this.world.findPlayer(object.getPlayerId());
 		player.setScore(object.getNewScore());
 	}
 

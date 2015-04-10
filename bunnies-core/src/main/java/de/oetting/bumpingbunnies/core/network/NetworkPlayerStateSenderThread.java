@@ -13,7 +13,7 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class NetworkPlayerStateSenderThread extends BunniesThread implements NewSocketListener {
 
@@ -62,8 +62,8 @@ public class NetworkPlayerStateSenderThread extends BunniesThread implements New
 
 		@Override
 		public void nextStep(long delta) {
-			List<Player> allPlayer = world.getAllPlayer();
-			for (Player player : allPlayer) {
+			List<Bunny> allPlayer = world.getAllPlayer();
+			for (Bunny player : allPlayer) {
 				for (PlayerStateSender sender : networkSender) {
 					sender.sendState(player);
 				}

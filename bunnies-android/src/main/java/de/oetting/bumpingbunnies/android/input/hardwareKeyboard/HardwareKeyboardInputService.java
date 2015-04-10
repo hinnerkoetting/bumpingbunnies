@@ -2,14 +2,14 @@ package de.oetting.bumpingbunnies.android.input.hardwareKeyboard;
 
 import android.view.KeyEvent;
 import de.oetting.bumpingbunnies.core.input.InputService;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class HardwareKeyboardInputService implements InputService {
 
-	private final Player movedPlayer;
+	private final Bunny movedPlayer;
 	private final boolean leftHanded;
 
-	public HardwareKeyboardInputService(Player movedPl1ayer, boolean leftHanded) {
+	public HardwareKeyboardInputService(Bunny movedPl1ayer, boolean leftHanded) {
 		movedPlayer = movedPl1ayer;
 		this.leftHanded = leftHanded;
 	}

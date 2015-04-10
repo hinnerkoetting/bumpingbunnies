@@ -12,7 +12,7 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)
@@ -38,11 +38,11 @@ public class PlayerJoinObservableTest {
 	}
 
 	private void thenObserverShouldBeNotifiedAboutLeaving() {
-		verify(this.listener).removeEvent(any(Player.class));
+		verify(this.listener).removeEvent(any(Bunny.class));
 	}
 
 	private void thenObserverShouldBeNotifiedAboutJoin() {
-		verify(this.listener).newEvent(any(Player.class));
+		verify(this.listener).newEvent(any(Bunny.class));
 	}
 
 	@Before

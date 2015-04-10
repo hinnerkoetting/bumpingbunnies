@@ -8,13 +8,13 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class AiInputService implements OpponentInput {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(AiInputService.class);
 
-	private final Player aiPlayer;
+	private final Bunny aiPlayer;
 	private final Random randomGenerator;
 	private final World world;
 	
@@ -23,10 +23,10 @@ public class AiInputService implements OpponentInput {
 	private boolean rememberMoveUp;
 	private int durationOfCurrentMovementPhase = 0;
 	private long nextMovementDurationPhase = 0;
-	private Player closestEnemyPlayer;
+	private Bunny closestEnemyPlayer;
 
 
-	public AiInputService(Player playerMovement, World world) {
+	public AiInputService(Bunny playerMovement, World world) {
 		this.world = world;
 		this.aiPlayer = playerMovement;
 		this.randomGenerator = new Random(System.currentTimeMillis());
@@ -44,10 +44,10 @@ public class AiInputService implements OpponentInput {
 		moveRememberedMovement();
 	}
 
-	private Player findNearestOtherPlayer() {
+	private Bunny findNearestOtherPlayer() {
 		double nearest = Double.MAX_VALUE;
-		Player nearestPlayer = null;
-		for (Player p : this.world.getAllPlayer()) {
+		Bunny nearestPlayer = null;
+		for (Bunny p : this.world.getAllPlayer()) {
 			if (p.id() != this.aiPlayer.id()) {
 				double distance = distance(p, this.aiPlayer);
 				if (distance < nearest) {
@@ -63,7 +63,7 @@ public class AiInputService implements OpponentInput {
 		return this.aiPlayer;
 	}
 
-	private double distance(Player p1, Player p2) {
+	private double distance(Bunny p1, Bunny p2) {
 		return Math.pow(p1.centerX() - p2.centerX(), 2) + Math.pow(p1.centerY() - p2.centerY(), 2);
 	}
 

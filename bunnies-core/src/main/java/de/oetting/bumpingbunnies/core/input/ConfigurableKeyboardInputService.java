@@ -3,17 +3,17 @@ package de.oetting.bumpingbunnies.core.input;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class ConfigurableKeyboardInputService implements InputService {
 
 	private final String leftKey;
 	private final String rightKey;
 	private final String upKey;
-	private Player movementController;
+	private Bunny movementController;
 	private Map<String, Boolean> keyState = new HashMap<String, Boolean>();
 
-	public ConfigurableKeyboardInputService(String leftKey, String rightKey, String upKey, Player  movementController) {
+	public ConfigurableKeyboardInputService(String leftKey, String rightKey, String upKey, Bunny  movementController) {
 		this.leftKey = leftKey;
 		this.rightKey = rightKey;
 		this.upKey = upKey;

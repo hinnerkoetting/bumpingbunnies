@@ -1,12 +1,12 @@
 package de.oetting.bumpingbunnies.core.input;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public abstract class AbstractControlledMovement implements InputService {
 
-	private Player playerMovement;
+	private Bunny playerMovement;
 
-	public AbstractControlledMovement(Player playerMovement) {
+	public AbstractControlledMovement(Bunny playerMovement) {
 		this.playerMovement = playerMovement;
 	}
 
@@ -14,7 +14,7 @@ public abstract class AbstractControlledMovement implements InputService {
 		this.playerMovement.setNotMoving();
 	}
 
-	protected Player getMovedPlayer() {
+	protected Bunny getMovedPlayer() {
 		return this.playerMovement;
 	}
 
@@ -39,12 +39,12 @@ public abstract class AbstractControlledMovement implements InputService {
 	}
 
 	protected boolean touchesPlayerThisVerticalPosition(double yPosition) {
-		Player movedPlayer = getMovedPlayer();
+		Bunny movedPlayer = getMovedPlayer();
 		return movedPlayer.maxY() > yPosition && movedPlayer.minY() < yPosition;
 	}
 
 	protected boolean touchesPlayerThisHorizontalPosition(double xPosition) {
-		Player movedPlayer = getMovedPlayer();
+		Bunny movedPlayer = getMovedPlayer();
 		return movedPlayer.maxX() > xPosition && movedPlayer.minX() < xPosition;
 	}
 }

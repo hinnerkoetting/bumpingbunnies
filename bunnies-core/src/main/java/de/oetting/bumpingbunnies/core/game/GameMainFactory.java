@@ -21,11 +21,11 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class GameMainFactory {
 
-	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Player myPlayer,
+	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Bunny myPlayer,
 			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory,
 			GameStopper gameStopper) {
 
@@ -52,7 +52,7 @@ public class GameMainFactory {
 	private void addOtherPlayers(GameMain gameMain, GameStartParameter parameter) {
 		List<PlayerConfig> players = PlayerConfigFactory.createOtherPlayers(parameter.getConfiguration());
 		for (PlayerConfig config : players) {
-			Player otherPlayer = config.getPlayer();
+			Bunny otherPlayer = config.getPlayer();
 			gameMain.newEvent(otherPlayer);
 		}
 	}

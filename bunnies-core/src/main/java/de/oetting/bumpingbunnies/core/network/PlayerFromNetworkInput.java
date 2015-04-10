@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
 /**
@@ -21,10 +21,10 @@ public class PlayerFromNetworkInput implements OpponentInput {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerFromNetworkInput.class);
 	private PlayerState playerStateFromNetwork;
-	private final Player player;
+	private final Bunny player;
 	private Map<Integer, Long> latestCounterForPlayer = new HashMap<Integer, Long>();
 
-	public PlayerFromNetworkInput(Player player) {
+	public PlayerFromNetworkInput(Bunny player) {
 		this.player = player;
 	}
 

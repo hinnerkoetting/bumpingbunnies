@@ -31,7 +31,7 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)
@@ -54,7 +54,7 @@ public class GameMainTest {
 	}
 
 	private void verifyThatListenerIsNotifiedAboutJoin() {
-		verify(this.listener).newEvent(any(Player.class));
+		verify(this.listener).newEvent(any(Bunny.class));
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class GameMainTest {
 	@Test
 	public void playerLeaves_shouldNotifyListener() {
 		this.fixture.addJoinListener(this.listener);
-		Player p = createOpponentPlayer();
+		Bunny p = createOpponentPlayer();
 		givenPlayerExists(p);
 		whenPlayerLeaves(p);
 		verifyThatListenerIsNotifiedAboutLeaving(p);
@@ -79,7 +79,7 @@ public class GameMainTest {
 
 	@Test
 	public void playerLeaves_thenPlayerShouldBeRemovedFromPlayerList() {
-		Player p = createOpponentPlayer();
+		Bunny p = createOpponentPlayer();
 		givenPlayerExists(p);
 		assertNumberOfPlayers(1);
 		whenPlayerLeaves(p);
@@ -90,15 +90,15 @@ public class GameMainTest {
 		assertThat(this.fixture.getWorld().getAllPlayer(), hasSize(number));
 	}
 
-	private void verifyThatListenerIsNotifiedAboutLeaving(Player p) {
+	private void verifyThatListenerIsNotifiedAboutLeaving(Bunny p) {
 		verify(this.listener).removeEvent(p);
 	}
 
-	private void givenPlayerExists(Player p) {
+	private void givenPlayerExists(Bunny p) {
 		fixture.newEvent(p);
 	}
 
-	private void whenPlayerLeaves(Player p) {
+	private void whenPlayerLeaves(Bunny p) {
 		this.fixture.removeEvent(p);
 	}
 

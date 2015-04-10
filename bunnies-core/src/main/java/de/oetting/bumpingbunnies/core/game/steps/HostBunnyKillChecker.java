@@ -14,7 +14,7 @@ import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallb
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
@@ -45,15 +45,15 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	@Override
 	public void checkForJumpedPlayers() {
-		for (Player player : this.world.getAllPlayer()) {
-			Player playerUnder = this.collisionDetection.findPlayerThisPlayerIsStandingOn(player);
+		for (Bunny player : this.world.getAllPlayer()) {
+			Bunny playerUnder = this.collisionDetection.findPlayerThisPlayerIsStandingOn(player);
 			if (playerUnder != null) {
 				handleJumpedPlayer(playerUnder, player);
 			}
 		}
 	}
 
-	private void handleJumpedPlayer(Player playerUnder, Player playerTop) {
+	private void handleJumpedPlayer(Bunny playerUnder, Bunny playerTop) {
 		increaseScore(playerTop);
 		killPlayer(playerUnder);
 		revivePlayerDelayed(playerUnder);
@@ -64,7 +64,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		musicPlayer.start();
 	}
 
-	private void killPlayer(Player playerKilled) {
+	private void killPlayer(Bunny playerKilled) {
 		playerKilled.setDead(true);
 		PlayerIsDeadMessage killedMessage = new PlayerIsDeadMessage(playerKilled.id());
 
@@ -72,38 +72,38 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		assignSpawnpoint(playerKilled);
 	}
 
-	private void increaseScore(Player playerTop) {
+	private void increaseScore(Bunny playerTop) {
 		playerTop.increaseScore(1);
 		PlayerScoreMessage newScoreMessage = new PlayerScoreMessage(playerTop.id(), playerTop.getScore());
 		this.messageSender.sendMessage(MessageId.PLAYER_SCORE_UPDATE, newScoreMessage);
 	}
 
-	private void revivePlayerDelayed(final Player player) {
+	private void revivePlayerDelayed(final Bunny player) {
 		this.reviver.revivePlayerLater(player);
 	}
 
 	@Override
 	public void checkForPlayerOutsideOfGameZone() {
-		for (Player p : this.world.getAllPlayer()) {
+		for (Bunny p : this.world.getAllPlayer()) {
 			if (OutsideOfPlayZoneChecker.outsideOfGameZone(p)) {
 				handlePlayerOutOfPlayZone(p);
 			}
 		}
 	}
 
-	private void handlePlayerOutOfPlayZone(Player killedPlayer) {
+	private void handlePlayerOutOfPlayZone(Bunny killedPlayer) {
 		killedPlayer.increaseScore(-1);
 		killPlayer(killedPlayer);
 		revivePlayerDelayed(killedPlayer);
 	}
 
 	@Override
-	public void newEvent(Player p) {
+	public void newEvent(Bunny p) {
 		sendSpawnPointOnlyToThisPlayer(p);
 		revivePlayerDelayed(p);
 	}
 
-	private void sendSpawnPointOnlyToThisPlayer(Player player) {
+	private void sendSpawnPointOnlyToThisPlayer(Bunny player) {
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
 		if (!player.getOpponent().isLocalPlayer()) {
 			MySocket playerSocket = SocketStorage.getSingleton().findSocket(player.getOpponent());
@@ -113,13 +113,13 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, player);
 	}
 
-	private void assignSpawnpoint(Player player) {
+	private void assignSpawnpoint(Bunny player) {
 		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
 		this.messageSender.sendMessage(MessageId.SPAWN_POINT, new SpawnPointMessage(spawnPoint, player.id()));
 		ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, player);
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 	}
 }

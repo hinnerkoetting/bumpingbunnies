@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 /**
  * Takes care that all bunnies are moved during each step of the game.
@@ -43,14 +43,14 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 	}
 
 	@Override
-	public void newEvent(Player p) {
+	public void newEvent(Bunny p) {
 		PlayerMovement movementCalculation = this.calculationFactory.create(p);
 		this.playermovements.add(movementCalculation);
 		fixPlayerPosition.newEvent(p);
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 		PlayerMovement movementCalculation = findPlayerMovementCalculation(p);
 		this.playermovements.remove(movementCalculation);
 		fixPlayerPosition.removeEvent(p);
@@ -60,7 +60,7 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 		main.addJoinListener(this.killChecker);
 	}
 
-	private PlayerMovement findPlayerMovementCalculation(Player p) {
+	private PlayerMovement findPlayerMovementCalculation(Bunny p) {
 		for (PlayerMovement c : this.playermovements) {
 			if (c.controlsThisPlayer(p)) {
 				return c;

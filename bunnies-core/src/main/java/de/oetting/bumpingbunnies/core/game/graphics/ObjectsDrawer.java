@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 /**
  * draws all game elements
@@ -18,7 +18,7 @@ public class ObjectsDrawer implements PlayerJoinListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ObjectsDrawer.class);
 	private List<Drawable> allDrawables;
-	private List<Player> toBeUpdatedPlayers;
+	private List<Bunny> toBeUpdatedPlayers;
 	private DrawablesFactory factory;
 	private CanvasDelegate canvasDelegate;
 
@@ -26,7 +26,7 @@ public class ObjectsDrawer implements PlayerJoinListener {
 		this.factory = drawFactory;
 		this.canvasDelegate = canvasDelegate;
 		this.allDrawables = new CopyOnWriteArrayList<Drawable>();
-		this.toBeUpdatedPlayers = new ArrayList<Player>();
+		this.toBeUpdatedPlayers = new ArrayList<Bunny>();
 	}
 
 	public void buildAllDrawables(CanvasWrapper canvas, int screenWidth, int screenHeight) {
@@ -46,7 +46,7 @@ public class ObjectsDrawer implements PlayerJoinListener {
 	private void updateDrawables() {
 		canvasDelegate.startDrawPhase();
 		synchronized (toBeUpdatedPlayers) {
-			for (Player p : toBeUpdatedPlayers) {
+			for (Bunny p : toBeUpdatedPlayers) {
 				Drawable playerDrawer = this.factory.createPlayerDrawable(p, canvasDelegate);
 				this.allDrawables.add(playerDrawer);
 				this.allDrawables.add(factory.createScoreDrawer(p));
@@ -65,14 +65,14 @@ public class ObjectsDrawer implements PlayerJoinListener {
 	}
 
 	@Override
-	public void newEvent(Player p) {
+	public void newEvent(Bunny p) {
 		synchronized (toBeUpdatedPlayers) {
 			toBeUpdatedPlayers.add(p);
 		}
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 		if (toBeUpdatedPlayers.contains(p)) {
 			toBeUpdatedPlayers.remove(p);
 		} else {
@@ -81,7 +81,7 @@ public class ObjectsDrawer implements PlayerJoinListener {
 		}
 	}
 
-	private List<Drawable> findDrawerForPlayer(Player p) {
+	private List<Drawable> findDrawerForPlayer(Bunny p) {
 		List<Drawable> allDrawablesForPlayer = new ArrayList<Drawable>();
 		for (Drawable d : allDrawables) {
 			if (d.drawsPlayer(p)) {

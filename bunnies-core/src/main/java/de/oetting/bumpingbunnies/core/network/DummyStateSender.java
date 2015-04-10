@@ -1,12 +1,12 @@
 package de.oetting.bumpingbunnies.core.network;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class DummyStateSender implements StateSender {
 
-	private final Player recipient;
+	private final Bunny recipient;
 
-	public DummyStateSender(Player player) {
+	public DummyStateSender(Bunny player) {
 		super();
 		this.recipient = player;
 	}
@@ -16,7 +16,7 @@ public class DummyStateSender implements StateSender {
 	}
 
 	@Override
-	public boolean sendsStateToPlayer(Player p) {
+	public boolean sendsStateToPlayer(Bunny p) {
 		return this.recipient.equals(p);
 	}
 

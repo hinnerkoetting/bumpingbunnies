@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class BackgroundImageDrawer implements Drawable {
 
@@ -20,7 +20,7 @@ public class BackgroundImageDrawer implements Drawable {
 	}
 
 	@Override
-	public boolean drawsPlayer(Player p) {
+	public boolean drawsPlayer(Bunny p) {
 		return false;
 	}
 

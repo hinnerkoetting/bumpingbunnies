@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 /**
  * Controls logic which a host must fulfill. Sends Broadcast messages to send
@@ -80,7 +80,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
-		Player player = new BunnyFactory(configuration.getGeneralSettings().getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
+		Bunny player = new BunnyFactory(configuration.getGeneralSettings().getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
 				playerProperties.getPlayerName(), socket.getConnectionIdentifier());
 		LOGGER.info("Player joins %s", player);
 		signalPlayerToStartTheGame(socket);
@@ -101,7 +101,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	@Override
 	public List<PlayerProperties> getAllPlayersProperties() {
 		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.world.getAllPlayer().size());
-		for (Player p : world.getAllPlayer()) {
+		for (Bunny p : world.getAllPlayer()) {
 			properties.add(new PlayerProperties(p.id(), p.getName()));
 		}
 		return properties;

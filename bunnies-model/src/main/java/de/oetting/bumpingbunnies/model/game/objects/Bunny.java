@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.model.game.objects;
 
-public class Player implements GameObject {
+public class Bunny implements GameObject {
 
 	private final int speedFaktor;
 
@@ -22,7 +22,7 @@ public class Player implements GameObject {
 	private int accelerationY;
 	private boolean isInWater;
 
-	public Player(int id, String name, int speedFaktor, ConnectionIdentifier opponent) {
+	public Bunny(int id, String name, int speedFaktor, ConnectionIdentifier opponent) {
 		this.name = name;
 		this.speedFaktor = speedFaktor;
 		this.opponent = opponent;
@@ -33,7 +33,7 @@ public class Player implements GameObject {
 		simulatedObject = new PlayerSimulation(new PlayerState(id), halfWidth, halfHeight);
 	}
 
-	public Player(Player player) {
+	public Bunny(Bunny player) {
 		this.speedFaktor = player.speedFaktor;
 		this.halfWidth = player.halfWidth;
 		this.halfHeight = player.halfHeight;
@@ -209,7 +209,7 @@ public class Player implements GameObject {
 		return this.name;
 	}
 
-	public  void applyStateTo(Player player) {
+	public  void applyStateTo(Bunny player) {
 		this.state.copyContentTo(player.state);
 	}
 
@@ -272,8 +272,8 @@ public class Player implements GameObject {
 	}
 
 	@Override
-	public Player clone() {
-		return new Player(this);
+	public Bunny clone() {
+		return new Bunny(this);
 	}
 
 	@Override
@@ -292,7 +292,7 @@ public class Player implements GameObject {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Player other = (Player) obj;
+		Bunny other = (Bunny) obj;
 		if (id != other.id)
 			return false;
 		return true;

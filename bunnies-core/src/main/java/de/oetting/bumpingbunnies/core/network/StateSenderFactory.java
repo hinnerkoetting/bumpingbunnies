@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.core.network;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public interface StateSenderFactory {
 
-	StateSender create(Player p);
+	StateSender create(Bunny p);
 }

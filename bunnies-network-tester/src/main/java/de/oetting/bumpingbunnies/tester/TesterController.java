@@ -58,7 +58,7 @@ import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.HorizontalMovementState;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
@@ -216,7 +216,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	public void addPlayerEntry(RoomEntry entry) {
-		Player player = new BunnyFactory(-1).createPlayer(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(),
+		Bunny player = new BunnyFactory(-1).createPlayer(entry.getPlayerProperties().getPlayerId(), entry.getPlayerProperties().getPlayerName(),
 				ConnectionIdentifierFactory.createRemoteOpponent(entry.getPlayerName(), entry.getOponent().getType()));
 		playersTable.getItems().add(new DetailRoomEntry(entry, player));
 	}
@@ -225,7 +225,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void addMyPlayerRoomEntry(int myPlayerId) {
 		LocalPlayerSettings settings = createLocalPlayerSettings();
 		PlayerProperties singlePlayerProperties = new PlayerProperties(myPlayerId, settings.getPlayerName());
-		Player player = new BunnyFactory(1).createPlayer(myPlayerId, settings.getPlayerName(),
+		Bunny player = new BunnyFactory(1).createPlayer(myPlayerId, settings.getPlayerName(),
 				ConnectionIdentifierFactory.createLocalPlayer(singlePlayerProperties.getPlayerName()));
 		playersTable.getItems().add(new DetailRoomEntry(new LocalPlayerEntry(singlePlayerProperties), player));
 	}

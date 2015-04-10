@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
 import de.oetting.bumpingbunnies.core.game.steps.GameStepAction;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class UserInputStep implements GameStepAction, PlayerJoinListener {
 
@@ -33,12 +33,12 @@ public class UserInputStep implements GameStepAction, PlayerJoinListener {
 	}
 
 	@Override
-	public void newEvent(Player p) {
+	public void newEvent(Bunny p) {
 		this.inputServices.add(this.factory.create(p));
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 	}
 
 }

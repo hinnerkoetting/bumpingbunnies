@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 /**
@@ -16,12 +16,12 @@ public class PlayerMovement {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerMovement.class);
 
-	private final Player movedPlayer;
+	private final Bunny movedPlayer;
 	private final GameObjectInteractor objectInteraction;
 	private final CollisionDetection collisionDetection;
 	private final MusicPlayer jumpMusic;
 
-	public PlayerMovement(Player movedPlayer, GameObjectInteractor interactionService,
+	public PlayerMovement(Bunny movedPlayer, GameObjectInteractor interactionService,
 			CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
 		this.movedPlayer = movedPlayer;
 		this.objectInteraction = interactionService;
@@ -144,7 +144,7 @@ public class PlayerMovement {
 
 	}
 
-	public boolean controlsThisPlayer(Player movedPlayer) {
+	public boolean controlsThisPlayer(Bunny movedPlayer) {
 		return this.movedPlayer.equals(movedPlayer);
 	}
 }

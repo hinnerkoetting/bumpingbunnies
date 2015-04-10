@@ -3,11 +3,11 @@ package de.oetting.bumpingbunnies.android.input.multiTouch;
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.android.input.touch.LeftRightTouchService;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class MultiTouchInputService extends LeftRightTouchService {
 
-	public MultiTouchInputService(Player playerMovement, CoordinatesCalculation coordinateCalculations) {
+	public MultiTouchInputService(Bunny playerMovement, CoordinatesCalculation coordinateCalculations) {
 		super(playerMovement, coordinateCalculations);
 	}
 

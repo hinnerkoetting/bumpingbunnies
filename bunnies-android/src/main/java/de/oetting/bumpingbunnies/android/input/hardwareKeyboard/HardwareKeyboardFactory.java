@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class HardwareKeyboardFactory extends AbstractPlayerInputServicesFactory<HardwareKeyboardInputService> {
 
@@ -17,7 +17,7 @@ public class HardwareKeyboardFactory extends AbstractPlayerInputServicesFactory<
 	}
 
 	@Override
-	public HardwareKeyboardInputService createInputService(Player bunny, Context context,
+	public HardwareKeyboardInputService createInputService(Bunny bunny, Context context,
 			CoordinatesCalculation calculations) {
 		return new HardwareKeyboardInputService(bunny, leftHanded);
 	}

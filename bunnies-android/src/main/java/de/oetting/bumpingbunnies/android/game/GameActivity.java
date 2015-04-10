@@ -37,7 +37,7 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
@@ -65,7 +65,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
 		GameStartParameter parameter = ((GamestartParameterParcellableWrapper) getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER)).getParameter();
-		Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
+		Bunny myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 		GameThreadState threadState = new GameThreadState();
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter.getConfiguration().getZoom());
 		World world = createWorld(this, parameter);
@@ -119,7 +119,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	private void conditionalRestoreState() {
 		Object data = getLastNonConfigurationInstance();
 		if (data != null) {
-			this.main.restorePlayerStates((List<Player>) data);
+			this.main.restorePlayerStates((List<Bunny>) data);
 		}
 	}
 
@@ -135,9 +135,9 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	}
 
 	public ResultWrapper extractPlayerScores() {
-		List<Player> players = main.getWorld().getAllPlayer();
+		List<Bunny> players = main.getWorld().getAllPlayer();
 		List<ResultPlayerEntry> resultEntries = new ArrayList<ResultPlayerEntry>(players.size());
-		for (Player p : players) {
+		for (Bunny p : players) {
 			ResultPlayerEntry entry = new ResultPlayerEntry(p.getName(), p.getScore(), p.getColor());
 			resultEntries.add(entry);
 		}
@@ -186,7 +186,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		return getAllPlayers();
 	}
 
-	private List<Player> getAllPlayers() {
+	private List<Bunny> getAllPlayers() {
 		return this.main.getWorld().getAllPlayer();
 	}
 

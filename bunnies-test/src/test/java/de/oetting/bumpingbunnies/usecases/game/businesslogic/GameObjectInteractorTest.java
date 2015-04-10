@@ -20,7 +20,7 @@ import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 
@@ -29,7 +29,7 @@ public class GameObjectInteractorTest {
 	@Mock
 	private ObjectProvider objectProvider;
 	private CollisionDetection collisionDetection = new CollisionDetection(objectProvider);
-	private Player player;
+	private Bunny player;
 
 	@Test
 	public void interactWith_playerMovesIntoWall_reducesMovementToZero() {

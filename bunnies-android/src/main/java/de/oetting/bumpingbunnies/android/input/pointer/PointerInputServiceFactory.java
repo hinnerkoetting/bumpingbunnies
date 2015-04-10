@@ -9,12 +9,12 @@ import de.oetting.bumpingbunnies.android.input.factory.AbstractPlayerInputServic
 import de.oetting.bumpingbunnies.android.input.pathFinder.PathFinderFactory;
 import de.oetting.bumpingbunnies.android.input.touch.TouchInputDispatcher;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PointerInputServiceFactory extends AbstractPlayerInputServicesFactory<AbstractTouchService> {
 
 	@Override
-	public AbstractTouchService createInputService(Player movement, Context context, CoordinatesCalculation calculations) {
+	public AbstractTouchService createInputService(Bunny movement, Context context, CoordinatesCalculation calculations) {
 		PointerInputService touchService = new PointerInputService(movement, PathFinderFactory.createPathFinder(movement), calculations);
 		return touchService;
 	}

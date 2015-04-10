@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.network.MessageSender;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class PlayerReviver implements GameStepAction {
@@ -33,12 +33,12 @@ public class PlayerReviver implements GameStepAction {
 	}
 
 	private void revivePlayer(PlayerReviveEntry entry) {
-		Player player = entry.getPlayer();
+		Bunny player = entry.getPlayer();
 		player.setDead(false);
 		this.messageSender.sendMessage(MessageId.PLAYER_IS_REVIVED, player.id());
 	}
 
-	public void revivePlayerLater(Player player) {
+	public void revivePlayerLater(Bunny player) {
 		this.reviveEntries.add(new PlayerReviveEntry(System.currentTimeMillis() + KILL_TIME_MILLISECONDS, player));
 	}
 

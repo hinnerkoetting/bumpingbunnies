@@ -8,16 +8,16 @@ import de.oetting.bumpingbunnies.android.input.gamepad.KeyboardInputService;
 import de.oetting.bumpingbunnies.core.input.InputService;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class DistributedInputService implements InputService, KeyboardInputService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DistributedInputService.class);
 
-	private Player playerMovement;
+	private Bunny playerMovement;
 	private final VibratorService vibrator;
 
-	public DistributedInputService(Player playerMovement, VibratorService vibrator) {
+	public DistributedInputService(Bunny playerMovement, VibratorService vibrator) {
 		this.playerMovement = playerMovement;
 		this.vibrator = vibrator;
 	}

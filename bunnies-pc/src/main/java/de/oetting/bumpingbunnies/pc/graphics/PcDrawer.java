@@ -4,7 +4,7 @@ import javafx.scene.canvas.Canvas;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PcDrawer implements Drawer {
 
@@ -20,13 +20,13 @@ public class PcDrawer implements Drawer {
 	}
 
 	@Override
-	public void newEvent(Player p) {
+	public void newEvent(Bunny p) {
 		if (!needsUpdate)
 			objectsDrawer.newEvent(p);
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 		objectsDrawer.removeEvent(p);
 	}
 

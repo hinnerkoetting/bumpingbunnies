@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class AnimationWithMirrorFactory {
 
@@ -14,7 +14,7 @@ public class AnimationWithMirrorFactory {
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted(Player player) {
+			public boolean shouldBeExecuted(Bunny player) {
 				return Math.abs(player.movementX()) >= ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementY()) <= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
@@ -25,7 +25,7 @@ public class AnimationWithMirrorFactory {
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted(Player player) {
+			public boolean shouldBeExecuted(Bunny player) {
 				return player.movementY() <= -ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
@@ -36,7 +36,7 @@ public class AnimationWithMirrorFactory {
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted(Player player) {
+			public boolean shouldBeExecuted(Bunny player) {
 				return player.movementY() >= ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementX()) >= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
@@ -47,7 +47,7 @@ public class AnimationWithMirrorFactory {
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted(Player player) {
+			public boolean shouldBeExecuted(Bunny player) {
 				return Math.abs(player.movementX()) <= ModelConstants.MOVEMENT_LIMIT && Math.abs(player.movementY()) <= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};
@@ -59,7 +59,7 @@ public class AnimationWithMirrorFactory {
 		return new ConditionalMirroredAnimation(completeAnimation) {
 
 			@Override
-			public boolean shouldBeExecuted(Player player) {
+			public boolean shouldBeExecuted(Bunny player) {
 				return Math.abs(player.movementX()) <= ModelConstants.MOVEMENT_LIMIT && player.movementY() >= ModelConstants.MOVEMENT_LIMIT;
 			}
 		};

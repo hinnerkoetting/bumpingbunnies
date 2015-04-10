@@ -3,25 +3,25 @@ package de.oetting.bumpingbunnies.core.game;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class TestPlayerFactory {
 
-	public static Player createMyPlayer() {
-		return new Player(0, "", 1, ConnectionIdentifierFactory.createLocalPlayer(""));
+	public static Bunny createMyPlayer() {
+		return new Bunny(0, "", 1, ConnectionIdentifierFactory.createLocalPlayer(""));
 	}
 
-	public static Player createOpponentPlayer(OpponentType type) {
-		return new Player(1, "", 1, new ConnectionIdentifier(new OpponentIdentifier(""), type));
+	public static Bunny createOpponentPlayer(OpponentType type) {
+		return new Bunny(1, "", 1, new ConnectionIdentifier(new OpponentIdentifier(""), type));
 	}
 
-	public static Player createOpponentPlayer() {
-		return new Player(1, "", 1, OpponentTestFactory.create());
+	public static Bunny createOpponentPlayer() {
+		return new Bunny(1, "", 1, OpponentTestFactory.create());
 	}
 
-	public static Player createPlayerAtPosition(int x, int y) {
+	public static Bunny createPlayerAtPosition(int x, int y) {
 		ConnectionIdentifier opponent = OpponentTestFactory.create();
-		Player p = new Player(-1, "", 1, opponent);
+		Bunny p = new Bunny(-1, "", 1, opponent);
 		p.setCenterX(x);
 		p.setCenterY(y);
 		return p;

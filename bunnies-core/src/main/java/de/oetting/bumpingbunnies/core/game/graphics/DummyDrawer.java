@@ -1,17 +1,17 @@
 package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class DummyDrawer implements Drawer {
 
 	@Override
-	public void newEvent(Player p) {
+	public void newEvent(Bunny p) {
 
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 
 	}
 

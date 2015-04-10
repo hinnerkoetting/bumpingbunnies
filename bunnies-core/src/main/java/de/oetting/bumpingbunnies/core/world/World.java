@@ -15,7 +15,7 @@ import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
@@ -29,13 +29,13 @@ public class World implements ObjectProvider {
 	private List<Wall> allWalls;
 	private List<IcyWall> allIcyWalls;
 	private List<Jumper> allJumpers;
-	private List<Player> allPlayer;
+	private List<Bunny> allPlayer;
 	private List<SpawnPoint> allSpawnPoints;
 	private List<Water> allWaters;
 	private List<Background> backgrounds;
 
 	public World() {
-		this.allPlayer = new CopyOnWriteArrayList<Player>();
+		this.allPlayer = new CopyOnWriteArrayList<Bunny>();
 		this.allObjects = new LinkedList<GameObjectWithImage>();
 		this.allDrawingObjects = new LinkedList<GameObjectWithImage>();
 		this.allWalls = new ArrayList<Wall>();
@@ -66,17 +66,17 @@ public class World implements ObjectProvider {
 	}
 
 	@Override
-	public List<Player> getAllPlayer() {
+	public List<Bunny> getAllPlayer() {
 		return Collections.unmodifiableList(this.allPlayer);
 	}
 
-	public void addPlayer(Player player) {
+	public void addPlayer(Bunny player) {
 		LOGGER.info("Adding player %s", player);
 		allPlayer.add(player);
 	}
 
-	public Player findPlayer(int id) {
-		for (Player p : this.allPlayer) {
+	public Bunny findPlayer(int id) {
+		for (Bunny p : this.allPlayer) {
 			if (p.id() == id) {
 				return p;
 			}
@@ -118,7 +118,7 @@ public class World implements ObjectProvider {
 
 	private int findMaxPlayerId() {
 		int maxId = -1;
-		for (Player p : this.allPlayer) {
+		for (Bunny p : this.allPlayer) {
 			if (p.id() > maxId) {
 				maxId = p.id();
 			}
@@ -151,7 +151,7 @@ public class World implements ObjectProvider {
 		allSpawnPoints.addAll(newSpawnPoints);
 	}
 
-	public void removePlayer(Player p) {
+	public void removePlayer(Bunny p) {
 		LOGGER.info("Remove player %d", p.id());
 		boolean removed = allPlayer.remove(p);
 		if (!removed)
@@ -166,15 +166,15 @@ public class World implements ObjectProvider {
 	}
 
 	public boolean existsPlayer(int playerId) {
-		for (Player player : allPlayer)
+		for (Bunny player : allPlayer)
 			if (player.id() == playerId)
 				return true;
 		return false;
 	}
 
-	public Player findPlayerOfConnection(ConnectionIdentifier owner) {
+	public Bunny findPlayerOfConnection(ConnectionIdentifier owner) {
 		synchronized (allPlayer) {
-			for (Player p : allPlayer) {
+			for (Bunny p : allPlayer) {
 				if (p.getOpponent().equals(owner)) {
 					return p;
 				}

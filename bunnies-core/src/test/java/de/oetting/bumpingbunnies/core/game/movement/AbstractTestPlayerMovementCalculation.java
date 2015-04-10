@@ -8,13 +8,13 @@ import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
 
 public class AbstractTestPlayerMovementCalculation {
 
 	protected PlayerMovement fixture;
-	protected Player player;
+	protected Bunny player;
 	@Mock
 	protected GameObjectInteractor interactionService;
 	@Mock

@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
 public class BunnyFactory {
@@ -15,10 +15,10 @@ public class BunnyFactory {
 		this.speed = speed;
 	}
 
-	public Player createPlayer(int id, String name, ConnectionIdentifier opponent) {
+	public Bunny createPlayer(int id, String name, ConnectionIdentifier opponent) {
 		Guard.againstNull(opponent);
 		Guard.againstNull(name);
-		Player p = new Player(id, name, this.speed, opponent);
+		Bunny p = new Bunny(id, name, this.speed, opponent);
 		PlayerState state = p.getState();
 		state.setCenterX((int) (id * 0.35 * ModelConstants.STANDARD_WORLD_SIZE));
 		state.setCenterY((int) (0.99 * ModelConstants.STANDARD_WORLD_SIZE));

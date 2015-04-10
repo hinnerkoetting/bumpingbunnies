@@ -9,9 +9,9 @@ import de.oetting.bumpingbunnies.core.observer.Observer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
-public class SocketStorage implements Observer<Player> {
+public class SocketStorage implements Observer<Bunny> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SocketStorage.class);
 
@@ -114,16 +114,16 @@ public class SocketStorage implements Observer<Player> {
 	}
 
 	@Override
-	public void newEvent(Player object) {
+	public void newEvent(Bunny object) {
 	}
 
 	@Override
-	public synchronized void removeEvent(Player object) {
+	public synchronized void removeEvent(Bunny object) {
 		if (object.getOpponent().isDirectlyConnected())
 			removeSocket(object);
 	}
 
-	private void removeSocket(Player object) {
+	private void removeSocket(Bunny object) {
 		MySocket socket = findSocket(object.getOpponent());
 		removeSocket(socket);
 	}

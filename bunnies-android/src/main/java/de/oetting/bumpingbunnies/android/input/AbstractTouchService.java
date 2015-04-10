@@ -3,13 +3,13 @@ package de.oetting.bumpingbunnies.android.input;
 import android.view.MotionEvent;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.input.AbstractControlledMovement;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public abstract class AbstractTouchService extends AbstractControlledMovement {
 
 	private final CoordinatesCalculation calculations;
 
-	public AbstractTouchService(Player playerMovement, CoordinatesCalculation calculations) {
+	public AbstractTouchService(Bunny playerMovement, CoordinatesCalculation calculations) {
 		super(playerMovement);
 		this.calculations = calculations;
 	}

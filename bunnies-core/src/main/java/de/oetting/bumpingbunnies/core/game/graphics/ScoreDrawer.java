@@ -2,17 +2,17 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.model.color.Color;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class ScoreDrawer implements Drawable {
 
-	private final Player player;
+	private final Bunny player;
 	private final Paint paint;
 	private final Paint backgroundPaint;
 	private double scoreXPosition;
 	private double scoreYPosition;
 
-	public ScoreDrawer(Player player, double scoreX, double scoreY) {
+	public ScoreDrawer(Bunny player, double scoreX, double scoreY) {
 		this.player = player;
 		this.scoreXPosition = scoreX;
 		this.scoreYPosition = scoreY;
@@ -20,7 +20,7 @@ public class ScoreDrawer implements Drawable {
 		this.backgroundPaint = createBackgroundOfScorePaint();
 	}
 
-	private Paint createScorePaint(Player player) {
+	private Paint createScorePaint(Bunny player) {
 		Paint paint = new Paint();
 		paint.setColor(player.getColor());
 		paint.setTextSize(20);
@@ -47,7 +47,7 @@ public class ScoreDrawer implements Drawable {
 	}
 
 	@Override
-	public boolean drawsPlayer(Player p) {
+	public boolean drawsPlayer(Bunny p) {
 		return player.equals(p);
 	}
 }

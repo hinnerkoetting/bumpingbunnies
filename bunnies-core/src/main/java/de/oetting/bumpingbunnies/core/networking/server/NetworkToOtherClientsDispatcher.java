@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerDisconnected.PlayerDisconnectedMessage;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
@@ -44,7 +44,7 @@ public class NetworkToOtherClientsDispatcher implements IncomingNetworkDispatche
 
 	@Override
 	public void playerWasDisconnected(ConnectionIdentifier owner) {
-		Player player = world.findPlayerOfConnection(owner);
+		Bunny player = world.findPlayerOfConnection(owner);
 		PlayerDisconnectedMessage message = new PlayerDisconnectedMessage(player.id());
 		JsonWrapper wrapper = JsonWrapper.create(MessageId.PLAYER_DISCONNECTED, MessageParserFactory.create().encodeMessage(message));
 		sendControl.sendMessageExceptToOneSocket(wrapper, incomingSocket);

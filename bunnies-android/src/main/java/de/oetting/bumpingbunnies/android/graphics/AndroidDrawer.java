@@ -8,7 +8,7 @@ import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasWrapper;
 
 public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
@@ -84,12 +84,12 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	}
 
 	@Override
-	public void newEvent(Player p) {
+	public void newEvent(Bunny p) {
 		objectsDrawer.newEvent(p);
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 		objectsDrawer.removeEvent(p);
 	}
 

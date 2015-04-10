@@ -11,7 +11,7 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -20,7 +20,7 @@ public class PlayerFromNetworkInputTest {
 
 	private PlayerFromNetworkInput fixture;
 	@Mock
-	private Player player;
+	private Bunny player;
 
 	@Test
 	public void existsNewMessage_givenThereIsNoMessage_shouldReturnFalse() {

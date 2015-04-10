@@ -14,7 +14,7 @@ import de.oetting.bumpingbunnies.android.input.VibratorService;
 import de.oetting.bumpingbunnies.android.input.factory.AbstractPlayerInputServicesFactory;
 import de.oetting.bumpingbunnies.android.input.gamepad.KeyboardDispatcher;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class DistributedKeyboardFactory extends AbstractPlayerInputServicesFactory<DistributedInputService> {
 
@@ -26,7 +26,7 @@ public class DistributedKeyboardFactory extends AbstractPlayerInputServicesFacto
 	}
 
 	@Override
-	public DistributedInputService createInputService(Player movement, Context context, CoordinatesCalculation calculations) {
+	public DistributedInputService createInputService(Bunny movement, Context context, CoordinatesCalculation calculations) {
 		VibratorService vibrator = createvibratorService(context);
 		return new DistributedInputService(movement, vibrator);
 	}

@@ -1,13 +1,13 @@
 package de.oetting.bumpingbunnies.android.input.pathFinder;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 
 public class SimplePathFinder implements PathFinder {
 
-	private final Player player;
+	private final Bunny player;
 
-	public SimplePathFinder(Player player) {
+	public SimplePathFinder(Bunny player) {
 		this.player = player;
 	}
 

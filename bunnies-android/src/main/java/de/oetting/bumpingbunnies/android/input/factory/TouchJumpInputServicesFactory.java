@@ -11,12 +11,12 @@ import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.input.touch.TouchWithJumpInputDispatcher;
 import de.oetting.bumpingbunnies.android.input.touch.TouchWithJumpService;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class TouchJumpInputServicesFactory extends AbstractPlayerInputServicesFactory<TouchWithJumpService> {
 
 	@Override
-	public TouchWithJumpService createInputService(Player movement, Context context, CoordinatesCalculation calculations) {
+	public TouchWithJumpService createInputService(Bunny movement, Context context, CoordinatesCalculation calculations) {
 		TouchWithJumpService touchService = new TouchWithJumpService(movement, calculations);
 		return touchService;
 	}

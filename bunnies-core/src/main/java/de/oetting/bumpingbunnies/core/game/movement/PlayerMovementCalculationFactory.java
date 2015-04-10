@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.game.movement;
 
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PlayerMovementCalculationFactory {
 
@@ -15,7 +15,7 @@ public class PlayerMovementCalculationFactory {
 		this.jumpMusic = jumpMusic;
 	}
 
-	public PlayerMovement create(Player p) {
+	public PlayerMovement create(Bunny p) {
 		return new PlayerMovement(p, this.interactionService, this.collisionDetection, this.jumpMusic);
 	}
 }

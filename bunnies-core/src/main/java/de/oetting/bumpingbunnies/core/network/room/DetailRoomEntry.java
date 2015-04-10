@@ -1,13 +1,13 @@
 package de.oetting.bumpingbunnies.core.network.room;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class DetailRoomEntry {
 
 	private final RoomEntry entry;
-	private final Player player;
+	private final Bunny player;
 
-	public DetailRoomEntry(RoomEntry entry, Player player) {
+	public DetailRoomEntry(RoomEntry entry, Bunny player) {
 		this.entry = entry;
 		this.player = player;
 	}
@@ -16,7 +16,7 @@ public class DetailRoomEntry {
 		return entry;
 	}
 
-	public Player getPlayer() {
+	public Bunny getPlayer() {
 		return player;
 	}
 

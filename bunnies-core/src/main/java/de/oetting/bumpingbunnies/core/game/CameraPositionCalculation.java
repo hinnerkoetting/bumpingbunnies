@@ -2,20 +2,20 @@ package de.oetting.bumpingbunnies.core.game;
 
 import de.oetting.bumpingbunnies.core.game.steps.GameStepAction;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class CameraPositionCalculation implements GameStepAction {
 
 	protected static final int SLOW_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 1000;
 	protected static final int MEDIUM_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 250;
 	protected static final int FAST_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 50;
-	private final Player movedPlayer;
+	private final Bunny movedPlayer;
 
 	private long currentScreenX;
 	private long currentScreenY;
 	private int zoom;
 
-	public CameraPositionCalculation(Player movedPlayer, int zoom) {
+	public CameraPositionCalculation(Bunny movedPlayer, int zoom) {
 		this.movedPlayer = movedPlayer;
 		this.zoom = zoom;
 		this.currentScreenX = 0;

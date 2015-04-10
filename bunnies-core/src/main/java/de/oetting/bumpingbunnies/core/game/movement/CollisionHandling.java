@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.game.movement;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerSimulation;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 
@@ -17,7 +17,7 @@ public class CollisionHandling {
 		this.jumperMusicPlayer = jumperMusicPlayer;
 	}
 
-	public void interactWithWater(PlayerSimulation nextStep, Player player, Water object,
+	public void interactWithWater(PlayerSimulation nextStep, Bunny player, Water object,
 			CollisionDetection collisionDetection) {
 		player.setExactMovementY((int) Math.round(player.movementY() * 0.99));
 		if (player.movementY() <= ModelConstants.BUNNY_SPEED_WATER) {
@@ -29,7 +29,7 @@ public class CollisionHandling {
 		}
 	}
 
-	public void interactWithJumper(Player player, GameObject fixedObject, CollisionDetection collisionDetection) {
+	public void interactWithJumper(Bunny player, GameObject fixedObject, CollisionDetection collisionDetection) {
 		interactWith(player, fixedObject, collisionDetection);
 		GameObject updatedNextStep = player.simulateNextStep();
 		if (collisionDetection.isExactlyUnderObject(updatedNextStep, fixedObject)) {
@@ -37,14 +37,14 @@ public class CollisionHandling {
 		}
 	}
 
-	private void handlePlayerStandingOnJumper(Player player) {
+	private void handlePlayerStandingOnJumper(Bunny player) {
 		jumperMusicPlayer.start();
 		player.setMovementY(ModelConstants.BUNNY_JUMP_SPEED_JUMPER);
 		player.setAccelerationY(0);
 		player.simulateNextStep();
 	}
 
-	public void interactWith(Player player, GameObject fixedObject, CollisionDetection collisionDetection) {
+	public void interactWith(Bunny player, GameObject fixedObject, CollisionDetection collisionDetection) {
 		reducePlayerTooMaxSpeedToNotCollide(player, fixedObject, collisionDetection);
 	}
 
@@ -52,11 +52,11 @@ public class CollisionHandling {
 	 * If the simulated player is in the water and the player is not in the
 	 * water this is the first time the player hits the water.
 	 */
-	private boolean isFirstTimeThePlayerHitsTheWater(Player player, Water water, CollisionDetection collisionDetection) {
+	private boolean isFirstTimeThePlayerHitsTheWater(Bunny player, Water water, CollisionDetection collisionDetection) {
 		return !collisionDetection.collides(water, player);
 	}
 
-	private void reducePlayerTooMaxSpeedToNotCollide(Player player, GameObject object,
+	private void reducePlayerTooMaxSpeedToNotCollide(Bunny player, GameObject object,
 			CollisionDetection collisionDetection) {
 		//Goal: We do not want the player to move into a wall.
 		//Solution : We simulate the next step of the player.
@@ -74,7 +74,7 @@ public class CollisionHandling {
 		}
 	}
 
-	private void reduceXSpeed(Player player, GameObject object) {
+	private void reduceXSpeed(Bunny player, GameObject object) {
 		if (player.movementX() > 0) {
 			int diffX = (int) (object.minX() - player.maxX());
 			player.setExactMovementX(diffX);
@@ -86,7 +86,7 @@ public class CollisionHandling {
 		}
 	}
 
-	private void reduceYSpeed(Player player, GameObject object) {
+	private void reduceYSpeed(Bunny player, GameObject object) {
 		if (player.movementY() > 0) {
 			int diffY = (int) (object.minY() - player.maxY());
 			player.setExactMovementY(diffY);

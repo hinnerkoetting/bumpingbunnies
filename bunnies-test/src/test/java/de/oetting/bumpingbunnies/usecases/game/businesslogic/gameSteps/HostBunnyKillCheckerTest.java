@@ -25,7 +25,7 @@ import de.oetting.bumpingbunnies.core.network.MessageSender;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -44,7 +44,7 @@ public class HostBunnyKillCheckerTest {
 
 	@Test
 	public void playerJoins_thenPlayerIsAlive() {
-		Player player = new BunnyFactory(1).createPlayer(1, "", OpponentTestFactory.create());
+		Bunny player = new BunnyFactory(1).createPlayer(1, "", OpponentTestFactory.create());
 		whenPlayerJoins(player);
 		assertThat(player.isDead(), is(false));
 	}
@@ -52,13 +52,13 @@ public class HostBunnyKillCheckerTest {
 	@Test
 	public void playerJoins_thenPlayerIsRevivedLater() {
 		whenPlayerJoins(TestPlayerFactory.createOpponentPlayer());
-		verify(this.reviver).revivePlayerLater(any(Player.class));
+		verify(this.reviver).revivePlayerLater(any(Bunny.class));
 	}
 
 	@Test
 	public void playerJoins_thenPlayerCoordinateIsResetToSpawnPoint() {
 		givenNextSpawnPointIsAt(1, 1);
-		Player player = TestPlayerFactory.createOpponentPlayer();
+		Bunny player = TestPlayerFactory.createOpponentPlayer();
 		whenPlayerJoins(player);
 		assertThat(player.getCenterX(), is(equalTo(1L)));
 		assertThat(player.getCenterY(), is(equalTo(1L)));
@@ -68,7 +68,7 @@ public class HostBunnyKillCheckerTest {
 		when(this.spawnGenerator.nextSpawnPoint()).thenReturn(new SpawnPoint(x, y));
 	}
 
-	private void whenPlayerJoins(Player player) {
+	private void whenPlayerJoins(Bunny player) {
 		this.fixture.newEvent(player);
 	}
 

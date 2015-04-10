@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.networking.receive.PlayerPropertiesReceive
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class OtherPlayerJoinsGameListener implements PlayerPropertiesReceiveListener {
 
@@ -21,11 +21,11 @@ public class OtherPlayerJoinsGameListener implements PlayerPropertiesReceiveList
 
 	@Override
 	public void addOtherPlayer(PlayerProperties object) {
-		Player player = createPlayer(object);
+		Bunny player = createPlayer(object);
 		main.newEvent(player);
 	}
 
-	private Player createPlayer(PlayerProperties object) {
+	private Bunny createPlayer(PlayerProperties object) {
 		int speedSetting = configuration.getGeneralSettings().getSpeedSetting();
 		int playerId = object.getPlayerId();
 		String playerName = object.getPlayerName();

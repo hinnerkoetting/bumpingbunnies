@@ -26,7 +26,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 
 public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconnectedCallback {
@@ -103,9 +103,9 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 			new StopGameSender(SimpleNetworkSenderFactory.createNetworkSender(socket, this)).sendMessage("");
 	}
 
-	private List<Player> findLocalPlayers() {
-		List<Player> localPlayers = new ArrayList<Player>();
-		for (Player player : world.getAllPlayer()) {
+	private List<Bunny> findLocalPlayers() {
+		List<Bunny> localPlayers = new ArrayList<Bunny>();
+		for (Bunny player : world.getAllPlayer()) {
 			if (player.getOpponent().isLocalPlayer()) {
 				localPlayers.add(player);
 			}
@@ -114,10 +114,10 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	}
 
 	private void disconnectLocalPlayers() {
-		List<Player> localPlayers = findLocalPlayers();
+		List<Bunny> localPlayers = findLocalPlayers();
 		for (MySocket socket : SocketStorage.getSingleton().getAllSockets()) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket, this);
-			for (Player localPlayer : localPlayers)
+			for (Bunny localPlayer : localPlayers)
 				networkSender.sendMessage(MessageId.PLAYER_DISCONNECTED, new PlayerDisconnectedMessage(localPlayer.id()));
 		}
 	}
@@ -132,10 +132,10 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		this.musicPlayer.stopBackground();
 	}
 
-	public void restorePlayerStates(List<Player> players) {
-		List<Player> existingPlayers = this.world.getAllPlayer();
-		for (Player p : existingPlayers) {
-			for (Player storedPlayer : players) {
+	public void restorePlayerStates(List<Bunny> players) {
+		List<Bunny> existingPlayers = this.world.getAllPlayer();
+		for (Bunny p : existingPlayers) {
+			for (Bunny storedPlayer : players) {
 				if (p.id() == storedPlayer.id()) {
 					p.applyStateTo(storedPlayer);
 				}
@@ -154,14 +154,14 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	}
 
 	@Override
-	public void newEvent(Player player) {
+	public void newEvent(Bunny player) {
 		LOGGER.info("Player joined %d", player.id());
 		world.addPlayer(player);
 		this.playerObservable.playerJoined(player);
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 		world.removePlayer(p);
 		this.playerObservable.playerLeft(p);
 	}
@@ -193,26 +193,26 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	@Override
 	public void playerDisconnected(ConnectionIdentifier opponent) {
-		Player disconnectedPlayer = findPlayer(opponent);
+		Bunny disconnectedPlayer = findPlayer(opponent);
 		removeEvent(disconnectedPlayer);
 	}
 
 	@Override
 	public void playerDisconnected(int playerId) {
-		Player disconnectedPlayer = findPlayer(playerId);
+		Bunny disconnectedPlayer = findPlayer(playerId);
 		removeEvent(disconnectedPlayer);
 	}
 
-	private Player findPlayer(ConnectionIdentifier opponent) {
-		for (Player p : world.getAllPlayer()) {
+	private Bunny findPlayer(ConnectionIdentifier opponent) {
+		for (Bunny p : world.getAllPlayer()) {
 			if (p.getOpponent().getIdentifier().equals(opponent.getIdentifier()))
 				return p;
 		}
 		throw new IllegalArgumentException("Could not find player " + opponent);
 	}
 
-	private Player findPlayer(int playerId) {
-		for (Player p : world.getAllPlayer()) {
+	private Bunny findPlayer(int playerId) {
+		for (Bunny p : world.getAllPlayer()) {
 			if (p.id() == playerId)
 				return p;
 		}

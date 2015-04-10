@@ -24,7 +24,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.ScoreDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -39,7 +39,7 @@ public class DrawerTest {
 	private Drawable playerDrawable;
 	@Mock
 	private CanvasDelegate canvas;
-	private Player player;
+	private Bunny player;
 
 	@Test
 	public void playerJoins_thenPlayerDrawableShouldBeDrawn() {
@@ -61,11 +61,11 @@ public class DrawerTest {
 		verify(this.playerDrawable, never()).draw(this.canvas);
 	}
 
-	private void whenPlayerLeaves(Player p) {
+	private void whenPlayerLeaves(Bunny p) {
 		this.fixture.removeEvent(p);
 	}
 
-	private void givenPlayerDrawableDoesExist(Player p) {
+	private void givenPlayerDrawableDoesExist(Bunny p) {
 		this.fixture.newEvent(p);
 	}
 
@@ -82,8 +82,8 @@ public class DrawerTest {
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.fixture = new ObjectsDrawer(this.factory, this.canvas);
-		when(this.factory.createPlayerDrawable(any(Player.class), eq(canvas))).thenReturn(this.playerDrawable);
-		when(this.playerDrawable.drawsPlayer(any(Player.class))).thenReturn(true);
-		when(factory.createScoreDrawer(any(Player.class))).thenReturn(new ScoreDrawer(TestPlayerFactory.createMyPlayer(), 0, 0));
+		when(this.factory.createPlayerDrawable(any(Bunny.class), eq(canvas))).thenReturn(this.playerDrawable);
+		when(this.playerDrawable.drawsPlayer(any(Bunny.class))).thenReturn(true);
+		when(factory.createScoreDrawer(any(Bunny.class))).thenReturn(new ScoreDrawer(TestPlayerFactory.createMyPlayer(), 0, 0));
 	}
 }

@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PcPlayerDrawableFactory implements PlayerDrawableFactory {
 
@@ -15,7 +15,7 @@ public class PcPlayerDrawableFactory implements PlayerDrawableFactory {
 	}
 
 	@Override
-	public Drawable create(Player player, int playerWidth, int playerHeight) {
+	public Drawable create(Bunny player, int playerWidth, int playerHeight) {
 		return factory.create(playerWidth, playerHeight, player);
 	}
 }

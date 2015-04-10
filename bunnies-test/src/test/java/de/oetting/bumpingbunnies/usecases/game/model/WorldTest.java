@@ -10,7 +10,7 @@ import org.junit.experimental.categories.Category;
 
 import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)
@@ -25,13 +25,13 @@ public class WorldTest {
 
 	@Test
 	public void findPlayer_givenPlayerDoesExist_returnsThisPlayer() {
-		Player p = createOpponentPlayer();
+		Bunny p = createOpponentPlayer();
 		addPlayer(p);
-		Player foundPlayer = this.fixture.findPlayer(p.id());
+		Bunny foundPlayer = this.fixture.findPlayer(p.id());
 		assertThat(p, new IsSame<>(foundPlayer));
 	}
 
-	private void addPlayer(Player p) {
+	private void addPlayer(Bunny p) {
 		this.fixture.addPlayer(p);
 	}
 

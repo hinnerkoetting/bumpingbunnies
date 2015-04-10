@@ -55,7 +55,7 @@ import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
@@ -116,7 +116,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			Canvas canvas = new Canvas(1000, 600);
 			createPanel(primaryStage, canvas);
 
-			Player myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
+			Bunny myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
 			buildGame(canvas, myPlayer);
 
@@ -141,7 +141,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		List<OpponentConfiguration> players = parameter.getConfiguration().getOtherPlayers();
 		for (OpponentConfiguration config : players) {
 			if (config.getOpponent().isLocalHumanPlayer()) {
-				Player otherPlayer = gameMain.getWorld().findPlayer(config.getPlayerId());
+				Bunny otherPlayer = gameMain.getWorld().findPlayer(config.getPlayerId());
 				inputDispatcher.addInputService(inputFactory.create(
 						(KeyboardInputConfiguration) config.getInput(), otherPlayer));
 			}
@@ -192,7 +192,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 
 	}
 
-	private void buildGame(Canvas canvas, Player myPlayer) {
+	private void buildGame(Canvas canvas, Bunny myPlayer) {
 		World world = createWorld();
 		WorldProperties worldProperties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE,
 				ModelConstants.STANDARD_WORLD_SIZE);
@@ -286,10 +286,10 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private List<ScoreEntry> extractScores() {
-		List<Player> allPlayer = gameMain.getWorld().getAllPlayer();
+		List<Bunny> allPlayer = gameMain.getWorld().getAllPlayer();
 		List<ScoreEntry> entries = new ArrayList<>(allPlayer.size());
 		synchronized (allPlayer) {
-			for (Player player : allPlayer) {
+			for (Bunny player : allPlayer) {
 				entries.add(new ScoreEntry(player.getName(), player.getScore(), player.getColor()));
 			}
 		}

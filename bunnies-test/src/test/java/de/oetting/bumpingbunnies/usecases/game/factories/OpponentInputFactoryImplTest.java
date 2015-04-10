@@ -22,7 +22,7 @@ import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -50,7 +50,7 @@ public class OpponentInputFactoryImplTest {
 
 	@Test
 	public void create_givenIsMyPlayer_shouldCreateDummyInput() {
-		Player p = TestPlayerFactory.createMyPlayer();
+		Bunny p = TestPlayerFactory.createMyPlayer();
 		OpponentInput inputService = this.fixture.create(p);
 		assertThat(inputService, is(instanceOf(DummyInputService.class)));
 	}

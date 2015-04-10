@@ -5,7 +5,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 
@@ -19,7 +19,7 @@ public interface ObjectProvider {
 
 	List<IcyWall> getAllIcyWalls();
 
-	List<Player> getAllPlayer();
+	List<Bunny> getAllPlayer();
 
 	List<Water> getAllWaters();
 }

@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMessage> {
 
@@ -24,7 +24,7 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMe
 	@Override
 	public void onReceiveMessage(PlayerIsDeadMessage object) {
 		if (world.existsPlayer(object.getPlayerId())) {
-			Player p = findPlayer(object);
+			Bunny p = findPlayer(object);
 			p.setDead(true);
 			deadPlayerMusic.start();
 		} else {
@@ -32,7 +32,7 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMe
 		}
 	}
 
-	private Player findPlayer(PlayerIsDeadMessage message) {
+	private Bunny findPlayer(PlayerIsDeadMessage message) {
 		return this.world.findPlayer(message.getPlayerId());
 	}
 }

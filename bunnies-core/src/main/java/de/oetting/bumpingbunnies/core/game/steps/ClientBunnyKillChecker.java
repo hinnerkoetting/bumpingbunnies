@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.game.steps;
 
-import de.oetting.bumpingbunnies.model.game.objects.Player;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class ClientBunnyKillChecker implements BunnyKillChecker {
 
@@ -21,10 +21,10 @@ public class ClientBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	@Override
-	public void newEvent(Player p) {
+	public void newEvent(Bunny p) {
 	}
 
 	@Override
-	public void removeEvent(Player p) {
+	public void removeEvent(Bunny p) {
 	}
 }
