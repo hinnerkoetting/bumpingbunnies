@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.JobAttributes;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
@@ -349,9 +350,18 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JButton createRefreshButton() {
-		JButton button = new JButton("Refresh");
-		button.addActionListener((event) -> displayFile());
+		JButton button = new JButton("Reload");
+		button.addActionListener((event) -> askForRefresh());
 		return button;
+	}
+
+	private void askForRefresh() {
+		if (lastFile != null) {
+			int showConfirmDialog = JOptionPane.showConfirmDialog(this,
+					"Are you sure that you want to discard all current changes?");
+			if (showConfirmDialog == JOptionPane.YES_OPTION)
+				displayFile();
+		}
 	}
 
 	private JButton createLoadButton() {
@@ -374,9 +384,9 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void parseFile() {
-		if (lastFile.getName().endsWith("xml")) 
+		if (lastFile.getName().endsWith("xml"))
 			parseXml();
-		else 
+		else
 			parseZip();
 	}
 
@@ -477,7 +487,7 @@ public class ViewerPanel extends JPanel {
 		try {
 			JFileChooser dialog = new JFileChooser(lastFile);
 			dialog.setFileFilter(new FileNameExtensionFilter("Zip", "zip"));
-			dialog.showSaveDialog(this); 
+			dialog.showSaveDialog(this);
 			if (dialog.getSelectedFile() != null) {
 				this.lastFile = dialog.getSelectedFile();
 				File newFile = lastFile;
