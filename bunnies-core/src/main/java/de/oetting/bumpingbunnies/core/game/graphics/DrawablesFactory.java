@@ -80,6 +80,7 @@ public class DrawablesFactory {
 		list.addAll(world.getAllIcyWalls());
 		list.addAll(world.getAllJumper());
 		list.addAll(world.getAllWaters());
+		list.addAll(world.getBackgrounds());
 		return list;
 	}
 
