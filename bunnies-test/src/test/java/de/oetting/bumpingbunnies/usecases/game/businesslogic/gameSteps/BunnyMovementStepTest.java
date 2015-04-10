@@ -19,7 +19,7 @@ import org.mockito.stubbing.Answer;
 
 import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
+import de.oetting.bumpingbunnies.core.game.movement.BunnyMovement;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
@@ -110,10 +110,10 @@ public class BunnyMovementStepTest {
 	}
 
 	private void initMovementFactory() {
-		when(this.calculationFactory.create(any(Bunny.class))).thenAnswer(new Answer<PlayerMovement>() {
+		when(this.calculationFactory.create(any(Bunny.class))).thenAnswer(new Answer<BunnyMovement>() {
 
 			@Override
-			public PlayerMovement answer(InvocationOnMock invocation) throws Throwable {
+			public BunnyMovement answer(InvocationOnMock invocation) throws Throwable {
 				return new FixedPositionPlayerPosition((Bunny) invocation.getArguments()[0]);
 			}
 		});

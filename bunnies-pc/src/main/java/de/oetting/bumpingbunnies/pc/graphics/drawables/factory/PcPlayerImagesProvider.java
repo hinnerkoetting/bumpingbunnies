@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.image.Image;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class PcPlayerImagesProvider implements PlayerImagesProvider {
 
-	private final PlayerImagesReader reader;
+	private final BunnyImagesReader reader;
 
-	public PcPlayerImagesProvider(PlayerImagesReader reader) {
+	public PcPlayerImagesProvider(BunnyImagesReader reader) {
 		this.reader = reader;
 	}
 

@@ -6,27 +6,27 @@ public class PlayerImagesReaderTest {
 
 	@Test
 	public void loadAllRunning_smokeTest() {
-		new PlayerImagesReader().loadAllRunningImages();
+		new BunnyImagesReader().loadAllRunningImages();
 	}
 
 	@Test
 	public void loadAllJumping_smokeTest() {
-		new PlayerImagesReader().loadAllJumpingImages();
+		new BunnyImagesReader().loadAllJumpingImages();
 	}
 
 	@Test
 	public void loadAllFalling_smokeTest() {
-		new PlayerImagesReader().loadAllFallingImages();
+		new BunnyImagesReader().loadAllFallingImages();
 	}
 
 	@Test
 	public void loadAllJumpingUp_smokeTest() {
-		new PlayerImagesReader().loadAllJumpingUpImages();
+		new BunnyImagesReader().loadAllJumpingUpImages();
 	}
 
 	@Test
 	public void loadAllSitting_smokeTest() {
-		new PlayerImagesReader().loadAllSittingImages();
+		new BunnyImagesReader().loadAllSittingImages();
 	}
 
 }

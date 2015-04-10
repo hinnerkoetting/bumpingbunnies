@@ -6,8 +6,8 @@ import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ImageMirroror;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
@@ -36,10 +36,10 @@ public class DrawerFactory {
 	}
 
 	private static AndroidPlayerDrawableFactory createPlayerDrawerFactory() {
-		PlayerImagesReader imagesReader = new PlayerImagesReader();
+		BunnyImagesReader imagesReader = new BunnyImagesReader();
 		PlayerImagesProvider imagesProvider = new AndroidPlayerImagesProvider(imagesReader);
 		ImagesColorer colorer = new AndroidImagesColoror();
 		ImageMirroror mirrorer = new AndroidImagesMirrorer();
-		return new AndroidPlayerDrawableFactory(new PlayerDrawerFactory(imagesProvider, colorer, mirrorer));
+		return new AndroidPlayerDrawableFactory(new BunnyDrawerFactory(imagesProvider, colorer, mirrorer));
 	}
 }

@@ -7,9 +7,9 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
-public class PlayerDrawer implements Drawable {
+public class BunnyDrawer implements Drawable {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDrawer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BunnyDrawer.class);
 	private static final int ALPHA_WHILE_ALIVE = 255;
 	private static final int ALPHA_WHILE_IN_WATER = 96;
 	private static final int ALPHA_WHILE_DEAD = 64;
@@ -17,7 +17,7 @@ public class PlayerDrawer implements Drawable {
 	private final Paint paint;
 	private List<ConditionalMirroredAnimation> animations;
 
-	public PlayerDrawer(Bunny player, List<ConditionalMirroredAnimation> animations) {
+	public BunnyDrawer(Bunny player, List<ConditionalMirroredAnimation> animations) {
 		this.player = player;
 		this.animations = animations;
 		this.paint = new Paint();

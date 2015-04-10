@@ -1,17 +1,17 @@
 package de.oetting.bumpingbunnies.pc.graphics.drawables.factory;
 
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawableFactory;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
-public class PcPlayerDrawableFactory implements PlayerDrawableFactory {
+public class PcPlayerDrawableFactory implements BunnyDrawableFactory {
 
-	private final PlayerDrawerFactory factory;
+	private final BunnyDrawerFactory factory;
 
 	public PcPlayerDrawableFactory() {
-		this.factory = new PlayerDrawerFactory(new PcPlayerImagesProvider(new PlayerImagesReader()), new PcImagesColoror(), new PcImageMirroror());
+		this.factory = new BunnyDrawerFactory(new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(), new PcImageMirroror());
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvider;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesColoror;
@@ -44,7 +44,7 @@ public class ResultArrayAdapter extends ArrayAdapter<ResultPlayerEntry> {
 	private void modifyPlayerImage(View entryView, int position) {
 		ImageView imageView = (ImageView) entryView
 				.findViewById(R.id.result_player_image);
-		ImageWrapper image = new AndroidPlayerImagesProvider(new PlayerImagesReader()).loadOneImage(64, 64);
+		ImageWrapper image = new AndroidPlayerImagesProvider(new BunnyImagesReader()).loadOneImage(64, 64);
 		ImageWrapper coloredImage = new AndroidImagesColoror().colorImage(image, getItem(position).getPlayerColor());
 		imageView.setImageBitmap((Bitmap)coloredImage.getBitmap());
 				

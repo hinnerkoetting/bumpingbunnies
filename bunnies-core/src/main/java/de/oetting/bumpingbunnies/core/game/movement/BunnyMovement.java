@@ -12,16 +12,16 @@ import de.oetting.bumpingbunnies.model.game.objects.Water;
  * Responsible for calculation the movement of players. Checks for collision,
  * updates screen position.
  */
-public class PlayerMovement {
+public class BunnyMovement {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerMovement.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BunnyMovement.class);
 
 	private final Bunny movedPlayer;
 	private final GameObjectInteractor objectInteraction;
 	private final CollisionDetection collisionDetection;
 	private final MusicPlayer jumpMusic;
 
-	public PlayerMovement(Bunny movedPlayer, GameObjectInteractor interactionService,
+	public BunnyMovement(Bunny movedPlayer, GameObjectInteractor interactionService,
 			CollisionDetection collisionDetection, MusicPlayer jumpMusic) {
 		this.movedPlayer = movedPlayer;
 		this.objectInteraction = interactionService;

@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerImagesReader {
+public class BunnyImagesReader {
 
 	public List<InputStream> loadAllRunningImages() {
 		return loadImages("v1d_run_1", "v1d_run_2", "v1d_run_3", "v1d_run_4");

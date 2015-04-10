@@ -1,15 +1,15 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawableFactory;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerDrawerFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
-public class AndroidPlayerDrawableFactory implements PlayerDrawableFactory {
+public class AndroidPlayerDrawableFactory implements BunnyDrawableFactory {
 
-	private final PlayerDrawerFactory factory;
+	private final BunnyDrawerFactory factory;
 
-	public AndroidPlayerDrawableFactory(PlayerDrawerFactory factory) {
+	public AndroidPlayerDrawableFactory(BunnyDrawerFactory factory) {
 		this.factory = factory;
 	}
 

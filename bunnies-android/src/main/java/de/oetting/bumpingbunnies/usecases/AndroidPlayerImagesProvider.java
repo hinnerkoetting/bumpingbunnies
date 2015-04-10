@@ -8,16 +8,16 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AndroidPlayerImagesProvider implements PlayerImagesProvider {
 
-	private final PlayerImagesReader reader;
+	private final BunnyImagesReader reader;
 	private final SimpleBitmapResizer imageResizer;
 
-	public AndroidPlayerImagesProvider(PlayerImagesReader reader) {
+	public AndroidPlayerImagesProvider(BunnyImagesReader reader) {
 		this.reader = reader;
 		this.imageResizer = new SimpleBitmapResizer();
 	}

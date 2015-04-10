@@ -15,7 +15,7 @@ public class PlayerMovementCalculationFactory {
 		this.jumpMusic = jumpMusic;
 	}
 
-	public PlayerMovement create(Bunny p) {
-		return new PlayerMovement(p, this.interactionService, this.collisionDetection, this.jumpMusic);
+	public BunnyMovement create(Bunny p) {
+		return new BunnyMovement(p, this.interactionService, this.collisionDetection, this.jumpMusic);
 	}
 }

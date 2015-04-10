@@ -20,10 +20,10 @@ public class DrawablesFactory {
 	private final World world;
 	private final BackgroundDrawableFactory backgroundDrawableFactory;
 	private final GameObjectDrawableFactory gameObjectDrawableFactory;
-	private final PlayerDrawableFactory playerDrawableFactory;
+	private final BunnyDrawableFactory playerDrawableFactory;
 
 	public DrawablesFactory(GameThreadState gameThreadState, World world, BackgroundDrawableFactory backgroundDrawableFactory,
-			GameObjectDrawableFactory gameObjectDrawableFactory, PlayerDrawableFactory playerDrawableFactory) {
+			GameObjectDrawableFactory gameObjectDrawableFactory, BunnyDrawableFactory playerDrawableFactory) {
 		this.gameThreadState = gameThreadState;
 		this.world = world;
 		this.backgroundDrawableFactory = backgroundDrawableFactory;

@@ -7,7 +7,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import de.oetting.bumpingbunnies.core.game.graphics.PlayerImagesReader;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImagesColoror;
@@ -22,13 +22,13 @@ public class ScoreImageCell extends TableCell<ScoreEntry, Integer> {
 		coloror = new PcImagesColoror();
 		VBox box = new VBox();
 		setGraphic(box);
-		InputStream image = new PlayerImagesReader().loadOneImage();
+		InputStream image = new BunnyImagesReader().loadOneImage();
 		imageView = new ImageView(new Image(image));
 		imageView.setFitHeight(25);
 		box.setAlignment(Pos.CENTER);
 		box.getChildren().add(imageView);
 
-		InputStream imageInputstream = new PlayerImagesReader().loadOneImage();
+		InputStream imageInputstream = new BunnyImagesReader().loadOneImage();
 		Image fxImage = new Image(imageInputstream, 25, 25, true, true);
 		originalImageWrapper = new ImageWrapper(fxImage, "dummy");
 	}

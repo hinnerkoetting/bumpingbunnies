@@ -9,19 +9,19 @@ import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
-public class PlayerDrawerFactory {
+public class BunnyDrawerFactory {
 
 	private final PlayerImagesProvider imagesProvider;
 	private final ImagesColorer coloror;
 	private final ImageMirroror mirroror;
 
-	public PlayerDrawerFactory(PlayerImagesProvider imagesProvider, ImagesColorer coloror, ImageMirroror mirroror) {
+	public BunnyDrawerFactory(PlayerImagesProvider imagesProvider, ImagesColorer coloror, ImageMirroror mirroror) {
 		this.imagesProvider = imagesProvider;
 		this.coloror = coloror;
 		this.mirroror = mirroror;
 	}
 
-	public PlayerDrawer create(int width, int heigth, Bunny player) {
+	public BunnyDrawer create(int width, int heigth, Bunny player) {
 		int timeBetweenPictures = 50;
 		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(createRunningAnimation(width, heigth, player), timeBetweenPictures,
 				mirroror);
@@ -35,7 +35,7 @@ public class PlayerDrawerFactory {
 				createJumpingOnlyUpAnimation(width, heigth, player), 100, mirroror);
 		List<ConditionalMirroredAnimation> animations = Arrays.asList(runningAnimation, fallingAnimation, jumpingAnimation, sittingAnimation,
 				jumpingOnlyUpAnimation);
-		return new PlayerDrawer(player, animations);
+		return new BunnyDrawer(player, animations);
 	}
 
 	private List<ImageWrapper> createRunningAnimation(int width, int heigth, Bunny player) {

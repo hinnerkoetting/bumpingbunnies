@@ -46,6 +46,6 @@ public class PlayerMovementWithHigherSpeedTest extends AbstractTestPlayerMovemen
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.player = new BunnyFactory(speed).createPlayer(0, "player", OpponentTestFactory.create());
-		this.fixture = new PlayerMovement(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
+		this.fixture = new BunnyMovement(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
 	}
 }
