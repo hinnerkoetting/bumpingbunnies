@@ -1,11 +1,13 @@
 package de.jumpnbump.usecases.viewer;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +47,26 @@ public class Main {
 		if (args.length > 0) {
 			new Viewer().display(args[0]);
 		} else {
-			new Viewer().display();
+			String lastFile = loadLastFile();
+			if (lastFile != null)
+				new Viewer().display(lastFile);
+			else {
+				new Viewer().display();
+			}
+		}
+	}
+
+	private static String loadLastFile() {
+		try {
+			Properties properties = new Properties();
+			File config = new File("config.properties");
+			if (config.exists()) {
+				properties.load(new FileInputStream(config));
+				return properties.getProperty("file");
+			}
+			return null;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

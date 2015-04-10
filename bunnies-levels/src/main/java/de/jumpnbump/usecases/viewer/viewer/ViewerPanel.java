@@ -86,7 +86,7 @@ public class ViewerPanel extends JPanel {
 
 	public void build() {
 		setLayout(createLayout());
-		parseXml();
+		parseFile();
 		this.myCanvas = new MyCanvas(this.model);
 		add(createModeButtons(), BorderLayout.LINE_START);
 		add(new JScrollPane(this.myCanvas), BorderLayout.CENTER);
@@ -508,6 +508,13 @@ public class ViewerPanel extends JPanel {
 
 	public void repaintCanvas() {
 		myCanvas.repaint();
+	}
+
+	public String getLastFileName() {
+		if (lastFile != null) {
+			return lastFile.getPath();
+		}
+		return null;
 	}
 
 }
