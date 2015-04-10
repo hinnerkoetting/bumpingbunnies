@@ -307,6 +307,7 @@ public class ViewerPanel extends JPanel {
 		this.spawns.setCellRenderer(new SpawnpointRender());
 		this.spawns.setModel(defaultListModel);
 		this.spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
+		spawns.addMouseListener(new SpawnListAdapter(this));
 	}
 
 	private void setBackgroundsModel() {
