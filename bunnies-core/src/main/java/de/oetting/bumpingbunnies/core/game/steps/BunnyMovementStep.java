@@ -3,7 +3,7 @@ package de.oetting.bumpingbunnies.core.game.steps;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
@@ -14,7 +14,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Player;
  */
 public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 
-	private final List<PlayerMovementCalculation> playermovements;
+	private final List<PlayerMovement> playermovements;
 	private final BunnyKillChecker killChecker;
 	private final PlayerMovementCalculationFactory calculationFactory;
 	private final FixPlayerPosition fixPlayerPosition;
@@ -23,12 +23,12 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 		this.killChecker = killChecker;
 		this.calculationFactory = calculationFactory;
 		this.fixPlayerPosition = fixPlayerPosition;
-		this.playermovements = new CopyOnWriteArrayList<PlayerMovementCalculation>();
+		this.playermovements = new CopyOnWriteArrayList<PlayerMovement>();
 	}
 
 	@Override
 	public void executeNextStep(long deltaStepsSinceLastCall) {
-		for (PlayerMovementCalculation movement : this.playermovements) {
+		for (PlayerMovement movement : this.playermovements) {
 			movement.nextStep(deltaStepsSinceLastCall);
 			// must be in this line otherwise kill checks will not work
 			// properly. the other player might move a bit and the bunny might
@@ -44,14 +44,14 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 
 	@Override
 	public void newEvent(Player p) {
-		PlayerMovementCalculation movementCalculation = this.calculationFactory.create(p);
+		PlayerMovement movementCalculation = this.calculationFactory.create(p);
 		this.playermovements.add(movementCalculation);
 		fixPlayerPosition.newEvent(p);
 	}
 
 	@Override
 	public void removeEvent(Player p) {
-		PlayerMovementCalculation movementCalculation = findPlayerMovementCalculation(p);
+		PlayerMovement movementCalculation = findPlayerMovementCalculation(p);
 		this.playermovements.remove(movementCalculation);
 		fixPlayerPosition.removeEvent(p);
 	}
@@ -60,8 +60,8 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 		main.addJoinListener(this.killChecker);
 	}
 
-	private PlayerMovementCalculation findPlayerMovementCalculation(Player p) {
-		for (PlayerMovementCalculation c : this.playermovements) {
+	private PlayerMovement findPlayerMovementCalculation(Player p) {
+		for (PlayerMovement c : this.playermovements) {
 			if (c.controlsThisPlayer(p)) {
 				return c;
 			}

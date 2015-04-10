@@ -6,14 +6,14 @@ import org.mockito.Mock;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
-import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculation;
+import de.oetting.bumpingbunnies.core.game.movement.PlayerMovement;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Player;
 import de.oetting.bumpingbunnies.usecases.game.TestableGameObject;
 
 public class AbstractTestPlayerMovementCalculation {
 
-	protected PlayerMovementCalculation fixture;
+	protected PlayerMovement fixture;
 	protected Player player;
 	@Mock
 	protected GameObjectInteractor interactionService;

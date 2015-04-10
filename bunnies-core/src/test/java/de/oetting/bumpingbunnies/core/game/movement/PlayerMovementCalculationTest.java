@@ -118,6 +118,6 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.player = new BunnyFactory(1).createPlayer(0, "player", OpponentTestFactory.create());
-		this.fixture = new PlayerMovementCalculation(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
+		this.fixture = new PlayerMovement(this.player, this.interactionService, this.collisionDetection, this.musicPlayer);
 	}
 }
