@@ -103,8 +103,7 @@ public class PlayerMovement {
 	public void computeHorizontalMovement() {
 		if (isPlayerMoving()) {
 			int accelerationX = findAccelerationForObject();
-			boolean isMovingLeft = this.movedPlayer.isMovingLeft();
-			this.movedPlayer.setAccelerationX(isMovingLeft ? -accelerationX : accelerationX);
+			this.movedPlayer.setAccelerationX(movedPlayer.isMovingLeft() ? -accelerationX : accelerationX);
 		} else {
 			if (this.movedPlayer.movementX() != 0) {
 				steerAgainstMovement();
