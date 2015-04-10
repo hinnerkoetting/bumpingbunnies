@@ -28,7 +28,6 @@ public class MyCanvas extends JPanel {
 	public static final int SPAWN_RADIUS = 5;
 	private World objectContainer;
 	private Object selectedObject;
-	private double zoom;
 	private CoordinatesCalculation coordinatesCalculation;
 
 	private WorldProperties properties;
@@ -36,7 +35,6 @@ public class MyCanvas extends JPanel {
 
 	public MyCanvas(World container) {
 		this.objectContainer = container;
-		this.zoom = 1;
 		properties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		this.coordinatesCalculation = new AbsoluteCoordinatesCalculation(getWidth(), getHeight(), properties);
 	}
@@ -112,11 +110,13 @@ public class MyCanvas extends JPanel {
 	}
 
 	private int calculatePixelWidht(long minX, long maxX) {
-		return (this.coordinatesCalculation.getScreenCoordinateX(maxX) - this.coordinatesCalculation.getScreenCoordinateX(minX));
+		return (this.coordinatesCalculation.getScreenCoordinateX(maxX) - this.coordinatesCalculation
+				.getScreenCoordinateX(minX));
 	}
 
 	private int calculateHeight(long minY, long maxY) {
-		return -(this.coordinatesCalculation.getScreenCoordinateY(maxY) - this.coordinatesCalculation.getScreenCoordinateY(minY));
+		return -(this.coordinatesCalculation.getScreenCoordinateY(maxY) - this.coordinatesCalculation
+				.getScreenCoordinateY(minY));
 	}
 
 	public void setSelectedObject(Object selectedObject) {
@@ -130,18 +130,10 @@ public class MyCanvas extends JPanel {
 		return null;
 	}
 
-	public double getZoom() {
-		return this.zoom;
-	}
-
-	public void setZoom(double zoom) {
-		this.zoom = zoom;
-	}
-
 	public void setWorld(World model) {
 		this.objectContainer = model;
 	}
-	
+
 	public void setCurrentlyEditedObject(GameObjectWithImage object) {
 		currentlyEditedObject = object;
 		repaint();

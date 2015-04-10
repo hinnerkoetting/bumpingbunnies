@@ -4,9 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.JobAttributes;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
@@ -28,7 +25,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
@@ -135,41 +131,7 @@ public class ViewerPanel extends JPanel {
 	private JComponent createTopPanel() {
 		JComponent panel = new JPanel(new GridLayout(0, 2));
 		panel.add(createButtons());
-		panel.add(createSettings());
 		return panel;
-	}
-
-	private JComponent createSettings() {
-		JPanel panel = new JPanel();
-		panel.add(new JLabel("Zoom"));
-		final JTextField zoomField = new JTextField(5);
-		zoomField.setText("1");
-		zoomField.addActionListener((event) -> applyZoom(zoomField));
-		zoomField.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				applyZoom(zoomField);
-			}
-
-			@Override
-			public void focusGained(FocusEvent arg0) {
-			}
-		});
-		panel.add(zoomField);
-		return panel;
-	}
-
-	private void applyZoom(JTextField zoomField) {
-		String text = zoomField.getText();
-		try {
-			double newZoom = Double.parseDouble(text);
-			ViewerPanel.this.myCanvas.setZoom(newZoom);
-			ViewerPanel.this.myCanvas.repaint();
-		} catch (NumberFormatException e) {
-			double oldZoom = ViewerPanel.this.myCanvas.getZoom();
-			zoomField.setText(Double.toString(oldZoom));
-		}
 	}
 
 	private JComponent createButtons() {
@@ -177,6 +139,7 @@ public class ViewerPanel extends JPanel {
 		box.add(createLoadButton());
 		box.add(createRefreshButton());
 		box.add(createSaveButton());
+		box.add(createSaveAsButton());
 		box.add(createRoundButton());
 		return box;
 	}
@@ -358,7 +321,7 @@ public class ViewerPanel extends JPanel {
 	private void askForRefresh() {
 		if (lastFile != null) {
 			int showConfirmDialog = JOptionPane.showConfirmDialog(this,
-					"Are you sure that you want to discard all current changes?");
+					"Are you sure that you want to discard all current changes?", "Refresh", JOptionPane.YES_NO_OPTION);
 			if (showConfirmDialog == JOptionPane.YES_OPTION)
 				displayFile();
 		}
@@ -441,8 +404,14 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JButton createSaveButton() {
-		JButton button = new JButton("save");
+		JButton button = new JButton("Save");
 		button.addActionListener((event) -> save());
+		return button;
+	}
+
+	private JButton createSaveAsButton() {
+		JButton button = new JButton("Save as");
+		button.addActionListener((event) -> saveAs());
 		return button;
 	}
 
@@ -485,20 +454,34 @@ public class ViewerPanel extends JPanel {
 
 	private void save() {
 		try {
+			if (lastFile != null)
+				saveLevel();
+		} catch (Exception e) {
+			LOGGER.error("error", e);
+			JOptionPane.showMessageDialog(ViewerPanel.this, "An error occured: " + e.getMessage());
+		}
+	}
+
+	private void saveAs() {
+		try {
 			JFileChooser dialog = new JFileChooser(lastFile);
 			dialog.setFileFilter(new FileNameExtensionFilter("Zip", "zip"));
 			dialog.showSaveDialog(this);
 			if (dialog.getSelectedFile() != null) {
 				this.lastFile = dialog.getSelectedFile();
-				File newFile = lastFile;
-				newFile.delete();
-				newFile.createNewFile();
-				new LevelStorer(new XmlStorer(model)).storeLevel(newFile, model);
+				saveLevel();
 			}
 		} catch (Exception e) {
 			LOGGER.error("error", e);
 			JOptionPane.showMessageDialog(ViewerPanel.this, "An error occured: " + e.getMessage());
 		}
+	}
+
+	private void saveLevel() throws IOException {
+		File newFile = lastFile;
+		newFile.delete();
+		newFile.createNewFile();
+		new LevelStorer(new XmlStorer(model)).storeLevel(newFile, model);
 	}
 
 	public void refreshTables() {
