@@ -53,10 +53,10 @@ public class World implements ObjectProvider {
 	}
 
 	private void addCollidingObjects(List<? super GameObjectWithImage> addToList) {
-		addToList.addAll(this.allWalls);
-		addToList.addAll(this.allIcyWalls);
-		addToList.addAll(this.allJumpers);
 		addToList.addAll(this.allWaters);
+		addToList.addAll(this.allJumpers);
+		addToList.addAll(this.allIcyWalls);
+		addToList.addAll(this.allWalls);
 	}
 
 	@Override
