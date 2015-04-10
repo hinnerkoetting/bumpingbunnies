@@ -99,6 +99,7 @@ public class SelectAction implements MouseAction {
 			S wall = list.remove(index);
 			list.add(index + 1, wall);
 			switchIndex(object, list, index);
+			applyZIndexByListOrder(list);
 		}
 	}
 
@@ -108,6 +109,7 @@ public class SelectAction implements MouseAction {
 			S wall = list.remove(index);
 			list.add(index - 1, wall);
 			switchIndex(object, list, index);
+			applyZIndexByListOrder(list);
 		}
 	}
 
@@ -131,6 +133,7 @@ public class SelectAction implements MouseAction {
 			list.add(0, (S) object);
 			provider.getAllDrawingObjects().stream().forEach((element) -> element.setzIndex(element.getzIndex() + 1));
 			object.setzIndex(0);
+			applyZIndexByListOrder(list);
 		}
 	}
 
@@ -140,6 +143,14 @@ public class SelectAction implements MouseAction {
 			list.add(list.size(), (S) object);
 			provider.getAllDrawingObjects().stream().forEach((element) -> element.setzIndex(element.getzIndex() - 1));
 			object.setzIndex(provider.getAllDrawingObjects().size() - 1);
+			applyZIndexByListOrder(list);
+		}
+	}
+
+	private void applyZIndexByListOrder(List list) {
+		for (int i = 0; i < list.size(); i++) {
+			GameObjectWithImage object = (GameObjectWithImage) list.get(i);
+			object.setzIndex(i);
 		}
 	}
 
