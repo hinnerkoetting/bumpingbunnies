@@ -6,6 +6,8 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	private final Rect rect;
 	private final int color;
 	private ImageWrapper image;
+	//Higher zIndex is drawn later (and draws over other objects)
+	private int zIndex = -1;
 
 	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY, int color) {
 		this.id = id;
@@ -89,4 +91,15 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 		return null;
 	}
 
+	public int getzIndex() {
+		if (zIndex == -1 )
+			throw new IllegalStateException("ZIndex was not set");
+		return zIndex;
+	}
+
+	public void setzIndex(int zIndex) {
+		this.zIndex = zIndex;
+	}
+
+	
 }

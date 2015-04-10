@@ -21,6 +21,7 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
+import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -36,6 +37,7 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 	private XmlWorldBuilderState state;
 	private WorldProperties worldProperties;
 	private ResourceProvider resourceProvider;
+	private int currentZIndex;
 
 	public PcWorldObjectsParser() {
 		this.state = new XmlWorldBuilderState();
@@ -99,16 +101,21 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 		state.getBackground().addAll(readAllElements(document.getElementsByTagName(XmlConstants.BACKGROUND), factory));
 	}
 
-	private <S extends GameObjectWithImage> List<S> readAllElements(NodeList nodeList, ObjectFactory<S> factory) {
+	private <S extends FixedWorldObject> List<S> readAllElements(NodeList nodeList, ObjectFactory<S> factory) {
 		List<S> elements = new ArrayList<S>();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node item = nodeList.item(i);
 			XmlRect rect = readRect(item);
-			S wall = factory.create(rect, worldProperties);
+			S object = factory.create(rect, worldProperties);
 			Node imageNode = item.getAttributes().getNamedItem(XmlConstants.IMAGE);
 			if (imageNode != null)
-				wall.setBitmap(resourceProvider.readBitmap(imageNode.getTextContent()));
-			elements.add(wall);
+				object.setBitmap(resourceProvider.readBitmap(imageNode.getTextContent()));
+			Node zIndexNode = item.getAttributes().getNamedItem(XmlConstants.ZINDEX);
+			if (zIndexNode != null)
+				object.setzIndex(Integer.parseInt(zIndexNode.getTextContent()));
+			else 
+				object.setzIndex(currentZIndex++);
+			elements.add(object);
 		}
 		return elements;
 	}

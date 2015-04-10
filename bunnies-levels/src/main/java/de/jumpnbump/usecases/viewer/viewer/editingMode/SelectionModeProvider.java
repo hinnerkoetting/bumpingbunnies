@@ -35,4 +35,6 @@ public interface SelectionModeProvider {
 	void refreshAll();
 
 	JFrame getFrame();
+
+	int getMaxZIndexValue();
 }

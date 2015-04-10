@@ -32,7 +32,4 @@ public class XmlRectToObjectConverter {
 		return new SpawnPoint((int) (ModelConstants.MAX_VALUE * Double.parseDouble(x)), (int) (ModelConstants.MAX_VALUE * Double.parseDouble(y)));
 	}
 
-	public static Background createBackground(XmlRect rect, WorldProperties properties) {
-		return ObjectsFactory.createBackgroundFromDouble(rect.getMinX(), rect.getMinY(), rect.getMaxX(), rect.getMaxY(), properties);
-	}
 }

@@ -3,6 +3,7 @@ package de.jumpnbump.usecases.viewer.viewer.editingMode;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -12,6 +13,7 @@ import de.jumpnbump.usecases.viewer.viewer.ViewerPanel;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
@@ -89,5 +91,17 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	@Override
 	public JFrame getFrame() {
 		return panel.getFrame();
+	}
+
+	@Override
+	public int getMaxZIndexValue() {
+		int max = 0;
+		List<GameObjectWithImage> allDrawingObjects = world.getAllDrawingObjects();
+		for (GameObjectWithImage go: allDrawingObjects) {
+			if (go instanceof FixedWorldObject) {
+				max = Math.max(((FixedWorldObject) go).getzIndex(), max);
+			}
+		}
+		return max;
 	}
 }

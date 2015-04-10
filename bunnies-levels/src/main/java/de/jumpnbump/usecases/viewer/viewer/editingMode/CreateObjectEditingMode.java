@@ -4,9 +4,10 @@ import java.awt.event.MouseEvent;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
-public abstract class CreateObjectEditingMode<S extends GameObjectWithImage> implements ModeMouseListener {
+public abstract class CreateObjectEditingMode<S extends FixedWorldObject> implements ModeMouseListener {
 
 	private final SelectionModeProvider provider;
 	private final CoordinatesCalculation coordinatesCalculation;
@@ -59,8 +60,9 @@ public abstract class CreateObjectEditingMode<S extends GameObjectWithImage> imp
 		long gameY = coordinatesCalculation.getGameCoordinateY(startY);
 		long gameEndX = coordinatesCalculation.getGameCoordinateX(arg0.getX());
 		long gameEndY = coordinatesCalculation.getGameCoordinateY(arg0.getY());
-		S newWall = create(gameX, gameY, gameEndX, gameEndY);
-		return newWall;
+		S newObject = create(gameX, gameY, gameEndX, gameEndY);
+		newObject.setzIndex(provider.getMaxZIndexValue() + 1);
+		return newObject;
 	}
 
 	protected abstract void addToWorld(S newWall);

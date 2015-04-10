@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
+import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -153,7 +154,7 @@ public class XmlStorer {
 		return waters;
 	}
 
-	private Element createGameObjectElement(Document doc, GameObjectWithImage go, String name) {
+	private Element createGameObjectElement(Document doc, FixedWorldObject go, String name) {
 		Element element = doc.createElement(name);
 		element.setAttribute(XmlConstants.MIN_X, Double.toString((double) go.minX() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MAX_X, Double.toString((double) go.maxX() / ModelConstants.MAX_VALUE));
@@ -162,6 +163,8 @@ public class XmlStorer {
 		if (go.getBitmap() != null) {
 			element.setAttribute(XmlConstants.image, go.getImageKey());
 		}
+		element.setAttribute(de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants.ZINDEX,
+				Integer.toString(go.getzIndex()));
 		return element;
 	}
 

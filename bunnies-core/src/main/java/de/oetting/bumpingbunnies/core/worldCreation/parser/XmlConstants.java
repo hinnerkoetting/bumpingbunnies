@@ -22,4 +22,5 @@ public interface XmlConstants {
 	String X = "x";
 	String Y = "y";
 	String IMAGE = "image";
+	String ZINDEX = "zindex";
 }

@@ -17,6 +17,7 @@ import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
+import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -32,6 +33,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private XmlWorldBuilderState state;
 	private WorldProperties worldProperties = new WorldProperties();
 	private ResourceProvider provider;
+	private int currentZIndex;
 
 	public AndroidXmlWorldParser() {
 		this.state = new XmlWorldBuilderState();
@@ -95,7 +97,16 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private void readBackground(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
 		Background background = XmlRectToObjectConverter.createBackground(rect, this.worldProperties);
+		applyZIndex(background, parser);
 		this.state.getBackground().add(background);
+	}
+
+	private void applyZIndex(FixedWorldObject object, XmlPullParser parser) {
+		String zIndex = parser.getAttributeValue(null, ZINDEX);
+		if (zIndex != null) 
+			object.setzIndex(Integer.parseInt(zIndex));
+		else
+			object.setzIndex(currentZIndex++);
 	}
 
 	private void readWater(XmlPullParser parser) {
