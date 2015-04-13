@@ -10,8 +10,6 @@ import java.util.Properties;
 
 import javax.swing.JFrame;
 
-import sun.launcher.resources.launcher;
-
 public class Viewer {
 
 	public JFrame createFrame(String file) {

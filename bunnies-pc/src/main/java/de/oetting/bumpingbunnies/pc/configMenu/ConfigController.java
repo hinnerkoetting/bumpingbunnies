@@ -171,7 +171,7 @@ public class ConfigController implements Initializable {
 	}
 
 	private void changeTextOnKeyPress(ToggleButton field) {
-		field.setOnKeyPressed((event) -> (onKeyTyped(event, field)));
+		field.setOnKeyPressed((event) -> onKeyTyped(event, field));
 	}
 
 	private void onKeyTyped(KeyEvent event, ToggleButton field) {
