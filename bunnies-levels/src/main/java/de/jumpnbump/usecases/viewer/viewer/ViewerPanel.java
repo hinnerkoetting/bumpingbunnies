@@ -349,14 +349,17 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void parseFile() {
-		try {
-			if (lastFile.getName().endsWith("xml"))
-				parseXml();
-			else
-				parseZip();
-		} catch (Exception e) {
-			model = new World();
-			JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+		if (lastFile != null) {
+			try {
+				if (lastFile.getName().endsWith("xml"))
+					parseXml();
+				else
+					parseZip();
+			} catch (Exception e) {
+				LOGGER.error("Error", e);
+				model = new World();
+				JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+			}
 		}
 	}
 
