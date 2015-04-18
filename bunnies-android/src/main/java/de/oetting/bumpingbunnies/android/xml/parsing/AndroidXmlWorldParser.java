@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -103,7 +104,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 
 	private void applyZIndex(FixedWorldObject object, XmlPullParser parser) {
 		String zIndex = parser.getAttributeValue(null, ZINDEX);
-		if (zIndex != null) 
+		if (zIndex != null)
 			object.setzIndex(Integer.parseInt(zIndex));
 		else
 			object.setzIndex(currentZIndex++);
@@ -112,6 +113,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private void readWater(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
 		Water water = XmlRectToObjectConverter.createWater(rect, this.worldProperties);
+		applyZIndex(water, parser);
 		this.state.getWaters().add(water);
 	}
 
@@ -124,18 +126,21 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private void readJumper(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
 		Jumper jumper = XmlRectToObjectConverter.createJumper(rect, this.worldProperties);
+		applyZIndex(jumper, parser);
 		this.state.getAllJumper().add(jumper);
 	}
 
 	private void readIcewall(XmlPullParser parser) {
 		XmlRect rect = readRect(parser);
 		IcyWall wall = XmlRectToObjectConverter.createIceWall(rect, this.worldProperties);
+		applyZIndex(wall, parser);
 		this.state.getAllIcyWalls().add(wall);
 	}
 
 	private void readWall(XmlPullParser parser) throws XmlPullParserException, IOException {
 		XmlRect rect = readRect(parser);
 		Wall wall = XmlRectToObjectConverter.createWall(rect, this.worldProperties);
+		applyZIndex(wall, parser);
 		wall.setBitmap(readBitmap(parser));
 		this.state.getAllWalls().add(wall);
 	}

@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -8,6 +9,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Test;
 
@@ -27,7 +29,7 @@ public class FreePortFinderTest {
 	public void findFreePort_defaultPortUsed_findsNextPort() {
 		givenDefaultPortIsUsed();
 		int freeport = whenFindingFreeport();
-		assertThat(freeport, is(NetworkConstants.UDP_PORT + 1));
+		assertThat(freeport, is(greaterThan(NetworkConstants.UDP_PORT)));
 	}
 
 	@Test(expected = FreePortFinder.CouldNotFindPortException.class)
