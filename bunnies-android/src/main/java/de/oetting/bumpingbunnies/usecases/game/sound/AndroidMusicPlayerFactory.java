@@ -13,7 +13,7 @@ import de.oetting.bumpingbunnies.usecases.game.android.sound.AndroidMusicPlayer;
 
 public class AndroidMusicPlayerFactory implements BunniesMusicPlayerFactory {
 
-	private final Context context;
+	protected final Context context;
 
 	public AndroidMusicPlayerFactory(Context context) {
 		this.context = context;
@@ -26,26 +26,30 @@ public class AndroidMusicPlayerFactory implements BunniesMusicPlayerFactory {
 	}
 
 	public MusicPlayer createWater() {
-		return create(MediaPlayer.create(context, R.raw.water));
+		return create(createMediaPlayer(R.raw.water));
 	}
 
 	public MusicPlayer createJumper() {
-		return create(MediaPlayer.create(context, R.raw.jumper));
+		return create(createMediaPlayer(R.raw.jumper));
 	}
 
 	public MusicPlayer createNormalJump() {
-		return create(MediaPlayer.create(context, R.raw.normal_jump));
+		return create(createMediaPlayer(R.raw.normal_jump));
 	}
 
 	public MusicPlayer createDeadPlayer() {
-		return create(MediaPlayer.create(context, R.raw.sprung_bunny2bunny));
+		return create(createMediaPlayer(R.raw.sprung_bunny2bunny));
 	}
 
-	private static MusicPlayer createMultiTrack(List<MediaPlayer> mediaplayers) {
+	protected MediaPlayer createMediaPlayer(int id) {
+		return MediaPlayer.create(context, id);
+	}
+
+	private MusicPlayer createMultiTrack(List<MediaPlayer> mediaplayers) {
 		return new MultiTrackMusicPlayer(createListOfMusicPlayers(mediaplayers));
 	}
 
-	private static List<MusicPlayer> createListOfMusicPlayers(List<MediaPlayer> mediaplayers) {
+	private List<MusicPlayer> createListOfMusicPlayers(List<MediaPlayer> mediaplayers) {
 		List<MusicPlayer> players = new ArrayList<MusicPlayer>(mediaplayers.size());
 		for (MediaPlayer mp : mediaplayers) {
 			players.add(create(mp));
@@ -53,7 +57,7 @@ public class AndroidMusicPlayerFactory implements BunniesMusicPlayerFactory {
 		return players;
 	}
 
-	private static MusicPlayer create(MediaPlayer mediaplayer) {
+	protected MusicPlayer create(MediaPlayer mediaplayer) {
 		return new AndroidMusicPlayer(mediaplayer);
 	}
 }

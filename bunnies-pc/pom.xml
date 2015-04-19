@@ -58,6 +58,11 @@
 		</dependency>
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
+			<artifactId>bunnies-model</artifactId>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-music</artifactId>
 			<optional>true</optional>
 		</dependency> 
