@@ -13,8 +13,8 @@ public class PcMusicPlayerFactory implements BunniesMusicPlayerFactory {
 	}
 
 	public MusicPlayer createBackground() {
-		MusicPlayer player = create("/audio/bad_bunnies_2.mp3", errorCallback);
-//		MusicPlayer player = create("/audio/bunny_poppig_schnell.mp3", errorCallback);
+//		MusicPlayer player = create("/audio/bad_bunnies_2.mp3", errorCallback);
+		MusicPlayer player = create("/audio/bunny_poppig_schnell.mp3", errorCallback);
 		player.setOnCompletionListener(new PcOnCompletionListener(() -> player.start()));
 		return player;
 	}
