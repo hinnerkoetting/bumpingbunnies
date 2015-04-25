@@ -64,38 +64,39 @@ public class SelectModeMouseListener implements ModeMouseListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		List<GameObjectWithImage> objects = provider.getCurrentSelectedObjects();
-		for (GameObjectWithImage selectedGameObject: objects) {
+		boolean modeWasFound = false;
+		for (GameObjectWithImage selectedGameObject : objects) {
 			int pixelMinX = coordinatesCalculation.getScreenCoordinateX(selectedGameObject.minX());
 			int pixelMaxX = coordinatesCalculation.getScreenCoordinateX(selectedGameObject.maxX());
 			int pixelMinY = coordinatesCalculation.getScreenCoordinateY(selectedGameObject.minY());
 			int pixelMaxY = coordinatesCalculation.getScreenCoordinateY(selectedGameObject.maxY());
 			if (isMouseOverSelectedObject(e, selectedGameObject)) {
-				this.nextAction = new MoveAction(this.provider, this.coordinatesCalculation);
+				modeWasFound = true;
 				if (Math.abs(e.getX() - pixelMinX) < TOLERANCE) {
 					provider.setCanvasCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 					this.nextAction = new ResizeLeftAction(selectedGameObject, this.provider,
 							this.coordinatesCalculation);
-				}
-				if (Math.abs(e.getX() - pixelMaxX) < TOLERANCE) {
+				} else if (Math.abs(e.getX() - pixelMaxX) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 					this.nextAction = new ResizeRightAction(selectedGameObject, this.provider,
 							this.coordinatesCalculation);
-				}
-				if (Math.abs(e.getY() - pixelMinY) < TOLERANCE) {
+				} else if (Math.abs(e.getY() - pixelMinY) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 					this.nextAction = new ResizeDownAction(selectedGameObject, this.provider,
 							this.coordinatesCalculation);
-				}
-				if (Math.abs(e.getY() - pixelMaxY) < TOLERANCE) {
+				} else if (Math.abs(e.getY() - pixelMaxY) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 					this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.provider,
 							this.coordinatesCalculation);
+				} else {
+					this.nextAction = new MoveAction(this.provider, this.coordinatesCalculation);
+					provider.setCanvasCursor(new Cursor(Cursor.HAND_CURSOR));
 				}
-			} else {
-				resetAction();
+				break;
 			}
-
 		}
+		if (!modeWasFound)
+			resetAction();
 	}
 
 	private boolean isMouseOverSelectedObject(MouseEvent e, GameObject selectedGameObject) {

@@ -51,7 +51,8 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 
 	@Override
 	public void setCanvasCursor(Cursor cursor) {
-		canvas.setCursor(cursor);
+		if (canvas.getCursor().getType() != cursor.getType())
+			canvas.setCursor(cursor);
 	}
 
 	@Override

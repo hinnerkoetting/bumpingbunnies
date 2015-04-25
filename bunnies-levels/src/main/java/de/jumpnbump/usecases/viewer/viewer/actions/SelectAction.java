@@ -76,7 +76,7 @@ public class SelectAction implements MouseAction {
 
 	@Override
 	public void rightMouseClick(MouseEvent event) {
-		if (provider.getCurrentSelectedObjects().isEmpty()) {
+		if (!provider.getCurrentSelectedObjects().isEmpty()) {
 			JPopupMenu menu = new JPopupMenu();
 			menu.add(createToFrontItem(event));
 			menu.add(createOneUpItem(event));
