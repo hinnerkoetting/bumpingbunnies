@@ -53,7 +53,8 @@ public class World implements ObjectProvider {
 	}
 
 	private void addCollidingObjects(List<? super GameObjectWithImage> addToList) {
-		//Objects which are added here first are first used during the collision detection.
+		// Objects which are added here first are first used during the
+		// collision detection.
 		addToList.addAll(this.allWaters);
 		addToList.addAll(this.allJumpers);
 		addToList.addAll(this.allIcyWalls);
@@ -254,5 +255,50 @@ public class World implements ObjectProvider {
 
 	public void sortObjectsByZIndex() {
 		Collections.sort(allDrawingObjects, new ZIndexComparator());
+	}
+
+	public void removeAllWallsFromDrawingObjects() {
+		allDrawingObjects.removeAll(allWalls);
+	}
+
+	public void addAllWallstoDrawingObjects() {
+		allDrawingObjects.addAll(allWalls);
+		sortObjectsByZIndex();
+	}
+
+	public void addAllIceWallstoDrawingObjects() {
+		allDrawingObjects.addAll(allIcyWalls);
+		sortObjectsByZIndex();
+	}
+
+	public void removeAllIceWallsFromDrawingObjects() {
+		allDrawingObjects.removeAll(allIcyWalls);
+	}
+
+	public void addAllWaterToDrawingObjects() {
+		allDrawingObjects.addAll(allWaters);
+		sortObjectsByZIndex();
+	}
+
+	public void removeAllWaterFromDrawingObjects() {
+		allDrawingObjects.removeAll(allWaters);
+	}
+
+	public void addAllJumperToDrawingObjects() {
+		allDrawingObjects.addAll(allJumpers);
+		sortObjectsByZIndex();
+	}
+
+	public void removeAllJumperFromDrawingObjects() {
+		allDrawingObjects.removeAll(allJumpers);
+	}
+
+	public void addAllBackgroundToDrawingObjects() {
+		allDrawingObjects.addAll(backgrounds);
+		sortObjectsByZIndex();
+	}
+
+	public void removeAllBackgroundFromDrawingObjects() {
+		allDrawingObjects.removeAll(backgrounds);
 	}
 }

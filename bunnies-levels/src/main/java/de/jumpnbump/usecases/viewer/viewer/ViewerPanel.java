@@ -13,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -76,6 +75,7 @@ public class ViewerPanel extends JPanel {
 	private JList<Background> backgrounds;
 	private EditingModePanel editingModePanel;
 	private JFrame frame;
+	private ViewableItemsPanel viewableItemsPanel;
 
 	public ViewerPanel(String file) {
 		this.lastFile = new File(file);
@@ -96,6 +96,7 @@ public class ViewerPanel extends JPanel {
 		add(createRightBox(), BorderLayout.LINE_END);
 		add(createBottomImages(), BorderLayout.PAGE_END);
 		activateNewEditingMode();
+		selectViewableCheckboxes();
 	}
 
 	private BorderLayout createLayout() {
@@ -134,6 +135,7 @@ public class ViewerPanel extends JPanel {
 	private JComponent createTopPanel() {
 		JComponent panel = new JPanel(new GridLayout(0, 2));
 		panel.add(createButtons());
+		panel.add(createVisibleButtons());
 		return panel;
 	}
 
@@ -145,6 +147,11 @@ public class ViewerPanel extends JPanel {
 		box.add(createSaveAsButton());
 		box.add(createRoundButton());
 		return box;
+	}
+
+	private Component createVisibleButtons() {
+		viewableItemsPanel = new ViewableItemsPanel(this);
+		return viewableItemsPanel.build();
 	}
 
 	private Component createRoundButton() {
@@ -261,7 +268,7 @@ public class ViewerPanel extends JPanel {
 			public void focusLost(FocusEvent e) {
 				list.clearSelection();
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 			}
@@ -358,6 +365,11 @@ public class ViewerPanel extends JPanel {
 		setBackgroundsModel();
 		activateNewEditingMode();
 		this.myCanvas.repaint();
+		selectViewableCheckboxes();
+	}
+
+	private void selectViewableCheckboxes() {
+		viewableItemsPanel.selectAllCheckboxes();
 	}
 
 	private void parseFile() {
@@ -537,6 +549,10 @@ public class ViewerPanel extends JPanel {
 			return lastFile.getPath();
 		}
 		return null;
+	}
+
+	public World getWorld() {
+		return model;
 	}
 
 }
