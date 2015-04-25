@@ -9,6 +9,7 @@ import javax.swing.JPopupMenu;
 
 import de.jumpnbump.usecases.viewer.viewer.PropertyEditorDialog;
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
@@ -16,16 +17,57 @@ public class SelectAction implements MouseAction {
 
 	private final SelectionModeProvider provider;
 	private final CanvasObjectsFinder objectsFinder;
+	private final CoordinatesCalculation coordinatesCalculation;
+	private int startX = -1;
+	private int startY = -1;
 
-	public SelectAction(SelectionModeProvider provider, CanvasObjectsFinder objectsFinder) {
+	public SelectAction(SelectionModeProvider provider, CanvasObjectsFinder objectsFinder,
+			CoordinatesCalculation coordinatesCalculation) {
 		this.provider = provider;
 		this.objectsFinder = objectsFinder;
+		this.coordinatesCalculation = coordinatesCalculation;
 	}
 
 	@Override
-	public void newMousePosition(MouseEvent e) {
-		Optional<? extends GameObjectWithImage> go = objectsFinder.findClickedObject(e);
-		provider.setSelectedObject(go);
+	public void onMouseDragged(MouseEvent e) {
+		if (firstClick()) {
+			startX = e.getX();
+			startY = e.getY();
+		} else {
+			List<GameObjectWithImage> allSelectedObjects = objectsFinder
+					.findAllSelectedObjects(createSelectionRectangle(e));
+			if (e.isControlDown()) {
+				provider.addSelectedObjects(allSelectedObjects);
+			} else {
+				provider.setSelectedObjects(allSelectedObjects);
+			}
+		}
+	}
+
+	private SelectionRectangle createSelectionRectangle(MouseEvent e) {
+		int minX = startX < e.getX() ? startX : e.getX();
+		int maxX = startX > e.getX() ? startX : e.getX();
+		int minY = startY > e.getY() ? startY : e.getY();
+		int maxY = startY < e.getY() ? startY : e.getY();
+		return new SelectionRectangle(coordinatesCalculation.getGameCoordinateX(minX),
+				coordinatesCalculation.getGameCoordinateY(minY), 
+				coordinatesCalculation.getGameCoordinateX(maxX),
+				coordinatesCalculation.getGameCoordinateY(maxY));
+	}
+
+	@Override
+	public void onMousePressedFirst(MouseEvent event) {
+		Optional<? extends GameObjectWithImage> go = objectsFinder.findClickedObject(coordinatesCalculation
+				.getGameCoordinateX(event.getX()), coordinatesCalculation.getGameCoordinateY(event.getY()));
+		if (event.isControlDown()) {
+			provider.addSelectedObject(go);
+		} else {
+			provider.setSelectedObject(go);
+		}
+	}
+
+	private boolean firstClick() {
+		return startX == -1 && startY == -1;
 	}
 
 	private List<? extends GameObjectWithImage> findObjects(MouseEvent e) {
@@ -54,7 +96,7 @@ public class SelectAction implements MouseAction {
 
 	private void showProperties(MouseEvent event) {
 		List<? extends GameObjectWithImage> objects = findObjects(event);
-		for (GameObjectWithImage go: objects) {
+		for (GameObjectWithImage go : objects) {
 			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go);
 			dialog.show();
 			provider.refreshAll();

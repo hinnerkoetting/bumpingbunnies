@@ -37,7 +37,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1)
-			this.nextAction.newMousePosition(e);
+			this.nextAction.onMousePressedFirst(e);
 		else
 			this.nextAction.rightMouseClick(e);
 	}
@@ -58,7 +58,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		this.nextAction.newMousePosition(e);
+		this.nextAction.onMouseDragged(e);
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	private void resetAction() {
 		provider.setCanvasCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		this.nextAction = new SelectAction(provider, new CanvasObjectsFinder(provider));
+		this.nextAction = new SelectAction(provider, new CanvasObjectsFinder(provider), coordinatesCalculation);
 	}
 
 	private int translateToPixelX(long gameX) {

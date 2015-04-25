@@ -10,16 +10,13 @@ import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
-import javax.swing.plaf.SliderUI;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
@@ -140,6 +137,11 @@ public class MyCanvas extends JPanel {
 	public void setSelectedObject(Object object) {
 		selectedObjects.clear();
 		if (object != null)
+			selectedObjects.add(object);
+	}
+
+	public void addSelectedObect(GameObjectWithImage object) {
+		if (!selectedObjects.contains(object))
 			selectedObjects.add(object);
 	}
 	

@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 public class NullAction implements MouseAction {
 
 	@Override
-	public void newMousePosition(MouseEvent event) {
+	public void onMouseDragged(MouseEvent event) {
 	}
 
 	@Override

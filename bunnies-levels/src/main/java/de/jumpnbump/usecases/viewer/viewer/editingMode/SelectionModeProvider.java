@@ -37,4 +37,10 @@ public interface SelectionModeProvider {
 	JFrame getFrame();
 
 	int getMaxZIndexValue();
+
+	void addSelectedObject(Optional<? extends GameObjectWithImage> go);
+
+	void addSelectedObjects(List<GameObjectWithImage> allSelectedObjects);
+
+	void setSelectedObjects(List<GameObjectWithImage> allSelectedObjects);
 }

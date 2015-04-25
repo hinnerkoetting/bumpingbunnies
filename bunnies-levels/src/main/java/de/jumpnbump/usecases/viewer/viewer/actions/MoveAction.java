@@ -27,7 +27,7 @@ public class MoveAction implements MouseAction {
 	}
 
 	@Override
-	public void newMousePosition(MouseEvent event) {
+	public void onMouseDragged(MouseEvent event) {
 		if (!firstClick) {
 			List<? extends GameObject> objects = provider.getCurrentSelectedObjects();
 			for (GameObject go: objects)
