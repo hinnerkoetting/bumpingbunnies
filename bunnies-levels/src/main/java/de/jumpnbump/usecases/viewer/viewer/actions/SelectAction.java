@@ -28,13 +28,13 @@ public class SelectAction implements MouseAction {
 		provider.setSelectedObject(go);
 	}
 
-	private Optional<? extends GameObjectWithImage> findObject(MouseEvent e) {
-		return provider.getCurrentSelectedObject();
+	private List<? extends GameObjectWithImage> findObjects(MouseEvent e) {
+		return provider.getCurrentSelectedObjects();
 	}
 
 	@Override
 	public void rightMouseClick(MouseEvent event) {
-		if (provider.getCurrentSelectedObject().isPresent()) {
+		if (provider.getCurrentSelectedObjects().isEmpty()) {
 			JPopupMenu menu = new JPopupMenu();
 			menu.add(createToFrontItem(event));
 			menu.add(createOneUpItem(event));
@@ -53,9 +53,9 @@ public class SelectAction implements MouseAction {
 	}
 
 	private void showProperties(MouseEvent event) {
-		Optional<? extends GameObjectWithImage> go = findObject(event);
-		if (go.isPresent()) {
-			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go.get());
+		List<? extends GameObjectWithImage> objects = findObjects(event);
+		for (GameObjectWithImage go: objects) {
+			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go);
 			dialog.show();
 			provider.refreshAll();
 		}
@@ -155,8 +155,8 @@ public class SelectAction implements MouseAction {
 	}
 
 	private void move(MouseEvent event, MoveAction action) {
-		Optional<? extends GameObjectWithImage> go = findObject(event);
-		go.ifPresent((object) -> moveExistingObject(object, action));
+		List<? extends GameObjectWithImage> objects = findObjects(event);
+		objects.forEach(go -> moveExistingObject(go, action));
 		provider.repaintCanvas();
 		provider.refreshTables();
 	}

@@ -45,9 +45,8 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	}
 
 	@Override
-	public Optional<? extends GameObjectWithImage> getCurrentSelectedObject() {
-		GameObjectWithImage selectedObject = canvas.getSelectedGameObject();
-		return Optional.ofNullable((GameObjectWithImage) selectedObject);
+	public List<GameObjectWithImage> getCurrentSelectedObjects() {
+		return canvas.getSelectedGameObjects();
 	}
 
 	@Override

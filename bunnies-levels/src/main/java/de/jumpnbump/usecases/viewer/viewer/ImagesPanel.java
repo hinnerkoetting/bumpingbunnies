@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -54,10 +55,10 @@ public class ImagesPanel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				GameObjectWithImage selectedGameObject = ImagesPanel.this.canvas.getSelectedGameObject();
-				if (selectedGameObject != null) {
+				List<GameObjectWithImage> selectedGameObjects = ImagesPanel.this.canvas.getSelectedGameObjects();
+				for (GameObjectWithImage go: selectedGameObjects) {
 					ImageWrapper wrapper = new ImageWrapper(picLabel.getOriginal(), path.getFileName().toString());
-					selectedGameObject.applyImage(wrapper);
+					go.applyImage(wrapper);
 
 					ImagesPanel.this.canvas.repaint();
 				}

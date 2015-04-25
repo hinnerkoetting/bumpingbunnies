@@ -8,9 +8,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
+import javax.swing.plaf.SliderUI;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
@@ -27,7 +31,7 @@ public class MyCanvas extends JPanel {
 
 	public static final int SPAWN_RADIUS = 5;
 	private World objectContainer;
-	private Object selectedObject;
+	private List<Object> selectedObjects = new ArrayList<>();
 	private CoordinatesCalculation coordinatesCalculation;
 
 	private WorldProperties properties;
@@ -68,7 +72,7 @@ public class MyCanvas extends JPanel {
 	}
 
 	private void drawSpawn(Graphics g, SpawnPoint spawn) {
-		if (spawn == this.selectedObject) {
+		if (selectedObjects.contains(spawn)) {
 			g.setColor(Color.GREEN);
 		}
 		g.fillOval(calculatePixelX(spawn.getX()), calculatePixelY(spawn.getY()), SPAWN_RADIUS, SPAWN_RADIUS);
@@ -94,15 +98,11 @@ public class MyCanvas extends JPanel {
 			g.setColor(new Color(w.getColor()));
 			g.fillRect(minX, minY, width, height);
 		}
-		if (w == this.selectedObject) {
+		if (selectedObjects.contains(w)) {
 			Graphics2D g2d = (Graphics2D) g;
 			Stroke oldStroke = g2d.getStroke();
 			g2d.setStroke(new BasicStroke(5));
 			g2d.setColor(Color.GREEN);
-			// g.drawRect(calculatePixelX(w.minX()), calculatePixelY(w.minY()),
-			// calculatePixelWidht(w.minX(), w.maxX()),
-			// calculateHeight(w.minY(), w.maxY()));
-
 			g2d.draw(new Rectangle(minX, minY, width, height));
 
 			g2d.setStroke(oldStroke);
@@ -119,15 +119,9 @@ public class MyCanvas extends JPanel {
 				.getScreenCoordinateY(minY));
 	}
 
-	public void setSelectedObject(Object selectedObject) {
-		this.selectedObject = selectedObject;
-	}
-
-	public GameObjectWithImage getSelectedGameObject() {
-		if (this.selectedObject instanceof GameObject) {
-			return (GameObjectWithImage) this.selectedObject;
-		}
-		return null;
+	public List<GameObjectWithImage> getSelectedGameObjects() {
+		List list = selectedObjects.stream().filter(obj -> (obj instanceof GameObjectWithImage)).collect(Collectors.toList());
+		return list;
 	}
 
 	public void setWorld(World model) {
@@ -141,6 +135,12 @@ public class MyCanvas extends JPanel {
 
 	public CoordinatesCalculation getCoordinatesCalculation() {
 		return coordinatesCalculation;
+	}
+
+	public void setSelectedObject(Object object) {
+		selectedObjects.clear();
+		if (object != null)
+			selectedObjects.add(object);
 	}
 	
 	

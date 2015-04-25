@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.viewer.viewer.editingMode;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Optional;
 
 import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
@@ -14,6 +15,7 @@ import de.jumpnbump.usecases.viewer.viewer.actions.ResizeTopMouseAction;
 import de.jumpnbump.usecases.viewer.viewer.actions.SelectAction;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public class SelectModeMouseListener implements ModeMouseListener {
 
@@ -61,9 +63,8 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		Optional<? extends GameObject> object = provider.getCurrentSelectedObject();
-		if (object.isPresent()) {
-			GameObject selectedGameObject = object.get();
+		List<GameObjectWithImage> objects = provider.getCurrentSelectedObjects();
+		for (GameObjectWithImage selectedGameObject: objects) {
 			int pixelMinX = coordinatesCalculation.getScreenCoordinateX(selectedGameObject.minX());
 			int pixelMaxX = coordinatesCalculation.getScreenCoordinateX(selectedGameObject.maxX());
 			int pixelMinY = coordinatesCalculation.getScreenCoordinateY(selectedGameObject.minY());

@@ -1,14 +1,15 @@
 package de.jumpnbump.usecases.viewer.viewer.actions;
 
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.world.WorldConstants;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
-import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 
 public class MoveAction implements MouseAction {
 
@@ -16,9 +17,9 @@ public class MoveAction implements MouseAction {
 	private final SelectionModeProvider provider;
 	private int firstPixelX = -1;
 	private int firstPixelY = -1;
-	private long firstGameX = -1;
-	private long firstGameY = -1;
-	boolean first = true;
+	private Map<GameObject, Long> firstGameX = new HashMap<>();
+	private Map<GameObject, Long> firstGameY = new HashMap<>();
+	boolean firstClick = true;
 
 	public MoveAction(SelectionModeProvider provider, CoordinatesCalculation coordinatesCalculation) {
 		this.provider = provider;
@@ -27,13 +28,12 @@ public class MoveAction implements MouseAction {
 
 	@Override
 	public void newMousePosition(MouseEvent event) {
-		if (!first) {
-			Optional<? extends GameObject> object = provider.getCurrentSelectedObject();
-			if (object.isPresent()) {
-				moveObjectByDifference(event, object);
-			}
+		if (!firstClick) {
+			List<? extends GameObject> objects = provider.getCurrentSelectedObjects();
+			for (GameObject go: objects)
+				moveObjectByDifference(event, go);
 		} else {
-			first = false;
+			firstClick = false;
 			saveFirstCoordinates(event);
 		}
 	}
@@ -41,17 +41,18 @@ public class MoveAction implements MouseAction {
 	private void saveFirstCoordinates(MouseEvent event) {
 		firstPixelX = event.getX();
 		firstPixelY = event.getY();
-		GameObjectWithImage go = provider.getCurrentSelectedObject().get();
-		firstGameX = go.getCenterX();
-		firstGameY = go.getCenterY();
+		List<? extends GameObjectWithImage> objects = provider.getCurrentSelectedObjects();
+		for (GameObjectWithImage go: objects ) {
+			firstGameX.put(go, go.getCenterX());
+			firstGameY.put(go, go.getCenterY());
+		}
 	}
 
-	private void moveObjectByDifference(MouseEvent event, Optional<? extends GameObject> object) {
-		GameObject selectedGameObject = object.get();
+	private void moveObjectByDifference(MouseEvent event, GameObject selectedGameObject) {
 		long diffGameX = this.coordinatesCalculation.getDifferenceInGameCoordinateY(firstPixelX, event.getX());
 		long diffGameY = this.coordinatesCalculation.getDifferenceInGameCoordinateY(firstPixelY, event.getY());
-		selectedGameObject.setCenterX(firstGameX + diffGameX);
-		selectedGameObject.setCenterY(firstGameY - diffGameY);
+		selectedGameObject.setCenterX(firstGameX.get(selectedGameObject) + diffGameX);
+		selectedGameObject.setCenterY(firstGameY.get(selectedGameObject) - diffGameY);
 		provider.repaintCanvas();
 	}
 
