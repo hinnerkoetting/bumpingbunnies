@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
@@ -254,6 +256,16 @@ public class ViewerPanel extends JPanel {
 		list.setCellRenderer(new GameObjectRenderer());
 		list.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		list.addMouseListener(new ListMouseAdapter(this));
+		list.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				list.clearSelection();
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+		});
 	}
 
 	private JList<IcyWall> createIceWallList() {
