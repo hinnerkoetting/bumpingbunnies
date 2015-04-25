@@ -429,7 +429,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void showLoadingAnimation() {
 		ProgressDialog progress = new ProgressDialog(this);
 		progress.setTitle("Loading");
-		progress.setMessage("Wait while loading...");
+		progress.setMessage("Loading. Please wait...");
 		progress.show();
 		progress.setContentView(R.layout.progress_dialog);
 	}

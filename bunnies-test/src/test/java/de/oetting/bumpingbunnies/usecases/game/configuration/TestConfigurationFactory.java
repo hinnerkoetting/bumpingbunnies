@@ -20,7 +20,7 @@ public class TestConfigurationFactory {
 
 	public static Configuration createDummyHost() {
 		LocalSettings localSettings = new LocalSettings(new HardwareKeyboardInputConfiguration(), 1, true, true, true, true, false);
-		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CASTLE, 1, NetworkType.WLAN);
+		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CLASSIC, 1, NetworkType.WLAN);
 		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(0, "name"), OpponentTestFactory
 				.create(), new NoopInputConfiguration()));
 		LocalPlayerSettings playerSettings = new LocalPlayerSettings("name");

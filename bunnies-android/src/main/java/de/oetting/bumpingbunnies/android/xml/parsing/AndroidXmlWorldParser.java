@@ -99,6 +99,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		XmlRect rect = readRect(parser);
 		Background background = XmlRectToObjectConverter.createBackground(rect, this.worldProperties);
 		applyZIndex(background, parser);
+		background.setBitmap(readBitmap(parser));
 		this.state.getBackground().add(background);
 	}
 
@@ -114,6 +115,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		XmlRect rect = readRect(parser);
 		Water water = XmlRectToObjectConverter.createWater(rect, this.worldProperties);
 		applyZIndex(water, parser);
+		water.setBitmap(readBitmap(parser));
 		this.state.getWaters().add(water);
 	}
 
@@ -127,6 +129,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		XmlRect rect = readRect(parser);
 		Jumper jumper = XmlRectToObjectConverter.createJumper(rect, this.worldProperties);
 		applyZIndex(jumper, parser);
+		jumper.setBitmap(readBitmap(parser));
 		this.state.getAllJumper().add(jumper);
 	}
 
@@ -134,6 +137,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		XmlRect rect = readRect(parser);
 		IcyWall wall = XmlRectToObjectConverter.createIceWall(rect, this.worldProperties);
 		applyZIndex(wall, parser);
+		wall.setBitmap(readBitmap(parser));
 		this.state.getAllIcyWalls().add(wall);
 	}
 

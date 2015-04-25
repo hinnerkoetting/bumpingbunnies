@@ -14,7 +14,7 @@ public class ImagesZipLoader {
 			ZipEntry entry = zis.getNextEntry();
 			while (entry != null) {
 				if (entry.getName().endsWith("png"))
-					images.addImage(imageCreator.createImage(zis, entry.getName().substring(0, entry.getName().length() - 4)));
+					images.addImage(imageCreator.createImage(zis, entry.getName()));
 				entry = zis.getNextEntry();
 			}
 			worldZip.close();

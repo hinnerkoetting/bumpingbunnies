@@ -32,6 +32,8 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (e.getButton() != MouseEvent.BUTTON1)
+			this.nextAction.rightMouseClick(e);
 	}
 
 	@Override

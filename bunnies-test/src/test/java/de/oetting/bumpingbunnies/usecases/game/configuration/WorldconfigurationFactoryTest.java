@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlWorldParserTemplate;
-import de.oetting.bumpingbunnies.android.xml.parsing.CastleWorldbuilder;
 import de.oetting.bumpingbunnies.android.xml.parsing.XmlClassicWorldBuilder;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
@@ -19,12 +18,6 @@ public class WorldconfigurationFactoryTest {
 	public void create_classis_returnsClassicWorldBuilder() {
 		AndroidXmlWorldParserTemplate parser = whenCreating(WorldConfiguration.CLASSIC);
 		assertThat(parser, instanceOf(XmlClassicWorldBuilder.class));
-	}
-
-	@Test
-	public void create_castle_returnsCastleWorldBuilder() {
-		AndroidXmlWorldParserTemplate parser = whenCreating(WorldConfiguration.CASTLE);
-		assertThat(parser, instanceOf(CastleWorldbuilder.class));
 	}
 
 	private AndroidXmlWorldParserTemplate whenCreating(WorldConfiguration configuration) {
