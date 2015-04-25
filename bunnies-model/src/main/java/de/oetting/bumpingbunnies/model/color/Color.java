@@ -17,6 +17,6 @@ public abstract class Color {
 	public static final int YELLOW = 0xFFFFFF00;
 	public static final int CYAN = 0xFF00FFFF;
 	public static final int MAGENTA = 0xFFAA22AA;
-	public static final int PINK = 0xFFA003B0;
+	public static final int PINK = 0x80A003B0;
 	public static final int TRANSPARENT = 0;
 }
