@@ -68,7 +68,7 @@ public class AnimationWithMirrorFactory {
 	private static MirroredAnimation createAnimation(final List<ImageWrapper> pictures, final int timeBetweenPictures, ImageMirroror mirroror) {
 		List<ImageWrapper> normalAnimation = createAnimation(pictures);
 		List<ImageWrapper> mirroredAnimation = createMirroredAnimation(pictures, mirroror);
-		return create(new AnimationImpl(normalAnimation, timeBetweenPictures), new AnimationImpl(mirroredAnimation, timeBetweenPictures));
+		return create(new DefaultAnimation(normalAnimation, timeBetweenPictures), new DefaultAnimation(mirroredAnimation, timeBetweenPictures));
 	}
 
 	private static List<ImageWrapper> createAnimation(List<ImageWrapper> originalPictures) {

@@ -10,7 +10,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.graphics.Bitmap;
-import de.oetting.bumpingbunnies.core.game.graphics.AnimationImpl;
+import de.oetting.bumpingbunnies.core.game.graphics.DefaultAnimation;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -26,7 +26,7 @@ public class AnimationImplTest {
 
 	private void createAnimation(int numberOfPictures, int timeBetweenPicture) {
 		List<ImageWrapper> pictures = createNumberOfPictures(numberOfPictures);
-		new AnimationImpl(pictures, timeBetweenPicture);
+		new DefaultAnimation(pictures, timeBetweenPicture);
 	}
 
 	private List<ImageWrapper> createNumberOfPictures(int number) {

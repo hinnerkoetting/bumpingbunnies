@@ -51,12 +51,20 @@ public class BunnyDrawer implements Drawable {
 		for (ConditionalMirroredAnimation ani : this.animations) {
 			if (ani.shouldBeExecuted(copiedPlayer)) {
 				ani.drawMirrored(copiedPlayer.isFacingLeft());
-				ani.draw(canvas, copiedPlayer.minX(), copiedPlayer.maxY(), this.paint);
+				ani.draw(canvas, minXPosition(canvas, ani, copiedPlayer), maxYPosition(canvas, ani, copiedPlayer), this.paint);
 				return;
 			}
 		}
 		LOGGER.error(this.player.toString());
 		throw new IllegalStateException("cannot find animation");
+	}
+
+	private long maxYPosition(CanvasDelegate canvas, Animation animation, Bunny player) {
+		return player.getCenterY() + animation.getHeight(canvas) / 2;
+	}
+
+	private long minXPosition(CanvasDelegate canvas, Animation animation, Bunny player) {
+		return player.getCenterX() - animation.getWidth(canvas) / 2;
 	}
 
 	private void drawMarkerAtBorder(CanvasDelegate canvas) {

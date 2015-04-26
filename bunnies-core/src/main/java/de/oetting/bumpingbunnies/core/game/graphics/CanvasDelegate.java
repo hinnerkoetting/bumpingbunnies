@@ -51,4 +51,8 @@ public interface CanvasDelegate {
 
 	int getTextWidth(String text, Paint paint);
 
+	int getWidth(ImageWrapper imageWrapper);
+
+	int getHeight(ImageWrapper imageWrapper);
+
 }

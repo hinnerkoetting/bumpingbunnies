@@ -16,7 +16,6 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	private PaintConverter paintConverter = new PaintConverter();
 	private Context context;
 
-	
 	public AndroidCanvasDelegate(Context context) {
 		this.context = context;
 	}
@@ -66,7 +65,8 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	@Override
 	public void drawTextRelativeToScreen(String text, double x, double y, Paint paint) {
 		android.graphics.Paint androidPaint = paintConverter.convert(paint, context);
-		this.canvas.drawText(text, (int) (x * this.width), (int) (y * this.heigth) + androidPaint.getTextSize() / 2, androidPaint);
+		this.canvas.drawText(text, (int) (x * this.width), (int) (y * this.heigth) + androidPaint.getTextSize() / 2,
+				androidPaint);
 
 	}
 
@@ -106,12 +106,11 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 		return xVisible && yVisible;
 	}
 
-	
 	@Override
 	public boolean isVisibleX(long centerX) {
-		return  centerX >= 0 && centerX <= width;
+		return centerX >= 0 && centerX <= width;
 	}
-	
+
 	@Override
 	public boolean isVisibleY(long centerY) {
 		return centerY >= 0 && centerY <= heigth;
@@ -132,6 +131,16 @@ public class AndroidCanvasDelegate implements CanvasDelegate {
 	public int getTextWidth(String text, Paint paint) {
 		android.graphics.Paint androidPaint = paintConverter.convert(paint, context);
 		return (int) androidPaint.measureText(text);
+	}
+
+	@Override
+	public int getWidth(ImageWrapper imageWrapper) {
+		return ((Bitmap) imageWrapper.getBitmap()).getWidth();
+	}
+
+	@Override
+	public int getHeight(ImageWrapper imageWrapper) {
+		return ((Bitmap) imageWrapper.getBitmap()).getHeight();
 	}
 
 }

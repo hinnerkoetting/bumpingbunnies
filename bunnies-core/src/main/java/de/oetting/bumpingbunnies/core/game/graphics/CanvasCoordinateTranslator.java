@@ -125,4 +125,14 @@ public class CanvasCoordinateTranslator implements CanvasDelegate {
 		return next.getTextWidth(text, paint);
 	}
 
+	@Override
+	public int getWidth(ImageWrapper imageWrapper) {
+		return coordinatesCalculation.getGameCoordinateX(next.getWidth(imageWrapper)) - coordinatesCalculation.getGameCoordinateX(0);
+	}
+
+	@Override
+	public int getHeight(ImageWrapper imageWrapper) {
+		return coordinatesCalculation.getGameCoordinateX(next.getHeight(imageWrapper)) - coordinatesCalculation.getGameCoordinateY(0);
+	}
+
 }

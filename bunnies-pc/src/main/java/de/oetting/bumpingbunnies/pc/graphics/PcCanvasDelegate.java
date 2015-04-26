@@ -61,7 +61,8 @@ public class PcCanvasDelegate implements CanvasDelegate {
 
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
-		drawRect((long) (left * getOriginalWidth()), (long) (top * getOriginalHeight()), (long) (right * getOriginalWidth()), (long) (bottom * getOriginalHeight()), paint);
+		drawRect((long) (left * getOriginalWidth()), (long) (top * getOriginalHeight()),
+				(long) (right * getOriginalWidth()), (long) (bottom * getOriginalHeight()), paint);
 	}
 
 	@Override
@@ -120,12 +121,11 @@ public class PcCanvasDelegate implements CanvasDelegate {
 		return xVisible && yVisible;
 	}
 
-	
 	@Override
 	public boolean isVisibleX(long centerX) {
 		return centerX >= 0 && centerX <= getOriginalWidth();
 	}
-	
+
 	@Override
 	public boolean isVisibleY(long centerY) {
 		return centerY >= 0 && centerY <= getOriginalHeight();
@@ -143,7 +143,18 @@ public class PcCanvasDelegate implements CanvasDelegate {
 
 	@Override
 	public int getTextWidth(String text, Paint paint) {
-		return text.length() *  16;
+		return text.length() * 16;
 	}
 
+	@Override
+	public int getWidth(ImageWrapper imageWrapper) {
+		Image image = (Image) imageWrapper.getBitmap();
+		return (int) image.getWidth();
+	}
+
+	@Override
+	public int getHeight(ImageWrapper imageWrapper) {
+		Image image = (Image) imageWrapper.getBitmap();
+		return (int) image.getHeight();
+	}
 }
