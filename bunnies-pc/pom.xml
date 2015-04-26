@@ -58,7 +58,7 @@
 		</dependency>
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
-			<artifactId>bunnies-music</artifactId>
+			<artifactId>bunnies-resources</artifactId>
 			<optional>true</optional>
 		</dependency> 
 		<dependency>

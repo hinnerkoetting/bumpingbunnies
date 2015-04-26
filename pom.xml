@@ -20,7 +20,7 @@
 		<module>bunnies-android</module>
 		<module>bunnies-network-tester</module>
 		<module>bunnies-levels</module>
-		<module>bunnies-music</module>
+		<module>bunnies-resources</module>
 	</modules>
 
 	<dependencyManagement>
@@ -38,7 +38,7 @@
 			</dependency>
 			<dependency>
 				<groupId>de.oetting.bumping-bunnies</groupId>
-				<artifactId>bunnies-music</artifactId>
+				<artifactId>bunnies-resources</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

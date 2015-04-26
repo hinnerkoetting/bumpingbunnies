@@ -6,8 +6,8 @@
 		<artifactId>bumping-bunnies-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>bunnies-music</artifactId>
+	<artifactId>bunnies-resources</artifactId>
 
-	<!--  added as extra project so that it can be declared as optional dependency in pc pom. 
-	The editor does not need music-->
+	<!--  added as extra project so that it can be declared as optional dependency in PC pom. 
+	The editor does not need some resources like music.-->
 </project>
