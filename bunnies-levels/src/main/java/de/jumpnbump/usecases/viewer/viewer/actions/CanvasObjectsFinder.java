@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import de.jumpnbump.usecases.viewer.viewer.editingMode.SelectionModeProvider;
+import de.oetting.bumpingbunnies.core.game.graphics.NegativeZIndexComparator;
+import de.oetting.bumpingbunnies.core.game.graphics.ZIndexComparator;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.SingleCollisionDetection;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
@@ -32,7 +34,7 @@ public class CanvasObjectsFinder {
 	}
 
 	private Optional<GameObjectWithImage> findGameObject(long gameX, long gameY) {
-		return this.provider.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY)).findFirst();
+		return this.provider.getAllDrawingObjects().stream().filter((object) -> isSelected(object, gameX, gameY)).sorted(new NegativeZIndexComparator()).findFirst();
 	}
 
 	private boolean isSelected(GameObjectWithImage go, long gameX, long gameY) {
