@@ -24,7 +24,7 @@ public class World implements ObjectProvider {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
 
-	private List<GameObjectWithImage> allObjects;
+	private List<GameObjectWithImage> allCollidingObjects;
 	private List<GameObjectWithImage> allDrawingObjects;
 	private List<Wall> allWalls;
 	private List<IcyWall> allIcyWalls;
@@ -36,7 +36,7 @@ public class World implements ObjectProvider {
 
 	public World() {
 		this.allPlayer = new CopyOnWriteArrayList<Bunny>();
-		this.allObjects = new LinkedList<GameObjectWithImage>();
+		this.allCollidingObjects = new LinkedList<GameObjectWithImage>();
 		this.allDrawingObjects = new LinkedList<GameObjectWithImage>();
 		this.allWalls = new ArrayList<Wall>();
 		this.allIcyWalls = new LinkedList<IcyWall>();
@@ -47,7 +47,7 @@ public class World implements ObjectProvider {
 	}
 
 	public void addToAllObjects() {
-		addCollidingObjects(allObjects);
+		addCollidingObjects(allCollidingObjects);
 		addCollidingObjects(allDrawingObjects);
 		allDrawingObjects.addAll(backgrounds);
 	}
@@ -63,7 +63,7 @@ public class World implements ObjectProvider {
 
 	@Override
 	public List<GameObjectWithImage> getAllObjects() {
-		return this.allObjects;
+		return this.allCollidingObjects;
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class World implements ObjectProvider {
 
 	@Override
 	public String toString() {
-		return "World [allObjects=" + allObjects + ", allWalls=" + allWalls + ", allIcyWalls=" + allIcyWalls
+		return "World [allObjects=" + allCollidingObjects + ", allWalls=" + allWalls + ", allIcyWalls=" + allIcyWalls
 				+ ", allJumpers=" + allJumpers + ", allPlayer=" + allPlayer + ", allSpawnPoints=" + allSpawnPoints
 				+ ", allWaters=" + allWaters + "]";
 	}
@@ -229,12 +229,12 @@ public class World implements ObjectProvider {
 	}
 
 	private void addDrawingAndCollidingObject(GameObjectWithImage object) {
-		allObjects.add(object);
+		allCollidingObjects.add(object);
 		allDrawingObjects.add(object);
 	}
 
 	private void removeDrawingAndCollidingObject(GameObjectWithImage object) {
-		allObjects.remove(object);
+		allCollidingObjects.remove(object);
 		allDrawingObjects.remove(object);
 	}
 
@@ -300,5 +300,16 @@ public class World implements ObjectProvider {
 
 	public void removeAllBackgroundFromDrawingObjects() {
 		allDrawingObjects.removeAll(backgrounds);
+	}
+
+	public void removeAll(Collection<GameObjectWithImage> objectsToClean) {
+		allDrawingObjects.removeAll(objectsToClean);
+		allIcyWalls.removeAll(objectsToClean);
+		allJumpers.removeAll(objectsToClean);
+		allCollidingObjects.removeAll(objectsToClean);
+		allWalls.removeAll(objectsToClean);
+		allWaters.removeAll(objectsToClean);
+		backgrounds.removeAll(objectsToClean);
+		sortObjectsByZIndex();
 	}
 }

@@ -1,5 +1,6 @@
 package de.jumpnbump.usecases.viewer.viewer.editingMode;
 
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
@@ -21,6 +22,7 @@ public abstract class CreateObjectEditingMode<S extends FixedWorldObject> implem
 		this.objectFactory = objectFactory;
 		this.canvas = canvas;
 		this.coordinatesCalculation = provider.createCoordinatesCalculation();
+		canvas.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 	}
 
 	@Override
