@@ -8,10 +8,6 @@ public class Water extends FixedWorldObject implements GameObjectWithImage {
 		super(id, minX, minY, maxX, maxY, Color.TRANS_BLUE);
 	}
 
-	@Override
-	public int getColor() {
-		return Color.BLUE & 0x88FFFFFF;
-	}
 
 	@Override
 	public int accelerationOnThisGround() {

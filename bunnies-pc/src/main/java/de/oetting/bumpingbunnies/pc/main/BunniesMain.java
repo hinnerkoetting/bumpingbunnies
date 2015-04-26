@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.pc.main;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,8 +25,9 @@ import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
-import de.oetting.bumpingbunnies.core.game.ImageCache;
-import de.oetting.bumpingbunnies.core.game.ImagesZipLoader;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
@@ -42,8 +42,7 @@ import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathZipreader;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldLoader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
@@ -53,9 +52,9 @@ import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
-import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
@@ -65,11 +64,12 @@ import de.oetting.bumpingbunnies.pc.game.factory.PcConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.pc.game.input.PcInputDispatcher;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
 import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
-import de.oetting.bumpingbunnies.pc.graphics.PcResourceProvider;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcBackgroundDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawableFactory;
-import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableFactory;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImageMirroror;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImagesColoror;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerImagesProvider;
 import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntryComparator;
@@ -142,8 +142,8 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		for (OpponentConfiguration config : players) {
 			if (config.getOpponent().isLocalHumanPlayer()) {
 				Bunny otherPlayer = gameMain.getWorld().findPlayer(config.getPlayerId());
-				inputDispatcher.addInputService(inputFactory.create(
-						(KeyboardInputConfiguration) config.getInput(), otherPlayer));
+				inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) config.getInput(),
+						otherPlayer));
 			}
 		}
 	}
@@ -242,7 +242,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation,
 			GameThreadState gameThreadState) {
 		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
-				new PcGameObjectDrawableFactory(), new PcPlayerDrawableFactory());
+				new PcGameObjectDrawableFactory(), new BunnyDrawableFactory(new BunnyDrawerFactory(new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(), new PcImageMirroror())));
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, new CanvasCoordinateTranslator(new PcCanvasDelegate(),
 				coordinatesCalculation));
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
@@ -250,13 +250,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private World createWorld() {
-		ImageCache images = loadAllImages(World.class.getResourceAsStream("/worlds/classic.zip"));
-		XmlReader reader = new ClasspathZipreader(World.class.getResourceAsStream("/worlds/classic.zip"));
-		return new PcWorldObjectsParser().build(new PcResourceProvider(images), reader);
-	}
-
-	private ImageCache loadAllImages(InputStream worldZip) {
-		return new ImagesZipLoader().loadAllImages(worldZip, (is, key) ->  new ImageWrapper(new Image(is), key));
+		return new WorldLoader().load(new PcWorldObjectsParser(), (is, key) -> new ImageWrapper(new Image(is), key));
 	}
 
 	private static void startApplication() {

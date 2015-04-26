@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.viewer.viewer.editingMode;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Optional;
 
 import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
@@ -27,10 +28,10 @@ public class DeleteModeMouseListener implements ModeMouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Optional<? extends GameObjectWithImage> objectOnScreen = objectsFinder.findClickedObject(e);
-		Optional<? extends GameObjectWithImage> selectedObject = provider.getCurrentSelectedObject();
-		if (objectOnScreen.isPresent() && selectedObject.isPresent()) {
-			if (objectOnScreen.get().equals(selectedObject.get()))
-				deleteObject(selectedObject.get());
+		List<GameObjectWithImage> selectedObjects = provider.getCurrentSelectedObjects();
+		if (objectOnScreen.isPresent()) {
+			if (selectedObjects.contains(objectOnScreen.get()))
+				deleteObject(objectOnScreen.get());
 			else
 				provider.setSelectedObject(objectOnScreen);
 		} else {

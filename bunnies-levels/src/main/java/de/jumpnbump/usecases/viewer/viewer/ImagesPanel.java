@@ -1,39 +1,53 @@
 package de.jumpnbump.usecases.viewer.viewer;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.jumpnbump.usecases.viewer.model.ImageReader;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
-public class ImagesPanel extends JPanel {
+public class ImagesPanel {
 
-	private static final long serialVersionUID = 1L;
 	private final MyCanvas canvas;
+	private JPanel panel;
 
 	public ImagesPanel(MyCanvas canvas) {
-		super();
 		this.canvas = canvas;
 	}
 
-	public void build() {
+	public JComponent build() {
+		panel = new JPanel(new GridLayout(2, 0, 5, 5));
 		Path directory = Paths.get("files");
 		try {
-			Files.newDirectoryStream(directory, (path) -> isImage(path)).forEach((path) -> addImage(path));
+			if (!Files.exists(directory))
+				Files.createDirectory(directory);
+			Files.newDirectoryStream(directory, (path) -> isImage(path)).forEach(path -> addImage(path));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		return createScrollPaneOver(panel);
+	}
+
+	private JComponent createScrollPaneOver(JPanel panel) {
+		JScrollPane pane = new JScrollPane(panel);
+		pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		return pane;
 	}
 
 	private boolean isImage(Path path) {
@@ -45,35 +59,17 @@ public class ImagesPanel extends JPanel {
 		BufferedImage image = readImage(path);
 		Image scaledImage = scaleImage(image);
 		final ImagePanel picLabel = new ImagePanel(image, new ImageIcon(scaledImage), path.getFileName().toString());
-		add(picLabel);
-		picLabel.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
+		panel.add(picLabel);
+		picLabel.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				GameObjectWithImage selectedGameObject = ImagesPanel.this.canvas.getSelectedGameObject();
-				if (selectedGameObject != null) {
-					ImageWrapper wrapper = new ImageWrapper(picLabel.getOriginal(), path.getFileName().toString());
-					selectedGameObject.applyImage(wrapper);
-
-					ImagesPanel.this.canvas.repaint();
-				}
+				List<GameObjectWithImage> selectedGameObjects = ImagesPanel.this.canvas.getSelectedGameObjects();
+				selectedGameObjects.stream().forEach(
+						go -> go.applyImage(new ImageWrapper(picLabel.getOriginal(), path.getFileName().toString())));
+				ImagesPanel.this.canvas.repaint();
 			}
 
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-			}
 		});
 	}
 

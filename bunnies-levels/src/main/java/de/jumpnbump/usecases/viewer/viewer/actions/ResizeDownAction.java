@@ -20,7 +20,7 @@ public class ResizeDownAction implements MouseAction {
 	}
 
 	@Override
-	public void newMousePosition(MouseEvent event) {
+	public void onMouseDragged(MouseEvent event) {
 		int newBottomY = this.coordinatesCalculation.getGameCoordinateY(event.getY());
 		if (newBottomY < this.selectedObject.maxY()) {
 			this.selectedObject.setMinY(newBottomY);

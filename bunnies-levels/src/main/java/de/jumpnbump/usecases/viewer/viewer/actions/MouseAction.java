@@ -4,7 +4,11 @@ import java.awt.event.MouseEvent;
 
 public interface MouseAction {
 
-	void newMousePosition(MouseEvent event);
+	void onMouseDragged(MouseEvent event);
+	
+	default void onMousePressedFirst(MouseEvent event) {
+		onMouseDragged(event);
+	}
 
 	void rightMouseClick(MouseEvent event);
 }

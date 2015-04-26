@@ -9,8 +9,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import de.oetting.bumpingbunnies.core.game.ImageCache;
+import de.oetting.bumpingbunnies.core.worldCreation.DefaultResourceProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.pc.graphics.PcResourceProvider;
 
 public class PcImagesResizerTest {
 
@@ -18,7 +18,7 @@ public class PcImagesResizerTest {
 	@Ignore
 	@Test
 	public void resize_always_imageSizeIsEqualToTargetsie() {
-		ImageWrapper image = new PcResourceProvider(new ImageCache()).readBitmap("wiese1");
+		ImageWrapper image = new DefaultResourceProvider(new ImageCache()).readBitmap("wiese1");
 		ImageWrapper resizedImage = new PcImagesResizer().resize(image, 5, 5);
 		assertThat(resizedImage.getBitmap(), allOf(hasProperty("width"), is(5.0), hasProperty("height"), is(5.0)));
 	}

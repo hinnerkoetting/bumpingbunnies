@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.core.game.movement;
 
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.Rectangle;
 
 public class SingleCollisionDetection {
 
@@ -121,15 +122,15 @@ public class SingleCollisionDetection {
 		}
 	}
 
-	public static boolean sharesHorizontalPosition(GameObject gameObject, GameObject other) {
+	public static boolean sharesHorizontalPosition(Rectangle gameObject, Rectangle other) {
 		return gameObject.maxX() > other.minX() && gameObject.minX() < other.maxX();
 	}
 
-	public static boolean sharesVerticalPosition(GameObject gameObject, GameObject other) {
+	public static boolean sharesVerticalPosition(Rectangle gameObject, Rectangle other) {
 		return gameObject.maxY() > other.minY() && gameObject.minY() < other.maxY();
 	}
 
-	public static boolean collides(GameObject gameObject, GameObject other) {
+	public static boolean collides(Rectangle gameObject, Rectangle other) {
 		boolean collidesX = sharesHorizontalPosition(gameObject, other);
 		boolean collidesY = sharesVerticalPosition(gameObject, other);
 		return collidesX && collidesY;

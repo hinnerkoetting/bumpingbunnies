@@ -35,17 +35,22 @@
 	<dependencies>
 		<dependency>
 			<artifactId>bunnies-model</artifactId>
-			<groupId>de.oetting.bumping-bunnies</groupId>
+			<groupId>${project.groupId}</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>bunnies-core-resources</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<artifactId>bunnies-model</artifactId>
-			<groupId>de.oetting.bumping-bunnies</groupId>
+			<groupId>${project.groupId}</groupId>
 			<scope>test</scope>
 			<type>test-jar</type>
 		</dependency>
 		<dependency>
 			<artifactId>bunnies-common</artifactId>
-			<groupId>de.oetting.bumping-bunnies</groupId>
+			<groupId>${project.groupId}</groupId>
 		</dependency>
 		<dependency>
 			<artifactId>junit</artifactId>

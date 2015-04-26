@@ -30,14 +30,14 @@ public class RemoteCommunicationFactoryTest {
 	@Test
 	public void create_forWlanPlayer_shouldreturnDefaultRemoteCommunication() {
 		ClientAccepter rc = new AndroidConnectionEstablisherFactory(mock(Activity.class)).create(mock(AcceptsClientConnections.class), new ServerSettings(
-				WorldConfiguration.CASTLE, 1, NetworkType.WLAN), null);
+				WorldConfiguration.CLASSIC, 1, NetworkType.WLAN), null);
 		assertThat(rc, is(instanceOf(DefaultClientAccepter.class)));
 	}
 
 	@Test
 	public void create_forBluetoothPlayer_shouldReturnBluetoothCommunication() {
 		ClientAccepter rc = new AndroidConnectionEstablisherFactory(mock(Activity.class)).create(mock(AcceptsClientConnections.class), new ServerSettings(
-				WorldConfiguration.CASTLE, 1, NetworkType.BLUETOOTH), null);
+				WorldConfiguration.CLASSIC, 1, NetworkType.BLUETOOTH), null);
 		assertThat(rc, is(instanceOf(BluetoothClientsAccepter.class)));
 	}
 

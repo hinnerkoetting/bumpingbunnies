@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.content.Context;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
@@ -24,7 +25,7 @@ public class DrawerFactory {
 
 	public static ObjectsDrawer create(World world, GameThreadState threadState, Configuration configuration, CoordinatesCalculation calculations, Context context) {
 
-		AndroidPlayerDrawableFactory playerDrawerFactory = createPlayerDrawerFactory();
+		BunnyDrawableFactory playerDrawerFactory = createPlayerDrawerFactory();
 		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(configuration.getLocalSettings()
 				.isBackground()), new AndroidGameObjectsDrawableFactory(), playerDrawerFactory);
 
@@ -35,11 +36,11 @@ public class DrawerFactory {
 		return drawer;
 	}
 
-	private static AndroidPlayerDrawableFactory createPlayerDrawerFactory() {
+	private static BunnyDrawableFactory createPlayerDrawerFactory() {
 		BunnyImagesReader imagesReader = new BunnyImagesReader();
 		PlayerImagesProvider imagesProvider = new AndroidPlayerImagesProvider(imagesReader);
 		ImagesColorer colorer = new AndroidImagesColoror();
 		ImageMirroror mirrorer = new AndroidImagesMirrorer();
-		return new AndroidPlayerDrawableFactory(new BunnyDrawerFactory(imagesProvider, colorer, mirrorer));
+		return new BunnyDrawableFactory(new BunnyDrawerFactory(imagesProvider, colorer, mirrorer));
 	}
 }

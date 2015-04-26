@@ -75,7 +75,7 @@ public class LevelStorer {
 
 	private void write(ZipOutputStream os, ImageWrapper image) {
 		try {
-			os.putNextEntry(new ZipEntry(image.getImageKey() + ".png"));
+			os.putNextEntry(new ZipEntry(image.getImageKey()));
 			ImageIO.write((RenderedImage) image.getBitmap(), "png", os);
 		} catch (IOException e) {
 			throw new RuntimeException(e);

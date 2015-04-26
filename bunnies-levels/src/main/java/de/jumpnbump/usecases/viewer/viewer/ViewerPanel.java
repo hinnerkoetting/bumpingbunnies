@@ -4,14 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -74,6 +81,7 @@ public class ViewerPanel extends JPanel {
 	private JList<Background> backgrounds;
 	private EditingModePanel editingModePanel;
 	private JFrame frame;
+	private ViewableItemsPanel viewableItemsPanel;
 
 	public ViewerPanel(String file) {
 		this.lastFile = new File(file);
@@ -94,6 +102,7 @@ public class ViewerPanel extends JPanel {
 		add(createRightBox(), BorderLayout.LINE_END);
 		add(createBottomImages(), BorderLayout.PAGE_END);
 		activateNewEditingMode();
+		selectViewableCheckboxes();
 	}
 
 	private BorderLayout createLayout() {
@@ -115,11 +124,9 @@ public class ViewerPanel extends JPanel {
 		this.myCanvas.addMouseMotionListener(ml);
 	}
 
-	private JPanel createBottomImages() {
+	private JComponent createBottomImages() {
 		ImagesPanel panel = new ImagesPanel(this.myCanvas);
-		panel.build();
-		panel.setPreferredSize(new Dimension(100, 200));
-		return panel;
+		return panel.build();
 	}
 
 	private Box createRightBox() {
@@ -132,6 +139,7 @@ public class ViewerPanel extends JPanel {
 	private JComponent createTopPanel() {
 		JComponent panel = new JPanel(new GridLayout(0, 2));
 		panel.add(createButtons());
+		panel.add(createVisibleButtons());
 		return panel;
 	}
 
@@ -142,7 +150,55 @@ public class ViewerPanel extends JPanel {
 		box.add(createSaveButton());
 		box.add(createSaveAsButton());
 		box.add(createRoundButton());
+		box.add(createCleanButton());
 		return box;
+	}
+
+	private Component createVisibleButtons() {
+		viewableItemsPanel = new ViewableItemsPanel(this);
+		return viewableItemsPanel.build();
+	}
+
+	private Component createCleanButton() {
+		JButton button = new JButton("Clean");
+		button.addActionListener((event) -> clean());
+		return button;
+	}
+
+	private void clean() {
+		Collection<GameObjectWithImage> allObjects = getAllObjectsToClean();
+		JOptionPane.showMessageDialog(this, "Cleaning " + allObjects.size() + " elements");
+		model.removeAll(allObjects);
+		refreshTables();
+		repaintCanvas();
+	}
+
+	private Set<GameObjectWithImage> getAllObjectsToClean() {
+		Set<GameObjectWithImage> hiddenAllObjects = model.getAllObjects().stream().filter(object -> isHidden(object))
+				.collect(Collectors.toSet());
+		Set<GameObjectWithImage> hiddenDrawnObjects = model.getAllDrawingObjects().stream()
+				.filter(object -> isHidden(object)).collect(Collectors.toSet());
+		Set<GameObjectWithImage> sets = new HashSet<>();
+		sets.addAll(hiddenDrawnObjects);
+		sets.addAll(hiddenAllObjects);
+		return sets;
+	}
+
+	private boolean isHidden(GameObjectWithImage object) {
+		return isHiddenInList(object, model.getAllObjects()) || isHiddenInList(object, model.getAllDrawingObjects());
+	}
+
+	private boolean isHiddenInList(GameObjectWithImage object, List<GameObjectWithImage> list) {
+		for (GameObjectWithImage otherObject : list) {
+			if (otherObject != object) {
+				if (otherObject.maxX() >= object.maxX() && otherObject.minX() <= object.minX()
+						&& otherObject.minY() <= object.minY() && otherObject.maxY() >= object.maxY()) {
+					if (otherObject.getzIndex() > object.getzIndex())
+						return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private Component createRoundButton() {
@@ -158,15 +214,15 @@ public class ViewerPanel extends JPanel {
 
 	private void round(GameObject go) {
 		go.setMinX(findRoundedValueX(go.minX()));
-		go.setMaxX(findRoundedValueX(go.maxX()));
-		if (go.minX() == go.maxX()) {
-			go.setMaxX(go.minX() + 1);
-		}
+		if (findRoundedValueX(go.minX()) == findRoundedValueX(go.maxX()))
+			go.setMaxX(go.minX() + ModelConstants.MAX_VALUE / 100);
+		else
+			go.setMaxX(findRoundedValueX(go.maxX()));
 		go.setMinY(findRoundedValueY(go.minY()));
-		go.setMaxY(findRoundedValueY(go.maxY()));
-		if (go.minY() == go.maxY()) {
-			go.setMaxY(go.minY() + 1);
-		}
+		if (findRoundedValueY(go.minY()) == findRoundedValueY(go.maxY()))
+			go.setMaxY(go.minY() + ModelConstants.MAX_VALUE / 100);
+		else
+			go.setMaxY(findRoundedValueY(go.maxY()));
 	}
 
 	private int findRoundedValueX(double inX) {
@@ -254,6 +310,16 @@ public class ViewerPanel extends JPanel {
 		list.setCellRenderer(new GameObjectRenderer());
 		list.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		list.addMouseListener(new ListMouseAdapter(this));
+		list.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				list.clearSelection();
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+		});
 	}
 
 	private JList<IcyWall> createIceWallList() {
@@ -346,6 +412,11 @@ public class ViewerPanel extends JPanel {
 		setBackgroundsModel();
 		activateNewEditingMode();
 		this.myCanvas.repaint();
+		selectViewableCheckboxes();
+	}
+
+	private void selectViewableCheckboxes() {
+		viewableItemsPanel.selectAllCheckboxes();
 	}
 
 	private void parseFile() {
@@ -525,6 +596,10 @@ public class ViewerPanel extends JPanel {
 			return lastFile.getPath();
 		}
 		return null;
+	}
+
+	public World getWorld() {
+		return model;
 	}
 
 }

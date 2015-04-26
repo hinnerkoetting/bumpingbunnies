@@ -64,8 +64,16 @@
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-music</artifactId>
+		</dependency>
+		<dependency>
+			<artifactId>bunnies-pc-resources</artifactId>
 			<optional>true</optional>
-		</dependency> 
+		</dependency>
+		<dependency> 
+			<artifactId>bunnies-core-resources</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

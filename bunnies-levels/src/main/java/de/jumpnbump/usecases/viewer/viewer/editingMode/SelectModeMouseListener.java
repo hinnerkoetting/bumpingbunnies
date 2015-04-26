@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.viewer.viewer.editingMode;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Optional;
 
 import de.jumpnbump.usecases.viewer.viewer.actions.CanvasObjectsFinder;
@@ -14,6 +15,7 @@ import de.jumpnbump.usecases.viewer.viewer.actions.ResizeTopMouseAction;
 import de.jumpnbump.usecases.viewer.viewer.actions.SelectAction;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public class SelectModeMouseListener implements ModeMouseListener {
 
@@ -30,12 +32,14 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (e.getButton() != MouseEvent.BUTTON1)
+			this.nextAction.rightMouseClick(e);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1)
-			this.nextAction.newMousePosition(e);
+			this.nextAction.onMousePressedFirst(e);
 		else
 			this.nextAction.rightMouseClick(e);
 	}
@@ -56,45 +60,45 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		this.nextAction.newMousePosition(e);
+		this.nextAction.onMouseDragged(e);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		Optional<? extends GameObject> object = provider.getCurrentSelectedObject();
-		if (object.isPresent()) {
-			GameObject selectedGameObject = object.get();
+		List<GameObjectWithImage> objects = provider.getCurrentSelectedObjects();
+		boolean modeWasFound = false;
+		for (GameObjectWithImage selectedGameObject : objects) {
 			int pixelMinX = coordinatesCalculation.getScreenCoordinateX(selectedGameObject.minX());
 			int pixelMaxX = coordinatesCalculation.getScreenCoordinateX(selectedGameObject.maxX());
 			int pixelMinY = coordinatesCalculation.getScreenCoordinateY(selectedGameObject.minY());
 			int pixelMaxY = coordinatesCalculation.getScreenCoordinateY(selectedGameObject.maxY());
 			if (isMouseOverSelectedObject(e, selectedGameObject)) {
-				this.nextAction = new MoveAction(this.provider, this.coordinatesCalculation);
+				modeWasFound = true;
 				if (Math.abs(e.getX() - pixelMinX) < TOLERANCE) {
 					provider.setCanvasCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 					this.nextAction = new ResizeLeftAction(selectedGameObject, this.provider,
 							this.coordinatesCalculation);
-				}
-				if (Math.abs(e.getX() - pixelMaxX) < TOLERANCE) {
+				} else if (Math.abs(e.getX() - pixelMaxX) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 					this.nextAction = new ResizeRightAction(selectedGameObject, this.provider,
 							this.coordinatesCalculation);
-				}
-				if (Math.abs(e.getY() - pixelMinY) < TOLERANCE) {
+				} else if (Math.abs(e.getY() - pixelMinY) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 					this.nextAction = new ResizeDownAction(selectedGameObject, this.provider,
 							this.coordinatesCalculation);
-				}
-				if (Math.abs(e.getY() - pixelMaxY) < TOLERANCE) {
+				} else if (Math.abs(e.getY() - pixelMaxY) < TOLERANCE) {
 					this.provider.setCanvasCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 					this.nextAction = new ResizeTopMouseAction(selectedGameObject, this.provider,
 							this.coordinatesCalculation);
+				} else {
+					this.nextAction = new MoveAction(this.provider, this.coordinatesCalculation);
+					provider.setCanvasCursor(new Cursor(Cursor.HAND_CURSOR));
 				}
-			} else {
-				resetAction();
+				break;
 			}
-
 		}
+		if (!modeWasFound)
+			resetAction();
 	}
 
 	private boolean isMouseOverSelectedObject(MouseEvent e, GameObject selectedGameObject) {
@@ -108,7 +112,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	private void resetAction() {
 		provider.setCanvasCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		this.nextAction = new SelectAction(provider, new CanvasObjectsFinder(provider));
+		this.nextAction = new SelectAction(provider, new CanvasObjectsFinder(provider), coordinatesCalculation);
 	}
 
 	private int translateToPixelX(long gameX) {

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Viewer {
 
@@ -26,15 +27,25 @@ public class Viewer {
 		panel.build();
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1200, 900);
 		frame.add(panel, BorderLayout.CENTER);
 		panel.setFrame(frame);
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (panel.getLastFileName() != null)
-					storeLastFile(panel);
+				if (userConfirmsToCloseDialog(panel)) {
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					if (panel.getLastFileName() != null)
+						storeLastFile(panel);
+				} else {
+					frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+				
+			}
+
+			private boolean userConfirmsToCloseDialog(ViewerPanel panel) {
+				return JOptionPane.showConfirmDialog(panel, "Close Program?",
+						"Are you sure that you want discard all changes?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
 			}
 
 			private void storeLastFile(ViewerPanel panel) {

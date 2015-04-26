@@ -5,7 +5,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
-public class AnimationImpl implements Animation {
+public class DefaultAnimation implements Animation {
 
 	protected final List<ImageWrapper> originalPictures;
 	private final int timeBetweenPictures;
@@ -15,7 +15,7 @@ public class AnimationImpl implements Animation {
 	// private ImageResizer resizer;
 	private boolean movingIndexUp = true;
 
-	public AnimationImpl(List<ImageWrapper> pictures, int timeBetweenPictures) {
+	public DefaultAnimation(List<ImageWrapper> pictures, int timeBetweenPictures) {
 		this.originalPictures = pictures;
 		this.timeBetweenPictures = timeBetweenPictures;
 		this.lastTimeSwitched = System.currentTimeMillis();
@@ -34,7 +34,7 @@ public class AnimationImpl implements Animation {
 
 		drawCurrentImage(canvas, left, top, paint);
 	}
-
+	
 	private void drawCurrentImage(CanvasDelegate canvas, long left, long top, Paint paint) {
 		canvas.drawImage(this.originalPictures.get(this.currentIndex), left, top, paint);
 	}
@@ -54,5 +54,15 @@ public class AnimationImpl implements Animation {
 	}
 
 	public static class NoImagesInAnimation extends RuntimeException {
+	}
+
+	@Override
+	public int getWidth(CanvasDelegate canvas) {
+		return canvas.getWidth(this.originalPictures.get(this.currentIndex));
+	}
+
+	@Override
+	public int getHeight(CanvasDelegate canvas) {
+		return canvas.getHeight(this.originalPictures.get(this.currentIndex));
 	}
 }

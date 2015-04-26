@@ -3,6 +3,7 @@ package de.jumpnbump.usecases.viewer.viewer.editingMode;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -19,7 +20,7 @@ public interface SelectionModeProvider {
 
 	void repaintCanvas();
 
-	Optional<? extends GameObjectWithImage> getCurrentSelectedObject();
+	List<GameObjectWithImage> getCurrentSelectedObjects();
 
 	void setCanvasCursor(Cursor cursor);
 
@@ -36,4 +37,10 @@ public interface SelectionModeProvider {
 	JFrame getFrame();
 
 	int getMaxZIndexValue();
+
+	void addSelectedObject(Optional<? extends GameObjectWithImage> go);
+
+	void addSelectedObjects(List<GameObjectWithImage> allSelectedObjects);
+
+	void setSelectedObjects(List<GameObjectWithImage> allSelectedObjects);
 }

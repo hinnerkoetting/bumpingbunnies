@@ -45,14 +45,14 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	}
 
 	@Override
-	public Optional<? extends GameObjectWithImage> getCurrentSelectedObject() {
-		GameObjectWithImage selectedObject = canvas.getSelectedGameObject();
-		return Optional.ofNullable((GameObjectWithImage) selectedObject);
+	public List<GameObjectWithImage> getCurrentSelectedObjects() {
+		return canvas.getSelectedGameObjects();
 	}
 
 	@Override
 	public void setCanvasCursor(Cursor cursor) {
-		canvas.setCursor(cursor);
+		if (canvas.getCursor().getType() != cursor.getType())
+			canvas.setCursor(cursor);
 	}
 
 	@Override
@@ -61,6 +61,10 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 			canvas.setSelectedObject(go.get());
 		else
 			canvas.setSelectedObject(null);
+		refresh();
+	}
+
+	private void refresh() {
 		repaintCanvas();
 		refreshTables();
 	}
@@ -82,8 +86,7 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 
 	@Override
 	public void refreshAll() {
-		repaintCanvas();
-		refreshTables();
+		refresh();
 	}
 
 	@Override
@@ -101,5 +104,24 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 			}
 		}
 		return max;
+	}
+
+	@Override
+	public void addSelectedObject(Optional<? extends GameObjectWithImage> go) {
+		go.ifPresent(object -> canvas.addSelectedObect(object));
+		refresh();
+	}
+
+	@Override
+	public void addSelectedObjects(List<GameObjectWithImage> allSelectedObjects) {
+		allSelectedObjects.forEach(object -> canvas.addSelectedObect(object));
+		refresh();
+	}
+
+	@Override
+	public void setSelectedObjects(List<GameObjectWithImage> allSelectedObjects) {
+		canvas.setSelectedObject(null);
+		allSelectedObjects.forEach(object -> canvas.addSelectedObect(object));
+		refresh();
 	}
 }

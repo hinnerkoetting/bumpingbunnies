@@ -27,4 +27,14 @@ public class AnimationWithMirror implements Animation, MirroredAnimation {
 	public void drawMirrored(boolean b) {
 		this.drawNormal = !b;
 	}
+
+	@Override
+	public int getWidth(CanvasDelegate canvas) {
+		return normalAnimation.getWidth(canvas);
+	}
+
+	@Override
+	public int getHeight(CanvasDelegate canvas) {
+		return normalAnimation.getHeight(canvas);
+	}
 }
