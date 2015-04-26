@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class BunnyDrawableFactory {
 
-	private static final double FACTOR_BY_WHICH_BUNNY_IS_BIGGER_THAN_HITBOX = 1.15;
+	private static final double FACTOR_BY_WHICH_BUNNY_IS_BIGGER_THAN_HITBOX = 1.25;
 	private final BunnyDrawerFactory factory;
 
 	public BunnyDrawableFactory(BunnyDrawerFactory factory) {

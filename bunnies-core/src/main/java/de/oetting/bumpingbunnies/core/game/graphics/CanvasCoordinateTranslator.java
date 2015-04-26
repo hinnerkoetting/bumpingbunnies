@@ -132,7 +132,7 @@ public class CanvasCoordinateTranslator implements CanvasDelegate {
 
 	@Override
 	public int getHeight(ImageWrapper imageWrapper) {
-		return coordinatesCalculation.getGameCoordinateX(next.getHeight(imageWrapper)) - coordinatesCalculation.getGameCoordinateY(0);
+		return coordinatesCalculation.getGameCoordinateY(next.getHeight(imageWrapper)) - coordinatesCalculation.getGameCoordinateY(0);
 	}
 
 }
