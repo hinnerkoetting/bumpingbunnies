@@ -25,6 +25,9 @@ import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
+import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
@@ -64,7 +67,9 @@ import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcBackgroundDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawableFactory;
-import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerDrawableFactory;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImageMirroror;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImagesColoror;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerImagesProvider;
 import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntryComparator;
@@ -237,7 +242,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation,
 			GameThreadState gameThreadState) {
 		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
-				new PcGameObjectDrawableFactory(), new PcPlayerDrawableFactory());
+				new PcGameObjectDrawableFactory(), new BunnyDrawableFactory(new BunnyDrawerFactory(new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(), new PcImageMirroror())));
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, new CanvasCoordinateTranslator(new PcCanvasDelegate(),
 				coordinatesCalculation));
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
