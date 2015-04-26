@@ -17,15 +17,12 @@ import de.oetting.bumpingbunnies.android.graphics.AndroidDrawThread;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
-import de.oetting.bumpingbunnies.android.xml.parsing.AndroidResourceProvider;
-import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlWorldParserTemplate;
+import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlWorldParser;
 import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
-import de.oetting.bumpingbunnies.core.game.ImageCache;
 import de.oetting.bumpingbunnies.core.game.ImageCreator;
-import de.oetting.bumpingbunnies.core.game.ImagesZipLoader;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
@@ -35,12 +32,12 @@ import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldLoader;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
-import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
-import de.oetting.bumpingbunnies.usecases.game.configuration.WorldConfigurationFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.DrawerFactory;
 import de.oetting.bumpingbunnies.usecases.game.factories.InputDispatcherFactory;
 import de.oetting.bumpingbunnies.usecases.game.sound.AndroidMusicPlayerFactory;
@@ -87,23 +84,16 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	}
 
 	private World createWorld(GameActivity activity, GameStartParameter parameter) {
-		AndroidXmlWorldParserTemplate factory = new WorldConfigurationFactory().createWorldParser(parameter.getConfiguration().getWorldConfiguration());
-		ImageCache images = loadImages(activity, factory);
-		AndroidResourceProvider resourceProvider = new AndroidResourceProvider(images);
-		return factory.build(resourceProvider, activity);
-	}
-
-	private ImageCache loadImages(GameActivity activity,
-			AndroidXmlWorldParserTemplate factory) {
-		ImageCache images = new ImagesZipLoader().loadAllImages(activity.getResources().openRawResource(factory.getResourceId()), new ImageCreator() {
+		AndroidXmlWorldParser parser = new AndroidXmlWorldParser();
+		return new WorldLoader().load(parser, new ImageCreator() {
 			
 			@Override
 			public ImageWrapper createImage(InputStream inputStream, String imageKey) {
 				return new ImageWrapper(BitmapFactory.decodeStream(inputStream), imageKey);
 			}
 		});
-		return images;
 	}
+
 
 	private void registerScreenTouchListener(final GameView contentView) {
 		contentView.setOnTouchListener(new OnTouchListener() {

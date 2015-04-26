@@ -10,15 +10,15 @@ import org.junit.Test;
 import de.oetting.bumpingbunnies.core.game.ImageCache;
 import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.DefaultResourceProvider;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
-import de.oetting.bumpingbunnies.pc.graphics.PcResourceProvider;
 
 public class PcWorldObjectsParserTest {
 
 	@Test
 	public void build_classicWorld_hasAllValuesFilled() {
-		ResourceProvider provider = new PcResourceProvider(new ImageCache());
+		ResourceProvider provider = new DefaultResourceProvider(new ImageCache());
 		XmlReader reader = new ClasspathXmlreader(getClass().getResourceAsStream("/test.xml"));
 		World world = new PcWorldObjectsParser().build(provider, reader);
 		assertThat(world, hasNoEmptyList());
