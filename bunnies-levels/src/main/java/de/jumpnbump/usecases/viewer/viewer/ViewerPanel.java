@@ -118,11 +118,9 @@ public class ViewerPanel extends JPanel {
 		this.myCanvas.addMouseMotionListener(ml);
 	}
 
-	private JPanel createBottomImages() {
+	private JComponent createBottomImages() {
 		ImagesPanel panel = new ImagesPanel(this.myCanvas);
-		panel.build();
-		panel.setPreferredSize(new Dimension(100, 200));
-		return panel;
+		return panel.build();
 	}
 
 	private Box createRightBox() {
