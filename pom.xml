@@ -20,7 +20,8 @@
 		<module>bunnies-android</module>
 		<module>bunnies-network-tester</module>
 		<module>bunnies-levels</module>
-		<module>bunnies-resources</module>
+		<module>bunnies-core-resources</module>
+		<module>bunnies-pc-resources</module>
 	</modules>
 
 	<dependencyManagement>
@@ -37,8 +38,13 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>de.oetting.bumping-bunnies</groupId>
-				<artifactId>bunnies-resources</artifactId>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>bunnies-core-resources</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>bunnies-pc-resources</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

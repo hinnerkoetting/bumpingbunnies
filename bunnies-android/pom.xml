@@ -199,6 +199,10 @@
 			<artifactId>bunnies-core</artifactId>
 		</dependency>
 		<dependency>
+			<artifactId>bunnies-core-resources</artifactId>
+			<groupId>${project.groupId}</groupId>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>bunnies-model</artifactId>
 		</dependency>

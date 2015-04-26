@@ -1,0 +1,10 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>bunnies-core-resources</artifactId>
+  <parent>
+  	<groupId>de.oetting.bumping-bunnies</groupId>
+  	<artifactId>bumping-bunnies-parent</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <description>Contains resources which are used for all platform. These are at the moment animations and the game world.</description>
+</project>
