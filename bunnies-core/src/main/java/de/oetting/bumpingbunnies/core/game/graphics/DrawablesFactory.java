@@ -10,9 +10,9 @@ import de.oetting.bumpingbunnies.core.game.graphics.factory.BackgroundDrawableFa
 import de.oetting.bumpingbunnies.core.game.graphics.factory.GameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
-import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class DrawablesFactory {
 
@@ -21,20 +21,25 @@ public class DrawablesFactory {
 	private final BackgroundDrawableFactory backgroundDrawableFactory;
 	private final GameObjectDrawableFactory gameObjectDrawableFactory;
 	private final BunnyDrawableFactory playerDrawableFactory;
+	private final CanvasAdapter onImageDrawer;
 
-	public DrawablesFactory(GameThreadState gameThreadState, World world, BackgroundDrawableFactory backgroundDrawableFactory,
-			GameObjectDrawableFactory gameObjectDrawableFactory, BunnyDrawableFactory playerDrawableFactory) {
+	public DrawablesFactory(GameThreadState gameThreadState, World world,
+			BackgroundDrawableFactory backgroundDrawableFactory, GameObjectDrawableFactory gameObjectDrawableFactory,
+			BunnyDrawableFactory playerDrawableFactory, CanvasAdapter onImageDrawer) {
 		this.gameThreadState = gameThreadState;
 		this.world = world;
 		this.backgroundDrawableFactory = backgroundDrawableFactory;
 		this.gameObjectDrawableFactory = gameObjectDrawableFactory;
 		this.playerDrawableFactory = playerDrawableFactory;
+		this.onImageDrawer = onImageDrawer;
+		if (onImageDrawer == null) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	public Collection<Drawable> createAllDrawables(CanvasDelegate canvas) {
 
 		List<Drawable> drawables = new ArrayList<Drawable>();
-		drawables.add(createBackground(canvas));
 		drawables.addAll(createStaticObjects(canvas));
 		drawables.addAll(createAllPlayer(canvas));
 		drawables.addAll(createAllScores());
@@ -59,7 +64,7 @@ public class DrawablesFactory {
 	}
 
 	public ScoreDrawer createScoreDrawer(Bunny p) {
-		double x = 0.1 + (p.id() ) * 0.2;
+		double x = 0.1 + (p.id()) * 0.2;
 		double y = 0.05;
 		while (x > 1) {
 			x--;
@@ -71,7 +76,10 @@ public class DrawablesFactory {
 	private List<Drawable> createStaticObjects(CanvasDelegate canvas) {
 		List<FixedWorldObject> allStaticObjects = createAlleStaticObjects();
 		Collections.sort(allStaticObjects, new ZIndexComparator());
-		return createAllDrawables(allStaticObjects, canvas);
+		List<Drawable> staticDrawables = new ArrayList<Drawable>();
+		staticDrawables.add(createBackground(canvas));
+		staticDrawables.addAll(createAllStaticObjectsDrawables(allStaticObjects, canvas));
+		return convertToOneDrawer(staticDrawables);
 	}
 
 	private List<FixedWorldObject> createAlleStaticObjects() {
@@ -88,7 +96,11 @@ public class DrawablesFactory {
 		return backgroundDrawableFactory.create(canvas.getOriginalWidth(), canvas.getOriginalHeight());
 	}
 
-	private List<Drawable> createAllDrawables(List<? extends GameObjectWithImage> objects, CanvasDelegate canvas) {
+	private List<Drawable> convertToOneDrawer(List<Drawable> objects) {
+		return Collections.singletonList(new AllDrawablesFactory(onImageDrawer).createImagesWhichContainsAllElements(objects));
+	}
+
+	private List<Drawable> createAllStaticObjectsDrawables(List<? extends GameObjectWithImage> objects, CanvasDelegate canvas) {
 		List<Drawable> drawers = new LinkedList<Drawable>();
 		for (GameObjectWithImage p : objects) {
 			int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
