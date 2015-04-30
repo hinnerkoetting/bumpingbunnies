@@ -20,9 +20,9 @@ public class ObjectsDrawer implements PlayerJoinListener {
 	private List<Drawable> allDrawables;
 	private List<Bunny> toBeUpdatedPlayers;
 	private DrawablesFactory factory;
-	private CanvasDelegate canvasDelegate;
+	private CanvasAdapter canvasDelegate;
 
-	public ObjectsDrawer(DrawablesFactory drawFactory, CanvasDelegate canvasDelegate) {
+	public ObjectsDrawer(DrawablesFactory drawFactory, CanvasAdapter canvasDelegate) {
 		this.factory = drawFactory;
 		this.canvasDelegate = canvasDelegate;
 		this.allDrawables = new CopyOnWriteArrayList<Drawable>();

@@ -25,7 +25,7 @@ public class DefaultAnimation implements Animation {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas, long left, long top, Paint paint) {
+	public void draw(CanvasAdapter canvas, long left, long top, Paint paint) {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - this.lastTimeSwitched >= this.timeBetweenPictures) {
 			changeIndex();
@@ -35,7 +35,7 @@ public class DefaultAnimation implements Animation {
 		drawCurrentImage(canvas, left, top, paint);
 	}
 	
-	private void drawCurrentImage(CanvasDelegate canvas, long left, long top, Paint paint) {
+	private void drawCurrentImage(CanvasAdapter canvas, long left, long top, Paint paint) {
 		canvas.drawImage(this.originalPictures.get(this.currentIndex), left, top, paint);
 	}
 
@@ -57,12 +57,12 @@ public class DefaultAnimation implements Animation {
 	}
 
 	@Override
-	public int getWidth(CanvasDelegate canvas) {
+	public int getWidth(CanvasAdapter canvas) {
 		return canvas.getWidth(this.originalPictures.get(this.currentIndex));
 	}
 
 	@Override
-	public int getHeight(CanvasDelegate canvas) {
+	public int getHeight(CanvasAdapter canvas) {
 		return canvas.getHeight(this.originalPictures.get(this.currentIndex));
 	}
 }

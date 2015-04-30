@@ -14,7 +14,7 @@ public class AnimationWithMirror implements Animation, MirroredAnimation {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas, long left, long top, Paint paint) {
+	public void draw(CanvasAdapter canvas, long left, long top, Paint paint) {
 		if (this.drawNormal) {
 			this.normalAnimation.draw(canvas, left, top, paint);
 		} else {
@@ -29,12 +29,12 @@ public class AnimationWithMirror implements Animation, MirroredAnimation {
 	}
 
 	@Override
-	public int getWidth(CanvasDelegate canvas) {
+	public int getWidth(CanvasAdapter canvas) {
 		return normalAnimation.getWidth(canvas);
 	}
 
 	@Override
-	public int getHeight(CanvasDelegate canvas) {
+	public int getHeight(CanvasAdapter canvas) {
 		return normalAnimation.getHeight(canvas);
 	}
 }

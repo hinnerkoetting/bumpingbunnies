@@ -9,12 +9,12 @@ import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
  * Translates game coordinates to canvas coordinates.
  *
  */
-public class CanvasCoordinateTranslator implements CanvasDelegate {
+public class CanvasCoordinateTranslator implements CanvasAdapter {
 
-	private final CanvasDelegate next;
+	private final CanvasAdapter next;
 	private final CoordinatesCalculation coordinatesCalculation;
 
-	public CanvasCoordinateTranslator(CanvasDelegate next, CoordinatesCalculation coordinatesCalculation) {
+	public CanvasCoordinateTranslator(CanvasAdapter next, CoordinatesCalculation coordinatesCalculation) {
 		this.next = next;
 		this.coordinatesCalculation = coordinatesCalculation;
 	}

@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.graphics;
 
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithColor;
@@ -22,7 +22,7 @@ public class ImageDrawer implements Drawable {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas) {
+	public void draw(CanvasAdapter canvas) {
 		canvas.drawImage(this.originalBbitmap, this.object.minX(), this.object.maxY(), this.paint);
 	}
 

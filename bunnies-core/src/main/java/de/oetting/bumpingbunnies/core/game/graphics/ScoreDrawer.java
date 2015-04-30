@@ -34,7 +34,7 @@ public class ScoreDrawer implements Drawable {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas) {
+	public void draw(CanvasAdapter canvas) {
 		int score = this.player.getScore();
 		
 		int leftAbsolute = (int) ((scoreXPosition) * canvas.getOriginalWidth() - 5);

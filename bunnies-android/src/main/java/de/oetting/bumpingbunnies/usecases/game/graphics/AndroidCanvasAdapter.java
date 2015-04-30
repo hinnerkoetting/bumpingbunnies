@@ -1,52 +1,146 @@
 package de.oetting.bumpingbunnies.usecases.game.graphics;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Bitmap.Config;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
-import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
+import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AndroidCanvasAdapter implements CanvasAdapter {
 
-	private final CanvasDelegate screenCanvas;
-	private final CoordinatesCalculation coordinatesCalculation;
-	private final Context context;
+	private Canvas canvas;
+	private int width;
+	private int heigth;
+	private PaintConverter paintConverter = new PaintConverter();
+	private Context context;
 
-	public AndroidCanvasAdapter(CanvasDelegate canvas, CoordinatesCalculation coordinatesCalculation, Context context) {
-		this.screenCanvas = canvas;
-		this.coordinatesCalculation = coordinatesCalculation;
+	public AndroidCanvasAdapter(Context context) {
 		this.context = context;
 	}
 
 	@Override
-	public ImageWrapper drawOnImage(List<Drawable> drawable) {
-		Bitmap bitmap = Bitmap.createBitmap(screenCanvas.getOriginalWidth(), screenCanvas.getOriginalHeight(), Config.ARGB_8888);
-		Canvas androidCanvas = new Canvas(bitmap);
-		CanvasDelegate delegate = createObjectToDrawOnCanvas(androidCanvas);
-		drawOnTempCanvas(delegate, drawable);
-		return new ImageWrapper(bitmap, "all");
+	public void updateDelegate(CanvasWrapper canvasWrapper) {
+		this.canvas = (Canvas) canvasWrapper.getCanvasImpl();
+		this.heigth = canvas.getHeight();
+		this.width = canvas.getWidth();
 	}
 
-	private void drawOnTempCanvas(CanvasDelegate delegate, List<Drawable> drawable) {
-		for (Drawable d : drawable) {
-			d.draw(delegate);
-		}
+	@Override
+	public void drawColor(Paint color) {
+		this.canvas.drawColor(color.getColor());
 	}
 
-	private CanvasDelegate createObjectToDrawOnCanvas(Canvas fxCanvas) {
-		AndroidCanvasDelegate toTempCanvasDelegate = new AndroidCanvasDelegate(context);
-		CanvasWrapper wrapper = new AndroidCanvasWrapper(fxCanvas);
-		toTempCanvasDelegate.updateDelegate(wrapper);
-		return new CanvasCoordinateTranslator(toTempCanvasDelegate, coordinatesCalculation);
+	@Override
+	public void drawLine(long startX, long startY, long stopX, long stopY, Paint paint) {
+		this.canvas.drawLine(startX, startY, stopX, stopY, paintConverter.convert(paint, context));
+	}
+
+	@Override
+	public void drawText(String text, long x, long y, Paint paint) {
+		this.canvas.drawText(text, x, y, paintConverter.convert(paint, context));
+	}
+
+	@Override
+	public void drawRect(long left, long top, long right, long bottom, Paint paint) {
+		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint, context));
+	}
+
+	@Override
+	public void drawImage(ImageWrapper bitmap, long left, long top, Paint paint) {
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint, context));
+	}
+
+	@Override
+	public int transformX(long x) {
+		throw new IllegalArgumentException("Not capable");
+	}
+
+	@Override
+	public int transformY(long y) {
+		throw new IllegalArgumentException("Not capable");
+	}
+
+	@Override
+	public void drawTextRelativeToScreen(String text, double x, double y, Paint paint) {
+		android.graphics.Paint androidPaint = paintConverter.convert(paint, context);
+		this.canvas.drawText(text, (int) (x * this.width), (int) (y * this.heigth) + androidPaint.getTextSize() / 2,
+				androidPaint);
+
+	}
+
+	@Override
+	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
+		this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth), (float) (right * this.width),
+				(float) (bottom * this.heigth), paintConverter.convert(paint, context));
+	}
+
+	@Override
+	public void drawImageDirect(ImageWrapper bitmap, long left, long top, Paint paint) {
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint, context));
+	}
+
+	@Override
+	public int getOriginalWidth() {
+		return this.width;
+	}
+
+	@Override
+	public int getOriginalHeight() {
+		return this.heigth;
+	}
+
+	@Override
+	public void startDrawPhase() {
+	}
+
+	@Override
+	public void endDrawPhase() {
+	}
+
+	@Override
+	public boolean isVisible(long centerX, long centerY) {
+		boolean xVisible = isVisibleX(centerX);
+		boolean yVisible = isVisibleY(centerY);
+		return xVisible && yVisible;
+	}
+
+	@Override
+	public boolean isVisibleX(long centerX) {
+		return centerX >= 0 && centerX <= width;
+	}
+
+	@Override
+	public boolean isVisibleY(long centerY) {
+		return centerY >= 0 && centerY <= heigth;
+	}
+
+	@Override
+	public void drawRectAbsoluteScreen(int left, int top, int right, int bottom, Paint paint) {
+		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint, context));
+	}
+
+	@Override
+	public int getTextHeight(String text, Paint paint) {
+		android.graphics.Paint androidPaint = paintConverter.convert(paint, context);
+		return (int) androidPaint.getTextSize();
+	}
+
+	@Override
+	public int getTextWidth(String text, Paint paint) {
+		android.graphics.Paint androidPaint = paintConverter.convert(paint, context);
+		return (int) androidPaint.measureText(text);
+	}
+
+	@Override
+	public int getWidth(ImageWrapper imageWrapper) {
+		return ((Bitmap) imageWrapper.getBitmap()).getWidth();
+	}
+
+	@Override
+	public int getHeight(ImageWrapper imageWrapper) {
+		return ((Bitmap) imageWrapper.getBitmap()).getHeight();
 	}
 
 }

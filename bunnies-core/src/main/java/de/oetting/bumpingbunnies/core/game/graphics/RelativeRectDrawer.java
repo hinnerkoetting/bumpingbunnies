@@ -21,7 +21,7 @@ public class RelativeRectDrawer implements Drawable {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas) {
+	public void draw(CanvasAdapter canvas) {
 		canvas.drawRectRelativeToScreen(this.minX, this.minY, this.maxX, this.maxY, this.paint);
 	}
 

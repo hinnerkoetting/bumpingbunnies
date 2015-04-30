@@ -5,12 +5,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
-public class PcCanvasDelegate implements CanvasDelegate {
+public class PcCanvasAdapter implements CanvasAdapter {
 
 	private Canvas canvas;
 	private PaintConverter paintConverter = new PaintConverter();

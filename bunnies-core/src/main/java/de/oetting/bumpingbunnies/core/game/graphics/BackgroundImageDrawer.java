@@ -15,7 +15,7 @@ public class BackgroundImageDrawer implements Drawable {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas) {
+	public void draw(CanvasAdapter canvas) {
 		canvas.drawImageDirect(image, 0, 0, this.paint);
 	}
 

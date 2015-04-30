@@ -21,7 +21,7 @@ public class FpsDrawer implements Drawable {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas) {
+	public void draw(CanvasAdapter canvas) {
 		int fpsCount = this.state.getLastFpsCount();
 		canvas.drawTextRelativeToScreen(String.format("FPS: %d", fpsCount), this.x, this.y, this.paint);
 

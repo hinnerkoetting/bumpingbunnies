@@ -15,7 +15,7 @@ public abstract class ConditionalAnimation implements Animation {
 	public abstract boolean shouldBeExecuted(Bunny player);
 
 	@Override
-	public void draw(CanvasDelegate canvas, long left, long top, Paint paint) {
+	public void draw(CanvasAdapter canvas, long left, long top, Paint paint) {
 		this.animation.draw(canvas, left, top, paint);
 	}
 }

@@ -15,12 +15,12 @@ public abstract class ConditionalMirroredAnimation extends ConditionalAnimation 
 	}
 
 	@Override
-	public int getWidth(CanvasDelegate canvas) {
+	public int getWidth(CanvasAdapter canvas) {
 		return animation.getWidth(canvas);
 	}
 
 	@Override
-	public int getHeight(CanvasDelegate canvas) {
+	public int getHeight(CanvasAdapter canvas) {
 		return animation.getHeight(canvas);
 	}
 }

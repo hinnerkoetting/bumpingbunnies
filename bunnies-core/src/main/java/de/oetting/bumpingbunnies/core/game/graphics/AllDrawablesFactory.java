@@ -6,9 +6,9 @@ import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AllDrawablesFactory {
 
-	private final CanvasAdapter drawer;
+	private final DrawableToImageConverter drawer;
 
-	public AllDrawablesFactory(CanvasAdapter drawer) {
+	public AllDrawablesFactory(DrawableToImageConverter drawer) {
 		this.drawer = drawer;
 	}
 

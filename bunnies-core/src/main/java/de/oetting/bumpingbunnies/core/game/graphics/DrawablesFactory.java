@@ -21,23 +21,26 @@ public class DrawablesFactory {
 	private final BackgroundDrawableFactory backgroundDrawableFactory;
 	private final GameObjectDrawableFactory gameObjectDrawableFactory;
 	private final BunnyDrawableFactory playerDrawableFactory;
-	private final CanvasAdapter onImageDrawer;
+	private final DrawableToImageConverter onImageDrawer;
+	private final boolean convertAllStaticObjectsToOneImage;
 
 	public DrawablesFactory(GameThreadState gameThreadState, World world,
 			BackgroundDrawableFactory backgroundDrawableFactory, GameObjectDrawableFactory gameObjectDrawableFactory,
-			BunnyDrawableFactory playerDrawableFactory, CanvasAdapter onImageDrawer) {
+			BunnyDrawableFactory playerDrawableFactory, DrawableToImageConverter onImageDrawer,
+			boolean convertAllStaticObjectsToOneImage) {
 		this.gameThreadState = gameThreadState;
 		this.world = world;
 		this.backgroundDrawableFactory = backgroundDrawableFactory;
 		this.gameObjectDrawableFactory = gameObjectDrawableFactory;
 		this.playerDrawableFactory = playerDrawableFactory;
 		this.onImageDrawer = onImageDrawer;
+		this.convertAllStaticObjectsToOneImage = convertAllStaticObjectsToOneImage;
 		if (onImageDrawer == null) {
 			throw new IllegalArgumentException();
 		}
 	}
 
-	public Collection<Drawable> createAllDrawables(CanvasDelegate canvas) {
+	public Collection<Drawable> createAllDrawables(CanvasAdapter canvas) {
 
 		List<Drawable> drawables = new ArrayList<Drawable>();
 		drawables.addAll(createStaticObjects(canvas));
@@ -47,7 +50,7 @@ public class DrawablesFactory {
 		return drawables;
 	}
 
-	private Collection<? extends Drawable> createAllPlayer(CanvasDelegate canvas) {
+	private Collection<? extends Drawable> createAllPlayer(CanvasAdapter canvas) {
 		List<Drawable> players = new LinkedList<Drawable>();
 		for (Bunny player : this.world.getAllPlayer()) {
 			players.add(createPlayerDrawable(player, canvas));
@@ -73,13 +76,16 @@ public class DrawablesFactory {
 		return new ScoreDrawer(p, x, y);
 	}
 
-	private List<Drawable> createStaticObjects(CanvasDelegate canvas) {
+	private List<Drawable> createStaticObjects(CanvasAdapter canvas) {
 		List<FixedWorldObject> allStaticObjects = createAlleStaticObjects();
 		Collections.sort(allStaticObjects, new ZIndexComparator());
 		List<Drawable> staticDrawables = new ArrayList<Drawable>();
 		staticDrawables.add(createBackground(canvas));
 		staticDrawables.addAll(createAllStaticObjectsDrawables(allStaticObjects, canvas));
-		return convertToOneDrawer(staticDrawables);
+		if (convertAllStaticObjectsToOneImage)
+			return convertToOneDrawer(staticDrawables);
+		else
+			return staticDrawables;
 	}
 
 	private List<FixedWorldObject> createAlleStaticObjects() {
@@ -92,15 +98,17 @@ public class DrawablesFactory {
 		return list;
 	}
 
-	private Drawable createBackground(CanvasDelegate canvas) {
+	private Drawable createBackground(CanvasAdapter canvas) {
 		return backgroundDrawableFactory.create(canvas.getOriginalWidth(), canvas.getOriginalHeight());
 	}
 
 	private List<Drawable> convertToOneDrawer(List<Drawable> objects) {
-		return Collections.singletonList(new AllDrawablesFactory(onImageDrawer).createImagesWhichContainsAllElements(objects));
+		return Collections.singletonList(new AllDrawablesFactory(onImageDrawer)
+				.createImagesWhichContainsAllElements(objects));
 	}
 
-	private List<Drawable> createAllStaticObjectsDrawables(List<? extends GameObjectWithImage> objects, CanvasDelegate canvas) {
+	private List<Drawable> createAllStaticObjectsDrawables(List<? extends GameObjectWithImage> objects,
+			CanvasAdapter canvas) {
 		List<Drawable> drawers = new LinkedList<Drawable>();
 		for (GameObjectWithImage p : objects) {
 			int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
@@ -110,7 +118,7 @@ public class DrawablesFactory {
 		return drawers;
 	}
 
-	public Drawable createPlayerDrawable(Bunny p, CanvasDelegate canvas) {
+	public Drawable createPlayerDrawable(Bunny p, CanvasAdapter canvas) {
 		int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
 		int height = (int) (canvas.transformY(p.minY()) - canvas.transformY(p.maxY()));
 		return playerDrawableFactory.create(p, width, height);

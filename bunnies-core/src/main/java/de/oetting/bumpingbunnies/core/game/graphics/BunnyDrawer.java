@@ -25,7 +25,7 @@ public class BunnyDrawer implements Drawable {
 	}
 
 	@Override
-	public void draw(CanvasDelegate canvas) {
+	public void draw(CanvasAdapter canvas) {
 		paint.setAlpha(computeAlpha());
 		if (canvas.isVisible(player.getCenterX(), player.getCenterY()))
 			drawAnimation(canvas);
@@ -43,7 +43,7 @@ public class BunnyDrawer implements Drawable {
 		}
 	}
 
-	private void drawAnimation(CanvasDelegate canvas) {
+	private void drawAnimation(CanvasAdapter canvas) {
 		// copy to avoid changes in player which might lead to a situation
 		// where no animation should be animated because the player is changed
 		// in between condition checks.
@@ -59,15 +59,15 @@ public class BunnyDrawer implements Drawable {
 		throw new IllegalStateException("cannot find animation");
 	}
 
-	private long maxYPosition(CanvasDelegate canvas, Animation animation, Bunny player) {
+	private long maxYPosition(CanvasAdapter canvas, Animation animation, Bunny player) {
 		return player.getCenterY() + animation.getHeight(canvas) / 2;
 	}
 
-	private long minXPosition(CanvasDelegate canvas, Animation animation, Bunny player) {
+	private long minXPosition(CanvasAdapter canvas, Animation animation, Bunny player) {
 		return player.getCenterX() - animation.getWidth(canvas) / 2;
 	}
 
-	private void drawMarkerAtBorder(CanvasDelegate canvas) {
+	private void drawMarkerAtBorder(CanvasAdapter canvas) {
 		int centerOfMarkerX = getCenterOfBorderMarkerX(canvas);
 		int centerOfMarkerY = getCenterOfBorderMarkerY(canvas);
 		int width = 30;
@@ -76,7 +76,7 @@ public class BunnyDrawer implements Drawable {
 				+ width / 2, centerOfMarkerY + height / 2, paint);
 	}
 
-	private int getCenterOfBorderMarkerX(CanvasDelegate canvas) {
+	private int getCenterOfBorderMarkerX(CanvasAdapter canvas) {
 		if (canvas.isVisibleX(player.centerX()))
 			return canvas.transformX(player.centerX());
 		else {
@@ -86,7 +86,7 @@ public class BunnyDrawer implements Drawable {
 		}
 	}
 
-	private int getCenterOfBorderMarkerY(CanvasDelegate canvas) {
+	private int getCenterOfBorderMarkerY(CanvasAdapter canvas) {
 		if (canvas.isVisibleY(player.centerY()))
 			return canvas.transformY(player.centerY());
 		else {

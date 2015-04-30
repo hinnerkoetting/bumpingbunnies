@@ -8,21 +8,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
-import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
+import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
+import de.oetting.bumpingbunnies.core.game.graphics.DrawableToImageConverter;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.pc.graphics.PcCanvasDelegate;
+import de.oetting.bumpingbunnies.pc.graphics.PcCanvasAdapter;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasWrapper;
 
-public class PcCanvasAdapter implements CanvasAdapter {
+public class PcDrawableToImageConverter implements DrawableToImageConverter {
 
-	private final CanvasDelegate screenCanvas;
+	private final CanvasAdapter screenCanvas;
 	private final CoordinatesCalculation coordinatesCalculation;
 
-	public PcCanvasAdapter(CanvasDelegate canvas, CoordinatesCalculation coordinatesCalculation) {
+	public PcDrawableToImageConverter(CanvasAdapter canvas, CoordinatesCalculation coordinatesCalculation) {
 		this.screenCanvas = canvas;
 		this.coordinatesCalculation = coordinatesCalculation;
 	}
@@ -30,19 +30,19 @@ public class PcCanvasAdapter implements CanvasAdapter {
 	@Override
 	public ImageWrapper drawOnImage(List<Drawable> drawable) {
 		Canvas fxCanvas = new Canvas(screenCanvas.getOriginalWidth(), screenCanvas.getOriginalHeight());
-		CanvasDelegate delegate = createObjectToDrawOnCanvas(fxCanvas);
+		CanvasAdapter delegate = createObjectToDrawOnCanvas(fxCanvas);
 		drawOnTempCanvas(delegate, drawable);
 		return new ImageWrapper(takeSnapshot(fxCanvas), "all");
 	}
 
-	private void drawOnTempCanvas(CanvasDelegate delegate, List<Drawable> drawable) {
+	private void drawOnTempCanvas(CanvasAdapter delegate, List<Drawable> drawable) {
 		for (Drawable d : drawable) {
 			d.draw(delegate);
 		}
 	}
 
-	private CanvasDelegate createObjectToDrawOnCanvas(Canvas fxCanvas) {
-		PcCanvasDelegate toTempCanvasDelegate = new PcCanvasDelegate();
+	private CanvasAdapter createObjectToDrawOnCanvas(Canvas fxCanvas) {
+		PcCanvasAdapter toTempCanvasDelegate = new PcCanvasAdapter();
 		CanvasWrapper wrapper = new PcCanvasWrapper(fxCanvas);
 		toTempCanvasDelegate.updateDelegate(wrapper);
 		return new CanvasCoordinateTranslator(toTempCanvasDelegate, coordinatesCalculation);
