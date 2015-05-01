@@ -12,6 +12,13 @@ public class Wall extends FixedWorldObject implements ModelConstants {
 		this(id, minX, minY, maxX, maxY, Color.GRAY);
 	}
 
+	public Wall(Wall other) {
+		this(other.id(), other.minX(), other.minY(), other.maxX(), other.maxY(), other.getColor());
+		setBitmap(other.getBitmap());
+		setzIndex(other.getzIndex());
+	}
+
+	
 	@Override
 	public int accelerationOnThisGround() {
 		return ModelConstants.ACCELERATION_X_WALL;

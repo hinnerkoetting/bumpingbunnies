@@ -312,4 +312,5 @@ public class World implements ObjectProvider {
 		backgrounds.removeAll(objectsToClean);
 		sortObjectsByZIndex();
 	}
+
 }

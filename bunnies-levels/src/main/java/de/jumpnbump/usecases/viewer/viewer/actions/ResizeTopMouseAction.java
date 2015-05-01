@@ -31,4 +31,9 @@ public class ResizeTopMouseAction implements MouseAction {
 	@Override
 	public void rightMouseClick(MouseEvent event) {
 	}
+	
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		provider.storeCurrentState();
+	}
 }

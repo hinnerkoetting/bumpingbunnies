@@ -30,7 +30,6 @@ public class SpawnListAdapter  extends MouseAdapter {
 
 	private void showDialog(SpawnPropertyEditorDialog dialog) {
 		dialog.show();
-		panel.refreshTables();
-		panel.repaintCanvas();
+		panel.refreshView();
 	}
 }

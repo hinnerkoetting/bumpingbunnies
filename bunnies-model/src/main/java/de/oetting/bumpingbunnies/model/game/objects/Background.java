@@ -8,6 +8,12 @@ public class Background extends FixedWorldObject {
 		super(id, minX, minY, maxX, maxY, Color.PINK);
 	}
 
+	public Background(Background other) {
+		this(other.id(), other.minX(), other.minY(), other.maxX(), other.maxY());
+		setBitmap(other.getBitmap());
+		setzIndex(other.getzIndex());
+	}
+
 	@Override
 	public int accelerationOnThisGround() {
 		return 0;

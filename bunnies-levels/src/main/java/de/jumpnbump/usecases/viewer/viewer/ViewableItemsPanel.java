@@ -99,7 +99,7 @@ public class ViewableItemsPanel {
 	}
 
 	private World getWorld() {
-		return viewPanel.getWorld();
+		return viewPanel.getCurrentWorld();
 	}
 
 	public static interface ShowItems {

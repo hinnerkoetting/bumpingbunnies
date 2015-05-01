@@ -32,7 +32,9 @@ public interface SelectionModeProvider {
 
 	CoordinatesCalculation createCoordinatesCalculation();
 
-	void refreshAll();
+	void refreshView();
+	
+	void refreshViewAndStoreState();
 
 	JFrame getFrame();
 
@@ -43,4 +45,6 @@ public interface SelectionModeProvider {
 	void addSelectedObjects(List<GameObjectWithImage> allSelectedObjects);
 
 	void setSelectedObjects(List<GameObjectWithImage> allSelectedObjects);
+	
+	void storeCurrentState();
 }

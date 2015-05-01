@@ -30,7 +30,6 @@ public class ListMouseAdapter extends MouseAdapter {
 
 	private void showDialog(PropertyEditorDialog dialog) {
 		dialog.show();
-		panel.refreshTables();
-		panel.repaintCanvas();
+		panel.refreshView();
 	}
 }

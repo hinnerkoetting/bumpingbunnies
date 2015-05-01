@@ -8,6 +8,11 @@ public class Water extends FixedWorldObject implements GameObjectWithImage {
 		super(id, minX, minY, maxX, maxY, Color.TRANS_BLUE);
 	}
 
+	public Water(Water other) {
+		this(other.id(), other.minX(), other.minY(), other.maxX(), other.maxY());
+		setBitmap(other.getBitmap());
+		setzIndex(other.getzIndex());
+	}
 
 	@Override
 	public int accelerationOnThisGround() {

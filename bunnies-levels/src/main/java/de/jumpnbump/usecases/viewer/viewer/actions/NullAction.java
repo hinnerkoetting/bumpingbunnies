@@ -12,4 +12,8 @@ public class NullAction implements MouseAction {
 	public void rightMouseClick(MouseEvent event) {
 	}
 
+	@Override
+	public void mouseReleased(MouseEvent event) {
+	}
+
 }

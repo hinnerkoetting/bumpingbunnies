@@ -60,4 +60,8 @@ public class MoveAction implements MouseAction {
 	public void rightMouseClick(MouseEvent event) {
 	}
 
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		provider.storeCurrentState();		
+	}
 }

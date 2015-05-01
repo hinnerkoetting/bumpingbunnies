@@ -8,6 +8,12 @@ public class Jumper extends FixedWorldObject {
 		super(id, minX, minY, maxX, maxY, Color.YELLOW);
 	}
 
+	public Jumper(Jumper other) {
+		this(other.id(), other.minX(), other.minY(), other.maxX(), other.maxY());
+		setBitmap(other.getBitmap());
+		setzIndex(other.getzIndex());
+	}
+
 	@Override
 	public int accelerationOnThisGround() {
 		return ModelConstants.ACCELERATION_X_JUMPER;

@@ -2,7 +2,6 @@ package de.jumpnbump.usecases.viewer.viewer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -12,9 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,10 +66,10 @@ public class ViewerPanel extends JPanel {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ViewerPanel.class);
 	private static final long serialVersionUID = 1L;
+	private final EditorModel model;
 	private MyCanvas myCanvas;
 	private final XmlBuilder builder;
 	private File lastFile;
-	private World model;
 	private JList<Wall> wall;
 	private JList<IcyWall> icyWallList;
 	private JList<Jumper> jumpersList;
@@ -86,18 +83,19 @@ public class ViewerPanel extends JPanel {
 	public ViewerPanel(String file) {
 		this.lastFile = new File(file);
 		this.builder = new XmlBuilder();
+		this.model = new EditorModel(new World());
 	}
 
 	public ViewerPanel() {
 		this.builder = new XmlBuilder();
-		model = new World();
+		this.model = new EditorModel(new World());
 	}
 
 	public void build() {
 		setLayout(createLayout());
 		parseFile();
 		this.myCanvas = new MyCanvas(this.model);
-		add(createModeButtons(), BorderLayout.LINE_START);
+		add(createLeftButtons(), BorderLayout.LINE_START);
 		add(new JScrollPane(this.myCanvas), BorderLayout.CENTER);
 		add(createRightBox(), BorderLayout.LINE_END);
 		add(createBottomImages(), BorderLayout.PAGE_END);
@@ -111,10 +109,24 @@ public class ViewerPanel extends JPanel {
 		return borderLayout;
 	}
 
-	private Component createModeButtons() {
+	private Component createLeftButtons() {
+		Box box = Box.createVerticalBox();
 		editingModePanel = new EditingModePanel();
 		editingModePanel.addModeClickListener((event) -> activateNewEditingMode());
-		return editingModePanel;
+		box.add(editingModePanel);
+		box.add(createUndoButton());
+		return box;
+	}
+
+	private Component createUndoButton() {
+		JButton button = new JButton("<-");
+		button.addActionListener(event -> restorePreviousWorldState());
+		return button;
+	}
+
+	private void restorePreviousWorldState() {
+		model.restorePreviousState();
+		refreshView();
 	}
 
 	private void activateNewEditingMode() {
@@ -168,15 +180,14 @@ public class ViewerPanel extends JPanel {
 	private void clean() {
 		Collection<GameObjectWithImage> allObjects = getAllObjectsToClean();
 		JOptionPane.showMessageDialog(this, "Cleaning " + allObjects.size() + " elements");
-		model.removeAll(allObjects);
-		refreshTables();
-		repaintCanvas();
+		model.getCurrentState().removeAll(allObjects);
+		refreshView();
 	}
 
 	private Set<GameObjectWithImage> getAllObjectsToClean() {
-		Set<GameObjectWithImage> hiddenAllObjects = model.getAllObjects().stream().filter(object -> isHidden(object))
+		Set<GameObjectWithImage> hiddenAllObjects = getCurrentWorld().getAllObjects().stream().filter(object -> isHidden(object))
 				.collect(Collectors.toSet());
-		Set<GameObjectWithImage> hiddenDrawnObjects = model.getAllDrawingObjects().stream()
+		Set<GameObjectWithImage> hiddenDrawnObjects = getCurrentWorld().getAllDrawingObjects().stream()
 				.filter(object -> isHidden(object)).collect(Collectors.toSet());
 		Set<GameObjectWithImage> sets = new HashSet<>();
 		sets.addAll(hiddenDrawnObjects);
@@ -185,7 +196,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private boolean isHidden(GameObjectWithImage object) {
-		return isHiddenInList(object, model.getAllObjects()) || isHiddenInList(object, model.getAllDrawingObjects());
+		return isHiddenInList(object, getCurrentWorld().getAllObjects()) || isHiddenInList(object, getCurrentWorld().getAllDrawingObjects());
 	}
 
 	private boolean isHiddenInList(GameObjectWithImage object, List<GameObjectWithImage> list) {
@@ -208,7 +219,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void round() {
-		this.model.getAllObjects().stream().forEach((object) -> round(object));
+		this.getCurrentWorld().getAllObjects().stream().forEach((object) -> round(object));
 		myCanvas.repaint();
 	}
 
@@ -298,7 +309,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setWallModel() {
-		setObjectsModel(model.getAllWalls(), wall);
+		setObjectsModel(getCurrentWorld().getAllWalls(), wall);
 	}
 
 	public <S extends GameObject> void setObjectsModel(List<S> objects, JList<S> list) {
@@ -330,7 +341,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setIcyWallModel() {
-		setObjectsModel(model.getAllIcyWalls(), icyWallList);
+		setObjectsModel(getCurrentWorld().getAllIcyWalls(), icyWallList);
 	}
 
 	private JList<Jumper> createJumperList() {
@@ -341,7 +352,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setJumperModel() {
-		setObjectsModel(model.getAllJumper(), jumpersList);
+		setObjectsModel(getCurrentWorld().getAllJumper(), jumpersList);
 	}
 
 	private JList<Water> createWatersList() {
@@ -352,7 +363,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setWaterModel() {
-		setObjectsModel(model.getAllWaters(), watersList);
+		setObjectsModel(getCurrentWorld().getAllWaters(), watersList);
 	}
 
 	private JList<SpawnPoint> createSpawnList() {
@@ -371,13 +382,13 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private void setSpawnModel() {
-		MyListModel<SpawnPoint> defaultListModel = new MyListModel<>(model.getSpawnPoints());
+		MyListModel<SpawnPoint> defaultListModel = new MyListModel<>(getCurrentWorld().getSpawnPoints());
 		this.spawns.setCellRenderer(new SpawnpointRender());
 		this.spawns.setModel(defaultListModel);
 	}
 
 	private void setBackgroundsModel() {
-		setObjectsModel(model.getBackgrounds(), backgrounds);
+		setObjectsModel(getCurrentWorld().getBackgrounds(), backgrounds);
 	}
 
 	private JButton createRefreshButton() {
@@ -403,7 +414,7 @@ public class ViewerPanel extends JPanel {
 
 	private void displayFile() {
 		parseFile();
-		this.myCanvas.setWorld(this.model);
+		this.myCanvas.setModel(this.model);
 		setWallModel();
 		setIcyWallModel();
 		setJumperModel();
@@ -428,7 +439,7 @@ public class ViewerPanel extends JPanel {
 					parseZip();
 			} catch (Exception e) {
 				LOGGER.error("Error", e);
-				model = new World();
+				model.clear();;
 				JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 			}
 		}
@@ -451,7 +462,7 @@ public class ViewerPanel extends JPanel {
 			ZipEntry entry = zipInput.getNextEntry();
 			while (entry != null) {
 				if (entry.getName().equals("world.xml"))
-					this.model = builder.parse(new NonClosingInputstream(zipInput));
+					this.model.loadNewWorld(builder.parse(new NonClosingInputstream(zipInput)));
 				entry = zipInput.getNextEntry();
 			}
 		} catch (IOException e) {
@@ -477,7 +488,8 @@ public class ViewerPanel extends JPanel {
 	private void parseXml() {
 		try {
 			if (this.lastFile != null) {
-				this.model = this.builder.parse(new FileInputStream(this.lastFile));
+				World world = this.builder.parse(new FileInputStream(this.lastFile));
+				this.model.loadNewWorld(world); 
 			}
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
@@ -562,7 +574,7 @@ public class ViewerPanel extends JPanel {
 		File newFile = lastFile;
 		newFile.delete();
 		newFile.createNewFile();
-		new LevelStorer(new XmlStorer(model)).storeLevel(newFile, model);
+		new LevelStorer(new XmlStorer(getCurrentWorld())).storeLevel(newFile, getCurrentWorld());
 	}
 
 	public void refreshTables() {
@@ -598,8 +610,13 @@ public class ViewerPanel extends JPanel {
 		return null;
 	}
 
-	public World getWorld() {
-		return model;
+	public World getCurrentWorld() {
+		return model.getCurrentState();
+	}
+
+	public void refreshView() {
+		refreshTables();
+		repaintCanvas();		
 	}
 
 }

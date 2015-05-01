@@ -11,4 +11,6 @@ public interface MouseAction {
 	}
 
 	void rightMouseClick(MouseEvent event);
+	
+	void mouseReleased(MouseEvent event);
 }

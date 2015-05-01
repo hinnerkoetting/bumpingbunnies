@@ -99,7 +99,7 @@ public class SelectAction implements MouseAction {
 		for (GameObjectWithImage go : objects) {
 			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go);
 			dialog.show();
-			provider.refreshAll();
+			provider.refreshViewAndStoreState();
 		}
 	}
 
@@ -199,8 +199,7 @@ public class SelectAction implements MouseAction {
 	private void move(MouseEvent event, MoveAction action) {
 		List<? extends GameObjectWithImage> objects = findObjects(event);
 		objects.forEach(go -> moveExistingObject(go, action));
-		provider.repaintCanvas();
-		provider.refreshTables();
+		provider.refreshViewAndStoreState();
 	}
 
 	private void moveExistingObject(GameObjectWithImage go, MoveAction action) {
@@ -216,5 +215,9 @@ public class SelectAction implements MouseAction {
 
 	public interface MoveAction {
 		void moveObject(GameObjectWithImage object, List<? extends GameObjectWithImage> list);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent event) {
 	}
 }

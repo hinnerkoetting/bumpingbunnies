@@ -51,7 +51,7 @@ public class DeleteModeMouseListener implements ModeMouseListener {
 			world.removeWater((Water) selectedObject);
 		else if (selectedObject instanceof Background)
 			world.removeBackground((Background) selectedObject);
-		provider.refreshAll();
+		provider.refreshViewAndStoreState();
 	}
 
 	@Override

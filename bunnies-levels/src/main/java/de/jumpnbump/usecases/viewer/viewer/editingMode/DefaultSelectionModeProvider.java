@@ -3,35 +3,41 @@ package de.jumpnbump.usecases.viewer.viewer.editingMode;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.util.Collection;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
+import de.jumpnbump.usecases.viewer.viewer.EditorModel;
 import de.jumpnbump.usecases.viewer.viewer.ViewerPanel;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
-import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
+import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
+import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.Wall;
+import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class DefaultSelectionModeProvider implements SelectionModeProvider {
 
-	private final World world;
+	private EditorModel model;
 	private final MyCanvas canvas;
 	private final ViewerPanel panel;
-	
-	public DefaultSelectionModeProvider(World world, MyCanvas canvas, ViewerPanel panel) {
-		this.world = world;
+
+	public DefaultSelectionModeProvider(EditorModel model, MyCanvas canvas, ViewerPanel panel) {
+		this.model = model;
 		this.canvas = canvas;
 		this.panel = panel;
 	}
 
 	@Override
 	public World getWorld() {
-		return world;
+		return model.getCurrentState();
 	}
 
 	@Override
@@ -61,17 +67,17 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 			canvas.setSelectedObject(go.get());
 		else
 			canvas.setSelectedObject(null);
-		refresh();
+		refreshView();
 	}
 
-	private void refresh() {
-		repaintCanvas();
-		refreshTables();
+	private void refreshAndStoreState() {
+		refreshView();
+		model.storeState();
 	}
 
 	@Override
 	public Collection<GameObjectWithImage> getAllDrawingObjects() {
-		return world.getAllDrawingObjects();
+		return model.getCurrentState().getAllDrawingObjects();
 	}
 
 	@Override
@@ -85,8 +91,8 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	}
 
 	@Override
-	public void refreshAll() {
-		refresh();
+	public void refreshViewAndStoreState() {
+		refreshAndStoreState();
 	}
 
 	@Override
@@ -97,8 +103,8 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	@Override
 	public int getMaxZIndexValue() {
 		int max = 0;
-		List<GameObjectWithImage> allDrawingObjects = world.getAllDrawingObjects();
-		for (GameObjectWithImage go: allDrawingObjects) {
+		List<GameObjectWithImage> allDrawingObjects = model.getCurrentState().getAllDrawingObjects();
+		for (GameObjectWithImage go : allDrawingObjects) {
 			if (go instanceof FixedWorldObject) {
 				max = Math.max(((FixedWorldObject) go).getzIndex(), max);
 			}
@@ -109,19 +115,34 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 	@Override
 	public void addSelectedObject(Optional<? extends GameObjectWithImage> go) {
 		go.ifPresent(object -> canvas.addSelectedObect(object));
-		refresh();
+		refreshAndStoreState();
 	}
 
 	@Override
 	public void addSelectedObjects(List<GameObjectWithImage> allSelectedObjects) {
 		allSelectedObjects.forEach(object -> canvas.addSelectedObect(object));
-		refresh();
+		refreshAndStoreState();
 	}
 
 	@Override
 	public void setSelectedObjects(List<GameObjectWithImage> allSelectedObjects) {
 		canvas.setSelectedObject(null);
 		allSelectedObjects.forEach(object -> canvas.addSelectedObect(object));
-		refresh();
+		refreshAndStoreState();
+	}
+
+	public void restorePreviousState() {
+		model.restorePreviousState();
+		refreshView();
+	}
+
+	@Override
+	public void storeCurrentState() {
+		model.storeState();
+	}
+
+	@Override
+	public void refreshView() {
+		panel.refreshView();
 	}
 }

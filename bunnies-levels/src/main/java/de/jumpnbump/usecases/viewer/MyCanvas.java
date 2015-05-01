@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
+import de.jumpnbump.usecases.viewer.viewer.EditorModel;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
@@ -27,15 +27,15 @@ public class MyCanvas extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public static final int SPAWN_RADIUS = 5;
-	private World objectContainer;
+	private EditorModel model;
 	private List<Object> selectedObjects = new ArrayList<>();
 	private CoordinatesCalculation coordinatesCalculation;
 
 	private WorldProperties properties;
 	private GameObjectWithImage currentlyEditedObject;
 
-	public MyCanvas(World container) {
-		this.objectContainer = container;
+	public MyCanvas(EditorModel model) {
+		this.model = model;
 		properties = new WorldProperties(ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE);
 		this.coordinatesCalculation = new AbsoluteCoordinatesCalculation(getWidth(), getHeight(), properties);
 	}
@@ -51,7 +51,7 @@ public class MyCanvas extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.clearRect(0, 0, getWidth(), getHeight());
-		drawObjects(objectContainer.getAllDrawingObjects(), g);
+		drawObjects(model.getCurrentState().getAllDrawingObjects(), g);
 		if (currentlyEditedObject != null)
 			drawObject(g, currentlyEditedObject);
 		paintSpawnPoints(g);
@@ -62,7 +62,7 @@ public class MyCanvas extends JPanel {
 	}
 
 	private void paintSpawnPoints(Graphics g) {
-		for (SpawnPoint spawn : this.objectContainer.getSpawnPoints()) {
+		for (SpawnPoint spawn : this.model.getCurrentState().getSpawnPoints()) {
 			g.setColor(Color.red);
 			drawSpawn(g, spawn);
 		}
@@ -117,12 +117,9 @@ public class MyCanvas extends JPanel {
 	}
 
 	public List<GameObjectWithImage> getSelectedGameObjects() {
-		List list = selectedObjects.stream().filter(obj -> (obj instanceof GameObjectWithImage)).collect(Collectors.toList());
+		List list = selectedObjects.stream().filter(obj -> (obj instanceof GameObjectWithImage))
+				.collect(Collectors.toList());
 		return list;
-	}
-
-	public void setWorld(World model) {
-		this.objectContainer = model;
 	}
 
 	public void setCurrentlyEditedObject(GameObjectWithImage object) {
@@ -144,7 +141,9 @@ public class MyCanvas extends JPanel {
 		if (!selectedObjects.contains(object))
 			selectedObjects.add(object);
 	}
-	
-	
+
+	public void setModel(EditorModel model) {
+		this.model = model;
+	}
 
 }

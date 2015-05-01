@@ -46,8 +46,9 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		nextAction.mouseReleased(e);
 		resetAction();
-		provider.refreshTables();
+		provider.refreshView();
 	}
 
 	@Override
