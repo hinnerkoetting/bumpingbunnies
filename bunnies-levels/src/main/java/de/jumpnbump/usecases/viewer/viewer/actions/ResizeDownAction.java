@@ -12,7 +12,8 @@ public class ResizeDownAction implements MouseAction {
 	private final CoordinatesCalculation coordinatesCalculation;
 	private final SelectionModeProvider provider;
 
-	public ResizeDownAction(GameObject selectedObject, SelectionModeProvider provider, CoordinatesCalculation coordinatesCalculation) {
+	public ResizeDownAction(GameObject selectedObject, SelectionModeProvider provider,
+			CoordinatesCalculation coordinatesCalculation) {
 		super();
 		this.selectedObject = selectedObject;
 		this.provider = provider;
@@ -29,11 +30,13 @@ public class ResizeDownAction implements MouseAction {
 	}
 
 	@Override
-	public void rightMouseClick(MouseEvent event) {
+	public void onMousePressedFirst(MouseEvent event) {
+		provider.storeCurrentState();
+		MouseAction.super.onMousePressedFirst(event);
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent event) {
-		provider.storeCurrentState();
+	public void rightMouseClick(MouseEvent event) {
 	}
+
 }

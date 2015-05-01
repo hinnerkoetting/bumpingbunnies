@@ -12,7 +12,8 @@ public class ResizeLeftAction implements MouseAction {
 	private final CoordinatesCalculation coordinatesCalculation;
 	private final SelectionModeProvider provider;
 
-	public ResizeLeftAction(GameObject selectedObject, SelectionModeProvider provider, CoordinatesCalculation coordinatesCalculation) {
+	public ResizeLeftAction(GameObject selectedObject, SelectionModeProvider provider,
+			CoordinatesCalculation coordinatesCalculation) {
 		this.selectedObject = selectedObject;
 		this.provider = provider;
 		this.coordinatesCalculation = coordinatesCalculation;
@@ -24,15 +25,17 @@ public class ResizeLeftAction implements MouseAction {
 		if (newLeft < this.selectedObject.maxX()) {
 			this.selectedObject.setMinX(newLeft);
 		}
-		provider.repaintCanvas();
+		provider.refreshView();
+	}
+
+	@Override
+	public void onMousePressedFirst(MouseEvent event) {
+		provider.storeCurrentState();
+		MouseAction.super.onMousePressedFirst(event);
 	}
 
 	@Override
 	public void rightMouseClick(MouseEvent event) {
 	}
 
-	@Override
-	public void mouseReleased(MouseEvent event) {
-		provider.storeCurrentState();
-	}
 }

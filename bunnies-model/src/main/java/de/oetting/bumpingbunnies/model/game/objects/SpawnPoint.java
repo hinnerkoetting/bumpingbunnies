@@ -22,9 +22,13 @@ public class SpawnPoint {
 	}
 
 	public SpawnPoint(long x, long y) {
-		super();
 		this.x = x;
 		this.y = y;
+	}
+
+	public SpawnPoint(SpawnPoint other) {
+		this.x = other.x;
+		this.y = other.y;
 	}
 
 }

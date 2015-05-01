@@ -40,6 +40,7 @@ public class DeleteModeMouseListener implements ModeMouseListener {
 	}
 
 	private void deleteObject(GameObject selectedObject) {
+		provider.storeCurrentState();
 		World world = provider.getWorld();
 		if (selectedObject instanceof IcyWall)
 			world.removeIcyWall((IcyWall) selectedObject);
@@ -51,7 +52,7 @@ public class DeleteModeMouseListener implements ModeMouseListener {
 			world.removeWater((Water) selectedObject);
 		else if (selectedObject instanceof Background)
 			world.removeBackground((Background) selectedObject);
-		provider.refreshViewAndStoreState();
+		provider.refreshView();
 	}
 
 	@Override

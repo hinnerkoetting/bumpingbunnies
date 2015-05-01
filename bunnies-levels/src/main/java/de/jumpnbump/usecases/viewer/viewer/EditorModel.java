@@ -7,12 +7,14 @@ import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 
 public class EditorModel {
 
 	private World currentWorld;
+	private World firstStateOfWorld;
 	private final Deque<World> previousStates = new LinkedList<World>();
 	
 	public EditorModel(World world) {
@@ -34,23 +36,22 @@ public class EditorModel {
 		world.getAllJumper().stream().forEach(wall -> clonedWorld.addJumper(new Jumper(wall)));
 		world.getAllWaters().stream().forEach(wall -> clonedWorld.addWater(new Water(wall)));
 		world.getBackgrounds().stream().forEach(background -> clonedWorld.addBackground(new Background(background)));
-		clonedWorld.replaceAllSpawnPoints(world.getSpawnPoints());
+		world.getSpawnPoints().stream().forEach(spawnpoint -> clonedWorld.addSpawnpoint(new SpawnPoint(spawnpoint)));
 		clonedWorld.sortObjectsByZIndex();
 		return clonedWorld;
 	}
 
 	public synchronized void restorePreviousState() {
-		if (!previousStates.isEmpty())
-			currentWorld = previousStates.poll();
-		if (previousStates.isEmpty()) {
-			previousStates.push(cloneWorld(currentWorld));
-		}
+		if (previousStates.isEmpty())
+			currentWorld = firstStateOfWorld;
+		else 
+			currentWorld = previousStates.pop();
 	}
 
 	public synchronized void loadNewWorld(World world) {
 		previousStates.clear();
 		this.currentWorld = world;
-		this.previousStates.add(currentWorld);
+		this.firstStateOfWorld = cloneWorld(world);
 	}
 
 	public synchronized void clear() {

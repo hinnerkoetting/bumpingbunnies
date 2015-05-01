@@ -25,15 +25,17 @@ public class ResizeTopMouseAction implements MouseAction {
 		if (newTopY > this.selectedObject.minY()) {
 			this.selectedObject.setMaxY(newTopY);
 		}
-		provider.repaintCanvas();
+		provider.refreshView();
+	}
+	
+	@Override
+	public void onMousePressedFirst(MouseEvent event) {
+		provider.storeCurrentState();
+		MouseAction.super.onMousePressedFirst(event);
 	}
 
 	@Override
 	public void rightMouseClick(MouseEvent event) {
 	}
 	
-	@Override
-	public void mouseReleased(MouseEvent event) {
-		provider.storeCurrentState();
-	}
 }

@@ -252,6 +252,10 @@ public class World implements ObjectProvider {
 		allWaters.add(newWater);
 		addDrawingAndCollidingObject(newWater);
 	}
+	
+	public void addSpawnpoint(SpawnPoint spawnpoint) {
+		allSpawnPoints.add(spawnpoint);
+	}
 
 	public void sortObjectsByZIndex() {
 		Collections.sort(allDrawingObjects, new ZIndexComparator());

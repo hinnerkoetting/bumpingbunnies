@@ -30,7 +30,7 @@ public class MoveAction implements MouseAction {
 	public void onMouseDragged(MouseEvent event) {
 		if (!firstClick) {
 			List<? extends GameObject> objects = provider.getCurrentSelectedObjects();
-			for (GameObject go: objects)
+			for (GameObject go : objects)
 				moveObjectByDifference(event, go);
 		} else {
 			firstClick = false;
@@ -42,7 +42,7 @@ public class MoveAction implements MouseAction {
 		firstPixelX = event.getX();
 		firstPixelY = event.getY();
 		List<? extends GameObjectWithImage> objects = provider.getCurrentSelectedObjects();
-		for (GameObjectWithImage go: objects ) {
+		for (GameObjectWithImage go : objects) {
 			firstGameX.put(go, go.getCenterX());
 			firstGameY.put(go, go.getCenterY());
 		}
@@ -53,15 +53,17 @@ public class MoveAction implements MouseAction {
 		long diffGameY = this.coordinatesCalculation.getDifferenceInGameCoordinateY(firstPixelY, event.getY());
 		selectedGameObject.setCenterX(firstGameX.get(selectedGameObject) + diffGameX);
 		selectedGameObject.setCenterY(firstGameY.get(selectedGameObject) - diffGameY);
-		provider.repaintCanvas();
+		provider.refreshView();
+	}
+
+	@Override
+	public void onMousePressedFirst(MouseEvent event) {
+		provider.storeCurrentState();
+		MouseAction.super.onMousePressedFirst(event);
 	}
 
 	@Override
 	public void rightMouseClick(MouseEvent event) {
 	}
 
-	@Override
-	public void mouseReleased(MouseEvent event) {
-		provider.storeCurrentState();		
-	}
 }

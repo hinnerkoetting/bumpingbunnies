@@ -50,15 +50,15 @@ public class SelectAction implements MouseAction {
 		int minY = startY > e.getY() ? startY : e.getY();
 		int maxY = startY < e.getY() ? startY : e.getY();
 		return new SelectionRectangle(coordinatesCalculation.getGameCoordinateX(minX),
-				coordinatesCalculation.getGameCoordinateY(minY), 
-				coordinatesCalculation.getGameCoordinateX(maxX),
+				coordinatesCalculation.getGameCoordinateY(minY), coordinatesCalculation.getGameCoordinateX(maxX),
 				coordinatesCalculation.getGameCoordinateY(maxY));
 	}
 
 	@Override
 	public void onMousePressedFirst(MouseEvent event) {
-		Optional<? extends GameObjectWithImage> go = objectsFinder.findClickedObject(coordinatesCalculation
-				.getGameCoordinateX(event.getX()), coordinatesCalculation.getGameCoordinateY(event.getY()));
+		Optional<? extends GameObjectWithImage> go = objectsFinder.findClickedObject(
+				coordinatesCalculation.getGameCoordinateX(event.getX()),
+				coordinatesCalculation.getGameCoordinateY(event.getY()));
 		if (event.isControlDown()) {
 			provider.addSelectedObject(go);
 		} else {
@@ -95,12 +95,13 @@ public class SelectAction implements MouseAction {
 	}
 
 	private void showProperties(MouseEvent event) {
+		provider.storeCurrentState();
 		List<? extends GameObjectWithImage> objects = findObjects(event);
 		for (GameObjectWithImage go : objects) {
 			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go);
 			dialog.show();
-			provider.refreshViewAndStoreState();
 		}
+		provider.refreshView();
 	}
 
 	private JMenuItem createOneUpItem(MouseEvent event) {
@@ -197,9 +198,10 @@ public class SelectAction implements MouseAction {
 	}
 
 	private void move(MouseEvent event, MoveAction action) {
+		provider.storeCurrentState();
 		List<? extends GameObjectWithImage> objects = findObjects(event);
 		objects.forEach(go -> moveExistingObject(go, action));
-		provider.refreshViewAndStoreState();
+		provider.refreshView();
 	}
 
 	private void moveExistingObject(GameObjectWithImage go, MoveAction action) {
@@ -217,7 +219,4 @@ public class SelectAction implements MouseAction {
 		void moveObject(GameObjectWithImage object, List<? extends GameObjectWithImage> list);
 	}
 
-	@Override
-	public void mouseReleased(MouseEvent event) {
-	}
 }

@@ -51,9 +51,10 @@ public abstract class CreateObjectEditingMode<S extends FixedWorldObject> implem
 	}
 
 	private void createWall(MouseEvent arg0) {
+		provider.storeCurrentState();
 		S newWall = createObject(arg0);
 		addToWorld(newWall);
-		provider.refreshViewAndStoreState();
+		provider.refreshView();
 	}
 
 	private S createObject(MouseEvent arg0) {
