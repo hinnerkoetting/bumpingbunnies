@@ -1,6 +1,5 @@
 package de.jumpnbump.usecases.viewer.viewer;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -25,10 +24,12 @@ import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 public class ImagesPanel {
 
 	private final MyCanvas canvas;
+	private final EditorModel model;
 	private JPanel panel;
 
-	public ImagesPanel(MyCanvas canvas) {
+	public ImagesPanel(MyCanvas canvas, EditorModel model) {
 		this.canvas = canvas;
+		this.model = model;
 	}
 
 	public JComponent build() {
@@ -64,6 +65,7 @@ public class ImagesPanel {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
+				model.storeState();
 				List<GameObjectWithImage> selectedGameObjects = ImagesPanel.this.canvas.getSelectedGameObjects();
 				selectedGameObjects.stream().forEach(
 						go -> go.applyImage(new ImageWrapper(picLabel.getOriginal(), path.getFileName().toString())));

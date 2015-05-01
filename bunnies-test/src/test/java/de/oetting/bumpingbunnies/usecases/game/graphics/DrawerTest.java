@@ -18,7 +18,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasDelegate;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
@@ -38,7 +38,7 @@ public class DrawerTest {
 	@Mock
 	private Drawable playerDrawable;
 	@Mock
-	private CanvasDelegate canvas;
+	private CanvasAdapter canvas;
 	private Bunny player;
 
 	@Test

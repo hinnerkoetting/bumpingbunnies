@@ -159,7 +159,7 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JComponent createBottomImages() {
-		ImagesPanel panel = new ImagesPanel(this.myCanvas);
+		ImagesPanel panel = new ImagesPanel(this.myCanvas, model);
 		return panel.build();
 	}
 
@@ -463,7 +463,6 @@ public class ViewerPanel extends JPanel {
 			} catch (Exception e) {
 				LOGGER.error("Error", e);
 				model.clear();
-				;
 				JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 			}
 		}
