@@ -19,8 +19,10 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -115,17 +117,37 @@ public class ViewerPanel extends JPanel {
 		editingModePanel.addModeClickListener((event) -> activateNewEditingMode());
 		box.add(editingModePanel);
 		box.add(createUndoButton());
+		box.add(createRedoButton());
 		return box;
 	}
 
 	private Component createUndoButton() {
-		JButton button = new JButton("<-");
+		JButton button = new JButton(loadImage("/images/undo.png"));
 		button.addActionListener(event -> restorePreviousWorldState());
 		return button;
 	}
 
+	private Component createRedoButton() {
+		JButton button = new JButton(loadImage("/images/redo.png"));
+		button.addActionListener(event -> restoreNextWorldState());
+		return button;
+	}
+
+	private ImageIcon loadImage(String path) {
+		try {
+			return new ImageIcon(ImageIO.read(getClass().getResourceAsStream(path)));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private void restorePreviousWorldState() {
 		model.restorePreviousState();
+		refreshView();
+	}
+
+	private void restoreNextWorldState() {
+		model.restoreNextState();
 		refreshView();
 	}
 
@@ -185,8 +207,8 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private Set<GameObjectWithImage> getAllObjectsToClean() {
-		Set<GameObjectWithImage> hiddenAllObjects = getCurrentWorld().getAllObjects().stream().filter(object -> isHidden(object))
-				.collect(Collectors.toSet());
+		Set<GameObjectWithImage> hiddenAllObjects = getCurrentWorld().getAllObjects().stream()
+				.filter(object -> isHidden(object)).collect(Collectors.toSet());
 		Set<GameObjectWithImage> hiddenDrawnObjects = getCurrentWorld().getAllDrawingObjects().stream()
 				.filter(object -> isHidden(object)).collect(Collectors.toSet());
 		Set<GameObjectWithImage> sets = new HashSet<>();
@@ -196,7 +218,8 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private boolean isHidden(GameObjectWithImage object) {
-		return isHiddenInList(object, getCurrentWorld().getAllObjects()) || isHiddenInList(object, getCurrentWorld().getAllDrawingObjects());
+		return isHiddenInList(object, getCurrentWorld().getAllObjects())
+				|| isHiddenInList(object, getCurrentWorld().getAllDrawingObjects());
 	}
 
 	private boolean isHiddenInList(GameObjectWithImage object, List<GameObjectWithImage> list) {
@@ -439,7 +462,8 @@ public class ViewerPanel extends JPanel {
 					parseZip();
 			} catch (Exception e) {
 				LOGGER.error("Error", e);
-				model.clear();;
+				model.clear();
+				;
 				JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 			}
 		}
@@ -489,7 +513,7 @@ public class ViewerPanel extends JPanel {
 		try {
 			if (this.lastFile != null) {
 				World world = this.builder.parse(new FileInputStream(this.lastFile));
-				this.model.loadNewWorld(world); 
+				this.model.loadNewWorld(world);
 			}
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
@@ -616,7 +640,7 @@ public class ViewerPanel extends JPanel {
 
 	public void refreshView() {
 		refreshTables();
-		repaintCanvas();		
+		repaintCanvas();
 	}
 
 }

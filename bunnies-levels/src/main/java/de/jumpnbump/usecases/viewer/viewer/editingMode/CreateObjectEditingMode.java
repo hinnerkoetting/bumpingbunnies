@@ -2,12 +2,14 @@ package de.jumpnbump.usecases.viewer.viewer.editingMode;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
+import java.util.Optional;
 
 import de.jumpnbump.usecases.viewer.MyCanvas;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
-public abstract class CreateObjectEditingMode<S extends FixedWorldObject> implements ModeMouseListener {
+public abstract class CreateObjectEditingMode<S extends GameObjectWithImage> implements ModeMouseListener {
 
 	private final SelectionModeProvider provider;
 	private final CoordinatesCalculation coordinatesCalculation;
@@ -52,8 +54,9 @@ public abstract class CreateObjectEditingMode<S extends FixedWorldObject> implem
 
 	private void createWall(MouseEvent arg0) {
 		provider.storeCurrentState();
-		S newWall = createObject(arg0);
-		addToWorld(newWall);
+		S newObject = createObject(arg0);
+		addToWorld(newObject);
+		provider.setSelectedObject(Optional.of(newObject));
 		provider.refreshView();
 	}
 

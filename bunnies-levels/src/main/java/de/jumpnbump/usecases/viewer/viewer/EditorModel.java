@@ -15,20 +15,22 @@ public class EditorModel {
 
 	private World currentWorld;
 	private World firstStateOfWorld;
-	private final Deque<World> previousStates = new LinkedList<World>();
-	
+	private final Deque<World> previousStatesFifo = new LinkedList<World>();
+	private final Deque<World> nextStatesFilo = new LinkedList<World>();
+
 	public EditorModel(World world) {
 		loadNewWorld(world);
 	}
-	
+
 	public World getCurrentState() {
 		return currentWorld;
 	}
 
 	public synchronized void storeState() {
-		previousStates.push(cloneWorld(currentWorld));
+		nextStatesFilo.clear();
+		addToEndOfPreviousStates(currentWorld);
 	}
-	
+
 	private synchronized World cloneWorld(World world) {
 		World clonedWorld = new World();
 		world.getAllWalls().stream().forEach(wall -> clonedWorld.addWall(new Wall(wall)));
@@ -42,14 +44,38 @@ public class EditorModel {
 	}
 
 	public synchronized void restorePreviousState() {
-		if (previousStates.isEmpty())
-			currentWorld = firstStateOfWorld;
-		else 
-			currentWorld = previousStates.pop();
+		if (previousStatesFifo.isEmpty()) {
+			if (currentWorld != firstStateOfWorld) {
+				addToEndOfNextStates(currentWorld);
+				assignCurrentWorld(firstStateOfWorld);
+			}
+		} else {
+			addToEndOfNextStates(currentWorld);
+			assignCurrentWorld(previousStatesFifo.pop());
+		}
+	}
+
+	private void addToEndOfNextStates(World world) {
+		nextStatesFilo.push(cloneWorld(world));
+	}
+
+	private void addToEndOfPreviousStates(World world) {
+		previousStatesFifo.push(cloneWorld(world));
+	}
+
+	private void assignCurrentWorld(World world) {
+		currentWorld = cloneWorld(world);
+	}
+
+	public synchronized void restoreNextState() {
+		if (!nextStatesFilo.isEmpty()) {
+			addToEndOfPreviousStates(currentWorld);
+			currentWorld = nextStatesFilo.poll();
+		}
 	}
 
 	public synchronized void loadNewWorld(World world) {
-		previousStates.clear();
+		previousStatesFifo.clear();
 		this.currentWorld = world;
 		this.firstStateOfWorld = cloneWorld(world);
 	}
@@ -57,5 +83,5 @@ public class EditorModel {
 	public synchronized void clear() {
 		loadNewWorld(new World());
 	}
-	
+
 }
