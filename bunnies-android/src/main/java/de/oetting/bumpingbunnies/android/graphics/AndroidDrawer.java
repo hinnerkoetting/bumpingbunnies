@@ -13,21 +13,20 @@ import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasWrapper;
 
 public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AndroidDrawer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AndroidDrawer.class);
 
 	private SurfaceHolder holder;
 	private final ObjectsDrawer objectsDrawer;
 	private boolean isDrawingPossible;
 	private final boolean altPixelMode;
 
-	private boolean needsUpdate;
+	private boolean drawablesHaveChanged;
 
 	public AndroidDrawer(ObjectsDrawer objectsDrawer, boolean altPixelMode) {
 		super();
 		this.objectsDrawer = objectsDrawer;
 		this.altPixelMode = altPixelMode;
-		needsUpdate = true;
+		drawablesHaveChanged = true;
 	}
 
 	@Override
@@ -36,21 +35,22 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 			Canvas lockCanvas = this.holder.lockCanvas();
 			if (lockCanvas != null) {
 				synchronized (this.holder) {
-					try {
-						CanvasWrapper canvas = new AndroidCanvasWrapper(
-								lockCanvas);
-						if (needsUpdate) {
-							objectsDrawer.buildAllDrawables(canvas,
-									lockCanvas.getWidth(),
-									lockCanvas.getHeight());
-							needsUpdate = false;
-						}
-						this.objectsDrawer.draw(canvas);
-					} finally {
-						this.holder.unlockCanvasAndPost(lockCanvas);
-					}
+					drawOnLockedCanvas(lockCanvas);
 				}
 			}
+		}
+	}
+
+	private void drawOnLockedCanvas(Canvas lockCanvas) {
+		try {
+			CanvasWrapper canvas = new AndroidCanvasWrapper(lockCanvas);
+			if (drawablesHaveChanged) {
+				objectsDrawer.buildAllDrawables(canvas, lockCanvas.getWidth(), lockCanvas.getHeight());
+				drawablesHaveChanged = false;
+			}
+			this.objectsDrawer.draw(canvas);
+		} finally {
+			this.holder.unlockCanvasAndPost(lockCanvas);
 		}
 	}
 
@@ -72,15 +72,14 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		this.holder = holder;
-		needsUpdate = true;
+		drawablesHaveChanged = true;
 	}
 
 	@Override
 	public void setNeedsUpdate(boolean b) {
-		this.needsUpdate = b;
+		this.drawablesHaveChanged = b;
 	}
 
 	@Override

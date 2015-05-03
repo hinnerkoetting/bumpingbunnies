@@ -9,6 +9,10 @@ import android.view.SurfaceView;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
 import de.oetting.bumpingbunnies.core.graphics.GameScreenSizeChangeListener;
 
+/**
+ * The canvas for the game
+ *
+ */
 public class GameView extends SurfaceView {
 
 	private List<GameScreenSizeChangeListener> sizeListeners = new LinkedList<GameScreenSizeChangeListener>();
