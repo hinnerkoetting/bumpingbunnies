@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering.SimpleBitmapResizer;
+import de.oetting.bumpingbunnies.android.game.graphics.SimpleBitmapResizer;
 import de.oetting.bumpingbunnies.core.game.BackgroundReader;
 import de.oetting.bumpingbunnies.core.game.graphics.BackgroundDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.BackgroundDrawableFactory;

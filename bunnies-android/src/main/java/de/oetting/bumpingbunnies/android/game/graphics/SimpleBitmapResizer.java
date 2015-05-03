@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.android.game.graphics.bitmapAltering;
+package de.oetting.bumpingbunnies.android.game.graphics;
 
 import android.graphics.Bitmap;
 import de.oetting.bumpingbunnies.core.graphics.ImageResizer;
