@@ -7,9 +7,9 @@ import java.util.List;
 import android.content.Context;
 import android.media.MediaPlayer;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.android.game.sound.AndroidMusicPlayer;
 import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.usecases.game.android.sound.AndroidMusicPlayer;
 
 public class AndroidMusicPlayerFactory implements BunniesMusicPlayerFactory {
 
