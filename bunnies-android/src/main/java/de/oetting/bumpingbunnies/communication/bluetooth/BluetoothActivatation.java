@@ -8,20 +8,20 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
-public class BluetoothActivater {
+public class BluetoothActivatation {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothActivater.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothActivatation.class);
 
 	private final Activity origin;
 	private final BluetoothAdapter bluetoothAdapter;
 
-	public BluetoothActivater(Activity orgin) {
+	public BluetoothActivatation(Activity orgin) {
 		this.origin = orgin;
 		this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 	}
 
 	public boolean activateBluetooth() {
-		LOGGER.info("Activating Bluetooth");
+		LOGGER.info("Trying to activate Bluetooth");
 		if (this.bluetoothAdapter == null) {
 			Toast makeText = Toast.makeText(this.origin, "Bluetooth not supported", Toast.LENGTH_LONG);
 			makeText.show();

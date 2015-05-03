@@ -2,7 +2,7 @@ package de.oetting.bumpingbunnies.core.configuration;
 
 import de.oetting.bumpingbunnies.core.network.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
-import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
+import de.oetting.bumpingbunnies.core.networking.init.AcceptsClients;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.server.AcceptsClientConnectionsDelegate;
 import de.oetting.bumpingbunnies.core.networking.server.HostNewClientsAccepter;
@@ -23,7 +23,7 @@ public class NewClientsAccepterFactory {
 		if (parameter.getConfiguration().isHost()) {
 			AcceptsClientConnectionsDelegate delegate = new AcceptsClientConnectionsDelegate();
 			NetworkBroadcaster bcs = new NetworkBroadcaster(errorCallback);
-			ClientAccepter clientAcceptor = factory.create(delegate, parameter.getConfiguration().getGeneralSettings(), null);
+			AcceptsClients clientAcceptor = factory.create(delegate, parameter.getConfiguration().getGeneralSettings(), null);
 			NewClientsAccepter accepter = new HostNewClientsAccepter(bcs, clientAcceptor, world, parameter.getConfiguration(), callback, errorCallback);
 			delegate.setAccepter(accepter);
 			return accepter;

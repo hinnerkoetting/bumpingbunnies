@@ -23,10 +23,10 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 	private boolean receiversRegistered;
 	private DefaultConnectionEstablisher commonBehaviour;
 	private final RoomActivity origin;
-	private final BluetoothActivater activater;
+	private final BluetoothActivatation activater;
 
 	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, DefaultConnectionEstablisher commonBehaviour,
-			BluetoothActivater activater) {
+			BluetoothActivatation activater) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
 		this.commonBehaviour = commonBehaviour;

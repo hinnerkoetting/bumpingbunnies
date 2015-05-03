@@ -4,20 +4,20 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
-import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
+import de.oetting.bumpingbunnies.core.networking.init.AcceptsClients;
 import de.oetting.bumpingbunnies.core.networking.init.DefaultClientAccepter;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class BluetoothClientsAccepter implements ClientAccepter {
+public class BluetoothClientsAccepter implements AcceptsClients {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothClientsAccepter.class);
 
-	private final BluetoothActivater activater;
+	private final BluetoothActivatation activater;
 	private final Activity origin;
 	private final DefaultClientAccepter connectionEstablisher;
 
-	public BluetoothClientsAccepter(BluetoothActivater activater, Activity origin, DefaultClientAccepter connectionEstablisher) {
+	public BluetoothClientsAccepter(BluetoothActivatation activater, Activity origin, DefaultClientAccepter connectionEstablisher) {
 		this.activater = activater;
 		this.origin = origin;
 		this.connectionEstablisher = connectionEstablisher;

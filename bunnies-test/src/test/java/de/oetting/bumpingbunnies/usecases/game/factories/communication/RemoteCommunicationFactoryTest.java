@@ -15,7 +15,7 @@ import android.app.Activity;
 import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
-import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
+import de.oetting.bumpingbunnies.core.networking.init.AcceptsClients;
 import de.oetting.bumpingbunnies.core.networking.init.DefaultClientAccepter;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
@@ -29,14 +29,14 @@ public class RemoteCommunicationFactoryTest {
 
 	@Test
 	public void create_forWlanPlayer_shouldreturnDefaultRemoteCommunication() {
-		ClientAccepter rc = new AndroidConnectionEstablisherFactory(mock(Activity.class)).create(mock(AcceptsClientConnections.class), new ServerSettings(
+		AcceptsClients rc = new AndroidConnectionEstablisherFactory(mock(Activity.class)).create(mock(AcceptsClientConnections.class), new ServerSettings(
 				WorldConfiguration.CLASSIC, 1, NetworkType.WLAN), null);
 		assertThat(rc, is(instanceOf(DefaultClientAccepter.class)));
 	}
 
 	@Test
 	public void create_forBluetoothPlayer_shouldReturnBluetoothCommunication() {
-		ClientAccepter rc = new AndroidConnectionEstablisherFactory(mock(Activity.class)).create(mock(AcceptsClientConnections.class), new ServerSettings(
+		AcceptsClients rc = new AndroidConnectionEstablisherFactory(mock(Activity.class)).create(mock(AcceptsClientConnections.class), new ServerSettings(
 				WorldConfiguration.CLASSIC, 1, NetworkType.BLUETOOTH), null);
 		assertThat(rc, is(instanceOf(BluetoothClientsAccepter.class)));
 	}
