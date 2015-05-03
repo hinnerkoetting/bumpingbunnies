@@ -28,10 +28,7 @@ public class CameraPositionCalculation implements GameStepAction {
 	}
 
 	void updateScreenPosition(long deltaStepsSinceLastCall) {
-		if (movedPlayer.isDead())
-			immediateUpdateScreenPosition();
-		else
-			smoothlyUpdateScreenPosition(deltaStepsSinceLastCall);
+		smoothlyUpdateScreenPosition(deltaStepsSinceLastCall);
 	}
 
 	public void immediateUpdateScreenPosition() {

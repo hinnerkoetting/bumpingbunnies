@@ -34,13 +34,13 @@ public class BunnyDrawer implements Drawable {
 	}
 
 	private int computeAlpha() {
-		if (!this.player.isDead()) {
-			if (player.isInWater()) 
-				return ALPHA_WHILE_IN_WATER;
-			return ALPHA_WHILE_ALIVE;
-		} else {
-			return ALPHA_WHILE_DEAD;
-		}
+//		if (!this.player.isDead()) {
+		if (player.isInWater())
+			return ALPHA_WHILE_IN_WATER;
+		return ALPHA_WHILE_ALIVE;
+		// } else {
+		// return ALPHA_WHILE_DEAD;
+		// }
 	}
 
 	private void drawAnimation(CanvasAdapter canvas) {
