@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.networking.init;
 
-public interface AcceptsClients {
+public interface ClientAccepter {
 
 	void startThreadToAcceptClients();
 

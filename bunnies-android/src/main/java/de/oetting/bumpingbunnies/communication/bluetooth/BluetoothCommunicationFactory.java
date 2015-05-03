@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.communication.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
-import de.oetting.bumpingbunnies.core.networking.init.AcceptsClients;
+import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.DefaultClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
@@ -16,7 +16,7 @@ public class BluetoothCommunicationFactory {
 		return new BluetoothCommunication(origin, btAdapter, communication, new BluetoothActivatation(origin));
 	}
 
-	public static AcceptsClients createClientAccepter(BluetoothAdapter btAdapter, RoomActivity origin, ThreadErrorCallback errorCallback) {
+	public static ClientAccepter createClientAccepter(BluetoothAdapter btAdapter, RoomActivity origin, ThreadErrorCallback errorCallback) {
 		SocketFactory serverSocketFactory = new BluetoothSocketFactory(btAdapter);
 		DefaultClientAccepter communication = new DefaultClientAccepter(serverSocketFactory, origin, errorCallback);
 		return new BluetoothClientsAccepter(new BluetoothActivatation(origin), origin, communication);

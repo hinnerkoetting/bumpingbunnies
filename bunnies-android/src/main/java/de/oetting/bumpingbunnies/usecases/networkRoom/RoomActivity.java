@@ -46,7 +46,7 @@ import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSoc
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
-import de.oetting.bumpingbunnies.core.networking.init.AcceptsClients;
+import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
@@ -86,7 +86,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private HostsListViewAdapter hostsAdapter;
 
 	private ConnectionEstablisher remoteCommunication;
-	private AcceptsClients clientAccepter;
+	private ClientAccepter clientAccepter;
 	private RoomArrayAdapter playersAA;
 	private NetworkBroadcaster broadcastService;
 

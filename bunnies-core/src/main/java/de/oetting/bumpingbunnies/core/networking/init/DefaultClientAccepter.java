@@ -6,7 +6,7 @@ import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class DefaultClientAccepter implements AcceptsClients {
+public class DefaultClientAccepter implements ClientAccepter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultClientAccepter.class);
 
