@@ -35,7 +35,7 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>de.jumpnbump.usecases.viewer.Main</mainClass>
+									<mainClass>de.oetting.bumpingbunnies.leveleditor.Main</mainClass>
 								</manifest>
 							</archive>
 							<descriptorRefs>
