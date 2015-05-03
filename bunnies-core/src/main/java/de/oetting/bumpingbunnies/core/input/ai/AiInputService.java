@@ -230,7 +230,7 @@ public class AiInputService implements OpponentInput {
 	}
 
 	private boolean isOtherPlayerOverMe() {
-		return this.closestEnemyPlayer.minY() > this.aiPlayer.maxY();
+		return this.closestEnemyPlayer.minY() > this.aiPlayer.minY();
 	}
 
 }

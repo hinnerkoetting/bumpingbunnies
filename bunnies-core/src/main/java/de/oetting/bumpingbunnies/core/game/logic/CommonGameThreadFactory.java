@@ -37,14 +37,20 @@ public class CommonGameThreadFactory {
 			GameStopper gameStopper) {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		initInputServices(main, errorCallback, world, networkDispatcher, configuration, gameStopper,
-				musicPlayerFactory.createDeadPlayer());
+				createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()));
 
 		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world,
 				musicPlayerFactory, configuration.getLocalSettings());
 		GameStepController stepController = CommonGameThreadFactory.createStepController(cameraCalculation, world,
-				stateDispatcher, factory, sendControl, configuration, main, musicPlayerFactory.createDeadPlayer());
+				stateDispatcher, factory, sendControl, configuration, main, createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()));
 
 		return CommonGameThreadFactory.create(stepController, errorCallback);
+	}
+
+	private static MusicPlayer createDeadPlayerMusic(BunniesMusicPlayerFactory musicPlayerFactory, LocalSettings settings) {
+		if (settings.isPlaySounds())
+			return musicPlayerFactory.createDeadPlayer();
+		return new DummyMusicPlayer();
 	}
 
 	public static GameThread create(GameStepController worldController, ThreadErrorCallback errorCallback) {
