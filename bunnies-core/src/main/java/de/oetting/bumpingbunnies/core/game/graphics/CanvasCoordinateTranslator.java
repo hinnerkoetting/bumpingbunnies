@@ -132,7 +132,7 @@ public class CanvasCoordinateTranslator implements CanvasAdapter {
 
 	@Override
 	public int getHeight(ImageWrapper imageWrapper) {
-		return coordinatesCalculation.getGameCoordinateY(next.getHeight(imageWrapper)) - coordinatesCalculation.getGameCoordinateY(0);
+		return coordinatesCalculation.getDifferenceInGameCoordinateY(0, next.getHeight(imageWrapper));
 	}
 
 }

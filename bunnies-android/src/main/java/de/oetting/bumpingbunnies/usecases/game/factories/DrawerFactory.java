@@ -18,6 +18,7 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvider;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasAdapter;
+import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidDrawableToImageConverter;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesColoror;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesMirrorer;
 
@@ -27,11 +28,11 @@ public class DrawerFactory {
 			CoordinatesCalculation calculations, Context context) {
 
 		BunnyDrawableFactory playerDrawerFactory = createPlayerDrawerFactory();
+		CanvasAdapter canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasAdapter(context), calculations);
 		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(
 				configuration.getLocalSettings().isBackground()), new AndroidGameObjectsDrawableFactory(),
-				playerDrawerFactory, null, false);
+				playerDrawerFactory, new AndroidDrawableToImageConverter(canvasDelegate, calculations, context), false);
 
-		CanvasAdapter canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasAdapter(context), calculations);
 		calculations.setZoom(ModelConstants.STANDARD_WORLD_SIZE / 7500 * configuration.getZoom());
 
 		ObjectsDrawer drawer = new ObjectsDrawer(drawFactory, canvasDelegate);
