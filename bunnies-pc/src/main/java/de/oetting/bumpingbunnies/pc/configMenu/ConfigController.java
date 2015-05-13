@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.pc.configMenu;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -11,6 +10,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -147,10 +147,19 @@ public class ConfigController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		speedSlow.setSelected(true);// default value, if the current speed setting does not match any buttons speed value
 		PcConfiguration loadedConfiguration = new ConfigAccess().load();
 		fillFields(loadedConfiguration);
 		selectWholeTextOnSelection();
 		changeKeyOnSelection();
+		addSpeedButtonsToToggleGroup();
+	}
+
+	private void addSpeedButtonsToToggleGroup() {
+		ToggleGroup group = new ToggleGroup();
+		speedSlow.setToggleGroup(group);
+		speedNormal.setToggleGroup(group);
+		speedFast.setToggleGroup(group);
 	}
 
 	private void changeKeyOnSelection() {

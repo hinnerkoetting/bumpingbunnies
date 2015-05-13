@@ -18,7 +18,7 @@
         <playerUp>Back Slash</playerUp>
         <playerRight>K</playerRight>
     </configurations>
-    <speed>22</speed>
+    <speed>25</speed>
     <playMusic>false</playMusic>
     <playSound>true</playSound>
 </pcConfiguration>
