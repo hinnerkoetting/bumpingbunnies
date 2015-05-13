@@ -11,6 +11,7 @@ import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
+import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 import de.oetting.bumpingbunnies.usecases.start.android.ProgressBarValueChanger;
 import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConverter;
@@ -22,7 +23,6 @@ import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConver
  */
 public class SettingsViewAccess {
 
-	private static final int MIN_SPEED_VALUE = 30;
 	private static final int MIN_ZOOM_VALUE = 4;
 
 	private final Activity origin;
@@ -63,15 +63,15 @@ public class SettingsViewAccess {
 	}
 
 	private int mediumSpeed() {
-		return 25;
+		return SpeedMode.MEDIUM.getSpeed();
 	}
 
 	private int fastSpeed() {
-		return 30;
+		return SpeedMode.FAST.getSpeed();
 	}
 
 	private int slowSpeed() {
-		return 22;
+		return SpeedMode.SLOW.getSpeed();
 	}
 
 	public boolean isBackgroundChecked() {

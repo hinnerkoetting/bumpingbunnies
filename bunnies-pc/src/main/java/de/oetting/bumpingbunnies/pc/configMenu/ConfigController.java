@@ -2,11 +2,13 @@ package de.oetting.bumpingbunnies.pc.configMenu;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
@@ -14,8 +16,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
 import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
+import de.oetting.bumpingbunnies.pc.error.ErrorHandler;
 import de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication;
 
 public class ConfigController implements Initializable {
@@ -50,11 +54,15 @@ public class ConfigController implements Initializable {
 	ToggleButton player3Right;
 
 	@FXML
-	TextField speed;
-	@FXML
 	CheckBox musicCheckbox;
 	@FXML
 	CheckBox soundCheckbox;
+	@FXML
+	RadioButton speedSlow;
+	@FXML
+	RadioButton speedNormal;
+	@FXML
+	RadioButton speedFast;
 
 	private final Stage primaryStage;
 
@@ -64,9 +72,18 @@ public class ConfigController implements Initializable {
 
 	@FXML
 	public void onButtonSave() {
-		PcConfiguration configuration = createConfiguration();
-		saveConfiguration(configuration);
-		startMenuApplication();
+		try {
+			PcConfiguration configuration = createConfiguration();
+			saveConfiguration(configuration);
+			startMenuApplication();
+		} catch (Exception e) {
+			handleError(e);
+		}
+	}
+
+	private void handleError(Exception e) {
+		LOGGER.error("Error", e);
+		new ErrorHandler().showError(primaryStage, "Technical error");
 	}
 
 	@FXML
@@ -113,9 +130,19 @@ public class ConfigController implements Initializable {
 	}
 
 	private void readSettings(PcConfiguration configuration) {
-		configuration.setSpeed(Integer.parseInt(speed.getText()));
+		configuration.setSpeed(getSpeedModel().getSpeed());
 		configuration.setPlayMusic(musicCheckbox.isSelected());
 		configuration.setPlaySound(soundCheckbox.isSelected());
+	}
+
+	private SpeedMode getSpeedModel() {
+		if (speedSlow.isSelected())
+			return SpeedMode.SLOW;
+		else if (speedNormal.isSelected())
+			return SpeedMode.MEDIUM;
+		else if (speedFast.isSelected())
+			return SpeedMode.FAST;
+		throw new IllegalStateException("One speedmode has to be selected");
 	}
 
 	@Override
@@ -124,22 +151,6 @@ public class ConfigController implements Initializable {
 		fillFields(loadedConfiguration);
 		selectWholeTextOnSelection();
 		changeKeyOnSelection();
-		speed.addEventFilter(KeyEvent.KEY_TYPED, (event) -> allowOnlyDigits(event));
-		speed.focusedProperty().addListener((event, oldValue, newValue) -> allowMaxValue(speed, 15, 50));
-	}
-
-	private void allowMaxValue(TextField field, int minValue, int maxValue) {
-		String value = field.getText();
-		Integer enteredValue = Integer.valueOf(value);
-		if (enteredValue > maxValue)
-			field.setText(Integer.toString(maxValue));
-		else if (enteredValue < minValue)
-			field.setText(Integer.toString(minValue));
-	}
-
-	private void allowOnlyDigits(KeyEvent event) {
-		if (!event.getCharacter().matches("[0-9]"))
-			event.consume();
 	}
 
 	private void changeKeyOnSelection() {
@@ -186,7 +197,6 @@ public class ConfigController implements Initializable {
 		selectWholeTextOnSelection(player1Name);
 		selectWholeTextOnSelection(player2Name);
 		selectWholeTextOnSelection(player3Name);
-		selectWholeTextOnSelection(speed);
 	}
 
 	private void selectWholeTextOnSelection(TextField textfield) {
@@ -222,9 +232,18 @@ public class ConfigController implements Initializable {
 	}
 
 	private void fillSettings(PcConfiguration configuration) {
-		speed.setText(Integer.toString(configuration.getSpeed()));
+		selectSpeedRadioButton(configuration);
 		musicCheckbox.setSelected(configuration.isPlayMusic());
 		soundCheckbox.setSelected(configuration.isPlaySound());
+	}
+
+	private void selectSpeedRadioButton(PcConfiguration configuration) {
+		if (configuration.getSpeed() == SpeedMode.SLOW.getSpeed())
+			speedSlow.setSelected(true);
+		else if (configuration.getSpeed() == SpeedMode.MEDIUM.getSpeed())
+			speedNormal.setSelected(true);
+		else if (configuration.getSpeed() == SpeedMode.FAST.getSpeed())
+			speedFast.setSelected(true);
 	}
 
 	private void selectWholeText(TextField tf) {

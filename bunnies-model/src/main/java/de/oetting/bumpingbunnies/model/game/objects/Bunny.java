@@ -16,6 +16,7 @@ public class Bunny implements GameObject {
 	private final ConnectionIdentifier opponent;
 
 	private int score;
+	private int deads;
 	private boolean dead;
 
 	private int accelerationX;
@@ -209,11 +210,11 @@ public class Bunny implements GameObject {
 		return this.name;
 	}
 
-	public  void applyStateTo(Bunny player) {
+	public void applyStateTo(Bunny player) {
 		this.state.copyContentTo(player.state);
 	}
 
-	public  void applyState(PlayerState state) {
+	public void applyState(PlayerState state) {
 		state.copyContentTo(this.state);
 	}
 

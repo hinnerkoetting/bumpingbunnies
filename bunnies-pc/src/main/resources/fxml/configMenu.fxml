@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.StackPane?>
 <?import de.oetting.bumpingbunnies.pc.configMenu.TitledBorder?>
@@ -70,8 +71,12 @@
 	</GridPane>
 	<GridPane GridPane.rowIndex="4" vgap="10">
 		<Label text="Speed" GridPane.rowIndex="1" prefWidth="100"/>
-		<TextField text="25" GridPane.rowIndex="1"
-			GridPane.columnIndex="1" fx:id="speed" />
+		<RadioButton text="Slow" GridPane.rowIndex="1"
+			GridPane.columnIndex="1" fx:id="speedSlow"/>
+		<RadioButton text="Normal" GridPane.rowIndex="1"
+			GridPane.columnIndex="2" fx:id="speedNormal"/>
+		<RadioButton text="Fast" GridPane.rowIndex="1"
+			GridPane.columnIndex="3" fx:id="speedFast"/>
 		<CheckBox text="Music" fx:id="musicCheckbox"
 			GridPane.rowIndex="2" GridPane.columnIndex="0" />
 		<CheckBox text="Sound" fx:id="soundCheckbox"

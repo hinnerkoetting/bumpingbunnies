@@ -60,6 +60,7 @@ import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
+import de.oetting.bumpingbunnies.pc.error.ErrorHandler;
 import de.oetting.bumpingbunnies.pc.game.factory.PcConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.pc.game.input.PcInputDispatcher;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasAdapter;
@@ -242,12 +243,13 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	private void initDrawer(Canvas canvas, final World world, CoordinatesCalculation coordinatesCalculation,
 			GameThreadState gameThreadState) {
 		PcCanvasAdapter canvasDelegate = new PcCanvasAdapter();
-		CanvasCoordinateTranslator coordinateTranslator = new CanvasCoordinateTranslator(canvasDelegate, 
+		CanvasCoordinateTranslator coordinateTranslator = new CanvasCoordinateTranslator(canvasDelegate,
 				coordinatesCalculation);
 		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
 				new PcGameObjectDrawableFactory(), new BunnyDrawableFactory(new BunnyDrawerFactory(
 						new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(),
-						new PcImageMirroror())), new PcDrawableToImageConverter(coordinateTranslator, coordinatesCalculation), true);
+						new PcImageMirroror())), new PcDrawableToImageConverter(coordinateTranslator,
+						coordinatesCalculation), true);
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, coordinateTranslator);
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);
@@ -266,21 +268,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private void showError(String text) {
-		final Stage dialog = new Stage();
-		dialog.initModality(Modality.APPLICATION_MODAL);
-		dialog.initOwner(primaryStage);
-		VBox dialogVbox = new VBox(20);
-		javafx.scene.control.Button button = new javafx.scene.control.Button("Quit");
-		button.setOnAction((event) -> Platform.exit());
-
-		dialogVbox.getChildren().add(new Text(text));
-		dialogVbox.getChildren().add(button);
-		Scene dialogScene = new Scene(dialogVbox, primaryStage.getWidth(), primaryStage.getHeight());
-		dialog.setResizable(false);
-		dialog.setScene(dialogScene);
-		dialog.show();
-		dialog.setX(primaryStage.getX());
-		dialog.setY(primaryStage.getY());
+		new ErrorHandler().showError(primaryStage, text);
 	}
 
 	private List<ScoreEntry> extractScores() {
