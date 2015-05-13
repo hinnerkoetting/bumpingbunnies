@@ -62,7 +62,7 @@ public class NetworkPlayerStateSenderThread extends BunniesThread implements New
 
 		@Override
 		public void nextStep(long delta) {
-			List<Bunny> allPlayer = world.getAllPlayer();
+			List<Bunny> allPlayer = world.getAllConnectedBunnies();
 			for (Bunny player : allPlayer) {
 				for (PlayerStateSender sender : networkSender) {
 					sender.sendState(player);

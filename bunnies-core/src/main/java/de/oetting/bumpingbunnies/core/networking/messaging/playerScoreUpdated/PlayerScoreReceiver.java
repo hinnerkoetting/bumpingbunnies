@@ -16,7 +16,7 @@ public class PlayerScoreReceiver extends MessageReceiverTemplate<PlayerScoreMess
 
 	@Override
 	public void onReceiveMessage(PlayerScoreMessage object) {
-		Bunny player = this.world.findPlayer(object.getPlayerId());
+		Bunny player = this.world.findBunny(object.getPlayerId());
 		player.setScore(object.getNewScore());
 	}
 

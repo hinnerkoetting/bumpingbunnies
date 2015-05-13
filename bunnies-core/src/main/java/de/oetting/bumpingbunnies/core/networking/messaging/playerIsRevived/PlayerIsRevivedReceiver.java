@@ -15,7 +15,7 @@ public class PlayerIsRevivedReceiver extends MessageReceiverTemplate<Integer> {
 
 	@Override
 	public void onReceiveMessage(Integer playerId) {
-		Bunny player = this.world.findPlayer(playerId);
+		Bunny player = this.world.findBunny(playerId);
 		player.setDead(false);
 	}
 

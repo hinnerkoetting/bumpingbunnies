@@ -139,7 +139,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		List<OpponentConfiguration> players = parameter.getConfiguration().getOtherPlayers();
 		for (OpponentConfiguration config : players) {
 			if (config.getOpponent().isLocalHumanPlayer()) {
-				Bunny otherPlayer = gameMain.getWorld().findPlayer(config.getPlayerId());
+				Bunny otherPlayer = gameMain.getWorld().findBunny(config.getPlayerId());
 				inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) config.getInput(),
 						otherPlayer));
 			}
@@ -269,7 +269,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private List<ScoreEntry> extractScores() {
-		List<Bunny> allPlayer = gameMain.getWorld().getAllPlayer();
+		List<Bunny> allPlayer = gameMain.getWorld().getAllConnectedBunnies();
 		List<ScoreEntry> entries = new ArrayList<>(allPlayer.size());
 		synchronized (allPlayer) {
 			for (Bunny player : allPlayer) {

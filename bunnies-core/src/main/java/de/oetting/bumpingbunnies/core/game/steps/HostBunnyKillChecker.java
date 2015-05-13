@@ -45,7 +45,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	@Override
 	public void checkForJumpedPlayers() {
-		for (Bunny player : this.world.getAllPlayer()) {
+		for (Bunny player : this.world.getAllConnectedBunnies()) {
 			Bunny playerUnder = this.collisionDetection.findPlayerThisPlayerIsStandingOn(player);
 			if (playerUnder != null) {
 				handleJumpedPlayer(playerUnder, player);
@@ -84,7 +84,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	@Override
 	public void checkForPlayerOutsideOfGameZone() {
-		for (Bunny p : this.world.getAllPlayer()) {
+		for (Bunny p : this.world.getAllConnectedBunnies()) {
 			if (OutsideOfPlayZoneChecker.outsideOfGameZone(p)) {
 				handlePlayerOutOfPlayZone(p);
 			}

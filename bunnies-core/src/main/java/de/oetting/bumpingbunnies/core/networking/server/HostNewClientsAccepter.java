@@ -95,13 +95,13 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public int getNextPlayerId() {
-		return this.world.getNextPlayerId();
+		return this.world.getNextBunnyId();
 	}
 
 	@Override
 	public List<PlayerProperties> getAllPlayersProperties() {
-		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.world.getAllPlayer().size());
-		for (Bunny p : world.getAllPlayer()) {
+		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.world.getAllConnectedBunnies().size());
+		for (Bunny p : world.getAllConnectedBunnies()) {
 			properties.add(new PlayerProperties(p.id(), p.getName()));
 		}
 		return properties;

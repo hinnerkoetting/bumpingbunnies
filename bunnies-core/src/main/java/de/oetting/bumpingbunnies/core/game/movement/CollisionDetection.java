@@ -42,7 +42,7 @@ public class CollisionDetection {
 	}
 
 	public Bunny findPlayerThisPlayerIsStandingOn(Bunny player) {
-		for (Bunny p : this.world.getAllPlayer()) {
+		for (Bunny p : this.world.getAllConnectedBunnies()) {
 			if (standsOn(player, p)) {
 				return p;
 			}

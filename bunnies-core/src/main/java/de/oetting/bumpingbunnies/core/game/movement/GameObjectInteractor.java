@@ -49,7 +49,7 @@ public class GameObjectInteractor {
 	}
 
 	private void interactWithPlayers(Bunny player, PlayerSimulation nextStep) {
-		for (Bunny p : this.objectProvider.getAllPlayer()) {
+		for (Bunny p : this.objectProvider.getAllConnectedBunnies()) {
 			if (p.id() != player.id()) {
 				interactWith(nextStep, player, p);
 			}

@@ -105,7 +105,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	private List<Bunny> findLocalPlayers() {
 		List<Bunny> localPlayers = new ArrayList<Bunny>();
-		for (Bunny player : world.getAllPlayer()) {
+		for (Bunny player : world.getAllConnectedBunnies()) {
 			if (player.getOpponent().isLocalPlayer()) {
 				localPlayers.add(player);
 			}
@@ -133,7 +133,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	}
 
 	public void restorePlayerStates(List<Bunny> players) {
-		List<Bunny> existingPlayers = this.world.getAllPlayer();
+		List<Bunny> existingPlayers = this.world.getAllConnectedBunnies();
 		for (Bunny p : existingPlayers) {
 			for (Bunny storedPlayer : players) {
 				if (p.id() == storedPlayer.id()) {
@@ -156,13 +156,13 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	@Override
 	public void newEvent(Bunny player) {
 		LOGGER.info("Player joined %d", player.id());
-		world.addPlayer(player);
+		world.addBunny(player);
 		this.playerObservable.playerJoined(player);
 	}
 
 	@Override
 	public void removeEvent(Bunny p) {
-		world.removePlayer(p);
+		world.disconnectBunny(p);
 		this.playerObservable.playerLeft(p);
 	}
 
@@ -204,7 +204,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	}
 
 	private Bunny findPlayer(ConnectionIdentifier opponent) {
-		for (Bunny p : world.getAllPlayer()) {
+		for (Bunny p : world.getAllConnectedBunnies()) {
 			if (p.getOpponent().getIdentifier().equals(opponent.getIdentifier()))
 				return p;
 		}
@@ -212,7 +212,7 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	}
 
 	private Bunny findPlayer(int playerId) {
-		for (Bunny p : world.getAllPlayer()) {
+		for (Bunny p : world.getAllConnectedBunnies()) {
 			if (p.id() == playerId)
 				return p;
 		}

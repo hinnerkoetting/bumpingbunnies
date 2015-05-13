@@ -44,7 +44,7 @@ public class NetworkToOtherClientsDispatcher implements IncomingNetworkDispatche
 
 	@Override
 	public void playerWasDisconnected(ConnectionIdentifier owner) {
-		Bunny player = world.findPlayerOfConnection(owner);
+		Bunny player = world.findBunnyOfConnection(owner);
 		PlayerDisconnectedMessage message = new PlayerDisconnectedMessage(player.id());
 		JsonWrapper wrapper = JsonWrapper.create(MessageId.PLAYER_DISCONNECTED, MessageParserFactory.create().encodeMessage(message));
 		sendControl.sendMessageExceptToOneSocket(wrapper, incomingSocket);

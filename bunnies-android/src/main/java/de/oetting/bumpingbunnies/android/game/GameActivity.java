@@ -125,7 +125,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	}
 
 	public ResultWrapper extractPlayerScores() {
-		List<Bunny> players = main.getWorld().getAllPlayer();
+		List<Bunny> players = main.getWorld().getConnectedAndDisconnectedBunnies();
 		List<ResultPlayerEntry> resultEntries = new ArrayList<ResultPlayerEntry>(players.size());
 		for (Bunny p : players) {
 			ResultPlayerEntry entry = new ResultPlayerEntry(p.getName(), p.getScore(), p.getColor());
@@ -177,7 +177,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	}
 
 	private List<Bunny> getAllPlayers() {
-		return this.main.getWorld().getAllPlayer();
+		return this.main.getWorld().getAllConnectedBunnies();
 	}
 
 	@Override

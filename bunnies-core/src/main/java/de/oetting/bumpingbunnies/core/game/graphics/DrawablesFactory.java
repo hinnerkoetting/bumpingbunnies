@@ -52,7 +52,7 @@ public class DrawablesFactory {
 
 	private Collection<? extends Drawable> createAllPlayer(CanvasAdapter canvas) {
 		List<Drawable> players = new LinkedList<Drawable>();
-		for (Bunny player : this.world.getAllPlayer()) {
+		for (Bunny player : this.world.getAllConnectedBunnies()) {
 			players.add(createPlayerDrawable(player, canvas));
 		}
 		return players;
@@ -60,7 +60,7 @@ public class DrawablesFactory {
 
 	private Collection<? extends Drawable> createAllScores() {
 		List<Drawable> scores = new LinkedList<Drawable>();
-		for (Bunny p : this.world.getAllPlayer()) {
+		for (Bunny p : this.world.getAllConnectedBunnies()) {
 			scores.add(createScoreDrawer(p));
 		}
 		return scores;

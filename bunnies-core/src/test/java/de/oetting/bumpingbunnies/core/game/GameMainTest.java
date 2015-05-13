@@ -87,7 +87,7 @@ public class GameMainTest {
 	}
 
 	private void assertNumberOfPlayers(int number) {
-		assertThat(this.fixture.getWorld().getAllPlayer(), hasSize(number));
+		assertThat(this.fixture.getWorld().getAllConnectedBunnies(), hasSize(number));
 	}
 
 	private void verifyThatListenerIsNotifiedAboutLeaving(Bunny p) {

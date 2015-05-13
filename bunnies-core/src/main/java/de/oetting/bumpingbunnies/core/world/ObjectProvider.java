@@ -19,7 +19,7 @@ public interface ObjectProvider {
 
 	List<IcyWall> getAllIcyWalls();
 
-	List<Bunny> getAllPlayer();
+	List<Bunny> getAllConnectedBunnies();
 
 	List<Water> getAllWaters();
 }

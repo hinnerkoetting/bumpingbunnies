@@ -47,6 +47,6 @@ public class SpawnPointReceiver extends MessageReceiverTemplate<SpawnPointMessag
 	}
 
 	private Bunny findPlayer(SpawnPointMessage message) {
-		return this.world.findPlayer(message.getPlayerId());
+		return this.world.findBunny(message.getPlayerId());
 	}
 }

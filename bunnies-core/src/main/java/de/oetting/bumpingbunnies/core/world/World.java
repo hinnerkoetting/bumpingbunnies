@@ -24,18 +24,19 @@ public class World implements ObjectProvider {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
 
-	private List<GameObjectWithImage> allCollidingObjects;
-	private List<GameObjectWithImage> allDrawingObjects;
-	private List<Wall> allWalls;
-	private List<IcyWall> allIcyWalls;
-	private List<Jumper> allJumpers;
-	private List<Bunny> allPlayer;
-	private List<SpawnPoint> allSpawnPoints;
-	private List<Water> allWaters;
-	private List<Background> backgrounds;
+	private final List<GameObjectWithImage> allCollidingObjects;
+	private final List<GameObjectWithImage> allDrawingObjects;
+	private final List<Wall> allWalls;
+	private final List<IcyWall> allIcyWalls;
+	private final List<Jumper> allJumpers;
+	private final List<Bunny> connectedBunnies;
+	private final List<Bunny> disconnectedBunnies;
+	private final List<SpawnPoint> allSpawnPoints;
+	private final List<Water> allWaters;
+	private final List<Background> backgrounds;
 
 	public World() {
-		this.allPlayer = new CopyOnWriteArrayList<Bunny>();
+		this.connectedBunnies = new CopyOnWriteArrayList<Bunny>();
 		this.allCollidingObjects = new LinkedList<GameObjectWithImage>();
 		this.allDrawingObjects = new LinkedList<GameObjectWithImage>();
 		this.allWalls = new ArrayList<Wall>();
@@ -44,6 +45,7 @@ public class World implements ObjectProvider {
 		this.allWaters = new LinkedList<Water>();
 		this.allSpawnPoints = new ArrayList<SpawnPoint>();
 		this.backgrounds = new LinkedList<Background>();
+		disconnectedBunnies = new ArrayList<Bunny>();
 	}
 
 	public void addToAllObjects() {
@@ -67,17 +69,17 @@ public class World implements ObjectProvider {
 	}
 
 	@Override
-	public List<Bunny> getAllPlayer() {
-		return Collections.unmodifiableList(this.allPlayer);
+	public List<Bunny> getAllConnectedBunnies() {
+		return Collections.unmodifiableList(this.connectedBunnies);
 	}
 
-	public void addPlayer(Bunny player) {
+	public void addBunny(Bunny player) {
 		LOGGER.info("Adding player %s", player);
-		allPlayer.add(player);
+		connectedBunnies.add(player);
 	}
 
-	public Bunny findPlayer(int id) {
-		for (Bunny p : this.allPlayer) {
+	public Bunny findBunny(int id) {
+		for (Bunny p : this.connectedBunnies) {
 			if (p.id() == id) {
 				return p;
 			}
@@ -113,13 +115,13 @@ public class World implements ObjectProvider {
 		return backgrounds;
 	}
 
-	public int getNextPlayerId() {
-		return findMaxPlayerId() + 1;
+	public int getNextBunnyId() {
+		return findMaxBunnyId() + 1;
 	}
 
-	private int findMaxPlayerId() {
+	private int findMaxBunnyId() {
 		int maxId = -1;
-		for (Bunny p : this.allPlayer) {
+		for (Bunny p : this.connectedBunnies) {
 			if (p.id() > maxId) {
 				maxId = p.id();
 			}
@@ -152,30 +154,31 @@ public class World implements ObjectProvider {
 		allSpawnPoints.addAll(newSpawnPoints);
 	}
 
-	public void removePlayer(Bunny p) {
+	public void disconnectBunny(Bunny p) {
 		LOGGER.info("Remove player %d", p.id());
-		boolean removed = allPlayer.remove(p);
+		boolean removed = connectedBunnies.remove(p);
 		if (!removed)
 			throw new IllegalArgumentException("Player was not removed");
+		disconnectedBunnies.add(p);
 	}
 
 	@Override
 	public String toString() {
 		return "World [allObjects=" + allCollidingObjects + ", allWalls=" + allWalls + ", allIcyWalls=" + allIcyWalls
-				+ ", allJumpers=" + allJumpers + ", allPlayer=" + allPlayer + ", allSpawnPoints=" + allSpawnPoints
-				+ ", allWaters=" + allWaters + "]";
+				+ ", allJumpers=" + allJumpers + ", allPlayer=" + connectedBunnies + ", allSpawnPoints="
+				+ allSpawnPoints + ", allWaters=" + allWaters + "]";
 	}
 
-	public boolean existsPlayer(int playerId) {
-		for (Bunny player : allPlayer)
+	public boolean existsBunny(int playerId) {
+		for (Bunny player : connectedBunnies)
 			if (player.id() == playerId)
 				return true;
 		return false;
 	}
 
-	public Bunny findPlayerOfConnection(ConnectionIdentifier owner) {
-		synchronized (allPlayer) {
-			for (Bunny p : allPlayer) {
+	public Bunny findBunnyOfConnection(ConnectionIdentifier owner) {
+		synchronized (connectedBunnies) {
+			for (Bunny p : connectedBunnies) {
 				if (p.getOpponent().equals(owner)) {
 					return p;
 				}
@@ -252,7 +255,7 @@ public class World implements ObjectProvider {
 		allWaters.add(newWater);
 		addDrawingAndCollidingObject(newWater);
 	}
-	
+
 	public void addSpawnpoint(SpawnPoint spawnpoint) {
 		allSpawnPoints.add(spawnpoint);
 	}
@@ -315,6 +318,13 @@ public class World implements ObjectProvider {
 		allWaters.removeAll(objectsToClean);
 		backgrounds.removeAll(objectsToClean);
 		sortObjectsByZIndex();
+	}
+
+	public List<Bunny> getConnectedAndDisconnectedBunnies() {
+		List<Bunny> list = new ArrayList<Bunny>();
+		list.addAll(connectedBunnies);
+		list.addAll(disconnectedBunnies);
+		return list;
 	}
 
 }

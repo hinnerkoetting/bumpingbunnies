@@ -47,7 +47,7 @@ public class AiInputService implements OpponentInput {
 	private Bunny findNearestOtherPlayer() {
 		double nearest = Double.MAX_VALUE;
 		Bunny nearestPlayer = null;
-		for (Bunny p : this.world.getAllPlayer()) {
+		for (Bunny p : this.world.getAllConnectedBunnies()) {
 			if (p.id() != this.aiPlayer.id()) {
 				double distance = distance(p, this.aiPlayer);
 				if (distance < nearest) {

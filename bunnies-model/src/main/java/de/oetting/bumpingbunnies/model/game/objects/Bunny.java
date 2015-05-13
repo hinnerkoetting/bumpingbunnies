@@ -16,7 +16,6 @@ public class Bunny implements GameObject {
 	private final ConnectionIdentifier opponent;
 
 	private int score;
-	private int deads;
 	private boolean dead;
 
 	private int accelerationX;

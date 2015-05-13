@@ -23,7 +23,7 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMe
 
 	@Override
 	public void onReceiveMessage(PlayerIsDeadMessage object) {
-		if (world.existsPlayer(object.getPlayerId())) {
+		if (world.existsBunny(object.getPlayerId())) {
 			Bunny p = findPlayer(object);
 			p.setDead(true);
 			deadPlayerMusic.start();
@@ -33,6 +33,6 @@ public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMe
 	}
 
 	private Bunny findPlayer(PlayerIsDeadMessage message) {
-		return this.world.findPlayer(message.getPlayerId());
+		return this.world.findBunny(message.getPlayerId());
 	}
 }
