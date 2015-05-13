@@ -14,11 +14,14 @@ public class ErrorHandler {
 		dialog.initModality(Modality.APPLICATION_MODAL);
 		dialog.initOwner(primaryStage);
 		VBox dialogVbox = new VBox(20);
-		javafx.scene.control.Button button = new javafx.scene.control.Button("Quit");
-		button.setOnAction((event) -> Platform.exit());
+		javafx.scene.control.Button retryButton = new javafx.scene.control.Button("Ok");
+		retryButton.setOnAction((event) -> dialog.close());
+		javafx.scene.control.Button quitButton = new javafx.scene.control.Button("Quit");
+		quitButton.setOnAction((event) -> Platform.exit());
 
 		dialogVbox.getChildren().add(new Text(text));
-		dialogVbox.getChildren().add(button);
+		dialogVbox.getChildren().add(retryButton);
+		dialogVbox.getChildren().add(quitButton);
 		Scene dialogScene = new Scene(dialogVbox, primaryStage.getWidth(), primaryStage.getHeight());
 		dialog.setResizable(false);
 		dialog.setScene(dialogScene);

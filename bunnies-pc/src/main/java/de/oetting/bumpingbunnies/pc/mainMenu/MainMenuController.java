@@ -41,6 +41,8 @@ import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServe
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
@@ -56,12 +58,14 @@ import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
 import de.oetting.bumpingbunnies.pc.configMenu.PlayerConfiguration;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
+import de.oetting.bumpingbunnies.pc.error.ErrorHandler;
 import de.oetting.bumpingbunnies.pc.main.BunniesMain;
 import de.oetting.bumpingbunnies.pc.network.messaging.PcGameStopper;
 
-public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback,
-		ThreadErrorCallback {
+public class MainMenuController implements Initializable, OnBroadcastReceived, ConnectsToServer,
+		DisplaysConnectedServers, PlayerDisconnectedCallback, ThreadErrorCallback {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MainMenuController.class);
 	private final Stage primaryStage;
 	@FXML
 	private Button connectButton;
@@ -87,7 +91,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		LocalSettings localSettings = new PcConfigurationConverter().convert2LocalSettings(getConfiguration());
 		ServerSettings generalSettings = new PcConfigurationConverter().convert2ServerSettings(pcConfiguration);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
-		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings, true);
+		Configuration configuration = new Configuration(localSettings, generalSettings, opponents, localPlayerSettings,
+				true);
 		return configuration;
 	}
 
@@ -106,9 +111,11 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 			return new OpponentConfiguration(AiModus.OFF, entry.getPlayerProperties(), entry.getOponent(),
 					new PcConfigurationConverter().createConfiguration(playerConfiguration));
 		} else if (entry.getOponent().isLocalPlayer()) {
-			return new OpponentConfiguration(AiModus.NORMAL, entry.getPlayerProperties(), entry.getOponent(), new NoopInputConfiguration());
+			return new OpponentConfiguration(AiModus.NORMAL, entry.getPlayerProperties(), entry.getOponent(),
+					new NoopInputConfiguration());
 		} else {
-			return new OpponentConfiguration(AiModus.OFF, entry.getPlayerProperties(), entry.getOponent(), new NoopInputConfiguration());
+			return new OpponentConfiguration(AiModus.OFF, entry.getPlayerProperties(), entry.getOponent(),
+					new NoopInputConfiguration());
 		}
 	}
 
@@ -118,9 +125,10 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 				return configuration;
 			}
 		}
-		throw new IllegalArgumentException(String.format(
-				"Could not find player in list of player configurations. I looked for player with name %s. Existing configurations are %s",
-				entry.getPlayerName(), getConfiguration().getPlayerConfigurations()));
+		throw new IllegalArgumentException(
+				String.format(
+						"Could not find player in list of player configurations. I looked for player with name %s. Existing configurations are %s",
+						entry.getPlayerName(), getConfiguration().getPlayerConfigurations()));
 	}
 
 	private void startGame(GameStartParameter parameter) {
@@ -140,7 +148,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		ColorAdjust adjustcolorEffect = new ColorAdjust();
 		final DoubleProperty brightness = adjustcolorEffect.brightnessProperty();
 		connectButton.setEffect(adjustcolorEffect);
-		connectButton.disabledProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> blink(brightness)));
+		connectButton.disabledProperty().addListener(
+				(observable, oldValue, newValue) -> Platform.runLater(() -> blink(brightness)));
 	}
 
 	private void blink(DoubleProperty brightness) {
@@ -174,11 +183,20 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@FXML
 	public void onButtonConnect() {
-		playersTable.getItems().clear();
-		ServerDevice wlanDevice = hostsTable.getSelectionModel().getSelectedItem().getDevice();
-		MySocket socket = wlanDevice.createClientSocket();
-		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(socket, this);
-		connectToServerThread.start();
+		try {
+			playersTable.getItems().clear();
+			ServerDevice wlanDevice = hostsTable.getSelectionModel().getSelectedItem().getDevice();
+			MySocket socket = wlanDevice.createClientSocket();
+			ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(socket, this);
+			connectToServerThread.start();
+		} catch (Exception e) {
+			handleError(e, "Could not connect to server: " + e.getMessage());
+		}
+	}
+
+	private void handleError(Exception e, String text) {
+		LOGGER.error("Error", e);
+		Platform.runLater(() -> new ErrorHandler().showError(primaryStage, text));
 	}
 
 	@FXML
@@ -195,7 +213,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		int nextPlayerId = getNextPlayerId();
 		PlayerConfiguration playerConfiguration = findNextFreePlayerConfiguration();
 		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerConfiguration.getPlayerName());
-		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createLocalPlayer(properties.getPlayerName())), properties, 0);
+		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createLocalPlayer(properties.getPlayerName())),
+				properties, 0);
 		enableButtons();
 	}
 
@@ -225,12 +244,13 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 
 	@Override
 	public void connectionNotSuccesful(String message) {
-		Platform.exit();
+		handleError(new Exception(), "Could not connect to server:\n " + message);
 	}
 
 	@Override
 	public void connectToServerSuccesfull(MySocket mmSocket) {
-		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this, this);
+		SetupConnectionWithServer connectedToServerService = new SetupConnectionWithServer(mmSocket, this, this, this,
+				this);
 		connectedToServerService.onConnectionToServer();
 	}
 
@@ -252,8 +272,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		if (socket.getConnectionIdentifier().isDirectlyConnected())
 			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
-			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(playerProperties.getPlayerName(),
-					playerProperties.getPlayerId()));
+			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(
+					playerProperties.getPlayerName(), playerProperties.getPlayerId()));
 	}
 
 	@Override
@@ -271,7 +291,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
 		int myPlayerId = getLocalPlayerId();
 		List<OpponentConfiguration> otherPlayers = createOtherPlayerconfigurations();
-		Configuration config = new Configuration(localSettings, generalSettingsFromNetwork, otherPlayers, localPlayerSettings, asHost);
+		Configuration config = new Configuration(localSettings, generalSettingsFromNetwork, otherPlayers,
+				localPlayerSettings, asHost);
 		GameStartParameter parameter = GameParameterFactory.createParameter(myPlayerId, config);
 		startGame(parameter);
 	}
@@ -289,8 +310,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>();
 		for (RoomEntry otherPlayer : playersTable.getItems()) {
 			if (!otherPlayer.getOponent().isLocalPlayer()) {
-				OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(AiModus.NORMAL, otherPlayer.getPlayerProperties(),
-						otherPlayer.getOponent(), new NoopInputConfiguration());
+				OpponentConfiguration otherPlayerConfiguration = new OpponentConfiguration(AiModus.NORMAL,
+						otherPlayer.getPlayerProperties(), otherPlayer.getOponent(), new NoopInputConfiguration());
 				otherPlayers.add(otherPlayerConfiguration);
 			}
 		}
@@ -344,7 +365,8 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	}
 
 	public void enableButtons() {
-		Platform.runLater(() -> addPlayerButton.setDisable(findNextFreePlayerId() >= getConfiguration().getMaxNumberOfPlayers()));
+		Platform.runLater(() -> addPlayerButton.setDisable(findNextFreePlayerId() >= getConfiguration()
+				.getMaxNumberOfPlayers()));
 	}
 
 	public void onMouseClickOnPlayers(MouseEvent event) {
@@ -358,11 +380,11 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 			enableButtons();
 		}
 	}
-	
+
 	public void onMouseClickOnServer(MouseEvent event) {
 		if (event.getClickCount() > 1) {
 			TablePosition<?, ?> focusedCell = hostsTable.getFocusModel().getFocusedCell();
-			if (focusedCell.getRow() != -1) 	
+			if (focusedCell.getRow() != -1)
 				onButtonConnect();
 		}
 	}
