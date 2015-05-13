@@ -34,6 +34,7 @@ public class World implements ObjectProvider {
 	private final List<SpawnPoint> allSpawnPoints;
 	private final List<Water> allWaters;
 	private final List<Background> backgrounds;
+	private int nextBunnyId = 0;
 
 	public World() {
 		this.connectedBunnies = new CopyOnWriteArrayList<Bunny>();
@@ -116,17 +117,7 @@ public class World implements ObjectProvider {
 	}
 
 	public int getNextBunnyId() {
-		return findMaxBunnyId() + 1;
-	}
-
-	private int findMaxBunnyId() {
-		int maxId = -1;
-		for (Bunny p : this.connectedBunnies) {
-			if (p.id() > maxId) {
-				maxId = p.id();
-			}
-		}
-		return maxId;
+		return ++nextBunnyId;
 	}
 
 	public void replaceAllWalls(Collection<Wall> walls) {

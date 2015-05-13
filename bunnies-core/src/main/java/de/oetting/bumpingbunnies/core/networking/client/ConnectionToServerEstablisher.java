@@ -10,11 +10,11 @@ public class ConnectionToServerEstablisher extends Thread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionToServerEstablisher.class);
 	private final MySocket mmSocket;
-	private final ConnectsToServer activity;
+	private final ConnectsToServer callback;
 
 	public ConnectionToServerEstablisher(MySocket mmSocket, ConnectsToServer connectToServerCallback) {
 		super("Connect to Server thread");
-		this.activity = connectToServerCallback;
+		this.callback = connectToServerCallback;
 		this.mmSocket = mmSocket;
 		setDaemon(true);
 	}
@@ -25,11 +25,11 @@ public class ConnectionToServerEstablisher extends Thread {
 
 		try {
 			this.mmSocket.connect();
-			this.activity.connectToServerSuccesfull(this.mmSocket);
+			this.callback.connectToServerSuccesfull(this.mmSocket);
 		} catch (IORuntimeException connectException) {
 			LOGGER.warn("Exception during connect to server " + connectException.getMessage());
 			LOGGER.warn("Closing connection");
-			this.activity.connectionNotSuccesful(connectException.getMessage());
+			this.callback.connectionNotSuccesful(connectException.getMessage());
 			this.mmSocket.close();
 		}
 	}

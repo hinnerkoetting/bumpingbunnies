@@ -4,12 +4,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-public class BunnyFactory {
+public class MusicPlayerFactory {
 
 	private final String classpath;
 	private byte[] cachedMp3;
 
-	public BunnyFactory(String classpath) {
+	public MusicPlayerFactory(String classpath) {
 		this.classpath = classpath;
 	}
 

@@ -13,7 +13,7 @@ public class MusicPlayerThread extends BunniesThread {
 		PLAYING, PAUSED, STOPPED, FINISHED
 	}
 
-	private final BunnyFactory playerFactory;
+	private final MusicPlayerFactory playerFactory;
 	// can be null.
 	private Mp3Player player;
 	private Status status = Status.PAUSED;
@@ -22,7 +22,7 @@ public class MusicPlayerThread extends BunniesThread {
 	private PcOnCompletionListener completionListener;
 	private boolean reset;
 
-	public MusicPlayerThread(ThreadErrorCallback stopper, BunnyFactory playerFactory) {
+	public MusicPlayerThread(ThreadErrorCallback stopper, MusicPlayerFactory playerFactory) {
 		super("Musicplayer", stopper);
 		this.playerFactory = playerFactory;
 	}

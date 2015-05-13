@@ -269,7 +269,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private List<ScoreEntry> extractScores() {
-		List<Bunny> allPlayer = gameMain.getWorld().getAllConnectedBunnies();
+		List<Bunny> allPlayer = gameMain.getWorld().getConnectedAndDisconnectedBunnies();
 		List<ScoreEntry> entries = new ArrayList<>(allPlayer.size());
 		synchronized (allPlayer) {
 			for (Bunny player : allPlayer) {

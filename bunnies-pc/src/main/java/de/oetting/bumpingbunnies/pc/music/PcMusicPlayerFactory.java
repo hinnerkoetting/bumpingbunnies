@@ -38,7 +38,7 @@ public class PcMusicPlayerFactory implements BunniesMusicPlayerFactory {
 
 	public MusicPlayer create(String classpath, ThreadErrorCallback stopper) {
 		try {
-			BunnyFactory playerFactory = new BunnyFactory(classpath);
+			MusicPlayerFactory playerFactory = new MusicPlayerFactory(classpath);
 			return new PcMusicPlayer(new MusicPlayerThread(stopper, playerFactory));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
