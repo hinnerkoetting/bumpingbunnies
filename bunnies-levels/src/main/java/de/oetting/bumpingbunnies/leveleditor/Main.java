@@ -30,10 +30,10 @@ public class Main {
 	}
 
 	private static void addFilesToRuntime() throws Exception {
-		addPath("files");
+		addToClasspathPath("files");
 	}
 
-	public static void addPath(String s) throws Exception {
+	public static void addToClasspathPath(String s) throws Exception {
 		File f = new File(s);
 		URI u = f.toURI();
 		URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
