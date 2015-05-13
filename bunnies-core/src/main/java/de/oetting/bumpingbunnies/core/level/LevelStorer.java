@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.leveleditor.xml;
+package de.oetting.bumpingbunnies.core.level;
 
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -83,7 +83,7 @@ public class LevelStorer {
 	}
 
 	private Set<ImageWrapper> extractDifferentImages(World world) {
-		Set<ImageWrapper> images = new TreeSet<>();
+		Set<ImageWrapper> images = new TreeSet<ImageWrapper>();
 		for (GameObjectWithImage imageObject : world.getAllDrawingObjects()) {
 			if (imageObject.getBitmap() != null)
 				images.add(imageObject.getBitmap());

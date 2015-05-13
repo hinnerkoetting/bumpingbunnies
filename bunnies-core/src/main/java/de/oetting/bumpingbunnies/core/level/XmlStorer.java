@@ -1,4 +1,4 @@
-package de.oetting.bumpingbunnies.leveleditor.xml;
+package de.oetting.bumpingbunnies.core.level;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -17,6 +17,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
@@ -160,7 +161,7 @@ public class XmlStorer {
 		element.setAttribute(XmlConstants.MIN_Y, Double.toString((double) go.minY() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MAX_Y, Double.toString((double) go.maxY() / ModelConstants.MAX_VALUE));
 		if (go.getBitmap() != null) {
-			element.setAttribute(XmlConstants.image, go.getImageKey());
+			element.setAttribute(XmlConstants.IMAGE, go.getImageKey());
 		}
 		element.setAttribute(de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants.ZINDEX,
 				Integer.toString(go.getzIndex()));

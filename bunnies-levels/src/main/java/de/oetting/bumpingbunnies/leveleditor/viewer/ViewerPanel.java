@@ -34,6 +34,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import de.oetting.bumpingbunnies.core.level.LevelStorer;
+import de.oetting.bumpingbunnies.core.level.XmlStorer;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.NonClosingInputstream;
 import de.oetting.bumpingbunnies.core.worldCreation.ObjectsFactory;
@@ -49,9 +51,7 @@ import de.oetting.bumpingbunnies.leveleditor.viewer.editingMode.DeleteModeMouseL
 import de.oetting.bumpingbunnies.leveleditor.viewer.editingMode.ModeMouseListener;
 import de.oetting.bumpingbunnies.leveleditor.viewer.editingMode.SelectModeMouseListener;
 import de.oetting.bumpingbunnies.leveleditor.viewer.editingMode.SelectionModeProvider;
-import de.oetting.bumpingbunnies.leveleditor.xml.LevelStorer;
 import de.oetting.bumpingbunnies.leveleditor.xml.XmlBuilder;
-import de.oetting.bumpingbunnies.leveleditor.xml.XmlStorer;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
