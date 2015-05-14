@@ -31,9 +31,11 @@ public class ObjectsDrawer implements PlayerJoinListener {
 
 	public void buildAllDrawables(CanvasWrapper canvas, int screenWidth, int screenHeight) {
 		canvasDelegate.updateDelegate(canvas);
+		canvasDelegate.startDrawPhase();
 		this.allDrawables.clear();
 		this.allDrawables.addAll(this.factory.createAllDrawables(canvasDelegate));
 		LOGGER.info("Added %d drawables", this.allDrawables.size());
+		canvasDelegate.endDrawPhase();
 	}
 
 	public void draw(CanvasWrapper canvas) {
