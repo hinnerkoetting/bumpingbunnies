@@ -28,7 +28,7 @@ public class CameraPositionCalculation implements GameStepAction {
 	}
 
 	void updateScreenPosition(long deltaStepsSinceLastCall) {
-			smoothlyUpdateScreenPosition(deltaStepsSinceLastCall);
+		smoothlyUpdateScreenPosition(deltaStepsSinceLastCall);
 	}
 
 	public void immediateUpdateScreenPosition() {

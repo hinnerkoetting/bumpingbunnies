@@ -226,6 +226,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public void startConnectToServer(final ServerDevice device) {
+		showLoadingAnimation();
 		playersAA.clear();
 		new Thread(new Runnable() {
 
