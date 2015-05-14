@@ -9,8 +9,7 @@ import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 
 public class InputConfigurationGenerator {
 
-	public static InputConfiguration createInputConfigurationFromRadioGroup(
-			RadioGroup group) {
+	public static InputConfiguration createInputConfigurationFromRadioGroup(RadioGroup group) {
 		for (int i = 0; i < group.getChildCount(); i++) {
 			CompoundButton cb = (CompoundButton) group.getChildAt(i);
 			if (cb.isChecked()) {
@@ -37,7 +36,7 @@ public class InputConfigurationGenerator {
 			CompoundButton cb = (CompoundButton) group.getChildAt(i);
 			InputConfiguration buttonInputConfiguration = createInputConfigurationFromView(cb
 					.getId());
-			if (buttonInputConfiguration.equals(inputconfiguration)) {
+			if (buttonInputConfiguration.getClass().equals(inputconfiguration.getClass())) {
 				cb.setChecked(true);
 				return;
 			}
