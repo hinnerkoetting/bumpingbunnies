@@ -34,7 +34,6 @@ public class World implements ObjectProvider {
 	private final List<SpawnPoint> allSpawnPoints;
 	private final List<Water> allWaters;
 	private final List<Background> backgrounds;
-	private int nextBunnyId = 0;
 
 	public World() {
 		this.connectedBunnies = new ArrayList<Bunny>();
@@ -122,7 +121,13 @@ public class World implements ObjectProvider {
 	}
 
 	public int getNextBunnyId() {
-		return ++nextBunnyId;
+		int max = 0;
+		List<Bunny> connectedAndDisconnectedBunnies = getConnectedAndDisconnectedBunnies();
+		for (Bunny bunny: connectedAndDisconnectedBunnies) {
+			if (bunny.id() > max) 
+				max = bunny.id();
+		}
+		return max + 1;
 	}
 
 	public void replaceAllWalls(Collection<Wall> walls) {
@@ -327,7 +332,7 @@ public class World implements ObjectProvider {
 		return list;
 	}
 
-	public  int getIndexOfPlayer(Bunny player) {
+	public int getIndexOfPlayer(Bunny player) {
 		return connectedBunnies.indexOf(player);
 	}
 

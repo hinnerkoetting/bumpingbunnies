@@ -111,7 +111,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				hostsAdapter.onItemClick(position);				
+				hostsAdapter.onItemClick(position);
 			}
 		});
 		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
@@ -368,11 +368,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	}
 
-	public void createNewRoom(int myPlayerId) {
-		LOGGER.info("Creating new room");
-		addMyPlayerRoomEntry(myPlayerId);
-	}
-
 	@Override
 	public void addMyPlayerRoomEntry(final int myPlayerId) {
 		runOnUiThread(new Runnable() {
@@ -531,7 +526,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public int getNextPlayerId() {
-		return this.playerCounter++;
+		return ++this.playerCounter;
 	}
 
 	private List<RoomEntry> getAllOtherPlayers() {
@@ -631,5 +626,5 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void setMyPlayerName() {
 		playersAA.setMyPlayerName(readSettingsFromDb().getPlayerName());
 	}
-	
+
 }
