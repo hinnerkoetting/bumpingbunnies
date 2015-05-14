@@ -35,6 +35,8 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldLoader;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
@@ -51,6 +53,7 @@ import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
  */
 public class GameActivity extends Activity implements ThreadErrorCallback, GameStopper {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameActivity.class);
 	private GameMain main;
 	private InputDispatcher<?> inputDispatcher;
 	private AndroidDrawThread drawThread;
@@ -63,40 +66,43 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 
 		final GameView contentView = (GameView) findViewById(R.id.fullscreen_content);
 
-		GameStartParameter parameter = ((GamestartParameterParcellableWrapper) getIntent().getExtras().get(ActivityLauncher.GAMEPARAMETER)).getParameter();
+		GameStartParameter parameter = ((GamestartParameterParcellableWrapper) getIntent().getExtras().get(
+				ActivityLauncher.GAMEPARAMETER)).getParameter();
 		Bunny myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 		GameThreadState threadState = new GameThreadState();
-		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter.getConfiguration().getZoom());
+		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter
+				.getConfiguration().getZoom());
 		World world = createWorld(this, parameter);
-		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this, new AndroidMusicPlayerFactory(this),
-				new AndroidConnectionEstablisherFactory(this), this);
-		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(cameraCalculation, new WorldProperties());
+		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this,
+				new AndroidMusicPlayerFactory(this), new AndroidConnectionEstablisherFactory(this), this);
+		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(
+				cameraCalculation, new WorldProperties());
 		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
 
 		registerScreenTouchListener(contentView);
 
-		ObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, parameter.getConfiguration(), calculations, this);
-		AndroidDrawer drawer = new AndroidDrawer(objectsDrawer, parameter.getConfiguration().getLocalSettings().isAltPixelMode());
+		ObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, parameter.getConfiguration(),
+				calculations, this);
+		AndroidDrawer drawer = new AndroidDrawer(objectsDrawer, parameter.getConfiguration().getLocalSettings()
+				.isAltPixelMode());
 		contentView.setCallback(drawer);
 		drawThread = new AndroidDrawThread(new DrawerFpsCounter(drawer, threadState), this);
 		drawThread.start();
 		main.addJoinListener(drawer);
 		contentView.addOnSizeListener(drawThread);
 		conditionalRestoreState();
-		GameController.init(this);
 	}
 
 	private World createWorld(GameActivity activity, GameStartParameter parameter) {
 		AndroidXmlWorldParser parser = new AndroidXmlWorldParser();
 		return new WorldLoader().load(parser, new ImageCreator() {
-			
+
 			@Override
 			public ImageWrapper createImage(InputStream inputStream, String imageKey) {
 				return new ImageWrapper(BitmapFactory.decodeStream(inputStream), imageKey);
 			}
 		});
 	}
-
 
 	private void registerScreenTouchListener(final GameView contentView) {
 		contentView.setOnTouchListener(new OnTouchListener() {

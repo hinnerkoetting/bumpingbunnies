@@ -214,13 +214,6 @@
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>amazon-fire-tv</groupId>
-			<artifactId>gamecontroller</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/gamecontroller.jar</systemPath>
-		</dependency>
 	</dependencies>
 
 </project>
