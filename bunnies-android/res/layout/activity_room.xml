@@ -101,6 +101,7 @@
         android:background="@drawable/header_gradient"
         android:onClick="onClickSettings"
         android:padding="5dp"
+        android:textColor="@color/text_color"
         android:text="@string/settings"
         android:textSize="@dimen/room_button_height" />
 

@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.amazon.device.gamecontroller.GameController;
+
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -81,6 +83,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		main.addJoinListener(drawer);
 		contentView.addOnSizeListener(drawThread);
 		conditionalRestoreState();
+		GameController.init(this);
 	}
 
 	private World createWorld(GameActivity activity, GameStartParameter parameter) {

@@ -15,17 +15,17 @@ public class HardwareKeyboardInputService implements InputService {
 	}
 
 	public boolean onKeyUp(int keyCode) {
-		if (keyCode == getKeyLeft()) {
-			if (this.movedPlayer.getAccelerationX() < 0) 
+		if (isKeyLeft(keyCode)) {
+			if (this.movedPlayer.getAccelerationX() < 0)
 				movedPlayer.setNotMoving();
 			return true;
 		}
-		if (keyCode == getKeyRight()) {
-			if (this.movedPlayer.getAccelerationX() > 0) 
+		if (isKeyRight(keyCode)) {
+			if (this.movedPlayer.getAccelerationX() > 0)
 				movedPlayer.setNotMoving();
 			return true;
 		}
-		if (keyCode == getKeyUp()) {
+		if (isKeyUp(keyCode)) {
 			this.movedPlayer.setJumping(false);
 			return true;
 		}
@@ -33,27 +33,39 @@ public class HardwareKeyboardInputService implements InputService {
 	}
 
 	public boolean onKeyDown(int keyCode) {
-		if (keyCode == getKeyLeft()) {
+		if (isKeyLeft(keyCode)) {
 			movedPlayer.setMovingLeft();
 			return true;
 		}
-		if (keyCode == getKeyRight()) {
+		if (isKeyRight(keyCode)) {
 			movedPlayer.setMovingRight();
 			return true;
 		}
-		if (keyCode == getKeyUp()) {
+		if (isKeyUp(keyCode)) {
 			movedPlayer.setJumping(true);
 			return true;
 		}
 		return false;
 	}
 
+	private boolean isKeyUp(int keyCode) {
+		return keyCode == getKeyUp() || keyCode == KeyEvent.KEYCODE_DPAD_UP;
+	}
+
+	private boolean isKeyRight(int keyCode) {
+		return keyCode == getKeyRight() || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT;
+	}
+
+	private boolean isKeyLeft(int keyCode) {
+		return keyCode == getKeyLeft() || keyCode == KeyEvent.KEYCODE_DPAD_LEFT;
+	}
 
 	private int getKeyLeft() {
 		if (leftHanded)
 			return KeyEvent.KEYCODE_K;
 		return KeyEvent.KEYCODE_S;
 	}
+
 	private int getKeyRight() {
 		if (leftHanded)
 			return KeyEvent.KEYCODE_L;

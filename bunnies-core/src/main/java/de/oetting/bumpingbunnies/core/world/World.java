@@ -5,17 +5,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.graphics.ZIndexComparator;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.objects.BunnyComparator;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
-import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
@@ -37,7 +37,7 @@ public class World implements ObjectProvider {
 	private int nextBunnyId = 0;
 
 	public World() {
-		this.connectedBunnies = new CopyOnWriteArrayList<Bunny>();
+		this.connectedBunnies = new ArrayList<Bunny>();
 		this.allCollidingObjects = new LinkedList<GameObjectWithImage>();
 		this.allDrawingObjects = new LinkedList<GameObjectWithImage>();
 		this.allWalls = new ArrayList<Wall>();
@@ -76,16 +76,21 @@ public class World implements ObjectProvider {
 
 	public void addBunny(Bunny player) {
 		LOGGER.info("Adding player %s", player);
-		connectedBunnies.add(player);
+		synchronized (connectedBunnies) {
+			connectedBunnies.add(player);
+			Collections.sort(connectedBunnies, new BunnyComparator());
+		}
 	}
 
 	public Bunny findBunny(int id) {
-		for (Bunny p : this.connectedBunnies) {
-			if (p.id() == id) {
-				return p;
+		synchronized (connectedBunnies) {
+			for (Bunny p : this.connectedBunnies) {
+				if (p.id() == id) {
+					return p;
+				}
 			}
+			throw new PlayerDoesNotExist(id);
 		}
-		throw new PlayerDoesNotExist(id);
 	}
 
 	@Override
@@ -147,10 +152,12 @@ public class World implements ObjectProvider {
 
 	public void disconnectBunny(Bunny p) {
 		LOGGER.info("Remove player %d", p.id());
-		boolean removed = connectedBunnies.remove(p);
-		if (!removed)
-			throw new IllegalArgumentException("Player was not removed");
-		disconnectedBunnies.add(p);
+		synchronized (connectedBunnies) {
+			boolean removed = connectedBunnies.remove(p);
+			if (!removed)
+				throw new IllegalArgumentException("Player was not removed");
+			disconnectedBunnies.add(p);
+		}
 	}
 
 	@Override
@@ -161,10 +168,12 @@ public class World implements ObjectProvider {
 	}
 
 	public boolean existsBunny(int playerId) {
-		for (Bunny player : connectedBunnies)
-			if (player.id() == playerId)
-				return true;
-		return false;
+		synchronized (connectedBunnies) {
+			for (Bunny player : connectedBunnies)
+				if (player.id() == playerId)
+					return true;
+			return false;
+		}
 	}
 
 	public Bunny findBunnyOfConnection(ConnectionIdentifier owner) {
@@ -318,7 +327,7 @@ public class World implements ObjectProvider {
 		return list;
 	}
 
-	public int getIndexOfPlayer(Bunny player) {
+	public  int getIndexOfPlayer(Bunny player) {
 		return connectedBunnies.indexOf(player);
 	}
 
