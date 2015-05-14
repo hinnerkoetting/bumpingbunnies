@@ -97,6 +97,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private ServerSettings generalSettings;
 	private boolean asHost;
 	private SettingsStorage settingsDao;
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +223,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		for (ToClientConnector connectionToClient : this.connectionToClientServices) {
 			connectionToClient.cancel();
 		}
+		if (progressDialog != null)
+			progressDialog.dismiss();
 	}
 
 	@Override
@@ -428,11 +431,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	private void showLoadingAnimation() {
-		ProgressDialog progress = new ProgressDialog(this);
-		progress.setTitle("Loading");
-		progress.setMessage("Loading. Please wait...");
-		progress.show();
-		progress.setContentView(R.layout.progress_dialog);
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setTitle("Loading");
+		progressDialog.setMessage("Loading. Please wait...");
+		progressDialog.show();
+		progressDialog.setContentView(R.layout.progress_dialog);
 	}
 
 	private void notifyClientsAboutlaunch() {
@@ -612,4 +615,5 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void setMyPlayerName() {
 		playersAA.setMyPlayerName(readSettingsFromDb().getPlayerName());
 	}
+	
 }
