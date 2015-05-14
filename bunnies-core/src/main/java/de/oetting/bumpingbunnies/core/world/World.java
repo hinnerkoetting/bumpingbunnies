@@ -318,4 +318,8 @@ public class World implements ObjectProvider {
 		return list;
 	}
 
+	public int getIndexOfPlayer(Bunny player) {
+		return connectedBunnies.indexOf(player);
+	}
+
 }

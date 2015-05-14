@@ -67,13 +67,7 @@ public class DrawablesFactory {
 	}
 
 	public ScoreDrawer createScoreDrawer(Bunny p) {
-		double x = 0.1 + (p.id()) * 0.2;
-		double y = 0.05;
-		while (x > 1) {
-			x--;
-			y += 0.1;
-		}
-		return new ScoreDrawer(p, x, y);
+		return new ScoreDrawer(p, world);
 	}
 
 	private List<Drawable> createStaticObjects(CanvasAdapter canvas) {

@@ -24,6 +24,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.ScoreDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
+import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -84,6 +85,6 @@ public class DrawerTest {
 		this.fixture = new ObjectsDrawer(this.factory, this.canvas);
 		when(this.factory.createPlayerDrawable(any(Bunny.class), eq(canvas))).thenReturn(this.playerDrawable);
 		when(this.playerDrawable.drawsPlayer(any(Bunny.class))).thenReturn(true);
-		when(factory.createScoreDrawer(any(Bunny.class))).thenReturn(new ScoreDrawer(TestPlayerFactory.createMyPlayer(), 0, 0));
+		when(factory.createScoreDrawer(any(Bunny.class))).thenReturn(new ScoreDrawer(TestPlayerFactory.createMyPlayer(), mock(World.class)));
 	}
 }
