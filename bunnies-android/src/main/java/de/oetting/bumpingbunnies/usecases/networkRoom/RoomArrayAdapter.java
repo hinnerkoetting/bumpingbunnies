@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
@@ -68,8 +70,19 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 
 			@Override
 			public void onClick(View v) {
-				if (getItem(position) != me)
-					remove(getItem(position));
+				onItemClick(position);
+			}
+			
+		});
+		view.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+					onItemClick(position);
+					return true;
+				}
+				return false;
 			}
 		});
 		return view;
@@ -91,6 +104,11 @@ public class RoomArrayAdapter extends ArrayAdapter<RoomEntry> {
 			
 			addMe(new RoomEntry(new PlayerProperties(old.getPlayerId(), playerName), old.getOponent()));
 		}
+	}
+
+	public void onItemClick(int position) {
+		if (getItem(position) != me)
+			remove(getItem(position));		
 	}
 
 }

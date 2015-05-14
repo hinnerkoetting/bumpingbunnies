@@ -4,8 +4,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.amazon.device.gamecontroller.GameController;
-
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -53,7 +51,6 @@ import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultWrapper;
  */
 public class GameActivity extends Activity implements ThreadErrorCallback, GameStopper {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameActivity.class);
 	private GameMain main;
 	private InputDispatcher<?> inputDispatcher;
 	private AndroidDrawThread drawThread;

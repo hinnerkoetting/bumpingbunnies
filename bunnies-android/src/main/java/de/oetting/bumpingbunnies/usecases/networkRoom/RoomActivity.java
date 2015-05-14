@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -105,6 +107,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		SocketStorage.getSingleton().removeListeners();
 		setContentView(R.layout.activity_room);
 		ListView list = getHostsView();
+		list.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				hostsAdapter.onItemClick(position);				
+			}
+		});
 		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
 		this.remoteCommunication = new DummyCommunication();
 		list.setAdapter(this.hostsAdapter);
@@ -120,6 +129,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void initRoom() {
 		ListView players = (ListView) findViewById(R.id.room_players);
 		this.playersAA = new RoomArrayAdapter(this, R.layout.room_player_entry);
+		players.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				playersAA.onItemClick(position);
+			}
+		});
 		players.setAdapter(this.playersAA);
 	}
 
