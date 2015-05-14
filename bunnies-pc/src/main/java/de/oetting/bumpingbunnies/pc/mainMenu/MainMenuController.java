@@ -392,4 +392,9 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	public void onButtonClose() {
 		Platform.exit();
 	}
+
+	@Override
+	public void onInitializationError(String message) {
+		new ErrorHandler().showError(primaryStage, message);
+	}
 }

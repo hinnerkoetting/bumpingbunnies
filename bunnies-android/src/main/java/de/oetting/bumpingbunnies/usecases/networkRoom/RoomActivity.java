@@ -124,6 +124,20 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		listenForBroadcasts();
 		settingsDao = new DummySettingsDao();
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
+		managebluetooth();
+	}
+
+	private void managebluetooth() {
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (bluetoothAdapter == null) {
+			LOGGER.info("Bluetooth does not exist");
+			RadioButton button = findBluetoothButton();
+			button.setVisibility(RadioButton.INVISIBLE);
+		}
+	}
+
+	private RadioButton findBluetoothButton() {
+		return (RadioButton) findViewById(R.id.start_remote_bt);
 	}
 
 	private void initRoom() {
@@ -625,6 +639,18 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private void setMyPlayerName() {
 		playersAA.setMyPlayerName(readSettingsFromDb().getPlayerName());
+	}
+
+	@Override
+	public void onInitializationError(String message) {
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+				toast.show();
+			}
+		});
 	}
 
 }

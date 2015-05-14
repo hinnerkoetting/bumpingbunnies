@@ -10,4 +10,9 @@ public class PcGameStopper implements ThreadErrorCallback {
 		Platform.exit();
 	}
 
+	@Override
+	public void onInitializationError(String message) {
+		Platform.exit();
+	}
+
 }

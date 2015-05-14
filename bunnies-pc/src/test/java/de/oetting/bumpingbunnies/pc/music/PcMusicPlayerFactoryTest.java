@@ -17,4 +17,9 @@ public class PcMusicPlayerFactoryTest extends BunniesMusicPlayerFactoryTest impl
 		fail();
 	}
 
+	@Override
+	public void onInitializationError(String message) {
+		fail();
+	}
+
 }

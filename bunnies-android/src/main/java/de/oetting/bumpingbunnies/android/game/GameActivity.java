@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawThread;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
@@ -197,6 +198,18 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	public void gameStopped() {
 		main.endGame();
 		ActivityLauncher.startResult(this, extractResult());
+	}
+
+	@Override
+	public void onInitializationError(final String message) {
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				Toast toast = Toast.makeText(GameActivity.this, message, Toast.LENGTH_LONG);
+				toast.show();
+			}
+		});
 	}
 
 }

@@ -7,5 +7,7 @@ public interface ThreadErrorCallback {
 	 * be to notifiy the user and quit the game.
 	 */
 	void onThreadError();
+	
+	void onInitializationError(String message);
 
 }

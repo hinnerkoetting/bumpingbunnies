@@ -300,4 +300,9 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		gameMain.endGame();
 		goToScoreScreen();
 	}
+
+	@Override
+	public void onInitializationError(String message) {
+		showError(message);
+	}
 }

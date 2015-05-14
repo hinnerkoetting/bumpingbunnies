@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
+import de.oetting.bumpingbunnies.core.network.CouldNotStartServerException;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
@@ -41,9 +42,8 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private PlayerJoinListener mainJoinListener;
 
-
-	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ClientAccepter remoteCommunication, World world, Configuration configuration,
-			PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
+	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ClientAccepter remoteCommunication, World world,
+			Configuration configuration, PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
 		this.world = world;
@@ -58,9 +58,14 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 			@Override
 			public void run() {
-				LOGGER.info("Start to accept clients");
-				broadcaster.startRegularServerBroadcast(configuration.getLocalPlayerSettings().getPlayerName());
-				remoteCommunication.startThreadToAcceptClients();
+				try {
+					LOGGER.info("Start to accept clients");
+					broadcaster.startRegularServerBroadcast(configuration.getLocalPlayerSettings().getPlayerName());
+					remoteCommunication.startThreadToAcceptClients();
+				} catch (CouldNotStartServerException e) {
+					LOGGER.error("Error", e);
+					errorCallback.onInitializationError("Error: Could not make device discoverable");
+				}
 			}
 		}).start();
 	}
@@ -73,15 +78,15 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	@Override
 	public void clientConnectedSucessfull(MySocket socket) {
-		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket, new StrictNetworkToGameDispatcher(callback),
-				callback, errorCallback);
+		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket,
+				new StrictNetworkToGameDispatcher(callback), callback, errorCallback);
 		connectionToClientService.onConnectToClient(socket);
 	}
 
 	@Override
 	public void addPlayerEntry(MySocket socket, PlayerProperties playerProperties, int socketIndex) {
-		Bunny player = new BunnyFactory(configuration.getGeneralSettings().getSpeedSetting()).createPlayer(playerProperties.getPlayerId(),
-				playerProperties.getPlayerName(), socket.getConnectionIdentifier());
+		Bunny player = new BunnyFactory(configuration.getGeneralSettings().getSpeedSetting()).createPlayer(
+				playerProperties.getPlayerId(), playerProperties.getPlayerName(), socket.getConnectionIdentifier());
 		LOGGER.info("Player joins %s", player);
 		signalPlayerToStartTheGame(socket);
 		this.mainJoinListener.newEvent(player);

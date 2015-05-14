@@ -63,6 +63,7 @@ import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
+import de.oetting.bumpingbunnies.pc.error.ErrorHandler;
 
 public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer, PlayerDisconnectedCallback,
 		ThreadErrorCallback {
@@ -441,6 +442,11 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void playerDisconnected(int playerId) {
 		DetailRoomEntry player = findEntry(playerId);
 		playersTable.getItems().remove(player);
+	}
+
+	@Override
+	public void onInitializationError(String message) {
+		Platform.exit();
 	}
 
 }
