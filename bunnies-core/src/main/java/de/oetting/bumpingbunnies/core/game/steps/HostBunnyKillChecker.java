@@ -47,7 +47,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	public void checkForJumpedPlayers() {
 		for (Bunny player : this.world.getAllConnectedBunnies()) {
 			Bunny playerUnder = this.collisionDetection.findPlayerThisPlayerIsStandingOn(player);
-			if (playerUnder != null) {
+			if (playerUnder != null && !playerUnder.isDead()) {
 				handleJumpedPlayer(playerUnder, player);
 			}
 		}

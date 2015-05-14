@@ -34,13 +34,13 @@ public class BunnyDrawer implements Drawable {
 	}
 
 	private int computeAlpha() {
-//		if (!this.player.isDead()) {
-		if (player.isInWater())
-			return ALPHA_WHILE_IN_WATER;
-		return ALPHA_WHILE_ALIVE;
-		// } else {
-		// return ALPHA_WHILE_DEAD;
-		// }
+		if (!this.player.isDead()) {
+			if (player.isInWater())
+				return ALPHA_WHILE_IN_WATER;
+			return ALPHA_WHILE_ALIVE;
+		} else {
+			return ALPHA_WHILE_DEAD;
+		}
 	}
 
 	private void drawAnimation(CanvasAdapter canvas) {
@@ -51,7 +51,8 @@ public class BunnyDrawer implements Drawable {
 		for (ConditionalMirroredAnimation ani : this.animations) {
 			if (ani.shouldBeExecuted(copiedPlayer)) {
 				ani.drawMirrored(copiedPlayer.isFacingLeft());
-				ani.draw(canvas, minXPosition(canvas, ani, copiedPlayer), maxYPosition(canvas, ani, copiedPlayer), this.paint);
+				ani.draw(canvas, minXPosition(canvas, ani, copiedPlayer), maxYPosition(canvas, ani, copiedPlayer),
+						this.paint);
 				return;
 			}
 		}
