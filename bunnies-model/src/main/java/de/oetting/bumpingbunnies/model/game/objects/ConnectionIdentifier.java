@@ -78,4 +78,8 @@ public class ConnectionIdentifier {
 		return type.equals(OpponentType.AI);
 	}
 
+	public boolean isRemotePlayer() {
+		return !isLocalPlayer();
+	}
+
 }

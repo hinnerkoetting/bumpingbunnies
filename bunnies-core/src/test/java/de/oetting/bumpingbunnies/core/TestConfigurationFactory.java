@@ -1,9 +1,8 @@
-package de.oetting.bumpingbunnies.usecases.game.configuration;
+package de.oetting.bumpingbunnies.core;
 
 import java.util.Arrays;
 import java.util.List;
 
-import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.AiModus;
@@ -15,11 +14,12 @@ import de.oetting.bumpingbunnies.model.configuration.OpponentConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
+import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfiguration;
 
 public class TestConfigurationFactory {
 
 	public static Configuration createDummyHost() {
-		LocalSettings localSettings = new LocalSettings(new HardwareKeyboardInputConfiguration(), 1, true, true, true, true, false);
+		LocalSettings localSettings = new LocalSettings(new KeyboardInputConfiguration("a", "b", "c"), 1, true, true, true, true, false);
 		ServerSettings generalSettings = new ServerSettings(WorldConfiguration.CLASSIC, 1, NetworkType.WLAN);
 		List<OpponentConfiguration> opponents = Arrays.asList(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(0, "name"), OpponentTestFactory
 				.create(), new NoopInputConfiguration()));

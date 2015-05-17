@@ -1,6 +1,8 @@
 package de.oetting.bumpingbunnies.core.game.main;
 
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
+import de.oetting.bumpingbunnies.core.networking.messaging.clientReceivedDeadBunny.BunnyIsDeadMessageReceivedReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerDisconnected.PlayerDisconnectedReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsRevived.PlayerIsRevivedReceiver;
@@ -20,11 +22,12 @@ public class NetworkListeners {
 	public static void allNetworkListeners(NetworkToGameDispatcher networkDispatcher, World world, ThreadErrorCallback activity, GameMain main,
 			Configuration configuration, GameStopper gameStopper, MusicPlayer deadPlayerMusic) {
 		new StopGameReceiver(networkDispatcher, gameStopper);
-		new PlayerIsDeadReceiver(networkDispatcher, world, deadPlayerMusic);
+		new PlayerIsDeadReceiver(networkDispatcher, world, deadPlayerMusic, SocketStorage.getSingleton(),  main, configuration.isHost());
 		new PlayerScoreReceiver(networkDispatcher, world);
 		new PlayerIsRevivedReceiver(networkDispatcher, world);
 		new SpawnPointReceiver(networkDispatcher, world);
 		new PlayerDisconnectedReceiver(networkDispatcher, main);
+		new BunnyIsDeadMessageReceivedReceiver(networkDispatcher, world);
 		addPlayerJoinListener(networkDispatcher, main, configuration);
 	}
 

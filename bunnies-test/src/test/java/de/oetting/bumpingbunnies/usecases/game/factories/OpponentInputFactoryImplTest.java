@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import de.oetting.bumpingbunnies.core.TestConfigurationFactory;
 import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
 import de.oetting.bumpingbunnies.core.input.ai.AiInputService;
@@ -21,8 +22,8 @@ import de.oetting.bumpingbunnies.core.input.factory.OpponentInputFactoryImpl;
 import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
 import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
@@ -58,6 +59,7 @@ public class OpponentInputFactoryImplTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new OpponentInputFactoryImpl(this.world, this.dispatcher);
+		this.fixture = new OpponentInputFactoryImpl(this.world, this.dispatcher,
+				TestConfigurationFactory.createDummyHost());
 	}
 }

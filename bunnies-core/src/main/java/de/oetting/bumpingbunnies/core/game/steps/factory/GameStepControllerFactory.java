@@ -31,13 +31,13 @@ public class GameStepControllerFactory {
 		PlayerReviver reviver = new PlayerReviver(new MessageSenderToNetworkDelegate(sendControl));
 		BunnyKillChecker killChecker = createKillChecker(configuration, world, spawnPointGenerator, reviver, new CollisionDetection(world), sendControl,
 				disconnectCallback, musicPlayer);
-		UserInputStep userInputStep = new UserInputStep(createInputServiceFactory(world, stateDispatcher));
+		UserInputStep userInputStep = new UserInputStep(createInputServiceFactory(world, stateDispatcher, configuration));
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory, world);
 		return new GameStepController(userInputStep, movementStep, reviver, cameraPositionCalculator);
 	}
 
-	private static OpponentInputFactory createInputServiceFactory(World world, PlayerStateDispatcher stateDispatcher) {
-		return new OpponentInputFactoryImpl(world, stateDispatcher);
+	private static OpponentInputFactory createInputServiceFactory(World world, PlayerStateDispatcher stateDispatcher, Configuration configuration) {
+		return new OpponentInputFactoryImpl(world, stateDispatcher, configuration);
 	}
 
 	private static BunnyKillChecker createKillChecker(Configuration conf, World world, SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver,

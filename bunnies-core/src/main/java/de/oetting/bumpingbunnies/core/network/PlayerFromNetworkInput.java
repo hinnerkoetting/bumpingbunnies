@@ -23,9 +23,11 @@ public class PlayerFromNetworkInput implements OpponentInput {
 	private PlayerState playerStateFromNetwork;
 	private final Bunny player;
 	private Map<Integer, Long> latestCounterForPlayer = new HashMap<Integer, Long>();
+	private final boolean isHostSystem;
 
-	public PlayerFromNetworkInput(Bunny player) {
+	public PlayerFromNetworkInput(Bunny player, boolean isHostSystem) {
 		this.player = player;
+		this.isHostSystem = isHostSystem;
 	}
 
 	@Override
@@ -42,7 +44,8 @@ public class PlayerFromNetworkInput implements OpponentInput {
 
 	private void copyStateFromNetwork() {
 		PlayerState playerFromNetwork = this.playerStateFromNetwork;
-		this.player.applyState(playerFromNetwork);
+		if (player.isClientUpToDate() || !isHostSystem) // the server only updates client states if the client is update to date
+			this.player.applyState(playerFromNetwork);
 	}
 
 	boolean existsNewMessage() {

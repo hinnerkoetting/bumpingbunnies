@@ -12,9 +12,9 @@ import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.android.parcel.GameStartParameterParceller;
+import de.oetting.bumpingbunnies.core.TestConfigurationFactory;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
-import de.oetting.bumpingbunnies.usecases.game.configuration.TestConfigurationFactory;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)

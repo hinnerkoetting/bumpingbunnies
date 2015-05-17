@@ -21,6 +21,9 @@ public class Bunny implements GameObject {
 	private int accelerationX;
 	private int accelerationY;
 	private boolean isInWater;
+	// Does the client know that its bunny was killed?
+	// The host will discard all client positions as long as this flag is false;
+	private boolean isClientUpToDate = true;
 
 	public Bunny(int id, String name, int speedFaktor, ConnectionIdentifier opponent) {
 		this.name = name;
@@ -229,8 +232,10 @@ public class Bunny implements GameObject {
 		score += increaseBy;
 	}
 
-	public void setDead(boolean b) {
-		this.dead = b;
+	public void setDead(boolean dead) {
+		this.dead = dead;
+		if (dead && getOpponent().isRemotePlayer())
+			isClientUpToDate = false;
 	}
 
 	public boolean isDead() {
@@ -340,6 +345,14 @@ public class Bunny implements GameObject {
 
 	public void moveBackwards() {
 		state.moveBackwards();
+	}
+
+	public boolean isClientUpToDate() {
+		return isClientUpToDate;
+	}
+
+	public void setClientUpToDate(boolean isClientUpToDate) {
+		this.isClientUpToDate = isClientUpToDate;
 	}
 
 }
