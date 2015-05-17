@@ -122,7 +122,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			buildGame(canvas, myPlayer);
 
 			startRendering();
-			inputDispatcher = new PcInputDispatcher(canvas, createIngameMenu(), gameMain.getWorld());
+			inputDispatcher = new PcInputDispatcher(canvas, createIngameMenu(), gameMain.getWorld(), parameter);
 			ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
 			inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter
 					.getConfiguration().getInputConfiguration(), myPlayer));
@@ -139,7 +139,9 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private IngameMenu createIngameMenu() {
-		return new IngameMenu(gameMain, new BunnyFactory(parameter.getConfiguration().getGeneralSettings().getSpeedSetting()), gameMain.getWorld(), SocketStorage.getSingleton());
+		int speedSetting = parameter.getConfiguration().getGeneralSettings().getSpeedSetting();
+		return new IngameMenu(gameMain, new BunnyFactory(speedSetting), gameMain.getWorld(),
+				SocketStorage.getSingleton(), this);
 	}
 
 	private void addInputForOtherPlayers(ConfigurableKeyboardInputFactory inputFactory) {
@@ -164,9 +166,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 
 			@Override
 			public void handle(KeyEvent event) {
-				inputDispatcher.dispatchOnKeyDown(event.getCode());
-				if (event.getCode().equals(KeyCode.ESCAPE))
-					gameStopped();
+				inputDispatcher.dispatchOnKeyDown(event);
 			}
 
 		});

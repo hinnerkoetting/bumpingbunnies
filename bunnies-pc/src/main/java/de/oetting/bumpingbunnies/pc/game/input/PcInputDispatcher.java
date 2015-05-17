@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Window;
 import de.oetting.bumpingbunnies.core.game.IngameMenu;
 import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputService;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class PcInputDispatcher {
@@ -23,20 +24,21 @@ public class PcInputDispatcher {
 	private final Node canvas;
 	private final IngameMenu ingameMenu;
 	private final World world;
+	private final GameStartParameter parameter;
 
-	public PcInputDispatcher(Node canvas, IngameMenu ingameMenu, World world) {
+	public PcInputDispatcher(Node canvas, IngameMenu ingameMenu, World world, GameStartParameter parameter) {
 		this.world = world;
+		this.parameter = parameter;
 		this.inputServices = new ArrayList<>();
 		this.canvas = canvas;
 		this.ingameMenu = ingameMenu;
 	}
 
-	public void dispatchOnKeyDown(KeyCode keyCode) {
-		if (keyCode.equals(KeyCode.ENTER)) {
+	public void dispatchOnKeyDown(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ESCAPE))
 			openContextMenu();
-		}
 		for (ConfigurableKeyboardInputService inputService : inputServices)
-			inputService.onKeyDown(keyCode.getName());
+			inputService.onKeyDown(event.getCode().getName());
 	}
 
 	private void openContextMenu() {
@@ -46,13 +48,31 @@ public class PcInputDispatcher {
 
 	private ContextMenu createMenu() {
 		ContextMenu menu = new ContextMenu();
+		if (parameter.getConfiguration().isHost()) 
+			addOptionsForHost(menu);
+		menu.addEventFilter(KeyEvent.KEY_PRESSED, event -> onKey(event));
+		menu.getItems().add(createQuitIem());
+		return menu;
+	}
+
+	private MenuItem createQuitIem() {
+		MenuItem quitItem = new MenuItem("Quit");
+		quitItem.addEventHandler(Event.ANY, event -> ingameMenu.onQuitGame());
+		return quitItem;
+	}
+
+	private void onKey(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ESCAPE))
+			ingameMenu.onQuitGame();
+	}
+
+	private void addOptionsForHost(ContextMenu menu) {
 		menu.getItems().add(createAddAiButton());
 		menu.getItems().add(new MenuItem("------"));
 		for (Bunny bunny : getAllAis()) {
 			MenuItem itemRemove = createRemoveAiButton(bunny);
 			menu.getItems().add(itemRemove);
 		}
-		return menu;
 	}
 
 	private MenuItem createRemoveAiButton(Bunny bunny) {
@@ -78,7 +98,7 @@ public class PcInputDispatcher {
 
 	private void showRelativeToWindow(ContextMenu menu) {
 		Window window = canvas.getScene().getWindow();
-		menu.show(canvas, window.getX(), window.getY());
+		menu.show(canvas, window.getX(), window.getY() + 25);
 	}
 
 	public void dispatchOnKeyUp(KeyCode keyCode) {
