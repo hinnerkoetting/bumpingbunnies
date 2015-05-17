@@ -120,9 +120,9 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			Bunny myPlayer = PlayerConfigFactory.createMyPlayer(parameter);
 
 			buildGame(canvas, myPlayer);
+			inputDispatcher = new PcInputDispatcher(canvas, createIngameMenu(), gameMain.getWorld(), parameter);
 
 			startRendering();
-			inputDispatcher = new PcInputDispatcher(canvas, createIngameMenu(), gameMain.getWorld(), parameter);
 			ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
 			inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter
 					.getConfiguration().getInputConfiguration(), myPlayer));

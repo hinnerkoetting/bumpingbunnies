@@ -9,6 +9,7 @@ import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Window;
@@ -62,13 +63,15 @@ public class PcInputDispatcher {
 	}
 
 	private void onKey(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ESCAPE))
+		if (event.getCode().equals(KeyCode.ENTER) && !event.isConsumed())
 			ingameMenu.onQuitGame();
 	}
 
 	private void addOptionsForHost(ContextMenu menu) {
 		menu.getItems().add(createAddAiButton());
-		menu.getItems().add(new MenuItem("------"));
+		MenuItem separator = new MenuItem("------");
+		separator.setDisable(true);
+		menu.getItems().add(separator);
 		for (Bunny bunny : getAllAis()) {
 			MenuItem itemRemove = createRemoveAiButton(bunny);
 			menu.getItems().add(itemRemove);
