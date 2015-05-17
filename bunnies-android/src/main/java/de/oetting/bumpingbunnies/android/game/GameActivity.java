@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -210,6 +211,13 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 				toast.show();
 			}
 		});
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(1, 1, 1, getText(R.string.room_add_ai));
+		menu.add(1, 2, 2, getText(R.string.remove_ai));
+		return super.onCreateOptionsMenu(menu);
 	}
 
 }

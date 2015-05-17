@@ -39,6 +39,7 @@
     <string name="could_not_connect">Could not connect to the server</string>
     <string name="world_castle">Castle</string>
     <string name="room_add_ai">+Ai</string>
+    <string name="remove_ai">Remove</string>
     <string name="players_table_header">Player</string>
     <string name="hosts_table_header">Server</string>
     <string name="result_player_name_header">Name</string>

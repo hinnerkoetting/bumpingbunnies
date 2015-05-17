@@ -7,6 +7,12 @@
             <corners android:radius="10dp" />
         </shape>
     </item> 
+     <item android:state_pressed="true" >
+         <shape>
+            <gradient android:angle="-90" android:centerColor="#687aaa" android:endColor="#6a8cab" android:startColor="#96aac5" android:type="linear" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item> 
     <item>
         <shape>
             <gradient android:angle="-90" android:centerColor="#486a9a" android:endColor="#4a6c9b" android:startColor="#768aa5" android:type="linear" />
