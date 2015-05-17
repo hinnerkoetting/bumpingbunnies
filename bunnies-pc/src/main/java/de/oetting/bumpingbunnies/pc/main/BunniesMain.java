@@ -38,6 +38,7 @@ import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
 import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputFactory;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -121,7 +122,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			buildGame(canvas, myPlayer);
 
 			startRendering();
-			inputDispatcher = new PcInputDispatcher(canvas, createIngameMenu());
+			inputDispatcher = new PcInputDispatcher(canvas, createIngameMenu(), gameMain.getWorld());
 			ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
 			inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter
 					.getConfiguration().getInputConfiguration(), myPlayer));
@@ -138,7 +139,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 	}
 
 	private IngameMenu createIngameMenu() {
-		return new IngameMenu(gameMain, new BunnyFactory(parameter.getConfiguration().getGeneralSettings().getSpeedSetting()), gameMain.getWorld());
+		return new IngameMenu(gameMain, new BunnyFactory(parameter.getConfiguration().getGeneralSettings().getSpeedSetting()), gameMain.getWorld(), SocketStorage.getSingleton());
 	}
 
 	private void addInputForOtherPlayers(ConfigurableKeyboardInputFactory inputFactory) {

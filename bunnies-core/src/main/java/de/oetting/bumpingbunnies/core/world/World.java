@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.oetting.bumpingbunnies.core.game.graphics.ZIndexComparator;
 import de.oetting.bumpingbunnies.logger.Logger;
@@ -36,7 +37,7 @@ public class World implements ObjectProvider {
 	private final List<Background> backgrounds;
 
 	public World() {
-		this.connectedBunnies = new ArrayList<Bunny>();
+		this.connectedBunnies = new CopyOnWriteArrayList<Bunny>();
 		this.allCollidingObjects = new LinkedList<GameObjectWithImage>();
 		this.allDrawingObjects = new LinkedList<GameObjectWithImage>();
 		this.allWalls = new ArrayList<Wall>();
@@ -75,21 +76,17 @@ public class World implements ObjectProvider {
 
 	public void addBunny(Bunny player) {
 		LOGGER.info("Adding player %s", player);
-		synchronized (connectedBunnies) {
-			connectedBunnies.add(player);
-			Collections.sort(connectedBunnies, new BunnyComparator());
-		}
+		connectedBunnies.add(player);
+		Collections.sort(connectedBunnies, new BunnyComparator());
 	}
 
 	public Bunny findBunny(int id) {
-		synchronized (connectedBunnies) {
-			for (Bunny p : this.connectedBunnies) {
-				if (p.id() == id) {
-					return p;
-				}
+		for (Bunny p : this.connectedBunnies) {
+			if (p.id() == id) {
+				return p;
 			}
-			throw new PlayerDoesNotExist(id);
 		}
+		throw new PlayerDoesNotExist(id);
 	}
 
 	@Override
@@ -123,8 +120,8 @@ public class World implements ObjectProvider {
 	public int getNextBunnyId() {
 		int max = 0;
 		List<Bunny> connectedAndDisconnectedBunnies = getConnectedAndDisconnectedBunnies();
-		for (Bunny bunny: connectedAndDisconnectedBunnies) {
-			if (bunny.id() > max) 
+		for (Bunny bunny : connectedAndDisconnectedBunnies) {
+			if (bunny.id() > max)
 				max = bunny.id();
 		}
 		return max + 1;
@@ -157,12 +154,10 @@ public class World implements ObjectProvider {
 
 	public void disconnectBunny(Bunny p) {
 		LOGGER.info("Remove player %d", p.id());
-		synchronized (connectedBunnies) {
-			boolean removed = connectedBunnies.remove(p);
-			if (!removed)
-				throw new IllegalArgumentException("Player was not removed");
-			disconnectedBunnies.add(p);
-		}
+		boolean removed = connectedBunnies.remove(p);
+		if (!removed)
+			throw new IllegalArgumentException("Player was not removed");
+		disconnectedBunnies.add(p);
 	}
 
 	@Override
@@ -173,20 +168,16 @@ public class World implements ObjectProvider {
 	}
 
 	public boolean existsBunny(int playerId) {
-		synchronized (connectedBunnies) {
-			for (Bunny player : connectedBunnies)
-				if (player.id() == playerId)
-					return true;
-			return false;
-		}
+		for (Bunny player : connectedBunnies)
+			if (player.id() == playerId)
+				return true;
+		return false;
 	}
 
 	public Bunny findBunnyOfConnection(ConnectionIdentifier owner) {
-		synchronized (connectedBunnies) {
-			for (Bunny p : connectedBunnies) {
-				if (p.getOpponent().equals(owner)) {
-					return p;
-				}
+		for (Bunny p : connectedBunnies) {
+			if (p.getOpponent().equals(owner)) {
+				return p;
 			}
 		}
 		throw new IllegalArgumentException("No player on this connection exists " + owner);

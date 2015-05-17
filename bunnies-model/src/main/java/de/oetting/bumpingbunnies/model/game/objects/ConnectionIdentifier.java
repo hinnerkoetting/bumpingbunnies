@@ -74,4 +74,8 @@ public class ConnectionIdentifier {
 		return type.equals(OpponentType.WLAN) || type.equals(OpponentType.BLUETOOTH);
 	}
 
+	public boolean isAi() {
+		return type.equals(OpponentType.AI);
+	}
+
 }
