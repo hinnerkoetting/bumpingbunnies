@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -25,12 +26,15 @@ import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
 import de.oetting.bumpingbunnies.core.game.ImageCreator;
+import de.oetting.bumpingbunnies.core.game.IngameMenu;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
+import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
+import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.core.world.World;
@@ -54,6 +58,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	private GameMain main;
 	private InputDispatcher<?> inputDispatcher;
 	private AndroidDrawThread drawThread;
+	private AndroidIngameMenuAdapter menuAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +92,16 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		drawThread.start();
 		main.addJoinListener(drawer);
 		contentView.addOnSizeListener(drawThread);
+		menuAdapter = createMenu(parameter);
 		conditionalRestoreState();
 	}
 
-	private World createWorld(GameActivity activity, GameStartParameter parameter) {
-		AndroidXmlWorldParser parser = new AndroidXmlWorldParser();
+	private AndroidIngameMenuAdapter createMenu(GameStartParameter parameter) {
+		IngameMenu ingameMenu= new IngameMenu(main, new BunnyFactory(parameter.getConfiguration().getGeneralSettings().getSpeedSetting()), main.getWorld(), SocketStorage.getSingleton(), this);
+		return new AndroidIngameMenuAdapter(ingameMenu, this, main.getWorld(), parameter);
+	}
+
+	private World createWorld(GameActivity activity, GameStartParameter parameter) { AndroidXmlWorldParser parser = new AndroidXmlWorldParser();
 		return new WorldLoader().load(parser, new ImageCreator() {
 
 			@Override
@@ -211,9 +221,13 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(1, 1, 1, getText(R.string.room_add_ai));
-		menu.add(1, 2, 2, getText(R.string.remove_ai));
+		this.menuAdapter.createMenu(menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		return menuAdapter.menuItemSelected(featureId, item);
 	}
 
 }
