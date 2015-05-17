@@ -39,11 +39,11 @@ public class AndroidIngameMenuAdapter {
 		}
 	}
 
-	public boolean menuItemSelected(int featureId, MenuItem item) {
-		if (featureId == ADD_AI) {
+	public boolean menuItemSelected(MenuItem item) {
+		if (item.getItemId() == ADD_AI) {
 			ingameMenu.onAddAiOption();
 		} else {
-			Bunny removedBunny = world.findBunny(featureId);
+			Bunny removedBunny = world.findBunny(item.getItemId());
 			ingameMenu.removePlayer(removedBunny);
 		}
 		return true;

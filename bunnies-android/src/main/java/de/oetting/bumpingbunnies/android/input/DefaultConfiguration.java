@@ -7,6 +7,7 @@ import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboard
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
+import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 
 public class DefaultConfiguration {
@@ -15,7 +16,7 @@ public class DefaultConfiguration {
 	
 	public static SettingsEntity createDefaultEntity(int defaultZoom) {
 		InputConfiguration inputConfiguration = getDefaultInput();
-		return new SettingsEntity(inputConfiguration, defaultZoom, 22, getUsername(), true, false, true, true, false);
+		return new SettingsEntity(inputConfiguration, defaultZoom, SpeedMode.SLOW.getSpeed(), getUsername(), true, false, true, true, false);
 	}
 
 	private static InputConfiguration getDefaultInput() {
@@ -25,7 +26,7 @@ public class DefaultConfiguration {
 			LOGGER.info("Device id is %d", deviceId);
 			InputDevice dev = InputDevice.getDevice(deviceId);
 			int sources = dev.getSources();
-			if (isGamepad(sources) || isKeyboard(sources)) {
+			if (isGamepad(sources)) {
 				LOGGER.info("Using hardware keyboard");
 				return new HardwareKeyboardInputConfiguration();
 			}
@@ -34,12 +35,11 @@ public class DefaultConfiguration {
 
 	}
 
-	private static boolean isKeyboard(int sources) {
-		return (sources & InputDevice.SOURCE_KEYBOARD) == InputDevice.SOURCE_KEYBOARD;
-	}
-
 	private static boolean isGamepad(int sources) {
-		return (sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD;
+		if (android.os.Build.VERSION.SDK_INT >= 12) {
+			return (sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD;
+		}
+		return false;
 	}
 
 	public static String getUsername() {

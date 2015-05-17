@@ -218,16 +218,16 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 			}
 		});
 	}
-	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		menu.clear();
 		this.menuAdapter.createMenu(menu);
-		return super.onCreateOptionsMenu(menu);
+		return super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		return menuAdapter.menuItemSelected(featureId, item);
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return menuAdapter.menuItemSelected(item);
 	}
 
 }
