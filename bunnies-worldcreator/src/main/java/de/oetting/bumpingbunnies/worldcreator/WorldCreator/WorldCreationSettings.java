@@ -2,20 +2,23 @@ package de.oetting.bumpingbunnies.worldcreator.WorldCreator;
 
 public class WorldCreationSettings {
 
-	private final String sourceDirectory;
+	private final String sourceWorld;
+	private final String sourceImages;
 	private final String targetFilename;
 
-	public WorldCreationSettings(String sourceDirectory, String targetFilename) {
-		this.sourceDirectory = sourceDirectory;
+	
+	public WorldCreationSettings(String sourceWorld, String sourceImages, String targetFilename) {
+		this.sourceWorld = sourceWorld;
+		this.sourceImages = sourceImages;
 		this.targetFilename = targetFilename;
 	}
 
-	public String getSourceFilename() {
-		return sourceDirectory + "/" + "world.xml";
+	public String getSourceWorld() {
+		return sourceWorld;
 	}
 
-	public String getSourceDirectory() {
-		return sourceDirectory;
+	public String getSourceImages() {
+		return sourceImages;
 	}
 
 	public String getTargetFilename() {

@@ -647,7 +647,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(RoomActivity.class, message, Toast.LENGTH_LONG);
+				Toast toast = Toast.makeText(RoomActivity.this, message, Toast.LENGTH_LONG);
 				toast.show();
 			}
 		});
