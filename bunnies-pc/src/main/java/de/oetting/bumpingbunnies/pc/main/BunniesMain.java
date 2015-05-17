@@ -22,6 +22,7 @@ import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
+import de.oetting.bumpingbunnies.core.game.IngameMenu;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
@@ -32,6 +33,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordina
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
+import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
@@ -119,7 +121,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			buildGame(canvas, myPlayer);
 
 			startRendering();
-			inputDispatcher = new PcInputDispatcher(canvas);
+			inputDispatcher = new PcInputDispatcher(canvas, createIngameMenu());
 			ConfigurableKeyboardInputFactory inputFactory = new ConfigurableKeyboardInputFactory();
 			inputDispatcher.addInputService(inputFactory.create((KeyboardInputConfiguration) parameter
 					.getConfiguration().getInputConfiguration(), myPlayer));
@@ -133,6 +135,10 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 			LOGGER.error("", e);
 			showTechnicalError();
 		}
+	}
+
+	private IngameMenu createIngameMenu() {
+		return new IngameMenu(gameMain, new BunnyFactory(parameter.getConfiguration().getGeneralSettings().getSpeedSetting()), gameMain.getWorld());
 	}
 
 	private void addInputForOtherPlayers(ConfigurableKeyboardInputFactory inputFactory) {
