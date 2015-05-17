@@ -10,20 +10,23 @@ import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
  */
 public class PlayerStateMessage {
 
-	private final long counter;
-	private final PlayerState playerState;
+	//save bandwith by short names.
+	//Counter of the last message.
+	private final long c;
+	//Position of player
+	private final PlayerState p;
 
 	public PlayerStateMessage(long counter, PlayerState playerState) {
-		this.counter = counter;
-		this.playerState = playerState;
+		this.c = counter;
+		this.p = playerState;
 	}
 
 	public long getCounter() {
-		return this.counter;
+		return this.c;
 	}
 
 	public PlayerState getPlayerState() {
-		return this.playerState;
+		return this.p;
 	}
 
 }

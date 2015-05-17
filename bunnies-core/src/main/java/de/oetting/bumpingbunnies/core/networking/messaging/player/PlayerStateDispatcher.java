@@ -20,7 +20,7 @@ public class PlayerStateDispatcher extends MessageReceiverTemplate<PlayerStateMe
 	private final TreeMap<Integer, PlayerFromNetworkInput> inputServices;
 
 	public PlayerStateDispatcher(NetworkToGameDispatcher dispatcher) {
-		super(dispatcher, MessageId.SEND_PLAYER_STATE, PlayerStateMessage.class);
+		super(dispatcher, MessageId.PLAYER_POS, PlayerStateMessage.class);
 		this.inputServices = new TreeMap<Integer, PlayerFromNetworkInput>();
 	}
 

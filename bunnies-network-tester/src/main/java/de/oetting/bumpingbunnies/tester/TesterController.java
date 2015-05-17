@@ -272,7 +272,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	}
 
 	private void addUdpListeners(EasyNetworkToGameDispatcher networkToGameDispatcher) {
-		networkToGameDispatcher.addObserver(MessageId.SEND_PLAYER_STATE, messageWrapper -> updatePlayerState(messageWrapper));
+		networkToGameDispatcher.addObserver(MessageId.PLAYER_POS, messageWrapper -> updatePlayerState(messageWrapper));
 	}
 
 	private void updatePlayerState(JsonWrapper messageWrapper) {
@@ -365,7 +365,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	public void onSendStateButton() {
 		PlayerState state = extractPlayerState();
 		PlayerStateMessage message = new PlayerStateMessage(getCounterAndIncreate(), state);
-		createUdpNetworkSender().sendMessage(MessageId.SEND_PLAYER_STATE, message);
+		createUdpNetworkSender().sendMessage(MessageId.PLAYER_POS, message);
 	}
 
 	private long getCounterAndIncreate() {

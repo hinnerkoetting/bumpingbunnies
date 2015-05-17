@@ -22,7 +22,7 @@ public class PlayerStateSender {
 	public void sendState(Bunny player) {
 		if (ownerOfSocketNeedsToKnowThisPlayersState(player)) {
 			PlayerStateMessage message = new PlayerStateMessage(getNextMessageCounter(player), player.getState());
-			sender.sendMessage(MessageId.SEND_PLAYER_STATE, message);
+			sender.sendMessage(MessageId.PLAYER_POS, message);
 		}
 	}
 

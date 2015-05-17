@@ -36,12 +36,12 @@ public class StrictNetworkToGameDispatcherTest {
 	}
 
 	private JsonWrapper createPlayerStateMessage() {
-		return JsonWrapper.create(MessageId.SEND_PLAYER_STATE, "");
+		return JsonWrapper.create(MessageId.PLAYER_POS, "");
 	}
 
 	@Test
 	public void dispatchPlayerState_givenListenerIsRegistered_thenListenerShouldReceiveState() {
-		this.fixture.addObserver(MessageId.SEND_PLAYER_STATE, this.listener);
+		this.fixture.addObserver(MessageId.PLAYER_POS, this.listener);
 		this.fixture.dispatchMessage(createPlayerStateMessage());
 		verify(this.listener).newMessage(any(JsonWrapper.class));
 	}
