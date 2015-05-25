@@ -36,13 +36,6 @@ public class NetworkSendQueueThreadTest {
 	@Mock
 	private OutputStream os;
 
-	@Test
-	public void sendNextMessage_givenOneMessageInQueue_shouldWriteThisMessage() throws IOException, InterruptedException {
-		addMessageToQueue();
-		whenRun();
-		thenMessageIsWritten(SimpleMessageConsts.CONVERTED_MESSAGE);
-	}
-
 	@Ignore
 	@Test
 	public void runOnce_givenExceptionIsThrown_shouldNotifyGame() throws IOException, InterruptedException {

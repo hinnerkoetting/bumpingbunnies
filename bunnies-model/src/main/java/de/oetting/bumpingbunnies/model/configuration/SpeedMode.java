@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.model.configuration;
 
 public enum SpeedMode {
-	FAST(22), MEDIUM(25), SLOW(30);
+	FAST(30), MEDIUM(25), SLOW(22);
 	
 	private int speed;
 

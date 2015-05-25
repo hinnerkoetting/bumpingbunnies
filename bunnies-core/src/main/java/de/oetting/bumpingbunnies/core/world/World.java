@@ -30,7 +30,7 @@ public class World implements ObjectProvider {
 	private final List<Wall> allWalls;
 	private final List<IcyWall> allIcyWalls;
 	private final List<Jumper> allJumpers;
-	private final List<Bunny> connectedBunnies;
+	private List<Bunny> connectedBunnies;
 	private final List<Bunny> disconnectedBunnies;
 	private final List<SpawnPoint> allSpawnPoints;
 	private final List<Water> allWaters;
@@ -76,8 +76,11 @@ public class World implements ObjectProvider {
 
 	public void addBunny(Bunny player) {
 		LOGGER.info("Adding player %s", player);
-		connectedBunnies.add(player);
-		Collections.sort(connectedBunnies, new BunnyComparator());
+		List<Bunny> newList = new ArrayList<Bunny>(connectedBunnies.size() + 1);
+		newList.addAll(connectedBunnies);
+		newList.add(player);
+		Collections.sort(newList, new BunnyComparator());
+		connectedBunnies = new CopyOnWriteArrayList<Bunny>(newList);
 	}
 
 	public Bunny findBunny(int id) {

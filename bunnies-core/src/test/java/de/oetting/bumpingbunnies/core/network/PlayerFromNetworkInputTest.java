@@ -72,6 +72,6 @@ public class PlayerFromNetworkInputTest {
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
-		this.fixture = new PlayerFromNetworkInput(this.player, true);
+		this.fixture = new PlayerFromNetworkInput(this.player, false);
 	}
 }
