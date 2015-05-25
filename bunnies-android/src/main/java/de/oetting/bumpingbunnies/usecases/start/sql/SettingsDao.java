@@ -11,6 +11,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
+import de.oetting.bumpingbunnies.usecases.start.OptimalZoom;
 
 public class SettingsDao implements SettingsStorage, SettingsConstants {
 
@@ -86,10 +87,7 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 	}
 
 	private int computeDefaultZoom() {
-		 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-		 int minPixel = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
-		 int appropriateZoom = 5000 / minPixel;
-		 return Math.min(Math.max(4, appropriateZoom), 10);
+		return OptimalZoom.computeOptimalZoom(context);
 	}
 
 	private SettingsEntity readLocalSettings(Cursor cursor) {

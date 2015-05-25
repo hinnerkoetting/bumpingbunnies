@@ -13,6 +13,7 @@ import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
+import de.oetting.bumpingbunnies.usecases.start.OptimalZoom;
 import de.oetting.bumpingbunnies.usecases.start.android.ProgressBarValueChanger;
 import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConverter;
 
@@ -34,7 +35,7 @@ public class SettingsViewAccess {
 	public void init() {
 		initSpeed();
 		initZoom();
-		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity(5);
+		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity(OptimalZoom.computeOptimalZoom(origin));
 		fillView(defaultEntity);
 		setPlayerName(android.os.Build.MODEL);
 	}
@@ -106,6 +107,7 @@ public class SettingsViewAccess {
 		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(
 				MIN_ZOOM_VALUE), startValue));
 		zoom.setProgress(startValue);
+		zoom.setMax(OptimalZoom.computeMaximumZoom(origin));
 	}
 
 	public void fillView(SettingsEntity settings) {
