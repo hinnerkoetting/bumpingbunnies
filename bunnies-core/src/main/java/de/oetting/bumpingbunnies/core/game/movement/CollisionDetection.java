@@ -32,9 +32,6 @@ public class CollisionDetection {
 	public GameObject findObjectThisPlayerIsStandingOn(Bunny player) {
 		for (GameObject go : this.world.getAllObjects()) {
 			if (standsOn(player, go)) {
-				if (go instanceof Bunny) {
-					return go;
-				}
 				return go;
 			}
 		}
