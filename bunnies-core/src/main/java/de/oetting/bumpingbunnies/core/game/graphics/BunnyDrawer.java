@@ -68,7 +68,7 @@ public class BunnyDrawer implements Drawable {
 	}
 
 	private int computeAlpha() {
-		return computeBaseAlpha() / (drawLighter() ? 10 : 1);
+		return computeBaseAlpha() / (drawLighter() ? 3 : 1);
 	}
 
 	private int computeBaseAlpha() {

@@ -72,13 +72,15 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
-		this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth), (float) (right * this.width),
+		if (paint.getAlpha() != 0)
+			this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth), (float) (right * this.width),
 				(float) (bottom * this.heigth), paintConverter.convert(paint, context));
 	}
 
 	@Override
 	public void drawImageDirect(ImageWrapper bitmap, long left, long top, Paint paint) {
-		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint, context));
+		if (paint.getAlpha() != 0)
+			this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint, context));
 	}
 
 	@Override
@@ -118,7 +120,8 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 
 	@Override
 	public void drawRectAbsoluteScreen(int left, int top, int right, int bottom, Paint paint) {
-		this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint, context));
+		if (paint.getAlpha() != 0)
+			this.canvas.drawRect(left, top, right, bottom, paintConverter.convert(paint, context));
 	}
 
 	@Override

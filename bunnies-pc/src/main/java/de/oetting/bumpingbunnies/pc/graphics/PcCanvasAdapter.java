@@ -72,17 +72,19 @@ public class PcCanvasAdapter implements CanvasAdapter {
 
 	@Override
 	public void drawImage(ImageWrapper bitmap, long left, long top, Paint paint) {
-		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
-		Image image = (Image) bitmap.getBitmap();
-		if (paint.getAlpha() < 255) {
-			ColorAdjust adjust = new ColorAdjust();
-			// simulate alpha effect. maybe there is a better way?
-			adjust.setBrightness((255 - paint.getAlpha()) / 255.0 / 2);
-			graphicsContext2D.setEffect(adjust);
-			graphicsContext2D.drawImage(image, left, top);
-			graphicsContext2D.setEffect(null);
-		} else {
-			graphicsContext2D.drawImage(image, left, top);
+		if (paint.getAlpha() != 0) {
+			GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
+			Image image = (Image) bitmap.getBitmap();
+			if (paint.getAlpha() < 255) {
+				ColorAdjust adjust = new ColorAdjust();
+				// simulate alpha effect. maybe there is a better way?
+				adjust.setBrightness((255 - paint.getAlpha()) / 255.0 / 2);
+				graphicsContext2D.setEffect(adjust);
+				graphicsContext2D.drawImage(image, left, top);
+				graphicsContext2D.setEffect(null);
+			} else {
+				graphicsContext2D.drawImage(image, left, top);
+			}
 		}
 	}
 
