@@ -22,7 +22,7 @@ public class BunnyDrawerFactory {
 	}
 
 	public BunnyDrawer create(int width, int heigth, Bunny player) {
-		int timeBetweenPictures = 50;
+		int timeBetweenPictures = 25;
 		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(createRunningAnimation(width, heigth, player), timeBetweenPictures,
 				mirroror);
 		ConditionalMirroredAnimation fallingAnimation = AnimationWithMirrorFactory.createFallingAnimation(createFallingAnimation(width, heigth, player), timeBetweenPictures,
