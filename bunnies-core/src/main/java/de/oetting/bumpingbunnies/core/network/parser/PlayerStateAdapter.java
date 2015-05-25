@@ -47,7 +47,11 @@ public class PlayerStateAdapter extends TypeAdapter<PlayerState> {
 	}
 
 	private int decodeInt(String nextString) {
-		return Integer.parseInt(nextString, 16);
+		return Integer.parseInt(nextString, radix());
+	}
+
+	private int radix() {
+		return 16;
 	}
 
 	private String decodeByte(String nextString) {

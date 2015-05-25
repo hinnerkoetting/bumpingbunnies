@@ -49,9 +49,8 @@ public class PcInputDispatcher {
 
 	private ContextMenu createMenu() {
 		ContextMenu menu = new ContextMenu();
-		if (parameter.getConfiguration().isHost()) 
+		if (parameter.getConfiguration().isHost())
 			addOptionsForHost(menu);
-		menu.addEventFilter(KeyEvent.KEY_PRESSED, event -> onKey(event));
 		menu.getItems().add(createQuitIem());
 		return menu;
 	}
@@ -60,11 +59,6 @@ public class PcInputDispatcher {
 		MenuItem quitItem = new MenuItem("Quit");
 		quitItem.addEventHandler(Event.ANY, event -> ingameMenu.onQuitGame());
 		return quitItem;
-	}
-
-	private void onKey(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ENTER) && !event.isConsumed())
-			ingameMenu.onQuitGame();
 	}
 
 	private void addOptionsForHost(ContextMenu menu) {

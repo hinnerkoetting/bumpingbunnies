@@ -14,6 +14,8 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="22" />
+    
+    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
 
     <application
         android:name="de.oetting.bumpingbunnies.usecases.MyApplication"
