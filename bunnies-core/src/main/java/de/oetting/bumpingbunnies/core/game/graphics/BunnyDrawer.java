@@ -13,9 +13,17 @@ public class BunnyDrawer implements Drawable {
 	private static final int ALPHA_WHILE_ALIVE = 255;
 	private static final int ALPHA_WHILE_IN_WATER = 96;
 	private static final int ALPHA_WHILE_DEAD = 64;
+	private static final int TIME_MILLIS_BLINKING_AFTER_DEAD = 1000;
+	private static final int NUMBER_OF_BLINKS = 5;
+	
 	private final Bunny player;
 	private final Paint paint;
 	private List<ConditionalMirroredAnimation> animations;
+
+	private boolean drawLighterIfDead = true;
+	private long timeSinceLastLightningChange;
+	private long timeSinceLastDeadTime;
+	private boolean wasDeadDuringLastRendering = false;
 
 	public BunnyDrawer(Bunny player, List<ConditionalMirroredAnimation> animations) {
 		this.player = player;
@@ -26,6 +34,7 @@ public class BunnyDrawer implements Drawable {
 
 	@Override
 	public void draw(CanvasAdapter canvas) {
+		setStatesNecessaryForBunnyBlinking();
 		paint.setAlpha(computeAlpha());
 		if (canvas.isVisible(player.getCenterX(), player.getCenterY()))
 			drawAnimation(canvas);
@@ -33,7 +42,36 @@ public class BunnyDrawer implements Drawable {
 			drawMarkerAtBorder(canvas);
 	}
 
+	private void setStatesNecessaryForBunnyBlinking() {
+		if (player.isDead() && player.getOpponent().isLocalHumanPlayer()) {
+			if (!wasDeadDuringLastRendering) {
+				wasDeadDuringLastRendering = true;
+				timeSinceLastLightningChange = System.currentTimeMillis();
+				timeSinceLastDeadTime = System.currentTimeMillis();
+				drawLighterIfDead = true;
+			}
+		} else {
+			wasDeadDuringLastRendering = false;
+		}
+	}
+
+	private boolean drawLighter() {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - timeSinceLastDeadTime < TIME_MILLIS_BLINKING_AFTER_DEAD) {
+			if (currentTime - timeSinceLastLightningChange > TIME_MILLIS_BLINKING_AFTER_DEAD / NUMBER_OF_BLINKS) {
+				drawLighterIfDead = !drawLighterIfDead;
+				timeSinceLastLightningChange = currentTime;
+			}
+			return drawLighterIfDead;
+		}
+		return false;
+	}
+
 	private int computeAlpha() {
+		return computeBaseAlpha() / (drawLighter() ? 10 : 1);
+	}
+
+	private int computeBaseAlpha() {
 		if (!this.player.isDead()) {
 			if (player.isInWater())
 				return ALPHA_WHILE_IN_WATER;
