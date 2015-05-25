@@ -4,4 +4,5 @@ public interface GameObjectWithColor extends GameObject {
 
 	int getColor();
 
+	void setColor(int color);
 }

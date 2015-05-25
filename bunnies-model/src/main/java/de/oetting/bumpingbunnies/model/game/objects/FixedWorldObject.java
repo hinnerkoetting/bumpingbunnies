@@ -4,7 +4,7 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 
 	private int id;
 	private final Rect rect;
-	private final int color;
+	private int color;
 	private ImageWrapper image;
 	// Higher zIndex is drawn later (and draws over other objects)
 	private int zIndex = -1;
@@ -109,6 +109,10 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	@Override
 	public long getCenterY() {
 		return (rect.getMaxY() + rect.getMinY()) / 2;
+	}
+	
+	public void setColor(int color) {
+		this.color = color;
 	}
 
 }

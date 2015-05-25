@@ -20,6 +20,7 @@ import de.oetting.bumpingbunnies.core.worldCreation.XmlRectToObjectConverter;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
 import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
+import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
@@ -109,6 +110,8 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 			Node imageNode = item.getAttributes().getNamedItem(XmlConstants.IMAGE);
 			if (imageNode != null)
 				object.setBitmap(resourceProvider.readBitmap(imageNode.getTextContent()));
+			else 
+				object.setColor(Color.TRANSPARENT);
 			Node zIndexNode = item.getAttributes().getNamedItem(XmlConstants.ZINDEX);
 			if (zIndexNode != null)
 				object.setzIndex(Integer.parseInt(zIndexNode.getTextContent()));
