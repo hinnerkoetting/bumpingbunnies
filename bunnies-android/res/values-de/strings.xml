@@ -26,8 +26,6 @@
     <string name="placeholder_int">123</string>
     <string name="settings">Einstellungen</string>
     <string name="name">Name</string>
-    <string name="background">Hintergrund</string>
-    <string name="alternative_pixelformat">Alt. Pixelformat</string>
 	
     
      <!-- do not change -->
@@ -42,6 +40,7 @@
     <string name="could_not_connect">Konnte keine Verbindung zum Server aufbauen</string>
     <string name="world_castle">Castle</string>
     <string name="room_add_ai">+KI</string>
+     <string name="remove_ai">Entferne</string>
     <string name="players_table_header">Player</string>
     <string name="hosts_table_header">Server</string>
     <string name="result_player_name_header">Name</string>
