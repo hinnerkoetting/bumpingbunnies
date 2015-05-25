@@ -57,8 +57,8 @@ public class CameraPositionCalculationTest {
 
 	@Test
 	public void smoothUpdate_givenScreenIsMoreThanOffsetAway_updatesOnlyByScrollLimit() {
-		this.player.setCenterX(FAST_SCROLLING_SPEED * 2);
-		this.player.setCenterY(FAST_SCROLLING_SPEED * 2);
+		this.player.setCenterX(FAST_SCROLLING_SPEED * 1000);
+		this.player.setCenterY(FAST_SCROLLING_SPEED * 1000);
 		smoothUpdate();
 		assertEquals(FAST_SCROLLING_SPEED, this.fixture.getCurrentScreenX());
 		assertEquals(FAST_SCROLLING_SPEED, this.fixture.getCurrentScreenY());

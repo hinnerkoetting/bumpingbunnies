@@ -11,13 +11,12 @@ public class OptimalZoom {
 	}
 
 	public static int computeMaximumZoom(Context context) {
-		return Math.min(computeZoomToFitTheScreen(context), 4);
+		return Math.max(computeZoomToFitTheScreen(context), computeOptimalZoom(context));
 	}
 
 	private static int computeZoomToFitTheScreen(Context context) {
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		int minPixel = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
-		int appropriateZoom = 5000 / minPixel;
-		return appropriateZoom;
+		return 5000 / minPixel;
 	}
 }

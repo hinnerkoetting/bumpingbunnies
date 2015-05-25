@@ -102,11 +102,11 @@ public class SettingsViewAccess {
 
 	private void initZoom() {
 		SeekBar zoom = findZoomSeekbar();
-		int startValue = 1;
+		int startValue = 3;
 		TextView view = (TextView) this.origin.findViewById(R.id.settings_zoom_number);
 		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(
 				MIN_ZOOM_VALUE), startValue));
-		zoom.setProgress(startValue);
+		zoom.setProgress(0);
 		zoom.setMax(OptimalZoom.computeMaximumZoom(origin) - MIN_ZOOM_VALUE);
 	}
 

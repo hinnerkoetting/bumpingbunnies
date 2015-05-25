@@ -6,9 +6,9 @@ import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class CameraPositionCalculation implements GameStepAction {
 
-	protected static final int SLOW_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 1000;
-	protected static final int MEDIUM_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 250;
-	protected static final int FAST_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 50;
+	protected static final int SLOW_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 20000;
+	protected static final int MEDIUM_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 5000;
+	protected static final int FAST_SCROLLING_SPEED = ModelConstants.STANDARD_WORLD_SIZE / 1000;
 	private final Bunny movedPlayer;
 
 	private long currentScreenX;
@@ -59,14 +59,14 @@ public class CameraPositionCalculation implements GameStepAction {
 	}
 
 	private int determineScrollingSpeed(int diffBetweenPlayerAndScreenX, int diffBetweenPlayerAndScreenY) {
-		int max = Math.max(diffBetweenPlayerAndScreenX, diffBetweenPlayerAndScreenY);
+		int max = Math.max(Math.abs(diffBetweenPlayerAndScreenX), Math.abs(diffBetweenPlayerAndScreenY));
 		if (max < ModelConstants.STANDARD_WORLD_SIZE / 100 / zoom)
 			return SLOW_SCROLLING_SPEED;
 		if (max < ModelConstants.STANDARD_WORLD_SIZE / 25 / zoom)
 			return MEDIUM_SCROLLING_SPEED;
 		return FAST_SCROLLING_SPEED;
 	}
-
+ 
 	public long getCurrentScreenX() {
 		return this.currentScreenX;
 	}
