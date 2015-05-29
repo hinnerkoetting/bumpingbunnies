@@ -12,6 +12,7 @@ public class GeneralSettingsParceller implements Parceller<ServerSettings> {
 		dest.writeString(input.getWorldConfiguration().toString());
 		dest.writeInt(input.getSpeedSetting());
 		dest.writeString(input.getNetworkType().toString());
+		dest.writeInt(input.getVictoryLimit());
 	}
 
 	@Override
@@ -19,6 +20,7 @@ public class GeneralSettingsParceller implements Parceller<ServerSettings> {
 		WorldConfiguration worldConfiguration = WorldConfiguration.valueOf(parcel.readString());
 		int speedSetting = parcel.readInt();
 		NetworkType networkType = NetworkType.valueOf(parcel.readString());
-		return new ServerSettings(worldConfiguration, speedSetting, networkType);
+		int victoryLimit = parcel.readInt();
+		return new ServerSettings(worldConfiguration, speedSetting, networkType, victoryLimit);
 	}
 }

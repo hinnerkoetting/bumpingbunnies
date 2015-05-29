@@ -75,14 +75,6 @@ public class SettingsViewAccess {
 		return SpeedMode.SLOW.getSpeed();
 	}
 
-	public boolean isBackgroundChecked() {
-		return true;
-	}
-
-	public boolean isAltPixelformatChecked() {
-		return false;
-	}
-
 	private void initSpeed() {
 		RadioButton button = getMediumSpeedButton();
 		button.setChecked(true);
@@ -163,13 +155,17 @@ public class SettingsViewAccess {
 		int zoom = getZoom();
 		int speed = getSpeed();
 		String name = getName();
-		boolean background = isBackgroundChecked();
-		boolean isAltPixelFormat = isAltPixelformatChecked();
 		boolean playMusic = isPlayMusicChecked();
 		boolean playSound = isPlaySoundChecked();
 		boolean leftHanded = isLefthandedChecked();
-		return new SettingsEntity(inputConfiguration, zoom, speed, name, background, isAltPixelFormat, playMusic,
-				playSound, leftHanded);
+		int victoryLimit = getVictoryLimit();
+		return new SettingsEntity(inputConfiguration, zoom, speed, name, playMusic,
+				playSound, leftHanded, victoryLimit);
+	}
+
+	private int getVictoryLimit() {
+		//TODO
+		return DefaultConfiguration.DEFAULT_VICTORY_LIMIT;
 	}
 
 	private boolean isLefthandedChecked() {

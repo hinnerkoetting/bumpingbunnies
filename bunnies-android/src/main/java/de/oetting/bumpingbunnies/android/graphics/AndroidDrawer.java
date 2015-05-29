@@ -18,14 +18,12 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	private SurfaceHolder holder;
 	private final ObjectsDrawer objectsDrawer;
 	private boolean isDrawingPossible;
-	private final boolean altPixelMode;
 
 	private boolean drawablesHaveChanged;
 
-	public AndroidDrawer(ObjectsDrawer objectsDrawer, boolean altPixelMode) {
+	public AndroidDrawer(ObjectsDrawer objectsDrawer) {
 		super();
 		this.objectsDrawer = objectsDrawer;
-		this.altPixelMode = altPixelMode;
 		drawablesHaveChanged = true;
 	}
 
@@ -57,11 +55,7 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		this.holder = holder;
-		if (this.altPixelMode) {
-			holder.setFormat(PixelFormat.OPAQUE);
-		} else {
-			holder.setFormat(PixelFormat.RGBA_8888);
-		}
+		holder.setFormat(PixelFormat.RGBA_8888);
 		this.isDrawingPossible = true;
 		LOGGER.info("Surface created");
 	}

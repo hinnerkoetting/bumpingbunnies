@@ -9,12 +9,13 @@ public class ServerSettings {
 	private final WorldConfiguration worldConfiguration;
 	private final int speedSetting;
 	private final NetworkType networkType;
+	private final int victoryLimit;
 
-	public ServerSettings(WorldConfiguration worldConfiguration, int speedSetting, NetworkType networkType) {
-		super();
+	public ServerSettings(WorldConfiguration worldConfiguration, int speedSetting, NetworkType networkType, int victoryLimit) {
 		this.worldConfiguration = worldConfiguration;
 		this.speedSetting = speedSetting;
 		this.networkType = networkType;
+		this.victoryLimit = victoryLimit;
 	}
 
 	public int getSpeedSetting() {
@@ -29,4 +30,8 @@ public class ServerSettings {
 		return this.worldConfiguration;
 	}
 
+	
+	public int getVictoryLimit() {
+		return victoryLimit;
+	}
 }

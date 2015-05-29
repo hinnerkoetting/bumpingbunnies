@@ -12,4 +12,5 @@ public interface SettingsConstants {
 	String PLAY_MUSIC = "play_music";
 	String PLAY_SOUND = "play_sound";
 	String LEFTHANDED = "lefthanded";
+	String VICTORY_LIMIT = "victory_limit";
 }

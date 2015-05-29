@@ -73,7 +73,7 @@ public class InputConfigurationFactoryTest {
 	}
 
 	private AbstractPlayerInputServicesFactory<?> whenCreating(InputConfiguration input) {
-		Configuration configuration = new Configuration(new LocalSettings(input, 1, false, false, false, false, false), null, null, null, false);
+		Configuration configuration = new Configuration(new LocalSettings(input, 1, false, false, false), null, null, null, false);
 		return new InputConfigurationFactory().create(configuration);
 	}
 }

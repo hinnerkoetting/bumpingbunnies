@@ -14,6 +14,6 @@ public class AllDrawablesFactory {
 
 	public Drawable createImagesWhichContainsAllElements(List<Drawable> drawable) {
 		 ImageWrapper drawOnImage = drawer.drawOnImage(drawable);
-		 return new BackgroundDrawer(drawOnImage, true);
+		 return new BackgroundDrawer(drawOnImage);
 	}
 }
