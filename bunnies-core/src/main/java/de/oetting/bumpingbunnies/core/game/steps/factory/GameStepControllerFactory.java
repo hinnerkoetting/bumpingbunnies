@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.core.game.steps.factory;
 
 import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
+import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.ListSpawnPointGenerator;
@@ -26,11 +27,11 @@ public class GameStepControllerFactory {
 
 	public static GameStepController create(CameraPositionCalculation cameraPositionCalculator, World world, PlayerStateDispatcher stateDispatcher,
 			PlayerMovementCalculationFactory factory, NetworkMessageDistributor sendControl, Configuration configuration,
-			PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer) {
+			PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer, GameMain gameMain) {
 		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(world.getSpawnPoints());
 		PlayerReviver reviver = new PlayerReviver(new MessageSenderToNetworkDelegate(sendControl));
 		BunnyKillChecker killChecker = createKillChecker(configuration, world, spawnPointGenerator, reviver, new CollisionDetection(world), sendControl,
-				disconnectCallback, musicPlayer);
+				disconnectCallback, musicPlayer, gameMain);
 		UserInputStep userInputStep = new UserInputStep(createInputServiceFactory(world, stateDispatcher, configuration));
 		BunnyMovementStep movementStep = BunnyMovementStepFactory.create(killChecker, factory, world);
 		return new GameStepController(userInputStep, movementStep, reviver, cameraPositionCalculator);
@@ -41,10 +42,10 @@ public class GameStepControllerFactory {
 	}
 
 	private static BunnyKillChecker createKillChecker(Configuration conf, World world, SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver,
-			CollisionDetection collisionDetection, NetworkMessageDistributor sendControl, PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer) {
+			CollisionDetection collisionDetection, NetworkMessageDistributor sendControl, PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer, GameMain gameMain) {
 		if (conf.isHost()) {
 			return new HostBunnyKillChecker(collisionDetection, world, spawnPointGenerator, reviver, new MessageSenderToNetworkDelegate(sendControl),
-					disconnectCallback, musicPlayer);
+					disconnectCallback, musicPlayer, gameMain);
 		} else {
 			return new ClientBunnyKillChecker();
 		}

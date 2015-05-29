@@ -42,7 +42,7 @@ public class CommonGameThreadFactory {
 		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world,
 				musicPlayerFactory, configuration.getLocalSettings());
 		GameStepController stepController = CommonGameThreadFactory.createStepController(cameraCalculation, world,
-				stateDispatcher, factory, sendControl, configuration, main, createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()));
+				stateDispatcher, factory, sendControl, configuration, main, createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()), main);
 
 		return CommonGameThreadFactory.create(stepController, errorCallback);
 	}
@@ -61,9 +61,9 @@ public class CommonGameThreadFactory {
 	public static GameStepController createStepController(CameraPositionCalculation cameraCalculation, World world,
 			PlayerStateDispatcher stateDispatcher, PlayerMovementCalculationFactory factory,
 			NetworkMessageDistributor sendControl, Configuration configuration,
-			PlayerDisconnectedCallback disconnectCallback, MusicPlayer deadPlayerMusic) {
+			PlayerDisconnectedCallback disconnectCallback, MusicPlayer deadPlayerMusic, GameMain gameMain) {
 		return GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl,
-				configuration, disconnectCallback, deadPlayerMusic);
+				configuration, disconnectCallback, deadPlayerMusic, gameMain);
 	}
 
 	public static PlayerMovementCalculationFactory createMovementCalculationFactory(World world,

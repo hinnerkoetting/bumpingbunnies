@@ -1,5 +1,10 @@
 package de.oetting.bumpingbunnies.core.game.steps;
 
+import static org.mockito.Matchers.intThat;
+
+import java.util.List;
+
+import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.ResetToScorePoint;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
@@ -31,9 +36,10 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final PlayerReviver reviver;
 	private final PlayerDisconnectedCallback disconnectCallback;
 	private final MusicPlayer musicPlayer;
+	private final GameMain main;
 
 	public HostBunnyKillChecker(CollisionDetection collisionDetection, World world, SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver,
-			MessageSender messageSender, PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer) {
+			MessageSender messageSender, PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer, GameMain main) {
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
@@ -41,6 +47,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		this.messageSender = messageSender;
 		this.disconnectCallback = disconnectCallback;
 		this.musicPlayer = musicPlayer;
+		this.main = main;
 	}
 
 	@Override
@@ -63,6 +70,47 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		killPlayer(playerUnder);
 		revivePlayerDelayed(playerUnder);
 		playSound();
+		checkForEndgameCondition();
+	}
+
+	void checkForEndgameCondition() {
+		boolean endgame = isEndgameConditionFulfilled();
+		if (endgame)
+			messageSender.sendMessage(MessageId.STOP_GAME, "");
+	}
+
+	private boolean isEndgameConditionFulfilled() {
+		int max = getMaxScore();
+		int secondMax = getSecondMaxScore(max);
+//		Set<Bunny> sortedByPoints= new TreeSet<E>(new )
+		return getMaxScore() >= main.getConfiguration().getGeneralSettings().getVictoryLimit() && secondMax <= max - 2;
+	}
+	
+	private int getMaxScore() {
+		int max = Integer.MIN_VALUE;
+		List<Bunny> bunnies = world.getAllConnectedBunnies();
+		for (Bunny bunny: bunnies) {
+			if (bunny.getScore() > max) {
+				max = bunny.getScore();
+			}
+		}
+		return max;
+	}
+	private int getSecondMaxScore(int maxScore) {
+		int countOfNumberWithMaxScore = 0;
+		int secondMax = Integer.MIN_VALUE;
+		List<Bunny> bunnies = world.getAllConnectedBunnies();
+		for (Bunny bunny: bunnies) {
+			if (bunny.getScore() > secondMax) {
+				if (bunny.getScore()  < maxScore)
+					secondMax = bunny.getScore();
+				else countOfNumberWithMaxScore++;
+			}
+		}
+		assert countOfNumberWithMaxScore > 0 : "At least one player must have max score";
+		if (countOfNumberWithMaxScore > 1)
+			return maxScore;
+		return secondMax;
 	}
 
 	private void playSound() {
