@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.settings;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.core.configuration.ConfigurationConstants;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
@@ -26,6 +29,7 @@ import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConver
 public class SettingsViewAccess {
 
 	private static final int MIN_ZOOM_VALUE = 4;
+	private static final Logger LOGGER = LoggerFactory.getLogger(SettingsViewAccess.class);
 
 	private final Activity origin;
 
@@ -111,6 +115,16 @@ public class SettingsViewAccess {
 		setMusic(settings.isPlayMusic());
 		setSound(settings.isPlaySound());
 		setLefthanded(settings.isLefthanded());
+		setVictoryLimit(settings.getVictoryLimit());
+	}
+
+	private void setVictoryLimit(int victoryLimit) {
+		TextView view = getVictoryLimitTextview();
+		view.setText(Integer.toString(victoryLimit));
+	}
+
+	private TextView getVictoryLimitTextview() {
+		return (TextView) origin.findViewById(R.id.victory_limit);
 	}
 
 	private void setLefthanded(boolean lefthanded) {
@@ -165,7 +179,12 @@ public class SettingsViewAccess {
 	}
 
 	private int getVictoryLimit() {
-		//TODO
+		TextView victoryLimitTextview = getVictoryLimitTextview();
+		try {
+			return Integer.parseInt(victoryLimitTextview.getText().toString());
+		} catch (Exception e) {
+			LOGGER.info("Could not read victory limit. Value was: %s", victoryLimitTextview.getText());
+		}
 		return ConfigurationConstants.DEFAULT_VICTORY_LIMIT;
 	}
 
