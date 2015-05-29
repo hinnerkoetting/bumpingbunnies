@@ -540,7 +540,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public int getNextPlayerId() {
-		return ++this.playerCounter;
+		return this.playerCounter++;
 	}
 
 	private List<RoomEntry> getAllOtherPlayers() {

@@ -29,9 +29,9 @@ public class BunnyFactory {
 	private int getColor(int index) {
 		switch (index) {
 		case 0:
-			return Color.RED;
-		case 1:
 			return Color.BLUE;
+		case 1:
+			return Color.RED;
 		case 2:
 			return Color.GREEN;
 		case 3:
@@ -39,13 +39,13 @@ public class BunnyFactory {
 		case 4:
 			return Color.YELLOW;
 		case 5:
-			return Color.GRAY;
-		case 6:
 			return Color.MAGENTA;
-		case 7:
+		case 6:
 			return Color.WHITE;
-		case 8:
+		case 7:
 			return Color.BLACK;
+		case 8:
+			return Color.GRAY;
 		default:
 			return createRandomColor();
 		}
