@@ -19,13 +19,11 @@ import org.mockito.Mock;
 import de.oetting.bumpingbunnies.core.TestConfigurationFactory;
 import de.oetting.bumpingbunnies.core.game.OpponentTestFactory;
 import de.oetting.bumpingbunnies.core.game.TestPlayerFactory;
-import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
-import de.oetting.bumpingbunnies.core.game.steps.HostBunnyKillChecker;
-import de.oetting.bumpingbunnies.core.game.steps.PlayerReviver;
 import de.oetting.bumpingbunnies.core.network.MessageSender;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
@@ -47,6 +45,8 @@ public class HostBunnyKillCheckerTest {
 	@Mock
 	private MessageSender sendControl;
 	private Configuration configuration;
+	@Mock
+	private GameStopper gameStopper;
 
 	@Test
 	public void playerJoins_thenPlayerIsAlive() {
@@ -78,7 +78,7 @@ public class HostBunnyKillCheckerTest {
 		whenPlayerJoins(player1);
 		whenPlayerJoins(player2);
 		whenCheckingEndgameCondition();
-		verify(sendControl).sendMessage(eq(MessageId.STOP_GAME), any());
+		verify(gameStopper).gameStopped();
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class HostBunnyKillCheckerTest {
 		whenPlayerJoins(player1);
 		whenPlayerJoins(player2);
 		whenCheckingEndgameCondition();
-		verify(sendControl, never()).sendMessage(eq(MessageId.STOP_GAME), any());
+		verify(gameStopper, never()).gameStopped();
 	}
 
 	@Test
@@ -101,7 +101,7 @@ public class HostBunnyKillCheckerTest {
 		whenPlayerJoins(player1);
 		whenPlayerJoins(player2);
 		whenCheckingEndgameCondition();
-		verify(sendControl, never()).sendMessage(eq(MessageId.STOP_GAME), any());
+		verify(gameStopper, never()).gameStopped();
 	}
 	
 	@Test
@@ -133,11 +133,9 @@ public class HostBunnyKillCheckerTest {
 	public void setup() {
 		initMocks(this);
 		configuration = TestConfigurationFactory.createDummyHost();
-		GameMain gamemain = mock(GameMain.class);
 		this.classUnderTest = new HostBunnyKillChecker(mock(CollisionDetection.class), this.world, this.spawnGenerator,
 				this.reviver, this.sendControl, mock(PlayerDisconnectedCallback.class), mock(MusicPlayer.class),
-				gamemain);
-		when(gamemain.getConfiguration()).thenReturn(configuration);
+				gameStopper, configuration);
 		givenNextSpawnPointIsAt(0, 0);
 	}
 }

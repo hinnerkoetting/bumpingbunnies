@@ -18,7 +18,7 @@ import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
-@Config(emulateSdk = 18)
+@Config(emulateSdk = 18, manifest=Config.NONE)
 public class GameStartParameterTest {
 
 	@Test
