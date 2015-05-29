@@ -31,6 +31,7 @@ import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothServerDevice;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
@@ -608,7 +609,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	public void onClickAddAi(View view) {
 		int nextPlayerId = getNextPlayerId();
-		String playerName = "AI" + nextPlayerId;
+		String playerName = BunnyNameFactory.createAiName(nextPlayerId);
 		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerName);
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
 	}
