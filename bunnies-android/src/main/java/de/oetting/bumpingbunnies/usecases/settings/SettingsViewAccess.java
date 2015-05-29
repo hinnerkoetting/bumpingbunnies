@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
+import de.oetting.bumpingbunnies.core.configuration.ConfigurationConstants;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
@@ -165,7 +166,7 @@ public class SettingsViewAccess {
 
 	private int getVictoryLimit() {
 		//TODO
-		return DefaultConfiguration.DEFAULT_VICTORY_LIMIT;
+		return ConfigurationConstants.DEFAULT_VICTORY_LIMIT;
 	}
 
 	private boolean isLefthandedChecked() {

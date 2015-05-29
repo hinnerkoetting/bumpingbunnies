@@ -81,6 +81,9 @@
 			GridPane.rowIndex="2" GridPane.columnIndex="0" />
 		<CheckBox text="Sound" fx:id="soundCheckbox"
 			GridPane.rowIndex="2" GridPane.columnIndex="1" />
+		<Label text="Victory limit" GridPane.rowIndex="3" prefWidth="100"/>
+		<TextField text="10" fx:id="victoryCondition" GridPane.rowIndex="3" 
+			GridPane.columnIndex="1" prefWidth="100"/>	
 	</GridPane>
 
 
