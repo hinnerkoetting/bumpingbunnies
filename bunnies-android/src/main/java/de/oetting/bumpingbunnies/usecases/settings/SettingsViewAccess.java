@@ -119,12 +119,12 @@ public class SettingsViewAccess {
 	}
 
 	private void setVictoryLimit(int victoryLimit) {
-		TextView view = getVictoryLimitTextview();
+		EditText view = getVictoryLimitTextview();
 		view.setText(Integer.toString(victoryLimit));
 	}
 
-	private TextView getVictoryLimitTextview() {
-		return (TextView) origin.findViewById(R.id.victory_limit);
+	private EditText getVictoryLimitTextview() {
+		return (EditText) origin.findViewById(R.id.victory_limit);
 	}
 
 	private void setLefthanded(boolean lefthanded) {
@@ -179,7 +179,7 @@ public class SettingsViewAccess {
 	}
 
 	private int getVictoryLimit() {
-		TextView victoryLimitTextview = getVictoryLimitTextview();
+		EditText victoryLimitTextview = getVictoryLimitTextview();
 		try {
 			return Integer.parseInt(victoryLimitTextview.getText().toString());
 		} catch (Exception e) {

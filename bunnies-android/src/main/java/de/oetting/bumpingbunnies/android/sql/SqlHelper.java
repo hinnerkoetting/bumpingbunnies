@@ -26,8 +26,6 @@ public class SqlHelper extends SQLiteOpenHelper implements SettingsConstants {
 			+ ZOOM_COL + " INTEGER NOT NULL,"//
 			+ INPUT_COL + " VARCHAR(80),"//
 			+ NAME_COL + " VARCHAR(80),"//
-			+ BACKGROUND_COL + " INTEGER NOT NULL,"//
-			+ ALT_PIXELFORMAT + " INTEGER NOT NULL,"//
 			+ SPEED_COL + " INTEGER NOT NULL,"//
 			+ PLAY_MUSIC + " INTEGER NOT NULL,"//
 			+ PLAY_SOUND + " INTEGER NOT NULL,"//

@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/slow_speed" />
-            
+
             <RadioButton
                 android:id="@+id/medium"
                 android:layout_width="wrap_content"
@@ -58,7 +58,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fast_speed" />
-
         </RadioGroup>
     </LinearLayout>
 
@@ -79,10 +78,22 @@
             android:layout_height="wrap_content"
             android:text="@string/menu_music" />
     </LinearLayout>
-    
-    <TextView android:id="@+id/victory_limit"
-        	  android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-	          android:text="@string/victory_limit" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/victory_limit" />
+
+        <EditText
+            android:id="@+id/victory_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+    </LinearLayout>
 
 </LinearLayout>
