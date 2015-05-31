@@ -17,6 +17,7 @@ public class PcConfiguration {
 	private int speed;
 	private boolean playMusic;
 	private boolean playSound;
+	private int victoryLimit;
 
 	public PcConfiguration() {
 		for (int i = 0; i < 3; i++)
@@ -67,13 +68,22 @@ public class PcConfiguration {
 		this.playSound = playSound;
 	}
 
+	public int getVictoryLimit() {
+		return victoryLimit;
+	}
+
+	public void setVictoryLimit(int victoryLimit) {
+		this.victoryLimit = victoryLimit;
+	}
+
 	public List<PlayerConfiguration> getPlayerConfigurations() {
 		return Collections.unmodifiableList(configurations);
 	}
 
 	@Override
 	public String toString() {
-		return "PcConfiguration [configurations=" + configurations + ", speed=" + speed + ", playMusic=" + playMusic + ", playSound=" + playSound + "]";
+		return "PcConfiguration [configurations=" + configurations + ", speed=" + speed + ", playMusic=" + playMusic
+				+ ", playSound=" + playSound + ", victoryLimit=" + victoryLimit + "]";
 	}
 
 }

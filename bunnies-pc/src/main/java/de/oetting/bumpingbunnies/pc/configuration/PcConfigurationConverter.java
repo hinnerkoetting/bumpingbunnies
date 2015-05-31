@@ -12,7 +12,7 @@ import de.oetting.bumpingbunnies.pc.configMenu.PlayerConfiguration;
 public class PcConfigurationConverter {
 
 	public LocalSettings convert2LocalSettings(PcConfiguration configuration) {
-		return new LocalSettings(createConfiguration(configuration.getPlayer1Configuration()), 1, true, false, configuration.isPlayMusic(),
+		return new LocalSettings(createConfiguration(configuration.getPlayer1Configuration()), 1, configuration.isPlayMusic(),
 				configuration.isPlaySound(), false);
 	}
 
@@ -27,6 +27,6 @@ public class PcConfigurationConverter {
 	}
 
 	public ServerSettings convert2ServerSettings(PcConfiguration pcConfiguration) {
-		return new ServerSettings(WorldConfiguration.CLASSIC, pcConfiguration.getSpeed(), NetworkType.WLAN);
+		return new ServerSettings(WorldConfiguration.CLASSIC, pcConfiguration.getSpeed(), NetworkType.WLAN, pcConfiguration.getVictoryLimit());
 	}
 }

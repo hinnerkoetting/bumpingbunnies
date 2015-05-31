@@ -31,6 +31,7 @@ import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothServerDevice;
 import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
@@ -507,24 +508,23 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	private ServerSettings createGeneralSettings() {
-		SettingsEntity settings = readSettingsFromDb();
 		WorldConfiguration world = WorldConfiguration.CLASSIC;
-		int speed = settings.getSpeed();
-		ServerSettings generalSettings = createServerSettings(world, speed);
+		ServerSettings generalSettings = createServerSettings(world);
 		return generalSettings;
 	}
 
-	private ServerSettings createServerSettings(WorldConfiguration world, int speed) {
+	private ServerSettings createServerSettings(WorldConfiguration world) {
+		SettingsEntity settings = readSettingsFromDb();
 		if (((RadioButton) findViewById(R.id.start_remote_bt)).isChecked()) {
-			return new ServerSettings(world, speed, NetworkType.BLUETOOTH);
+			return new ServerSettings(world, settings.getSpeed(), NetworkType.BLUETOOTH, settings.getVictoryLimit());
 		} else {
-			return new ServerSettings(world, speed, NetworkType.WLAN);
+			return new ServerSettings(world, settings.getSpeed(), NetworkType.WLAN, settings.getVictoryLimit());
 		}
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
-		return new LocalSettings(settings.getInputConfiguration(), settings.getZoom(), settings.isBackground(),
-				settings.isAltPixelformat(), settings.isPlayMusic(), settings.isPlaySound(), settings.isLefthanded());
+		return new LocalSettings(settings.getInputConfiguration(), settings.getZoom(), settings.isPlayMusic(),
+				settings.isPlaySound(), settings.isLefthanded());
 	}
 
 	private SettingsEntity readSettingsFromDb() {
@@ -540,7 +540,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	@Override
 	public int getNextPlayerId() {
-		return ++this.playerCounter;
+		return this.playerCounter++;
 	}
 
 	private List<RoomEntry> getAllOtherPlayers() {
@@ -609,7 +609,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	public void onClickAddAi(View view) {
 		int nextPlayerId = getNextPlayerId();
-		String playerName = "AI" + nextPlayerId;
+		String playerName = BunnyNameFactory.createAiName(nextPlayerId);
 		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerName);
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
 	}
@@ -644,7 +644,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	@Override
 	public void onInitializationError(final String message) {
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				Toast toast = Toast.makeText(RoomActivity.this, message, Toast.LENGTH_LONG);

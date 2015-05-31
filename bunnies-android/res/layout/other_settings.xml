@@ -79,5 +79,10 @@
             android:layout_height="wrap_content"
             android:text="@string/menu_music" />
     </LinearLayout>
+    
+    <TextView android:id="@+id/victory_limit"
+        	  android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+	          android:text="@string/victory_limit" />
 
 </LinearLayout>

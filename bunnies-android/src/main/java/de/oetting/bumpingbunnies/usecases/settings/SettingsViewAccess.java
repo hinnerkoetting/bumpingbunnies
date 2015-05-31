@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.settings;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -10,6 +11,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
+import de.oetting.bumpingbunnies.core.configuration.ConfigurationConstants;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
@@ -25,6 +29,7 @@ import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConver
 public class SettingsViewAccess {
 
 	private static final int MIN_ZOOM_VALUE = 4;
+	private static final Logger LOGGER = LoggerFactory.getLogger(SettingsViewAccess.class);
 
 	private final Activity origin;
 
@@ -75,14 +80,6 @@ public class SettingsViewAccess {
 		return SpeedMode.SLOW.getSpeed();
 	}
 
-	public boolean isBackgroundChecked() {
-		return true;
-	}
-
-	public boolean isAltPixelformatChecked() {
-		return false;
-	}
-
 	private void initSpeed() {
 		RadioButton button = getMediumSpeedButton();
 		button.setChecked(true);
@@ -118,6 +115,16 @@ public class SettingsViewAccess {
 		setMusic(settings.isPlayMusic());
 		setSound(settings.isPlaySound());
 		setLefthanded(settings.isLefthanded());
+		setVictoryLimit(settings.getVictoryLimit());
+	}
+
+	private void setVictoryLimit(int victoryLimit) {
+		TextView view = getVictoryLimitTextview();
+		view.setText(Integer.toString(victoryLimit));
+	}
+
+	private TextView getVictoryLimitTextview() {
+		return (TextView) origin.findViewById(R.id.victory_limit);
 	}
 
 	private void setLefthanded(boolean lefthanded) {
@@ -163,13 +170,22 @@ public class SettingsViewAccess {
 		int zoom = getZoom();
 		int speed = getSpeed();
 		String name = getName();
-		boolean background = isBackgroundChecked();
-		boolean isAltPixelFormat = isAltPixelformatChecked();
 		boolean playMusic = isPlayMusicChecked();
 		boolean playSound = isPlaySoundChecked();
 		boolean leftHanded = isLefthandedChecked();
-		return new SettingsEntity(inputConfiguration, zoom, speed, name, background, isAltPixelFormat, playMusic,
-				playSound, leftHanded);
+		int victoryLimit = getVictoryLimit();
+		return new SettingsEntity(inputConfiguration, zoom, speed, name, playMusic,
+				playSound, leftHanded, victoryLimit);
+	}
+
+	private int getVictoryLimit() {
+		TextView victoryLimitTextview = getVictoryLimitTextview();
+		try {
+			return Integer.parseInt(victoryLimitTextview.getText().toString());
+		} catch (Exception e) {
+			LOGGER.info("Could not read victory limit. Value was: %s", victoryLimitTextview.getText());
+		}
+		return ConfigurationConstants.DEFAULT_VICTORY_LIMIT;
 	}
 
 	private boolean isLefthandedChecked() {

@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.core.game;
 
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
@@ -53,7 +54,7 @@ public class IngameMenu {
 
 	private Bunny createAi() {
 		int newId = world.getNextBunnyId();
-		String newName = "AI" + newId;
+		String newName = BunnyNameFactory.createAiName(newId);
 		return bunnyFactory.createPlayer(newId, newName, ConnectionIdentifierFactory.createAiPlayer(newName));
 	}
 

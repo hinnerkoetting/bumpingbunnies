@@ -11,6 +11,8 @@ public interface ModelConstants {
 	 * 
 	 */
 	int STANDARD_WORLD_SIZE = 100000000;
+	
+	int ZOOM_MULTIPLIER = 7500;
 
 	int WALL_WIDTH = (int) (0.025 * STANDARD_WORLD_SIZE);
 	int WALL_HEIGHT = (int) (0.025 * STANDARD_WORLD_SIZE);

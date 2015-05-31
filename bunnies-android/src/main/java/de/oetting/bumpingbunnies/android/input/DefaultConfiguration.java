@@ -4,6 +4,7 @@ import android.os.Build;
 import android.view.InputDevice;
 import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardinput;
 import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardInputConfiguration;
+import de.oetting.bumpingbunnies.core.configuration.ConfigurationConstants;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
@@ -16,7 +17,7 @@ public class DefaultConfiguration {
 	
 	public static SettingsEntity createDefaultEntity(int defaultZoom) {
 		InputConfiguration inputConfiguration = getDefaultInput();
-		return new SettingsEntity(inputConfiguration, defaultZoom, SpeedMode.SLOW.getSpeed(), getUsername(), true, false, true, true, false);
+		return new SettingsEntity(inputConfiguration, defaultZoom, SpeedMode.SLOW.getSpeed(), getUsername(), true, true, false, ConfigurationConstants.DEFAULT_VICTORY_LIMIT);
 	}
 
 	private static InputConfiguration getDefaultInput() {

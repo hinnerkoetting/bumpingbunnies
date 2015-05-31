@@ -84,7 +84,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
-		return new LocalSettings(settings.getInputConfiguration(), settings.getZoom(), settings.isBackground(), settings.isAltPixelformat(),
+		return new LocalSettings(settings.getInputConfiguration(), settings.getZoom(), 
 				settings.isPlayMusic(), settings.isPlaySound(), settings.isLefthanded());
 	}
 
@@ -118,7 +118,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	private ServerSettings createGeneralSettings(SettingsEntity settings) {
 		WorldConfiguration world = findWorldConfiguration();
 		int speed = settings.getSpeed();
-		ServerSettings generalSettings = new ServerSettings(world, speed, NetworkType.WLAN);
+		ServerSettings generalSettings = new ServerSettings(world, speed, NetworkType.WLAN, settings.getVictoryLimit());
 		return generalSettings;
 	}
 

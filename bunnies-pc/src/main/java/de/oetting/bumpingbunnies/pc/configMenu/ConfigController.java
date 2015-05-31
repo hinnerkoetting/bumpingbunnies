@@ -14,6 +14,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import de.oetting.bumpingbunnies.core.configuration.ConfigurationConstants;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
@@ -63,6 +64,8 @@ public class ConfigController implements Initializable {
 	RadioButton speedNormal;
 	@FXML
 	RadioButton speedFast;
+	@FXML
+	TextField victoryCondition;
 
 	private final Stage primaryStage;
 
@@ -133,6 +136,11 @@ public class ConfigController implements Initializable {
 		configuration.setSpeed(getSpeedModel().getSpeed());
 		configuration.setPlayMusic(musicCheckbox.isSelected());
 		configuration.setPlaySound(soundCheckbox.isSelected());
+		try {
+			configuration.setVictoryLimit(Integer.parseInt(victoryCondition.getText()));
+		} catch (Exception e) {
+			LOGGER.warn("Could not read victory setting. Value was %s", victoryCondition.getText());
+		}
 	}
 
 	private SpeedMode getSpeedModel() {
@@ -147,7 +155,9 @@ public class ConfigController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		speedSlow.setSelected(true);// default value, if the current speed setting does not match any buttons speed value
+		speedSlow.setSelected(true);// default value, if the current speed
+									// setting does not match any buttons speed
+									// value
 		PcConfiguration loadedConfiguration = new ConfigAccess().load();
 		fillFields(loadedConfiguration);
 		selectWholeTextOnSelection();
@@ -244,6 +254,7 @@ public class ConfigController implements Initializable {
 		selectSpeedRadioButton(configuration);
 		musicCheckbox.setSelected(configuration.isPlayMusic());
 		soundCheckbox.setSelected(configuration.isPlaySound());
+		victoryCondition.setText(Integer.toString(configuration.getVictoryLimit()));
 	}
 
 	private void selectSpeedRadioButton(PcConfiguration configuration) {

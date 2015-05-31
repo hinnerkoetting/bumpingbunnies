@@ -2,28 +2,31 @@ package de.oetting.bumpingbunnies.model.configuration;
 
 import de.oetting.bumpingbunnies.model.configuration.input.InputConfiguration;
 
-public class SettingsEntity {
+public class SettingsEntityV11 {
 
 	private final InputConfiguration inputConfiguration;
 	private final int zoom;
 	private final int speed;
 	private final String playerName;
+	private final boolean background;
+	private final boolean altPixelformat;
 	private final boolean playMusic;
 	private final boolean playSound;
 	private final boolean lefthanded;
-	private final int victoryLimit;
 
-	public SettingsEntity(InputConfiguration inputConfiguration, int zoom,
-			int speed, String playerName, boolean playMusic, boolean playSound,
-			boolean leftHanded, int victoryLimit) {
+	public SettingsEntityV11(InputConfiguration inputConfiguration, int zoom,
+			int speed, String playerName, boolean background,
+			boolean altPixelFormat, boolean playMusic, boolean playSound,
+			boolean leftHanded) {
 		this.inputConfiguration = inputConfiguration;
 		this.zoom = zoom;
 		this.speed = speed;
 		this.playerName = playerName;
+		this.background = background;
+		this.altPixelformat = altPixelFormat;
 		this.playMusic = playMusic;
 		this.playSound = playSound;
-		this.lefthanded = leftHanded;
-		this.victoryLimit = victoryLimit;
+		lefthanded = leftHanded;
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -42,6 +45,14 @@ public class SettingsEntity {
 		return this.playerName;
 	}
 
+	public boolean isBackground() {
+		return this.background;
+	}
+
+	public boolean isAltPixelformat() {
+		return this.altPixelformat;
+	}
+
 	public boolean isPlayMusic() {
 		return playMusic;
 	}
@@ -53,11 +64,5 @@ public class SettingsEntity {
 	public boolean isLefthanded() {
 		return lefthanded;
 	}
-
-	public int getVictoryLimit() {
-		return victoryLimit;
-	}
-	
-	
 
 }

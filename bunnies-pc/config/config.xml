@@ -21,4 +21,5 @@
     <speed>25</speed>
     <playMusic>false</playMusic>
     <playSound>true</playSound>
+    <victoryLimit>10</victoryLimit>
 </pcConfiguration>

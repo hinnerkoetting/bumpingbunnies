@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.start;
 
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
@@ -17,6 +18,7 @@ public class OptimalZoom {
 	private static int computeZoomToFitTheScreen(Context context) {
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		int minPixel = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
-		return 5000 / minPixel;
+		int appropriateZoom = ModelConstants.STANDARD_WORLD_SIZE / ModelConstants.ZOOM_MULTIPLIER / minPixel;
+		return appropriateZoom;
 	}
 }

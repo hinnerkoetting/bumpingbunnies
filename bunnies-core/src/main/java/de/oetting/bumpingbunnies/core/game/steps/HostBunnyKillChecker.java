@@ -1,5 +1,8 @@
 package de.oetting.bumpingbunnies.core.game.steps;
 
+
+import java.util.List;
+
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.ResetToScorePoint;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
@@ -10,9 +13,11 @@ import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIs
 import de.oetting.bumpingbunnies.core.networking.messaging.playerScoreUpdated.PlayerScoreMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointMessage;
 import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPointSender;
+import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
@@ -31,9 +36,11 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final PlayerReviver reviver;
 	private final PlayerDisconnectedCallback disconnectCallback;
 	private final MusicPlayer musicPlayer;
+	private final GameStopper gameStopper;
+	private final Configuration configuration;
 
 	public HostBunnyKillChecker(CollisionDetection collisionDetection, World world, SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver,
-			MessageSender messageSender, PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer) {
+			MessageSender messageSender, PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer, GameStopper gameStopper, Configuration configuration) {
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
@@ -41,6 +48,8 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		this.messageSender = messageSender;
 		this.disconnectCallback = disconnectCallback;
 		this.musicPlayer = musicPlayer;
+		this.gameStopper = gameStopper;
+		this.configuration = configuration;
 	}
 
 	@Override
@@ -63,6 +72,46 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		killPlayer(playerUnder);
 		revivePlayerDelayed(playerUnder);
 		playSound();
+		checkForEndgameCondition();
+	}
+
+	void checkForEndgameCondition() {
+		boolean endgame = isEndgameConditionFulfilled();
+		if (endgame)
+			gameStopper.gameStopped();
+	}
+
+	private boolean isEndgameConditionFulfilled() {
+		int max = getMaxScore();
+		int secondMax = getSecondMaxScore(max);
+		return getMaxScore() >= configuration.getGeneralSettings().getVictoryLimit() && secondMax <= max - 2;
+	}
+	
+	private int getMaxScore() {
+		int max = Integer.MIN_VALUE;
+		List<Bunny> bunnies = world.getAllConnectedBunnies();
+		for (Bunny bunny: bunnies) {
+			if (bunny.getScore() > max) {
+				max = bunny.getScore();
+			}
+		}
+		return max;
+	}
+	private int getSecondMaxScore(int maxScore) {
+		int countOfNumberWithMaxScore = 0;
+		int secondMax = Integer.MIN_VALUE;
+		List<Bunny> bunnies = world.getAllConnectedBunnies();
+		for (Bunny bunny: bunnies) {
+			if (bunny.getScore() > secondMax) {
+				if (bunny.getScore()  < maxScore)
+					secondMax = bunny.getScore();
+				else countOfNumberWithMaxScore++;
+			}
+		}
+		assert countOfNumberWithMaxScore > 0 : "At least one player must have max score";
+		if (countOfNumberWithMaxScore > 1)
+			return maxScore;
+		return secondMax;
 	}
 
 	private void playSound() {

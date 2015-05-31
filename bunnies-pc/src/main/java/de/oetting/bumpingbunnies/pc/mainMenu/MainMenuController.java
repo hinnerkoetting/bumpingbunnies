@@ -23,6 +23,7 @@ import javafx.util.Duration;
 import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
@@ -202,7 +203,7 @@ public class MainMenuController implements Initializable, OnBroadcastReceived, C
 	@FXML
 	public void onButtonAddAi() {
 		int nextPlayerId = getNextPlayerId();
-		String playerName = "AI" + nextPlayerId;
+		String playerName = BunnyNameFactory.createAiName(nextPlayerId);
 		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerName);
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
 		enableButtons();

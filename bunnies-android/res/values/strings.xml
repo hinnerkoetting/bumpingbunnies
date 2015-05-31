@@ -55,5 +55,6 @@
     <string name="medium_speed">Medium</string>
     <string name="fast_speed">Fast</string>
     <string name="slow_speed">Slow</string>
+    <string name="victory_limit">Victory limit</string>
     
 </resources>

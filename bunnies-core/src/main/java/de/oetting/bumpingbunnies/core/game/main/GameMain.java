@@ -226,4 +226,8 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		sockets.notifyListenersAboutExistingSockets();
 	}
 
+	public Configuration getConfiguration() {
+		return configuration;
+	}
+
 }

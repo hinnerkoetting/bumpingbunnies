@@ -24,7 +24,7 @@ public class GeneralSettingsTest {
 
 	@Test
 	public void testParcelling() {
-		ServerSettings settings = new ServerSettings(WorldConfiguration.CLASSIC, 1, NetworkType.WLAN);
+		ServerSettings settings = new ServerSettings(WorldConfiguration.CLASSIC, 1, NetworkType.WLAN, 2);
 		checkValues(settings);
 		ServerSettings after = serializeAndDeserialize(settings);
 		checkValues(after);
@@ -41,5 +41,6 @@ public class GeneralSettingsTest {
 		assertThat(settings.getWorldConfiguration(), is(equalTo(WorldConfiguration.CLASSIC)));
 		assertThat(settings.getSpeedSetting(), is(equalTo(1)));
 		assertThat(settings.getNetworkType(), is(equalTo(NetworkType.WLAN)));
+		assertThat(settings.getVictoryLimit(), is(equalTo(2)));
 	}
 }

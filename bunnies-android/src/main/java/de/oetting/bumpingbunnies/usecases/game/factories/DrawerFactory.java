@@ -29,11 +29,11 @@ public class DrawerFactory {
 
 		BunnyDrawableFactory playerDrawerFactory = createPlayerDrawerFactory();
 		CanvasAdapter canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasAdapter(context), calculations);
-		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(
-				configuration.getLocalSettings().isBackground()), new AndroidGameObjectsDrawableFactory(),
-				playerDrawerFactory, new AndroidDrawableToImageConverter(canvasDelegate, calculations, context), false);
+		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(),
+				new AndroidGameObjectsDrawableFactory(), playerDrawerFactory, new AndroidDrawableToImageConverter(
+						canvasDelegate, calculations, context), false);
 
-		calculations.setZoom(ModelConstants.STANDARD_WORLD_SIZE / 7500 * configuration.getZoom());
+		calculations.setZoom(ModelConstants.STANDARD_WORLD_SIZE / ModelConstants.ZOOM_MULTIPLIER * configuration.getZoom());
 
 		ObjectsDrawer drawer = new ObjectsDrawer(drawFactory, canvasDelegate);
 		return drawer;
