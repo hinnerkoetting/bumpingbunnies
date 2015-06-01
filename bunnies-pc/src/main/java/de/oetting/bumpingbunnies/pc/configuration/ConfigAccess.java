@@ -93,6 +93,7 @@ public class ConfigAccess {
 		configuration.setSpeed(25);
 		configuration.setPlayMusic(true);
 		configuration.setPlaySound(true);
+		configuration.setVictoryLimit(10);
 		return configuration;
 	}
 }

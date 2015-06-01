@@ -63,7 +63,8 @@ public class SqlHelper extends SQLiteOpenHelper implements SettingsConstants {
 		SettingsEntityV11 oldValues = new SettingsV11Dao(db).readStoredSettings();
 		dropOldTable(db);
 		onCreate(db);
-		new SettingsDao(db, context).store(convert(oldValues));
+		if (oldValues != null)
+			new SettingsDao(db, context).store(convert(oldValues));
 	}
 
 	private SettingsEntity convert(SettingsEntityV11 oldValue) {

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <pcConfiguration>
     <configurations>
-        <playerName>Hinni</playerName>
+        <playerName>Angel</playerName>
         <playerLeft>Left</playerLeft>
         <playerUp>Up</playerUp>
         <playerRight>Right</playerRight>
     </configurations>
     <configurations>
-        <playerName>Player 2</playerName>
+        <playerName>Siggi</playerName>
         <playerLeft>A</playerLeft>
         <playerUp>W</playerUp>
         <playerRight>D</playerRight>
     </configurations>
     <configurations>
-        <playerName>Player 3</playerName>
+        <playerName>Uschi</playerName>
         <playerLeft>H</playerLeft>
-        <playerUp>Back Slash</playerUp>
+        <playerUp>U</playerUp>
         <playerRight>K</playerRight>
     </configurations>
     <speed>25</speed>
-    <playMusic>false</playMusic>
+    <playMusic>true</playMusic>
     <playSound>true</playSound>
     <victoryLimit>10</victoryLimit>
 </pcConfiguration>
