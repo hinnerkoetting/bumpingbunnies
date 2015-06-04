@@ -228,5 +228,9 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return menuAdapter.menuItemSelected(item);
 	}
+	
+	public void onMenuClick(View v) {
+		openOptionsMenu();
+	}
 
 }

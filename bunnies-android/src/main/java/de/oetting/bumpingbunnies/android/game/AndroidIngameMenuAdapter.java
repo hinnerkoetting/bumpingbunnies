@@ -34,7 +34,7 @@ public class AndroidIngameMenuAdapter {
 		menu.add(1, ADD_AI, 1, context.getString(R.string.room_add_ai));
 		for (Bunny bunny : world.getAllConnectedBunnies()) {
 			if (bunny.getOpponent().isAi()) {
-				menu.add(2, bunny.id(), bunny.id(), context.getString(R.string.remove_ai) + bunny.getName());
+				menu.add(2, bunny.id(), bunny.id(), context.getString(R.string.remove_ai) + " " + bunny.getName());
 			}
 		}
 	}

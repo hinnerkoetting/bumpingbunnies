@@ -1,21 +1,29 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0099cc"
+    android:keepScreenOn="true"
     android:orientation="vertical"
     android:paddingLeft="@dimen/game_padding_left_right"
-    android:paddingRight="@dimen/game_padding_left_right"
-    android:id="@+id/game_root"
-    android:keepScreenOn="true" >
+    android:paddingRight="@dimen/game_padding_left_right" >
 
     <!-- width and height may be overwritten programmatically to achieve squared size -->
 
     <de.oetting.bumpingbunnies.android.game.GameView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         />
+        android:layout_height="match_parent" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/menu_game"
+        android:background="@drawable/ic_menu_black_48dp"
+        android:contentDescription="@string/menu"
+        android:layout_gravity="end"
+        android:onClick="onMenuClick"
+         />
 
 </FrameLayout>

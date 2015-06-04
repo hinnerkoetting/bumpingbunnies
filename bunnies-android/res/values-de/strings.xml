@@ -30,6 +30,7 @@
     <string name="wlan_enabled">WLAN wurde aktiviert</string>
     <string name="enable_bluetooth">Aktiviere Bluetooth</string>
     <string name="connection_unsuccesful">Konnte keine Verbindung zum Server aufbauen. Bitte die Anwendung neustarten oder einen anderen Server verwenden.</string>
+    <string name="menu">Menu</string>
 	
     
      <!-- do not change -->
