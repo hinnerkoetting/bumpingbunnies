@@ -19,7 +19,7 @@
         <playerRight>K</playerRight>
     </configurations>
     <speed>25</speed>
-    <playMusic>true</playMusic>
-    <playSound>true</playSound>
+    <playMusic>false</playMusic>
+    <playSound>false</playSound>
     <victoryLimit>10</victoryLimit>
 </pcConfiguration>
