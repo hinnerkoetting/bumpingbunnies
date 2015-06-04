@@ -45,7 +45,7 @@
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>de.oetting.bumping-bunnies</groupId>
-										<artifactId>bunnies-worldcreator-maven-plugin</artifactId>
+										<artifactId>bunnies-worldcreator-pc</artifactId>
 										<versionRange>[0.0.1-SNAPSHOT,)</versionRange>
 										<goals>
 											<goal>CreateWorld</goal>

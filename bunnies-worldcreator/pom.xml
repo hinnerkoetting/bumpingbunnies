@@ -9,6 +9,11 @@
 	</parent>
 	<packaging>jar</packaging>
 
+	<description>
+		Contains files which can create and load the world.
+		This project is included in  android so it must be run with Java 6.
+	</description>
+	
 	<build>
 		<plugins>
 			<plugin>

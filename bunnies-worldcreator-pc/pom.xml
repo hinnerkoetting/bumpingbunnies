@@ -9,6 +9,10 @@
 	</parent>
 	<packaging>maven-plugin</packaging>
 
+	<description>
+		Contains classes with are only used by the PC version, especially if Java is required. This must not be included in the android version.
+		This also contains a Maven plugin which can create the level during the build process.
+	</description>
 	<build>
 		<plugins>
 			<plugin>

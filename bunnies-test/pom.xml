@@ -19,9 +19,14 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<description>
+		Test the android project.
+	</description>
+	
 	<profiles>
 		<profile>
-		<!--  wenn die Klassen signiert werden koennen die Tests von roboeletric nicht mehr angepasst werden -->
+		<!-- when the classes are signed by android we cannot test it anymore because roboeletric cannot change the classes anymore. -->
 			<id>release</id>
 			<properties>
 				<skipTests>true</skipTests>
