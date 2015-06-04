@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.oetting.bumpingbunnies"
     android:installLocation="auto"
-    android:versionCode="59"
-    android:versionName="0.5.9" xmlns:tools="http://schemas.android.com/tools">
+    android:versionCode="60"
+    android:versionName="0.6.0" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
