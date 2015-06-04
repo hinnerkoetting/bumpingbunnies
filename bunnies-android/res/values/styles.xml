@@ -37,15 +37,10 @@
     <style name="ButtonBarButton" /> 
 
     <style name="button_style">
-        <item name="android:padding">@dimen/button_padding_top_bottom</item>
-        <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
-        <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
-        <item name="android:paddingRight">@dimen/button_padding_left_right</item>
-        <item name="android:paddingLeft">@dimen/button_padding_left_right</item>
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:textColor">@color/button_color</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:layout_margin">@dimen/button_margin</item>
     </style>
 

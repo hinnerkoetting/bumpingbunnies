@@ -125,6 +125,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		listenForBroadcasts();
 		settingsDao = new DummySettingsDao();
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
+		switchToWlan();
 	}
 
 	private void initRoom() {

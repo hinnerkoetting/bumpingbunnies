@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -231,6 +232,25 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	
 	public void onMenuClick(View v) {
 		openOptionsMenu();
+	}
+	 
+	//workaround for fix, that android usually does not allow menus on xlarge devices
+	//see also http://stackoverflow.com/a/17903128/2337393
+	public void openOptionsMenu() {
+
+	    Configuration config = getResources().getConfiguration();
+
+	    if((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) 
+	            > Configuration.SCREENLAYOUT_SIZE_LARGE) {
+
+	        int originalScreenLayout = config.screenLayout;
+	        config.screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
+	        super.openOptionsMenu();
+	        config.screenLayout = originalScreenLayout;
+
+	    } else {
+	        super.openOptionsMenu();
+	    }
 	}
 
 }
