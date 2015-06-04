@@ -8,8 +8,8 @@ import de.oetting.bumpingbunnies.core.networking.server.AcceptsClientConnections
 import de.oetting.bumpingbunnies.core.networking.server.HostNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class NewClientsAccepterFactory {
 

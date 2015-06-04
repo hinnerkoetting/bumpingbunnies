@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>bunnies-worldcreator-maven-plugin</artifactId>
+	<artifactId>bunnies-worldcreator</artifactId>
 	<parent>
 		<groupId>de.oetting.bumping-bunnies</groupId>
 		<artifactId>bumping-bunnies-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.5.9-SNAPSHOT</version>
 	</parent>
-	<packaging>maven-plugin</packaging>
+	<packaging>jar</packaging>
 
 	<build>
 		<plugins>
@@ -15,45 +15,20 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-plugin-plugin</artifactId>
-				<version>3.4</version>
-				<configuration>
-					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
-				</configuration>
-				<executions>
-					<execution>
-						<id>default-descriptor</id>
-						<phase>process-classes</phase>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
-			<artifactId>bunnies-pc</artifactId>
+			<artifactId>bunnies-model</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
-			<artifactId>bunnies-levels</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>3.3.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugin-tools</groupId>
-			<artifactId>maven-plugin-annotations</artifactId>
-			<version>3.4</version>
-			<scope>provided</scope>
+			<artifactId>bunnies-common</artifactId>
 		</dependency>
 	</dependencies>
 </project>

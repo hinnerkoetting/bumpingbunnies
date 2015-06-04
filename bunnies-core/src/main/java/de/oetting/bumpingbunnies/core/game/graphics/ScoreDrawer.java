@@ -1,9 +1,9 @@
 package de.oetting.bumpingbunnies.core.game.graphics;
 
 import de.oetting.bumpingbunnies.core.graphics.Paint;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class ScoreDrawer implements Drawable {
 

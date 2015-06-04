@@ -5,9 +5,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.game.IngameMenu;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class AndroidIngameMenuAdapter {
 	private static final int ADD_AI = 0;

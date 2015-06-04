@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.oetting.bumping-bunnies</groupId>
 		<artifactId>bumping-bunnies-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.5.9-SNAPSHOT</version>
 	</parent>
 	<description>Contains resources which are used for all platform. These are at the moment animations and the game world.</description>
 
@@ -15,7 +15,7 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>bunnies-worldcreator-maven-plugin</artifactId>
+				<artifactId>bunnies-worldcreator-pc</artifactId>
 				<groupId>de.oetting.bumping-bunnies</groupId>
 				<configuration>
 					<sourceImageDirectory>${worlds.dir}/images</sourceImageDirectory>

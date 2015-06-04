@@ -3,9 +3,9 @@ package de.oetting.bumpingbunnies.android.xml.parsing;
 import java.io.InputStream;
 
 import android.graphics.BitmapFactory;
-import de.oetting.bumpingbunnies.core.worldCreation.BitmapReader;
-import de.oetting.bumpingbunnies.core.worldCreation.ClasspathImageReader;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
+import de.oetting.bumpingbunnies.worldcreator.load.BitmapReader;
+import de.oetting.bumpingbunnies.worldcreator.load.ClasspathImageReader;
 
 public class AndroidBitmapReader implements BitmapReader {
 

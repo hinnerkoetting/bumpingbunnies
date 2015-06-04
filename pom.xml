@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.oetting.bumping-bunnies</groupId>
 	<artifactId>bumping-bunnies-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.5.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 
@@ -12,16 +12,18 @@
 	</properties>
 
 	<modules>
-		<module>bunnies-pc</module>
-		<module>bunnies-core</module>
-		<module>bunnies-model</module>
-		<module>bunnies-test</module>
 		<module>bunnies-common</module>
-		<module>bunnies-android</module>
-		<module>bunnies-network-tester</module>
-		<module>bunnies-levels</module>
+		<module>bunnies-model</module>
+		<module>bunnies-worldcreator</module>
+		<module>bunnies-worldcreator-pc</module>
 		<module>bunnies-core-resources</module>
+		<module>bunnies-core</module>
+		<module>bunnies-android</module>
+		<module>bunnies-test</module>
 		<module>bunnies-pc-resources</module>
+		<module>bunnies-pc</module>
+		<module>bunnies-levels</module>
+		<module>bunnies-network-tester</module>
 	</modules>
 
 	<dependencyManagement>
@@ -85,6 +87,16 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>bunnies-android</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>bunnies-worldcreator</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>bunnies-worldcreator-pc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

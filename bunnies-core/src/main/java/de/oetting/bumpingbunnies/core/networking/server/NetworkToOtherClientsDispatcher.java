@@ -6,9 +6,9 @@ import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerDisconnected.PlayerDisconnectedMessage;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 

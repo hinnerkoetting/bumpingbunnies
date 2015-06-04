@@ -24,8 +24,8 @@ import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.ScoreDrawer;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)

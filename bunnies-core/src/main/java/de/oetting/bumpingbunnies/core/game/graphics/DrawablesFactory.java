@@ -9,10 +9,11 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.BackgroundDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.GameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.world.World;
+import de.oetting.bumpingbunnies.model.game.world.ZIndexComparator;
 
 public class DrawablesFactory {
 

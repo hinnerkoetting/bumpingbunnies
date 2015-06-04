@@ -7,27 +7,26 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.util.Xml;
-import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
-import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.core.worldCreation.WorldFactory;
-import de.oetting.bumpingbunnies.core.worldCreation.XmlRectToObjectConverter;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldObjectsParser;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlConstants;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
-import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.model.game.world.XmlRect;
 import de.oetting.bumpingbunnies.model.game.world.XmlWorldBuilderState;
+import de.oetting.bumpingbunnies.worldcreator.constants.XmlConstants;
+import de.oetting.bumpingbunnies.worldcreator.load.ResourceProvider;
+import de.oetting.bumpingbunnies.worldcreator.load.XmlReader;
+import de.oetting.bumpingbunnies.worldcreator.load.gameObjects.WorldFactory;
+import de.oetting.bumpingbunnies.worldcreator.load.gameObjects.WorldObjectsParser;
+import de.oetting.bumpingbunnies.worldcreator.load.gameObjects.XmlRectToObjectConverter;
 
 public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 

@@ -13,8 +13,8 @@ import de.oetting.bumpingbunnies.core.networking.messaging.receiver.WlanOpponent
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocket.UdpException;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class NetworkReceiveControlFactory {
 

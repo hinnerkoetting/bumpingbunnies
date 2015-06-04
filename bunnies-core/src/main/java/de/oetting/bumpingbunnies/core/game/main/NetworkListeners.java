@@ -13,9 +13,9 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.StopGameReceiver
 import de.oetting.bumpingbunnies.core.networking.receive.OtherPlayerPropertiesReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerPropertiesReceiveListener;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class NetworkListeners {
 

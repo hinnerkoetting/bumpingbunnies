@@ -28,10 +28,10 @@ import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)

@@ -8,10 +8,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.leveleditor.viewer.PropertyEditorDialog;
 import de.oetting.bumpingbunnies.leveleditor.viewer.editingMode.SelectionModeProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class SelectAction implements MouseAction {
 

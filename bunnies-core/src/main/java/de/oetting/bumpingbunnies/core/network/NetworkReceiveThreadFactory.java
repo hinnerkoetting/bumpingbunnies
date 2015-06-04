@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiver;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiverDispatcherThreadFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class NetworkReceiveThreadFactory {
 

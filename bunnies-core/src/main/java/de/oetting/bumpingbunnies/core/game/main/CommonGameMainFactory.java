@@ -11,11 +11,11 @@ import de.oetting.bumpingbunnies.core.network.factory.NetworksendThreadFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class CommonGameMainFactory {
 

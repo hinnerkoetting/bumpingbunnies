@@ -14,11 +14,11 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.core.worldCreation.ObjectsFactory;
-import de.oetting.bumpingbunnies.core.worldCreation.WorldFactory;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.model.game.world.XmlWorldBuilderState;
 import de.oetting.bumpingbunnies.tests.UnitTests;
+import de.oetting.bumpingbunnies.worldcreator.load.gameObjects.ObjectsFactory;
+import de.oetting.bumpingbunnies.worldcreator.load.gameObjects.WorldFactory;
 
 @Category(UnitTests.class)
 public class WorldFactoryTest {

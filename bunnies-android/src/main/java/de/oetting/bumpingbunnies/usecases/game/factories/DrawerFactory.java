@@ -13,9 +13,9 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalcu
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvider;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasAdapter;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidDrawableToImageConverter;

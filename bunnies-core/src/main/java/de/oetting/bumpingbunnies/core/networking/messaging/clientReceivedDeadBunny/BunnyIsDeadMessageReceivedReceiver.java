@@ -2,10 +2,10 @@ package de.oetting.bumpingbunnies.core.networking.messaging.clientReceivedDeadBu
 
 import de.oetting.bumpingbunnies.core.network.MessageReceiverTemplate;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class BunnyIsDeadMessageReceivedReceiver extends MessageReceiverTemplate<Integer> {
 

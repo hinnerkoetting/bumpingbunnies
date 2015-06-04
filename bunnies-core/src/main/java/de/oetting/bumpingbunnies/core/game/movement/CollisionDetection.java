@@ -1,8 +1,8 @@
 package de.oetting.bumpingbunnies.core.game.movement;
 
-import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.ObjectProvider;
 
 public class CollisionDetection {
 

@@ -3,13 +3,13 @@ package de.oetting.bumpingbunnies.leveleditor.viewer;
 import java.util.Deque;
 import java.util.LinkedList;
 
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class EditorModel {
 

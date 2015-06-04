@@ -16,12 +16,12 @@ import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControl;
 import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveControlFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.configuration.PlayerConfig;
 import de.oetting.bumpingbunnies.model.game.BunniesMusicPlayerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class GameMainFactory {
 

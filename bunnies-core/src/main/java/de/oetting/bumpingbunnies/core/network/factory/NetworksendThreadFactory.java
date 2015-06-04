@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread;
 import de.oetting.bumpingbunnies.core.network.NetworkPlayerStateSenderThread.NetworkPlayerStateSenderStep;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class NetworksendThreadFactory {
 

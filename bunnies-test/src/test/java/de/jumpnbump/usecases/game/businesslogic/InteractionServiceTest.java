@@ -15,10 +15,10 @@ import org.mockito.MockitoAnnotations;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionHandling;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
-import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
+import de.oetting.bumpingbunnies.model.game.world.ObjectProvider;
 
 public class InteractionServiceTest {
 

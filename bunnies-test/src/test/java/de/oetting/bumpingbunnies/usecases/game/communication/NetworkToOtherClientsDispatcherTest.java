@@ -21,7 +21,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
 import de.oetting.bumpingbunnies.core.networking.communication.messageInterface.NetworkSender;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkToOtherClientsDispatcher;
-import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.tests.UnitTests;

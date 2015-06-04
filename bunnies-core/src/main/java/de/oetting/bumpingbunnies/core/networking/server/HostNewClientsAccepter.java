@@ -16,12 +16,12 @@ import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 /**
  * Controls logic which a host must fulfill. Sends Broadcast messages to send

@@ -24,8 +24,8 @@ import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFac
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.core.game.steps.FixPlayerPosition;
-import de.oetting.bumpingbunnies.core.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)

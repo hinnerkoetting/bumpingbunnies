@@ -9,8 +9,8 @@ import java.util.Optional;
 import javax.swing.JFrame;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public interface SelectionModeProvider {
 

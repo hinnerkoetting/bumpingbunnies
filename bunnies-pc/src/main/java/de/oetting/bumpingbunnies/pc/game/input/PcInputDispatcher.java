@@ -15,9 +15,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Window;
 import de.oetting.bumpingbunnies.core.game.IngameMenu;
 import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputService;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class PcInputDispatcher {
 

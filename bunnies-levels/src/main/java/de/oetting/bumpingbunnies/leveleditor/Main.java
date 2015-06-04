@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
+import de.oetting.bumpingbunnies.ClasspathFix;
 import de.oetting.bumpingbunnies.leveleditor.viewer.Viewer;
 
 public class Main {
@@ -30,17 +31,7 @@ public class Main {
 	}
 
 	private static void addFilesToRuntime() throws Exception {
-		addToClasspathPath("files");
-	}
-
-	public static void addToClasspathPath(String s) throws Exception {
-		File f = new File(s);
-		URI u = f.toURI();
-		URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-		Class<URLClassLoader> urlClass = URLClassLoader.class;
-		Method method = urlClass.getDeclaredMethod("addURL", new Class[] { URL.class });
-		method.setAccessible(true);
-		method.invoke(urlClassLoader, new Object[] { u.toURL() });
+		ClasspathFix.addToClasspathPath("files");
 	}
 
 	private static void openViewer(String[] args) throws FileNotFoundException {

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.oetting.bumping-bunnies</groupId>
 		<artifactId>bumping-bunnies-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.5.9-SNAPSHOT</version>
 	</parent>
 
 	<build>
@@ -34,6 +34,10 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>de.oetting.bumping-bunnies</groupId>
+			<artifactId>bunnies-common</artifactId>
+		</dependency>
 		<dependency>
 			<artifactId>junit</artifactId>
 			<groupId>junit</groupId>

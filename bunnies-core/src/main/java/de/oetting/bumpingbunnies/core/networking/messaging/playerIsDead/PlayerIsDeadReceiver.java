@@ -8,11 +8,11 @@ import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.clientReceivedDeadBunny.BunnyIsDeadMessageReceivedSender;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class PlayerIsDeadReceiver extends MessageReceiverTemplate<PlayerIsDeadMessage> {
 

@@ -5,7 +5,7 @@ import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFac
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
 import de.oetting.bumpingbunnies.core.game.steps.FixPlayerPosition;
-import de.oetting.bumpingbunnies.core.world.ObjectProvider;
+import de.oetting.bumpingbunnies.model.game.world.ObjectProvider;
 
 public class BunnyMovementStepFactory {
 

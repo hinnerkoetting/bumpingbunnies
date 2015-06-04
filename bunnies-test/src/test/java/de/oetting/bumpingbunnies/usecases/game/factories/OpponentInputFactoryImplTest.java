@@ -21,9 +21,9 @@ import de.oetting.bumpingbunnies.core.input.ai.DummyInputService;
 import de.oetting.bumpingbunnies.core.input.factory.OpponentInputFactoryImpl;
 import de.oetting.bumpingbunnies.core.network.PlayerFromNetworkInput;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateDispatcher;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)

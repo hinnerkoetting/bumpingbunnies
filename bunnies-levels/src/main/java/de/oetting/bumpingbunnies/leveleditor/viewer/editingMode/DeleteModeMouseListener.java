@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Optional;
 
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.leveleditor.viewer.actions.CanvasObjectsFinder;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
@@ -14,6 +13,7 @@ import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class DeleteModeMouseListener implements ModeMouseListener {
 

@@ -9,9 +9,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
-import de.oetting.bumpingbunnies.core.world.ObjectProvider;
-import de.oetting.bumpingbunnies.core.worldCreation.ObjectsFactory;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.world.ObjectProvider;
+import de.oetting.bumpingbunnies.worldcreator.load.gameObjects.ObjectsFactory;
 
 public class CollisionDetectionTest {
 
@@ -124,24 +124,6 @@ public class CollisionDetectionTest {
 
 		GameObject square2 = createObject(2, 0, 3, 1);
 		assertFalse(this.detection.collides(square1, square2));
-	}
-
-	@Test
-	public void standsOnGround_givenObjectInAir_shouldReturnFalse() {
-		// Player square1 = createObject(0, 2, 1, 3);
-		//
-		// GameObject square2 = createObject(0, 0, 1, 1);
-		// when(this.world.getAllObjects()).thenReturn(Arrays.asList(square2));
-		// assertFalse(this.detection.objectStandsOnGround(square1));
-	}
-
-	@Test
-	public void standsOnGround_givenObjectInOnOther_shouldReturnTrue() {
-		// GameObject square1 = createObject(0, 1, 1, 2);
-		//
-		// GameObject square2 = createObject(0, 0, 1, 1);
-		// when(this.world.getAllObjects()).thenReturn(Arrays.asList(square2));
-		// assertTrue(this.detection.objectStandsOnGround(square1));
 	}
 
 	private GameObject createObject(int x, int y, int maxX, int maxY) {

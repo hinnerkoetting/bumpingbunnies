@@ -4,11 +4,11 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import de.oetting.bumpingbunnies.core.input.OpponentInput;
-import de.oetting.bumpingbunnies.core.world.World;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class AiInputService implements OpponentInput {
 

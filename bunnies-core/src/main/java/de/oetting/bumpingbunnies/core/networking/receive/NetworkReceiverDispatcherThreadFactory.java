@@ -7,7 +7,7 @@ import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkToOtherClientsDispatcher;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class NetworkReceiverDispatcherThreadFactory {
 

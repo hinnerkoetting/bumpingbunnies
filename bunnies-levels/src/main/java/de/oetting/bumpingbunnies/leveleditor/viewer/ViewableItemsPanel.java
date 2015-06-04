@@ -7,7 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import de.oetting.bumpingbunnies.core.world.World;
+import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class ViewableItemsPanel {
 

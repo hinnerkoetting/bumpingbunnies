@@ -7,12 +7,13 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
-import de.oetting.bumpingbunnies.core.game.ImageCache;
-import de.oetting.bumpingbunnies.core.resources.ResourceProvider;
-import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.core.worldCreation.DefaultResourceProvider;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.ClasspathXmlreader;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.XmlReader;
+import de.oetting.bumpingbunnies.model.game.world.World;
+import de.oetting.bumpingbunnies.worldcreator.load.ClasspathXmlreader;
+import de.oetting.bumpingbunnies.worldcreator.load.DefaultResourceProvider;
+import de.oetting.bumpingbunnies.worldcreator.load.ImageCache;
+import de.oetting.bumpingbunnies.worldcreator.load.ResourceProvider;
+import de.oetting.bumpingbunnies.worldcreator.load.XmlReader;
+import de.oetting.bumpingbunnies.worldcreatorPc.load.PcWorldObjectsParser;
 
 public class PcWorldObjectsParserTest {
 

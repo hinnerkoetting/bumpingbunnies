@@ -8,9 +8,9 @@ import static org.junit.Assert.assertThat;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.oetting.bumpingbunnies.core.game.ImageCache;
-import de.oetting.bumpingbunnies.core.worldCreation.DefaultResourceProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
+import de.oetting.bumpingbunnies.worldcreator.load.DefaultResourceProvider;
+import de.oetting.bumpingbunnies.worldcreator.load.ImageCache;
 
 public class PcImagesResizerTest {
 

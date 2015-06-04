@@ -2,12 +2,12 @@ package de.oetting.bumpingbunnies.core.game.movement;
 
 import java.util.List;
 
-import de.oetting.bumpingbunnies.core.world.ObjectProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerSimulation;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
+import de.oetting.bumpingbunnies.model.game.world.ObjectProvider;
 
 public class GameObjectInteractor {
 

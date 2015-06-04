@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 import java.util.Comparator;
 
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.world.ZIndexComparator;
 
 public class NegativeZIndexComparator implements Comparator<GameObjectWithImage> {
 

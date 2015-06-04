@@ -6,12 +6,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import de.oetting.bumpingbunnies.core.game.graphics.NegativeZIndexComparator;
-import de.oetting.bumpingbunnies.core.game.graphics.ZIndexComparator;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.SingleCollisionDetection;
 import de.oetting.bumpingbunnies.leveleditor.viewer.editingMode.SelectionModeProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.Rectangle;
+import de.oetting.bumpingbunnies.model.game.world.ZIndexComparator;
 
 public class CanvasObjectsFinder {
 

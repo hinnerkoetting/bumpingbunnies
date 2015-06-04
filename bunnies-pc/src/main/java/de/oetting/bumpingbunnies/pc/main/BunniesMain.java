@@ -11,7 +11,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
@@ -41,8 +40,6 @@ import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.core.world.World;
-import de.oetting.bumpingbunnies.core.worldCreation.parser.WorldLoader;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
@@ -55,6 +52,7 @@ import de.oetting.bumpingbunnies.model.configuration.input.KeyboardInputConfigur
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.pc.ApplicationStarter;
 import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
@@ -75,7 +73,8 @@ import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntryComparator;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreMenuApplication;
-import de.oetting.bumpingbunnies.pc.worldcreation.parser.PcWorldObjectsParser;
+import de.oetting.bumpingbunnies.worldcreator.load.gameObjects.WorldLoader;
+import de.oetting.bumpingbunnies.worldcreatorPc.load.PcWorldObjectsParser;
 
 public class BunniesMain extends Application implements ThreadErrorCallback, GameStopper {
 
