@@ -17,6 +17,9 @@
     <string name="hardware_keyboard">Hardware keyboard</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="wlan">W-LAN</string>
+    <string name="enable_wlan">Enable WIFI</string>
+    <string name="wlan_enabled">WIFI was enabled</string>
+    <string name="enable_bluetooth">Enable Bluetooth</string>
     <string name="room_start">Start</string>
     <string name="distributed_keyboard">Software keyboard</string>
     <string name="world_test">Test</string>

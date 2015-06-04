@@ -14,14 +14,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.sql.AsyncDatabaseCreation;
@@ -101,6 +100,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private boolean asHost;
 	private SettingsStorage settingsDao;
 	private ProgressDialog progressDialog;
+	private NetworkType activeConnection = NetworkType.WLAN;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,27 +118,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
 		this.remoteCommunication = new DummyCommunication();
 		list.setAdapter(this.hostsAdapter);
-		initRemoteCbListeners();
 		initRoom();
 		this.connectedToServerService = new DummyConnectionToServer();
 		this.broadcastService = new NetworkBroadcaster(this);
 		listenForBroadcasts();
 		settingsDao = new DummySettingsDao();
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
-		managebluetooth();
-	}
-
-	private void managebluetooth() {
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		if (bluetoothAdapter == null) {
-			LOGGER.info("Bluetooth does not exist");
-			RadioButton button = findBluetoothButton();
-			button.setVisibility(RadioButton.INVISIBLE);
-		}
-	}
-
-	private RadioButton findBluetoothButton() {
-		return (RadioButton) findViewById(R.id.start_remote_bt);
 	}
 
 	private void initRoom() {
@@ -156,6 +141,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private void switchToBluetooth() {
 		LOGGER.info("selected bluetooth");
+		activeConnection = NetworkType.BLUETOOTH;
 		if (clientAccepter != null)
 			clientAccepter.closeConnections();
 		hostsAdapter.clear();
@@ -187,6 +173,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private void switchToWlan() {
 		LOGGER.info("selected wlan");
+		activeConnection = NetworkType.WLAN;
 		if (clientAccepter != null)
 			clientAccepter.closeConnections();
 		hostsAdapter.clear();
@@ -293,32 +280,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void enableButtons(boolean enable) {
 		findViewById(R.id.room_start).setEnabled(enable);
 		findViewById(R.id.room_add_ai).setEnabled(enable);
-		findViewById(R.id.start_remote_bt).setEnabled(enable);
-		findViewById(R.id.start_remote_wlan).setEnabled(enable);
-	}
-
-	private void initRemoteCbListeners() {
-		RadioButton btButton = (RadioButton) findViewById(R.id.start_remote_bt);
-		btButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					switchToBluetooth();
-				}
-			}
-		});
-		RadioButton wlanButton = (RadioButton) findViewById(R.id.start_remote_wlan);
-		wlanButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					switchToWlan();
-				}
-			}
-		});
-		wlanButton.setChecked(true);
 	}
 
 	@Override
@@ -515,11 +476,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private ServerSettings createServerSettings(WorldConfiguration world) {
 		SettingsEntity settings = readSettingsFromDb();
-		if (((RadioButton) findViewById(R.id.start_remote_bt)).isChecked()) {
-			return new ServerSettings(world, settings.getSpeed(), NetworkType.BLUETOOTH, settings.getVictoryLimit());
-		} else {
-			return new ServerSettings(world, settings.getSpeed(), NetworkType.WLAN, settings.getVictoryLimit());
-		}
+		return new ServerSettings(world, settings.getSpeed(), activeConnection, settings.getVictoryLimit());
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
@@ -645,6 +602,26 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 				toast.show();
 			}
 		});
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		menu.clear();
+		new RoomMenu().createMenu(menu, activeConnection);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		if (item.getItemId() == RoomMenu.SETTINGS_ID)
+			ActivityLauncher.startSettings(this);
+		else if (item.getItemId() == RoomMenu.BLUETOOTH_ID)
+			switchToBluetooth();
+		else {
+			switchToWlan();
+			Toast.makeText(this, R.string.wlan_enabled, Toast.LENGTH_LONG).show();
+		}
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 }

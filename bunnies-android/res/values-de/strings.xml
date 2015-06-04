@@ -26,6 +26,9 @@
     <string name="placeholder_int">123</string>
     <string name="settings">Einstellungen</string>
     <string name="name">Name</string>
+    <string name="enable_wlan">Aktiviere WLAN</string>
+    <string name="wlan_enabled">WLAN wurde aktiviert</string>
+    <string name="enable_bluetooth">Aktiviere Bluetooth</string>
 	
     
      <!-- do not change -->

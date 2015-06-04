@@ -6,8 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.sql.AsyncDatabaseCreation;
@@ -46,13 +44,6 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		setContentView(R.layout.activity_start);
 		settingsDao = new DummySettingsDao();
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.game, menu);
-		return true;
 	}
 
 	// Call from Actitity
