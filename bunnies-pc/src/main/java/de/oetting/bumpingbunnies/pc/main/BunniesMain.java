@@ -249,7 +249,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		CanvasCoordinateTranslator coordinateTranslator = new CanvasCoordinateTranslator(canvasDelegate,
 				coordinatesCalculation);
 		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
-				new PcGameObjectDrawableFactory(), new BunnyDrawableFactory(new BunnyDrawerFactory(
+				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawableFactory(new BunnyDrawerFactory(
 						new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(),
 						new PcImageMirroror())), new PcDrawableToImageConverter(coordinateTranslator,
 						coordinatesCalculation), true);

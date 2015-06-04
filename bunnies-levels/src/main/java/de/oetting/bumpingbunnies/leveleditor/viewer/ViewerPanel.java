@@ -597,7 +597,10 @@ public class ViewerPanel extends JPanel {
 		File newFile = lastFile;
 		newFile.delete();
 		newFile.createNewFile();
-		new LevelStorer(new XmlStorer(getCurrentWorld())).storeLevel(newFile, getCurrentWorld());
+		if (newFile.getName().endsWith("xml"))
+			new XmlStorer(getCurrentWorld()).saveXml(newFile);
+		else
+			new LevelStorer(new XmlStorer(getCurrentWorld())).storeLevel(newFile, getCurrentWorld());
 	}
 
 	public void refreshTables() {

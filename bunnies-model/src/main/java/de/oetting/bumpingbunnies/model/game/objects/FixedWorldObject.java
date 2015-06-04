@@ -8,6 +8,8 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	private ImageWrapper image;
 	// Higher zIndex is drawn later (and draws over other objects)
 	private int zIndex = -1;
+	private boolean mirroredHorizontally;
+
 
 	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY, int color) {
 		this.id = id;
@@ -114,5 +116,15 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 	public void setColor(int color) {
 		this.color = color;
 	}
+
+	public boolean isMirroredHorizontally() {
+		return mirroredHorizontally;
+	}
+
+	public void setMirroredHorizontally(boolean mirroredHorizontally) {
+		this.mirroredHorizontally = mirroredHorizontally;
+	}
+	
+	
 
 }

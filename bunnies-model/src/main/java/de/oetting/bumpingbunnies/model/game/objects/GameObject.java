@@ -21,5 +21,6 @@ public interface GameObject extends Rectangle {
 	void setMaxX(long newRight);
 
 	void setMaxY(long newTopY);
-
+	
+	
 }

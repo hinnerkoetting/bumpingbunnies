@@ -23,6 +23,29 @@
 				<version>2.5</version>
 			</plugin>
 			<plugin>
+				<!--  copy images to file folder -->
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/files</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../bunnies-core-resources/src/main/worlds/images</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4.1</version>
 				<executions>
@@ -71,6 +94,6 @@
 		<dependency>
 			<groupId>de.oetting.bumping-bunnies</groupId>
 			<artifactId>bunnies-pc</artifactId>
-		</dependency> 
+		</dependency>
 	</dependencies>
 </project>

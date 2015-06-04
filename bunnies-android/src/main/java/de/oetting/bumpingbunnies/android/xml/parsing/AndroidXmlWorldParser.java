@@ -12,6 +12,7 @@ import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -100,6 +101,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		Background background = XmlRectToObjectConverter.createBackground(rect, this.worldProperties);
 		applyZIndex(background, parser);
 		background.setBitmap(readBitmap(parser));
+		applyMirrored(parser, background);
 		if (background.getBitmap() == null) 
 			background.setColor(Color.TRANSPARENT);
 		this.state.getBackground().add(background);
@@ -118,6 +120,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		Water water = XmlRectToObjectConverter.createWater(rect, this.worldProperties);
 		applyZIndex(water, parser);
 		water.setBitmap(readBitmap(parser));
+		applyMirrored(parser, water);
 		if (water.getBitmap() == null) 
 			water.setColor(Color.TRANSPARENT);
 		this.state.getWaters().add(water);
@@ -134,9 +137,16 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		Jumper jumper = XmlRectToObjectConverter.createJumper(rect, this.worldProperties);
 		applyZIndex(jumper, parser);
 		jumper.setBitmap(readBitmap(parser));
+		applyMirrored(parser, jumper);
 		if (jumper.getBitmap() == null) 
 			jumper.setColor(Color.TRANSPARENT);
 		this.state.getAllJumper().add(jumper);
+	}
+
+	private void applyMirrored(XmlPullParser parser, GameObjectWithImage go) {
+		String mirrored = parser.getAttributeValue(null, XmlConstants.MIRRORED);
+		if (mirrored != null)
+			go.setMirroredHorizontally(Boolean.valueOf(mirrored));
 	}
 
 	private void readIcewall(XmlPullParser parser) {
@@ -144,6 +154,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		IcyWall wall = XmlRectToObjectConverter.createIceWall(rect, this.worldProperties);
 		applyZIndex(wall, parser);
 		wall.setBitmap(readBitmap(parser));
+		applyMirrored(parser, wall);
 		if (wall.getBitmap() == null) 
 			wall.setColor(Color.TRANSPARENT);
 		this.state.getAllIcyWalls().add(wall);
@@ -154,6 +165,7 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 		Wall wall = XmlRectToObjectConverter.createWall(rect, this.worldProperties);
 		applyZIndex(wall, parser);
 		wall.setBitmap(readBitmap(parser));
+		applyMirrored(parser, wall);
 		if (wall.getBitmap() == null) 
 			wall.setColor(Color.TRANSPARENT);
 		this.state.getAllWalls().add(wall);

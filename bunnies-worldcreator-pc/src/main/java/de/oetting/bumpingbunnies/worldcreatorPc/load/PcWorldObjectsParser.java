@@ -118,6 +118,9 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 				object.setzIndex(Integer.parseInt(zIndexNode.getTextContent()));
 			else 
 				object.setzIndex(currentZIndex++);
+			Node mirroredNode = item.getAttributes().getNamedItem(XmlConstants.MIRRORED);
+			if (mirroredNode != null)
+				object.setMirroredHorizontally(Boolean.valueOf(mirroredNode.getTextContent()));
 			elements.add(object);
 		}
 		return elements;

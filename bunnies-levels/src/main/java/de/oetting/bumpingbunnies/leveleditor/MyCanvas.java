@@ -90,7 +90,10 @@ public class MyCanvas extends JPanel {
 		int minY = calculatePixelY(w.minY()) - height;
 		if (w.getBitmap() != null) {
 			ImageWrapper bitmap = w.getBitmap();
-			g.drawImage((BufferedImage) bitmap.getBitmap(), minX, minY, width, height, null);
+			if (w.isMirroredHorizontally())
+				g.drawImage((BufferedImage) bitmap.getBitmap(), minX + width, minY, -width, height, null);
+			else 
+				g.drawImage((BufferedImage) bitmap.getBitmap(), minX, minY, width, height, null);
 		} else {
 			g.setColor(new Color(w.getColor()));
 			g.fillRect(minX, minY, width, height);

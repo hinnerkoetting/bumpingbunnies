@@ -73,11 +73,11 @@ public class Rect {
 	}
 
 	private void validate(long minX, long minY, long maxX, long maxY) {
-		if (minX > maxX) {
-			throw new IllegalArgumentException("minX must be smaller than maxX");
-		}
-		if (minY > maxY) {
-			throw new IllegalArgumentException("minY must be smaller than maxY");
-		}
+//		if (minX > maxX) {
+//			throw new IllegalArgumentException("minX must be smaller than maxX");
+//		}
+//		if (minY > maxY) {
+//			throw new IllegalArgumentException("minY must be smaller than maxY");
+//		}
 	}
 }

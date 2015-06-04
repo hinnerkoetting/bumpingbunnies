@@ -160,6 +160,7 @@ public class XmlStorer {
 		element.setAttribute(XmlConstants.MAX_X, Double.toString((double) go.maxX() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MIN_Y, Double.toString((double) go.minY() / ModelConstants.MAX_VALUE));
 		element.setAttribute(XmlConstants.MAX_Y, Double.toString((double) go.maxY() / ModelConstants.MAX_VALUE));
+		element.setAttribute(XmlConstants.MIRRORED, Boolean.toString(go.isMirroredHorizontally()));
 		if (go.getBitmap() != null) {
 			element.setAttribute(XmlConstants.IMAGE, go.getImageKey());
 		}
