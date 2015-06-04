@@ -29,6 +29,7 @@
     <string name="placeholder_int">123</string>
     <string name="settings">Settings</string>
     <string name="name">Name</string>
+    <string name="connection_unsuccesful">Could not connect to server. Please restart this application or try to use another server.</string>
     
      <!-- do not change -->
     <string name="arrow_up">\u2191</string>
@@ -44,13 +45,13 @@
     <string name="room_add_ai">+Ai</string>
     <string name="remove_ai">Remove</string>
     <string name="players_table_header">Player</string>
-    <string name="hosts_table_header">Server</string>
+    <string name="hosts_table_header">Active games</string>
     <string name="result_player_name_header">Name</string>
     <string name="result_player_score_header">Score</string>
     <string name="result_player_image">Player image</string>
     <string name="host_bluetooth_game">Start</string>
-    <string name="host_bluetooth_game_question">Host game?</string>
-    <string name="client_bluetooth_game">Find server</string>
+    <string name="host_bluetooth_game_question">Start game?</string>
+    <string name="client_bluetooth_game">Find games</string>
     <string name="menu_sound">Sound</string>
     <string name="menu_music">Music</string>
     <string name="please_wait">Please wait&#8230;</string>

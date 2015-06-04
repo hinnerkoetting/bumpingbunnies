@@ -29,6 +29,7 @@
     <string name="enable_wlan">Aktiviere WLAN</string>
     <string name="wlan_enabled">WLAN wurde aktiviert</string>
     <string name="enable_bluetooth">Aktiviere Bluetooth</string>
+    <string name="connection_unsuccesful">Konnte keine Verbindung zum Server aufbauen. Bitte die Anwendung neustarten oder einen anderen Server verwenden.</string>
 	
     
      <!-- do not change -->
@@ -44,8 +45,8 @@
     <string name="world_castle">Castle</string>
     <string name="room_add_ai">+KI</string>
      <string name="remove_ai">Entferne</string>
-    <string name="players_table_header">Player</string>
-    <string name="hosts_table_header">Server</string>
+    <string name="players_table_header">Spieler</string>
+    <string name="hosts_table_header">Aktive Spiele</string>
     <string name="result_player_name_header">Name</string>
     <string name="result_player_score_header">Score</string>
     <string name="result_player_image">Bild des Spielers</string>

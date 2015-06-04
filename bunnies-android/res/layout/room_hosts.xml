@@ -18,8 +18,9 @@
     <ListView    
         android:id="@+id/hosts_list"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/room_table_height"
+        android:layout_height="wrap_content"
         android:layout_below="@id/hosts_table_header"
+        android:paddingBottom="50dp"
         android:layout_centerHorizontal="true"
         android:background="@color/background_table" />
 

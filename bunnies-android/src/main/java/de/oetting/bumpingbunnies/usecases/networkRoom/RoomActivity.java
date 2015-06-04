@@ -335,7 +335,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(getBaseContext(), "Exception during connect. Game may still work. "
+				Toast toast = Toast.makeText(getBaseContext(), R.string.could_not_connect
 						+ message, Toast.LENGTH_SHORT);
 				toast.show();
 
@@ -569,10 +569,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		String playerName = BunnyNameFactory.createAiName(nextPlayerId);
 		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerName);
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
-	}
-
-	public void onClickSettings(View view) {
-		ActivityLauncher.startSettings(this);
 	}
 
 	@Override
