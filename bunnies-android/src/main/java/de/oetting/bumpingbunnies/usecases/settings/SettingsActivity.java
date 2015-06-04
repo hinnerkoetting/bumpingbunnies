@@ -75,9 +75,4 @@ public class SettingsActivity extends Activity implements OnDatabaseCreation {
 		fillStoredSettings();
 	}
 	
-
-	@Override
-	public void onBackPressed() {
-		ActivityLauncher.startRoom(this);
-	}
 }

@@ -5,25 +5,37 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical" >
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/header_gradient"
             android:onClick="onClickSingleplayer"
-            android:text="@string/singleplayer" />
+            android:text="@string/singleplayer"
+            android:layout_marginBottom="10dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/header_gradient"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:onClick="onClickMultiplayer"
-            android:text="@string/multiplayer" />
+            android:text="@string/multiplayer"
+            android:layout_marginBottom="10dp" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/header_gradient"
             android:onClick="onClickSettings"
-            android:text="@string/settings" />
+            android:text="@string/settings"
+            android:layout_marginBottom="10dp" />
     </LinearLayout>
 
 </merge>

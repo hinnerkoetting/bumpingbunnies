@@ -626,12 +626,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	}
 
 	@Override
-	public void onBackPressed() {
-		finish();
-		super.moveTaskToBack(true);
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 		setMyPlayerName();

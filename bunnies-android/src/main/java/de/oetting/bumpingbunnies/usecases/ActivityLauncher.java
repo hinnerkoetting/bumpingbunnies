@@ -26,13 +26,11 @@ public class ActivityLauncher {
 	public static void startSettings(Activity origin) {
 		Intent intent = new Intent(origin, SettingsActivity.class);
 		origin.startActivity(intent);
-		origin.finish();
 	}
 
 	public static void startRoom(Activity origin) {
 		Intent intent = new Intent(origin, RoomActivity.class);
 		origin.startActivity(intent);
-		origin.finish();
 	}
 
 	public static void startResult(Activity origin, ResultWrapper gameResult) {

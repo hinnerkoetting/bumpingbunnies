@@ -5,7 +5,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="app_name_solo">Bumping Bunnies Solo</string>
    
-    <string name="singleplayer">Singleplayer</string>
+    <string name="singleplayer">Quickstart</string>
+    <string name="multiplayer">Custom/Multiplayer</string>
     <string name="input">Eingabe</string>
     <string name="ai">KI</string>
     <string name="ai_off">Aus</string>
@@ -17,7 +18,6 @@
     <string name="bluetooth">Bluetooth</string>
     <string name="wlan">W-LAN</string>
     <string name="room_start">Start</string>
-    <string name="multiplayer">Multiplayer</string>
     <string name="distributed_keyboard">Software Keyboard</string>
     <string name="world_test">Test</string>
     <string name="speed">Geschwindigkeit</string>

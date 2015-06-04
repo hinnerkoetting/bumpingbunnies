@@ -9,12 +9,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.RadioGroup;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.sql.AsyncDatabaseCreation;
 import de.oetting.bumpingbunnies.android.sql.OnDatabaseCreation;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
+import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -31,7 +31,6 @@ import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
-import de.oetting.bumpingbunnies.usecases.game.android.view.configuration.AiModusGenerator;
 import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsStorage;
@@ -56,9 +55,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		return true;
 	}
 
-	/**
-	 * Call from Actitity
-	 */
+	// Call from Actitity
 	public void onClickSingleplayer(View v) {
 		Configuration configuration = createConfiguration();
 		GameStartParameter parameter = GameParameterFactory.createSingleplayerParameter(configuration);
@@ -84,27 +81,24 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
-		return new LocalSettings(settings.getInputConfiguration(), settings.getZoom(), 
-				settings.isPlayMusic(), settings.isPlaySound(), settings.isLefthanded());
+		return new LocalSettings(settings.getInputConfiguration(), settings.getZoom(), settings.isPlayMusic(),
+				settings.isPlaySound(), settings.isLefthanded());
 	}
 
 	private List<OpponentConfiguration> createSpOtherPlayerConfiguration(SettingsEntity settings) {
-		int numberPlayer = 2;
+		int numberPlayer = 3;
 		List<OpponentConfiguration> list = new ArrayList<OpponentConfiguration>();
 		for (int i = 1; i < numberPlayer; i++) {
-			ConnectionIdentifier opponent = ConnectionIdentifierFactory.createAiPlayer("" + i);
-			list.add(new OpponentConfiguration(findSelectedAiMode(), new PlayerProperties(i, "Player " + i), opponent, new NoopInputConfiguration()));
+			String name = BunnyNameFactory.createAiName(i);
+			ConnectionIdentifier opponent = ConnectionIdentifierFactory.createAiPlayer(name);
+			list.add(new OpponentConfiguration(AiModus.NORMAL, new PlayerProperties(i, name), opponent,
+					new NoopInputConfiguration()));
 		}
 		return list;
 	}
 
 	private void launchGame(GameStartParameter parameter) {
 		ActivityLauncher.launchGame(this, parameter);
-	}
-
-	private AiModus findSelectedAiMode() {
-		RadioGroup radioGroup = (RadioGroup) findViewById(R.id.start_ai_group);
-		return AiModusGenerator.createFromRadioGroup(radioGroup);
 	}
 
 	public void onClickMultiplayer(View v) {
@@ -116,15 +110,8 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	}
 
 	private ServerSettings createGeneralSettings(SettingsEntity settings) {
-		WorldConfiguration world = findWorldConfiguration();
-		int speed = settings.getSpeed();
-		ServerSettings generalSettings = new ServerSettings(world, speed, NetworkType.WLAN, settings.getVictoryLimit());
-		return generalSettings;
-	}
-
-	private WorldConfiguration findWorldConfiguration() {
-		RadioGroup rg = (RadioGroup) findViewById(R.id.start_world_group);
-		return WorldConfigurationGenerator.createWorldConfigurationFromRadioGroup(rg);
+		return new ServerSettings(WorldConfiguration.CLASSIC, settings.getSpeed(), NetworkType.WLAN,
+				settings.getVictoryLimit());
 	}
 
 	@Override
