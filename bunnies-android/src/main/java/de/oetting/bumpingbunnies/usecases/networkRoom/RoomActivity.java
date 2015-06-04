@@ -37,6 +37,7 @@ import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NoopSocket;
+import de.oetting.bumpingbunnies.core.network.SearchingServerDevice;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.room.Host;
@@ -272,6 +273,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			public void run() {
 				CharSequence text = getText(R.string.could_not_connect);
 				Toast.makeText(RoomActivity.this, text, Toast.LENGTH_SHORT).show();
+				hostsAdapter.clear();
 			}
 		});
 

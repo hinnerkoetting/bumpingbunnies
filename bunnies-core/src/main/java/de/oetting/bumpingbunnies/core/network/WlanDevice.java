@@ -82,4 +82,9 @@ public class WlanDevice implements ServerDevice {
 	public String getName() {
 		return name;
 	}
+	
+	@Override
+	public boolean canConnectToServer() {
+		return true;
+	}
 }

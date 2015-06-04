@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
+import java.util.Collection;
+
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -9,16 +11,19 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import de.oetting.bumpingbunnies.R;
+import de.oetting.bumpingbunnies.core.network.SearchingServerDevice;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 
 public class HostsListViewAdapter extends ArrayAdapter<Host> {
 
 	private final ConnectToServerCallback callback;
+	private final Host scanningFakeHost = new Host(new SearchingServerDevice());
 
 	public HostsListViewAdapter(Context context, ConnectToServerCallback callback) {
 		super(context, R.layout.room_player_entry);
 		this.callback = callback;
+		super.add(scanningFakeHost);
 	}
 
 	@Override
@@ -46,8 +51,9 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 			}
 			return false;
 		}
-		
+
 	}
+
 	private class TouchListener implements OnTouchListener {
 
 		private final ServerDevice device;
@@ -87,8 +93,37 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 		Host item = getItem(position);
 		onItemClick(item.getDevice());
 	}
+
 	public void onItemClick(ServerDevice device) {
-		callback.startConnectToServer(device);		
+		if (device.canConnectToServer())
+			callback.startConnectToServer(device);
+	}
+
+	@Override
+	public void add(Host object) {
+		super.remove(scanningFakeHost);
+		super.add(object);
+		super.add(scanningFakeHost);
+	}
+
+	@Override
+	public void addAll(Host... items) {
+		super.remove(scanningFakeHost);
+		super.addAll(items);
+		super.add(scanningFakeHost);
+	}
+	
+	@Override
+	public void addAll(Collection<? extends Host> collection) {
+		super.remove(scanningFakeHost);
+		super.addAll(collection);
+		super.add(scanningFakeHost);
+	}
+
+	@Override
+	public void clear() {
+		super.clear();
+		super.add(scanningFakeHost);
 	}
 
 }

@@ -53,5 +53,10 @@ public class BluetoothServerDevice implements ServerDevice {
 		BluetoothServerDevice other = (BluetoothServerDevice) obj;
 		return other.getName().equals(getName());
 	}
+	
+	@Override
+	public boolean canConnectToServer() {
+		return true;
+	}
 
 }

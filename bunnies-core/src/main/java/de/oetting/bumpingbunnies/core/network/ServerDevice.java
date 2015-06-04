@@ -4,4 +4,6 @@ public interface ServerDevice {
 	MySocket createClientSocket();
 
 	String getName();
+	
+	boolean canConnectToServer();
 }
