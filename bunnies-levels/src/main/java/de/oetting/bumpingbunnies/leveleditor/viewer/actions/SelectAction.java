@@ -193,7 +193,7 @@ public class SelectAction implements MouseAction {
 		}
 	}
 
-	private void applyZIndexByListOrder(List list) {
+	private <S> void applyZIndexByListOrder(List<S> list) {
 		for (int i = 0; i < list.size(); i++) {
 			GameObjectWithImage object = (GameObjectWithImage) list.get(i);
 			object.setzIndex(i);

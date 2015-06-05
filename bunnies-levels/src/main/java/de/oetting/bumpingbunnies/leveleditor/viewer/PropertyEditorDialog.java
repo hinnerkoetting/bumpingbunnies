@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
-import de.oetting.bumpingbunnies.model.game.objects.Wall;
 
 public class PropertyEditorDialog {
 

@@ -119,6 +119,7 @@ public class MyCanvas extends JPanel {
 				.getScreenCoordinateY(minY));
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<GameObjectWithImage> getSelectedGameObjects() {
 		List list = selectedObjects.stream().filter(obj -> (obj instanceof GameObjectWithImage))
 				.collect(Collectors.toList());

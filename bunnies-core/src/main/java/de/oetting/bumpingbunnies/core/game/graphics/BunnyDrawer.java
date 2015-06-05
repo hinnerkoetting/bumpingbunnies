@@ -12,7 +12,6 @@ public class BunnyDrawer implements Drawable {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BunnyDrawer.class);
 	private static final int ALPHA_WHILE_ALIVE = 255;
 	private static final int ALPHA_WHILE_IN_WATER = 96;
-	private static final int ALPHA_WHILE_DEAD = 64;
 	private static final int TIME_MILLIS_BLINKING_AFTER_DEAD = 1000;
 	private static final int NUMBER_OF_BLINKS = 5;
 

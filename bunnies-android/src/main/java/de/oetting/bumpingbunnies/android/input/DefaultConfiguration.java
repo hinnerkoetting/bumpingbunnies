@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.android.input;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.InputDevice;

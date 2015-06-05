@@ -73,8 +73,9 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
 		if (paint.getAlpha() != 0)
-			this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth), (float) (right * this.width),
-				(float) (bottom * this.heigth), paintConverter.convert(paint, context));
+			this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth),
+					(float) (right * this.width), (float) (bottom * this.heigth),
+					paintConverter.convert(paint, context));
 	}
 
 	@Override
@@ -149,8 +150,7 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 	@Override
 	public void drawImageBlinking(ImageWrapper bitmap, long left, long top, Paint paint) {
 		android.graphics.Paint convert = paintConverter.convert(paint, context);
-//		convert.set
-		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, convert);		
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, convert);
 	}
 
 }

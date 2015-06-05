@@ -3,8 +3,6 @@ package de.oetting.bumpingbunnies.android.sql;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap.Config;
-import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.core.configuration.ConfigurationConstants;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;

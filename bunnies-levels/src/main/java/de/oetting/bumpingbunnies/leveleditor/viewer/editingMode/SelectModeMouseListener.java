@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.leveleditor.viewer.editingMode;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.Optional;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.leveleditor.viewer.ViewerPanel;

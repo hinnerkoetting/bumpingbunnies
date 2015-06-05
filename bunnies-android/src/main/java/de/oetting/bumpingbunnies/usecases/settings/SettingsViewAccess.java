@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.settings;
 
 import android.app.Activity;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
