@@ -30,10 +30,6 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 	public void executeNextStep(long deltaStepsSinceLastCall) {
 		for (BunnyMovement movement : this.playermovements) {
 			movement.nextStep(deltaStepsSinceLastCall);
-			// must be in this line otherwise kill checks will not work
-			// properly. the other player might move a bit and the bunny might
-			// not be exactly on top of
-			// the other
 		}
 		this.killChecker.checkForJumpedPlayers();
 		//move them backwards so that they do not overlap
