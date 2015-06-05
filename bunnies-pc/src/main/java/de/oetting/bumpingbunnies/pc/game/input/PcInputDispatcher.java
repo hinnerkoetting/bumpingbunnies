@@ -79,7 +79,7 @@ public class PcInputDispatcher {
 	}
 
 	private MenuItem createAddAiButton() {
-		MenuItem itemAdd = new MenuItem("+AI");
+		MenuItem itemAdd = new MenuItem("+Bot");
 		itemAdd.addEventHandler(javafx.event.Event.ANY, event -> addAi());
 		return itemAdd;
 	}
