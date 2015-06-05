@@ -49,10 +49,9 @@ public class GameObjectInteractor {
 	}
 
 	private void interactWithPlayers(Bunny player, PlayerSimulation nextStep) {
-		for (Bunny p : this.objectProvider.getAllConnectedBunnies()) {
-			if (p.id() != player.id()) {
-				interactWith(nextStep, player, p);
-			}
+		for (Bunny otherBunny : this.objectProvider.getAllConnectedBunnies()) {
+			if (otherBunny.id() != player.id()) 
+				interactWithBunny(nextStep, player, otherBunny);
 		}
 	}
 
@@ -63,9 +62,13 @@ public class GameObjectInteractor {
 	}
 
 	private void interactWith(GameObject nextStep, Bunny player, GameObject object) {
-		if (this.collisionDetection.collides(nextStep, object)) {
+		if (this.collisionDetection.collides(nextStep, object)) 
 			collisionHandling.interactWith(player, object, collisionDetection);
-		}
+	}
+	
+	private void interactWithBunny(GameObject nextStep, Bunny player,Bunny otherBunny) {
+		if (this.collisionDetection.collides(nextStep, otherBunny)) 
+			collisionHandling.interactWithBunnies(player, otherBunny, collisionDetection);
 	}
 
 }

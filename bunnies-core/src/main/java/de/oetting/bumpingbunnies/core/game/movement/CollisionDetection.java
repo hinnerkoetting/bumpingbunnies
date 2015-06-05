@@ -59,6 +59,15 @@ public class CollisionDetection {
 		}
 		return null;
 	}
+	
+	public Bunny findBunnyThisBunnyIsCollidingWith(Bunny player) {
+		for (Bunny go : this.world.getAllConnectedBunnies()) {
+			if (player.id() != go.id() && collides(player, go)) {
+				return go;
+			}
+		}
+		return null;
+	}
 
 	public boolean collidesWithRight(GameObject player, GameObject object) {
 		return SingleCollisionDetection.collidesObjectOnRight(player, object);
@@ -123,4 +132,6 @@ public class CollisionDetection {
 	public boolean touchesVertical(GameObject gameObject, GameObject other) {
 		return gameObject.maxY() == other.minY() || gameObject.minY() == other.maxY();
 	}
+
+	
 }

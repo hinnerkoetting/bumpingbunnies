@@ -47,6 +47,14 @@ public class CollisionHandling {
 	public void interactWith(Bunny player, GameObject fixedObject, CollisionDetection collisionDetection) {
 		reducePlayerTooMaxSpeedToNotCollide(player, fixedObject, collisionDetection);
 	}
+	
+	public void interactWithBunnies(Bunny player, Bunny otherPlayer, CollisionDetection collisionDetection) {
+		//For players we have a special algorithm.
+		//We only reduce the horinzontal speed. The vertical speed remains unchanged
+		//So the upper player can move a bit into the lower bunny. The kill check returns true if a bunny collides with another
+		//This fix resolved some issues with collision detection
+		reducePlayerTooMaxSpeedToNotCollideHorizontally(player, otherPlayer, collisionDetection);
+	}
 
 	/**
 	 * If the simulated player is in the water and the player is not in the
@@ -71,6 +79,15 @@ public class CollisionHandling {
 				reduceXSpeed(player, object);
 			if (!collisionDetection.sharesVerticalPosition(player, object) && collisionDetection.sharesHorizontalPosition(player, object))
 				reduceYSpeed(player, object);
+		}
+	}
+
+	private void reducePlayerTooMaxSpeedToNotCollideHorizontally(Bunny player, GameObject object,
+			CollisionDetection collisionDetection) {
+		GameObject nextStep = player.simulateNextStep();
+		if (collisionDetection.collides(nextStep, object)) {
+			if (!collisionDetection.sharesHorizontalPosition(player, object))
+				reduceXSpeed(player, object);
 		}
 	}
 

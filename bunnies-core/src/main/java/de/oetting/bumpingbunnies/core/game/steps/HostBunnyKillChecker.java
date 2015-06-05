@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.core.game.steps;
 
-
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
@@ -39,8 +38,10 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final GameStopper gameStopper;
 	private final Configuration configuration;
 
-	public HostBunnyKillChecker(CollisionDetection collisionDetection, World world, SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver,
-			MessageSender messageSender, PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer, GameStopper gameStopper, Configuration configuration) {
+	public HostBunnyKillChecker(CollisionDetection collisionDetection, World world,
+			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver, MessageSender messageSender,
+			PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer, GameStopper gameStopper,
+			Configuration configuration) {
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
@@ -54,20 +55,16 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 
 	@Override
 	public void checkForJumpedPlayers() {
-		for (Bunny player : this.world.getAllConnectedBunnies()) {
-			Bunny playerUnder = this.collisionDetection.findPlayerThisPlayerIsStandingOn(player);
-			if (playerUnder != null && upperPlayerFallsFasterThanLowerPlayer(player, playerUnder)) {
-				if (!player.isDead() && !playerUnder.isDead() )
-					handleJumpedPlayer(playerUnder, player);
+		for (Bunny bunny : this.world.getAllConnectedBunnies()) {
+			Bunny collidingBunny = collisionDetection.findBunnyThisBunnyIsCollidingWith(bunny);
+			if (collidingBunny != null && collidingBunny.minY() < bunny.minY()) {
+				if (!bunny.isDead() && !collidingBunny.isDead())
+					onBunnyWasJumped(collidingBunny, bunny);
 			}
 		}
 	}
 
-	private boolean upperPlayerFallsFasterThanLowerPlayer(Bunny playerOver, Bunny playerUnder) {
-		return playerOver.movementY() <= playerUnder.movementY();
-	}
-
-	private void handleJumpedPlayer(Bunny playerUnder, Bunny playerTop) {
+	private void onBunnyWasJumped(Bunny playerUnder, Bunny playerTop) {
 		increaseScore(playerTop);
 		killPlayer(playerUnder);
 		revivePlayerDelayed(playerUnder);
@@ -86,26 +83,28 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		int secondMax = getSecondMaxScore(max);
 		return getMaxScore() >= configuration.getGeneralSettings().getVictoryLimit() && secondMax <= max - 2;
 	}
-	
+
 	private int getMaxScore() {
 		int max = Integer.MIN_VALUE;
 		List<Bunny> bunnies = world.getAllConnectedBunnies();
-		for (Bunny bunny: bunnies) {
+		for (Bunny bunny : bunnies) {
 			if (bunny.getScore() > max) {
 				max = bunny.getScore();
 			}
 		}
 		return max;
 	}
+
 	private int getSecondMaxScore(int maxScore) {
 		int countOfNumberWithMaxScore = 0;
 		int secondMax = Integer.MIN_VALUE;
 		List<Bunny> bunnies = world.getAllConnectedBunnies();
-		for (Bunny bunny: bunnies) {
+		for (Bunny bunny : bunnies) {
 			if (bunny.getScore() > secondMax) {
-				if (bunny.getScore()  < maxScore)
+				if (bunny.getScore() < maxScore)
 					secondMax = bunny.getScore();
-				else countOfNumberWithMaxScore++;
+				else
+					countOfNumberWithMaxScore++;
 			}
 		}
 		assert countOfNumberWithMaxScore > 0 : "At least one player must have max score";
@@ -162,7 +161,8 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		if (!player.getOpponent().isLocalPlayer()) {
 			MySocket playerSocket = SocketStorage.getSingleton().findSocket(player.getOpponent());
 			SpawnPointMessage message = new SpawnPointMessage(spawnPoint, player.id());
-			new SpawnPointSender(SimpleNetworkSenderFactory.createNetworkSender(playerSocket, disconnectCallback)).sendMessage(message);
+			new SpawnPointSender(SimpleNetworkSenderFactory.createNetworkSender(playerSocket, disconnectCallback))
+					.sendMessage(message);
 		}
 		ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, player);
 	}
