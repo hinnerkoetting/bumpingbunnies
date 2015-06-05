@@ -1,10 +1,8 @@
 package de.oetting.bumpingbunnies.leveleditor.viewer;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.text.ParseException;
 
 import javax.swing.JButton;
@@ -13,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 
 public class PropertyEditorDialog {
@@ -21,8 +19,8 @@ public class PropertyEditorDialog {
 	private JDialog dialog;
 	private PropertiesPanel panel;
 
-	public PropertyEditorDialog(JFrame owner, GameObject editedObject) {
-		panel = new PropertiesPanel(editedObject);
+	public PropertyEditorDialog(JFrame owner, GameObjectWithImage editedObject, ViewerPanel viewerPanel) {
+		panel = new PropertiesPanel(editedObject, viewerPanel);
 		dialog = new JDialog(owner, true);
 		buildDialog();
 		fillGui();
@@ -83,13 +81,4 @@ public class PropertyEditorDialog {
 		dialog.setVisible(true);
 	}
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setVisible(true);
-		Wall wall = new Wall(0, 1000, 10000, 10000, 50000);
-		PropertyEditorDialog dialog = new PropertyEditorDialog(frame, wall);
-		dialog.show();
-		frame.setVisible(false);
-		frame.dispose();
-	}
 }

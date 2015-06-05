@@ -1,15 +1,21 @@
 package de.oetting.bumpingbunnies.leveleditor.viewer;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.NullObject;
@@ -21,13 +27,16 @@ public class PropertiesPanel {
 	private JTextField maxXTextfield;
 	private JTextField maxYTextfield;
 
-	private GameObject editedObject;
+	private GameObjectWithImage editedObject;
+	private final ViewerPanel panel;
 
-	public PropertiesPanel(GameObject editedObject) {
+	public PropertiesPanel(GameObjectWithImage editedObject, ViewerPanel panel) {
 		this.editedObject = editedObject;
+		this.panel = panel;
 	}
 
-	public PropertiesPanel() {
+	public PropertiesPanel(ViewerPanel panel) {
+		this.panel = panel;
 		editedObject = new NullObject();
 	}
 
@@ -35,7 +44,19 @@ public class PropertiesPanel {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(createTextFieldsPanel(), BorderLayout.PAGE_START);
+		panel.add(createMirroredCheckbox(), BorderLayout.AFTER_LAST_LINE);
 		return panel;
+	}
+
+	private Component createMirroredCheckbox() {
+		JCheckBox checkbox = new JCheckBox("Mirrored");
+		checkbox.addActionListener(event -> onMirroredClicked());
+		return checkbox;
+	}
+
+	private void onMirroredClicked() {
+		editedObject.setMirroredHorizontally(!editedObject.isMirroredHorizontally());
+		panel.refreshView();
 	}
 
 	public void updateMasks() {
@@ -76,28 +97,46 @@ public class PropertiesPanel {
 
 	private JTextField createMinXTextfield() {
 		minXTextfield = new JTextField(10);
+		minXTextfield.addFocusListener(updatePanel());
 		return minXTextfield;
 	}
 
 	private JTextField createMinYTextfield() {
 		minYTextfield = new JTextField(10);
+		minYTextfield.addFocusListener(updatePanel());
 		return minYTextfield;
 	}
 
 	private JTextField createMaxXTextfield() {
 		maxXTextfield = new JTextField(10);
+		maxXTextfield.addFocusListener(updatePanel());
 		return maxXTextfield;
 	}
 
 	private JTextField createMaxYTextfield() {
 		maxYTextfield = new JTextField(10);
+		maxYTextfield.addFocusListener(updatePanel());
 		return maxYTextfield;
 	}
 
+	private FocusListener updatePanel() {
+		return new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				try {
+					updateObject();
+					panel.refreshView();
+				} catch (ParseException ex) {
+					JOptionPane.showMessageDialog(panel, "Could not save information " + ex.getMessage());
+				}
+			}
+		};
+	}
+
 	public void setSelectedObject(GameObjectWithImage object) {
-		if (object == null) 
+		if (object == null)
 			object = new NullObject();
-		else 
+		else
 			editedObject = object;
 	}
 }

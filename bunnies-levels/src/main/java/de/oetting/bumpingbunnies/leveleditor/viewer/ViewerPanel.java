@@ -184,21 +184,9 @@ public class ViewerPanel extends JPanel {
 	private Component createPropertiesPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder("Properties"));
-		propertiesPanel = new PropertiesPanel();
+		propertiesPanel = new PropertiesPanel(this);
 		panel.add(propertiesPanel.buildDialog());
-		JButton storeButton = new JButton("Assign");
-		storeButton.addActionListener(event -> updateObject());
-		panel.add(storeButton);
 		return panel;
-	}
-
-	private void updateObject() {
-		try {
-			propertiesPanel.updateObject();
-			refreshView();
-		} catch (ParseException e) {
-			JOptionPane.showMessageDialog(this, "Could not save information " + e.getMessage());
-		}
 	}
 
 	private JComponent createButtons() {
@@ -557,7 +545,7 @@ public class ViewerPanel extends JPanel {
 
 	private ModeMouseListener findCurrentModeMouseListener() {
 		if (editingModePanel.isSelectModeActive())
-			return new SelectModeMouseListener(createSelectionModeProvider());
+			return new SelectModeMouseListener(createSelectionModeProvider(), this);
 		else if (editingModePanel.isDeleteModeActive())
 			return new DeleteModeMouseListener(createSelectionModeProvider(), new CanvasObjectsFinder(
 					createSelectionModeProvider()));
@@ -576,7 +564,7 @@ public class ViewerPanel extends JPanel {
 		} else if (editingModePanel.isBackgroundModeActive())
 			return new CreateBackgroundEditingMode(createSelectionModeProvider(),
 					(minX, minY, maxX, maxY) -> ObjectsFactory.createBackground(minX, minY, maxX, maxY), myCanvas);
-		return new SelectModeMouseListener(createSelectionModeProvider());
+		return new SelectModeMouseListener(createSelectionModeProvider(), this);
 	}
 
 	private SelectionModeProvider createSelectionModeProvider() {
