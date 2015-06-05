@@ -4,22 +4,13 @@
     <string name="app_name">Bumping Bunnies</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="app_name_solo">Bumping Bunnies Solo</string>
-   
     <string name="singleplayer">Quickstart</string>
     <string name="multiplayer">Custom/Multiplayer</string>
     <string name="input">Eingabe</string>
-    <string name="ai">AI</string>
-    <string name="ai_off">Aus</string>
-    <string name="ai_normal">Normal</string>
-    <string name="world">Welt</string>
-    <string name="world_classic">Classic</string>
     <string name="zoom">Zoom</string>
     <string name="hardware_keyboard">Hardware-Keyboard</string>
-    <string name="bluetooth">Bluetooth</string>
-    <string name="wlan">W-LAN</string>
     <string name="room_start">Start</string>
     <string name="distributed_keyboard">Software Keyboard</string>
-    <string name="world_test">Test</string>
     <string name="speed">Geschwindigkeit</string>
     <string name="result">Ergebnis</string>
     <string name="placeholder">Platzhalter</string>
@@ -31,21 +22,19 @@
     <string name="enable_bluetooth">Aktiviere Bluetooth</string>
     <string name="connection_unsuccesful">Konnte keine Verbindung zum Server aufbauen. Bitte die Anwendung neustarten oder einen anderen Server verwenden.</string>
     <string name="menu">Menu</string>
-	
-    
-     <!-- do not change -->
+
+    <!-- do not change -->
     <string name="arrow_up">\u2191</string>
     <string name="arrow_down">\u2193</string>
     <string name="arrow_left">\u2190</string>
     <string name="arrow_right">\u2192</string>
-    <!--  until here -->
-    
+    <!-- until here -->
+
     <string name="address_in_use">Adresse wird bereits verwendet. Konnte nicht nach Server suchen. Bitte Anwendung neu starten.</string>
     <string name="unknown_error">Unbekannter Fehler</string>
     <string name="could_not_connect">Konnte keine Verbindung zum Server aufbauen</string>
-    <string name="world_castle">Castle</string>
     <string name="room_add_ai">+Bot</string>
-     <string name="remove_ai">Entferne</string>
+    <string name="remove_ai">Entferne</string>
     <string name="players_table_header">Spieler</string>
     <string name="hosts_table_header">Aktive Spiele</string>
     <string name="result_player_name_header">Name</string>
@@ -62,5 +51,5 @@
     <string name="fast_speed">Schnell</string>
     <string name="slow_speed">Langsam</string>
     <string name="victory_limit">Sieglimit</string>
-    
+
 </resources>

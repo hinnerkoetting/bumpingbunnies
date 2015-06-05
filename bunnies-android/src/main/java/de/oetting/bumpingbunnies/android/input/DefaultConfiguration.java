@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.android.input;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.InputDevice;
 import de.oetting.bumpingbunnies.android.input.distributedKeyboard.DistributedKeyboardinput;
@@ -35,12 +37,17 @@ public class DefaultConfiguration {
 		return new DistributedKeyboardinput();
 
 	}
-
+ 
 	private static boolean isGamepad(int sources) {
 		if (android.os.Build.VERSION.SDK_INT >= 12) {
-			return (sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD;
+			return checkforGamePad(sources);
 		}
 		return false;
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+	private static boolean checkforGamePad(int sources) {
+		return (sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD;
 	}
 
 	public static String getUsername() {

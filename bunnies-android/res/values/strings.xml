@@ -8,21 +8,13 @@
     <string name="singleplayer">Quick start</string>
     <string name="multiplayer">Custom/Multiplayer</string>
     <string name="input">Input</string>
-    <string name="ai">AI</string>
-    <string name="ai_off">Off</string>
-    <string name="ai_normal">Normal</string>
-    <string name="world">World</string>
-    <string name="world_classic">Classic</string>
     <string name="zoom">Zoom</string>
     <string name="hardware_keyboard">Hardware keyboard</string>
-    <string name="bluetooth">Bluetooth</string>
-    <string name="wlan">W-LAN</string>
     <string name="enable_wlan">Enable WIFI</string>
     <string name="wlan_enabled">WIFI was enabled</string>
     <string name="enable_bluetooth">Enable Bluetooth</string>
     <string name="room_start">Start</string>
     <string name="distributed_keyboard">Software keyboard</string>
-    <string name="world_test">Test</string>
     <string name="speed">Speed</string>
     <string name="result">Result</string>
     <string name="placeholder">Placeholder</string>
@@ -41,8 +33,6 @@
     
     <string name="address_in_use">Address is already in use. Could not search for servers. Please restart this application.</string>
     <string name="unknown_error">Unknown error</string>
-    <string name="could_not_connect">Could not connect to the server</string>
-    <string name="world_castle">Castle</string>
     <string name="room_add_ai">+Bot</string>
     <string name="remove_ai">Remove</string>
     <string name="players_table_header">Player</string>

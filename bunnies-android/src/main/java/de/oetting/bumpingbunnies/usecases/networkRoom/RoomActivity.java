@@ -337,7 +337,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(getBaseContext(), R.string.could_not_connect
+				Toast toast = Toast.makeText(getBaseContext(), R.string.connection_unsuccesful
 						+ message, Toast.LENGTH_SHORT);
 				toast.show();
 
