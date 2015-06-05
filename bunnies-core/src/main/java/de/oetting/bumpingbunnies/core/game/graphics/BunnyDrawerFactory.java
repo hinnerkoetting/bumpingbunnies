@@ -5,23 +5,28 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
+import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesCache;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class BunnyDrawerFactory {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(BunnyDrawerFactory.class);
 	private final PlayerImagesProvider imagesProvider;
 	private final ImagesColorer coloror;
 	private final ImageMirroror mirroror;
 
 	public BunnyDrawerFactory(PlayerImagesProvider imagesProvider, ImagesColorer coloror, ImageMirroror mirroror) {
-		this.imagesProvider = imagesProvider;
+		this.imagesProvider = new PlayerImagesCache(imagesProvider);
 		this.coloror = coloror;
 		this.mirroror = mirroror;
 	}
 
 	public BunnyDrawer create(int width, int heigth, Bunny player) {
+		long timeBefore = System.currentTimeMillis();
 		int timeBetweenPictures = 25;
 		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(createRunningAnimation(width, heigth, player), timeBetweenPictures,
 				mirroror);
@@ -35,6 +40,7 @@ public class BunnyDrawerFactory {
 				createJumpingOnlyUpAnimation(width, heigth, player), 100, mirroror);
 		List<ConditionalMirroredAnimation> animations = Arrays.asList(runningAnimation, fallingAnimation, jumpingAnimation, sittingAnimation,
 				jumpingOnlyUpAnimation);
+		LOGGER.info("Creating image of bunny took %d milliseconds", System.currentTimeMillis() - timeBefore);
 		return new BunnyDrawer(player, animations);
 	}
 
