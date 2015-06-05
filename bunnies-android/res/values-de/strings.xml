@@ -8,7 +8,7 @@
     <string name="singleplayer">Quickstart</string>
     <string name="multiplayer">Custom/Multiplayer</string>
     <string name="input">Eingabe</string>
-    <string name="ai">KI</string>
+    <string name="ai">AI</string>
     <string name="ai_off">Aus</string>
     <string name="ai_normal">Normal</string>
     <string name="world">Welt</string>
@@ -44,7 +44,7 @@
     <string name="unknown_error">Unbekannter Fehler</string>
     <string name="could_not_connect">Konnte keine Verbindung zum Server aufbauen</string>
     <string name="world_castle">Castle</string>
-    <string name="room_add_ai">+KI</string>
+    <string name="room_add_ai">+Bot</string>
      <string name="remove_ai">Entferne</string>
     <string name="players_table_header">Spieler</string>
     <string name="hosts_table_header">Aktive Spiele</string>
