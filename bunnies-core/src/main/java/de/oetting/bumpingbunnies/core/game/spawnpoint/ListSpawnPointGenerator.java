@@ -10,7 +10,6 @@ public class ListSpawnPointGenerator implements SpawnPointGenerator {
 	private List<SpawnPoint> allSpawnPoints;
 
 	public ListSpawnPointGenerator(List<SpawnPoint> allSpawnPoints) {
-		super();
 		this.allSpawnPoints = allSpawnPoints;
 	}
 

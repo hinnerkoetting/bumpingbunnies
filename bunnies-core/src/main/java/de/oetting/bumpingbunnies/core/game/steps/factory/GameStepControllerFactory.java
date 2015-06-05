@@ -4,7 +4,7 @@ import de.oetting.bumpingbunnies.core.configuration.OpponentInputFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
-import de.oetting.bumpingbunnies.core.game.spawnpoint.ListSpawnPointGenerator;
+import de.oetting.bumpingbunnies.core.game.spawnpoint.RandomizedSpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.SpawnPointGenerator;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyKillChecker;
 import de.oetting.bumpingbunnies.core.game.steps.BunnyMovementStep;
@@ -29,7 +29,7 @@ public class GameStepControllerFactory {
 			PlayerStateDispatcher stateDispatcher, PlayerMovementCalculationFactory factory,
 			NetworkMessageDistributor sendControl, Configuration configuration,
 			PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer, GameStopper gameStopper) {
-		SpawnPointGenerator spawnPointGenerator = new ListSpawnPointGenerator(world.getSpawnPoints());
+		SpawnPointGenerator spawnPointGenerator = new RandomizedSpawnPointGenerator(world.getSpawnPoints());
 		PlayerReviver reviver = new PlayerReviver(new MessageSenderToNetworkDelegate(sendControl));
 		BunnyKillChecker killChecker = createKillChecker(configuration, world, spawnPointGenerator, reviver,
 				new CollisionDetection(world), sendControl, disconnectCallback, musicPlayer, gameStopper);
