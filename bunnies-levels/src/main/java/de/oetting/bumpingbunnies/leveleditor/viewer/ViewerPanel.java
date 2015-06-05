@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +33,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.oetting.bumpingbunnies.core.worldCreation.NonClosingInputstream;
@@ -81,6 +83,7 @@ public class ViewerPanel extends JPanel {
 	private EditingModePanel editingModePanel;
 	private JFrame frame;
 	private ViewableItemsPanel viewableItemsPanel;
+	private PropertiesPanel propertiesPanel;
 
 	public ViewerPanel(String file) {
 		this.lastFile = new File(file);
@@ -171,10 +174,31 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JComponent createTopPanel() {
-		JComponent panel = new JPanel(new GridLayout(2, 1));
+		JComponent panel = new JPanel(new GridLayout(3, 1));
 		panel.add(createButtons());
 		panel.add(createVisibleButtons());
+		panel.add(createPropertiesPanel());
 		return panel;
+	}
+
+	private Component createPropertiesPanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder("Properties"));
+		propertiesPanel = new PropertiesPanel();
+		panel.add(propertiesPanel.buildDialog());
+		JButton storeButton = new JButton("Assign");
+		storeButton.addActionListener(event -> updateObject());
+		panel.add(storeButton);
+		return panel;
+	}
+
+	private void updateObject() {
+		try {
+			propertiesPanel.updateObject();
+			refreshView();
+		} catch (ParseException e) {
+			JOptionPane.showMessageDialog(this, "Could not save information " + e.getMessage());
+		}
 	}
 
 	private JComponent createButtons() {
@@ -643,6 +667,11 @@ public class ViewerPanel extends JPanel {
 	public void refreshView() {
 		refreshTables();
 		repaintCanvas();
+		propertiesPanel.updateMasks();
+	}
+
+	public void setSelectedObject(GameObjectWithImage object) {
+		propertiesPanel.setSelectedObject(object);
 	}
 
 }

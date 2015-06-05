@@ -1,18 +1,18 @@
 package de.oetting.bumpingbunnies.leveleditor.viewer;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.NullObject;
 
 public class PropertiesPanel {
 
@@ -21,10 +21,14 @@ public class PropertiesPanel {
 	private JTextField maxXTextfield;
 	private JTextField maxYTextfield;
 
-	private final GameObject editedObject;
+	private GameObject editedObject;
 
 	public PropertiesPanel(GameObject editedObject) {
 		this.editedObject = editedObject;
+	}
+
+	public PropertiesPanel() {
+		editedObject = new NullObject();
 	}
 
 	public JPanel buildDialog() {
@@ -88,5 +92,12 @@ public class PropertiesPanel {
 	private JTextField createMaxYTextfield() {
 		maxYTextfield = new JTextField(10);
 		return maxYTextfield;
+	}
+
+	public void setSelectedObject(GameObjectWithImage object) {
+		if (object == null) 
+			object = new NullObject();
+		else 
+			editedObject = object;
 	}
 }

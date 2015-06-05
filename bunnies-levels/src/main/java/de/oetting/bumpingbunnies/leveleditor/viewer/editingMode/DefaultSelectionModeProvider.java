@@ -63,10 +63,8 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 
 	@Override
 	public void setSelectedObject(Optional<? extends GameObjectWithImage> go) {
-		if (go.isPresent())
-			canvas.setSelectedObject(go.get());
-		else
-			canvas.setSelectedObject(null);
+		canvas.setSelectedObject(go.isPresent() ? go.get() : null);
+		panel.setSelectedObject(go.isPresent() ? go.get() : null);
 		refreshView();
 	}
 
