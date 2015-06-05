@@ -1,11 +1,10 @@
 package de.oetting.bumpingbunnies.usecases.game.factories;
 
 import android.content.Context;
-import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ImageMirroror;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
@@ -27,7 +26,7 @@ public class DrawerFactory {
 	public static ObjectsDrawer create(World world, GameThreadState threadState, Configuration configuration,
 			CoordinatesCalculation calculations, Context context) {
 
-		BunnyDrawableFactory playerDrawerFactory = createPlayerDrawerFactory();
+		BunnyDrawerFactory playerDrawerFactory = createPlayerDrawerFactory();
 		CanvasAdapter canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasAdapter(context), calculations);
 		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(),
 				new AndroidGameObjectsDrawableFactory(), playerDrawerFactory, new AndroidDrawableToImageConverter(
@@ -39,11 +38,11 @@ public class DrawerFactory {
 		return drawer;
 	}
 
-	private static BunnyDrawableFactory createPlayerDrawerFactory() {
+	private static BunnyDrawerFactory createPlayerDrawerFactory() {
 		BunnyImagesReader imagesReader = new BunnyImagesReader();
 		PlayerImagesProvider imagesProvider = new AndroidPlayerImagesProvider(imagesReader);
 		ImagesColorer colorer = new AndroidImagesColoror();
 		ImageMirroror mirrorer = new AndroidImagesMirrorer();
-		return new BunnyDrawableFactory(new BunnyDrawerFactory(imagesProvider, colorer, mirrorer));
+		return new BunnyDrawerFactory(imagesProvider, colorer, mirrorer);
 	}
 }

@@ -31,8 +31,8 @@ public class Bunny implements GameObject {
 		this.opponent = opponent;
 		this.state = new PlayerState(id);
 		this.id = id;
-		this.halfHeight = ModelConstants.BUNNY_HEIGHT / 2;
-		this.halfWidth = ModelConstants.BUNNY_WIDTH / 2;
+		this.halfHeight = ModelConstants.BUNNY_GAME_HEIGHT / 2;
+		this.halfWidth = ModelConstants.BUNNY_GAME_WIDTH / 2;
 		simulatedObject = new PlayerSimulation(new PlayerState(id), halfWidth, halfHeight);
 	}
 

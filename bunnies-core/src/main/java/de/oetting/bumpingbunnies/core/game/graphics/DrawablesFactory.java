@@ -12,6 +12,7 @@ import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.model.game.world.ZIndexComparator;
 
@@ -21,13 +22,13 @@ public class DrawablesFactory {
 	private final World world;
 	private final BackgroundDrawableFactory backgroundDrawableFactory;
 	private final GameObjectDrawableFactory gameObjectDrawableFactory;
-	private final BunnyDrawableFactory playerDrawableFactory;
+	private final BunnyDrawerFactory playerDrawableFactory;
 	private final DrawableToImageConverter onImageDrawer;
 	private final boolean convertAllStaticObjectsToOneImage;
 
 	public DrawablesFactory(GameThreadState gameThreadState, World world,
 			BackgroundDrawableFactory backgroundDrawableFactory, GameObjectDrawableFactory gameObjectDrawableFactory,
-			BunnyDrawableFactory playerDrawableFactory, DrawableToImageConverter onImageDrawer,
+			BunnyDrawerFactory playerDrawableFactory, DrawableToImageConverter onImageDrawer,
 			boolean convertAllStaticObjectsToOneImage) {
 		this.gameThreadState = gameThreadState;
 		this.world = world;
@@ -114,9 +115,9 @@ public class DrawablesFactory {
 	}
 
 	public Drawable createPlayerDrawable(Bunny p, CanvasAdapter canvas) {
-		int width = (int) (canvas.transformX(p.maxX()) - canvas.transformX(p.minX()));
-		int height = (int) (canvas.transformY(p.minY()) - canvas.transformY(p.maxY()));
-		return playerDrawableFactory.create(p, width, height);
+		int width = (int) (canvas.transformX(ModelConstants.BUNNY_DRAWN_WIDTH) - canvas.transformX(0));
+		int height = (int) (canvas.transformY(0) - canvas.transformY(ModelConstants.BUNNY_DRAWN_HEIGHT));
+		return playerDrawableFactory.create(width, height, p);
 	}
 
 }

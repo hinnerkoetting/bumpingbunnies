@@ -22,7 +22,6 @@ import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
 import de.oetting.bumpingbunnies.core.game.IngameMenu;
-import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
@@ -249,9 +248,9 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		CanvasCoordinateTranslator coordinateTranslator = new CanvasCoordinateTranslator(canvasDelegate,
 				coordinatesCalculation);
 		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
-				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawableFactory(new BunnyDrawerFactory(
+				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawerFactory(
 						new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(),
-						new PcImageMirroror())), new PcDrawableToImageConverter(coordinateTranslator,
+						new PcImageMirroror()), new PcDrawableToImageConverter(coordinateTranslator,
 						coordinatesCalculation), true);
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, coordinateTranslator);
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
