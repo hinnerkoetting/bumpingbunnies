@@ -15,7 +15,7 @@ public class BunnyDrawer implements Drawable {
 	private static final int ALPHA_WHILE_DEAD = 64;
 	private static final int TIME_MILLIS_BLINKING_AFTER_DEAD = 1000;
 	private static final int NUMBER_OF_BLINKS = 5;
-	
+
 	private final Bunny player;
 	private final Paint paint;
 	private List<ConditionalMirroredAnimation> animations;
@@ -68,17 +68,9 @@ public class BunnyDrawer implements Drawable {
 	}
 
 	private int computeAlpha() {
-		return computeBaseAlpha() / (drawLighter() ? 3 : 1);
-	}
-
-	private int computeBaseAlpha() {
-		if (!this.player.isDead()) {
-			if (player.isInWater())
-				return ALPHA_WHILE_IN_WATER;
-			return ALPHA_WHILE_ALIVE;
-		} else {
-			return ALPHA_WHILE_DEAD;
-		}
+		if (player.isInWater())
+			return ALPHA_WHILE_IN_WATER;
+		return ALPHA_WHILE_ALIVE;
 	}
 
 	private void drawAnimation(CanvasAdapter canvas) {
@@ -89,8 +81,12 @@ public class BunnyDrawer implements Drawable {
 		for (ConditionalMirroredAnimation ani : this.animations) {
 			if (ani.shouldBeExecuted(copiedPlayer)) {
 				ani.drawMirrored(copiedPlayer.isFacingLeft());
-				ani.draw(canvas, minXPosition(canvas, ani, copiedPlayer), maxYPosition(canvas, ani, copiedPlayer),
-						this.paint);
+				if (drawLighter())
+					ani.drawBlinking(canvas, minXPosition(canvas, ani, copiedPlayer),
+							maxYPosition(canvas, ani, copiedPlayer), this.paint);
+				else
+					ani.draw(canvas, minXPosition(canvas, ani, copiedPlayer), maxYPosition(canvas, ani, copiedPlayer),
+							this.paint);
 				return;
 			}
 		}

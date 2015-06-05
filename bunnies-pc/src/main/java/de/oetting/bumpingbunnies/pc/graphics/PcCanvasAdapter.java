@@ -157,4 +157,18 @@ public class PcCanvasAdapter implements CanvasAdapter {
 		Image image = (Image) imageWrapper.getBitmap();
 		return (int) image.getHeight();
 	}
+
+	@Override
+	public void drawImageBlinking(ImageWrapper bitmap, long left, long top, Paint paint) {
+		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
+		graphicsContext2D.setEffect(createBlinkingEffect());
+		drawImage(bitmap, left, top, paint);
+		graphicsContext2D.setEffect(null);
+	}
+
+	private ColorAdjust createBlinkingEffect() {
+		ColorAdjust adjust = new ColorAdjust();
+		adjust.setBrightness(0.7);
+		return adjust;
+	}
 }

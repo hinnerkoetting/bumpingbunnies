@@ -5,6 +5,8 @@ import de.oetting.bumpingbunnies.core.graphics.Paint;
 public interface Animation {
 
 	void draw(CanvasAdapter canvas, long left, long top, Paint paint);
+	
+	void drawBlinking(CanvasAdapter canvas, long left, long top, Paint paint);
 
 	int getWidth(CanvasAdapter canvas);
 

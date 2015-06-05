@@ -135,4 +135,9 @@ public class CanvasCoordinateTranslator implements CanvasAdapter {
 		return coordinatesCalculation.getDifferenceInGameCoordinateY(0, next.getHeight(imageWrapper));
 	}
 
+	@Override
+	public void drawImageBlinking(ImageWrapper bitmap, long left, long top, Paint paint) {
+		next.drawImageBlinking(bitmap, transformX(left), transformY(top), paint);
+	}
+
 }

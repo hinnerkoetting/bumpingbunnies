@@ -146,4 +146,11 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 		return ((Bitmap) imageWrapper.getBitmap()).getHeight();
 	}
 
+	@Override
+	public void drawImageBlinking(ImageWrapper bitmap, long left, long top, Paint paint) {
+		android.graphics.Paint convert = paintConverter.convert(paint, context);
+//		convert.set
+		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, convert);		
+	}
+
 }
