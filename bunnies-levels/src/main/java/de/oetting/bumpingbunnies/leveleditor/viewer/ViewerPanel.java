@@ -171,14 +171,14 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JComponent createTopPanel() {
-		JComponent panel = new JPanel(new GridLayout(0, 2));
+		JComponent panel = new JPanel(new GridLayout(2, 1));
 		panel.add(createButtons());
 		panel.add(createVisibleButtons());
 		return panel;
 	}
 
 	private JComponent createButtons() {
-		Box box = Box.createVerticalBox();
+		Box box = Box.createHorizontalBox();
 		box.add(createLoadButton());
 		box.add(createRefreshButton());
 		box.add(createSaveButton());

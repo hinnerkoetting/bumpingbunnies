@@ -1,11 +1,11 @@
 package de.oetting.bumpingbunnies.leveleditor.viewer;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import de.oetting.bumpingbunnies.model.game.world.World;
 
@@ -26,7 +26,8 @@ public class ViewableItemsPanel {
 
 	private JPanel buildIntern() {
 		panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBorder(new TitledBorder("Visible layers"));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		panel.add(createWallCheckbox());
 		panel.add(createIceWallCheckbox());
 		panel.add(createWaterCheckbox());
