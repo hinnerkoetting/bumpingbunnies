@@ -46,6 +46,8 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 	}
 
+	
+
 	// Call from Actitity
 	public void onClickSingleplayer(View v) {
 		Configuration configuration = createConfiguration();

@@ -28,7 +28,7 @@ public class DistributedKeyboardFactory extends AbstractPlayerInputServicesFacto
 	@Override
 	public DistributedInputService createInputService(Bunny movement, Context context, CoordinatesCalculation calculations) {
 		VibratorService vibrator = createvibratorService(context);
-		return new DistributedInputService(movement, vibrator);
+		return new DistributedInputService(movement, vibrator, context);
 	}
 
 	private VibratorService createvibratorService(Context context) {

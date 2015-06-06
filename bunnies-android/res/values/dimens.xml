@@ -18,6 +18,7 @@
     <dimen name="room_table_header_height">30dp</dimen>
     <dimen name="room_button_height">35sp</dimen>
     <dimen name="room_button_padding">5dp</dimen>
+    <dimen name="padding_start_buttons">20dp</dimen>
 
    
 

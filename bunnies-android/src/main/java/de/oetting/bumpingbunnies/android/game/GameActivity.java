@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawThread;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawer;
 import de.oetting.bumpingbunnies.android.input.InputDispatcher;
+import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlWorldParser;
 import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
@@ -93,15 +95,18 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		main.addJoinListener(drawer);
 		contentView.addOnSizeListener(drawThread);
 		menuAdapter = createMenu(parameter);
+		checkForMultitouchAvailabilty(parameter);
 		conditionalRestoreState();
 	}
 
 	private AndroidIngameMenuAdapter createMenu(GameStartParameter parameter) {
-		IngameMenu ingameMenu= new IngameMenu(main, new BunnyFactory(parameter.getConfiguration().getGeneralSettings().getSpeedSetting()), main.getWorld(), SocketStorage.getSingleton(), this);
+		IngameMenu ingameMenu = new IngameMenu(main, new BunnyFactory(parameter.getConfiguration().getGeneralSettings()
+				.getSpeedSetting()), main.getWorld(), SocketStorage.getSingleton(), this);
 		return new AndroidIngameMenuAdapter(ingameMenu, this, main.getWorld(), parameter);
 	}
 
-	private World createWorld(GameActivity activity, GameStartParameter parameter) { AndroidXmlWorldParser parser = new AndroidXmlWorldParser();
+	private World createWorld(GameActivity activity, GameStartParameter parameter) {
+		AndroidXmlWorldParser parser = new AndroidXmlWorldParser();
 		return new WorldLoader().load(parser, new ImageCreator() {
 
 			@Override
@@ -210,7 +215,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	@Override
 	public void onInitializationError(final String message) {
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				Toast toast = Toast.makeText(GameActivity.this, message, Toast.LENGTH_LONG);
@@ -218,39 +223,47 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 			}
 		});
 	}
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
 		this.menuAdapter.createMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return menuAdapter.menuItemSelected(item);
 	}
-	
+
 	public void onMenuClick(View v) {
 		openOptionsMenu();
 	}
-	 
-	//workaround for fix, that android usually does not allow menus on xlarge devices
-	//see also http://stackoverflow.com/a/17903128/2337393
+
+	// workaround for fix, that android usually does not allow menus on xlarge
+	// devices
+	// see also http://stackoverflow.com/a/17903128/2337393
 	public void openOptionsMenu() {
 
-	    Configuration config = getResources().getConfiguration();
+		Configuration config = getResources().getConfiguration();
 
-	    if((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) 
-	            > Configuration.SCREENLAYOUT_SIZE_LARGE) {
+		if ((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) > Configuration.SCREENLAYOUT_SIZE_LARGE) {
 
-	        int originalScreenLayout = config.screenLayout;
-	        config.screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
-	        super.openOptionsMenu();
-	        config.screenLayout = originalScreenLayout;
+			int originalScreenLayout = config.screenLayout;
+			config.screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
+			super.openOptionsMenu();
+			config.screenLayout = originalScreenLayout;
 
-	    } else {
-	        super.openOptionsMenu();
-	    }
+		} else {
+			super.openOptionsMenu();
+		}
 	}
 
+	private void checkForMultitouchAvailabilty(GameStartParameter parameter) {
+		boolean supportsMultiTouch = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
+		boolean isHardwareInput = parameter.getConfiguration().getInputConfiguration() instanceof HardwareKeyboardInputConfiguration;
+		if (!supportsMultiTouch && !isHardwareInput) {
+			Toast.makeText(this, R.string.no_multitouch, Toast.LENGTH_LONG).show();
+		}
+	}
 }
