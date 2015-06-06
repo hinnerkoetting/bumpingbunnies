@@ -9,7 +9,17 @@ public class OptimalZoom {
 		if (deviceInches(context.getResources().getDisplayMetrics()) > 6) {
 			return 4;
 		}
+		int minPixels = minPixels(context); 
+		if (minPixels < 750)
+			return 7;
+		else if (minPixels < 1000) 
+			return 6;
 		return 5;
+	}
+
+	private static int minPixels(Context context) {
+		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+		return Math.min(metrics.widthPixels, metrics.heightPixels);
 	}
 
 	public static int computeMaximumZoom(Context context) {
