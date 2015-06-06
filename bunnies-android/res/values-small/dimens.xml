@@ -3,4 +3,9 @@
 	<dimen name="room_button_height">20sp</dimen>
     <dimen name="button_height">100dp</dimen>
     <dimen name="button_width">100dp</dimen>
+    <dimen name="start_button_margin">20dp</dimen>
+    <dimen name="start_button_radius">10dp</dimen>
+    <dimen name="start_buttons_padding">30dp</dimen>
+    <dimen name="start_button_text_size">10sp</dimen>
+    
 </resources>
