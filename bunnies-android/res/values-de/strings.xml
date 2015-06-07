@@ -42,7 +42,7 @@
     <string name="result_player_image">Bild des Spielers</string>
     <string name="host_bluetooth_game_question">Modus wählen</string>
     <string name="host_bluetooth_game">Start</string>
-    <string name="client_bluetooth_game">Server suchen</string>
+    <string name="client_bluetooth_game">Spiele suchen</string>
     <string name="menu_sound">Sound</string>
     <string name="menu_music">Musik</string>
     <string name="please_wait">Bitte warten&#8230;</string>

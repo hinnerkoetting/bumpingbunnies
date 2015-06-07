@@ -273,10 +273,19 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			public void run() {
 				CharSequence text = getText(R.string.could_not_connect);
 				Toast.makeText(RoomActivity.this, text, Toast.LENGTH_SHORT).show();
-				hostsAdapter.clear();
+				onConnectionError();
 			}
+
 		});
 
+	}
+
+	private void onConnectionError() {
+		hostsAdapter.clear();
+		enableButtons(true);
+		progressDialog.dismiss();
+		playersAA.clear();
+		addMyPlayerRoomEntry(getNextPlayerId());
 	}
 
 	private void enableButtons(boolean enable) {
@@ -337,10 +346,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(getBaseContext(), R.string.connection_unsuccesful
-						+ message, Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(getBaseContext(), R.string.connection_unsuccesful + message,
+						Toast.LENGTH_SHORT);
 				toast.show();
-
+				onConnectionError();
 			}
 		});
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = super.getView(position, convertView, parent);
-		view.setOnTouchListener(new TouchListener(getItem(position).getDevice()));
+		view.setOnClickListener(new TouchListener(getItem(position).getDevice()));
 		view.setOnKeyListener(new KeyListener(getItem(position).getDevice()));
 		return view;
 	}
@@ -55,7 +56,7 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 
 	}
 
-	private class TouchListener implements OnTouchListener {
+	private class TouchListener implements OnClickListener {
 
 		private final ServerDevice device;
 
@@ -63,20 +64,11 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 			this.device = device;
 		}
 
+
 		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-				onItemClick(device);
-				v.setEnabled(false);
-				break;
-			case MotionEvent.ACTION_UP:
-				v.performClick();
-				break;
-			default:
-				break;
-			}
-			return true;
+		public void onClick(View v) {
+			onItemClick(device);
+			v.setEnabled(false);
 		}
 
 	}
