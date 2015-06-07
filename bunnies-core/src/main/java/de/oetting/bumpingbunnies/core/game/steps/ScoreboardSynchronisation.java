@@ -21,7 +21,15 @@ public class ScoreboardSynchronisation implements PlayerJoinListener {
 	public void scoreIsChanged() {
 		List<Bunny> copiedBunnies = new ArrayList<Bunny>(world.getAllConnectedBunnies());
 		Collections.sort(copiedBunnies, new BunnyScoreComparator());
-		access.replaceBunnies(copiedBunnies);
+		List<Bunny> topThree = takeTop(copiedBunnies, 3);
+		access.replaceBunnies(topThree);
+	}
+
+	private List<Bunny> takeTop(List<Bunny> copiedBunnies, int number) {
+		List<Bunny> topX = new ArrayList<Bunny>(number);
+		for (int i = 0; i < number && i < copiedBunnies.size(); i++)
+			topX.add(copiedBunnies.get(i));
+		return topX;
 	}
 
 	@Override

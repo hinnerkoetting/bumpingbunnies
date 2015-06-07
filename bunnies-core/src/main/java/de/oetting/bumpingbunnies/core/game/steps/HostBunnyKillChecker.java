@@ -170,7 +170,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private void sendSpawnPointOnlyToThisPlayer(Bunny player) {
-		SpawnPoint spawnPoint = findSpawnpoint();
+		SpawnPoint spawnPoint = findSpawnpoint(player);
 		if (!player.getOpponent().isLocalPlayer()) {
 			MySocket playerSocket = SocketStorage.getSingleton().findSocket(player.getOpponent());
 			SpawnPointMessage message = new SpawnPointMessage(spawnPoint, player.id());
@@ -181,7 +181,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private void assignSpawnpoint(Bunny player) {
-		SpawnPoint spawnPoint = findSpawnpoint();
+		SpawnPoint spawnPoint = findSpawnpoint(player);
 		if (spawnPoint != null) {
 			this.messageSender.sendMessage(MessageId.SPAWN_POINT, new SpawnPointMessage(spawnPoint, player.id()));
 			ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, player);
@@ -190,33 +190,34 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		}
 	}
 
-	private SpawnPoint findSpawnpoint() {
+	private SpawnPoint findSpawnpoint(Bunny forBunny) {
 		int maxCount = 5;
 		SpawnPoint spawn;
 		do {
 			spawn = this.spawnPointGenerator.nextSpawnPoint();
-		} while (noPlayerIsClose(spawn) && --maxCount > 0);
-		if (maxCount > 0) {
+		} while (aPlayerIsClose( forBunny, spawn) && --maxCount > 0);
+		if (!aPlayerIsClose(forBunny, spawn))
 			return spawn;
-		}
-		return createEmergencySpawn() ;
+		return createEmergencySpawn();
 	}
 
 	private SpawnPoint createEmergencySpawn() {
 		LOGGER.info("creating emergency spawn");
-		int randomX = (int) (ModelConstants.STANDARD_WORLD_SIZE * 0.1 + random.nextInt((int) (ModelConstants.STANDARD_WORLD_SIZE * 0.8)));
-		int randomY =  ModelConstants.STANDARD_WORLD_SIZE + random.nextInt(ModelConstants.STANDARD_WORLD_SIZE / 2);
+		int randomX = (int) (ModelConstants.STANDARD_WORLD_SIZE * 0.1 + random
+				.nextInt((int) (ModelConstants.STANDARD_WORLD_SIZE * 0.8)));
+		int randomY = ModelConstants.STANDARD_WORLD_SIZE + random.nextInt(ModelConstants.STANDARD_WORLD_SIZE / 2);
 		return new SpawnPoint(randomX, randomY);
 	}
 
-	private boolean noPlayerIsClose(SpawnPoint spawn) {
+	private boolean aPlayerIsClose(Bunny player, SpawnPoint spawn) {
 		for (Bunny bunny : world.getAllConnectedBunnies()) {
-			if (Math.abs(bunny.getCenterX() - spawn.getX()) < ModelConstants.STANDARD_WORLD_SIZE / 100
-					&& Math.abs(bunny.getCenterY() - spawn.getY()) < ModelConstants.STANDARD_WORLD_SIZE / 100) {
-				return false;
-			}
+			if (bunny.id() != player.id())
+				if (Math.abs(bunny.getCenterX() - spawn.getX()) < ModelConstants.STANDARD_WORLD_SIZE / 100
+						&& Math.abs(bunny.getCenterY() - spawn.getY()) < ModelConstants.STANDARD_WORLD_SIZE / 100) {
+					return true;
+				}
 		}
-		return true;
+		return false;
 	}
 
 	@Override
