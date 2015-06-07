@@ -21,7 +21,7 @@ public class AndroidDrawThread extends BunniesThread implements GameScreenSizeCh
 			drawer.draw();
 		}
 	}
-
+ 
 	public void cancel() {
 		canceled = true;
 	}

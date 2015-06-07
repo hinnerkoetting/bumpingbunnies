@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.ListView;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.graphics.AndroidDrawThread;
@@ -35,6 +36,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.RelativeCoordina
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
+import de.oetting.bumpingbunnies.core.game.steps.ScoreboardSynchronisation;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
@@ -79,7 +81,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 				.getConfiguration().getZoom());
 		World world = createWorld(this, parameter);
 		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this,
-				new AndroidMusicPlayerFactory(this), new AndroidConnectionEstablisherFactory(this), this);
+				new AndroidMusicPlayerFactory(this), new AndroidConnectionEstablisherFactory(this), this, createScoreboardSynchronisation(world));
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(
 				cameraCalculation, new WorldProperties());
 		inputDispatcher = InputDispatcherFactory.createInputDispatcher(this, parameter, myPlayer, calculations);
@@ -97,6 +99,19 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		menuAdapter = createMenu(parameter);
 		checkForMultitouchAvailabilty(parameter);
 		conditionalRestoreState();
+	}
+
+	private ScoreboardSynchronisation createScoreboardSynchronisation(World world) {
+		ScoreboardArrayAdapter score = createScoreBoard(world);
+		return new ScoreboardSynchronisation(new AndroidScoreboardAccess(score, this), world);
+	}
+
+	private ScoreboardArrayAdapter createScoreBoard(World world) {
+		ScoreboardArrayAdapter scoreBoard = new ScoreboardArrayAdapter(this);
+		ListView scoreboardList = (ListView) findViewById(R.id.game_scoreboard_list);
+		scoreboardList.setAdapter(scoreBoard);
+		scoreBoard.addAll(world.getAllConnectedBunnies());
+		return scoreBoard;
 	}
 
 	private AndroidIngameMenuAdapter createMenu(GameStartParameter parameter) {

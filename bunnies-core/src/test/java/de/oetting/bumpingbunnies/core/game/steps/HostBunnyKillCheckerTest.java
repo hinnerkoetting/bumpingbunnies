@@ -135,7 +135,7 @@ public class HostBunnyKillCheckerTest {
 		configuration = TestConfigurationFactory.createDummyHost();
 		this.classUnderTest = new HostBunnyKillChecker(mock(CollisionDetection.class), this.world, this.spawnGenerator,
 				this.reviver, this.sendControl, mock(PlayerDisconnectedCallback.class), mock(MusicPlayer.class),
-				gameStopper, configuration);
+				gameStopper, configuration, mock(ScoreboardSynchronisation.class));
 		givenNextSpawnPointIsAt(0, 0);
 	}
 }

@@ -25,11 +25,12 @@ public class DrawablesFactory {
 	private final BunnyDrawerFactory playerDrawableFactory;
 	private final DrawableToImageConverter onImageDrawer;
 	private final boolean convertAllStaticObjectsToOneImage;
+	private boolean withScores;
 
 	public DrawablesFactory(GameThreadState gameThreadState, World world,
 			BackgroundDrawableFactory backgroundDrawableFactory, GameObjectDrawableFactory gameObjectDrawableFactory,
 			BunnyDrawerFactory playerDrawableFactory, DrawableToImageConverter onImageDrawer,
-			boolean convertAllStaticObjectsToOneImage) {
+			boolean convertAllStaticObjectsToOneImage, boolean withScores) {
 		this.gameThreadState = gameThreadState;
 		this.world = world;
 		this.backgroundDrawableFactory = backgroundDrawableFactory;
@@ -37,6 +38,7 @@ public class DrawablesFactory {
 		this.playerDrawableFactory = playerDrawableFactory;
 		this.onImageDrawer = onImageDrawer;
 		this.convertAllStaticObjectsToOneImage = convertAllStaticObjectsToOneImage;
+		this.withScores = withScores;
 		if (onImageDrawer == null) {
 			throw new IllegalArgumentException();
 		}
@@ -47,6 +49,7 @@ public class DrawablesFactory {
 		List<Drawable> drawables = new ArrayList<Drawable>();
 		drawables.addAll(createStaticObjects(canvas));
 		drawables.addAll(createAllPlayer(canvas));
+		if (withScores)
 		drawables.addAll(createAllScores());
 //		drawables.add(new FpsDrawer(gameThreadState));
 		return drawables;

@@ -9,6 +9,7 @@ import de.oetting.bumpingbunnies.core.game.movement.CollisionHandling;
 import de.oetting.bumpingbunnies.core.game.movement.GameObjectInteractor;
 import de.oetting.bumpingbunnies.core.game.movement.PlayerMovementCalculationFactory;
 import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
+import de.oetting.bumpingbunnies.core.game.steps.ScoreboardSynchronisation;
 import de.oetting.bumpingbunnies.core.game.steps.factory.GameStepControllerFactory;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
@@ -34,7 +35,7 @@ public class CommonGameThreadFactory {
 	public static GameThread create(World world, ThreadErrorCallback errorCallback, Configuration configuration,
 			CameraPositionCalculation cameraCalculation, NetworkToGameDispatcher networkDispatcher,
 			NetworkMessageDistributor sendControl, GameMain main, BunniesMusicPlayerFactory musicPlayerFactory,
-			GameStopper gameStopper) {
+			GameStopper gameStopper, ScoreboardSynchronisation scoreSynchronisation) {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		initInputServices(main, errorCallback, world, networkDispatcher, configuration, gameStopper,
 				createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()));
@@ -43,7 +44,7 @@ public class CommonGameThreadFactory {
 				musicPlayerFactory, configuration.getLocalSettings());
 		GameStepController stepController = CommonGameThreadFactory.createStepController(cameraCalculation, world,
 				stateDispatcher, factory, sendControl, configuration, main,
-				createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()), gameStopper);
+				createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()), gameStopper, scoreSynchronisation );
 
 		return CommonGameThreadFactory.create(stepController, errorCallback);
 	}
@@ -63,9 +64,9 @@ public class CommonGameThreadFactory {
 	public static GameStepController createStepController(CameraPositionCalculation cameraCalculation, World world,
 			PlayerStateDispatcher stateDispatcher, PlayerMovementCalculationFactory factory,
 			NetworkMessageDistributor sendControl, Configuration configuration,
-			PlayerDisconnectedCallback disconnectCallback, MusicPlayer deadPlayerMusic, GameStopper gameStopper) {
+			PlayerDisconnectedCallback disconnectCallback, MusicPlayer deadPlayerMusic, GameStopper gameStopper, ScoreboardSynchronisation scoreSynchronisation) {
 		return GameStepControllerFactory.create(cameraCalculation, world, stateDispatcher, factory, sendControl,
-				configuration, disconnectCallback, deadPlayerMusic, gameStopper);
+				configuration, disconnectCallback, deadPlayerMusic, gameStopper, scoreSynchronisation);
 	}
 
 	public static PlayerMovementCalculationFactory createMovementCalculationFactory(World world,

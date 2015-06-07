@@ -32,6 +32,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalcu
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
+import de.oetting.bumpingbunnies.core.game.steps.ScoreboardSynchronisation;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
@@ -208,7 +209,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter
 				.getConfiguration().getZoom());
 		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this,
-				new PcMusicPlayerFactory(this), new PcConnectionEstablisherFactory(), this);
+				new PcMusicPlayerFactory(this), new PcConnectionEstablisherFactory(), this, new ScoreboardSynchronisation(new NullScoreAccess(), world));
 		gameMain.addJoinListener(drawerThread);
 		gameMain.onResume();
 	}
@@ -251,7 +252,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawerFactory(
 						new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(),
 						new PcImageMirroror()), new PcDrawableToImageConverter(coordinateTranslator,
-						coordinatesCalculation), true);
+						coordinatesCalculation), true, true);
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, coordinateTranslator);
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);

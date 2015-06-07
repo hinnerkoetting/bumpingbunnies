@@ -27,4 +27,8 @@ public class ClientBunnyKillChecker implements BunnyKillChecker {
 	@Override
 	public void removeEvent(Bunny p) {
 	}
+
+	@Override
+	public void addJoinListener(JoinObserver main) {
+	}
 }

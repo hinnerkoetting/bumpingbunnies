@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.core.game.steps;
 
 import java.util.List;
+import java.util.Random;
 
 import de.oetting.bumpingbunnies.core.game.movement.CollisionDetection;
 import de.oetting.bumpingbunnies.core.game.spawnpoint.ResetToScorePoint;
@@ -15,9 +16,12 @@ import de.oetting.bumpingbunnies.core.networking.messaging.spawnPoint.SpawnPoint
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.model.network.MessageId;
@@ -28,6 +32,7 @@ import de.oetting.bumpingbunnies.model.network.MessageId;
  */
 public class HostBunnyKillChecker implements BunnyKillChecker {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(HostBunnyKillChecker.class);
 	private final CollisionDetection collisionDetection;
 	private final World world;
 	private final SpawnPointGenerator spawnPointGenerator;
@@ -37,11 +42,13 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	private final MusicPlayer musicPlayer;
 	private final GameStopper gameStopper;
 	private final Configuration configuration;
+	private final ScoreboardSynchronisation scoreSynchronisation;
+	private final Random random;
 
 	public HostBunnyKillChecker(CollisionDetection collisionDetection, World world,
 			SpawnPointGenerator spawnPointGenerator, PlayerReviver reviver, MessageSender messageSender,
 			PlayerDisconnectedCallback disconnectCallback, MusicPlayer musicPlayer, GameStopper gameStopper,
-			Configuration configuration) {
+			Configuration configuration, ScoreboardSynchronisation scoreSynchronisation) {
 		this.collisionDetection = collisionDetection;
 		this.spawnPointGenerator = spawnPointGenerator;
 		this.reviver = reviver;
@@ -51,6 +58,8 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		this.musicPlayer = musicPlayer;
 		this.gameStopper = gameStopper;
 		this.configuration = configuration;
+		this.scoreSynchronisation = scoreSynchronisation;
+		this.random = new Random(System.currentTimeMillis());
 	}
 
 	@Override
@@ -70,6 +79,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		revivePlayerDelayed(playerUnder);
 		playSound();
 		checkForEndgameCondition();
+		scoreSynchronisation.scoreIsChanged();
 	}
 
 	void checkForEndgameCondition() {
@@ -96,6 +106,8 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private int getSecondMaxScore(int maxScore) {
+		if (world.getAllConnectedBunnies().size() < 2)
+			return world.getAllConnectedBunnies().get(0).getScore();
 		int countOfNumberWithMaxScore = 0;
 		int secondMax = Integer.MIN_VALUE;
 		List<Bunny> bunnies = world.getAllConnectedBunnies();
@@ -148,6 +160,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 		killedPlayer.increaseScore(-1);
 		killPlayer(killedPlayer);
 		revivePlayerDelayed(killedPlayer);
+		scoreSynchronisation.scoreIsChanged();
 	}
 
 	@Override
@@ -157,7 +170,7 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private void sendSpawnPointOnlyToThisPlayer(Bunny player) {
-		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
+		SpawnPoint spawnPoint = findSpawnpoint();
 		if (!player.getOpponent().isLocalPlayer()) {
 			MySocket playerSocket = SocketStorage.getSingleton().findSocket(player.getOpponent());
 			SpawnPointMessage message = new SpawnPointMessage(spawnPoint, player.id());
@@ -168,12 +181,50 @@ public class HostBunnyKillChecker implements BunnyKillChecker {
 	}
 
 	private void assignSpawnpoint(Bunny player) {
-		SpawnPoint spawnPoint = this.spawnPointGenerator.nextSpawnPoint();
-		this.messageSender.sendMessage(MessageId.SPAWN_POINT, new SpawnPointMessage(spawnPoint, player.id()));
-		ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, player);
+		SpawnPoint spawnPoint = findSpawnpoint();
+		if (spawnPoint != null) {
+			this.messageSender.sendMessage(MessageId.SPAWN_POINT, new SpawnPointMessage(spawnPoint, player.id()));
+			ResetToScorePoint.resetPlayerToSpawnPoint(spawnPoint, player);
+		} else {
+			reviver.revivePlayerLater(player);
+		}
+	}
+
+	private SpawnPoint findSpawnpoint() {
+		int maxCount = 5;
+		SpawnPoint spawn;
+		do {
+			spawn = this.spawnPointGenerator.nextSpawnPoint();
+		} while (noPlayerIsClose(spawn) && --maxCount > 0);
+		if (maxCount > 0) {
+			return spawn;
+		}
+		return createEmergencySpawn() ;
+	}
+
+	private SpawnPoint createEmergencySpawn() {
+		LOGGER.info("creating emergency spawn");
+		int randomX = (int) (ModelConstants.STANDARD_WORLD_SIZE * 0.1 + random.nextInt((int) (ModelConstants.STANDARD_WORLD_SIZE * 0.8)));
+		int randomY =  ModelConstants.STANDARD_WORLD_SIZE + random.nextInt(ModelConstants.STANDARD_WORLD_SIZE / 2);
+		return new SpawnPoint(randomX, randomY);
+	}
+
+	private boolean noPlayerIsClose(SpawnPoint spawn) {
+		for (Bunny bunny : world.getAllConnectedBunnies()) {
+			if (Math.abs(bunny.getCenterX() - spawn.getX()) < ModelConstants.STANDARD_WORLD_SIZE / 100
+					&& Math.abs(bunny.getCenterY() - spawn.getY()) < ModelConstants.STANDARD_WORLD_SIZE / 100) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
 	public void removeEvent(Bunny p) {
+	}
+
+	@Override
+	public void addJoinListener(JoinObserver main) {
+		main.addJoinListener(scoreSynchronisation);
 	}
 }

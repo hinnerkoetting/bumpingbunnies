@@ -30,7 +30,7 @@ public class DrawerFactory {
 		CanvasAdapter canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasAdapter(context), calculations);
 		DrawablesFactory drawFactory = new DrawablesFactory(threadState, world, new AndroidBackgroundDrawableFactory(),
 				new AndroidGameObjectsDrawableFactory(), playerDrawerFactory, new AndroidDrawableToImageConverter(
-						canvasDelegate, calculations, context), false);
+						canvasDelegate, calculations, context), false, false);
 
 		calculations.setZoom(ModelConstants.STANDARD_WORLD_SIZE / ModelConstants.ZOOM_MULTIPLIER * configuration.getZoom());
 
