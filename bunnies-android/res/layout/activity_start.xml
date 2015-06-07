@@ -16,8 +16,8 @@
         tools:context=".StartActivity" >
 
         <include
-            android:layout_width="341dp"
-            android:layout_height="345dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             layout="@layout/start_buttons" />
 
         
