@@ -35,10 +35,18 @@ public class ResultArrayAdapter extends ArrayAdapter<ResultPlayerEntry> {
 		View entryView = layoutInflater.inflate(R.layout.result_screen_one_entry, parent,
 				false);
 		styleView(entryView, position);
+		modifyPlayerPlace(entryView, position);
 		modifyPlayerImage(entryView, position);
 		modifyScore(entryView, position);
 		modifyName(entryView, position);
 		return entryView;
+	}
+
+	private void modifyPlayerPlace(View entryView, int position) {
+		TextView placeView = (TextView) entryView
+				.findViewById(R.id.result_player_place);
+		placeView.setTextColor(getItem(position).getPlayerColor());
+		placeView.setText(Integer.toString(position + 1));		
 	}
 
 	private void modifyPlayerImage(View entryView, int position) {

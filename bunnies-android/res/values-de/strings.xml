@@ -52,6 +52,7 @@
     <string name="slow_speed">Langsam</string>
     <string name="victory_limit">Sieglimit</string>
     <string name="no_multitouch">Dein Gerät unterstützt keinen Multitouch. Zwei Buttons können nicht gleichzeitig gedrückt werden!</string>
-    <string name="searching">Suchen...</string>
+    <string name="searching">Suchen&#8230;</string>
+    <string name="result_player_place">Platz</string>
 
 </resources>

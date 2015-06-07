@@ -36,6 +36,7 @@ public class ResultPlayerEntry implements Parcelable, Comparable<ResultPlayerEnt
 		dest.writeInt(this.playerColor);
 	}
 
+
 	public String getPlayerName() {
 		return this.playerName;
 	}
