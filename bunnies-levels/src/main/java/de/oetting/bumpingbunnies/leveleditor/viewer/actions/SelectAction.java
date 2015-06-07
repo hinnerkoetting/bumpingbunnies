@@ -9,6 +9,7 @@ import javax.swing.JPopupMenu;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.leveleditor.viewer.PropertyEditorDialog;
+import de.oetting.bumpingbunnies.leveleditor.viewer.ViewerPanel;
 import de.oetting.bumpingbunnies.leveleditor.viewer.editingMode.SelectionModeProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.world.World;
@@ -18,14 +19,16 @@ public class SelectAction implements MouseAction {
 	private final SelectionModeProvider provider;
 	private final CanvasObjectsFinder objectsFinder;
 	private final CoordinatesCalculation coordinatesCalculation;
+	private final ViewerPanel viewerPanel;
 	private int startX = -1;
 	private int startY = -1;
 
 	public SelectAction(SelectionModeProvider provider, CanvasObjectsFinder objectsFinder,
-			CoordinatesCalculation coordinatesCalculation) {
+			CoordinatesCalculation coordinatesCalculation, ViewerPanel viewerPanel) {
 		this.provider = provider;
 		this.objectsFinder = objectsFinder;
 		this.coordinatesCalculation = coordinatesCalculation;
+		this.viewerPanel = viewerPanel;
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class SelectAction implements MouseAction {
 		provider.storeCurrentState();
 		List<? extends GameObjectWithImage> objects = findObjects(event);
 		for (GameObjectWithImage go : objects) {
-			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go);
+			PropertyEditorDialog dialog = new PropertyEditorDialog(provider.getFrame(), go, viewerPanel);
 			dialog.show();
 		}
 		provider.refreshView();
@@ -190,7 +193,7 @@ public class SelectAction implements MouseAction {
 		}
 	}
 
-	private void applyZIndexByListOrder(List list) {
+	private <S> void applyZIndexByListOrder(List<S> list) {
 		for (int i = 0; i < list.size(); i++) {
 			GameObjectWithImage object = (GameObjectWithImage) list.get(i);
 			object.setzIndex(i);

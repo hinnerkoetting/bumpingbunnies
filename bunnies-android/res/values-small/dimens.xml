@@ -1,11 +1,14 @@
 <resources>
-    
-    <dimen name="room_radiogroup_height">20dp</dimen>
-    
-    <dimen name="room_button_padding">0dp</dimen>
+    <dimen name="room_button_padding">20dp</dimen>
 	<dimen name="room_button_height">20sp</dimen>
-	<dimen name="button_padding_top_bottom">30dp</dimen>
-    <dimen name="button_padding_left_right">30dp</dimen>
     <dimen name="button_height">100dp</dimen>
     <dimen name="button_width">100dp</dimen>
+    <dimen name="start_button_margin">20dp</dimen>
+    <dimen name="start_button_radius">10dp</dimen>
+    <dimen name="start_buttons_padding">30dp</dimen>
+    <dimen name="start_button_text_size">40sp</dimen>
+    <dimen name="game_scoreboard_width_small">75dp</dimen>
+    <dimen name="game_scoreboard_height_small">75dp</dimen>
+    <dimen name="start_scoreboard_textsize">16sp</dimen>
+    
 </resources>

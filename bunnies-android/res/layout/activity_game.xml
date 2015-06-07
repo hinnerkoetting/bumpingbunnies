@@ -16,14 +16,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <include
+        android:layout_width="@dimen/game_scoreboard_width_small"
+        android:layout_height="@dimen/game_scoreboard_height_small"
+        layout="@layout/game_scoreboard" />
+
     <ImageView
+        android:id="@+id/menu_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/menu_game"
-        android:background="@drawable/ic_menu_black_48dp"
-        android:contentDescription="@string/menu"
         android:layout_gravity="end"
-        android:onClick="onMenuClick"
-         />
+        android:background="@drawable/ic_settings_black_48dp"
+        android:contentDescription="@string/menu"
+        android:onClick="onMenuClick" />
 
 </FrameLayout>

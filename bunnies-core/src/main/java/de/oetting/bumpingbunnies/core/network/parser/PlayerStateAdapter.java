@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.core.network.parser;
 
 import java.io.IOException;
-import java.util.Base64;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -52,10 +51,6 @@ public class PlayerStateAdapter extends TypeAdapter<PlayerState> {
 
 	private int radix() {
 		return 16;
-	}
-
-	private String decodeByte(String nextString) {
-		return new String(Base64.getDecoder().decode(nextString.getBytes()));
 	}
 
 	@Override

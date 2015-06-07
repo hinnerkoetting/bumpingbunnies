@@ -20,7 +20,15 @@ public class AnimationWithMirror implements Animation, MirroredAnimation {
 		} else {
 			this.leftMirroredAnimation.draw(canvas, left, top, paint);
 		}
-
+	}
+	
+	@Override
+	public void drawBlinking(CanvasAdapter canvas, long left, long top, Paint paint) {
+		if (this.drawNormal) {
+			this.normalAnimation.drawBlinking(canvas, left, top, paint);
+		} else {
+			this.leftMirroredAnimation.drawBlinking(canvas, left, top, paint);
+		}		
 	}
 
 	@Override

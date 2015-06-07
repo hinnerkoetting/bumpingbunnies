@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.leveleditor.MyCanvas;
-import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public abstract class CreateObjectEditingMode<S extends GameObjectWithImage> implements ModeMouseListener {

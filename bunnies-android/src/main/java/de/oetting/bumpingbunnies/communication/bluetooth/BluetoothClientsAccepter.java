@@ -1,7 +1,5 @@
 package de.oetting.bumpingbunnies.communication.bluetooth;
 
-import java.nio.channels.AcceptPendingException;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ActivityNotFoundException;

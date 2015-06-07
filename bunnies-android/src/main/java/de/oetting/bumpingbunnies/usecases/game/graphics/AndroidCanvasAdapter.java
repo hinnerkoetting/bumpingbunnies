@@ -3,6 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
@@ -73,8 +75,9 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
 		if (paint.getAlpha() != 0)
-			this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth), (float) (right * this.width),
-				(float) (bottom * this.heigth), paintConverter.convert(paint, context));
+			this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth),
+					(float) (right * this.width), (float) (bottom * this.heigth),
+					paintConverter.convert(paint, context));
 	}
 
 	@Override
@@ -144,6 +147,22 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 	@Override
 	public int getHeight(ImageWrapper imageWrapper) {
 		return ((Bitmap) imageWrapper.getBitmap()).getHeight();
+	}
+
+	private ColorMatrix createLightColorMatrix(float brightness) {
+		return new ColorMatrix(new float[] { 
+				1, 0, 0, 0, brightness,
+				0, 1, 0, 0, brightness,
+				0, 0, 1, 0, brightness,
+				0, 0, 0, 1, 0 });
+
+	}
+
+	@Override
+	public void drawImageBlinking(ImageWrapper bitmap, long left, long top, Paint paint) {
+		android.graphics.Paint convert = paintConverter.convert(paint, context);
+		convert.setColorFilter(new ColorMatrixColorFilter(createLightColorMatrix(128)));
+		canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, convert);
 	}
 
 }

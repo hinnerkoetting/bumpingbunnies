@@ -51,7 +51,8 @@ public class ObjectsDrawer implements PlayerJoinListener {
 			for (Bunny p : toBeUpdatedPlayers) {
 				Drawable playerDrawer = this.factory.createPlayerDrawable(p, canvasDelegate);
 				this.allDrawables.add(playerDrawer);
-				this.allDrawables.add(factory.createScoreDrawer(p));
+				if(factory.withScores())
+					this.allDrawables.add(factory.createScoreDrawer(p));
 			}
 			toBeUpdatedPlayers.clear();
 		}

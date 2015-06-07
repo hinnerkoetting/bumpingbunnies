@@ -30,13 +30,9 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 	public void executeNextStep(long deltaStepsSinceLastCall) {
 		for (BunnyMovement movement : this.playermovements) {
 			movement.nextStep(deltaStepsSinceLastCall);
-			// must be in this line otherwise kill checks will not work
-			// properly. the other player might move a bit and the bunny might
-			// not be exactly on top of
-			// the other
-			this.killChecker.checkForJumpedPlayers();
 		}
-		//move them backwards so that they do not overlawp
+		this.killChecker.checkForJumpedPlayers();
+		//move them backwards so that they do not overlap
 		//Checking this at this time seems to be the best place. If this check was done before it sometimes happened that the player moved backwards through blocks.
 		fixPlayerPosition.movePlayerBackwards();
 		this.killChecker.checkForPlayerOutsideOfGameZone();
@@ -58,6 +54,7 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 
 	public void addAllJoinListeners(JoinObserver main) {
 		main.addJoinListener(this.killChecker);
+		killChecker.addJoinListener(main);
 	}
 
 	private BunnyMovement findPlayerMovementCalculation(Bunny p) {

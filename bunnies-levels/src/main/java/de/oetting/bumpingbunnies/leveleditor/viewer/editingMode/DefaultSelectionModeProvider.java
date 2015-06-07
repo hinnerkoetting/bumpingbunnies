@@ -3,8 +3,6 @@ package de.oetting.bumpingbunnies.leveleditor.viewer.editingMode;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.util.Collection;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,13 +12,8 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalcu
 import de.oetting.bumpingbunnies.leveleditor.MyCanvas;
 import de.oetting.bumpingbunnies.leveleditor.viewer.EditorModel;
 import de.oetting.bumpingbunnies.leveleditor.viewer.ViewerPanel;
-import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.FixedWorldObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
-import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
-import de.oetting.bumpingbunnies.model.game.objects.Jumper;
-import de.oetting.bumpingbunnies.model.game.objects.Wall;
-import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.model.game.world.World;
 
 public class DefaultSelectionModeProvider implements SelectionModeProvider {
@@ -63,10 +56,8 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 
 	@Override
 	public void setSelectedObject(Optional<? extends GameObjectWithImage> go) {
-		if (go.isPresent())
-			canvas.setSelectedObject(go.get());
-		else
-			canvas.setSelectedObject(null);
+		canvas.setSelectedObject(go.isPresent() ? go.get() : null);
+		panel.setSelectedObject(go.isPresent() ? go.get() : null);
 		refreshView();
 	}
 

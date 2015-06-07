@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
-import de.oetting.bumpingbunnies.model.game.objects.Wall;
 
 public class SpawnPropertyEditorDialog {
 
@@ -115,13 +114,4 @@ public class SpawnPropertyEditorDialog {
 		dialog.setVisible(true);
 	}
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setVisible(true);
-		Wall wall = new Wall(0, 1000, 10000, 10000, 50000);
-		PropertyEditorDialog dialog = new PropertyEditorDialog(frame, wall);
-		dialog.show();
-		frame.setVisible(false);
-		frame.dispose();
-	}
 }

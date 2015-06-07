@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
 
-import de.oetting.bumpingbunnies.model.game.objects.GameObject;
+import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
 public class ListMouseAdapter extends MouseAdapter {
 
@@ -19,9 +19,9 @@ public class ListMouseAdapter extends MouseAdapter {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getClickCount() > 1) {
-			JList<? extends GameObject> list = (JList<? extends GameObject>) e.getSource();
-			GameObject object = list.getSelectedValue();
-			PropertyEditorDialog dialog = new PropertyEditorDialog(panel.getFrame(), object);
+			JList<? extends GameObjectWithImage> list = (JList<? extends GameObjectWithImage>) e.getSource();
+			GameObjectWithImage object = list.getSelectedValue();
+			PropertyEditorDialog dialog = new PropertyEditorDialog(panel.getFrame(), object, panel);
 			SwingUtilities.invokeLater(() -> showDialog(dialog));
 			e.consume();
 		}

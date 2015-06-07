@@ -21,7 +21,7 @@
 	<GridPane alignment="center" hgap="10.0" vgap="10.0">
 		<Button text="Start" onAction="#onHostButton"
 			GridPane.rowIndex="1" GridPane.columnIndex="0" />
-		<Button text="Add AI" onAction="#onButtonAddAi"
+		<Button text="Add Bot" onAction="#onButtonAddAi"
 			GridPane.rowIndex="1" GridPane.columnIndex="1" />
 		<Button text="Add Player" fx:id="addPlayerButton" onAction="#onButtonAddPlayer"
 			GridPane.rowIndex="1" GridPane.columnIndex="2" />

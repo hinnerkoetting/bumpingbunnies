@@ -26,6 +26,8 @@ public interface CanvasAdapter {
 	void drawRectAbsoluteScreen(int left, int top, int right, int bottom, Paint paint);
 
 	void drawImage(ImageWrapper bitmap, long left, long top, Paint paint);
+	
+	void drawImageBlinking(ImageWrapper bitmap, long left, long top, Paint paint);
 
 	void drawImageDirect(ImageWrapper bitmap, long left, long top, Paint paint);
 

@@ -18,8 +18,14 @@
         <playerUp>U</playerUp>
         <playerRight>K</playerRight>
     </configurations>
+<<<<<<< HEAD
     <speed>25</speed>
     <playMusic>false</playMusic>
     <playSound>false</playSound>
+=======
+    <speed>22</speed>
+    <playMusic>true</playMusic>
+    <playSound>true</playSound>
+>>>>>>> Fixed alpha effect for pc
     <victoryLimit>10</victoryLimit>
 </pcConfiguration>

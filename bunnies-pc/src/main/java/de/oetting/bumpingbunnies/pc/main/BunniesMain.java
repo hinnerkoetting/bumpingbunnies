@@ -22,7 +22,6 @@ import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
 import de.oetting.bumpingbunnies.core.game.IngameMenu;
-import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawableFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyDrawerFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
@@ -33,6 +32,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalcu
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
+import de.oetting.bumpingbunnies.core.game.steps.ScoreboardSynchronisation;
 import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
@@ -209,7 +209,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter
 				.getConfiguration().getZoom());
 		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this,
-				new PcMusicPlayerFactory(this), new PcConnectionEstablisherFactory(), this);
+				new PcMusicPlayerFactory(this), new PcConnectionEstablisherFactory(), this, new ScoreboardSynchronisation(new NullScoreAccess(), world));
 		gameMain.addJoinListener(drawerThread);
 		gameMain.onResume();
 	}
@@ -249,10 +249,10 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		CanvasCoordinateTranslator coordinateTranslator = new CanvasCoordinateTranslator(canvasDelegate,
 				coordinatesCalculation);
 		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
-				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawableFactory(new BunnyDrawerFactory(
+				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawerFactory(
 						new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(),
-						new PcImageMirroror())), new PcDrawableToImageConverter(coordinateTranslator,
-						coordinatesCalculation), true);
+						new PcImageMirroror()), new PcDrawableToImageConverter(coordinateTranslator,
+						coordinatesCalculation), true, true);
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, coordinateTranslator);
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);

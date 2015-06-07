@@ -5,6 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
@@ -76,12 +77,9 @@ public class PcCanvasAdapter implements CanvasAdapter {
 			GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 			Image image = (Image) bitmap.getBitmap();
 			if (paint.getAlpha() < 255) {
-				ColorAdjust adjust = new ColorAdjust();
-				// simulate alpha effect. maybe there is a better way?
-				adjust.setBrightness((255 - paint.getAlpha()) / 255.0 / 2);
-				graphicsContext2D.setEffect(adjust);
+				graphicsContext2D.setGlobalAlpha(1 - paint.getAlpha() / 256.0);
 				graphicsContext2D.drawImage(image, left, top);
-				graphicsContext2D.setEffect(null);
+				graphicsContext2D.setGlobalAlpha(1);
 			} else {
 				graphicsContext2D.drawImage(image, left, top);
 			}
@@ -158,5 +156,19 @@ public class PcCanvasAdapter implements CanvasAdapter {
 	public int getHeight(ImageWrapper imageWrapper) {
 		Image image = (Image) imageWrapper.getBitmap();
 		return (int) image.getHeight();
+	}
+
+	@Override
+	public void drawImageBlinking(ImageWrapper bitmap, long left, long top, Paint paint) {
+		GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
+		graphicsContext2D.setEffect(createBlinkingEffect());
+		drawImage(bitmap, left, top, paint);
+		graphicsContext2D.setEffect(null);
+	}
+
+	private ColorAdjust createBlinkingEffect() {
+		ColorAdjust adjust = new ColorAdjust();
+		adjust.setBrightness(0.7);
+		return adjust;
 	}
 }

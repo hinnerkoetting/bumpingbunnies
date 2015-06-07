@@ -8,7 +8,6 @@ public abstract class ConditionalAnimation implements Animation {
 	private final Animation animation;
 
 	public ConditionalAnimation(Animation animation) {
-		super();
 		this.animation = animation;
 	}
 
@@ -17,5 +16,10 @@ public abstract class ConditionalAnimation implements Animation {
 	@Override
 	public void draw(CanvasAdapter canvas, long left, long top, Paint paint) {
 		this.animation.draw(canvas, left, top, paint);
+	}
+	
+	@Override
+	public void drawBlinking(CanvasAdapter canvas, long left, long top, Paint paint) {
+		animation.drawBlinking(canvas, left, top, paint);
 	}
 }

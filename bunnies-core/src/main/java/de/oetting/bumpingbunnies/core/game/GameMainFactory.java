@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.core.game.logic.CommonGameThreadFactory;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.main.CommonGameMainFactory;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
+import de.oetting.bumpingbunnies.core.game.steps.ScoreboardSynchronisation;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.RemoteConnectionFactory;
@@ -27,7 +28,7 @@ public class GameMainFactory {
 
 	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Bunny myPlayer,
 			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory,
-			GameStopper gameStopper) {
+			GameStopper gameStopper, ScoreboardSynchronisation scoreSynchronisation) {
 
 		RemoteConnectionFactory factory = new RemoteConnectionFactory(errorCallback);
 		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(factory);
@@ -35,7 +36,7 @@ public class GameMainFactory {
 				networkMessageDistributor, parameter.getConfiguration());
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), networkDispatcher,
-				networkMessageDistributor, main, musicPlayerFactory, gameStopper));
+				networkMessageDistributor, main, musicPlayerFactory, gameStopper, scoreSynchronisation));
 		factory.setDisconnectCallback(main);
 		main.setWorld(world);
 		main.setReceiveControl(createNetworkReceiveFactory(networkDispatcher, networkMessageDistributor, parameter.getConfiguration(), errorCallback, world));
@@ -64,9 +65,9 @@ public class GameMainFactory {
 
 	private GameThread createGameThread(CameraPositionCalculation cameraPositionCalculator, World world, ThreadErrorCallback errorCallback,
 			Configuration configuration, NetworkToGameDispatcher networkDispatcher, NetworkMessageDistributor messageDistributor, GameMain gameMain,
-			BunniesMusicPlayerFactory musicPlayerFactory, GameStopper gameStopper) {
+			BunniesMusicPlayerFactory musicPlayerFactory, GameStopper gameStopper, ScoreboardSynchronisation scoreSynchronisation) {
 		return CommonGameThreadFactory.create(world, errorCallback, configuration, cameraPositionCalculator, networkDispatcher, messageDistributor, gameMain,
-				musicPlayerFactory, gameStopper);
+				musicPlayerFactory, gameStopper, scoreSynchronisation);
 	}
 
 }

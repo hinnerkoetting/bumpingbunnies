@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.resultScreen.model;
 
+import de.oetting.bumpingbunnies.IntegerComparator;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -35,6 +36,7 @@ public class ResultPlayerEntry implements Parcelable, Comparable<ResultPlayerEnt
 		dest.writeInt(this.playerColor);
 	}
 
+
 	public String getPlayerName() {
 		return this.playerName;
 	}
@@ -49,7 +51,7 @@ public class ResultPlayerEntry implements Parcelable, Comparable<ResultPlayerEnt
 
 	@Override
 	public int compareTo(ResultPlayerEntry o) {
-		return Integer.compare(o.playerScore, playerScore);
+		return IntegerComparator.compareInt(o.playerScore, playerScore);
 	}
 
 }

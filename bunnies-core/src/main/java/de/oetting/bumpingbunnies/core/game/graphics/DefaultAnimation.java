@@ -26,17 +26,31 @@ public class DefaultAnimation implements Animation {
 
 	@Override
 	public void draw(CanvasAdapter canvas, long left, long top, Paint paint) {
+		switchImageIfNecessary();
+
+		drawCurrentImage(canvas, left, top, paint);
+	}
+
+	@Override
+	public void drawBlinking(CanvasAdapter canvas, long left, long top, Paint paint) {
+		switchImageIfNecessary();
+		drawCurrentImageBlinking(canvas, left, top, paint);
+	}
+
+	private void switchImageIfNecessary() {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - this.lastTimeSwitched >= this.timeBetweenPictures) {
 			changeIndex();
 			this.lastTimeSwitched = currentTime;
 		}
-
-		drawCurrentImage(canvas, left, top, paint);
 	}
-	
+
 	private void drawCurrentImage(CanvasAdapter canvas, long left, long top, Paint paint) {
 		canvas.drawImage(this.originalPictures.get(this.currentIndex), left, top, paint);
+	}
+
+	private void drawCurrentImageBlinking(CanvasAdapter canvas, long left, long top, Paint paint) {
+		canvas.drawImageBlinking(this.originalPictures.get(this.currentIndex), left, top, paint);
 	}
 
 	public void changeIndex() {

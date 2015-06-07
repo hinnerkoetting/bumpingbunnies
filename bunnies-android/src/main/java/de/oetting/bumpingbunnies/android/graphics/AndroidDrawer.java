@@ -85,5 +85,4 @@ public class AndroidDrawer implements Drawer, SurfaceHolder.Callback {
 	public void removeEvent(Bunny p) {
 		objectsDrawer.removeEvent(p);
 	}
-
 }

@@ -40,7 +40,7 @@ public class FixPlayerPosition implements PlayerJoinListener {
 	}
 
 	private void fixCollision(Bunny player1, Bunny player2) {
-		LOGGER.info("Collision between players %s and %s. Fixing this by moving them backwards.", player1.getName(),
+		LOGGER.debug("Collision between players %s and %s. Fixing this by moving them backwards.", player1.getName(),
 				player2.getName());
 		int maxTries = 10; // limit tries to avoid endless loop which might
 							// happen otherwise if players move at the same

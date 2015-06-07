@@ -9,7 +9,6 @@ import de.oetting.bumpingbunnies.android.sql.OnDatabaseCreation;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.SettingsEntity;
-import de.oetting.bumpingbunnies.usecases.ActivityLauncher;
 import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsStorage;

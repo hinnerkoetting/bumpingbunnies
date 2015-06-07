@@ -3,9 +3,9 @@ package de.oetting.bumpingbunnies.leveleditor.viewer.editingMode;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.Optional;
 
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.leveleditor.viewer.ViewerPanel;
 import de.oetting.bumpingbunnies.leveleditor.viewer.actions.CanvasObjectsFinder;
 import de.oetting.bumpingbunnies.leveleditor.viewer.actions.MouseAction;
 import de.oetting.bumpingbunnies.leveleditor.viewer.actions.MoveAction;
@@ -23,9 +23,11 @@ public class SelectModeMouseListener implements ModeMouseListener {
 	private MouseAction nextAction;
 	private final CoordinatesCalculation coordinatesCalculation;
 	private final SelectionModeProvider provider;
+	private final ViewerPanel panel;
 
-	public SelectModeMouseListener(SelectionModeProvider provider) {
+	public SelectModeMouseListener(SelectionModeProvider provider, ViewerPanel panel) {
 		this.provider = provider;
+		this.panel = panel;
 		this.coordinatesCalculation = provider.createCoordinatesCalculation();
 		resetAction();
 	}
@@ -111,7 +113,7 @@ public class SelectModeMouseListener implements ModeMouseListener {
 
 	private void resetAction() {
 		provider.setCanvasCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		this.nextAction = new SelectAction(provider, new CanvasObjectsFinder(provider), coordinatesCalculation);
+		this.nextAction = new SelectAction(provider, new CanvasObjectsFinder(provider), coordinatesCalculation, panel);
 	}
 
 	private int translateToPixelX(long gameX) {

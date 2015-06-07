@@ -11,7 +11,6 @@ import de.oetting.bumpingbunnies.core.game.movement.SingleCollisionDetection;
 import de.oetting.bumpingbunnies.leveleditor.viewer.editingMode.SelectionModeProvider;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.Rectangle;
-import de.oetting.bumpingbunnies.model.game.world.ZIndexComparator;
 
 public class CanvasObjectsFinder {
 

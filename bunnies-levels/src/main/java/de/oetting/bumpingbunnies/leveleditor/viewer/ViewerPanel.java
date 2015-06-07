@@ -32,6 +32,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.oetting.bumpingbunnies.core.worldCreation.NonClosingInputstream;
@@ -81,6 +82,7 @@ public class ViewerPanel extends JPanel {
 	private EditingModePanel editingModePanel;
 	private JFrame frame;
 	private ViewableItemsPanel viewableItemsPanel;
+	private PropertiesPanel propertiesPanel;
 
 	public ViewerPanel(String file) {
 		this.lastFile = new File(file);
@@ -171,14 +173,23 @@ public class ViewerPanel extends JPanel {
 	}
 
 	private JComponent createTopPanel() {
-		JComponent panel = new JPanel(new GridLayout(0, 2));
+		JComponent panel = new JPanel(new GridLayout(3, 1));
 		panel.add(createButtons());
 		panel.add(createVisibleButtons());
+		panel.add(createPropertiesPanel());
+		return panel;
+	}
+
+	private Component createPropertiesPanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder("Properties"));
+		propertiesPanel = new PropertiesPanel(this);
+		panel.add(propertiesPanel.buildDialog());
 		return panel;
 	}
 
 	private JComponent createButtons() {
-		Box box = Box.createVerticalBox();
+		Box box = Box.createHorizontalBox();
 		box.add(createLoadButton());
 		box.add(createRefreshButton());
 		box.add(createSaveButton());
@@ -533,7 +544,7 @@ public class ViewerPanel extends JPanel {
 
 	private ModeMouseListener findCurrentModeMouseListener() {
 		if (editingModePanel.isSelectModeActive())
-			return new SelectModeMouseListener(createSelectionModeProvider());
+			return new SelectModeMouseListener(createSelectionModeProvider(), this);
 		else if (editingModePanel.isDeleteModeActive())
 			return new DeleteModeMouseListener(createSelectionModeProvider(), new CanvasObjectsFinder(
 					createSelectionModeProvider()));
@@ -552,7 +563,7 @@ public class ViewerPanel extends JPanel {
 		} else if (editingModePanel.isBackgroundModeActive())
 			return new CreateBackgroundEditingMode(createSelectionModeProvider(),
 					(minX, minY, maxX, maxY) -> ObjectsFactory.createBackground(minX, minY, maxX, maxY), myCanvas);
-		return new SelectModeMouseListener(createSelectionModeProvider());
+		return new SelectModeMouseListener(createSelectionModeProvider(), this);
 	}
 
 	private SelectionModeProvider createSelectionModeProvider() {
@@ -643,6 +654,11 @@ public class ViewerPanel extends JPanel {
 	public void refreshView() {
 		refreshTables();
 		repaintCanvas();
+		propertiesPanel.updateMasks();
+	}
+
+	public void setSelectedObject(GameObjectWithImage object) {
+		propertiesPanel.setSelectedObject(object);
 	}
 
 }

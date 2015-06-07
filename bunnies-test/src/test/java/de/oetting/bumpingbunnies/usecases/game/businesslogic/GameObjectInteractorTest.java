@@ -53,7 +53,7 @@ public class GameObjectInteractorTest {
 	}
 
 	private void givenWaterIsBelowPlayer() {
-		Water water = new Water(-1, -ModelConstants.BUNNY_WIDTH, -ModelConstants.BUNNY_HEIGHT, ModelConstants.BUNNY_WIDTH, -ModelConstants.BUNNY_HEIGHT / 2);
+		Water water = new Water(-1, -ModelConstants.BUNNY_GAME_WIDTH, -ModelConstants.BUNNY_GAME_HEIGHT, ModelConstants.BUNNY_GAME_WIDTH, -ModelConstants.BUNNY_GAME_HEIGHT / 2);
 		when(objectProvider.getAllWaters()).thenReturn(Arrays.asList(water));
 	}
 
@@ -69,7 +69,7 @@ public class GameObjectInteractorTest {
 	}
 
 	private void givenWallIsRightOfPlayer() {
-		Wall wall = new Wall(1, ModelConstants.BUNNY_WIDTH / 2, 0, ModelConstants.BUNNY_WIDTH, 1);
+		Wall wall = new Wall(1, ModelConstants.BUNNY_GAME_WIDTH / 2, 0, ModelConstants.BUNNY_GAME_WIDTH, 1);
 		when(objectProvider.getAllWalls()).thenReturn(Arrays.asList(wall));
 	}
 
