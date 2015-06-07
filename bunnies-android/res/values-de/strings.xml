@@ -5,7 +5,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="app_name_solo">Bumping Bunnies Solo</string>
     <string name="singleplayer">Quickstart</string>
-    <string name="multiplayer">Custom/Multiplayer</string>
+    <string name="multiplayer">Angepasst / Multiplayer</string>
     <string name="input">Eingabe</string>
     <string name="zoom">Zoom</string>
     <string name="hardware_keyboard">Hardware-Keyboard</string>
@@ -44,7 +44,7 @@
     <string name="host_bluetooth_game">Start</string>
     <string name="client_bluetooth_game">Server suchen</string>
     <string name="menu_sound">Sound</string>
-    <string name="menu_music">Music</string>
+    <string name="menu_music">Musik</string>
     <string name="please_wait">Bitte warten&#8230;</string>
     <string name="lefthanded">Linkshänder</string>
     <string name="medium_speed">Mittel</string>

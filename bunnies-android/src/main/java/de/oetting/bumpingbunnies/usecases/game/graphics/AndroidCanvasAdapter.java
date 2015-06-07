@@ -3,6 +3,8 @@ package de.oetting.bumpingbunnies.usecases.game.graphics;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
@@ -147,10 +149,20 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 		return ((Bitmap) imageWrapper.getBitmap()).getHeight();
 	}
 
+	private ColorMatrix createLightColorMatrix(float brightness) {
+		return new ColorMatrix(new float[] { 
+				1, 0, 0, 0, brightness,
+				0, 1, 0, 0, brightness,
+				0, 0, 1, 0, brightness,
+				0, 0, 0, 1, 0 });
+
+	}
+
 	@Override
 	public void drawImageBlinking(ImageWrapper bitmap, long left, long top, Paint paint) {
 		android.graphics.Paint convert = paintConverter.convert(paint, context);
-		this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, convert);
+		convert.setColorFilter(new ColorMatrixColorFilter(createLightColorMatrix(128)));
+		canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, convert);
 	}
 
 }
