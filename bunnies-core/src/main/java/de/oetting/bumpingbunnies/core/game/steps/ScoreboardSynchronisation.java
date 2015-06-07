@@ -15,7 +15,6 @@ public class ScoreboardSynchronisation implements PlayerJoinListener {
 	public ScoreboardSynchronisation(ScoreboardAccess access, World world) {
 		this.access = access;
 		this.world = world;
-		scoreIsChanged();
 	}
 
 	public void scoreIsChanged() {

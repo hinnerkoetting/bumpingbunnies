@@ -54,7 +54,6 @@ public class BunnyMovementStep implements GameStepAction, PlayerJoinListener {
 
 	public void addAllJoinListeners(JoinObserver main) {
 		main.addJoinListener(this.killChecker);
-		killChecker.addJoinListener(main);
 	}
 
 	private BunnyMovement findPlayerMovementCalculation(Bunny p) {

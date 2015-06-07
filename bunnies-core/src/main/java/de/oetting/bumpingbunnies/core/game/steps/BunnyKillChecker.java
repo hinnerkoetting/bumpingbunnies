@@ -7,5 +7,4 @@ public interface BunnyKillChecker extends PlayerJoinListener {
 
 	void checkForPlayerOutsideOfGameZone();
 
-	void addJoinListener(JoinObserver main);
 }
