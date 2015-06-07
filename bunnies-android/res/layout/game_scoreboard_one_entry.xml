@@ -4,15 +4,19 @@
     android:layout_gravity="center"
     android:background="@drawable/score_entry"
     android:orientation="horizontal"
+    android:paddingBottom="0dp"
     android:paddingLeft="5dp"
-    android:paddingRight="5dp" >
+    android:paddingRight="5dp"
+    android:paddingTop="0dp" >
 
     <TextView
         android:id="@+id/game_scoreboard_bunnyname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dummy_content"
         android:layout_margin="0dp"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:text="@string/dummy_content"
         android:textSize="@dimen/start_scoreboard_textsize" />
 
     <TextView
@@ -20,8 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_margin="0dp"
         android:layout_alignParentRight="true"
+        android:layout_margin="0dp"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
         android:text="@string/dummy_content"
         android:textSize="@dimen/start_scoreboard_textsize" />
 
