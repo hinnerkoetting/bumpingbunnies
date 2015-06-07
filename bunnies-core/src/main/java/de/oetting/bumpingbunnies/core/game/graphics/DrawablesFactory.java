@@ -50,7 +50,7 @@ public class DrawablesFactory {
 		drawables.addAll(createStaticObjects(canvas));
 		drawables.addAll(createAllPlayer(canvas));
 		if (withScores)
-		drawables.addAll(createAllScores());
+			drawables.addAll(createAllScores());
 //		drawables.add(new FpsDrawer(gameThreadState));
 		return drawables;
 	}
@@ -121,6 +121,11 @@ public class DrawablesFactory {
 		int width = (int) (canvas.transformX(ModelConstants.BUNNY_DRAWN_WIDTH) - canvas.transformX(0));
 		int height = (int) (canvas.transformY(0) - canvas.transformY(ModelConstants.BUNNY_DRAWN_HEIGHT));
 		return playerDrawableFactory.create(width, height, p);
+	}
+	
+	
+	public boolean withScores() {
+		return withScores;
 	}
 
 }
