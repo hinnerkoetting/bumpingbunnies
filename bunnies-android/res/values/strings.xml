@@ -52,5 +52,6 @@
     <string name="slow_speed">Slow</string>
     <string name="victory_limit">Victory limit</string>
     <string name="no_multitouch">Your device does not support multitouch. You cannot press two buttons at once!</string>
+    <string name="searching">Searching...</string>
     
 </resources>

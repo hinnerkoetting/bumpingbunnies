@@ -1,6 +1,12 @@
 package de.oetting.bumpingbunnies.core.network;
 
-public class SearchingServerDevice implements ServerDevice{
+public class SearchingServerDevice implements ServerDevice {
+
+	private final String name;
+
+	public SearchingServerDevice(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public MySocket createClientSocket() {
@@ -9,7 +15,7 @@ public class SearchingServerDevice implements ServerDevice{
 
 	@Override
 	public String getName() {
-		return "Searching...";
+		return name;
 	}
 
 	@Override
