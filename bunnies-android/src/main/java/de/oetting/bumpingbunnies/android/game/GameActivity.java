@@ -260,7 +260,8 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	}
 
 	private void checkForMultitouchAvailabilty(GameStartParameter parameter) {
-		boolean supportsMultiTouch = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
+		boolean supportsMultiTouch = getPackageManager()
+				.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
 		boolean isHardwareInput = parameter.getConfiguration().getInputConfiguration() instanceof HardwareKeyboardInputConfiguration;
 		if (!supportsMultiTouch && !isHardwareInput) {
 			Toast.makeText(this, R.string.no_multitouch, Toast.LENGTH_LONG).show();
