@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
@@ -31,32 +30,27 @@ import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
-import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NoopSocket;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
-import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.room.Host;
 import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
-import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
-import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.DeviceDiscovery;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
-import de.oetting.bumpingbunnies.core.networking.server.ConnectionToClientServiceFactory;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.networking.server.ToClientConnector;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
@@ -80,17 +74,17 @@ import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsStorage;
 
-public class RoomActivity extends Activity implements ConnectToServerCallback, AcceptsClientConnections,
+public class RoomActivity extends Activity implements ConnectToServerCallback, 
 		ConnectionToServerSuccesfullCallback, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers,
 		PlayerDisconnectedCallback, ThreadErrorCallback, OnDatabaseCreation {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
+	
 	private HostsListViewAdapter hostsAdapter;
+	private RoomArrayAdapter playersAA;
 
 	private DeviceDiscovery deviceDiscovery;
-	private ClientAccepter clientAccepter;
-	private RoomArrayAdapter playersAA;
 	private NetworkBroadcaster broadcastService;
 
 	private int playerCounter = 0;
@@ -143,13 +137,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void switchToBluetooth() {
 		LOGGER.info("selected bluetooth");
 		activeConnection = NetworkType.BLUETOOTH;
-		if (clientAccepter != null)
-			clientAccepter.closeConnections();
 		hostsAdapter.clear();
-		deviceDiscovery.closeConnections();
 		this.deviceDiscovery = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this);
-		clientAccepter = BluetoothCommunicationFactory.createClientAccepter(BluetoothAdapter.getDefaultAdapter(), this,
-				this);
 
 		openHostOrClientBluetoothDialog();
 	}
@@ -177,8 +166,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	private void switchToWlan() {
 		LOGGER.info("selected wlan");
 		activeConnection = NetworkType.WLAN;
-		if (clientAccepter != null)
-			clientAccepter.closeConnections();
 		hostsAdapter.clear();
 		deviceDiscovery.closeConnections();
 		this.deviceDiscovery = ListenforBroadCastsThreadFactory.create(this, this);
@@ -301,15 +288,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		findViewById(R.id.room_add_ai).setEnabled(enable);
 	}
 
-	@Override
-	public void clientConnectedSucessfull(final MySocket socket) {
-		ToClientConnector connectionToClientService = ConnectionToClientServiceFactory.create(this, socket,
-				new StrictNetworkToGameDispatcher(this), this, this);
-		this.connectionToClientServices.add(connectionToClientService);
-		connectionToClientService.onConnectToClient(socket);
-		enableStartButton();
-	}
-
 	private List<OpponentConfiguration> createOtherPlayerconfigurations() {
 		List<OpponentConfiguration> otherPlayers = new ArrayList<OpponentConfiguration>(this.playersAA.getCount() - 1);
 		for (RoomEntry otherPlayer : this.playersAA.getAllOtherPlayers()) {
@@ -397,19 +375,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.connectedToServerService.onConnectionToServer();
 	}
 
-	private void enableStartButton() {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				findStartButton().setEnabled(true);
-			}
-		});
-	}
-
-	private Button findStartButton() {
-		return (Button) findViewById(R.id.room_start);
-	}
 
 	public void onClickStart(View v) {
 		enableButtons(false);
@@ -514,14 +479,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		}
 	}
 
-	@Override
-	public int getNextPlayerId() {
+	private int getNextPlayerId() {
 		return this.playerCounter++;
 	}
 
-	private List<RoomEntry> getAllOtherPlayers() {
-		return this.playersAA.getAllOtherPlayers();
-	}
 
 	@Override
 	public void broadcastReceived(final ServerDevice device) {
@@ -539,16 +500,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 
 	private ListView getHostsView() {
 		return (ListView) findViewById(R.id.hosts_list);
-	}
-
-	@Override
-	public List<PlayerProperties> getAllPlayersProperties() {
-		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.playersAA.getCount());
-		for (RoomEntry e : getAllOtherPlayers()) {
-			properties.add(e.getPlayerProperties());
-		}
-		properties.add(this.playersAA.getMyself().getPlayerProperties());
-		return properties;
 	}
 
 	@Override
