@@ -6,12 +6,13 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import de.oetting.bumpingbunnies.core.network.WlanDevice;
+import de.oetting.bumpingbunnies.core.networking.init.DeviceDiscovery;
 import de.oetting.bumpingbunnies.core.threads.BunniesThread;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class ListenForBroadcastsThread extends BunniesThread {
+public class ListenForBroadcastsThread extends BunniesThread implements DeviceDiscovery {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ListenForBroadcastsThread.class);
 
@@ -43,6 +44,16 @@ public class ListenForBroadcastsThread extends BunniesThread {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void searchServer() {
+		start();
+	}
+	
+	@Override
+	public void closeConnections() {
+		stopListening();
 	}
 
 	private void oneRun() throws IOException {

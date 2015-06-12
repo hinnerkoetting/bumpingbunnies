@@ -1,7 +1,7 @@
 package de.oetting.bumpingbunnies.core.networking.init;
 
 
-public interface ConnectionEstablisher {
+public interface DeviceDiscovery {
 
 	void closeConnections();
 

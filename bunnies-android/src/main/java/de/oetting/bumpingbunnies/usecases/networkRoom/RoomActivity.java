@@ -48,8 +48,9 @@ import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSoc
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
+import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
-import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.init.DeviceDiscovery;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
@@ -87,7 +88,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 	public final static int REQUEST_BT_ENABLE = 1000;
 	private HostsListViewAdapter hostsAdapter;
 
-	private ConnectionEstablisher remoteCommunication;
+	private DeviceDiscovery deviceDiscovery;
 	private ClientAccepter clientAccepter;
 	private RoomArrayAdapter playersAA;
 	private NetworkBroadcaster broadcastService;
@@ -116,12 +117,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			}
 		});
 		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
-		this.remoteCommunication = new DummyCommunication();
+		this.deviceDiscovery = new DummyCommunication();
 		list.setAdapter(this.hostsAdapter);
 		initRoom();
 		this.connectedToServerService = new DummyConnectionToServer();
 		this.broadcastService = new NetworkBroadcaster(this);
-		listenForBroadcasts();
 		settingsDao = new DummySettingsDao();
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 		switchToWlan();
@@ -146,7 +146,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		if (clientAccepter != null)
 			clientAccepter.closeConnections();
 		hostsAdapter.clear();
-		this.remoteCommunication = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this);
+		deviceDiscovery.closeConnections();
+		this.deviceDiscovery = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this);
 		clientAccepter = BluetoothCommunicationFactory.createClientAccepter(BluetoothAdapter.getDefaultAdapter(), this,
 				this);
 
@@ -162,7 +163,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 					startGame();
 					break;
 				case DialogInterface.BUTTON_NEGATIVE:
-					remoteCommunication.searchServer();
+					deviceDiscovery.searchServer();
 					break;
 				}
 			}
@@ -179,7 +180,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		if (clientAccepter != null)
 			clientAccepter.closeConnections();
 		hostsAdapter.clear();
-		this.remoteCommunication = new DummyCommunication();
+		deviceDiscovery.closeConnections();
+		this.deviceDiscovery = ListenforBroadCastsThreadFactory.create(this, this);
+		deviceDiscovery.searchServer();
 	}
 
 	public void onClickKnownHosts(View v) {
@@ -202,15 +205,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		this.hostsAdapter.clear();
 		for (BluetoothDevice device : pairedDevices) {
 			hostsAdapter.add(createBluetoothHostsEntry(device));
-		}
-	}
-
-	private void listenForBroadcasts() {
-		try {
-			broadcastService.listenForBroadCasts(this);
-		} catch (CouldNotOpenBroadcastSocketException e) {
-			displayErrorAddressInUse();
-			LOGGER.warn("Error when trying to search for host", e);
 		}
 	}
 
@@ -239,7 +233,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		super.onDestroy();
 		this.connectedToServerService.cancel();
 		this.broadcastService.cancel();
-		this.remoteCommunication.closeConnections();
+		this.deviceDiscovery.closeConnections();
 		for (ToClientConnector connectionToClient : this.connectionToClientServices) {
 			connectionToClient.cancel();
 		}
@@ -256,7 +250,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			@Override
 			public void run() {
 				try {
-					remoteCommunication.closeConnections();
+					deviceDiscovery.closeConnections();
 					connectToServer(device);
 				} catch (Exception e) {
 					LOGGER.error("Error", e);
@@ -272,7 +266,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 					} catch (InterruptedException e) {
 					}
 				}
-				ConnectionToServerEstablisher connectThread = new ConnectionToServerEstablisher(device.createClientSocket(), RoomActivity.this);
+				ConnectionToServerEstablisher connectThread = new ConnectionToServerEstablisher(
+						device.createClientSocket(), RoomActivity.this);
 				connectThread.start();
 			}
 		}).start();

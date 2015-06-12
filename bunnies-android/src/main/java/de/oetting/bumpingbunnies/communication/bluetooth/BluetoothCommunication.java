@@ -7,12 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
-import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
+import de.oetting.bumpingbunnies.core.networking.init.DeviceDiscovery;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
-public class BluetoothCommunication implements ConnectionEstablisher {
+public class BluetoothCommunication implements DeviceDiscovery {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothCommunication.class);
 	private final BluetoothAdapter mBluetoothAdapter;

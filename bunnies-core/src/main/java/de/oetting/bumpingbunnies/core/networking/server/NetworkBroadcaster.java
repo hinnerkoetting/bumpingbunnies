@@ -36,13 +36,4 @@ public class NetworkBroadcaster {
 		}
 	}
 
-	public void listenForBroadCasts(final OnBroadcastReceived callback) {
-		cancel();
-		LOGGER.info("Searching for host...");
-
-		this.broadcastThread = ListenforBroadCastsThreadFactory.create(callback, errorCallback);
-		this.broadcastThread.start();
-
-	}
-
 }
