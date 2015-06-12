@@ -172,7 +172,7 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 		ReadOnlyObjectProperty<Host> selectedItem = broadcastTable.getSelectionModel().selectedItemProperty();
 		SocketFactory factory = new WlanSocketFactory();
 		ServerDevice wlanDevice = selectedItem.getValue().getDevice();
-		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(factory.createClientSocket(wlanDevice), this);
+		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(wlanDevice.createClientSocket(), this);
 		connectToServerThread.start();
 	}
 

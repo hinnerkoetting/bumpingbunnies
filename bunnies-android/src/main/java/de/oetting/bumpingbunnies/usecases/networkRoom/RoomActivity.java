@@ -27,7 +27,6 @@ import de.oetting.bumpingbunnies.android.sql.AsyncDatabaseCreation;
 import de.oetting.bumpingbunnies.android.sql.OnDatabaseCreation;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothServerDevice;
-import de.oetting.bumpingbunnies.communication.wlan.WlanCommunicationFactory;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
@@ -44,6 +43,7 @@ import de.oetting.bumpingbunnies.core.network.room.RoomEntry;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
+import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
 import de.oetting.bumpingbunnies.core.networking.client.CouldNotOpenBroadcastSocketException;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
@@ -160,6 +160,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 				switch (which) {
 				case DialogInterface.BUTTON_POSITIVE:
 					startGame();
+					break;
 				case DialogInterface.BUTTON_NEGATIVE:
 					remoteCommunication.searchServer();
 					break;
@@ -178,7 +179,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 		if (clientAccepter != null)
 			clientAccepter.closeConnections();
 		hostsAdapter.clear();
-		this.remoteCommunication = WlanCommunicationFactory.create(this);
+		this.remoteCommunication = new DummyCommunication();
 	}
 
 	public void onClickKnownHosts(View v) {
@@ -256,11 +257,23 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, A
 			public void run() {
 				try {
 					remoteCommunication.closeConnections();
-					remoteCommunication.connectToServer(device);
+					connectToServer(device);
 				} catch (Exception e) {
 					LOGGER.error("Error", e);
 					displayCouldNotConnectException();
 				}
+			}
+
+			private void connectToServer(ServerDevice device) {
+				if (device instanceof BluetoothServerDevice) {
+					try {
+						// because of some bt discovery bug
+						Thread.sleep(1500);
+					} catch (InterruptedException e) {
+					}
+				}
+				ConnectionToServerEstablisher connectThread = new ConnectionToServerEstablisher(device.createClientSocket(), RoomActivity.this);
+				connectThread.start();
 			}
 		}).start();
 		enableButtons(false);

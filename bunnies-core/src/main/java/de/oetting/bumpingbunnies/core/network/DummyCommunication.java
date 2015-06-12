@@ -14,10 +14,6 @@ public class DummyCommunication implements ConnectionEstablisher, ClientAccepter
 	}
 
 	@Override
-	public void connectToServer(ServerDevice device) {
-	}
-
-	@Override
 	public void searchServer() {
 	}
 

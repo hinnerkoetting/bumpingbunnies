@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
-import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.networking.init.ConnectionEstablisher;
-import de.oetting.bumpingbunnies.core.networking.init.DefaultConnectionEstablisher;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
@@ -21,15 +19,13 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 	private BroadcastReceiver mReceiver;
 	private boolean discoveryRunning;
 	private boolean receiversRegistered;
-	private DefaultConnectionEstablisher commonBehaviour;
 	private final RoomActivity origin;
 	private final BluetoothActivatation activater;
 
-	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, DefaultConnectionEstablisher commonBehaviour,
+	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, 
 			BluetoothActivatation activater) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
-		this.commonBehaviour = commonBehaviour;
 		this.activater = activater;
 	}
 
@@ -45,20 +41,8 @@ public class BluetoothCommunication implements ConnectionEstablisher {
 			}
 			this.receiversRegistered = false;
 		}
-		this.commonBehaviour.closeConnections();
 	}
-
-	@Override
-	public void connectToServer(ServerDevice device) {
-		try {
-			// because of some bt discovery bug
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			LOGGER.error("Fehler beim BT Connect", e);
-		}
-		this.commonBehaviour.connectToServer(device);
-	}
-
+	
 	public boolean activate() {
 		return activater.activateBluetooth();
 	}

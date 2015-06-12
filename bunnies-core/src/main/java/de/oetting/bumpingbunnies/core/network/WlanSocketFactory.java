@@ -23,9 +23,5 @@ public class WlanSocketFactory implements SocketFactory {
 		}
 	}
 
-	@Override
-	public MySocket createClientSocket(ServerDevice serverDevice) {
-		return serverDevice.createClientSocket();
-	}
 
 }

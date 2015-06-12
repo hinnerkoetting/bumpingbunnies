@@ -32,9 +32,5 @@ public class BluetoothSocketFactory implements SocketFactory {
 		return new BunniesBluetoothServerSocket(tmp);
 	}
 
-	@Override
-	public MySocket createClientSocket(ServerDevice serverDevice) {
-		return serverDevice.createClientSocket();
-	}
 
 }

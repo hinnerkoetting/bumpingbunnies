@@ -6,4 +6,5 @@ public interface ServerDevice {
 	String getName();
 	
 	boolean canConnectToServer();
+	
 }
