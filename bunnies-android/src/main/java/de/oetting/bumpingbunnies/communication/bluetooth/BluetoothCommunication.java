@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.communication.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,7 +23,7 @@ public class BluetoothCommunication implements DeviceDiscovery {
 	private final RoomActivity origin;
 	private final BluetoothActivatation activater;
 
-	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter, 
+	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter,
 			BluetoothActivatation activater) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
@@ -42,7 +43,7 @@ public class BluetoothCommunication implements DeviceDiscovery {
 			this.receiversRegistered = false;
 		}
 	}
-	
+
 	public boolean activate() {
 		return activater.activateBluetooth();
 	}
@@ -109,10 +110,9 @@ public class BluetoothCommunication implements DeviceDiscovery {
 	}
 
 	private void handleNewDeviceFound(Intent intent) {
-		// Get the BluetoothDevice object from the Intent
 		BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-		// Add the name and address to an array adapter to show in a
-		// ListView
-		BluetoothCommunication.this.origin.addServer(device);
+		int deviceClass = device.getBluetoothClass().getMajorDeviceClass();
+		if (deviceClass == BluetoothClass.Device.Major.PHONE || deviceClass == BluetoothClass.Device.Major.COMPUTER)
+			BluetoothCommunication.this.origin.addServer(device);
 	}
 }
