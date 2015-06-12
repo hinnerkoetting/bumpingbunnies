@@ -1,6 +1,9 @@
 package de.oetting.bumpingbunnies.pc.graphics;
 
+import java.util.Properties;
+
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
 public class YCoordinateInverterCalculation implements CoordinatesCalculation {
 
@@ -66,6 +69,11 @@ public class YCoordinateInverterCalculation implements CoordinatesCalculation {
 	@Override
 	public int getDifferenceInGameCoordinateY(float screenY1, float screenY2) {
 		return delegate.getDifferenceInGameCoordinateY(screenY1, screenY2);
+	}
+
+	@Override
+	public WorldProperties getWorldProperties() {
+		return delegate.getWorldProperties();
 	}
 
 }

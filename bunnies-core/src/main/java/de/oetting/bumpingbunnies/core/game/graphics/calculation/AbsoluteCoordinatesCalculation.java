@@ -71,4 +71,9 @@ public class AbsoluteCoordinatesCalculation implements CoordinatesCalculation {
 		return getGameCoordinateY(screenY1) - getGameCoordinateY(screenY2);
 	}
 
+	@Override
+	public WorldProperties getWorldProperties() {
+		return properties;
+	}
+
 }

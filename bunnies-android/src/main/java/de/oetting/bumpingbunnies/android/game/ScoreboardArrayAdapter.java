@@ -12,7 +12,7 @@ import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class ScoreboardArrayAdapter extends ArrayAdapter<Bunny> {
 
-	private static final int MAX_NAME_LENGTH = 8:
+	private static final int MAX_NAME_LENGTH = 8;
 		
 	public ScoreboardArrayAdapter(Context context) {
 		super(context, -1);

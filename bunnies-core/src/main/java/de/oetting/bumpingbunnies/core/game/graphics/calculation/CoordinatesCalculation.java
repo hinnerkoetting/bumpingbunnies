@@ -1,5 +1,7 @@
 package de.oetting.bumpingbunnies.core.game.graphics.calculation;
 
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
+
 public interface CoordinatesCalculation {
 
 	int getGameCoordinateY(float screenY);
@@ -23,4 +25,6 @@ public interface CoordinatesCalculation {
 	void fixCurrentLocation();
 
 	void resetCurrentLocation();
+	
+	WorldProperties getWorldProperties();
 }
