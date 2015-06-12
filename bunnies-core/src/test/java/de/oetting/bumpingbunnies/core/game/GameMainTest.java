@@ -32,6 +32,7 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.world.World;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)
@@ -109,7 +110,7 @@ public class GameMainTest {
 		this.fixture = new GameMain(this.sockets, new DummyMusicPlayer(), mock(NetworkPlayerStateSenderThread.class), mock(NetworkMessageDistributor.class),
 				mock(Configuration.class));
 		fixture.setNewClientsAccepter(this.accepter);
-		this.fixture.setWorld(new World());
+		this.fixture.setWorld(new World(new WorldProperties()));
 		when(this.sockets.findSocket(any(ConnectionIdentifier.class))).thenReturn(mock(MySocket.class));
 		NetworkMessageDistributor networkSendControl = createNetworkSendControl();
 		SocketStorage.getSingleton().addObserver(networkSendControl);

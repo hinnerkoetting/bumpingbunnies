@@ -13,9 +13,12 @@ import de.oetting.bumpingbunnies.model.game.objects.Background;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.BunnyComparator;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
+import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
+import de.oetting.bumpingbunnies.model.game.objects.Rect;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
@@ -34,8 +37,11 @@ public class World implements ObjectProvider {
 	private final List<SpawnPoint> allSpawnPoints;
 	private final List<Water> allWaters;
 	private final List<Background> backgrounds;
+	private final List<Segment> segments;
+	private final WorldProperties properties;
 
-	public World() {
+	public World(WorldProperties properties) {
+		this.properties = properties;
 		this.connectedBunnies = new CopyOnWriteArrayList<Bunny>();
 		this.allCollidingObjects = new LinkedList<GameObjectWithImage>();
 		this.allDrawingObjects = new LinkedList<GameObjectWithImage>();
@@ -45,7 +51,8 @@ public class World implements ObjectProvider {
 		this.allWaters = new LinkedList<Water>();
 		this.allSpawnPoints = new ArrayList<SpawnPoint>();
 		this.backgrounds = new LinkedList<Background>();
-		disconnectedBunnies = new ArrayList<Bunny>();
+		this.disconnectedBunnies = new ArrayList<Bunny>();
+		this.segments = new ArrayList<Segment>();
 	}
 
 	public void addToAllObjects() {
@@ -329,4 +336,50 @@ public class World implements ObjectProvider {
 		return connectedBunnies.indexOf(player);
 	}
 
+	public void initSegments() {
+		int numberOfSegmentsVertically = 3;
+		int numberOfSegmentsHorizontally = 3;
+		for (int x = 0; x < numberOfSegmentsHorizontally; x++) {
+			for (int y = 0; y < numberOfSegmentsVertically; y++) {
+				long height = properties.getWorldHeight() / numberOfSegmentsVertically;
+				long width = properties.getWorldWidth() / numberOfSegmentsVertically;
+				Segment segment = new Segment(new Rect(x * width - ModelConstants.BUNNY_GAME_WIDTH, y * height
+						- ModelConstants.BUNNY_GAME_HEIGHT, (x + 1) * width + ModelConstants.BUNNY_GAME_WIDTH, (y + 1)
+						* height + ModelConstants.BUNNY_GAME_HEIGHT));
+				segment.addObjects(getAllObjects());
+				segments.add(segment);
+			}
+		}
+	}
+
+	@Override
+	public List<GameObject> getCandidateForCollisionObjects(Bunny bunny) {
+		if (segments.isEmpty()) {
+			initSegments();
+		}
+		for (Segment segment : segments) {
+			if (fitsHorizontallyCompletely(bunny, segment) && fitsVerticallyCompletely(bunny, segment)) {
+				return segment.getObjectsInSegment();
+			}
+		}
+		//Outside of world
+		return new ArrayList<GameObject>();
+//		throw new IllegalStateException("There has to be one segment in which this bunny fits");
+	}
+
+	private boolean fitsHorizontallyCompletely(Bunny bunny, Segment segment) {
+		return segment.getMinX() < bunny.minX() && segment.getMaxX() > bunny.maxX();
+	}
+
+	private boolean fitsVerticallyCompletely(Bunny bunny, Segment segment) {
+		return segment.getMinY() < bunny.minY() && segment.getMaxY() > bunny.maxY();
+	}
+
+	public WorldProperties getProperties() {
+		return properties;
+	}
+	
+	
+	
+	
 }

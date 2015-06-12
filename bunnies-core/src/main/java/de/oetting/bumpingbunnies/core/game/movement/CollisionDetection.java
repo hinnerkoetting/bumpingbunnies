@@ -29,9 +29,9 @@ public class CollisionDetection {
 		return false;
 	}
 
-	public GameObject findObjectThisPlayerIsStandingOn(Bunny player) {
-		for (GameObject go : this.world.getAllObjects()) {
-			if (standsOn(player, go)) {
+	public GameObject findObjectThisPlayerIsStandingOn(Bunny bunny) {
+		for (GameObject go : this.world.getCandidateForCollisionObjects(bunny)) {
+			if (standsOn(bunny, go)) {
 				return go;
 			}
 		}
@@ -47,13 +47,13 @@ public class CollisionDetection {
 		return null;
 	}
 
-	public boolean collidesWithAnyFixedObjec(Bunny player) {
+	public boolean collidesWithAnyFixedObject(Bunny player) {
 		return findObjectThisPlayerIsCollidingWith(player) != null;
 	}
 	
-	public GameObject findObjectThisPlayerIsCollidingWith(Bunny player) {
-		for (GameObject go : this.world.getAllObjects()) {
-			if (collides(player, go)) {
+	public GameObject findObjectThisPlayerIsCollidingWith(Bunny bunny) {
+		for (GameObject go : this.world.getCandidateForCollisionObjects(bunny)) {
+			if (collides(bunny, go)) {
 				return go;
 			}
 		}

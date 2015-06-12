@@ -11,6 +11,19 @@ public class TestableGameObject implements GameObject {
 	public int color;
 	public int accelerationOnThisGround;
 
+	
+	public TestableGameObject() {
+	}
+	
+
+	public TestableGameObject(long minX, long minY, long maxX, long maxY) {
+		this.maxX = maxX;
+		this.maxY = maxY;
+		this.minX = minX;
+		this.minY = minY;
+	}
+
+
 	@Override
 	public long maxX() {
 		return this.maxX;

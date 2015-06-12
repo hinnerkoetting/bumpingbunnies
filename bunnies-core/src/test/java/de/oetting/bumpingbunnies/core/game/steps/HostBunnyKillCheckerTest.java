@@ -30,6 +30,7 @@ import de.oetting.bumpingbunnies.model.game.MusicPlayer;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.world.World;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
@@ -37,7 +38,7 @@ import de.oetting.bumpingbunnies.tests.UnitTests;
 public class HostBunnyKillCheckerTest {
 
 	private HostBunnyKillChecker classUnderTest;
-	private World world = new World();
+	private World world = new World(new WorldProperties());
 	@Mock
 	private SpawnPointGenerator spawnGenerator;
 	@Mock

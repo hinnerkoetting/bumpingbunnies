@@ -11,6 +11,7 @@ import org.junit.experimental.categories.Category;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.world.PlayerDoesNotExist;
 import de.oetting.bumpingbunnies.model.game.world.World;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.tests.UnitTests;
 
 @Category(UnitTests.class)
@@ -37,6 +38,6 @@ public class WorldTest {
 
 	@Before
 	public void beforeEveryTest() {
-		this.fixture = new World();
+		this.fixture = new World(new WorldProperties());
 	}
 }

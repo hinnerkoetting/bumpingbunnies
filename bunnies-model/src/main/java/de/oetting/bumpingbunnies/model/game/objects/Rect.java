@@ -10,7 +10,7 @@ public class Rect {
 	public Rect() {
 	}
 
-	public Rect(long minX, long maxX, long minY, long maxY) {
+	public Rect(long minX, long minY, long maxX, long maxY) {
 		super();
 		this.minX = minX;
 		this.maxX = maxX;

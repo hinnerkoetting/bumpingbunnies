@@ -60,6 +60,7 @@ import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.model.game.world.World;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 import de.oetting.bumpingbunnies.worldcreator.io.LevelStorer;
 import de.oetting.bumpingbunnies.worldcreator.io.XmlStorer;
 import de.oetting.bumpingbunnies.worldcreator.load.gameObjects.ObjectsFactory;
@@ -87,12 +88,12 @@ public class ViewerPanel extends JPanel {
 	public ViewerPanel(String file) {
 		this.lastFile = new File(file);
 		this.builder = new XmlBuilder();
-		this.model = new EditorModel(new World());
+		this.model = new EditorModel(new World(new WorldProperties()));
 	}
 
 	public ViewerPanel() {
 		this.builder = new XmlBuilder();
-		this.model = new EditorModel(new World());
+		this.model = new EditorModel(new World(new WorldProperties()));
 	}
 
 	public void build() {

@@ -59,7 +59,7 @@ public class FixPlayerPosition implements PlayerJoinListener {
 	}
 
 	private boolean collidesWithFixedObject(Bunny player) {
-		return collisionDetection.collidesWithAnyFixedObjec(player);
+		return collisionDetection.collidesWithAnyFixedObject(player);
 	}
 
 	private void moveForwardsIfPlayerCollidesWithAnyFixedObject(Bunny player) {

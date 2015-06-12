@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.model.game.world;
 
 import java.util.List;
 
+import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 import de.oetting.bumpingbunnies.model.game.objects.IcyWall;
 import de.oetting.bumpingbunnies.model.game.objects.Jumper;
@@ -22,4 +23,6 @@ public interface ObjectProvider {
 	List<Bunny> getAllConnectedBunnies();
 
 	List<Water> getAllWaters();
+	
+	List<GameObject> getCandidateForCollisionObjects(Bunny bunny);
 }

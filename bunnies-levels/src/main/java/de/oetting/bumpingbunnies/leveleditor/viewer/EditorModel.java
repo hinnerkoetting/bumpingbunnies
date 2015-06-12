@@ -10,6 +10,7 @@ import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.game.objects.Wall;
 import de.oetting.bumpingbunnies.model.game.objects.Water;
 import de.oetting.bumpingbunnies.model.game.world.World;
+import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 
 public class EditorModel {
 
@@ -32,7 +33,7 @@ public class EditorModel {
 	}
 
 	private synchronized World cloneWorld(World world) {
-		World clonedWorld = new World();
+		World clonedWorld = new World(world.getProperties());
 		world.getAllWalls().stream().forEach(wall -> clonedWorld.addWall(new Wall(wall)));
 		world.getAllIcyWalls().stream().forEach(wall -> clonedWorld.addIcyWall(new IcyWall(wall)));
 		world.getAllJumper().stream().forEach(wall -> clonedWorld.addJumper(new Jumper(wall)));
@@ -81,7 +82,7 @@ public class EditorModel {
 	}
 
 	public synchronized void clear() {
-		loadNewWorld(new World());
+		loadNewWorld(new World(new WorldProperties()));
 	}
 
 }
