@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -52,7 +51,6 @@ import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
 import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
-import de.oetting.bumpingbunnies.core.networking.server.ToClientConnector;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -89,10 +87,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 
 	private int playerCounter = 0;
 	private ConnectionToServer connectedToServerService;
-	private List<ToClientConnector> connectionToClientServices = new LinkedList<ToClientConnector>();
 	private boolean canLaunchGame = false;
 	private ServerSettings generalSettings;
-	private boolean asHost;
 	private SettingsStorage settingsDao;
 	private ProgressDialog progressDialog;
 	private NetworkType activeConnection = NetworkType.WLAN;
@@ -221,9 +217,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		this.connectedToServerService.cancel();
 		this.broadcastService.cancel();
 		this.deviceDiscovery.closeConnections();
-		for (ToClientConnector connectionToClient : this.connectionToClientServices) {
-			connectionToClient.cancel();
-		}
 		if (progressDialog != null)
 			progressDialog.dismiss();
 	}
@@ -352,7 +345,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 				RoomActivity.this.playersAA.addMe(new LocalPlayerEntry(singlePlayerProperties));
 				RoomActivity.this.playersAA.notifyDataSetChanged();
 				if (canLaunchGame) {
-					launchGameActiviti();
+					launchGameActiviti(false);
 				}
 			}
 		});
@@ -424,14 +417,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	@Override
 	public synchronized void launchGame(ServerSettings generalSettings, boolean asHost) {
 		this.generalSettings = generalSettings;
-		this.asHost = asHost;
 		canLaunchGame = true;
 		if (playersAA.myPlayerExists()) {
-			launchGameActiviti();
+			launchGameActiviti(asHost);
 		}
 	}
 
-	private void launchGameActiviti() {
+	private void launchGameActiviti(boolean asHost) {
 		SettingsEntity settings = readSettingsFromDb();
 		LocalSettings localSettings = createLocalSettings(settings);
 		LocalPlayerSettings localPlayerSettings = createLocalPlayerSettings();
