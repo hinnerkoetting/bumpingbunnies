@@ -11,7 +11,6 @@ public class Rect {
 	}
 
 	public Rect(long minX, long minY, long maxX, long maxY) {
-		super();
 		this.minX = minX;
 		this.maxX = maxX;
 		this.minY = minY;
@@ -57,7 +56,7 @@ public class Rect {
 
 	@Override
 	public Rect clone() {
-		return new Rect(minX, maxX, minY, maxY);
+		return new Rect(minX, minY, maxX, maxY);
 	}
 
 	public void setCenterX(long gameX) {
@@ -73,11 +72,11 @@ public class Rect {
 	}
 
 	private void validate(long minX, long minY, long maxX, long maxY) {
-//		if (minX > maxX) {
-//			throw new IllegalArgumentException("minX must be smaller than maxX");
-//		}
-//		if (minY > maxY) {
-//			throw new IllegalArgumentException("minY must be smaller than maxY");
-//		}
+		if (minX > maxX) {
+			throw new IllegalArgumentException("minX must be smaller than maxX");
+		}
+		if (minY > maxY) {
+			throw new IllegalArgumentException("minY must be smaller than maxY");
+		}
 	}
 }

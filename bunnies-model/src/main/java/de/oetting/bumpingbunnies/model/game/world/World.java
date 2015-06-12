@@ -343,9 +343,10 @@ public class World implements ObjectProvider {
 			for (int y = 0; y < numberOfSegmentsVertically; y++) {
 				long height = properties.getWorldHeight() / numberOfSegmentsVertically;
 				long width = properties.getWorldWidth() / numberOfSegmentsVertically;
-				Segment segment = new Segment(new Rect(x * width - ModelConstants.BUNNY_GAME_WIDTH, y * height
+				Rect segmentRect = new Rect(x * width - ModelConstants.BUNNY_GAME_WIDTH, y * height
 						- ModelConstants.BUNNY_GAME_HEIGHT, (x + 1) * width + ModelConstants.BUNNY_GAME_WIDTH, (y + 1)
-						* height + ModelConstants.BUNNY_GAME_HEIGHT));
+						* height + ModelConstants.BUNNY_GAME_HEIGHT);
+				Segment segment = new Segment(segmentRect);
 				segment.addObjects(getAllObjects());
 				segments.add(segment);
 			}
@@ -362,9 +363,10 @@ public class World implements ObjectProvider {
 				return segment.getObjectsInSegment();
 			}
 		}
-		//Outside of world
+		// Outside of world
 		return new ArrayList<GameObject>();
-//		throw new IllegalStateException("There has to be one segment in which this bunny fits");
+		// throw new
+		// IllegalStateException("There has to be one segment in which this bunny fits");
 	}
 
 	private boolean fitsHorizontallyCompletely(Bunny bunny, Segment segment) {
@@ -378,8 +380,5 @@ public class World implements ObjectProvider {
 	public WorldProperties getProperties() {
 		return properties;
 	}
-	
-	
-	
-	
+
 }

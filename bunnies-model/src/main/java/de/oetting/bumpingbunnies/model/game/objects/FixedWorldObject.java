@@ -13,7 +13,7 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 
 	public FixedWorldObject(int id, long minX, long minY, long maxX, long maxY, int color) {
 		this.id = id;
-		this.rect = new Rect(minX, maxX, minY, maxY);
+		this.rect = new Rect(minX, minY, maxX, maxY);
 		this.color = color;
 	}
 

@@ -18,14 +18,14 @@ public class SegmentTest {
 
 	@Test
 	public void addSegment_completelyInSegment_containsObject() {
-		classUnderTest = new Segment(new Rect(0, 0, 10, 10));
+		classUnderTest = new Segment(new Rect(0, 0, 3, 10));
 		classUnderTest.addObjects(Arrays.asList(new TestableGameObject(1, 1, 2, 2)));
 		assertThat(classUnderTest.getObjectsInSegment(), hasSize(1));
 	}
 
 	@Test
 	public void addSegment_partlyToLeftInSegment_containsObject() {
-		classUnderTest = new Segment(new Rect(0, 0, 10, 10));
+		classUnderTest = new Segment(new Rect(0, 0, 3, 3));
 		classUnderTest.addObjects(Arrays.asList(new TestableGameObject(-1, 1, 2, 2)));
 		assertThat(classUnderTest.getObjectsInSegment(), hasSize(1));
 	}
