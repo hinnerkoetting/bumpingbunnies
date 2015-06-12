@@ -15,7 +15,7 @@ public class WorldFactory {
 		world.replaceAllSpawnPoints(state.getSpawnPoints());
 		world.replaceBackgrounds(state.getBackground());
 		world.addToAllObjects();
-		world.sortObjectsByZIndex();
+		world.init();
 		return world;
 	}
 }

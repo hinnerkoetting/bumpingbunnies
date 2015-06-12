@@ -6,18 +6,18 @@ import java.util.List;
 import de.oetting.bumpingbunnies.model.game.objects.GameObject;
 import de.oetting.bumpingbunnies.model.game.objects.Rect;
 
-public class Segment {
+public class Segment<S extends GameObject> {
 
 	private final Rect rectangle;
-	private final List<GameObject> objectsInThisSegment;
+	private final List<S> objectsInThisSegment;
 
 	public Segment(Rect rectangle) {
 		this.rectangle = rectangle;
-		objectsInThisSegment = new ArrayList<GameObject>();
+		objectsInThisSegment = new ArrayList<S>();
 	}
 
-	public void addObjects(List<? extends GameObject> objects) {
-		for (GameObject object : objects) {
+	public void addObjects(List<? extends S> objects) {
+		for (S object : objects) {
 			if (matchesWidthPartially(object) && matchesHeightPartially(object))
 				objectsInThisSegment.add(object);
 		}
@@ -31,7 +31,7 @@ public class Segment {
 		return object.maxY() >= rectangle.getMinY() && object.minY() <= rectangle.getMaxY();
 	}
 
-	public List<GameObject> getObjectsInSegment() {
+	public List<S> getObjectsInSegment() {
 		return objectsInThisSegment;
 	}
 

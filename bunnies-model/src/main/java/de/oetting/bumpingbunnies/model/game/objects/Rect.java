@@ -17,6 +17,13 @@ public class Rect {
 		this.maxY = maxY;
 		validate(minX, minY, maxX, maxY);
 	}
+	public Rect(Rect other) {
+		this.minX = other.minX;
+		this.maxX = other.maxX;
+		this.minY = other.minY;
+		this.maxY = other.maxY;
+		validate(minX, minY, maxX, maxY);
+	}
 
 	public long getMinX() {
 		return this.minX;

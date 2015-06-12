@@ -23,6 +23,14 @@ public interface ObjectProvider {
 	List<Bunny> getAllConnectedBunnies();
 
 	List<Water> getAllWaters();
-	
+
 	List<GameObject> getCandidateForCollisionObjects(Bunny bunny);
+
+	List<Jumper> getCandidateForCollisionJumper(Bunny bunny);
+
+	List<Wall> getCandidateForCollisionWalls(Bunny bunny);
+
+	List<IcyWall> getCandidateForCollisionIcyWalls(Bunny bunny);
+
+	List<Water> getCandidateForCollisionWater(Bunny bunny);
 }

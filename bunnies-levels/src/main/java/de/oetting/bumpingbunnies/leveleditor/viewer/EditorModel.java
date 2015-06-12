@@ -40,7 +40,7 @@ public class EditorModel {
 		world.getAllWaters().stream().forEach(wall -> clonedWorld.addWater(new Water(wall)));
 		world.getBackgrounds().stream().forEach(background -> clonedWorld.addBackground(new Background(background)));
 		world.getSpawnPoints().stream().forEach(spawnpoint -> clonedWorld.addSpawnpoint(new SpawnPoint(spawnpoint)));
-		clonedWorld.sortObjectsByZIndex();
+		clonedWorld.init();
 		return clonedWorld;
 	}
 

@@ -26,10 +26,10 @@ public class GameObjectInteractor {
 		// careful: next step is updated in interactWith if player collides with
 		// objects
 		interactWithPlayers(player, nextStep);
-		interactWithJumper(player, nextStep, this.objectProvider.getAllJumper());
-		interactWithWater(player, nextStep, this.objectProvider.getAllWaters());
-		interactWith(player, nextStep, this.objectProvider.getAllWalls());
-		interactWith(player, nextStep, this.objectProvider.getAllIcyWalls());
+		interactWithJumper(player, nextStep, this.objectProvider.getCandidateForCollisionJumper(player));
+		interactWithWater(player, nextStep, this.objectProvider.getCandidateForCollisionWater(player));
+		interactWith(player, nextStep, this.objectProvider.getCandidateForCollisionWalls(player));
+		interactWith(player, nextStep, this.objectProvider.getCandidateForCollisionIcyWalls(player));
 	}
 
 	private void interactWithJumper(Bunny player, PlayerSimulation nextStep, List<Jumper> allJumper) {
