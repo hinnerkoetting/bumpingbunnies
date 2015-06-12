@@ -81,10 +81,10 @@ public class DrawablesFactory {
 		List<Drawable> staticDrawables = new ArrayList<Drawable>();
 		staticDrawables.add(createBackground(canvas));
 		staticDrawables.addAll(createAllStaticObjectsDrawables(allStaticObjects, canvas));
-		if (convertAllStaticObjectsToOneImage)
+//		if (convertAllStaticObjectsToOneImage)
 			return convertToOneDrawer(staticDrawables);
-		else
-			return staticDrawables;
+//		else
+//			return staticDrawables;
 	}
 
 	private List<FixedWorldObject> createAlleStaticObjects() {
