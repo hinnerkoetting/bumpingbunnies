@@ -19,11 +19,11 @@
     <dimen name="start_buttons_padding">20dp</dimen>
     <dimen name="start_button_text_size">50sp</dimen>
     <dimen name="start_button_radius">10dp</dimen>
-    <dimen name="game_scoreboard_width_small">125dp</dimen>
+    <dimen name="game_scoreboard_width_small">175dp</dimen>
     <dimen name="game_scoreboard_height_small">150dp</dimen>
     <dimen name="start_scoreboard_textsize">20sp</dimen>
     <dimen name="ingame_button_radius">10dp</dimen>
     <dimen name="strokeWidth">2dp</dimen>
-    <dimen name="scoreboard_width">100dp</dimen>
+    <dimen name="scoreboard_width">150dp</dimen>
 
 </resources>

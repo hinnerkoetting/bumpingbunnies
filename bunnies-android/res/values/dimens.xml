@@ -28,6 +28,6 @@
     <dimen name="ingame_button_radius">10dp</dimen>
     <dimen name="strokeWidth">2dp</dimen>
     
-    <dimen name="scoreboard_width">100dp</dimen>
+    <dimen name="game_scoreboard_width_small">150dp</dimen>
 
 </resources>

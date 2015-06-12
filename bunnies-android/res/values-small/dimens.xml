@@ -7,7 +7,7 @@
     <dimen name="start_button_radius">10dp</dimen>
     <dimen name="start_buttons_padding">30dp</dimen>
     <dimen name="start_button_text_size">40sp</dimen>
-    <dimen name="game_scoreboard_width_small">75dp</dimen>
+    <dimen name="game_scoreboard_width_small">125dp</dimen>
     <dimen name="game_scoreboard_height_small">75dp</dimen>
     <dimen name="start_scoreboard_textsize">16sp</dimen>
     
