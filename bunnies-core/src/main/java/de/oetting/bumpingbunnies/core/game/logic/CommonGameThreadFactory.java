@@ -38,7 +38,7 @@ public class CommonGameThreadFactory {
 			GameStopper gameStopper, ScoreboardSynchronisation scoreSynchronisation) {
 		PlayerStateDispatcher stateDispatcher = new PlayerStateDispatcher(networkDispatcher);
 		initInputServices(main, errorCallback, world, networkDispatcher, configuration, gameStopper,
-				createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()));
+				createDeadPlayerMusic(musicPlayerFactory, configuration.getLocalSettings()), scoreSynchronisation);
 
 		PlayerMovementCalculationFactory factory = CommonGameThreadFactory.createMovementCalculationFactory(world,
 				musicPlayerFactory, configuration.getLocalSettings());
@@ -99,8 +99,8 @@ public class CommonGameThreadFactory {
 
 	private static void initInputServices(GameMain main, ThreadErrorCallback errorCallback, World world,
 			NetworkToGameDispatcher networkDispatcher, Configuration configuration, GameStopper gameStopper,
-			MusicPlayer deadPlayerMusic) {
+			MusicPlayer deadPlayerMusic, ScoreboardSynchronisation scoreboardSync) {
 		NetworkListeners.allNetworkListeners(networkDispatcher, world, errorCallback, main, configuration, gameStopper,
-				deadPlayerMusic);
+				deadPlayerMusic, scoreboardSync);
 	}
 }
