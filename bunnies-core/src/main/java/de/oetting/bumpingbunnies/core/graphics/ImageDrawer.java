@@ -16,7 +16,7 @@ public class ImageDrawer implements Drawable {
 	public ImageDrawer(ImageWrapper bitmap, GameObjectWithColor object) {
 		this.originalBbitmap = bitmap;
 		this.object = object;
-		this.paint = new Paint();
+		this.paint = new Paint(); 
 		this.paint.setColor(object.getColor());
 	}
 

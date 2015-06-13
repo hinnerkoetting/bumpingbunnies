@@ -27,7 +27,7 @@ import de.oetting.bumpingbunnies.usecases.start.android.ProgressToIntValueConver
  */
 public class SettingsViewAccess {
 
-	private static final int MIN_ZOOM_VALUE = 4;
+	private static final int MIN_ZOOM_VALUE = 3;
 	private static final Logger LOGGER = LoggerFactory.getLogger(SettingsViewAccess.class);
 
 	private final Activity origin;

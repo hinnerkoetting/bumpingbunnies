@@ -6,15 +6,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
-import de.oetting.bumpingbunnies.core.game.graphics.DrawableToImageConverter;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
+import de.oetting.bumpingbunnies.core.game.graphics.DrawableToImageConverter;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.OneImageSize;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 
 public class AndroidDrawableToImageConverter implements DrawableToImageConverter {
 
@@ -31,11 +31,9 @@ public class AndroidDrawableToImageConverter implements DrawableToImageConverter
 
 	@Override
 	public ImageWrapper drawOnImage(List<Drawable> drawable) {
-		int bitmapWidth = coordinatesCalculation.getScreenCoordinateX(ModelConstants.STANDARD_WORLD_SIZE)
-				- coordinatesCalculation.getScreenCoordinateX(0);
-		int bitmapHeight = coordinatesCalculation.getScreenCoordinateY(0)
-				- coordinatesCalculation.getScreenCoordinateY(ModelConstants.STANDARD_WORLD_SIZE);
-		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Config.ARGB_4444);
+		int bitmapWidth = OneImageSize.computeWidthForOneImage(coordinatesCalculation, screenCanvas);
+		int bitmapHeight = OneImageSize.computeHeightForOneImage(coordinatesCalculation, screenCanvas);
+		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Config.ARGB_8888);
 		Canvas bitmapCanvas = new Canvas(bitmap);
 		CanvasAdapter delegate = createObjectToDrawOnCanvas(bitmapCanvas);
 		drawOnTempCanvas(delegate, drawable);

@@ -16,8 +16,9 @@ public class AllDrawablesFactory {
 	}
 
 	public Drawable createImagesWhichContainsAllElements(List<Drawable> drawable) {
-		 ImageWrapper drawOnImage = drawer.drawOnImage(drawable);
-		 return new ImageDrawer(drawOnImage, new Wall(-1, 0, 0, ModelConstants.STANDARD_WORLD_SIZE, ModelConstants.STANDARD_WORLD_SIZE));
-//		 return new BackgroundDrawer(drawOnImage);
+		ImageWrapper drawOnImage = drawer.drawOnImage(drawable);
+		return new ImageDrawer(drawOnImage, new Wall(-1, 0, 0, ModelConstants.STANDARD_WORLD_SIZE,
+				ModelConstants.STANDARD_WORLD_SIZE));
+		// return new BackgroundDrawer(drawOnImage);
 	}
 }

@@ -342,7 +342,7 @@ public class World implements ObjectProvider {
 	}
 
 	public void initSegments() {
-		int numberOfSegmentsPerDirection = 5;
+		int numberOfSegmentsPerDirection = 3;
 		for (int x = 0; x < numberOfSegmentsPerDirection; x++) {
 			for (int y = 0; y < numberOfSegmentsPerDirection; y++) {
 				createAllSegments(numberOfSegmentsPerDirection, x, y);

@@ -252,7 +252,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawerFactory(
 						new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(),
 						new PcImageMirroror()), new PcDrawableToImageConverter(coordinateTranslator,
-						coordinatesCalculation), true, true);
+						coordinatesCalculation), true, true, coordinatesCalculation);
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, coordinateTranslator);
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);
 		drawerThread = new DrawerFpsCounter(drawer, gameThreadState);

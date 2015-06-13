@@ -6,6 +6,9 @@ import android.util.DisplayMetrics;
 public class OptimalZoom {
 
 	public static int computeOptimalZoom(Context context) {
+		if (deviceInches(context.getResources().getDisplayMetrics()) > 8) {
+			return 3;
+		}
 		if (deviceInches(context.getResources().getDisplayMetrics()) > 6) {
 			return 4;
 		}

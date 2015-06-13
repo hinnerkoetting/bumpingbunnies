@@ -114,7 +114,8 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		ScoreboardArrayAdapter scoreBoard = new ScoreboardArrayAdapter(this);
 		ListView scoreboardList = (ListView) findViewById(R.id.game_scoreboard_list);
 		scoreboardList.setAdapter(scoreBoard);
-		scoreBoard.addAll(world.getAllConnectedBunnies());
+		for (Bunny bunny: world.getAllConnectedBunnies()) 
+			scoreBoard.add(bunny);
 		return scoreBoard;
 	}
 

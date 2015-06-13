@@ -13,11 +13,11 @@ public class FpsDrawer implements Drawable {
 
 	public FpsDrawer(GameThreadState state) {
 		this.state = state;
-		this.x = 0.05;
+		this.x = 0.25;
 		this.y = 0.05;
 		this.paint = new Paint();
 		this.paint.setColor(Paint.LIGHT_GRAY);
-		this.paint.setTextSize(10);
+		this.paint.setTextSize(20);
 	}
 
 	@Override
