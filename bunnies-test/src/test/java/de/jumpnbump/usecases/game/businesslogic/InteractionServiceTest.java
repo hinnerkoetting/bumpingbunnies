@@ -212,6 +212,6 @@ public class InteractionServiceTest {
 
 	private void givenObjectExists(Wall gameObject) {
 		when(this.objectProvider.getAllWalls()).thenReturn(Arrays.asList(gameObject));
-		when(this.objectProvider.getCandidateForCollisionWalls(any(Bunny.class))).thenReturn(Arrays.asList(gameObject));
+		when(this.objectProvider.getCandidateForCollisionWalls(any(Integer.class))).thenReturn(Arrays.asList(gameObject));
 	}
 }

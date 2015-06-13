@@ -26,11 +26,14 @@ public interface ObjectProvider {
 
 	List<GameObject> getCandidateForCollisionObjects(Bunny bunny);
 
-	List<Jumper> getCandidateForCollisionJumper(Bunny bunny);
+	List<Jumper> getCandidateForCollisionJumper(int segment);
 
-	List<Wall> getCandidateForCollisionWalls(Bunny bunny);
+	List<Wall> getCandidateForCollisionWalls(int segment);
 
-	List<IcyWall> getCandidateForCollisionIcyWalls(Bunny bunny);
+	List<IcyWall> getCandidateForCollisionIcyWalls(int segment);
 
-	List<Water> getCandidateForCollisionWater(Bunny bunny);
+	List<Water> getCandidateForCollisionWater(int segment);
+	
+	//Index of segment that bunny belongs to. -1 if segment does not exist
+	int getSegmentThatBunnyBelongsTo(Bunny bunny);
 }

@@ -38,7 +38,7 @@
     <string name="players_table_header">Spieler</string>
     <string name="hosts_table_header">Aktive Spiele</string>
     <string name="result_player_name_header">Name</string>
-    <string name="result_player_score_header">Score</string>
+    <string name="result_player_score_header">Punkte</string>
     <string name="result_player_image">Bild des Spielers</string>
     <string name="host_bluetooth_game_question">Modus wählen</string>
     <string name="host_bluetooth_game">Start</string>

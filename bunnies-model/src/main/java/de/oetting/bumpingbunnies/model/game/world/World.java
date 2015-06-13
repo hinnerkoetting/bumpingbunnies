@@ -342,7 +342,7 @@ public class World implements ObjectProvider {
 	}
 
 	public void initSegments() {
-		int numberOfSegmentsPerDirection = 3;
+		int numberOfSegmentsPerDirection = 5;
 		for (int x = 0; x < numberOfSegmentsPerDirection; x++) {
 			for (int y = 0; y < numberOfSegmentsPerDirection; y++) {
 				createAllSegments(numberOfSegmentsPerDirection, x, y);
@@ -392,10 +392,9 @@ public class World implements ObjectProvider {
 	private Rect createRect(int numberOfSegmentsVertically, int x, int y) {
 		long height = properties.getWorldHeight() / numberOfSegmentsVertically;
 		long width = properties.getWorldWidth() / numberOfSegmentsVertically;
-		Rect segmentRect = new Rect(x * width - ModelConstants.BUNNY_GAME_WIDTH, y * height
-				- ModelConstants.BUNNY_GAME_HEIGHT, (x + 1) * width + ModelConstants.BUNNY_GAME_WIDTH, (y + 1) * height
-				+ ModelConstants.BUNNY_GAME_HEIGHT);
-		return segmentRect;
+		long startX = x * width - ModelConstants.BUNNY_GAME_WIDTH;
+		long startY = y * height - ModelConstants.BUNNY_GAME_HEIGHT;
+		return new Rect(startX, startY, startX + width, startY + height);
 	}
 
 	public void init() {
@@ -423,47 +422,31 @@ public class World implements ObjectProvider {
 	}
 
 	@Override
-	public List<Jumper> getCandidateForCollisionJumper(Bunny bunny) {
-		for (Segment<Jumper> segment : jumperSegments) {
-			if (bunnyFits(bunny, segment)) {
-				return segment.getObjectsInSegment();
-			}
-		}
-		// Outside of world. Just return all elements
-		return  getAllJumper();
+	public List<Jumper> getCandidateForCollisionJumper(int segment) {
+		if (segment == -1)
+			return getAllJumper();
+		return jumperSegments.get(segment).getObjectsInSegment();
 	}
 
 	@Override
-	public List<Wall> getCandidateForCollisionWalls(Bunny bunny) {
-		for (Segment<Wall> segment : wallSegments) {
-			if (bunnyFits(bunny, segment)) {
-				return segment.getObjectsInSegment();
-			}
-		}
-		// Outside of world. Just return all elements
-		return getAllWalls();
+	public List<Wall> getCandidateForCollisionWalls(int segment) {
+		if (segment == -1)
+			return getAllWalls();
+		return wallSegments.get(segment).getObjectsInSegment();
 	}
 
 	@Override
-	public List<IcyWall> getCandidateForCollisionIcyWalls(Bunny bunny) {
-		for (Segment<IcyWall> segment : icyWallSegments) {
-			if (bunnyFits(bunny, segment)) {
-				return segment.getObjectsInSegment();
-			}
-		}
-		// Outside of world. Just return all elements
-		return getAllIcyWalls();
+	public List<IcyWall> getCandidateForCollisionIcyWalls(int segment) {
+		if (segment == -1)
+			return getAllIcyWalls();
+		return icyWallSegments.get(segment).getObjectsInSegment();
 	}
 
 	@Override
-	public List<Water> getCandidateForCollisionWater(Bunny bunny) {
-		for (Segment<Water> segment : waterSegments) {
-			if (bunnyFits(bunny, segment)) {
-				return segment.getObjectsInSegment();
-			}
-		}
-		// Outside of world. Just return all elements
-		return getAllWaters();
+	public List<Water> getCandidateForCollisionWater(int segment) {
+		if (segment == -1)
+			return getAllWaters();
+		return waterSegments.get(segment).getObjectsInSegment();
 	}
 
 	private boolean bunnyFits(Bunny bunny, Segment<? extends GameObject> segment) {
@@ -476,5 +459,15 @@ public class World implements ObjectProvider {
 
 	private boolean fitsVerticallyCompletely(Bunny bunny, Segment<?> segment) {
 		return segment.getMinY() < bunny.minY() && segment.getMaxY() > bunny.maxY();
+	}
+
+	@Override
+	public int getSegmentThatBunnyBelongsTo(Bunny bunny) {
+		for (int segmentIndex = 0; segmentIndex < allElementsSegments.size(); segmentIndex++) {
+			if (bunnyFits(bunny, allElementsSegments.get(segmentIndex))) {
+				return segmentIndex;
+			}
+		}
+		return -1;
 	}
 }
