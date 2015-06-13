@@ -9,11 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.usecases.game.graphics.PaintConverter;
 
 public class ScoreboardArrayAdapter extends ArrayAdapter<Bunny> {
 
 	private static final int MAX_NAME_LENGTH = 8;
-		
+	
 	public ScoreboardArrayAdapter(Context context) {
 		super(context, -1);
 	}

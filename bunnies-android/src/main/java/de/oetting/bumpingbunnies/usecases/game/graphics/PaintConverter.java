@@ -8,6 +8,7 @@ public class PaintConverter {
 	public Paint convert(de.oetting.bumpingbunnies.core.graphics.Paint original, Context contex) {
 		Paint paint = new Paint();
 		paint.setColor(original.getColor());
+		paint.setAlpha(original.getAlpha());
 		paint.setTextSize(computeSize(contex, original.getTextSize()));
 		return paint;
 	}

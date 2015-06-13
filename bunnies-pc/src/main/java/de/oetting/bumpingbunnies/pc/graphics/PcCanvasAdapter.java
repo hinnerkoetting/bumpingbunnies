@@ -77,7 +77,7 @@ public class PcCanvasAdapter implements CanvasAdapter {
 			GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 			Image image = (Image) bitmap.getBitmap();
 			if (paint.getAlpha() < 255) {
-				graphicsContext2D.setGlobalAlpha(1 - paint.getAlpha() / 256.0);
+				graphicsContext2D.setGlobalAlpha(paint.getAlpha() / 256.0);
 				graphicsContext2D.drawImage(image, left, top);
 				graphicsContext2D.setGlobalAlpha(1);
 			} else {

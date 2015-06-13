@@ -31,7 +31,7 @@ public class Paint {
 	}
 
 	public int getAlpha() {
-		return color >>> 24;
+		return (color & 0xFF000000) >>> 24;
 	}
 
 	public float getTextSize() {

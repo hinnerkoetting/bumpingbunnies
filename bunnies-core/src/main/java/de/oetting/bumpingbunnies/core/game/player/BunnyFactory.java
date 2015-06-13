@@ -45,7 +45,7 @@ public class BunnyFactory {
 		case 7:
 			return Color.BLACK;
 		case 8:
-			return Color.GRAY;
+			return Color.ORANGE;
 		default:
 			return createRandomColor();
 		}

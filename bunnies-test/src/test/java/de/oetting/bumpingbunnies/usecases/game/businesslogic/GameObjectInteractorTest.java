@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.usecases.game.businesslogic;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -55,6 +56,7 @@ public class GameObjectInteractorTest {
 	private void givenWaterIsBelowPlayer() {
 		Water water = new Water(-1, -ModelConstants.BUNNY_GAME_WIDTH, -ModelConstants.BUNNY_GAME_HEIGHT, ModelConstants.BUNNY_GAME_WIDTH, -ModelConstants.BUNNY_GAME_HEIGHT / 2);
 		when(objectProvider.getAllWaters()).thenReturn(Arrays.asList(water));
+		when(objectProvider.getCandidateForCollisionWater(any(Bunny.class))).thenReturn(Arrays.asList(water));
 	}
 
 	private void givenPlayerMovesToRight() {
@@ -71,6 +73,7 @@ public class GameObjectInteractorTest {
 	private void givenWallIsRightOfPlayer() {
 		Wall wall = new Wall(1, ModelConstants.BUNNY_GAME_WIDTH / 2, 0, ModelConstants.BUNNY_GAME_WIDTH, 1);
 		when(objectProvider.getAllWalls()).thenReturn(Arrays.asList(wall));
+		when(objectProvider.getCandidateForCollisionWalls(any(Bunny.class))).thenReturn(Arrays.asList(wall));
 	}
 
 	private void whenCalculatingInteractions() {

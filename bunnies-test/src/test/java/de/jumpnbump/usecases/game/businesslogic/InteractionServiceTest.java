@@ -2,6 +2,7 @@ package de.jumpnbump.usecases.game.businesslogic;
 
 import static de.oetting.bumpingbunnies.core.game.TestPlayerFactory.createPlayerAtPosition;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -211,5 +212,6 @@ public class InteractionServiceTest {
 
 	private void givenObjectExists(Wall gameObject) {
 		when(this.objectProvider.getAllWalls()).thenReturn(Arrays.asList(gameObject));
+		when(this.objectProvider.getCandidateForCollisionWalls(any(Bunny.class))).thenReturn(Arrays.asList(gameObject));
 	}
 }

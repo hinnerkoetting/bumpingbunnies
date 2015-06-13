@@ -8,6 +8,7 @@ import android.graphics.ColorMatrixColorFilter;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
+import de.oetting.bumpingbunnies.model.color.Color;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class AndroidCanvasAdapter implements CanvasAdapter {
@@ -74,7 +75,7 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 
 	@Override
 	public void drawRectRelativeToScreen(double left, double top, double right, double bottom, Paint paint) {
-		if (paint.getAlpha() != 0)
+		if (paint.getAlpha() !=  Color.TRANSPARENT)
 			this.canvas.drawRect((float) (left * this.width), (float) (top * this.heigth),
 					(float) (right * this.width), (float) (bottom * this.heigth),
 					paintConverter.convert(paint, context));
@@ -82,7 +83,7 @@ public class AndroidCanvasAdapter implements CanvasAdapter {
 
 	@Override
 	public void drawImageDirect(ImageWrapper bitmap, long left, long top, Paint paint) {
-		if (paint.getAlpha() != 0)
+		if (paint.getAlpha() != Color.TRANSPARENT)
 			this.canvas.drawBitmap((Bitmap) bitmap.getBitmap(), left, top, paintConverter.convert(paint, context));
 	}
 
