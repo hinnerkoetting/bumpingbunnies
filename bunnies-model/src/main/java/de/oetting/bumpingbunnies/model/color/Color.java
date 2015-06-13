@@ -13,7 +13,7 @@ public abstract class Color {
 	public static final int GREEN = 0xFF1ABB1A;
 	public static final int LT_BLUE = 0xFFAAAAFF;
 	public static final int BLUE = 0xFF0000FF;
-	public static final int ORANGE = 0xFFff3606;
+	public static final int ORANGE = 0xFFFFA500;
 	public static final int TRANS_LT_BLUE = 0x44444488;
 	public static final int YELLOW = 0xFFFFFF00;
 	public static final int CYAN = 0xFF00FFFF;

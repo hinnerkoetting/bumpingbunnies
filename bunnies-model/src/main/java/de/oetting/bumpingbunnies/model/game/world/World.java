@@ -420,6 +420,11 @@ public class World implements ObjectProvider {
 		// Outside of world. Just return all elements
 		return (List) getAllObjects();
 	}
+	public List<GameObject> getCandidateForCollisionObjects(int segment) {
+		if (segment == -1)
+			return (List)getAllObjects();
+		return (List)allElementsSegments.get(segment).getObjectsInSegment();
+	}
 
 	@Override
 	public List<Jumper> getCandidateForCollisionJumper(int segment) {

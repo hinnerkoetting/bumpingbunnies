@@ -12,10 +12,6 @@ public class CollisionDetection {
 		this.world = world;
 	}
 
-	public boolean objectStandsOnGround(Bunny gameobject) {
-		return findObjectThisPlayerIsStandingOn(gameobject) != null;
-	}
-
 	public boolean standsOn(GameObject upperObject, GameObject lowerObject) {
 		if (upperObject.minY() == lowerObject.maxY()) {
 			if (upperObject.maxX() <= lowerObject.minX()) {
@@ -29,8 +25,8 @@ public class CollisionDetection {
 		return false;
 	}
 
-	public GameObject findObjectThisPlayerIsStandingOn(Bunny bunny) {
-		for (GameObject go : this.world.getCandidateForCollisionObjects(bunny)) {
+	public GameObject findObjectThisPlayerIsStandingOn(int segmentIndex, Bunny bunny) {
+		for (GameObject go : this.world.getCandidateForCollisionObjects(segmentIndex)) {
 			if (standsOn(bunny, go)) {
 				return go;
 			}
@@ -50,7 +46,7 @@ public class CollisionDetection {
 	public boolean collidesWithAnyFixedObject(Bunny player) {
 		return findObjectThisPlayerIsCollidingWith(player) != null;
 	}
-	
+
 	public GameObject findObjectThisPlayerIsCollidingWith(Bunny bunny) {
 		for (GameObject go : this.world.getCandidateForCollisionObjects(bunny)) {
 			if (collides(bunny, go)) {
@@ -59,7 +55,7 @@ public class CollisionDetection {
 		}
 		return null;
 	}
-	
+
 	public Bunny findBunnyThisBunnyIsCollidingWith(Bunny player) {
 		for (Bunny go : this.world.getAllConnectedBunnies()) {
 			if (player.id() != go.id() && collides(player, go)) {
@@ -133,5 +129,8 @@ public class CollisionDetection {
 		return gameObject.maxY() == other.minY() || gameObject.minY() == other.maxY();
 	}
 
-	
+	public int getSegmentThatBunnyBelongsTo(Bunny bunny) {
+		return world.getSegmentThatBunnyBelongsTo(bunny);
+	}
+
 }

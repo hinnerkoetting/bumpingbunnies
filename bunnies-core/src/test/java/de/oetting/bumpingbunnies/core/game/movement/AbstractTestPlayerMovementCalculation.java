@@ -25,7 +25,7 @@ public class AbstractTestPlayerMovementCalculation {
 	protected void givenAccelerationOnGroundIs(int acceleration) {
 		TestableGameObject playerStandsOn = new TestableGameObject();
 		playerStandsOn.accelerationOnThisGround = acceleration;
-		when(this.collisionDetection.findObjectThisPlayerIsStandingOn(this.player)).thenReturn(playerStandsOn);
+		when(this.collisionDetection.findObjectThisPlayerIsStandingOn(0, this.player)).thenReturn(playerStandsOn);
 	}
 
 	protected void setHorizontalPlayerMovement(int movement) {
@@ -37,7 +37,7 @@ public class AbstractTestPlayerMovementCalculation {
 	}
 
 	protected void steerAgainstMovement() {
-		this.fixture.steerAgainstMovement();
+		this.fixture.steerAgainstMovement(0);
 	}
 
 }

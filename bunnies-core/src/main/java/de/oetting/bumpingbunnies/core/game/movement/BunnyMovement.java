@@ -59,8 +59,8 @@ public class BunnyMovement {
 		return this.collisionDetection.findObjectThisPlayerIsCollidingWith(this.movedPlayer);
 	}
 
-	private boolean standsOnFixedObject() {
-		GameObject collidingObject = this.collisionDetection.findObjectThisPlayerIsStandingOn(this.movedPlayer);
+	private boolean standsOnFixedObject(int segmentIndex) {
+		GameObject collidingObject = this.collisionDetection.findObjectThisPlayerIsStandingOn(segmentIndex, this.movedPlayer);
 		if (collidingObject != null) {
 			return !(collidingObject instanceof Water);
 		}
@@ -68,20 +68,25 @@ public class BunnyMovement {
 	}
 
 	private void computeMovement() {
-		computeVerticalMovement();
-		computeHorizontalMovement();
+		int segmentIndex = findSegmentThatBunnyBelongsTo();
+		computeVerticalMovement(segmentIndex);
+		computeHorizontalMovement(segmentIndex);
 		this.movedPlayer.calculateNextSpeed();
 	}
 
-	public void computeVerticalMovement() {
-		movedPlayer.setAccelerationY(computeVerticalAcceleration());
+	private int findSegmentThatBunnyBelongsTo() {
+		return collisionDetection.getSegmentThatBunnyBelongsTo(movedPlayer);
+	}
+
+	public void computeVerticalMovement(int segmentIndex) {
+		movedPlayer.setAccelerationY(computeVerticalAcceleration(segmentIndex));
 		if (this.movedPlayer.isJumpingButtonPressed()) {
-			computeMovementYForJumpingBunny();
+			computeMovementYForJumpingBunny(segmentIndex);
 		}
 	}
 
-	private int computeVerticalAcceleration() {
-		if (standsOnFixedObject())
+	private int computeVerticalAcceleration(int segmentIndex) {
+		if (standsOnFixedObject(segmentIndex))
 			return 0;
 		else {
 			if (this.movedPlayer.isJumpingButtonPressed()) {
@@ -91,8 +96,8 @@ public class BunnyMovement {
 		}
 	}
 
-	private void computeMovementYForJumpingBunny() {
-		if (standsOnFixedObject()) {
+	private void computeMovementYForJumpingBunny(int segmentIndex) {
+		if (standsOnFixedObject(segmentIndex)) {
 			this.movedPlayer.setMovementY(ModelConstants.BUNNY_JUMP_SPEED);
 			this.jumpMusic.start();
 		} else if (isInWater()) {
@@ -100,13 +105,13 @@ public class BunnyMovement {
 		}
 	}
 
-	public void computeHorizontalMovement() {
+	public void computeHorizontalMovement(int segmentIndex) {
 		if (isPlayerMoving()) {
-			int accelerationX = findAccelerationForObject();
+			int accelerationX = findAccelerationForObject(segmentIndex);
 			this.movedPlayer.setAccelerationX(movedPlayer.isMovingLeft() ? -accelerationX : accelerationX);
 		} else {
 			if (this.movedPlayer.movementX() != 0) {
-				steerAgainstMovement();
+				steerAgainstMovement(segmentIndex);
 			} else {
 				this.movedPlayer.setAccelerationX(0);
 			}
@@ -117,8 +122,8 @@ public class BunnyMovement {
 		return !this.movedPlayer.isTryingToRemoveHorizontalMovement();
 	}
 
-	void steerAgainstMovement() {
-		int breakAcceleration = (int) -Math.signum(this.movedPlayer.movementX()) * findAccelerationForObject();
+	void steerAgainstMovement(int segmentIndex) {
+		int breakAcceleration = (int) -Math.signum(this.movedPlayer.movementX()) * findAccelerationForObject(segmentIndex);
 		if (Math.abs(this.movedPlayer.movementX()) <= Math.abs(breakAcceleration)
 				* Math.pow(this.movedPlayer.getSpeedFaktor(), 2)) {
 			this.movedPlayer.setMovementX(0);
@@ -128,8 +133,8 @@ public class BunnyMovement {
 		}
 	}
 
-	private int findAccelerationForObject() {
-		GameObject go = this.collisionDetection.findObjectThisPlayerIsStandingOn(this.movedPlayer);
+	private int findAccelerationForObject(int segmentIndex) {
+		GameObject go = this.collisionDetection.findObjectThisPlayerIsStandingOn(segmentIndex, this.movedPlayer);
 		if (go == null) {
 			LOGGER.verbose("Acceleration air %d", ModelConstants.ACCELERATION_X_AIR);
 			if (isInWater()) {

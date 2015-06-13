@@ -103,11 +103,11 @@ public class PlayerMovementCalculationTest extends AbstractTestPlayerMovementCal
 	}
 
 	private void givenPlayerIsStandingOnGround() {
-		when(this.collisionDetection.findObjectThisPlayerIsStandingOn(this.player)).thenReturn(new TestableGameObject());
+		when(this.collisionDetection.findObjectThisPlayerIsStandingOn(0, this.player)).thenReturn(new TestableGameObject());
 	}
 
 	private void computeVerticalMovement() {
-		this.fixture.computeVerticalMovement();
+		this.fixture.computeVerticalMovement(0);
 	}
 
 	private void givenPlayerIsInTheAir() {
