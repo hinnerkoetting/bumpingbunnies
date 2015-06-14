@@ -82,7 +82,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	private RoomArrayAdapter playersAA;
 
 	private final List<DeviceDiscovery> deviceDiscovery = new ArrayList<DeviceDiscovery>();
-	private NetworkBroadcaster broadcastService;
 
 	private int playerCounter = 0;
 	private ConnectionToServer connectedToServerService;
@@ -109,7 +108,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		list.setAdapter(this.hostsAdapter);
 		initRoom();
 		this.connectedToServerService = new DummyConnectionToServer();
-		this.broadcastService = new NetworkBroadcaster(this);
 		settingsDao = new DummySettingsDao(this);
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 		switchToWlan();
@@ -239,7 +237,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	protected void onDestroy() {
 		super.onDestroy();
 		this.connectedToServerService.cancel();
-		this.broadcastService.cancel();
 		closeDiscoveryConnections();
 		if (progressDialog != null)
 			progressDialog.dismiss();
