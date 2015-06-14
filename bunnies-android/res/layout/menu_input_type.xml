@@ -4,20 +4,22 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-	<LinearLayout
-		android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" >
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/input" />
-	    <CheckBox
-	    		android:id="@+id/left_handed_cb"
-	    		android:layout_width="match_parent"
-	    		android:layout_height="wrap_content"
-	    		android:text="@string/lefthanded"/>
-	    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/input"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/left_handed_cb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lefthanded" />
     </LinearLayout>
 
     <RadioGroup

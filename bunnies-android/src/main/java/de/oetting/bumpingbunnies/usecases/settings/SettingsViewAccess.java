@@ -61,8 +61,7 @@ public class SettingsViewAccess {
 	private void hideOrShowSeekbar() {
 		SeekBar seekbar = findZoomSeekbar();
 		if (seekbar.getMax() == 0) { 
-			seekbar.setVisibility(SeekBar.INVISIBLE);
-			origin.findViewById(R.id.settings_zoom_label).setVisibility(View.INVISIBLE);
+			origin.findViewById(R.id.settings_zoom_row).setVisibility(View.INVISIBLE);
 		}
 	}
 
