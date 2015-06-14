@@ -1,5 +1,6 @@
 package de.oetting.bumpingbunnies.core.configuration;
 
+import java.util.Arrays;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.network.DummyNewClientsAccepter;
@@ -31,7 +32,7 @@ public class NewClientsAccepterFactory {
 			MakesGameVisible bcs = createBroadcaster(parameter, errorCallback, broadcasterFactories);
 			ClientAccepter clientAcceptor = factory.create(delegate, parameter.getConfiguration().getGeneralSettings(),
 					null);
-			NewClientsAccepter accepter = new HostNewClientsAccepter(bcs, clientAcceptor, world,
+			NewClientsAccepter accepter = new HostNewClientsAccepter(Arrays.asList(bcs), clientAcceptor, world,
 					parameter.getConfiguration(), callback, errorCallback);
 			delegate.setAccepter(accepter);
 			return accepter;

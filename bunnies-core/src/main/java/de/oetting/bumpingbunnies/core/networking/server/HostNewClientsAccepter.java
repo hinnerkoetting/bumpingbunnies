@@ -33,7 +33,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostNewClientsAccepter.class);
 
-	private final MakesGameVisible broadcaster;
+	private final List<MakesGameVisible> broadcaster;
 	private final ClientAccepter remoteCommunication;
 	private final World world;
 	private final PlayerDisconnectedCallback callback;
@@ -42,7 +42,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private PlayerJoinListener mainJoinListener;
 
-	public HostNewClientsAccepter(MakesGameVisible broadcaster, ClientAccepter remoteCommunication, World world,
+	public HostNewClientsAccepter(List<MakesGameVisible> broadcaster, ClientAccepter remoteCommunication, World world,
 			Configuration configuration, PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
@@ -60,7 +60,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 			public void run() {
 				try {
 					LOGGER.info("Start to accept clients");
-					broadcaster.makeVisible(configuration.getLocalPlayerSettings().getPlayerName());
+					makeVisible();
 					remoteCommunication.startThreadToAcceptClients();
 				} catch (CouldNotStartServerException e) {
 					LOGGER.error("Error", e);
@@ -69,10 +69,17 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 			}
 		}).start();
 	}
+	
+	private void makeVisible() {
+		for (MakesGameVisible broadcast: broadcaster)
+			broadcast.makeVisible(configuration.getLocalPlayerSettings().getPlayerName());
+		
+	}
 
 	@Override
 	public void cancel() {
-		this.broadcaster.cancel();
+		for (MakesGameVisible broadcast: broadcaster)
+			broadcast.cancel();
 		this.remoteCommunication.closeConnections();
 	}
 
