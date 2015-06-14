@@ -2,7 +2,6 @@ package de.oetting.bumpingbunnies.pc.game.factory;
 
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
-import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.DefaultClientAccepter;
@@ -42,8 +41,7 @@ public class PcConnectionEstablisherFactory implements ConnectionEstablisherFact
 		} else if (settings.getNetworkType().equals(NetworkType.BLUETOOTH)) {
 			throw new IllegalArgumentException("Bluetooth is not allowed for pc.");
 		} else {
-			LOGGER.info("Creating dummy communication");
-			return new DummyCommunication();
+			throw new IllegalArgumentException("Error while setting up the communication. This Networktype is unknown: " + settings.getNetworkType());
 		}
 
 	}

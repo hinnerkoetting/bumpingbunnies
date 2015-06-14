@@ -11,11 +11,12 @@ import android.widget.Toast;
 import de.oetting.bumpingbunnies.core.networking.init.DeviceDiscovery;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
-public class BluetoothCommunication implements DeviceDiscovery {
+public class BluetoothDeviceDiscovery implements DeviceDiscovery {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothCommunication.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothDeviceDiscovery.class);
 	private final BluetoothAdapter mBluetoothAdapter;
 	private BroadcastReceiver mReceiver;
 	private boolean discoveryRunning;
@@ -23,7 +24,7 @@ public class BluetoothCommunication implements DeviceDiscovery {
 	private final RoomActivity origin;
 	private final BluetoothActivatation activater;
 
-	public BluetoothCommunication(RoomActivity origin, BluetoothAdapter mBluetoothAdapter,
+	public BluetoothDeviceDiscovery(RoomActivity origin, BluetoothAdapter mBluetoothAdapter,
 			BluetoothActivatation activater) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
@@ -104,7 +105,7 @@ public class BluetoothCommunication implements DeviceDiscovery {
 			}
 
 			private void handleDiscoveryFinished() {
-				BluetoothCommunication.this.discoveryRunning = false;
+				BluetoothDeviceDiscovery.this.discoveryRunning = false;
 			}
 		};
 	}
@@ -113,6 +114,11 @@ public class BluetoothCommunication implements DeviceDiscovery {
 		BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 		int deviceClass = device.getBluetoothClass().getMajorDeviceClass();
 		if (deviceClass == BluetoothClass.Device.Major.PHONE || deviceClass == BluetoothClass.Device.Major.COMPUTER)
-			BluetoothCommunication.this.origin.addServer(device);
+			BluetoothDeviceDiscovery.this.origin.addServer(device);
+	}
+	
+	@Override
+	public NetworkType getNetworkType() {
+		return NetworkType.BLUETOOTH;
 	}
 }

@@ -5,8 +5,8 @@ import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
 public class BluetoothCommunicationFactory {
 
-	public static BluetoothCommunication create(BluetoothAdapter btAdapter, RoomActivity origin) {
-		return new BluetoothCommunication(origin, btAdapter, new BluetoothActivatation(origin));
+	public static BluetoothDeviceDiscovery create(BluetoothAdapter btAdapter, RoomActivity origin) {
+		return new BluetoothDeviceDiscovery(origin, btAdapter, new BluetoothActivatation(origin));
 	}
 
 }

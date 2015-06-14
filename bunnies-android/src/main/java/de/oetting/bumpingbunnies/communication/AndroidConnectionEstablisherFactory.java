@@ -7,7 +7,6 @@ import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothClientsAccepte
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothSocketFactory;
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.core.network.AcceptsClientConnections;
-import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.DefaultClientAccepter;
@@ -54,8 +53,7 @@ public class AndroidConnectionEstablisherFactory implements ConnectionEstablishe
 			LOGGER.info("Creating bluetooth communication");
 			return new BluetoothClientsAccepter(new BluetoothActivatation(origin), origin, rci);
 		} else {
-			LOGGER.info("Creating dummy communication");
-			return new DummyCommunication();
+			throw new IllegalArgumentException("Error while setting up the communication. This Networktype is unknown: " + settings.getNetworkType());
 		}
 	}
 }

@@ -30,7 +30,6 @@ import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
 import de.oetting.bumpingbunnies.core.input.NoopInputConfiguration;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
-import de.oetting.bumpingbunnies.core.network.DummyCommunication;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NoopSocket;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
@@ -72,17 +71,17 @@ import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsStorage;
 
-public class RoomActivity extends Activity implements ConnectToServerCallback, 
-		ConnectionToServerSuccesfullCallback, OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers,
-		PlayerDisconnectedCallback, ThreadErrorCallback, OnDatabaseCreation {
+public class RoomActivity extends Activity implements ConnectToServerCallback, ConnectionToServerSuccesfullCallback,
+		OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback,
+		ThreadErrorCallback, OnDatabaseCreation {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE = 1000;
-	
+
 	private HostsListViewAdapter hostsAdapter;
 	private RoomArrayAdapter playersAA;
 
-	private DeviceDiscovery deviceDiscovery;
+	private final List<DeviceDiscovery> deviceDiscovery = new ArrayList<DeviceDiscovery>();
 	private NetworkBroadcaster broadcastService;
 
 	private int playerCounter = 0;
@@ -107,7 +106,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 			}
 		});
 		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
-		this.deviceDiscovery = new DummyCommunication();
 		list.setAdapter(this.hostsAdapter);
 		initRoom();
 		this.connectedToServerService = new DummyConnectionToServer();
@@ -134,9 +132,21 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		LOGGER.info("selected bluetooth");
 		activeConnection = NetworkType.BLUETOOTH;
 		hostsAdapter.clear();
-		this.deviceDiscovery = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this);
+		clearExistingBluetoothDiscoveries();
+		this.deviceDiscovery.add(BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this));
 
 		openHostOrClientBluetoothDialog();
+	}
+
+	private void clearExistingBluetoothDiscoveries() {
+		List<DeviceDiscovery> bluetoothDiscoveries = new ArrayList<DeviceDiscovery>();
+		for (DeviceDiscovery discovery : deviceDiscovery)
+			if (discovery.getNetworkType().equals(NetworkType.BLUETOOTH))
+				bluetoothDiscoveries.add(discovery);
+		for (DeviceDiscovery bluetoothDiscovery : bluetoothDiscoveries) {
+			bluetoothDiscovery.closeConnections();
+			deviceDiscovery.remove(bluetoothDiscovery);
+		}
 	}
 
 	private void openHostOrClientBluetoothDialog() {
@@ -147,8 +157,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 				case DialogInterface.BUTTON_POSITIVE:
 					startGame();
 					break;
-				case DialogInterface.BUTTON_NEGATIVE:
-					deviceDiscovery.searchServer();
+				case DialogInterface.BUTTON_NEGATIVE: {
+					for (DeviceDiscovery discovery : deviceDiscovery)
+						discovery.searchServer();
+				}
 					break;
 				}
 			}
@@ -163,9 +175,21 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		LOGGER.info("selected wlan");
 		activeConnection = NetworkType.WLAN;
 		hostsAdapter.clear();
-		deviceDiscovery.closeConnections();
-		this.deviceDiscovery = ListenforBroadCastsThreadFactory.create(this, this);
-		deviceDiscovery.searchServer();
+		closeDiscoveryConnections();
+		//TODO
+		deviceDiscovery.clear();
+		deviceDiscovery.add(ListenforBroadCastsThreadFactory.create(this, this));
+		searchForServers();
+	}
+	
+	private void searchForServers() {
+		for (DeviceDiscovery discovery: deviceDiscovery) 
+			discovery.searchServer();
+	}
+
+	private void closeDiscoveryConnections() {
+		for (DeviceDiscovery discovery: deviceDiscovery) 
+			discovery.closeConnections();
 	}
 
 	public void onClickKnownHosts(View v) {
@@ -216,7 +240,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		super.onDestroy();
 		this.connectedToServerService.cancel();
 		this.broadcastService.cancel();
-		this.deviceDiscovery.closeConnections();
+		closeDiscoveryConnections();
 		if (progressDialog != null)
 			progressDialog.dismiss();
 	}
@@ -230,7 +254,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 			@Override
 			public void run() {
 				try {
-					deviceDiscovery.closeConnections();
+					closeDiscoveryConnections();
 					connectToServer(device);
 				} catch (Exception e) {
 					LOGGER.error("Error", e);
@@ -368,7 +392,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		this.connectedToServerService.onConnectionToServer();
 	}
 
-
 	public void onClickStart(View v) {
 		enableButtons(false);
 		startGame();
@@ -474,7 +497,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 	private int getNextPlayerId() {
 		return this.playerCounter++;
 	}
-
 
 	@Override
 	public void broadcastReceived(final ServerDevice device) {

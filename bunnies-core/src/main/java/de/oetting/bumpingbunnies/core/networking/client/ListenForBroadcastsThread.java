@@ -11,6 +11,7 @@ import de.oetting.bumpingbunnies.core.threads.BunniesThread;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 
 public class ListenForBroadcastsThread extends BunniesThread implements DeviceDiscovery {
 
@@ -48,7 +49,10 @@ public class ListenForBroadcastsThread extends BunniesThread implements DeviceDi
 
 	@Override
 	public void searchServer() {
-		start();
+		if (!isAlive())
+			start();
+		else 
+			LOGGER.warn("Search for servers has already started. Cannot restart this. Ignoring this call");
 	}
 	
 	@Override
@@ -73,5 +77,10 @@ public class ListenForBroadcastsThread extends BunniesThread implements DeviceDi
 	private void closeSocket() {
 		LOGGER.info("Stop listening for broadcasts");
 		this.socket.close();
+	}
+	
+	@Override
+	public NetworkType getNetworkType() {
+		return NetworkType.WLAN;
 	}
 }
