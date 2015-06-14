@@ -40,8 +40,10 @@ import de.oetting.bumpingbunnies.core.graphics.Drawer;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
 import de.oetting.bumpingbunnies.core.graphics.NoopDrawer;
 import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputFactory;
+import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -62,7 +64,6 @@ import de.oetting.bumpingbunnies.pc.configMenu.PcConfiguration;
 import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
 import de.oetting.bumpingbunnies.pc.configuration.PcConfigurationConverter;
 import de.oetting.bumpingbunnies.pc.error.ErrorHandler;
-import de.oetting.bumpingbunnies.pc.game.factory.PcConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.pc.game.input.PcInputDispatcher;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasAdapter;
 import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
@@ -212,9 +213,14 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter
 				.getConfiguration().getZoom());
 		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this,
-				new PcMusicPlayerFactory(this), new PcConnectionEstablisherFactory(), this, new ScoreboardSynchronisation(new NullScoreAccess(), world), createPossibleBroadcasterFactories());
+				new PcMusicPlayerFactory(this), this, new ScoreboardSynchronisation(new NullScoreAccess(), world),
+				createPossibleBroadcasterFactories(), createPossibleSocketFactories());
 		gameMain.addJoinListener(drawerThread);
 		gameMain.onResume();
+	}
+
+	private List<SocketFactory> createPossibleSocketFactories() {
+		return Arrays.asList(new WlanSocketFactory());
 	}
 
 	private List<MakesGameVisibleFactory> createPossibleBroadcasterFactories() {

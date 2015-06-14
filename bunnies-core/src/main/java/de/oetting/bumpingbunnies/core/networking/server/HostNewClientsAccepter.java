@@ -9,7 +9,7 @@ import de.oetting.bumpingbunnies.core.network.CouldNotStartServerException;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.StrictNetworkToGameDispatcher;
-import de.oetting.bumpingbunnies.core.networking.init.ClientAccepter;
+import de.oetting.bumpingbunnies.core.networking.init.ListensForClientConnections;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
@@ -34,7 +34,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostNewClientsAccepter.class);
 
 	private final List<MakesGameVisible> broadcaster;
-	private final ClientAccepter remoteCommunication;
+	private final List<ListensForClientConnections> listensForClientConnections;
 	private final World world;
 	private final PlayerDisconnectedCallback callback;
 	private final ThreadErrorCallback errorCallback;
@@ -42,10 +42,10 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private PlayerJoinListener mainJoinListener;
 
-	public HostNewClientsAccepter(List<MakesGameVisible> broadcaster, ClientAccepter remoteCommunication, World world,
+	public HostNewClientsAccepter(List<MakesGameVisible> broadcaster, List<ListensForClientConnections> remoteCommunication, World world,
 			Configuration configuration, PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
 		this.broadcaster = broadcaster;
-		this.remoteCommunication = remoteCommunication;
+		this.listensForClientConnections = remoteCommunication;
 		this.world = world;
 		this.configuration = configuration;
 		this.callback = callback;
@@ -61,11 +61,16 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 				try {
 					LOGGER.info("Start to accept clients");
 					makeVisible();
-					remoteCommunication.startThreadToAcceptClients();
+					acceptClientConnections();
 				} catch (CouldNotStartServerException e) {
 					LOGGER.error("Error", e);
 					errorCallback.onInitializationError("Error: Could not make device discoverable");
 				}
+			}
+
+			private void acceptClientConnections() {
+				for (ListensForClientConnections listener: listensForClientConnections)
+					listener.startThreadToAcceptClients();
 			}
 		}).start();
 	}
@@ -80,7 +85,8 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 	public void cancel() {
 		for (MakesGameVisible broadcast: broadcaster)
 			broadcast.cancel();
-		this.remoteCommunication.closeConnections();
+		for (ListensForClientConnections listener: listensForClientConnections)
+			listener.closeConnections();
 	}
 
 	@Override

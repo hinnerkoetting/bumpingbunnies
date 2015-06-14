@@ -7,6 +7,7 @@ import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.core.networking.sockets.wlan.WlanServerSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 
 public class WlanSocketFactory implements SocketFactory {
 
@@ -23,5 +24,9 @@ public class WlanSocketFactory implements SocketFactory {
 		}
 	}
 
+	@Override
+	public NetworkType forNetworkType() {
+		return NetworkType.WLAN;
+	}
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
@@ -28,8 +29,8 @@ import de.oetting.bumpingbunnies.android.input.InputDispatcher;
 import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboardInputConfiguration;
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlWorldParser;
-import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothDiscoverableFactory;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothSocketFactory;
 import de.oetting.bumpingbunnies.core.configuration.MakesGameVisibleFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.configuration.WlanNetworkBroadcasterfactory;
@@ -44,8 +45,10 @@ import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.game.steps.ScoreboardSynchronisation;
 import de.oetting.bumpingbunnies.core.graphics.DrawerFpsCounter;
+import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
+import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
@@ -88,8 +91,8 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		World world = createWorld(this, parameter);
 		ScoreboardSynchronisation scoreboardSynchronisation = createScoreboardSynchronisation(world);
 		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this,
-				new AndroidMusicPlayerFactory(this), new AndroidConnectionEstablisherFactory(), this,
-				scoreboardSynchronisation, createPossibleBroadcasterFactories());
+				new AndroidMusicPlayerFactory(this), this, scoreboardSynchronisation,
+				createPossibleBroadcasterFactories(), createPossibleSocketFactories());
 		main.addJoinListener(scoreboardSynchronisation);
 		scoreboardSynchronisation.scoreIsChanged();
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(
@@ -110,6 +113,14 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		checkForMultitouchAvailabilty(parameter);
 		conditionalRestoreState();
 		hideNonUsableObjects();
+	}
+
+	private List<SocketFactory> createPossibleSocketFactories() {
+		List<SocketFactory> factories = new ArrayList<SocketFactory>();
+		factories.add(new WlanSocketFactory());
+		if (BluetoothAdapter.getDefaultAdapter() != null)
+			factories.add(new BluetoothSocketFactory(BluetoothAdapter.getDefaultAdapter()));
+		return factories;
 	}
 
 	private List<MakesGameVisibleFactory> createPossibleBroadcasterFactories() {
@@ -139,7 +150,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		ScoreboardArrayAdapter scoreBoard = new ScoreboardArrayAdapter(this);
 		ListView scoreboardList = (ListView) findViewById(R.id.game_scoreboard_list);
 		scoreboardList.setAdapter(scoreBoard);
-		for (Bunny bunny: world.getAllConnectedBunnies()) 
+		for (Bunny bunny : world.getAllConnectedBunnies())
 			scoreBoard.add(bunny);
 		return scoreBoard;
 	}
