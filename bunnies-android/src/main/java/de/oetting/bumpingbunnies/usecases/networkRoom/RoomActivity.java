@@ -18,14 +18,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.sql.AsyncDatabaseCreation;
 import de.oetting.bumpingbunnies.android.sql.OnDatabaseCreation;
-import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothActivatation;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothActivation;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothDeviceDiscovery;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothServerDevice;
@@ -95,6 +94,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	private ServerSettings generalSettings;
 	private SettingsStorage settingsDao;
 	private final Set<NetworkType> activeConnections = new HashSet<NetworkType>();
+	private BluetoothActivation bluetoothActivation = new BluetoothActivation(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,12 +107,15 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 		addWlanDeviceDiscovery();
 		activeConnections.add(NetworkType.WLAN);
-		showOrHideButtons();
+		enableBluetooth();
 	}
 
-	private void showOrHideButtons() {
+	private void enableBluetooth() {
 		if (BluetoothAdapter.getDefaultAdapter() == null)
 			findEnableBluetoothCheckbox().setVisibility(View.INVISIBLE);
+		else if (bluetoothActivation.isActive()) {
+			initRoomForActivatedBluetooth();
+		}
 	}
 
 	private void addWlanDeviceDiscovery() {
@@ -154,7 +157,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private void switchOnBluetooth() {
 		LOGGER.info("selected bluetooth");
-		boolean isActivated = new BluetoothActivatation(this).activateBluetooth();
+		boolean isActivated = bluetoothActivation.activateBluetooth();
 		if (isActivated)
 			initRoomForActivatedBluetooth();
 		else

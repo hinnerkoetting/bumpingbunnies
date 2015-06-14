@@ -22,10 +22,10 @@ public class BluetoothDeviceDiscovery implements DeviceDiscovery {
 	private boolean discoveryRunning;
 	private boolean receiversRegistered;
 	private final RoomActivity origin;
-	private final BluetoothActivatation activater;
+	private final BluetoothActivation activater;
 
 	public BluetoothDeviceDiscovery(RoomActivity origin, BluetoothAdapter mBluetoothAdapter,
-			BluetoothActivatation activater) {
+			BluetoothActivation activater) {
 		this.origin = origin;
 		this.mBluetoothAdapter = mBluetoothAdapter;
 		this.activater = activater;

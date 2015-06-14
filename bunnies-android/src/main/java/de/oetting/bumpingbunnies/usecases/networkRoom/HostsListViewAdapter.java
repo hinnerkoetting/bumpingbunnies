@@ -23,7 +23,7 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 	private final Host scanningFakeHost;
 
 	public HostsListViewAdapter(Context context, ConnectToServerCallback callback) {
-		super(context, R.layout.room_player_entry);
+		super(context, R.layout.room_host_entry); 
 		this.callback = callback;
 		scanningFakeHost = new Host(new SearchingServerDevice(context.getResources().getString(R.string.searching)));
 		super.add(scanningFakeHost);

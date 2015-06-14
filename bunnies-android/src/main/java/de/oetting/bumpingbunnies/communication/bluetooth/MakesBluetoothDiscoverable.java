@@ -13,10 +13,10 @@ public class MakesBluetoothDiscoverable implements MakesGameVisible {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MakesBluetoothDiscoverable.class);
 
-	private final BluetoothActivatation activater;
+	private final BluetoothActivation activater;
 	private final Activity origin;
 
-	public MakesBluetoothDiscoverable(BluetoothActivatation activater, Activity origin) {
+	public MakesBluetoothDiscoverable(BluetoothActivation activater, Activity origin) {
 		this.activater = activater;
 		this.origin = origin;
 	}

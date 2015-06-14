@@ -22,7 +22,7 @@ public class BluetoothDiscoverableFactory  implements MakesGameVisibleFactory {
 
 	@Override
 	public MakesGameVisible create(ThreadErrorCallback callback) {
-		return new MakesBluetoothDiscoverable(new BluetoothActivatation(activity), activity);
+		return new MakesBluetoothDiscoverable(new BluetoothActivation(activity), activity);
 	}
 
 }

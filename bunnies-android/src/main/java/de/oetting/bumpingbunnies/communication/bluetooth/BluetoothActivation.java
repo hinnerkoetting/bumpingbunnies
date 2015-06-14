@@ -8,14 +8,14 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.usecases.networkRoom.RoomActivity;
 
-public class BluetoothActivatation {
+public class BluetoothActivation {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothActivatation.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BluetoothActivation.class);
 
 	private final Activity origin;
 	private final BluetoothAdapter bluetoothAdapter;
 
-	public BluetoothActivatation(Activity orgin) {
+	public BluetoothActivation(Activity orgin) {
 		this.origin = orgin;
 		this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 	}
@@ -34,5 +34,12 @@ public class BluetoothActivatation {
 			}
 			return true;
 		}
+	}
+	
+	public boolean isActive() {
+		if (this.bluetoothAdapter == null) {
+			return false;
+		} 
+		return bluetoothAdapter.isEnabled();
 	}
 }
