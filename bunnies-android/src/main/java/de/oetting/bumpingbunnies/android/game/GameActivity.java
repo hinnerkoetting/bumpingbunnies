@@ -8,6 +8,10 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -16,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
@@ -103,6 +108,18 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		menuAdapter = createMenu(parameter);
 		checkForMultitouchAvailabilty(parameter);
 		conditionalRestoreState();
+		hideNonUsableObjects();
+	}
+
+	private void hideNonUsableObjects() {
+		if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN)) {
+			findViewById(R.id.menu_game).setVisibility(View.INVISIBLE);
+		} else {
+			ImageView icon = (ImageView) findViewById(R.id.menu_game);
+			Drawable drawable = getResources().getDrawable(R.drawable.ic_settings_white_48dp);
+			drawable.setColorFilter(de.oetting.bumpingbunnies.model.color.Color.DARK_BLUE, Mode.MULTIPLY);
+			icon.setImageDrawable(drawable);
+		}
 	}
 
 	private ScoreboardSynchronisation createScoreboardSynchronisation(World world) {

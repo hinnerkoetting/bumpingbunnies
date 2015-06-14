@@ -20,4 +20,7 @@ public abstract class Color {
 	public static final int MAGENTA = 0xFFAA22AA;
 	public static final int PINK = 0xFFA003B0;
 	public static final int TRANSPARENT = 0x00000000;
+	
+	
+	public static final int DARK_BLUE = 0xFF000088;
 }
