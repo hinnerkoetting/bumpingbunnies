@@ -7,5 +7,6 @@
     <color name="table_row_even">#a6b5c9</color>
     <color name="table_row_odd">#96a5b9</color>
     <color name="background_activiti">#a6b5c9</color>
+    <color name="checkboxColor">#0000AA</color>
 
 </resources>

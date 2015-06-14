@@ -46,5 +46,15 @@ public class ScoreboardArrayAdapter extends ArrayAdapter<Bunny> {
 		View view = layoutInflater.inflate(R.layout.game_scoreboard_one_entry, parent, false);
 		return view;
 	}
+	
+	@Override
+	public boolean areAllItemsEnabled() {
+		return false;
+	}
+	
+	@Override
+	public boolean isEnabled(int position) {
+		return false;
+	}
 
 }

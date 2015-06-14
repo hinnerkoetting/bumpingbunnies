@@ -50,19 +50,22 @@
                 android:id="@+id/slow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/slow_speed" />
+                android:text="@string/slow_speed"
+                android:textColor="@color/text_color" />
 
             <RadioButton
                 android:id="@+id/medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/medium_speed" />
+                android:text="@string/medium_speed"
+                android:textColor="@color/text_color" />
 
             <RadioButton
                 android:id="@+id/fast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fast_speed" />
+                android:text="@string/fast_speed"
+                android:textColor="@color/text_color" />
         </RadioGroup>
     </LinearLayout>
 
@@ -77,19 +80,20 @@
             android:layout_gravity="center_vertical"
             android:text="@string/menu_sound"
             android:textStyle="bold" />
-        
-        
+
         <CheckBox
             android:id="@+id/menu_sound_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_sound" />
+            android:text="@string/menu_sound"
+            android:textColor="@color/text_color" />
 
         <CheckBox
             android:id="@+id/menu_music_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_music" />
+            android:text="@string/menu_music"
+            android:textColor="@color/text_color" />
     </LinearLayout>
 
     <LinearLayout
