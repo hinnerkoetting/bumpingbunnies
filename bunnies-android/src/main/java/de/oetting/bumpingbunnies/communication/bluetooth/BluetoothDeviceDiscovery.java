@@ -112,9 +112,7 @@ public class BluetoothDeviceDiscovery implements DeviceDiscovery {
 
 	private void handleNewDeviceFound(Intent intent) {
 		BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-		int deviceClass = device.getBluetoothClass().getMajorDeviceClass();
-		if (deviceClass == BluetoothClass.Device.Major.PHONE || deviceClass == BluetoothClass.Device.Major.COMPUTER)
-			BluetoothDeviceDiscovery.this.origin.addServer(device);
+		this.origin.addBluetoothDevice(device);
 	}
 	
 	@Override

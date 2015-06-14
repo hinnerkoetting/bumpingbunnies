@@ -9,7 +9,7 @@ public class RoomMenu {
 
 	public static final int SETTINGS_ID = 1;
 
-	public void createMenu(Menu menu, Collection<NetworkType> activeConnections) {
+	public void createMenu(Menu menu) {
 		menu.add(1, SETTINGS_ID, 1, de.oetting.bumpingbunnies.R.string.settings);
 	}
 

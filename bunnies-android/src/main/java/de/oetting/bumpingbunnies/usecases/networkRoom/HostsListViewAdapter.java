@@ -4,11 +4,9 @@ import java.util.Collection;
 
 import android.content.Context;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import de.oetting.bumpingbunnies.R;
@@ -20,6 +18,8 @@ import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 public class HostsListViewAdapter extends ArrayAdapter<Host> {
 
 	private final ConnectToServerCallback callback;
+	
+	//should always be the last entry
 	private final Host scanningFakeHost;
 
 	public HostsListViewAdapter(Context context, ConnectToServerCallback callback) {
@@ -94,22 +94,26 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 
 	@Override
 	public void add(Host object) {
-		super.remove(scanningFakeHost);
-		super.add(object);
-		super.add(scanningFakeHost);
+		if (!contains(object)) {
+			super.remove(scanningFakeHost);
+			super.add(object);
+			super.add(scanningFakeHost);
+		}
 	}
 
 	@Override
 	public void addAll(Host... items) {
 		super.remove(scanningFakeHost);
-		super.addAll(items);
+		for (Host item: items) //do not use addAll because it does not exist on Android 10
+			add(item);
 		super.add(scanningFakeHost);
 	}
 
 	@Override
 	public void addAll(Collection<? extends Host> collection) {
 		super.remove(scanningFakeHost);
-		super.addAll(collection);
+		for (Host host: collection) //do not use addAll because it does not exist on Android 10
+			add(host);
 		super.add(scanningFakeHost);
 	}
 
@@ -123,8 +127,10 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 		for (int i = 0; i < getCount(); i++) {
 			Host host = getItem(i);
 			ServerDevice device = host.getDevice();
-			if (device.getNetworkType().equals(NetworkType.BLUETOOTH))
+			if (device.getNetworkType().equals(NetworkType.BLUETOOTH)) {
 				remove(host);
+				i--;
+			}
 		}
 	}
 

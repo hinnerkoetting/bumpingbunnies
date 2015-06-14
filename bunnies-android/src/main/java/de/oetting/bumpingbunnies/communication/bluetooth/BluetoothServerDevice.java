@@ -52,7 +52,9 @@ public class BluetoothServerDevice implements ServerDevice {
 		if (getClass() != obj.getClass())
 			return false;
 		BluetoothServerDevice other = (BluetoothServerDevice) obj;
-		return other.getName().equals(getName());
+		if (other.getName() != null) //can happen if bluetooth when bluetooth gets disable
+			return other.getName().equals(getName());
+		return false;
 	}
 	
 	@Override

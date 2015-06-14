@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -26,7 +25,9 @@ import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.sql.AsyncDatabaseCreation;
 import de.oetting.bumpingbunnies.android.sql.OnDatabaseCreation;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothActivatation;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothCommunicationFactory;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothDeviceDiscovery;
 import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothServerDevice;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
@@ -88,6 +89,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	private final List<DeviceDiscovery> deviceDiscovery = new ArrayList<DeviceDiscovery>();
 	private ConnectionToServer connectedToServerService;
 
+	// We might have to wait until we have received all settings from the
+	// server.
 	private boolean canLaunchGame = false;
 	private ServerSettings generalSettings;
 	private SettingsStorage settingsDao;
@@ -104,6 +107,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 		addWlanDeviceDiscovery();
 		activeConnections.add(NetworkType.WLAN);
+		showOrHideButtons();
+	}
+
+	private void showOrHideButtons() {
+		if (BluetoothAdapter.getDefaultAdapter() == null)
+			findEnableBluetoothCheckbox().setVisibility(View.INVISIBLE);
 	}
 
 	private void addWlanDeviceDiscovery() {
@@ -145,11 +154,22 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private void switchOnBluetooth() {
 		LOGGER.info("selected bluetooth");
-		findSearchGamesButton().setVisibility(View.VISIBLE);
+		boolean isActivated = new BluetoothActivatation(this).activateBluetooth();
+		if (isActivated)
+			initRoomForActivatedBluetooth();
+		else
+			findEnableBluetoothCheckbox().setChecked(false);
+	}
+
+	private void initRoomForActivatedBluetooth() {
+		enableBluetoothButton();
 		activeConnections.add(NetworkType.BLUETOOTH);
-		hostsAdapter.clear();
-		clearExistingBluetoothDiscoveries();
-		this.deviceDiscovery.add(BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this));
+		displayKnownHosts();
+		searchForServers();
+	}
+
+	private void enableBluetoothButton() {
+		findEnableBluetoothCheckbox().setChecked(true);
 	}
 
 	private void clearExistingBluetoothDiscoveries() {
@@ -165,32 +185,29 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private void switchOffBluetooth() {
 		LOGGER.info("Deactivated Bluetooth");
-		findSearchGamesButton().setVisibility(View.INVISIBLE);
 		clearExistingBluetoothDiscoveries();
 		hostsAdapter.clearBluetoothDevices();
 		activeConnections.remove(NetworkType.BLUETOOTH);
 	}
 
 	private void searchForServers() {
-		for (DeviceDiscovery discovery : deviceDiscovery)
-			if (discovery.getNetworkType().equals(NetworkType.BLUETOOTH))
-				discovery.searchServer();
+		clearExistingBluetoothDiscoveries();
+		BluetoothDeviceDiscovery discovery = BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(),
+				this);
+		discovery.searchServer();
+		this.deviceDiscovery.add(discovery);
 	}
 
-	private void closeDiscoveryConnections() {
+	private void closeDiscoveries() {
 		for (DeviceDiscovery discovery : deviceDiscovery)
 			discovery.closeConnections();
-	}
-
-	public void onClickKnownHosts(View v) {
-		displayKnownHosts();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_BT_ENABLE_ID) {
 			if (resultCode == RESULT_OK) {
-				displayKnownHosts();
+				initRoomForActivatedBluetooth();
 			}
 		}
 	}
@@ -198,38 +215,17 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	private void displayKnownHosts() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-		LOGGER.info("found %d devices", pairedDevices.size());
-		this.hostsAdapter.clear();
+		LOGGER.info("found Known %d Bluetooth devices", pairedDevices.size());
 		for (BluetoothDevice device : pairedDevices) {
-			hostsAdapter.add(createBluetoothHostsEntry(device));
+			addBluetoothDevice(device);
 		}
-	}
-
-	public void displayErrorAddressInUse() {
-		String addressInUse = getResources().getString(R.string.address_in_use);
-		displayMessage(addressInUse);
-	}
-
-	public void displayListenError() {
-		String unknownError = getResources().getString(R.string.unknown_error);
-		displayMessage(unknownError);
-	}
-
-	private void displayMessage(final String message) {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				Toast.makeText(RoomActivity.this, message, Toast.LENGTH_SHORT).show();
-			}
-		});
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		this.connectedToServerService.cancel();
-		closeDiscoveryConnections();
+		closeDiscoveries();
 		if (progressDialog != null)
 			progressDialog.dismiss();
 	}
@@ -243,7 +239,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 			@Override
 			public void run() {
 				try {
-					closeDiscoveryConnections();
+					closeDiscoveries();
 					connectToServer(device);
 				} catch (Exception e) {
 					LOGGER.error("Error", e);
@@ -365,10 +361,16 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	}
 
-	public void addServer(BluetoothDevice device) {
-		LOGGER.info("Adding server");
-		hostsAdapter.add(createBluetoothHostsEntry(device));
-		hostsAdapter.notifyDataSetChanged();
+	public void addBluetoothDevice(BluetoothDevice device) {
+		int deviceClass = device.getBluetoothClass().getMajorDeviceClass();
+		if (deviceClass == BluetoothClass.Device.Major.PHONE || deviceClass == BluetoothClass.Device.Major.COMPUTER) {
+			LOGGER.info("Adding server");
+			hostsAdapter.add(createBluetoothHostsEntry(device));
+			hostsAdapter.notifyDataSetChanged();
+		} else {
+			LOGGER.info("Ignored bluetooth device because it seems it cannot run bumping bunnies");
+		}
+
 	}
 
 	private Host createBluetoothHostsEntry(BluetoothDevice device) {
@@ -490,9 +492,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 			@Override
 			public void run() {
 				Host object = new Host(device);
-				if (!hostsAdapter.contains(object)) {
-					hostsAdapter.add(object);
-				}
+				hostsAdapter.add(object);
 			}
 		});
 	}
@@ -572,7 +572,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
-		new RoomMenu().createMenu(menu, activeConnections);
+		new RoomMenu().createMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -593,15 +593,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private CheckBox findEnableBluetoothCheckbox() {
 		return (CheckBox) findViewById(R.id.room_enable_bluetooth);
-	}
-
-	private Button findSearchGamesButton() {
-		return (Button) findViewById(R.id.room_search_server);
-	}
-
-	// Called by view
-	public void onClickSearchServer(View view) {
-		searchForServers();
 	}
 
 }
