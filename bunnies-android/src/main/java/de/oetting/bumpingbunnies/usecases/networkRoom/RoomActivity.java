@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.oetting.bumpingbunnies.R;
@@ -143,15 +145,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private void switchOnBluetooth() {
 		LOGGER.info("selected bluetooth");
-		
+		findSearchGamesButton().setVisibility(View.VISIBLE);
 		activeConnections.add(NetworkType.BLUETOOTH);
 		hostsAdapter.clear();
 		clearExistingBluetoothDiscoveries();
 		this.deviceDiscovery.add(BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this));
-
-		openHostOrClientBluetoothDialog();
 	}
-	
 
 	private void clearExistingBluetoothDiscoveries() {
 		List<DeviceDiscovery> bluetoothDiscoveries = new ArrayList<DeviceDiscovery>();
@@ -164,41 +163,22 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		}
 	}
 
-	private void openHostOrClientBluetoothDialog() {
-		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-				case DialogInterface.BUTTON_POSITIVE:
-					startGame();
-					break;
-				case DialogInterface.BUTTON_NEGATIVE: 
-					searchForServers();
-					break;
-				}
-			}
-		}; 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		
-		builder.setMessage(R.string.host_bluetooth_game_question)
-				.setPositiveButton(R.string.host_bluetooth_game, dialogClickListener)
-				.setNegativeButton(R.string.client_bluetooth_game, dialogClickListener).show();
-	}
-
-	private void deactivateBluetooth() {
+	private void switchOffBluetooth() {
 		LOGGER.info("Deactivated Bluetooth");
+		findSearchGamesButton().setVisibility(View.INVISIBLE);
 		clearExistingBluetoothDiscoveries();
 		hostsAdapter.clearBluetoothDevices();
 		activeConnections.remove(NetworkType.BLUETOOTH);
 	}
-	
+
 	private void searchForServers() {
-		for (DeviceDiscovery discovery: deviceDiscovery) 
-			discovery.searchServer();
+		for (DeviceDiscovery discovery : deviceDiscovery)
+			if (discovery.getNetworkType().equals(NetworkType.BLUETOOTH))
+				discovery.searchServer();
 	}
 
 	private void closeDiscoveryConnections() {
-		for (DeviceDiscovery discovery: deviceDiscovery) 
+		for (DeviceDiscovery discovery : deviceDiscovery)
 			discovery.closeConnections();
 	}
 
@@ -600,13 +580,28 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		if (item.getItemId() == RoomMenu.SETTINGS_ID)
 			ActivityLauncher.startSettings(this);
-		else if (item.getItemId() == RoomMenu.BLUETOOTH_ID)
-			switchOnBluetooth();
-		else {
-			deactivateBluetooth();
-			Toast.makeText(this, R.string.wlan_enabled, Toast.LENGTH_LONG).show();
-		}
 		return super.onMenuItemSelected(featureId, item);
+	}
+
+	// called by view
+	public void onClickEnableBluetooth(View view) {
+		if (findEnableBluetoothCheckbox().isChecked())
+			switchOnBluetooth();
+		else
+			switchOffBluetooth();
+	}
+
+	private CheckBox findEnableBluetoothCheckbox() {
+		return (CheckBox) findViewById(R.id.room_enable_bluetooth);
+	}
+
+	private Button findSearchGamesButton() {
+		return (Button) findViewById(R.id.room_search_server);
+	}
+
+	// Called by view
+	public void onClickSearchServer(View view) {
+		searchForServers();
 	}
 
 }

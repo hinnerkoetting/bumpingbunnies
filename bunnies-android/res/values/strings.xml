@@ -55,5 +55,7 @@
     <string name="no_multitouch">Your device does not support multitouch. You cannot press two buttons at once!</string>
     <string name="searching">Searching&#8230;</string>
     <string name="result_player_place">Place</string>
+    <string name="room_search">Search games</string>
+    <string name="room_bluetooth">Bluetooth</string>
     
 </resources>
