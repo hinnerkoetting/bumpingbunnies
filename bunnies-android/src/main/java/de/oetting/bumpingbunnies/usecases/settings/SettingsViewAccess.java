@@ -1,6 +1,8 @@
 package de.oetting.bumpingbunnies.usecases.settings;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -39,9 +41,29 @@ public class SettingsViewAccess {
 	public void init() {
 		initSpeed();
 		initZoom();
-		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity(OptimalZoom.computeOptimalZoom(origin));
+		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity(OptimalZoom.computeOptimalZoom(origin), origin);
 		fillView(defaultEntity);
 		setPlayerName(android.os.Build.MODEL);
+		hideShowComponents();
+	}
+
+	private void hideShowComponents() {
+		hideOrShowSeekbar();
+		hideOrShowInputs();
+	}
+
+	private void hideOrShowInputs() {
+		if (!origin.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN)) {
+			origin.findViewById(R.id.start_input_group).setVisibility(View.INVISIBLE);
+		}
+	}
+
+	private void hideOrShowSeekbar() {
+		SeekBar seekbar = findZoomSeekbar();
+		if (seekbar.getMax() == 0) { 
+			seekbar.setVisibility(SeekBar.INVISIBLE);
+			origin.findViewById(R.id.settings_zoom_label).setVisibility(View.INVISIBLE);
+		}
 	}
 
 	public int getZoom() {

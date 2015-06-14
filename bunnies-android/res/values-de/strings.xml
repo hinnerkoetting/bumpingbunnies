@@ -8,9 +8,9 @@
     <string name="multiplayer">Angepasst / Multiplayer</string>
     <string name="input">Eingabe</string>
     <string name="zoom">Zoom</string>
-    <string name="hardware_keyboard">Hardware-Keyboard</string>
+    <string name="hardware_keyboard">Keyboard/Controller</string>
     <string name="room_start">Start</string>
-    <string name="distributed_keyboard">Software Keyboard</string>
+    <string name="distributed_keyboard">Touch</string>
     <string name="speed">Geschwindigkeit</string>
     <string name="result">Ergebnis</string>
     <string name="placeholder">Platzhalter</string>

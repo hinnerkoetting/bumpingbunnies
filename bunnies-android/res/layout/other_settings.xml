@@ -11,7 +11,8 @@
         <TextView
             android:layout_width="@dimen/settings_label_width"
             android:layout_height="wrap_content"
-            android:text="@string/zoom" />
+            android:text="@string/zoom" 
+            android:id="@+id/settings_zoom_label"/>
 
         <SeekBar
             android:id="@+id/zoom"

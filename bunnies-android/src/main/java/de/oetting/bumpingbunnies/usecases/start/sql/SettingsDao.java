@@ -74,7 +74,7 @@ public class SettingsDao implements SettingsStorage, SettingsConstants {
 				return readLocalSettings(query);
 			}
 			LOGGER.info("Returning default entity settings");
-			return DefaultConfiguration.createDefaultEntity(computeDefaultZoom());
+			return DefaultConfiguration.createDefaultEntity(computeDefaultZoom(), context);
 		} finally {
 			query.close();
 		}

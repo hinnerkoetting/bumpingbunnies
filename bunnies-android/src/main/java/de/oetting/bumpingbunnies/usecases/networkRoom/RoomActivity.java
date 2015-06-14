@@ -112,7 +112,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback,
 		initRoom();
 		this.connectedToServerService = new DummyConnectionToServer();
 		this.broadcastService = new NetworkBroadcaster(this);
-		settingsDao = new DummySettingsDao();
+		settingsDao = new DummySettingsDao(this);
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 		switchToWlan();
 	}
