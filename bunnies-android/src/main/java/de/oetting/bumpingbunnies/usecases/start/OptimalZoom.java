@@ -8,21 +8,20 @@ public class OptimalZoom {
 	public static int computeOptimalZoom(Context context) {
 		if (deviceInches(context.getResources().getDisplayMetrics()) > 8) {
 			return 3;
-		}
-		if (deviceInches(context.getResources().getDisplayMetrics()) > 6) {
+		}	else if (deviceInches(context.getResources().getDisplayMetrics()) > 6) {
 			return 4;
 		}
-		int minPixels = minPixels(context); 
-		if (minPixels < 750)
-			return 7;
-		else if (minPixels < 1000) 
+		int maxPixels = maxPixels(context); 
+		if (maxPixels < 1000)
 			return 6;
-		return 5;
+		else if (maxPixels < 1250) 
+			return 5;
+		return 4;
 	}
 
-	private static int minPixels(Context context) {
+	private static int maxPixels(Context context) {
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-		return Math.min(metrics.widthPixels, metrics.heightPixels);
+		return Math.max(metrics.widthPixels, metrics.heightPixels);
 	}
 
 	public static int computeMaximumZoom(Context context) {

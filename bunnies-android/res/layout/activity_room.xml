@@ -47,8 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
             android:background="@drawable/header_gradient"
             android:padding="@dimen/room_button_padding"
             android:text="@string/room_bluetooth"
@@ -58,9 +56,11 @@
 
         <Button
             android:id="@+id/room_search_server"
-            android:layout_width="wrap_content" 
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/room_enable_bluetooth" 
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/room_enable_bluetooth"
             android:background="@drawable/header_gradient"
             android:onClick="onClickSearchServer"
             android:padding="@dimen/room_button_padding"
@@ -68,6 +68,7 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/room_button_height"
             android:visibility="invisible" />
+
     </RelativeLayout>
 
     <LinearLayout
