@@ -1,8 +1,13 @@
 package de.oetting.bumpingbunnies.usecases.game.configuration;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -12,8 +17,8 @@ import org.robolectric.annotation.Config;
 
 import android.os.Parcel;
 import de.oetting.bumpingbunnies.android.parcel.GeneralSettingsParceller;
-import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.configuration.WorldConfiguration;
 import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
@@ -24,7 +29,7 @@ public class GeneralSettingsTest {
 
 	@Test
 	public void testParcelling() {
-		ServerSettings settings = new ServerSettings(WorldConfiguration.CLASSIC, 1, NetworkType.WLAN, 2);
+		ServerSettings settings = new ServerSettings(WorldConfiguration.CLASSIC, 1, Collections.singleton(NetworkType.WLAN), 2);
 		checkValues(settings);
 		ServerSettings after = serializeAndDeserialize(settings);
 		checkValues(after);
@@ -40,7 +45,7 @@ public class GeneralSettingsTest {
 	private void checkValues(ServerSettings settings) {
 		assertThat(settings.getWorldConfiguration(), is(equalTo(WorldConfiguration.CLASSIC)));
 		assertThat(settings.getSpeedSetting(), is(equalTo(1)));
-		assertThat(settings.getNetworkType(), is(equalTo(NetworkType.WLAN)));
+		assertThat(settings.getNetworkTypes(), contains(equalTo(NetworkType.WLAN)));
 		assertThat(settings.getVictoryLimit(), is(equalTo(2)));
 	}
 }

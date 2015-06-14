@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.start;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
@@ -103,7 +104,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 	}
 
 	private ServerSettings createGeneralSettings(SettingsEntity settings) {
-		return new ServerSettings(WorldConfiguration.CLASSIC, settings.getSpeed(), NetworkType.WLAN,
+		return new ServerSettings(WorldConfiguration.CLASSIC, settings.getSpeed(),Collections.singleton(NetworkType.WLAN),
 				settings.getVictoryLimit());
 	}
 

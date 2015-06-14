@@ -1,5 +1,8 @@
 package de.oetting.bumpingbunnies.pc.configuration;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.LocalSettings;
 import de.oetting.bumpingbunnies.model.configuration.NetworkType;
@@ -27,6 +30,6 @@ public class PcConfigurationConverter {
 	}
 
 	public ServerSettings convert2ServerSettings(PcConfiguration pcConfiguration) {
-		return new ServerSettings(WorldConfiguration.CLASSIC, pcConfiguration.getSpeed(), NetworkType.WLAN, pcConfiguration.getVictoryLimit());
+		return new ServerSettings(WorldConfiguration.CLASSIC, pcConfiguration.getSpeed(), Collections.singleton(NetworkType.WLAN), pcConfiguration.getVictoryLimit());
 	}
 }

@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -88,7 +89,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	private boolean canLaunchGame = false;
 	private ServerSettings generalSettings;
 	private SettingsStorage settingsDao;
-	private NetworkType activeConnection = NetworkType.WLAN;
+	private final Set<NetworkType> activeConnections = new HashSet<NetworkType>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +101,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		this.settingsDao = new DummySettingsDao(this);
 		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
 		addWlanDeviceDiscovery();
+		activeConnections.add(NetworkType.WLAN);
 	}
 
 	private void addWlanDeviceDiscovery() {
@@ -141,7 +143,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private void switchOnBluetooth() {
 		LOGGER.info("selected bluetooth");
-		activeConnection = NetworkType.BLUETOOTH;
+		
+		activeConnections.add(NetworkType.BLUETOOTH);
 		hostsAdapter.clear();
 		clearExistingBluetoothDiscoveries();
 		this.deviceDiscovery.add(BluetoothCommunicationFactory.create(BluetoothAdapter.getDefaultAdapter(), this));
@@ -186,7 +189,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		LOGGER.info("Deactivated Bluetooth");
 		clearExistingBluetoothDiscoveries();
 		hostsAdapter.clearBluetoothDevices();
-		activeConnection = NetworkType.WLAN;
+		activeConnections.remove(NetworkType.BLUETOOTH);
 	}
 	
 	private void searchForServers() {
@@ -481,7 +484,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private ServerSettings createServerSettings(WorldConfiguration world) {
 		SettingsEntity settings = readSettingsFromDb();
-		return new ServerSettings(world, settings.getSpeed(), activeConnection, settings.getVictoryLimit());
+		return new ServerSettings(world, settings.getSpeed(), activeConnections, settings.getVictoryLimit());
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {
@@ -589,7 +592,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
-		new RoomMenu().createMenu(menu, activeConnection);
+		new RoomMenu().createMenu(menu, activeConnections);
 		return super.onPrepareOptionsMenu(menu);
 	}
 

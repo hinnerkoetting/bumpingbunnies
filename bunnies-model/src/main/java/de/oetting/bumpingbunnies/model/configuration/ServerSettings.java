@@ -1,5 +1,11 @@
 package de.oetting.bumpingbunnies.model.configuration;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+
 /**
  * Settings which are valid for all players.
  * 
@@ -8,13 +14,14 @@ public class ServerSettings {
 
 	private final WorldConfiguration worldConfiguration;
 	private final int speedSetting;
-	private final NetworkType networkType;
+	private final Set<NetworkType> networkTypes;
 	private final int victoryLimit;
 
-	public ServerSettings(WorldConfiguration worldConfiguration, int speedSetting, NetworkType networkType, int victoryLimit) {
+	public ServerSettings(WorldConfiguration worldConfiguration, int speedSetting, Set<NetworkType> networkTypes,
+			int victoryLimit) {
 		this.worldConfiguration = worldConfiguration;
 		this.speedSetting = speedSetting;
-		this.networkType = networkType;
+		this.networkTypes = networkTypes;
 		this.victoryLimit = victoryLimit;
 	}
 
@@ -22,15 +29,14 @@ public class ServerSettings {
 		return this.speedSetting;
 	}
 
-	public NetworkType getNetworkType() {
-		return this.networkType;
+	public Set<NetworkType> getNetworkTypes() {
+		return Collections.unmodifiableSet(this.networkTypes);
 	}
 
 	public WorldConfiguration getWorldConfiguration() {
 		return this.worldConfiguration;
 	}
 
-	
 	public int getVictoryLimit() {
 		return victoryLimit;
 	}

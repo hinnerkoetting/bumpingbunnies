@@ -1,6 +1,6 @@
 package de.oetting.bumpingbunnies.core.configuration;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.network.DummyNewClientsAccepter;
@@ -30,10 +30,10 @@ public class NewClientsAccepterFactory {
 		if (parameter.getConfiguration().isHost()) {
 			AcceptsClientConnectionsDelegate delegate = new AcceptsClientConnectionsDelegate();
 
-			MakesGameVisible bcs = createBroadcaster(parameter, errorCallback, broadcasterFactories);
-			ListensForClientConnections clientAcceptor = createClientAccepter(parameter, delegate, errorCallback,
+			List<MakesGameVisible> broadcaster = createBroadcaster(parameter, errorCallback, broadcasterFactories);
+			List<ListensForClientConnections> clientAcceptor = createClientAccepter(parameter, delegate, errorCallback,
 					socketFactories);
-			NewClientsAccepter accepter = new HostNewClientsAccepter(Arrays.asList(bcs), Arrays.asList(clientAcceptor),
+			NewClientsAccepter accepter = new HostNewClientsAccepter(broadcaster, clientAcceptor,
 					world, parameter.getConfiguration(), callback, errorCallback);
 			delegate.setAccepter(accepter);
 			return accepter;
@@ -42,29 +42,48 @@ public class NewClientsAccepterFactory {
 		}
 	}
 
-	private static ListensForClientConnections createClientAccepter(GameStartParameter parameter,
+	private static List<ListensForClientConnections> createClientAccepter(GameStartParameter parameter,
 			AcceptsClientConnectionsDelegate delegate, ThreadErrorCallback errorCallback,
-			List<SocketFactory> socketfactories) {
-		SocketFactory socketFactory = findSocketFactory(parameter, socketfactories);
-		return new ListensForClientConnections(socketFactory, delegate, errorCallback);
+			List<SocketFactory> allSocketfactories) {
+		List<SocketFactory> findUsedSocketFactories = findUsedSocketFactories(parameter, allSocketfactories);
+		List<ListensForClientConnections> result = new ArrayList<ListensForClientConnections>(allSocketfactories.size());
+		for (SocketFactory socketFactory : findUsedSocketFactories) {
+			result.add(new ListensForClientConnections(socketFactory, delegate, errorCallback));
+		}
+		return result;
 	}
 
-	private static SocketFactory findSocketFactory(GameStartParameter parameter, List<SocketFactory> socketfactories) {
+	private static List<SocketFactory> findUsedSocketFactories(GameStartParameter parameter,
+			List<SocketFactory> socketfactories) {
+		List<SocketFactory> factories = new ArrayList<SocketFactory>();
+		for (NetworkType type : parameter.getConfiguration().getGeneralSettings().getNetworkTypes()) {
+			factories.add(findSocketFactory(type, socketfactories));
+		}
+		return factories;
+
+	}
+
+	private static SocketFactory findSocketFactory(NetworkType type, List<SocketFactory> socketfactories) {
 		for (SocketFactory socketFactory : socketfactories) {
-			if (parameter.getConfiguration().getGeneralSettings().getNetworkType()
-					.equals(socketFactory.forNetworkType())) {
+			if (type.equals(socketFactory.forNetworkType())) {
 				return socketFactory;
 			}
 		}
-		throw new IllegalStateException("Cannot find a socketfactory. Expected type is : "
-				+ parameter.getConfiguration().getGeneralSettings().getNetworkType() + ". Existing factories are: "
-				+ socketfactories);
-
+		throw new IllegalStateException("Cannot find a socketfactory. Expected type is : " + type
+				+ ". Existing factories are: " + socketfactories);
 	}
 
-	private static MakesGameVisible createBroadcaster(GameStartParameter parameter, ThreadErrorCallback errorCallback,
+	private static List<MakesGameVisible> createBroadcaster(GameStartParameter parameter, ThreadErrorCallback errorCallback,
 			List<MakesGameVisibleFactory> broadcasterFactories) {
-		NetworkType networkType = parameter.getConfiguration().getGeneralSettings().getNetworkType();
+		List<MakesGameVisible> broadcaster = new ArrayList<MakesGameVisible>();
+		for (NetworkType networkType: parameter.getConfiguration().getGeneralSettings().getNetworkTypes()) {
+			broadcaster.add( findBroadcaster(errorCallback, broadcasterFactories, networkType));
+		}
+		return broadcaster;
+	}
+
+	private static MakesGameVisible findBroadcaster(ThreadErrorCallback errorCallback,
+			List<MakesGameVisibleFactory> broadcasterFactories, NetworkType networkType) {
 		for (MakesGameVisibleFactory factory : broadcasterFactories)
 			if (factory.forNetworkType().equals(networkType))
 				return factory.create(errorCallback);
