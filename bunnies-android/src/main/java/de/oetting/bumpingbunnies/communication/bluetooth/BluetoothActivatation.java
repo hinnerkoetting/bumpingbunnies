@@ -29,7 +29,7 @@ public class BluetoothActivatation {
 		} else {
 			if (!this.bluetoothAdapter.isEnabled()) {
 				Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				this.origin.startActivityForResult(enableBtIntent, RoomActivity.REQUEST_BT_ENABLE);
+				this.origin.startActivityForResult(enableBtIntent, RoomActivity.REQUEST_BT_ENABLE_ID);
 				return false;
 			}
 			return true;

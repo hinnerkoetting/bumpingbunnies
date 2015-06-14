@@ -11,6 +11,7 @@ import de.oetting.bumpingbunnies.core.networking.FreePortFinder;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.network.TcpSocketSettings;
 
 public class WlanDevice implements ServerDevice {
@@ -86,5 +87,10 @@ public class WlanDevice implements ServerDevice {
 	@Override
 	public boolean canConnectToServer() {
 		return true;
+	}
+
+	@Override
+	public NetworkType getNetworkType() {
+		return NetworkType.WLAN;
 	}
 }

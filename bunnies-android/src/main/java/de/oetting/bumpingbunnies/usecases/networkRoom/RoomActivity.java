@@ -40,6 +40,7 @@ import de.oetting.bumpingbunnies.core.networking.LocalPlayerEntry;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServer;
 import de.oetting.bumpingbunnies.core.networking.client.ConnectionToServerEstablisher;
 import de.oetting.bumpingbunnies.core.networking.client.DisplaysConnectedServers;
+import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
 import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
 import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServer;
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
@@ -49,7 +50,6 @@ import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
 import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
-import de.oetting.bumpingbunnies.core.networking.server.NetworkBroadcaster;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -76,19 +76,18 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		ThreadErrorCallback, OnDatabaseCreation {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
-	public final static int REQUEST_BT_ENABLE = 1000;
+	public final static int REQUEST_BT_ENABLE_ID = 1000;
 
 	private HostsListViewAdapter hostsAdapter;
 	private RoomArrayAdapter playersAA;
+	private ProgressDialog progressDialog;
 
 	private final List<DeviceDiscovery> deviceDiscovery = new ArrayList<DeviceDiscovery>();
-
-	private int playerCounter = 0;
 	private ConnectionToServer connectedToServerService;
+
 	private boolean canLaunchGame = false;
 	private ServerSettings generalSettings;
 	private SettingsStorage settingsDao;
-	private ProgressDialog progressDialog;
 	private NetworkType activeConnection = NetworkType.WLAN;
 
 	@Override
@@ -96,6 +95,25 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		super.onCreate(savedInstanceState);
 		SocketStorage.getSingleton().removeListeners();
 		setContentView(R.layout.activity_room);
+		initRoom();
+		this.connectedToServerService = new DummyConnectionToServer();
+		this.settingsDao = new DummySettingsDao(this);
+		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
+		addWlanDeviceDiscovery();
+	}
+
+	private void addWlanDeviceDiscovery() {
+		ListenForBroadcastsThread wlanDeviceDiscovery = ListenforBroadCastsThreadFactory.create(this, this);
+		wlanDeviceDiscovery.searchServer();
+		deviceDiscovery.add(wlanDeviceDiscovery);
+	}
+
+	private void initRoom() {
+		initHostsView();
+		initPlayersView();
+	}
+
+	private void initHostsView() {
 		ListView list = getHostsView();
 		list.setOnItemClickListener(new OnItemClickListener() {
 
@@ -106,14 +124,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		});
 		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
 		list.setAdapter(this.hostsAdapter);
-		initRoom();
-		this.connectedToServerService = new DummyConnectionToServer();
-		settingsDao = new DummySettingsDao(this);
-		new AsyncDatabaseCreation().createReadonlyDatabase(this, this);
-		switchToWlan();
 	}
 
-	private void initRoom() {
+	private void initPlayersView() {
 		ListView players = (ListView) findViewById(R.id.room_players);
 		this.playersAA = new RoomArrayAdapter(this, R.layout.room_player_entry);
 		players.setOnItemClickListener(new OnItemClickListener() {
@@ -126,7 +139,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		players.setAdapter(this.playersAA);
 	}
 
-	private void switchToBluetooth() {
+	private void switchOnBluetooth() {
 		LOGGER.info("selected bluetooth");
 		activeConnection = NetworkType.BLUETOOTH;
 		hostsAdapter.clear();
@@ -135,6 +148,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 		openHostOrClientBluetoothDialog();
 	}
+	
 
 	private void clearExistingBluetoothDiscoveries() {
 		List<DeviceDiscovery> bluetoothDiscoveries = new ArrayList<DeviceDiscovery>();
@@ -155,29 +169,24 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 				case DialogInterface.BUTTON_POSITIVE:
 					startGame();
 					break;
-				case DialogInterface.BUTTON_NEGATIVE: {
-					for (DeviceDiscovery discovery : deviceDiscovery)
-						discovery.searchServer();
-				}
+				case DialogInterface.BUTTON_NEGATIVE: 
+					searchForServers();
 					break;
 				}
 			}
-		};
+		}; 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
 		builder.setMessage(R.string.host_bluetooth_game_question)
 				.setPositiveButton(R.string.host_bluetooth_game, dialogClickListener)
 				.setNegativeButton(R.string.client_bluetooth_game, dialogClickListener).show();
 	}
 
-	private void switchToWlan() {
-		LOGGER.info("selected wlan");
+	private void deactivateBluetooth() {
+		LOGGER.info("Deactivated Bluetooth");
+		clearExistingBluetoothDiscoveries();
+		hostsAdapter.clearBluetoothDevices();
 		activeConnection = NetworkType.WLAN;
-		hostsAdapter.clear();
-		closeDiscoveryConnections();
-		//TODO
-		deviceDiscovery.clear();
-		deviceDiscovery.add(ListenforBroadCastsThreadFactory.create(this, this));
-		searchForServers();
 	}
 	
 	private void searchForServers() {
@@ -196,7 +205,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_BT_ENABLE) {
+		if (requestCode == REQUEST_BT_ENABLE_ID) {
 			if (resultCode == RESULT_OK) {
 				displayKnownHosts();
 			}
@@ -294,7 +303,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		enableButtons(true);
 		progressDialog.dismiss();
 		playersAA.clear();
-		addMyPlayerRoomEntry(getNextPlayerId());
+		addMyPlayerRoomEntry(0);
 	}
 
 	private void enableButtons(boolean enable) {
@@ -491,10 +500,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		}
 	}
 
-	private int getNextPlayerId() {
-		return this.playerCounter++;
-	}
-
 	@Override
 	public void broadcastReceived(final ServerDevice device) {
 		runOnUiThread(new Runnable() {
@@ -546,7 +551,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	}
 
 	public void onClickAddAi(View view) {
-		int nextPlayerId = getNextPlayerId();
+		int nextPlayerId = playersAA.getCount();
 		String playerName = BunnyNameFactory.createAiName(nextPlayerId);
 		PlayerProperties properties = new PlayerProperties(nextPlayerId, playerName);
 		addPlayerEntry(new NoopSocket(ConnectionIdentifierFactory.createAiPlayer(playerName)), properties, 0);
@@ -556,7 +561,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	public void databaseCreated(SQLiteDatabase database) {
 		LOGGER.info("Db created");
 		this.settingsDao = new SettingsDao(database, this);
-		addMyPlayerRoomEntry(getNextPlayerId());
+		addMyPlayerRoomEntry(0);
 	}
 
 	@Override
@@ -593,9 +598,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		if (item.getItemId() == RoomMenu.SETTINGS_ID)
 			ActivityLauncher.startSettings(this);
 		else if (item.getItemId() == RoomMenu.BLUETOOTH_ID)
-			switchToBluetooth();
+			switchOnBluetooth();
 		else {
-			switchToWlan();
+			deactivateBluetooth();
 			Toast.makeText(this, R.string.wlan_enabled, Toast.LENGTH_LONG).show();
 		}
 		return super.onMenuItemSelected(featureId, item);

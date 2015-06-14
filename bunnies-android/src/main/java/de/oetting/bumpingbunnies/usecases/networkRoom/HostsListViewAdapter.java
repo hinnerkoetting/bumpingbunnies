@@ -15,6 +15,7 @@ import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.network.SearchingServerDevice;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
 import de.oetting.bumpingbunnies.core.network.room.Host;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 
 public class HostsListViewAdapter extends ArrayAdapter<Host> {
 
@@ -64,7 +65,6 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 			this.device = device;
 		}
 
-
 		@Override
 		public void onClick(View v) {
 			onItemClick(device);
@@ -105,7 +105,7 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 		super.addAll(items);
 		super.add(scanningFakeHost);
 	}
-	
+
 	@Override
 	public void addAll(Collection<? extends Host> collection) {
 		super.remove(scanningFakeHost);
@@ -117,6 +117,15 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 	public void clear() {
 		super.clear();
 		super.add(scanningFakeHost);
+	}
+
+	public void clearBluetoothDevices() {
+		for (int i = 0; i < getCount(); i++) {
+			Host host = getItem(i);
+			ServerDevice device = host.getDevice();
+			if (device.getNetworkType().equals(NetworkType.BLUETOOTH))
+				remove(host);
+		}
 	}
 
 }

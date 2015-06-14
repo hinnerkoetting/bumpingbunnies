@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.NetworkConstants;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
+import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
 
 public class BluetoothServerDevice implements ServerDevice {
@@ -57,6 +58,11 @@ public class BluetoothServerDevice implements ServerDevice {
 	@Override
 	public boolean canConnectToServer() {
 		return true;
+	}
+
+	@Override
+	public NetworkType getNetworkType() {
+		return NetworkType.BLUETOOTH;
 	}
 
 }
