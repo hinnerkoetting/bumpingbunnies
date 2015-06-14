@@ -281,6 +281,13 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	private void enableButtons(boolean enable) {
 		findViewById(R.id.room_start).setEnabled(enable);
 		findViewById(R.id.room_add_ai).setEnabled(enable);
+		enableHosts(enable);
+	}
+
+	private void enableHosts(boolean enable) {
+		ListView list = getHostsView();
+		for (int i = 0; i < list.getChildCount();i++ ) 
+			list.getChildAt(i).setEnabled(enable);
 	}
 
 	private List<OpponentConfiguration> createOtherPlayerconfigurations() {
@@ -589,4 +596,12 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		return (CheckBox) findViewById(R.id.room_enable_bluetooth);
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		if (progressDialog != null) { 
+			progressDialog.dismiss();
+			enableButtons(true);
+		}
+	}
 }

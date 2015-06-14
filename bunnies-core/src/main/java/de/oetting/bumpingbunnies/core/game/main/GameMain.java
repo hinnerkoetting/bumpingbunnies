@@ -44,8 +44,8 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	private NetworkReceiveControl receiveControl;
 	private World world;
 
-	public GameMain(SocketStorage sockets, MusicPlayer musicPlayer, NetworkPlayerStateSenderThread networkSendThread, NetworkMessageDistributor sendControl,
-			Configuration configuration) {
+	public GameMain(SocketStorage sockets, MusicPlayer musicPlayer, NetworkPlayerStateSenderThread networkSendThread,
+			NetworkMessageDistributor sendControl, Configuration configuration) {
 		this.sockets = sockets;
 		this.musicPlayer = musicPlayer;
 		this.networkSendThread = networkSendThread;
@@ -99,8 +99,13 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 	}
 
 	private void stopGame() {
-		for (MySocket socket : SocketStorage.getSingleton().getAllSockets())
-			new StopGameSender(SimpleNetworkSenderFactory.createNetworkSender(socket, this)).sendMessage("");
+		for (MySocket socket : SocketStorage.getSingleton().getAllSockets()) {
+			try {
+				new StopGameSender(SimpleNetworkSenderFactory.createNetworkSender(socket, this)).sendMessage("");
+			} catch (Exception e) {
+				LOGGER.warn("cannot send stop-game message to client. Ignoring this", e);
+			}
+		}
 	}
 
 	private List<Bunny> findLocalPlayers() {
@@ -118,7 +123,8 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		for (MySocket socket : SocketStorage.getSingleton().getAllSockets()) {
 			SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket, this);
 			for (Bunny localPlayer : localPlayers)
-				networkSender.sendMessage(MessageId.PLAYER_DISCONNECTED, new PlayerDisconnectedMessage(localPlayer.id()));
+				networkSender.sendMessage(MessageId.PLAYER_DISCONNECTED,
+						new PlayerDisconnectedMessage(localPlayer.id()));
 		}
 	}
 

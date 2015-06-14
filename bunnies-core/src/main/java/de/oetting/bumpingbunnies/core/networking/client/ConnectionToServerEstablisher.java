@@ -27,7 +27,7 @@ public class ConnectionToServerEstablisher extends Thread {
 			this.mmSocket.connect();
 			this.callback.connectToServerSuccesfull(this.mmSocket);
 		} catch (IORuntimeException connectException) {
-			LOGGER.warn("Exception during connect to server " + connectException.getMessage());
+			LOGGER.error("Exception during connect to server " + connectException.getMessage(), connectException);
 			LOGGER.warn("Closing connection");
 			this.callback.connectionNotSuccesful(connectException.getMessage());
 			this.mmSocket.close();

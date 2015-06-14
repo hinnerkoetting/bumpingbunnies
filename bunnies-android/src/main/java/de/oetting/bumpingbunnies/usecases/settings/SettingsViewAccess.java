@@ -11,7 +11,6 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
-import de.oetting.bumpingbunnies.android.input.DefaultConfiguration;
 import de.oetting.bumpingbunnies.core.configuration.ConfigurationConstants;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -41,9 +40,6 @@ public class SettingsViewAccess {
 	public void init() {
 		initSpeed();
 		initZoom();
-		SettingsEntity defaultEntity = DefaultConfiguration.createDefaultEntity(OptimalZoom.computeOptimalZoom(origin), origin);
-		fillView(defaultEntity);
-		setPlayerName(android.os.Build.MODEL);
 		hideShowComponents();
 	}
 
@@ -73,6 +69,7 @@ public class SettingsViewAccess {
 	public void setZoom(int zoomValue) {
 		SeekBar zoom = findZoomSeekbar();
 		zoom.setProgress(zoomValue - MIN_ZOOM_VALUE);
+		getZoomSettingsNumber().setText(Integer.toString(zoomValue));
 	}
 
 	public InputConfiguration getInputConfiguration() {
@@ -120,11 +117,14 @@ public class SettingsViewAccess {
 	private void initZoom() {
 		SeekBar zoom = findZoomSeekbar();
 		int startValue = 3;
-		TextView view = (TextView) this.origin.findViewById(R.id.settings_zoom_number);
+		TextView view = getZoomSettingsNumber();
 		zoom.setOnSeekBarChangeListener(new ProgressBarValueChanger(view, new ProgressToIntValueConverter(
 				MIN_ZOOM_VALUE), startValue));
-		zoom.setProgress(0);
 		zoom.setMax(OptimalZoom.computeMaximumZoom(origin) - MIN_ZOOM_VALUE);
+	}
+
+	private TextView getZoomSettingsNumber() {
+		return (TextView) this.origin.findViewById(R.id.settings_zoom_number);
 	}
 
 	public void fillView(SettingsEntity settings) {

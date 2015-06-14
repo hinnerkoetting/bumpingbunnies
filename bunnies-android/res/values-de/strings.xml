@@ -56,5 +56,6 @@
     <string name="result_player_place">Platz</string>
     <string name="room_search">Spiele suchen</string>
     <string name="room_bluetooth">Bluetooth</string>
+    <string name="out_of_memory">Zuwenig Speicher. Bitte die Zoom-Einstellung erhöhen.</string>
 
 </resources>

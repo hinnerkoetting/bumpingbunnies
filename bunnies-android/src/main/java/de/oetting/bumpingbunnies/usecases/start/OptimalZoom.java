@@ -6,17 +6,22 @@ import android.util.DisplayMetrics;
 public class OptimalZoom {
 
 	public static int computeOptimalZoom(Context context) {
-		if (deviceInches(context.getResources().getDisplayMetrics()) > 8) {
-			return 3;
-		}	else if (deviceInches(context.getResources().getDisplayMetrics()) > 6) {
-			return 4;
-		}
-		int maxPixels = maxPixels(context); 
-		if (maxPixels < 1000)
+		int maxPixels = maxPixels(context);
+		if (maxPixels < 700)
+			return 10;
+		else if (maxPixels < 900)
+			return 9;
+		else if (maxPixels < 1000)
+			return 8;
+		else if (maxPixels < 1100)
+			return 7;
+		else if (maxPixels < 1200)
 			return 6;
-		else if (maxPixels < 1250) 
+		else if (maxPixels < 1600)
 			return 5;
-		return 4;
+		else if (maxPixels < 2250)
+			return 4;
+		return 3;
 	}
 
 	private static int maxPixels(Context context) {

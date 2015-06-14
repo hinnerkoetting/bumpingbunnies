@@ -57,5 +57,6 @@
     <string name="result_player_place">Place</string>
     <string name="room_search">Search games</string>
     <string name="room_bluetooth">Bluetooth</string>
+    <string name="out_of_memory">Out of memory error. Please increase the zoom setting.</string>
     
 </resources>

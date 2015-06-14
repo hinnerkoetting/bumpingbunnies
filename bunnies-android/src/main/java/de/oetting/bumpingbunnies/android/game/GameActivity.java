@@ -103,7 +103,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 
 		ObjectsDrawer objectsDrawer = DrawerFactory.create(main.getWorld(), threadState, parameter.getConfiguration(),
 				calculations, this);
-		AndroidDrawer drawer = new AndroidDrawer(objectsDrawer);
+		AndroidDrawer drawer = new AndroidDrawer(objectsDrawer, this);
 		contentView.setCallback(drawer);
 		drawThread = new AndroidDrawThread(new DrawerFpsCounter(drawer, threadState), this);
 		drawThread.start();
@@ -119,7 +119,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		List<SocketFactory> factories = new ArrayList<SocketFactory>();
 		factories.add(new WlanSocketFactory());
 		if (BluetoothAdapter.getDefaultAdapter() != null)
-			factories.add(new BluetoothSocketFactory(BluetoothAdapter.getDefaultAdapter()));
+			factories.add(new BluetoothSocketFactory(BluetoothAdapter.getDefaultAdapter())); 
 		return factories;
 	}
 

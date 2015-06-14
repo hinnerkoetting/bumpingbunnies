@@ -175,4 +175,5 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 		}
 	}
 
+
 }
