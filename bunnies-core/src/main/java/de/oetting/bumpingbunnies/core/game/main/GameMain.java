@@ -199,8 +199,12 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 
 	@Override
 	public void playerDisconnected(ConnectionIdentifier opponent) {
-		Bunny disconnectedPlayer = findPlayer(opponent);
-		removeEvent(disconnectedPlayer);
+		try {
+			Bunny disconnectedPlayer = findPlayer(opponent);
+			removeEvent(disconnectedPlayer);
+		} catch (IllegalArgumentException e) {
+			LOGGER.warn("Player disconnected but the player does not event exist anymore. Ignoring the event");
+		}
 	}
 
 	@Override

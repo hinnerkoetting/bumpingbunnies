@@ -49,9 +49,13 @@ public class NetworkMessageDistributor implements NewSocketListener {
 
 	@Override
 	public void removeEvent(MySocket socket) {
-		NetworkSender sender = findSendThread(socket);
-		sender.cancel();
-		sendThreads.remove(sender);
+		try {
+			NetworkSender sender = findSendThread(socket);
+			sender.cancel();
+			sendThreads.remove(sender);
+		} catch (IllegalArgumentException e) {
+			LOGGER.warn("Trying to remove network sender. But it does not exist. Ignoring this.");
+		}
 	}
 
 	private NetworkSender findSendThread(MySocket p) {

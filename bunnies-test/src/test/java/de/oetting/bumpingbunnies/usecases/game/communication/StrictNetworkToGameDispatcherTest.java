@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -30,9 +31,11 @@ public class StrictNetworkToGameDispatcherTest {
 	@Mock
 	private NetworkListener listener;
 
-	@Test(expected = NetworkToGameDispatcher.NoListenerFound.class)
-	public void dispatchPlayerState_givenNoListenerIsRegistered_shouldThrowException() {
+	@Test
+	public void dispatchPlayerState_givenNoListenerIsRegistered_listenerWhichIsADdedLterShouldReceiveMessage() {
 		this.fixture.dispatchMessage(createPlayerStateMessage());
+		this.fixture.addObserver(MessageId.PLAYER_POS, this.listener);
+		verify(this.listener).newMessage(any(JsonWrapper.class));
 	}
 
 	private JsonWrapper createPlayerStateMessage() {

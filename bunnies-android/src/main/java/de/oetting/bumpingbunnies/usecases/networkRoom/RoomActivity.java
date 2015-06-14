@@ -229,8 +229,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		super.onDestroy();
 		cleanup();
 	}
-	
-	private void cleanup(){
+
+	private void cleanup() {
 		this.connectedToServerService.cancel();
 		closeDiscoveries();
 		if (progressDialog != null)
@@ -271,7 +271,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	}
 
 	private void onConnectionError() {
-		hostsAdapter.clear();
 		enableButtons(true);
 		progressDialog.dismiss();
 		playersAA.clear();
@@ -286,7 +285,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private void enableHosts(boolean enable) {
 		ListView list = getHostsView();
-		for (int i = 0; i < list.getChildCount();i++ ) 
+		for (int i = 0; i < list.getChildCount(); i++)
 			list.getChildAt(i).setEnabled(enable);
 	}
 
@@ -447,7 +446,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		Configuration config = new Configuration(localSettings, generalSettings, otherPlayers, localPlayerSettings,
 				asHost);
 		GameStartParameter parameter = GameParameterFactory.createParameter(myPlayerId, config);
-//		sleep();
+		// sleep();
 		cleanup();
 		ActivityLauncher.launchGame(this, parameter);
 	}
@@ -480,7 +479,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private void sleep() {
 		try {
-			Thread.sleep(2500);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
 	}
@@ -550,12 +549,11 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	@Override
 	protected void onResume() {
 		super.onResume();
-		setMyPlayerName();
 		enableButtons(true);
-	}
-
-	private void setMyPlayerName() {
-		playersAA.setMyPlayerName(readSettingsFromDb().getPlayerName());
+		playersAA.clear();
+		canLaunchGame =false;
+		generalSettings = null;
+		addMyPlayerRoomEntry(0);
 	}
 
 	@Override
@@ -599,7 +597,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		if (progressDialog != null) { 
+		if (progressDialog != null) {
 			progressDialog.dismiss();
 			enableButtons(true);
 		}
