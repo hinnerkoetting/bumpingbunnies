@@ -36,9 +36,4 @@ public class ResultActivity extends Activity {
 		return (ResultWrapper) getIntent().getExtras().get(ActivityLauncher.RESULT);
 	}
 
-	@Override
-	public void onBackPressed() {
-		ActivityLauncher.startRoom(this);
-		this.finish();
-	}
 }

@@ -227,6 +227,10 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		cleanup();
+	}
+	
+	private void cleanup(){
 		this.connectedToServerService.cancel();
 		closeDiscoveries();
 		if (progressDialog != null)
@@ -436,9 +440,9 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		Configuration config = new Configuration(localSettings, generalSettings, otherPlayers, localPlayerSettings,
 				asHost);
 		GameStartParameter parameter = GameParameterFactory.createParameter(myPlayerId, config);
-		sleep();
+//		sleep();
+		cleanup();
 		ActivityLauncher.launchGame(this, parameter);
-		finish();
 	}
 
 	@Override
@@ -540,6 +544,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 	protected void onResume() {
 		super.onResume();
 		setMyPlayerName();
+		enableButtons(true);
 	}
 
 	private void setMyPlayerName() {
