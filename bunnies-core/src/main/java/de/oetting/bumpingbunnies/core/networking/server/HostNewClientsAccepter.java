@@ -33,7 +33,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HostNewClientsAccepter.class);
 
-	private final NetworkBroadcaster broadcaster;
+	private final MakesGameVisible broadcaster;
 	private final ClientAccepter remoteCommunication;
 	private final World world;
 	private final PlayerDisconnectedCallback callback;
@@ -42,7 +42,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private PlayerJoinListener mainJoinListener;
 
-	public HostNewClientsAccepter(NetworkBroadcaster broadcaster, ClientAccepter remoteCommunication, World world,
+	public HostNewClientsAccepter(MakesGameVisible broadcaster, ClientAccepter remoteCommunication, World world,
 			Configuration configuration, PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
 		this.broadcaster = broadcaster;
 		this.remoteCommunication = remoteCommunication;
@@ -60,7 +60,7 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 			public void run() {
 				try {
 					LOGGER.info("Start to accept clients");
-					broadcaster.startRegularServerBroadcast(configuration.getLocalPlayerSettings().getPlayerName());
+					broadcaster.makeVisible(configuration.getLocalPlayerSettings().getPlayerName());
 					remoteCommunication.startThreadToAcceptClients();
 				} catch (CouldNotStartServerException e) {
 					LOGGER.error("Error", e);

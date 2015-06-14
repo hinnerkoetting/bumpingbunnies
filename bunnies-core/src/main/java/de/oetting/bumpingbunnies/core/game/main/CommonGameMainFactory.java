@@ -1,6 +1,9 @@
 package de.oetting.bumpingbunnies.core.game.main;
 
+import java.util.List;
+
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
+import de.oetting.bumpingbunnies.core.configuration.MakesGameVisibleFactory;
 import de.oetting.bumpingbunnies.core.configuration.NewClientsAccepterFactory;
 import de.oetting.bumpingbunnies.core.music.DummyMusicPlayer;
 import de.oetting.bumpingbunnies.core.network.NetworkMessageDistributor;
@@ -21,13 +24,13 @@ public class CommonGameMainFactory {
 
 	public static GameMain createGameMain(ThreadErrorCallback gameStopper, GameStartParameter parameter, World world,
 			BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory establisherFactory, NetworkMessageDistributor sendControl,
-			Configuration configuration) {
+			Configuration configuration, List<MakesGameVisibleFactory> broadcasterFactories) {
 		RemoteConnectionFactory connectionFactory = new RemoteConnectionFactory(gameStopper);
 		NetworkPlayerStateSenderThread networkSendThread = NetworksendThreadFactory.create(world, connectionFactory, gameStopper);
 		GameMain main = new GameMain(SocketStorage.getSingleton(), createMusic(musicPlayerFactory, parameter.getConfiguration()), networkSendThread,
 				sendControl, configuration);
 		connectionFactory.setDisconnectCallback(main);
-		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main, gameStopper, establisherFactory);
+		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main, gameStopper, establisherFactory, broadcasterFactories);
 		newClientsAccepter.setMain(main);
 		main.setNewClientsAccepter(newClientsAccepter);
 		return main;
@@ -40,7 +43,7 @@ public class CommonGameMainFactory {
 	}
 
 	public static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world, PlayerDisconnectedCallback callback,
-			ThreadErrorCallback errorCallback, ConnectionEstablisherFactory establisherFactory) {
-		return NewClientsAccepterFactory.create(parameter, world, establisherFactory, callback, errorCallback);
+			ThreadErrorCallback errorCallback, ConnectionEstablisherFactory establisherFactory, List<MakesGameVisibleFactory> broadcasterFactories) {
+		return NewClientsAccepterFactory.create(parameter, world, establisherFactory, callback, errorCallback, broadcasterFactories);
 	}
 }

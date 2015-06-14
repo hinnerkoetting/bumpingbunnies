@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.game;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.configuration.ConnectionEstablisherFactory;
+import de.oetting.bumpingbunnies.core.configuration.MakesGameVisibleFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
 import de.oetting.bumpingbunnies.core.game.logic.CommonGameThreadFactory;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
@@ -28,12 +29,12 @@ public class GameMainFactory {
 
 	public GameMain create(CameraPositionCalculation cameraPositionCalculator, World world, GameStartParameter parameter, Bunny myPlayer,
 			ThreadErrorCallback errorCallback, BunniesMusicPlayerFactory musicPlayerFactory, ConnectionEstablisherFactory connectionEstablisherFactory,
-			GameStopper gameStopper, ScoreboardSynchronisation scoreSynchronisation) {
+			GameStopper gameStopper, ScoreboardSynchronisation scoreSynchronisation, List<MakesGameVisibleFactory> broadcasterFactories) {
 
 		RemoteConnectionFactory factory = new RemoteConnectionFactory(errorCallback);
 		NetworkMessageDistributor networkMessageDistributor = new NetworkMessageDistributor(factory);
 		GameMain main = CommonGameMainFactory.createGameMain(errorCallback, parameter, world, musicPlayerFactory, connectionEstablisherFactory,
-				networkMessageDistributor, parameter.getConfiguration());
+				networkMessageDistributor, parameter.getConfiguration(), broadcasterFactories);
 		NetworkToGameDispatcher networkDispatcher = new StrictNetworkToGameDispatcher(main);
 		main.setGameThread(createGameThread(cameraPositionCalculator, world, errorCallback, parameter.getConfiguration(), networkDispatcher,
 				networkMessageDistributor, main, musicPlayerFactory, gameStopper, scoreSynchronisation));

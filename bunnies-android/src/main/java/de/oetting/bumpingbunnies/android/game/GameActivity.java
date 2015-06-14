@@ -8,8 +8,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -31,7 +29,10 @@ import de.oetting.bumpingbunnies.android.input.hardwareKeyboard.HardwareKeyboard
 import de.oetting.bumpingbunnies.android.parcel.GamestartParameterParcellableWrapper;
 import de.oetting.bumpingbunnies.android.xml.parsing.AndroidXmlWorldParser;
 import de.oetting.bumpingbunnies.communication.AndroidConnectionEstablisherFactory;
+import de.oetting.bumpingbunnies.communication.bluetooth.BluetoothDiscoverableFactory;
+import de.oetting.bumpingbunnies.core.configuration.MakesGameVisibleFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
+import de.oetting.bumpingbunnies.core.configuration.WlanNetworkBroadcasterfactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
 import de.oetting.bumpingbunnies.core.game.IngameMenu;
@@ -87,8 +88,8 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		World world = createWorld(this, parameter);
 		ScoreboardSynchronisation scoreboardSynchronisation = createScoreboardSynchronisation(world);
 		this.main = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this,
-				new AndroidMusicPlayerFactory(this), new AndroidConnectionEstablisherFactory(this), this,
-				scoreboardSynchronisation);
+				new AndroidMusicPlayerFactory(this), new AndroidConnectionEstablisherFactory(), this,
+				scoreboardSynchronisation, createPossibleBroadcasterFactories());
 		main.addJoinListener(scoreboardSynchronisation);
 		scoreboardSynchronisation.scoreIsChanged();
 		RelativeCoordinatesCalculation calculations = CoordinatesCalculationFactory.createCoordinatesCalculation(
@@ -109,6 +110,13 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 		checkForMultitouchAvailabilty(parameter);
 		conditionalRestoreState();
 		hideNonUsableObjects();
+	}
+
+	private List<MakesGameVisibleFactory> createPossibleBroadcasterFactories() {
+		List<MakesGameVisibleFactory> factories = new ArrayList<MakesGameVisibleFactory>();
+		factories.add(new WlanNetworkBroadcasterfactory());
+		factories.add(new BluetoothDiscoverableFactory(this));
+		return factories;
 	}
 
 	private void hideNonUsableObjects() {

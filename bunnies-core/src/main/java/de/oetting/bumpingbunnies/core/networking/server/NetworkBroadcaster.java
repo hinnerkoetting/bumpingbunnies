@@ -1,15 +1,9 @@
 package de.oetting.bumpingbunnies.core.networking.server;
 
 import de.oetting.bumpingbunnies.core.networking.client.ListenForBroadcastsThread;
-import de.oetting.bumpingbunnies.core.networking.client.OnBroadcastReceived;
-import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
 
-public class NetworkBroadcaster {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(NetworkBroadcaster.class);
+public class NetworkBroadcaster implements MakesGameVisible {
 
 	private final ThreadErrorCallback errorCallback;
 
@@ -20,9 +14,10 @@ public class NetworkBroadcaster {
 		this.errorCallback = errorCallback;
 	}
 
-	public void startRegularServerBroadcast(String hostname) {
+	@Override
+	public void makeVisible(String name) {
 		cancel();
-		sendBroadcastsThread = SendBroadcastFactory.create(errorCallback, hostname);
+		sendBroadcastsThread = SendBroadcastFactory.create(errorCallback, name);
 		sendBroadcastsThread.start();
 	}
 

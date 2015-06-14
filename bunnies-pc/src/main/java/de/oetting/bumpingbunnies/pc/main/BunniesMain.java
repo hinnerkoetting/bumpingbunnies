@@ -1,6 +1,7 @@
 package de.oetting.bumpingbunnies.pc.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,7 +19,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import de.oetting.bumpingbunnies.core.BunniesException;
 import de.oetting.bumpingbunnies.core.configuration.GameParameterFactory;
+import de.oetting.bumpingbunnies.core.configuration.MakesGameVisibleFactory;
 import de.oetting.bumpingbunnies.core.configuration.PlayerConfigFactory;
+import de.oetting.bumpingbunnies.core.configuration.WlanNetworkBroadcasterfactory;
 import de.oetting.bumpingbunnies.core.game.CameraPositionCalculation;
 import de.oetting.bumpingbunnies.core.game.GameMainFactory;
 import de.oetting.bumpingbunnies.core.game.IngameMenu;
@@ -209,9 +212,13 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		CameraPositionCalculation cameraCalculation = new CameraPositionCalculation(myPlayer, parameter
 				.getConfiguration().getZoom());
 		gameMain = new GameMainFactory().create(cameraCalculation, world, parameter, myPlayer, this,
-				new PcMusicPlayerFactory(this), new PcConnectionEstablisherFactory(), this, new ScoreboardSynchronisation(new NullScoreAccess(), world));
+				new PcMusicPlayerFactory(this), new PcConnectionEstablisherFactory(), this, new ScoreboardSynchronisation(new NullScoreAccess(), world), createPossibleBroadcasterFactories());
 		gameMain.addJoinListener(drawerThread);
 		gameMain.onResume();
+	}
+
+	private List<MakesGameVisibleFactory> createPossibleBroadcasterFactories() {
+		return Arrays.asList(new WlanNetworkBroadcasterfactory());
 	}
 
 	private void changeSizeInCoordinatesCalculationWhenScreenChanges(Canvas canvas,
