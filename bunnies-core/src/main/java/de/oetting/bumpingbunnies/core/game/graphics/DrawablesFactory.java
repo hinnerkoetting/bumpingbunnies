@@ -55,7 +55,7 @@ public class DrawablesFactory {
 		drawables.addAll(createAllPlayer(canvas));
 		if (withScores)
 			drawables.addAll(createAllScores());
-		drawables.add(new FpsDrawer(gameThreadState));
+//		drawables.add(new FpsDrawer(gameThreadState));
 		return drawables;
 	}
 
