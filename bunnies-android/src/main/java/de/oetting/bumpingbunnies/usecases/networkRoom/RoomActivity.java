@@ -246,7 +246,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 					connectToServer(device);
 				} catch (Exception e) {
 					LOGGER.error("Error", e);
-					displayCouldNotConnectException();
+					connectionNotSuccesful(e.getMessage());
 				}
 			}
 
@@ -264,20 +264,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 			}
 		}).start();
 		enableButtons(false);
-	}
-
-	private void displayCouldNotConnectException() {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				CharSequence text = getText(R.string.could_not_connect);
-				Toast.makeText(RoomActivity.this, text, Toast.LENGTH_SHORT).show();
-				onConnectionError();
-			}
-
-		});
-
 	}
 
 	private void onConnectionError() {
@@ -337,8 +323,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(getBaseContext(), R.string.connection_unsuccesful + message,
-						Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(getBaseContext(), getResources()
+						.getString(R.string.connection_unsuccesful), Toast.LENGTH_LONG);
 				toast.show();
 				onConnectionError();
 			}
