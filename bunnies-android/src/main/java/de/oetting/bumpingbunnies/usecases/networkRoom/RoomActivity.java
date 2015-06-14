@@ -138,7 +138,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 				hostsAdapter.onItemClick(position);
 			}
 		});
-		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this);
+		this.hostsAdapter = new HostsListViewAdapter(getBaseContext(), this, this);
 		list.setAdapter(this.hostsAdapter);
 	}
 

@@ -1,6 +1,24 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/host_entry"
-    android:lines="1" 
-    android:textSize="40sp"/>
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/host_entry"
+        android:id="@+id/room_host_name"
+        android:layout_centerVertical="true"
+        android:lines="1"
+        android:textSize="40sp" />
+
+    <ImageView
+        android:id="@+id/room_host_type"
+        android:layout_width="40sp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="40sp" />
+
+</RelativeLayout>
