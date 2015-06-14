@@ -58,9 +58,9 @@ public class HostsListViewAdapter extends ArrayAdapter<Host> {
 	
 	private Drawable loadDrawableIcon(NetworkType networkType) {
 		if (networkType.equals(NetworkType.WLAN)) {
-			return activity.getResources().getDrawable(R.drawable.wlan_icon);
+			return activity.getResources().getDrawable(R.drawable.ic_wifi_black_48dp);
 		} else if (networkType.equals(NetworkType.BLUETOOTH)) {
-			return activity.getResources().getDrawable(R.drawable.bluetooth_icon);
+			return activity.getResources().getDrawable(R.drawable.ic_bluetooth_black_48dp);
 		} else {
 			return null; //necessary for searching host...
 		}
