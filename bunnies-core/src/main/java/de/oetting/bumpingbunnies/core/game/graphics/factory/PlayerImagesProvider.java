@@ -17,4 +17,6 @@ public interface PlayerImagesProvider {
 	List<ImageWrapper> loadAllJumpingUpImages(int width, int heigth);
 	
 	ImageWrapper loadOneImage(int width, int heigth);
+	
+	ImageWrapper readSiggi();
 }

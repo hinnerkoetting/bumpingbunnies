@@ -70,6 +70,7 @@ import de.oetting.bumpingbunnies.pc.graphics.PcDrawer;
 import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcBackgroundDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawableFactory;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcHeadImageDrawer;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImageMirroror;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImagesColoror;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerImagesProvider;
@@ -264,7 +265,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
 				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawerFactory(
 						new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(),
-						new PcImageMirroror()), new PcDrawableToImageConverter(coordinateTranslator,
+						new PcImageMirroror(), new PcHeadImageDrawer()), new PcDrawableToImageConverter(coordinateTranslator,
 						coordinatesCalculation), true, true, coordinatesCalculation);
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, coordinateTranslator);
 		Drawer drawer = new PcDrawer(objectsDrawer, canvas);

@@ -52,12 +52,15 @@ public class PcPlayerImagesProvider implements PlayerImagesProvider {
 
 	@Override
 	public ImageWrapper loadOneImage(int width, int heigth) {
-		return loadOneImage(reader.loadOneImage(), width, heigth); 
+		return loadOneImage(reader.loadOneImage(), width, heigth);
 	}
-	
+
 	private ImageWrapper loadOneImage(InputStream is, int width, int heigth) {
 		return new ImageWrapper(new Image(is, width, heigth, false, true), "");
 	}
 
-
+	@Override
+	public ImageWrapper readSiggi() {
+		return new ImageWrapper(new Image(reader.loadSiggi()), "");
+	}
 }

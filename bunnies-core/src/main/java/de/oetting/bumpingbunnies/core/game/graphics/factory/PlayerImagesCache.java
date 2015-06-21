@@ -70,6 +70,11 @@ public class PlayerImagesCache implements PlayerImagesProvider {
 	public ImageWrapper loadOneImage(int width, int heigth) {
 		return provider.loadOneImage(width, heigth);
 	}
+
+	@Override
+	public ImageWrapper readSiggi() {
+		return provider.readSiggi();
+	}
 	
 	
 }

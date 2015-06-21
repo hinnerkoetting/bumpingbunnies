@@ -1,16 +1,20 @@
 package de.oetting.bumpingbunnies.core.game.graphics;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.game.graphics.calculation.HeadDrawer;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesCache;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.game.objects.BunnyImageModel;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.worldcreator.load.ClasspathImageReader;
 
 public class BunnyDrawerFactory {
 
@@ -18,8 +22,11 @@ public class BunnyDrawerFactory {
 	private final PlayerImagesProvider imagesProvider;
 	private final ImagesColorer coloror;
 	private final ImageMirroror mirroror;
+	private final HeadDrawer headDrawer;
 
-	public BunnyDrawerFactory(PlayerImagesProvider imagesProvider, ImagesColorer coloror, ImageMirroror mirroror) {
+	public BunnyDrawerFactory(PlayerImagesProvider imagesProvider, ImagesColorer coloror, ImageMirroror mirroror,
+			HeadDrawer headDrawer) {
+		this.headDrawer = headDrawer;
 		this.imagesProvider = new PlayerImagesCache(imagesProvider);
 		this.coloror = coloror;
 		this.mirroror = mirroror;
@@ -28,18 +35,18 @@ public class BunnyDrawerFactory {
 	public BunnyDrawer create(int width, int heigth, Bunny player) {
 		long timeBefore = System.currentTimeMillis();
 		int timeBetweenPictures = 25;
-		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(createRunningAnimation(width, heigth, player), timeBetweenPictures,
-				mirroror);
-		ConditionalMirroredAnimation fallingAnimation = AnimationWithMirrorFactory.createFallingAnimation(createFallingAnimation(width, heigth, player), timeBetweenPictures,
-				mirroror);
-		ConditionalMirroredAnimation jumpingAnimation = AnimationWithMirrorFactory.createJumpingAnimation(createJumpingAnimation(width, heigth, player), timeBetweenPictures,
-				mirroror);
-		ConditionalMirroredAnimation sittingAnimation = AnimationWithMirrorFactory.createSittingAnimation(createSittingAnimation(width, heigth, player), timeBetweenPictures,
-				mirroror);
+		ConditionalMirroredAnimation runningAnimation = AnimationWithMirrorFactory.createRunningAnimation(
+				createRunningAnimation(width, heigth, player), timeBetweenPictures, mirroror);
+		ConditionalMirroredAnimation fallingAnimation = AnimationWithMirrorFactory.createFallingAnimation(
+				createFallingAnimation(width, heigth, player), timeBetweenPictures, mirroror);
+		ConditionalMirroredAnimation jumpingAnimation = AnimationWithMirrorFactory.createJumpingAnimation(
+				createJumpingAnimation(width, heigth, player), timeBetweenPictures, mirroror);
+		ConditionalMirroredAnimation sittingAnimation = AnimationWithMirrorFactory.createSittingAnimation(
+				createSittingAnimation(width, heigth, player), timeBetweenPictures, mirroror);
 		ConditionalMirroredAnimation jumpingOnlyUpAnimation = AnimationWithMirrorFactory.createJumpingOnlyUpAnimation(
 				createJumpingOnlyUpAnimation(width, heigth, player), 100, mirroror);
-		List<ConditionalMirroredAnimation> animations = Arrays.asList(runningAnimation, fallingAnimation, jumpingAnimation, sittingAnimation,
-				jumpingOnlyUpAnimation);
+		List<ConditionalMirroredAnimation> animations = Arrays.asList(runningAnimation, fallingAnimation,
+				jumpingAnimation, sittingAnimation, jumpingOnlyUpAnimation);
 		LOGGER.info("Creating image of bunny took %d milliseconds", System.currentTimeMillis() - timeBefore);
 		return new BunnyDrawer(player, animations);
 	}
@@ -73,7 +80,9 @@ public class BunnyDrawerFactory {
 		List<ImageWrapper> coloredBitmaps = new ArrayList<ImageWrapper>(originalBitmaps.size());
 		for (ImageWrapper originalBitmap : originalBitmaps) {
 			ImageWrapper coloredBitmap = coloror.colorImage(originalBitmap, player.getColor());
-			coloredBitmaps.add(coloredBitmap);
+			ImageWrapper bitmapWithImage = headDrawer.overDrawFace(coloredBitmap, imagesProvider.readSiggi(),
+					new BunnyImageModel(66, 61, 28, 100, 100));
+			coloredBitmaps.add(bitmapWithImage);
 		}
 		return coloredBitmaps;
 	}

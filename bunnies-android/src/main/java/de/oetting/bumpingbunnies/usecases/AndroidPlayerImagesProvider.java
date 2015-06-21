@@ -65,4 +65,10 @@ public class AndroidPlayerImagesProvider implements PlayerImagesProvider {
 		return new ImageWrapper(imageResizer.resize(bitmap, width, heigth), "");
 	}
 
+	@Override
+	public ImageWrapper readSiggi() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

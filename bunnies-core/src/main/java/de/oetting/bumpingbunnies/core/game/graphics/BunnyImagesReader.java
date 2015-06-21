@@ -45,4 +45,8 @@ public class BunnyImagesReader {
 			throw new IllegalArgumentException("Could not find resource: " + resource);
 		return is;
 	}
+
+	public InputStream loadSiggi() {
+		return loadImage("siggi");
+	}
 }

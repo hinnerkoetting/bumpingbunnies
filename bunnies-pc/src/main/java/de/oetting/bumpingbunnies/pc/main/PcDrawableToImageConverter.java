@@ -2,13 +2,10 @@ package de.oetting.bumpingbunnies.pc.main;
 
 import java.util.List;
 
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
-import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
+import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.Drawable;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawableToImageConverter;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
@@ -16,6 +13,7 @@ import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasAdapter;
 import de.oetting.bumpingbunnies.pc.graphics.PcCanvasWrapper;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.ImageFromViewExtractor;
 
 public class PcDrawableToImageConverter implements DrawableToImageConverter {
 
@@ -49,12 +47,7 @@ public class PcDrawableToImageConverter implements DrawableToImageConverter {
 	}
 
 	private Image takeSnapshot(Canvas fxCanvas) {
-		SnapshotParameters params = new SnapshotParameters();
-		params.setFill(Color.TRANSPARENT);
-		WritableImage writableImage = new WritableImage(screenCanvas.getOriginalWidth(),
-				screenCanvas.getOriginalHeight());
-		fxCanvas.snapshot(params, writableImage);
-		return writableImage;
+		return new ImageFromViewExtractor().takeSnapshot(fxCanvas);
 	}
 
 }
