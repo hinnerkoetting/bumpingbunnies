@@ -13,8 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
+import de.oetting.bumpingbunnies.core.game.graphics.DefaultPlayerImagesProvider;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
-import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvider;
+import de.oetting.bumpingbunnies.usecases.AndroidImagesLoader;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesColoror;
 import de.oetting.bumpingbunnies.usecases.resultScreen.model.ResultPlayerEntry;
 
@@ -52,7 +53,7 @@ public class ResultArrayAdapter extends ArrayAdapter<ResultPlayerEntry> {
 	private void modifyPlayerImage(View entryView, int position) {
 		ImageView imageView = (ImageView) entryView
 				.findViewById(R.id.result_player_image);
-		ImageWrapper image = new AndroidPlayerImagesProvider(new BunnyImagesReader()).loadOneImage(64, 64);
+		ImageWrapper image = new DefaultPlayerImagesProvider(new BunnyImagesReader(), new AndroidImagesLoader()).loadOneImage(64, 64);
 		ImageWrapper coloredImage = new AndroidImagesColoror().colorImage(image, getItem(position).getPlayerColor());
 		imageView.setImageBitmap((Bitmap)coloredImage.getBitmap());
 				

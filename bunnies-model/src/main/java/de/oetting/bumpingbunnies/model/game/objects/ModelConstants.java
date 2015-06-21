@@ -21,8 +21,8 @@ public interface ModelConstants {
 	int BUNNY_GAME_WIDTH = (int) (0.04 * STANDARD_WORLD_SIZE);
 	int BUNNY_GAME_HEIGHT = (int) (0.05 * STANDARD_WORLD_SIZE);
 	//used for drawing. Should be equal for height and length because the images are quadratical
-	int BUNNY_DRAWN_WIDTH = (int) (0.05 * STANDARD_WORLD_SIZE);
-	int BUNNY_DRAWN_HEIGHT = (int) (0.05 * STANDARD_WORLD_SIZE);
+	int BUNNY_DRAWN_WIDTH = (int) (0.1 * STANDARD_WORLD_SIZE);
+	int BUNNY_DRAWN_HEIGHT = (int) (0.1 * STANDARD_WORLD_SIZE);
 
 	int MOVEMENT_LIMIT = 1;
 	// X movement

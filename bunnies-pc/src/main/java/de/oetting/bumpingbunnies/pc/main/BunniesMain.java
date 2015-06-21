@@ -30,6 +30,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.BunnyImagesReader;
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
+import de.oetting.bumpingbunnies.core.game.graphics.DefaultPlayerImagesProvider;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.AbsoluteCoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.main.GameMain;
@@ -71,9 +72,9 @@ import de.oetting.bumpingbunnies.pc.graphics.YCoordinateInverterCalculation;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcBackgroundDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcGameObjectDrawableFactory;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcHeadImageDrawer;
+import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImageLoader;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImageMirroror;
 import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcImagesColoror;
-import de.oetting.bumpingbunnies.pc.graphics.drawables.factory.PcPlayerImagesProvider;
 import de.oetting.bumpingbunnies.pc.music.PcMusicPlayerFactory;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntry;
 import de.oetting.bumpingbunnies.pc.scoreMenu.ScoreEntryComparator;
@@ -264,7 +265,7 @@ public class BunniesMain extends Application implements ThreadErrorCallback, Gam
 				coordinatesCalculation);
 		DrawablesFactory factory = new DrawablesFactory(gameThreadState, world, new PcBackgroundDrawableFactory(),
 				new PcGameObjectDrawableFactory(new PcImageMirroror()), new BunnyDrawerFactory(
-						new PcPlayerImagesProvider(new BunnyImagesReader()), new PcImagesColoror(),
+						new DefaultPlayerImagesProvider(new BunnyImagesReader(), new PcImageLoader()), new PcImagesColoror(),
 						new PcImageMirroror(), new PcHeadImageDrawer()), new PcDrawableToImageConverter(coordinateTranslator,
 						coordinatesCalculation), true, true, coordinatesCalculation);
 		ObjectsDrawer objectsDrawer = new ObjectsDrawer(factory, coordinateTranslator);

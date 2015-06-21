@@ -3,11 +3,12 @@ package de.oetting.bumpingbunnies.core.game.graphics;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.core.graphics.Paint;
+import de.oetting.bumpingbunnies.model.game.objects.BunnyImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class DefaultAnimation implements Animation {
 
-	protected final List<ImageWrapper> originalPictures;
+	protected final List<BunnyImage> originalPictures;
 	private final int timeBetweenPictures;
 	// protected List<ImageWrapper> scaledPictures;
 	private long lastTimeSwitched;
@@ -15,7 +16,7 @@ public class DefaultAnimation implements Animation {
 	// private ImageResizer resizer;
 	private boolean movingIndexUp = true;
 
-	public DefaultAnimation(List<ImageWrapper> pictures, int timeBetweenPictures) {
+	public DefaultAnimation(List<BunnyImage> pictures, int timeBetweenPictures) {
 		this.originalPictures = pictures;
 		this.timeBetweenPictures = timeBetweenPictures;
 		this.lastTimeSwitched = System.currentTimeMillis();
@@ -46,11 +47,11 @@ public class DefaultAnimation implements Animation {
 	}
 
 	private void drawCurrentImage(CanvasAdapter canvas, long left, long top, Paint paint) {
-		canvas.drawImage(this.originalPictures.get(this.currentIndex), left, top, paint);
+		canvas.drawImage(this.originalPictures.get(this.currentIndex).getImage(), left, top, paint);
 	}
 
 	private void drawCurrentImageBlinking(CanvasAdapter canvas, long left, long top, Paint paint) {
-		canvas.drawImageBlinking(this.originalPictures.get(this.currentIndex), left, top, paint);
+		canvas.drawImageBlinking(this.originalPictures.get(this.currentIndex).getImage(), left, top, paint);
 	}
 
 	public void changeIndex() {
@@ -72,11 +73,11 @@ public class DefaultAnimation implements Animation {
 
 	@Override
 	public int getWidth(CanvasAdapter canvas) {
-		return canvas.getWidth(this.originalPictures.get(this.currentIndex));
+		return canvas.getWidth(this.originalPictures.get(this.currentIndex).getImage());
 	}
 
 	@Override
 	public int getHeight(CanvasAdapter canvas) {
-		return canvas.getHeight(this.originalPictures.get(this.currentIndex));
+		return canvas.getHeight(this.originalPictures.get(this.currentIndex).getImage());
 	}
 }
