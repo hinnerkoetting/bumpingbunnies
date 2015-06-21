@@ -1,7 +1,11 @@
 package de.oetting.bumpingbunnies.core.game.graphics.factory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.objects.BunnyImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class PlayerImagesCache implements PlayerImagesProvider {
@@ -10,17 +14,18 @@ public class PlayerImagesCache implements PlayerImagesProvider {
 	private int lastWidth;
 	private int lastheight;
 	
-	private List<ImageWrapper> runningImages;
-	private List<ImageWrapper> fallingImages;
-	private List<ImageWrapper> jumpingImages;
-	private List<ImageWrapper> sittingImages;
-	private List<ImageWrapper> jumpingUpImages;
+	private List<BunnyImage> runningImages;
+	private List<BunnyImage> fallingImages;
+	private List<BunnyImage> jumpingImages;
+	private List<BunnyImage> sittingImages;
+	private List<BunnyImage> jumpingUpImages;
+	private Map<Integer, ImageWrapper> cachedBunnyFace = new HashMap<Integer, ImageWrapper>();
 
 	public PlayerImagesCache(PlayerImagesProvider provider) {
 		this.provider = provider;
 	}
 
-	public synchronized List<ImageWrapper> loadAllRunningImages(int width, int heigth) {
+	public synchronized List<BunnyImage> loadAllRunningImages(int width, int heigth) {
 		storeWidthAndCheckCache(width, heigth);
 		if (runningImages == null) 
 			runningImages = provider.loadAllRunningImages(width, heigth);
@@ -39,28 +44,28 @@ public class PlayerImagesCache implements PlayerImagesProvider {
 		}
 	}
 
-	public synchronized List<ImageWrapper> loadAllFallingImages(int width, int heigth) {
+	public synchronized List<BunnyImage> loadAllFallingImages(int width, int heigth) {
 		storeWidthAndCheckCache(width, heigth);
 		if (fallingImages == null)
 			fallingImages = provider.loadAllFallingImages(width, heigth);
 		return fallingImages;
 	}
 
-	public synchronized List<ImageWrapper> loadAllJumpingImages(int width, int heigth) {
+	public synchronized List<BunnyImage> loadAllJumpingImages(int width, int heigth) {
 		storeWidthAndCheckCache(width, heigth);
 		if (jumpingImages == null)
 			jumpingImages = provider.loadAllJumpingImages(width, heigth);
 		return jumpingImages;
 	}
 
-	public synchronized List<ImageWrapper> loadAllSittingImages(int width, int heigth) {
+	public synchronized List<BunnyImage> loadAllSittingImages(int width, int heigth) {
 		storeWidthAndCheckCache(width, heigth);
 		if (sittingImages == null)
 			sittingImages = provider.loadAllSittingImages(width, heigth);
 		return sittingImages;
 	}
 
-	public synchronized List<ImageWrapper> loadAllJumpingUpImages(int width, int heigth) {
+	public synchronized List<BunnyImage> loadAllJumpingUpImages(int width, int heigth) {
 		storeWidthAndCheckCache(width, heigth);
 		if (jumpingUpImages == null)
 			jumpingUpImages = provider.loadAllJumpingUpImages(width, heigth);
@@ -69,6 +74,14 @@ public class PlayerImagesCache implements PlayerImagesProvider {
 
 	public ImageWrapper loadOneImage(int width, int heigth) {
 		return provider.loadOneImage(width, heigth);
+	}
+
+	@Override
+	public ImageWrapper readImageForBunny(Bunny bunny) {
+		if (cachedBunnyFace.get(bunny.id()) == null ) {
+			cachedBunnyFace.put(bunny.id(), provider.readImageForBunny(bunny));
+		}
+		return cachedBunnyFace.get(bunny.id());
 	}
 	
 	

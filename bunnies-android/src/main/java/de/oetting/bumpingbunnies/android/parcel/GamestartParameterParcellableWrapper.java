@@ -20,9 +20,6 @@ public class GamestartParameterParcellableWrapper implements Parcelable {
 
 	private final GameStartParameter parameter;
 
-	public GamestartParameterParcellableWrapper(Parcel source) {
-		parameter = new GameStartParameterParceller().createFromParcel(source);
-	}
 
 	public GamestartParameterParcellableWrapper(GameStartParameter parameter) {
 		this.parameter = parameter;
@@ -36,6 +33,10 @@ public class GamestartParameterParcellableWrapper implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		new GameStartParameterParceller().writeToParcel(parameter, dest);
+	}
+
+	public GamestartParameterParcellableWrapper(Parcel source) {
+		parameter = new GameStartParameterParceller().createFromParcel(source);
 	}
 
 	public GameStartParameter getParameter() {

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.oetting.bumpingbunnies.model.game.objects.HorizontalMovementState;
-import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
+import de.oetting.bumpingbunnies.model.game.objects.BunnyImage;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 
 public class AnimationWithMirrorFactory {
 
-	public static ConditionalMirroredAnimation createRunningAnimation(final List<ImageWrapper> pictures,
+	public static ConditionalMirroredAnimation createRunningAnimation(final List<BunnyImage> pictures,
 			final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
@@ -23,7 +23,7 @@ public class AnimationWithMirrorFactory {
 		};
 	}
 
-	public static ConditionalMirroredAnimation createFallingAnimation(final List<ImageWrapper> pictures,
+	public static ConditionalMirroredAnimation createFallingAnimation(final List<BunnyImage> pictures,
 			final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
@@ -36,7 +36,7 @@ public class AnimationWithMirrorFactory {
 		};
 	}
 
-	public static ConditionalMirroredAnimation createJumpingAnimation(final List<ImageWrapper> pictures,
+	public static ConditionalMirroredAnimation createJumpingAnimation(final List<BunnyImage> pictures,
 			final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
@@ -48,7 +48,7 @@ public class AnimationWithMirrorFactory {
 		};
 	}
 
-	public static ConditionalMirroredAnimation createSittingAnimation(final List<ImageWrapper> pictures,
+	public static ConditionalMirroredAnimation createSittingAnimation(final List<BunnyImage> pictures,
 			final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
@@ -60,7 +60,7 @@ public class AnimationWithMirrorFactory {
 		};
 	}
 
-	public static ConditionalMirroredAnimation createJumpingOnlyUpAnimation(final List<ImageWrapper> pictures,
+	public static ConditionalMirroredAnimation createJumpingOnlyUpAnimation(final List<BunnyImage> pictures,
 			final int timeBetweenPictures, ImageMirroror mirroror) {
 		MirroredAnimation completeAnimation = createAnimation(pictures, timeBetweenPictures, mirroror);
 		return new ConditionalMirroredAnimation(completeAnimation) {
@@ -72,29 +72,29 @@ public class AnimationWithMirrorFactory {
 		};
 	}
 
-	private static MirroredAnimation createAnimation(final List<ImageWrapper> pictures, final int timeBetweenPictures,
+	private static MirroredAnimation createAnimation(final List<BunnyImage> pictures, final int timeBetweenPictures,
 			ImageMirroror mirroror) {
-		List<ImageWrapper> normalAnimation = createAnimation(pictures);
-		List<ImageWrapper> mirroredAnimation = createMirroredAnimation(pictures, mirroror);
+		List<BunnyImage> normalAnimation = createAnimation(pictures);
+		List<BunnyImage> mirroredAnimation = createMirroredAnimation(pictures, mirroror);
 		return create(new DefaultAnimation(normalAnimation, timeBetweenPictures), new DefaultAnimation(
 				mirroredAnimation, timeBetweenPictures));
 	}
 
-	private static List<ImageWrapper> createAnimation(List<ImageWrapper> originalPictures) {
-		List<ImageWrapper> images = new ArrayList<ImageWrapper>(originalPictures.size());
+	private static List<BunnyImage> createAnimation(List<BunnyImage> originalPictures) {
+		List<BunnyImage> images = new ArrayList<BunnyImage>(originalPictures.size());
 		for (int i = 0; i < originalPictures.size(); i++) {
-			ImageWrapper original = originalPictures.get(i);
+			BunnyImage original = originalPictures.get(i);
 			images.add(original);
 		}
 		return images;
 	}
 
-	private static List<ImageWrapper> createMirroredAnimation(List<ImageWrapper> originalPictures,
+	private static List<BunnyImage> createMirroredAnimation(List<BunnyImage> originalPictures,
 			ImageMirroror mirrorer) {
-		List<ImageWrapper> images = new ArrayList<ImageWrapper>(originalPictures.size());
+		List<BunnyImage> images = new ArrayList<BunnyImage>(originalPictures.size());
 		for (int i = 0; i < originalPictures.size(); i++) {
-			ImageWrapper original = originalPictures.get(i);
-			images.add(mirrorer.mirrorImage(original));
+			BunnyImage original = originalPictures.get(i);
+			images.add(new BunnyImage(mirrorer.mirrorImage(original.getImage()), original.getModel()));
 		}
 		return images;
 	}

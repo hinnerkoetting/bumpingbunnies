@@ -8,6 +8,7 @@ import de.oetting.bumpingbunnies.core.game.graphics.CanvasCoordinateTranslator;
 import de.oetting.bumpingbunnies.core.game.graphics.DrawablesFactory;
 import de.oetting.bumpingbunnies.core.game.graphics.ImageMirroror;
 import de.oetting.bumpingbunnies.core.game.graphics.ObjectsDrawer;
+import de.oetting.bumpingbunnies.core.game.graphics.DefaultPlayerImagesProvider;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
@@ -15,7 +16,7 @@ import de.oetting.bumpingbunnies.core.game.main.GameThreadState;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.world.World;
-import de.oetting.bumpingbunnies.usecases.AndroidPlayerImagesProvider;
+import de.oetting.bumpingbunnies.usecases.AndroidImagesLoader;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidCanvasAdapter;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidDrawableToImageConverter;
 import de.oetting.bumpingbunnies.usecases.game.graphics.AndroidImagesColoror;
@@ -32,7 +33,8 @@ public class DrawerFactory {
 				new AndroidGameObjectsDrawableFactory(), playerDrawerFactory, new AndroidDrawableToImageConverter(
 						canvasDelegate, calculations, context), true, false, calculations);
 
-		calculations.setZoom(ModelConstants.STANDARD_WORLD_SIZE / ModelConstants.ZOOM_MULTIPLIER * configuration.getZoom());
+		calculations.setZoom(ModelConstants.STANDARD_WORLD_SIZE / ModelConstants.ZOOM_MULTIPLIER
+				* configuration.getZoom());
 
 		ObjectsDrawer drawer = new ObjectsDrawer(drawFactory, canvasDelegate);
 		return drawer;
@@ -40,9 +42,9 @@ public class DrawerFactory {
 
 	private static BunnyDrawerFactory createPlayerDrawerFactory() {
 		BunnyImagesReader imagesReader = new BunnyImagesReader();
-		PlayerImagesProvider imagesProvider = new AndroidPlayerImagesProvider(imagesReader);
+		PlayerImagesProvider imagesProvider = new DefaultPlayerImagesProvider(imagesReader, new AndroidImagesLoader());
 		ImagesColorer colorer = new AndroidImagesColoror();
 		ImageMirroror mirrorer = new AndroidImagesMirrorer();
-		return new BunnyDrawerFactory(imagesProvider, colorer, mirrorer);
+		return new BunnyDrawerFactory(imagesProvider, colorer, mirrorer, new AndroidHeadDrawer());
 	}
 }
