@@ -2,6 +2,7 @@ package de.oetting.bumpingbunnies.core.game.graphics.factory;
 
 import java.util.List;
 
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.BunnyImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
@@ -19,5 +20,5 @@ public interface PlayerImagesProvider {
 	
 	ImageWrapper loadOneImage(int width, int heigth);
 	
-	ImageWrapper readSiggi();
+	ImageWrapper readImageForBunny(Bunny bunny);
 }

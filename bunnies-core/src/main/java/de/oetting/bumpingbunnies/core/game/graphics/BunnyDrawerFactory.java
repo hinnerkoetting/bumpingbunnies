@@ -78,9 +78,14 @@ public class BunnyDrawerFactory {
 		List<BunnyImage> coloredBitmaps = new ArrayList<BunnyImage>(originalBitmaps.size());
 		for (BunnyImage originalBitmap : originalBitmaps) {
 			ImageWrapper coloredBitmap = coloror.colorImage(originalBitmap.getImage(), player.getColor());
-			ImageWrapper bitmapWithImage = headDrawer.overDrawFace(coloredBitmap, imagesProvider.readSiggi(),
-					originalBitmap.getModel());
-			coloredBitmaps.add(new BunnyImage(bitmapWithImage, originalBitmap.getModel()));
+			ImageWrapper face = imagesProvider.readImageForBunny(player);
+			if (face != null) {
+				ImageWrapper bitmapWithImage = headDrawer.overDrawFace(coloredBitmap, face,
+						originalBitmap.getModel());
+				coloredBitmaps.add(new BunnyImage(bitmapWithImage, originalBitmap.getModel()));
+			} else 
+				coloredBitmaps.add(new BunnyImage(coloredBitmap, originalBitmap.getModel()));
+			
 		}
 		return coloredBitmaps;
 	}

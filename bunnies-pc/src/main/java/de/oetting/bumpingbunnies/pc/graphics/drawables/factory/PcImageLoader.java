@@ -13,4 +13,9 @@ public class PcImageLoader implements StreamImageLoader {
 		return new ImageWrapper(new Image(inputStream, width, height, false, true), "");
 	}
 
+	@Override
+	public ImageWrapper loadImage(InputStream inputStream) {
+		return new ImageWrapper(new Image(inputStream), "");
+	}
+
 }

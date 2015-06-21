@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.StreamImageLoader;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.BunnyImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
@@ -57,7 +58,11 @@ public class DefaultPlayerImagesProvider implements PlayerImagesProvider {
 		return imageLoader.loadImage(is, width, height);
 	}
 
-	public ImageWrapper readSiggi() {
-		return new ImageWrapper(new Image(reader.loadSiggi()), "");
+	@Override
+	public ImageWrapper readImageForBunny(Bunny bunny) {
+		InputStream stream = reader.loadImageOrNull(bunny.getName());
+		if (stream != null)
+			return imageLoader.loadImage(stream);
+		return null;
 	}
 }

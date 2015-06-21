@@ -45,6 +45,6 @@ public class DrawerFactory {
 		PlayerImagesProvider imagesProvider = new DefaultPlayerImagesProvider(imagesReader, new AndroidImagesLoader());
 		ImagesColorer colorer = new AndroidImagesColoror();
 		ImageMirroror mirrorer = new AndroidImagesMirrorer();
-		return new BunnyDrawerFactory(imagesProvider, colorer, mirrorer, null);
+		return new BunnyDrawerFactory(imagesProvider, colorer, mirrorer, new AndroidHeadDrawer());
 	}
 }

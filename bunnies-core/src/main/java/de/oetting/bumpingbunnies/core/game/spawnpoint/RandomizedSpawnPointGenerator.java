@@ -17,7 +17,7 @@ public class RandomizedSpawnPointGenerator implements SpawnPointGenerator {
 
 	@Override
 	public SpawnPoint nextSpawnPoint() {
-		int index = 0;
+		int index = chooseRandomValue();
 		return this.allSpawnPoints.get(index);
 	}
 

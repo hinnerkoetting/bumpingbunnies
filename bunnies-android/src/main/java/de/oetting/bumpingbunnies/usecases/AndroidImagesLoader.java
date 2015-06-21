@@ -18,4 +18,10 @@ public class AndroidImagesLoader implements StreamImageLoader {
 		return new ImageWrapper(imageResizer.resize(bitmap, width, height), "");
 	}
 
+	@Override
+	public ImageWrapper loadImage(InputStream inputStream) {
+		Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+		return new ImageWrapper(bitmap, "");
+	}
+
 }

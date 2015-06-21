@@ -1,7 +1,10 @@
 package de.oetting.bumpingbunnies.core.game.graphics.factory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.BunnyImage;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
@@ -16,6 +19,7 @@ public class PlayerImagesCache implements PlayerImagesProvider {
 	private List<BunnyImage> jumpingImages;
 	private List<BunnyImage> sittingImages;
 	private List<BunnyImage> jumpingUpImages;
+	private Map<Integer, ImageWrapper> cachedBunnyFace = new HashMap<Integer, ImageWrapper>();
 
 	public PlayerImagesCache(PlayerImagesProvider provider) {
 		this.provider = provider;
@@ -73,8 +77,11 @@ public class PlayerImagesCache implements PlayerImagesProvider {
 	}
 
 	@Override
-	public ImageWrapper readSiggi() {
-		return provider.readSiggi();
+	public ImageWrapper readImageForBunny(Bunny bunny) {
+		if (cachedBunnyFace.get(bunny.id()) == null ) {
+			cachedBunnyFace.put(bunny.id(), provider.readImageForBunny(bunny));
+		}
+		return cachedBunnyFace.get(bunny.id());
 	}
 	
 	
