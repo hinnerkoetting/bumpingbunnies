@@ -54,4 +54,12 @@ public class GameThread extends BunniesThread {
 
 	}
 
+	public void pause(boolean pause) {
+		worldController.setPause(pause);
+	}
+
+	public boolean isPaused() {
+		return worldController.isPaused();
+	}
+
 }

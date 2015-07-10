@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Window;
 import de.oetting.bumpingbunnies.core.game.IngameMenu;
+import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.input.ConfigurableKeyboardInputService;
 import de.oetting.bumpingbunnies.model.configuration.GameStartParameter;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
@@ -26,10 +27,12 @@ public class PcInputDispatcher {
 	private final IngameMenu ingameMenu;
 	private final World world;
 	private final GameStartParameter parameter;
+	private GameMain gameMain;
 
-	public PcInputDispatcher(Node canvas, IngameMenu ingameMenu, World world, GameStartParameter parameter) {
+	public PcInputDispatcher(Node canvas, IngameMenu ingameMenu, World world, GameStartParameter parameter, GameMain gameMain) {
 		this.world = world;
 		this.parameter = parameter;
+		this.gameMain = gameMain;
 		this.inputServices = new ArrayList<>();
 		this.canvas = canvas;
 		this.ingameMenu = ingameMenu;
@@ -62,6 +65,7 @@ public class PcInputDispatcher {
 	}
 
 	private void addOptionsForHost(ContextMenu menu) {
+		addPlayPauseButton(menu);
 		menu.getItems().add(createAddAiButton());
 		MenuItem separator = new MenuItem("------");
 		separator.setDisable(true);
@@ -70,6 +74,25 @@ public class PcInputDispatcher {
 			MenuItem itemRemove = createRemoveAiButton(bunny);
 			menu.getItems().add(itemRemove);
 		}
+	}
+
+	private boolean addPlayPauseButton(ContextMenu menu) {
+		if (gameMain.isPaused())
+			return menu.getItems().add(createPlayItem());
+		else
+			return menu.getItems().add(createPauseItem());
+	}
+	
+	private MenuItem createPlayItem() {
+		MenuItem itemRemove = new MenuItem("Play");
+		itemRemove.addEventHandler(Event.ANY, event -> ingameMenu.play());
+		return itemRemove;
+	}
+	
+	private MenuItem createPauseItem() {
+		MenuItem itemRemove = new MenuItem("Pause");
+		itemRemove.addEventHandler(Event.ANY, event -> ingameMenu.pause());
+		return itemRemove;
 	}
 
 	private MenuItem createRemoveAiButton(Bunny bunny) {

@@ -6,6 +6,7 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
+import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.MySocket;
@@ -240,4 +241,11 @@ public class GameMain implements JoinObserver, PlayerJoinListener, PlayerDisconn
 		return configuration;
 	}
 
+	public void pause(boolean pause) {
+		gameThread.pause(pause);
+	}
+
+	public boolean isPaused() {
+		return gameThread.isPaused();
+	}
 }

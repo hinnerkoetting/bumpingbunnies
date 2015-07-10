@@ -19,6 +19,7 @@ public class GameStepController {
 	// and used for the next cycle
 	private long remainingDeltaFromLastRun = 0;
 	private final CameraPositionCalculation cameraPositionCalculator;
+	private boolean paused;
 
 	public GameStepController(UserInputStep userInputStep, BunnyMovementStep movements, PlayerReviver reviver,
 			CameraPositionCalculation cameraPositionCalculator) {
@@ -33,7 +34,8 @@ public class GameStepController {
 		long numberSteps = deltaWithOldRemainingTime / MILLISECONDS_PER_STEP;
 		this.remainingDeltaFromLastRun = deltaWithOldRemainingTime % MILLISECONDS_PER_STEP;
 		this.userInputStep.executeNextStep(numberSteps);
-		this.movements.executeNextStep(numberSteps);
+		if (!paused)
+			this.movements.executeNextStep(numberSteps);
 		this.reviver.executeNextStep(numberSteps);
 		this.cameraPositionCalculator.executeNextStep(delta);
 	}
@@ -42,6 +44,14 @@ public class GameStepController {
 		gameMain.addJoinListener(this.movements);
 		gameMain.addJoinListener(this.userInputStep);
 		this.movements.addAllJoinListeners(gameMain);
+	}
+
+	public void setPause(Boolean object) {
+		this.paused = object;
+	}
+
+	public boolean isPaused() {
+		return paused;
 	}
 
 }

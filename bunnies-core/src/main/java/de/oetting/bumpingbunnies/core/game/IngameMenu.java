@@ -6,6 +6,7 @@ import de.oetting.bumpingbunnies.core.game.player.BunnyNameFactory;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
+import de.oetting.bumpingbunnies.core.networking.messaging.pause.GamePausedSender;
 import de.oetting.bumpingbunnies.core.networking.messaging.stop.GameStopper;
 import de.oetting.bumpingbunnies.core.networking.sender.PlayerLeftSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
@@ -60,5 +61,22 @@ public class IngameMenu {
 
 	public void onQuitGame() {
 		stopper.gameStopped();
+	}
+
+	public void pause() {
+		gameMain.pause(true);
+		sendPauseMessage(true);
+	}
+
+	public void  play() {
+		gameMain.pause(false);
+		sendPauseMessage(false);
+	}
+	
+	private void sendPauseMessage(boolean paused) {
+		synchronized (sockets) {
+			for (MySocket socket: sockets.getAllSockets()) 
+				new GamePausedSender(new SimpleNetworkSender(MessageParserFactory.create(), socket, gameMain)).sendMessage(paused);;
+		}
 	}
 }

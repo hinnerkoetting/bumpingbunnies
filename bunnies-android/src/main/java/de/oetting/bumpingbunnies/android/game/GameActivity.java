@@ -158,7 +158,7 @@ public class GameActivity extends Activity implements ThreadErrorCallback, GameS
 	private AndroidIngameMenuAdapter createMenu(GameStartParameter parameter) {
 		IngameMenu ingameMenu = new IngameMenu(main, new BunnyFactory(parameter.getConfiguration().getGeneralSettings()
 				.getSpeedSetting()), main.getWorld(), SocketStorage.getSingleton(), this);
-		return new AndroidIngameMenuAdapter(ingameMenu, this, main.getWorld(), parameter);
+		return new AndroidIngameMenuAdapter(ingameMenu, this, main.getWorld(), parameter, main);
 	}
 
 	private World createWorld(GameActivity activity, GameStartParameter parameter) {

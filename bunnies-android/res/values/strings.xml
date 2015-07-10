@@ -58,5 +58,8 @@
     <string name="room_search">Search games</string>
     <string name="room_bluetooth">Bluetooth</string>
     <string name="out_of_memory">Out of memory error. Please increase the zoom setting.</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+>>>>>>> Added pause option
     
 </resources>

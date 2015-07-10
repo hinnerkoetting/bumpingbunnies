@@ -4,6 +4,7 @@ import de.oetting.bumpingbunnies.core.game.steps.ScoreboardSynchronisation;
 import de.oetting.bumpingbunnies.core.network.NetworkToGameDispatcher;
 import de.oetting.bumpingbunnies.core.network.sockets.SocketStorage;
 import de.oetting.bumpingbunnies.core.networking.messaging.clientReceivedDeadBunny.BunnyIsDeadMessageReceivedReceiver;
+import de.oetting.bumpingbunnies.core.networking.messaging.pause.GamePausedReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerDisconnected.PlayerDisconnectedReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsDead.PlayerIsDeadReceiver;
 import de.oetting.bumpingbunnies.core.networking.messaging.playerIsRevived.PlayerIsRevivedReceiver;
@@ -29,6 +30,7 @@ public class NetworkListeners {
 		new SpawnPointReceiver(networkDispatcher, world);
 		new PlayerDisconnectedReceiver(networkDispatcher, main);
 		new BunnyIsDeadMessageReceivedReceiver(networkDispatcher, world);
+		new GamePausedReceiver(networkDispatcher, main);
 		addPlayerJoinListener(networkDispatcher, main, configuration);
 	}
 
