@@ -3,3 +3,5 @@
 .classpath
 .settings/
 /target/
+/.gradle
+/build
