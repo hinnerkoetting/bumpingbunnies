@@ -1,16 +1,14 @@
 package de.oetting.bumpingbunnies.worldcreator.load;
 
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class SwingResourceProvider implements ResourceProvider {
 
-	private final ClasspathImageReader imageReader;
+	private final FilesystemImageReader imageReader;
 
-	public SwingResourceProvider(ClasspathImageReader imageReader) {
+	public SwingResourceProvider(FilesystemImageReader imageReader) {
 		this.imageReader = imageReader;
 	}
 
@@ -18,8 +16,8 @@ public class SwingResourceProvider implements ResourceProvider {
 	public ImageWrapper readBitmap(String fileName) {
 		try {
 			return new ImageWrapper(ImageIO.read(imageReader.readAsStream(fileName)), fileName);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		} catch (Exception e) {
+			throw new RuntimeException("Could not read image with name " + fileName, e);
 		}
 	}
 

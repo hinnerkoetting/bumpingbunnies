@@ -5,3 +5,5 @@ bin/test
 /.settings
 .classpath
 .project
+/.gradle
+/build

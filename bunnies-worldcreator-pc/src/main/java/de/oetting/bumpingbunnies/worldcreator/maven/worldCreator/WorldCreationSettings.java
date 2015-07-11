@@ -25,4 +25,13 @@ public class WorldCreationSettings {
 		return targetFilename;
 	}
 
+	@Override
+	public String toString() {
+		return "WorldCreationSettings [sourceWorld=" + sourceWorld + ", sourceImages=" + sourceImages
+				+ ", targetFilename=" + targetFilename + "]";
+	}
+	
+	
+	
+
 }

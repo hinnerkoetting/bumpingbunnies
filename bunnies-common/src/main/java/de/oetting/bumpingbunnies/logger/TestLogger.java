@@ -6,7 +6,7 @@ public class TestLogger implements de.oetting.bumpingbunnies.logger.Logger {
 
 	@Override
 	public void info(String log, Object... params) {
-		System.out.print("Info " + String.format(log, params));
+		System.out.println("Info " + String.format(log, params));
 	}
 
 	public TestLogger(Class<?> clazz) {
@@ -16,33 +16,33 @@ public class TestLogger implements de.oetting.bumpingbunnies.logger.Logger {
 
 	@Override
 	public void debug(String log, Object... params) {
-		System.out.print(clazz + ": Debug " + String.format(log, params));
+		System.out.println(clazz + ": Debug " + String.format(log, params));
 	}
 
 	@Override
 	public void verbose(String log, Object... params) {
-		System.out.print(clazz + ": Verbose " + String.format(log, params));
+		System.out.println(clazz + ": Verbose " + String.format(log, params));
 	}
 
 	@Override
 	public void warn(String string, Object... params) {
-		System.out.print(clazz + ": Warn " + String.format(string, params));
+		System.out.println(clazz + ": Warn " + String.format(string, params));
 	}
 
 	@Override
 	public void warn(String string, Throwable t, Object... params) {
-		System.out.print(clazz + ": Warn " + String.format(string, params));
+		System.out.println(clazz + ": Warn " + String.format(string, params));
 		t.printStackTrace();
 	}
 
 	@Override
 	public void error(String string, Object... params) {
-		System.out.print(clazz + ": Error " + String.format(string, params));
+		System.out.println(clazz + ": Error " + String.format(string, params));
 	}
 
 	@Override
 	public void error(String string, Throwable t, Object... params) {
-		System.out.print(clazz + ": Error " + String.format(string, params));
+		System.out.println(clazz + ": Error " + String.format(string, params));
 		t.printStackTrace();
 	}
 

@@ -497,7 +497,7 @@ public class ViewerPanel extends JPanel {
 			ZipEntry entry = zipInput.getNextEntry();
 			while (entry != null) {
 				if (entry.getName().equals("world.xml"))
-					this.model.loadNewWorld(builder.parse(new NonClosingInputstream(zipInput)));
+					this.model.loadNewWorld(builder.parse(new NonClosingInputstream(zipInput), "files"));
 				entry = zipInput.getNextEntry();
 			}
 		} catch (IOException e) {
@@ -523,7 +523,7 @@ public class ViewerPanel extends JPanel {
 	private void parseXml() {
 		try {
 			if (this.lastFile != null) {
-				World world = this.builder.parse(new FileInputStream(this.lastFile));
+				World world = this.builder.parse(new FileInputStream(this.lastFile), "files");
 				this.model.loadNewWorld(world);
 			}
 		} catch (FileNotFoundException e) {

@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+version = '1.0.0-SNAPSHOT'
+group='de.oetting.bumping-bunnies'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+	compile group: 'de.oetting.bumping-bunnies', name: 'bunnies-model', version: '1.0.0-SNAPSHOT'
+	compile group: 'de.oetting.bumping-bunnies', name: 'bunnies-common', version: '1.0.0-SNAPSHOT'
+}
+
+description="Contains files which can create and load the world. This project is included in  android so it must be run with Java 6."

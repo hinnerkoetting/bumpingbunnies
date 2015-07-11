@@ -13,7 +13,7 @@ public class ClasspathImageReader {
 		String classpathName = "/" + fileName + addEndingIfNecessary(fileName);
 		InputStream resourceAsStream = getClass().getResourceAsStream(classpathName);
 		if (resourceAsStream == null) {
-			LOGGER.warn("Could not read " + fileName);
+			LOGGER.warn("Could not read " + fileName + " I tried to find it in the classpath under " + classpathName);
 			return getClass().getResourceAsStream("/error.png");
 		}
 		return resourceAsStream;

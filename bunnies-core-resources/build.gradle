@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+
+group='de.oetting.bumping-bunnies'
+version='1.0.0-SNAPSHOT'
+sourceCompatibility = 1.6
+
+description="Contains resources which are used for all platform. These are at the moment animations and the game world."
+
+
+buildscript {
+	
+	repositories {
+	    mavenCentral()
+	    mavenLocal()
+	}
+
+	dependencies {
+	        classpath group: 'de.oetting.bumping-bunnies',
+	                   name: 'bunnies-worldcreator-gradle-plugin',
+	                version: '1.0.0-SNAPSHOT'
+	}
+}
+
+apply plugin: 'create-world'
+
+task buildWorld(type: de.oetting.bumpingbunnies.worldcreator.gradle.CreateWorldTask) {
+	sourceImageDirectory ='src/main/worlds/images/';
+    sourceWorld ='src/main/worlds/classic.xml';
+	targetFilename ='build/resources/main/classic.zip';
+}
+

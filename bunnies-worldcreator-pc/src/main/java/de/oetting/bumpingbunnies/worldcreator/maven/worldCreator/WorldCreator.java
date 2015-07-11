@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import de.oetting.bumpingbunnies.ClasspathFix;
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.worldcreator.io.LevelStorer;
 import de.oetting.bumpingbunnies.worldcreator.io.XmlStorer;
@@ -13,6 +15,8 @@ import de.oetting.bumpingbunnies.worldcreatorPc.load.XmlBuilder;
 
 public class WorldCreator {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(WorldCreator.class);
+	
 	public static void main(String[] args) throws Exception {
 		WorldCreationSettings settings = createSettings(args);
 		new WorldCreator().saveWorld(settings);
@@ -28,6 +32,7 @@ public class WorldCreator {
 	}
 
 	public void saveWorld(WorldCreationSettings settings) throws Exception {
+		LOGGER.info("Creating world with Settings " + settings);
 		ClasspathFix.addToClasspathPath(settings.getSourceImages());
 		World world = loadWorld(settings);
 		saveWorld(settings, world);
@@ -35,7 +40,7 @@ public class WorldCreator {
 	}
 
 	private World loadWorld(WorldCreationSettings settings) throws FileNotFoundException {
-		return new XmlBuilder().parse(new FileInputStream(settings.getSourceWorld()));
+		return new XmlBuilder().parse(new FileInputStream(settings.getSourceWorld()), settings.getSourceImages());
 	}
 
 	private void saveWorld(WorldCreationSettings settings, World world) throws IOException {

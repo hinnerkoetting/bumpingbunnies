@@ -7,3 +7,4 @@ bin/test
 .project
 /.gradle
 /build
+/plugin
