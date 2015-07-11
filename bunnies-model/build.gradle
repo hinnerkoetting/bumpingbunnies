@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+
+group='de.oetting.bumping-bunnies'
+version='1.0.0-SNAPSHOT'
+sourceCompatibility = 1.8
+
+
+
+dependencies {
+    compile group: 'de.oetting.bumping-bunnies', name: 'bunnies-common', version: '0.6.2-SNAPSHOT'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+}
+

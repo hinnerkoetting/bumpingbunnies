@@ -1,0 +1,12 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+
+group='de.oetting.bumping-bunnies'
+version='1.0.0-SNAPSHOT'
+sourceCompatibility = 1.8
