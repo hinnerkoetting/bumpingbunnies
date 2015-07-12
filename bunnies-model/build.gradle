@@ -19,4 +19,22 @@ dependencies {
 }
 
 
+task testJar(type: Jar) {
+    classifier = 'tests'
+    from sourceSets.test.output 
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+        echo 'bla'
+        	repository(url: "file://localhost/tmp/myRepo/")
+            addFilter('tests') {artifact, file ->
+                artifact.name == 'tests'
+            }
+        }
+    }
+}
+
+echo 'bbu'
 
