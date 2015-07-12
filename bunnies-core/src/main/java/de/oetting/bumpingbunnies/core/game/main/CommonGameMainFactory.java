@@ -33,7 +33,7 @@ public class CommonGameMainFactory {
 				parameter.getConfiguration()), networkSendThread, sendControl, configuration);
 		connectionFactory.setDisconnectCallback(main);
 		NewClientsAccepter newClientsAccepter = createClientAccepter(parameter, world, main, gameStopper,
-				broadcasterFactories, socketFactories);
+				broadcasterFactories, socketFactories, main);
 		newClientsAccepter.setMain(main);
 		main.setNewClientsAccepter(newClientsAccepter);
 		return main;
@@ -47,8 +47,8 @@ public class CommonGameMainFactory {
 
 	public static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world,
 			PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback,
-			List<MakesGameVisibleFactory> broadcasterFactories, List<SocketFactory> socketFactories) {
+			List<MakesGameVisibleFactory> broadcasterFactories, List<SocketFactory> socketFactories, GameMain gameMain) {
 		return NewClientsAccepterFactory.create(parameter, world, callback, errorCallback, broadcasterFactories,
-				socketFactories);
+				socketFactories, gameMain);
 	}
 }

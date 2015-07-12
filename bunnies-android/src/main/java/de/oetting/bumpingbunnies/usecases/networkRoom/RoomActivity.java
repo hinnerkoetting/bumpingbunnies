@@ -399,7 +399,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 			@Override
 			public void run() {
-				notifyClientsAboutlaunch();
 				ServerSettings generalSettings = createGeneralSettings();
 				launchGame(generalSettings, true);
 
@@ -415,17 +414,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		progressDialog.setContentView(R.layout.progress_dialog);
 	}
 
-	private void notifyClientsAboutlaunch() {
-		SocketStorage singleton = SocketStorage.getSingleton();
-		ServerSettings settings = createGeneralSettings();
-		synchronized (singleton) {
-			for (MySocket socket : singleton.getAllSockets()) {
-				SimpleNetworkSender networkSender = SimpleNetworkSenderFactory.createNetworkSender(socket, this);
-				new GameSettingSender(networkSender).sendMessage(settings);
-				new StartGameSender(networkSender).sendMessage("");
-			}
-		}
-	}
 
 	@Override
 	public synchronized void launchGame(ServerSettings generalSettings, boolean asHost) {
@@ -465,7 +453,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private ServerSettings createServerSettings(WorldConfiguration world) {
 		SettingsEntity settings = readSettingsFromDb();
-		return new ServerSettings(world, settings.getSpeed(), activeConnections, settings.getVictoryLimit());
+		return new ServerSettings(world, settings.getSpeed(), activeConnections, settings.getVictoryLimit(), false);
 	}
 
 	private LocalSettings createLocalSettings(SettingsEntity settings) {

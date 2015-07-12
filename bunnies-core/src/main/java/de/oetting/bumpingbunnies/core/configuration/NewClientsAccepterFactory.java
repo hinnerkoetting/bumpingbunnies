@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.network.DummyNewClientsAccepter;
 import de.oetting.bumpingbunnies.core.network.NewClientsAccepter;
 import de.oetting.bumpingbunnies.core.networking.init.ListensForClientConnections;
@@ -20,13 +21,13 @@ public class NewClientsAccepterFactory {
 
 	public static NewClientsAccepter create(GameStartParameter parameter, World world,
 			PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback,
-			List<MakesGameVisibleFactory> broadcasterFactories, List<SocketFactory> socketFactories) {
-		return createClientAccepter(parameter, world, callback, errorCallback, broadcasterFactories, socketFactories);
+			List<MakesGameVisibleFactory> broadcasterFactories, List<SocketFactory> socketFactories, GameMain gameMain) {
+		return createClientAccepter(parameter, world, callback, errorCallback, broadcasterFactories, socketFactories, gameMain);
 	}
 
 	private static NewClientsAccepter createClientAccepter(GameStartParameter parameter, World world,
 			PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback,
-			List<MakesGameVisibleFactory> broadcasterFactories, List<SocketFactory> socketFactories) {
+			List<MakesGameVisibleFactory> broadcasterFactories, List<SocketFactory> socketFactories, GameMain gameMain) {
 		if (parameter.getConfiguration().isHost()) {
 			AcceptsClientConnectionsDelegate delegate = new AcceptsClientConnectionsDelegate();
 
@@ -34,7 +35,7 @@ public class NewClientsAccepterFactory {
 			List<ListensForClientConnections> clientAcceptor = createClientAccepter(parameter, delegate, errorCallback,
 					socketFactories);
 			NewClientsAccepter accepter = new HostNewClientsAccepter(broadcaster, clientAcceptor,
-					world, parameter.getConfiguration(), callback, errorCallback);
+					gameMain, parameter.getConfiguration(), callback, errorCallback);
 			delegate.setAccepter(accepter);
 			return accepter;
 		} else {

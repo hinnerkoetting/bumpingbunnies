@@ -51,6 +51,7 @@ public class GameMainFactory {
 		main.addSocketListener();
 		main.newEvent(myPlayer);
 		addOtherPlayers(main, parameter);
+		main.pause(parameter.getConfiguration().getGeneralSettings().isGameIsCurrentlyPaused());
 		main.start();
 		return main;
 	}

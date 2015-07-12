@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.core.networking.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.oetting.bumpingbunnies.core.game.main.GameMain;
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.CouldNotStartServerException;
@@ -20,6 +21,7 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
+import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.world.World;
 
@@ -35,21 +37,21 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private final List<MakesGameVisible> broadcaster;
 	private final List<ListensForClientConnections> listensForClientConnections;
-	private final World world;
+	private final GameMain gameMain;
 	private final PlayerDisconnectedCallback callback;
 	private final ThreadErrorCallback errorCallback;
 	private final Configuration configuration;
 
 	private PlayerJoinListener mainJoinListener;
 
-	public HostNewClientsAccepter(List<MakesGameVisible> broadcaster, List<ListensForClientConnections> remoteCommunication, World world,
+	public HostNewClientsAccepter(List<MakesGameVisible> broadcaster, List<ListensForClientConnections> remoteCommunication, GameMain gameMain,
 			Configuration configuration, PlayerDisconnectedCallback callback, ThreadErrorCallback errorCallback) {
 		this.broadcaster = broadcaster;
 		this.listensForClientConnections = remoteCommunication;
-		this.world = world;
 		this.configuration = configuration;
 		this.callback = callback;
 		this.errorCallback = errorCallback;
+		this.gameMain = gameMain;
 	}
 
 	@Override
@@ -107,19 +109,20 @@ public class HostNewClientsAccepter implements NewClientsAccepter {
 
 	private void signalPlayerToStartTheGame(MySocket socket) {
 		SimpleNetworkSender sender = new SimpleNetworkSender(MessageParserFactory.create(), socket, callback);
-		new GameSettingSender(sender).sendMessage(configuration.getGeneralSettings());
+		ServerSettings serverSettings = configuration.getGeneralSettings();
+		new GameSettingSender(sender).sendMessage(serverSettings.cloneWithGamePausedSettings(gameMain.isPaused()));
 		new StartGameSender(sender).sendMessage("");
 	}
 
 	@Override
 	public int getNextPlayerId() {
-		return this.world.getNextBunnyId();
+		return this.gameMain.getWorld().getNextBunnyId();
 	}
 
 	@Override
 	public List<PlayerProperties> getAllPlayersProperties() {
-		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.world.getAllConnectedBunnies().size());
-		for (Bunny p : world.getAllConnectedBunnies()) {
+		List<PlayerProperties> properties = new ArrayList<PlayerProperties>(this.gameMain.getWorld().getAllConnectedBunnies().size());
+		for (Bunny p : gameMain.getWorld().getAllConnectedBunnies()) {
 			properties.add(new PlayerProperties(p.id(), p.getName()));
 		}
 		return properties;

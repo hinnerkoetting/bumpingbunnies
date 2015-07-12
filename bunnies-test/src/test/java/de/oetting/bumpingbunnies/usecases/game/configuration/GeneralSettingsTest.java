@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,7 +30,7 @@ public class GeneralSettingsTest {
 
 	@Test
 	public void testParcelling() {
-		ServerSettings settings = new ServerSettings(WorldConfiguration.CLASSIC, 1, Collections.singleton(NetworkType.WLAN), 2);
+		ServerSettings settings = new ServerSettings(WorldConfiguration.CLASSIC, 1, Collections.singleton(NetworkType.WLAN), 2, true);
 		checkValues(settings);
 		ServerSettings after = serializeAndDeserialize(settings);
 		checkValues(after);
@@ -47,5 +48,6 @@ public class GeneralSettingsTest {
 		assertThat(settings.getSpeedSetting(), is(equalTo(1)));
 		assertThat(settings.getNetworkTypes(), contains(equalTo(NetworkType.WLAN)));
 		assertThat(settings.getVictoryLimit(), is(equalTo(2)));
+		assertTrue(settings.isGameIsCurrentlyPaused());
 	}
 }

@@ -30,6 +30,6 @@ public class PcConfigurationConverter {
 	}
 
 	public ServerSettings convert2ServerSettings(PcConfiguration pcConfiguration) {
-		return new ServerSettings(WorldConfiguration.CLASSIC, pcConfiguration.getSpeed(), Collections.singleton(NetworkType.WLAN), pcConfiguration.getVictoryLimit());
+		return new ServerSettings(WorldConfiguration.CLASSIC, pcConfiguration.getSpeed(), Collections.singleton(NetworkType.WLAN), pcConfiguration.getVictoryLimit(), false);
 	}
 }

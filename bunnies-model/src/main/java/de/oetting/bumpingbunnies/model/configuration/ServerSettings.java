@@ -16,13 +16,15 @@ public class ServerSettings {
 	private final int speedSetting;
 	private final Set<NetworkType> networkTypes;
 	private final int victoryLimit;
+	private final boolean gameIsCurrentlyPaused;
 
 	public ServerSettings(WorldConfiguration worldConfiguration, int speedSetting, Set<NetworkType> networkTypes,
-			int victoryLimit) {
+			int victoryLimit, boolean gameIsCurrentlyPaused) {
 		this.worldConfiguration = worldConfiguration;
 		this.speedSetting = speedSetting;
 		this.networkTypes = networkTypes;
 		this.victoryLimit = victoryLimit;
+		this.gameIsCurrentlyPaused = gameIsCurrentlyPaused;
 	}
 
 	public int getSpeedSetting() {
@@ -39,5 +41,13 @@ public class ServerSettings {
 
 	public int getVictoryLimit() {
 		return victoryLimit;
+	}
+
+	public boolean isGameIsCurrentlyPaused() {
+		return gameIsCurrentlyPaused;
+	}
+	
+	public ServerSettings cloneWithGamePausedSettings(boolean value) {
+		return new ServerSettings(getWorldConfiguration(), getSpeedSetting(), getNetworkTypes(), getVictoryLimit(), value);
 	}
 }

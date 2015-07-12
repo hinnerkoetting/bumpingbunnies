@@ -105,7 +105,7 @@ public class StartActivity extends Activity implements OnDatabaseCreation {
 
 	private ServerSettings createGeneralSettings(SettingsEntity settings) {
 		return new ServerSettings(WorldConfiguration.CLASSIC, settings.getSpeed(),Collections.singleton(NetworkType.WLAN),
-				settings.getVictoryLimit());
+				settings.getVictoryLimit(), false);
 	}
 
 	@Override

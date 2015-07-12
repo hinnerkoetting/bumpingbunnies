@@ -18,6 +18,7 @@ public class GeneralSettingsParceller implements Parceller<ServerSettings> {
 		for (NetworkType type : input.getNetworkTypes())
 			dest.writeString(type.toString());
 		dest.writeInt(input.getVictoryLimit());
+		dest.writeInt(input.isGameIsCurrentlyPaused() ? 1 : 0);
 	}
 
 	@Override
@@ -29,6 +30,7 @@ public class GeneralSettingsParceller implements Parceller<ServerSettings> {
 		for (int i = 0; i < numberOfNetworkTypes; i++)
 			networkTypes.add(NetworkType.valueOf(parcel.readString()));
 		int victoryLimit = parcel.readInt();
-		return new ServerSettings(worldConfiguration, speedSetting, networkTypes, victoryLimit);
+		boolean gameIsCurrentlyPaused = parcel.readInt() == 1;
+		return new ServerSettings(worldConfiguration, speedSetting, networkTypes, victoryLimit, gameIsCurrentlyPaused);
 	}
 }

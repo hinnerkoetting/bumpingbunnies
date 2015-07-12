@@ -29,7 +29,7 @@ public class DrawerFactory {
 		BunnyDrawerFactory playerDrawerFactory = createPlayerDrawerFactory();
 		CanvasAdapter canvasDelegate = new CanvasCoordinateTranslator(new AndroidCanvasAdapter(context), calculations);
 		DrawablesFactory drawFactory = new DrawablesFactory(world, new AndroidBackgroundDrawableFactory(),
-				new AndroidGameObjectsDrawableFactory(), playerDrawerFactory, true, calculations);
+				new AndroidGameObjectsDrawableFactory(), playerDrawerFactory, false, calculations);
 
 		calculations.setZoom(ModelConstants.STANDARD_WORLD_SIZE / ModelConstants.ZOOM_MULTIPLIER
 				* configuration.getZoom());
