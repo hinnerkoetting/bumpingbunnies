@@ -30,9 +30,17 @@ buildscript {
 
 apply plugin: 'create-world'
 
-task buildWorld(type: de.oetting.bumpingbunnies.worldcreator.gradle.CreateWorldTask) {
+def generatedResourcesFolder = "$projectDir/build/generated"
+
+task buildWorld(type: de.oetting.bumpingbunnies.worldcreator.gradle.CreateWorldTask) {	
 	sourceImageDirectory ='src/main/worlds/images/';
     sourceWorld ='src/main/worlds/classic.xml';
-	targetFilename ='build/resources/main/classic.zip';
+	targetFilename = generatedResourcesFolder + '/worlds/classic.zip';
 }
 
+sourceSets {
+    main {
+            output.dir(generatedResourcesFolder, builtBy: 'buildWorld')
+            resources.srcDirs generatedResourcesFolder
+        }
+}
