@@ -18,7 +18,7 @@ sourceCompatibility = 1.6
 dependencies {
 	compile name: 'bunnies-model', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT'
 	optional name: 'bunnies-core-resources', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT'
-	testCompile name: 'bunnies-model', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT',configuration: 'tests'
+	testCompile name: 'bunnies-model', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT',classifier: 'tests'
 	compile name: 'bunnies-common', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT'
 	compile name: 'bunnies-worldcreator', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT'
 	testCompile name: 'junit', group: 'junit', version: '4.12'
