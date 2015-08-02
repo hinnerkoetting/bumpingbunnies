@@ -3,7 +3,7 @@
 
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'create-world'
+
 
 repositories {
     mavenCentral()
@@ -36,11 +36,19 @@ buildscript {
 def generatedResourcesFolder = "$projectDir/build/generated"
 def srcWorldsDirectory = "$projectDir/src/main/worlds/";
 
+//If gradle fails because it does not know this plugin and the following task
+//1. Comment the next 7 lines
+//2. Run gradle build on the parent directory (we do not need the world.zip so that we can compile all projects)
+//3. Uncomment those lines
+//4. It should work now
+apply plugin: 'create-world'
+
 task buildWorld(type: de.oetting.bumpingbunnies.worldcreator.gradle.CreateWorldTask) {	
 	sourceImageDirectory = srcWorldsDirectory + 'images/';
     sourceWorld = srcWorldsDirectory + 'classic.xml';
 	targetFilename = generatedResourcesFolder + '/worlds/classic.zip';
 }
+
 
 sourceSets {
 	main {
