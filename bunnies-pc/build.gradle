@@ -1,3 +1,5 @@
+//If resources are not copies in gradle in eclipse, try to remove the resources folder from the build path and add it again.
+
 apply plugin: 'java'
 apply plugin: 'maven'
 
@@ -20,8 +22,6 @@ buildscript {
 	    mavenCentral()
 	    mavenLocal()
 	}
-
-	
 }
 
 

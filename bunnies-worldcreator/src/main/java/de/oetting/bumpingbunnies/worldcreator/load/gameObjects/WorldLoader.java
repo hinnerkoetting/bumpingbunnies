@@ -3,6 +3,7 @@ package de.oetting.bumpingbunnies.worldcreator.load.gameObjects;
 import java.io.InputStream;
 
 import de.oetting.bumpingbunnies.model.game.world.World;
+import de.oetting.bumpingbunnies.util.Guard;
 import de.oetting.bumpingbunnies.worldcreator.load.ClasspathZipreader;
 import de.oetting.bumpingbunnies.worldcreator.load.DefaultResourceProvider;
 import de.oetting.bumpingbunnies.worldcreator.load.ImageCache;
@@ -19,6 +20,7 @@ public class WorldLoader {
 	}
 	
 	private ImageCache loadAllImages(InputStream worldZip,  ImageCreator imageCreator) {
+		Guard.againstNull("World.zip must exist but was not found in the classpath under /worlds/classic.zip", worldZip);
 		return new ImagesZipLoader().loadAllImages(worldZip, imageCreator);
 	}
 }
