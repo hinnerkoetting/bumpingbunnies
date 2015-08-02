@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.android.input.distributedKeyboard;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.MotionEvent.PointerProperties;
 import de.oetting.bumpingbunnies.R;
 import de.oetting.bumpingbunnies.android.input.VibratorService;
 import de.oetting.bumpingbunnies.android.input.gamepad.KeyboardInputService;

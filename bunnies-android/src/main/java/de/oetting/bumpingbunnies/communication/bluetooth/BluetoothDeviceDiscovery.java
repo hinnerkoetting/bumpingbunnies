@@ -1,7 +1,6 @@
 package de.oetting.bumpingbunnies.communication.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;

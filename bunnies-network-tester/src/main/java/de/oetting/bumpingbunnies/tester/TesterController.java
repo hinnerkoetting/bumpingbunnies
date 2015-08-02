@@ -3,21 +3,12 @@ package de.oetting.bumpingbunnies.tester;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import de.oetting.bumpingbunnies.core.game.ConnectionIdentifierFactory;
 import de.oetting.bumpingbunnies.core.game.player.BunnyFactory;
 import de.oetting.bumpingbunnies.core.network.BytePerSecondMeasurer;
 import de.oetting.bumpingbunnies.core.network.ConnectsToServer;
 import de.oetting.bumpingbunnies.core.network.MySocket;
 import de.oetting.bumpingbunnies.core.network.ServerDevice;
-import de.oetting.bumpingbunnies.core.network.WlanSocketFactory;
 import de.oetting.bumpingbunnies.core.network.parser.GsonFactory;
 import de.oetting.bumpingbunnies.core.network.room.DetailRoomEntry;
 import de.oetting.bumpingbunnies.core.network.room.Host;
@@ -44,7 +35,6 @@ import de.oetting.bumpingbunnies.core.networking.receive.NetworkReceiveThread;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
 import de.oetting.bumpingbunnies.core.networking.sender.SendRemoteSettingsSender;
 import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
-import de.oetting.bumpingbunnies.core.networking.sockets.SocketFactory;
 import de.oetting.bumpingbunnies.core.networking.udp.UdpSocketFactory;
 import de.oetting.bumpingbunnies.core.networking.wlan.socket.TCPSocket;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
@@ -54,16 +44,23 @@ import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.RemoteSettings;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
+import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.HorizontalMovementState;
 import de.oetting.bumpingbunnies.model.game.objects.ModelConstants;
 import de.oetting.bumpingbunnies.model.game.objects.OpponentType;
-import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 import de.oetting.bumpingbunnies.model.network.JsonWrapper;
 import de.oetting.bumpingbunnies.model.network.MessageId;
-import de.oetting.bumpingbunnies.pc.error.ErrorHandler;
+import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 public class TesterController implements Initializable, OnBroadcastReceived, DisplaysConnectedServers, ConnectsToServer, PlayerDisconnectedCallback,
 		ThreadErrorCallback {
@@ -170,7 +167,6 @@ public class TesterController implements Initializable, OnBroadcastReceived, Dis
 	@FXML
 	public void onButtonConnect() {
 		ReadOnlyObjectProperty<Host> selectedItem = broadcastTable.getSelectionModel().selectedItemProperty();
-		SocketFactory factory = new WlanSocketFactory();
 		ServerDevice wlanDevice = selectedItem.getValue().getDevice();
 		ConnectionToServerEstablisher connectToServerThread = new ConnectionToServerEstablisher(wlanDevice.createClientSocket(), this);
 		connectToServerThread.start();

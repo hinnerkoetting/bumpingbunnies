@@ -9,7 +9,7 @@ public class ZIndexComparator implements Comparator<GameObjectWithImage> {
 
 	@Override
 	public int compare(GameObjectWithImage o1, GameObjectWithImage o2) {
-		return IntegerComparator.compareInt(o1.getzIndex(), o2.getzIndex());
+		return IntegerComparator.compareInt(o1.getZIndex(), o2.getZIndex());
 	}
 
 }

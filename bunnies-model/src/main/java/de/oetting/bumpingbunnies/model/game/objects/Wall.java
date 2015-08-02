@@ -15,7 +15,7 @@ public class Wall extends FixedWorldObject implements ModelConstants {
 	public Wall(Wall other) {
 		this(other.id(), other.minX(), other.minY(), other.maxX(), other.maxY(), other.getColor());
 		setBitmap(other.getBitmap());
-		setzIndex(other.getzIndex());
+		setZIndex(other.getZIndex());
 	}
 
 	

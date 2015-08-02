@@ -11,7 +11,7 @@ public class Jumper extends FixedWorldObject {
 	public Jumper(Jumper other) {
 		this(other.id(), other.minX(), other.minY(), other.maxX(), other.maxY());
 		setBitmap(other.getBitmap());
-		setzIndex(other.getzIndex());
+		setZIndex(other.getZIndex());
 	}
 
 	@Override

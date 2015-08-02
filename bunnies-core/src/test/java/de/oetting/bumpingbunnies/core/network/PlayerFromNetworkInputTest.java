@@ -10,9 +10,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.core.TestConfigurationFactory;
 import de.oetting.bumpingbunnies.core.networking.messaging.player.PlayerStateMessage;
-import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
 import de.oetting.bumpingbunnies.model.game.objects.PlayerState;
 import de.oetting.bumpingbunnies.tests.UnitTests;

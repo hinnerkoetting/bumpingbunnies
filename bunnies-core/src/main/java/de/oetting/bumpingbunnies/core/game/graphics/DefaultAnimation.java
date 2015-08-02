@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.model.game.objects.BunnyImage;
-import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
 
 public class DefaultAnimation implements Animation {
 

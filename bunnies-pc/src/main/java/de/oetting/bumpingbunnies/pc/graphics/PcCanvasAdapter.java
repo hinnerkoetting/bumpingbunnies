@@ -1,15 +1,15 @@
 package de.oetting.bumpingbunnies.pc.graphics;
 
 import static javafx.scene.text.Font.font;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+
 import de.oetting.bumpingbunnies.core.game.graphics.CanvasAdapter;
 import de.oetting.bumpingbunnies.core.graphics.CanvasWrapper;
 import de.oetting.bumpingbunnies.core.graphics.Paint;
 import de.oetting.bumpingbunnies.model.game.objects.ImageWrapper;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
 
 public class PcCanvasAdapter implements CanvasAdapter {
 

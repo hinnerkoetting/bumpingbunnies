@@ -10,6 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:paddingRight="10dp"
+        android:paddingEnd="10dp"
         android:background="@null"
         android:contentDescription="@string/result_player_image" />
 
@@ -18,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/result_entry_height"
         android:layout_toRightOf="@id/result_player_image"
+        android:layout_toEndOf="@id/result_player_image"
         android:text="@string/placeholder"
         android:textSize="@dimen/result_entry_text_size" />
 

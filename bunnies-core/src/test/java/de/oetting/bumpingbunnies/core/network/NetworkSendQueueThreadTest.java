@@ -1,8 +1,6 @@
 package de.oetting.bumpingbunnies.core.network;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -17,7 +15,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
-import de.oetting.bumpingbunnies.core.ByteArrayStartMatcher;
 import de.oetting.bumpingbunnies.core.networking.SimpleMessageConsts;
 import de.oetting.bumpingbunnies.core.networking.TestSocket;
 import de.oetting.bumpingbunnies.core.networking.messaging.MessageParserFactory;
@@ -59,27 +56,15 @@ public class NetworkSendQueueThreadTest {
 		doThrow(new IOException()).when(this.os).write(any(byte[].class));
 	}
 
-	private void whenRun() throws IOException, InterruptedException {
-		this.fixture.sendNextMessage();
-	}
-
 	private void addMessageToQueue() {
 		this.fixture.sendMessage(SimpleMessageConsts.ID, SimpleMessageConsts.MSG);
-	}
-
-	private void thenMessageIsWritten(String message) throws IOException {
-		verify(this.os).write(byteArrayThatStartsWith(message), eq(0), eq(message.length() + 1)); // newline
-																									// character
-	}
-
-	private byte[] byteArrayThatStartsWith(final String msg) {
-		return argThat(new ByteArrayStartMatcher(msg));
 	}
 
 	@Before
 	public void beforeEveryTest() {
 		initMocks(this);
 		this.socket = new TestSocket(this.os, null);
-		this.fixture = new NetworkSendQueueThread(this.socket, this.parser, this.origin, mock(PlayerDisconnectedCallback.class));
+		this.fixture = new NetworkSendQueueThread(this.socket, this.parser, this.origin,
+				mock(PlayerDisconnectedCallback.class));
 	}
 }

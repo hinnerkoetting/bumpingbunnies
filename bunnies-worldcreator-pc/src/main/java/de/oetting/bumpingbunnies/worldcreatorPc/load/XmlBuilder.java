@@ -3,7 +3,6 @@ package de.oetting.bumpingbunnies.worldcreatorPc.load;
 import java.io.InputStream;
 
 import de.oetting.bumpingbunnies.model.game.world.World;
-import de.oetting.bumpingbunnies.worldcreator.load.ClasspathImageReader;
 import de.oetting.bumpingbunnies.worldcreator.load.ClasspathXmlreader;
 import de.oetting.bumpingbunnies.worldcreator.load.FilesystemImageReader;
 import de.oetting.bumpingbunnies.worldcreator.load.SwingResourceProvider;

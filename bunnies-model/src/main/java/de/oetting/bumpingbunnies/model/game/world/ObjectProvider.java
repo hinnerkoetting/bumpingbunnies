@@ -24,9 +24,9 @@ public interface ObjectProvider {
 
 	List<Water> getAllWaters();
 
-	List<GameObject> getCandidateForCollisionObjects(Bunny bunny);
+	List<? extends GameObject> getCandidateForCollisionObjects(Bunny bunny);
 	
-	List<GameObject> getCandidateForCollisionObjects(int segment);
+	List<? extends GameObject> getCandidateForCollisionObjects(int segment);
 
 	List<Jumper> getCandidateForCollisionJumper(int segment);
 

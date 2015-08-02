@@ -164,7 +164,7 @@ public class XmlStorer {
 		if (go.getBitmap() != null) {
 			element.setAttribute(XmlConstants.IMAGE, go.getImageKey());
 		}
-		element.setAttribute(XmlConstants.ZINDEX, Integer.toString(go.getzIndex()));
+		element.setAttribute(XmlConstants.ZINDEX, Integer.toString(go.getZIndex()));
 		return element;
 	}
 

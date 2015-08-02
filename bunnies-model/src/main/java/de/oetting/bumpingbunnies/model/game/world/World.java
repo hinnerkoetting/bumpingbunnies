@@ -411,19 +411,20 @@ public class World implements ObjectProvider {
 	}
 
 	@Override
-	public List<GameObject> getCandidateForCollisionObjects(Bunny bunny) {
+	public List<? extends GameObject> getCandidateForCollisionObjects(Bunny bunny) {
 		for (Segment<GameObject> segment : allElementsSegments) {
 			if (bunnyFits(bunny, segment)) {
 				return segment.getObjectsInSegment();
 			}
 		}
-		// Outside of world. Just return all elements
-		return (List) getAllObjects();
+		// If the bunny is not inside of any segment we have to return all elements.
+		//This happens if the bunny jumps outside of the worls.
+		return getAllObjects();
 	}
-	public List<GameObject> getCandidateForCollisionObjects(int segment) {
+	public List<? extends GameObject> getCandidateForCollisionObjects(int segment) {
 		if (segment == -1)
-			return (List)getAllObjects();
-		return (List)allElementsSegments.get(segment).getObjectsInSegment();
+			return getAllObjects();
+		return allElementsSegments.get(segment).getObjectsInSegment();
 	}
 
 	@Override

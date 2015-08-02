@@ -115,9 +115,9 @@ public class PcWorldObjectsParser implements WorldObjectsParser {
 				object.setColor(Color.TRANSPARENT);
 			Node zIndexNode = item.getAttributes().getNamedItem(XmlConstants.ZINDEX);
 			if (zIndexNode != null)
-				object.setzIndex(Integer.parseInt(zIndexNode.getTextContent()));
+				object.setZIndex(Integer.parseInt(zIndexNode.getTextContent()));
 			else 
-				object.setzIndex(currentZIndex++);
+				object.setZIndex(currentZIndex++);
 			Node mirroredNode = item.getAttributes().getNamedItem(XmlConstants.MIRRORED);
 			if (mirroredNode != null)
 				object.setMirroredHorizontally(Boolean.valueOf(mirroredNode.getTextContent()));

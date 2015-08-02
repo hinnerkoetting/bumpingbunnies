@@ -65,7 +65,7 @@ public abstract class CreateObjectEditingMode<S extends GameObjectWithImage> imp
 		long gameEndX = coordinatesCalculation.getGameCoordinateX(arg0.getX());
 		long gameEndY = coordinatesCalculation.getGameCoordinateY(arg0.getY());
 		S newObject = create(gameX, gameY, gameEndX, gameEndY);
-		newObject.setzIndex(provider.getMaxZIndexValue() + 1);
+		newObject.setZIndex(provider.getMaxZIndexValue() + 1);
 		return newObject;
 	}
 

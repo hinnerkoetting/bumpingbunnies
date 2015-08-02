@@ -6,7 +6,6 @@ import java.util.List;
 import de.oetting.bumpingbunnies.core.assertion.Guard;
 import de.oetting.bumpingbunnies.core.game.logic.GameThread;
 import de.oetting.bumpingbunnies.core.game.player.PlayerJoinObservable;
-import de.oetting.bumpingbunnies.core.game.steps.GameStepController;
 import de.oetting.bumpingbunnies.core.game.steps.JoinObserver;
 import de.oetting.bumpingbunnies.core.game.steps.PlayerJoinListener;
 import de.oetting.bumpingbunnies.core.network.MySocket;
@@ -25,8 +24,8 @@ import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
 import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.game.MusicPlayer;
-import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
+import de.oetting.bumpingbunnies.model.game.objects.ConnectionIdentifier;
 import de.oetting.bumpingbunnies.model.game.world.World;
 import de.oetting.bumpingbunnies.model.network.MessageId;
 

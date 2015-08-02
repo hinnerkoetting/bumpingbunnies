@@ -239,7 +239,7 @@ public class ViewerPanel extends JPanel {
 			if (otherObject != object) {
 				if (otherObject.maxX() >= object.maxX() && otherObject.minX() <= object.minX()
 						&& otherObject.minY() <= object.minY() && otherObject.maxY() >= object.maxY()) {
-					if (otherObject.getzIndex() > object.getzIndex())
+					if (otherObject.getZIndex() > object.getZIndex())
 						return true;
 				}
 			}
@@ -355,7 +355,7 @@ public class ViewerPanel extends JPanel {
 	private <S extends GameObjectWithImage> void configureList(JList<S> list) {
 		list.setCellRenderer(new GameObjectRenderer());
 		list.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
-		list.addMouseListener(new ListMouseAdapter(this));
+		list.addMouseListener(new ListMouseAdapter<S>(this, list));
 		list.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -403,7 +403,7 @@ public class ViewerPanel extends JPanel {
 
 	private JList<SpawnPoint> createSpawnList() {
 		this.spawns = new JList<>();
-		this.spawns.addMouseListener(new SpawnListAdapter(this));
+		this.spawns.addMouseListener(new SpawnListAdapter(this, spawns));
 		this.spawns.addListSelectionListener(new SelectionToCanvasSynchronizer(this.myCanvas));
 		setSpawnModel();
 		return this.spawns;

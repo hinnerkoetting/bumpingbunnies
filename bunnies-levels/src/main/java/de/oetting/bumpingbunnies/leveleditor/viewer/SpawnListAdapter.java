@@ -11,15 +11,16 @@ import de.oetting.bumpingbunnies.model.game.objects.SpawnPoint;
 public class SpawnListAdapter  extends MouseAdapter {
 
 	private final ViewerPanel panel;
+	private final JList<SpawnPoint> list;
 
-	public SpawnListAdapter(ViewerPanel panel) {
+	public SpawnListAdapter(ViewerPanel panel, JList<SpawnPoint> spawns) {
 		this.panel = panel;
+		this.list = spawns;
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getClickCount() > 1) {
-			JList<? extends SpawnPoint> list = (JList<? extends SpawnPoint>) e.getSource();
 			SpawnPoint object = list.getSelectedValue();
 			SpawnPropertyEditorDialog dialog = new SpawnPropertyEditorDialog(panel.getFrame(), object);
 			SwingUtilities.invokeLater(() -> showDialog(dialog));

@@ -1,7 +1,5 @@
 package de.oetting.bumpingbunnies.pc.graphics;
 
-import java.util.Properties;
-
 import de.oetting.bumpingbunnies.core.game.graphics.calculation.CoordinatesCalculation;
 import de.oetting.bumpingbunnies.model.game.world.WorldProperties;
 

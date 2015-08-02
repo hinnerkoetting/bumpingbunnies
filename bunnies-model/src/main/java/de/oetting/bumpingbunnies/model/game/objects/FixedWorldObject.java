@@ -93,13 +93,13 @@ public abstract class FixedWorldObject implements GameObjectWithImage {
 		return null;
 	}
 
-	public int getzIndex() {
+	public int getZIndex() {
 		if (zIndex == -1)
 			throw new IllegalStateException("ZIndex was not set");
 		return zIndex;
 	}
 
-	public void setzIndex(int zIndex) {
+	public void setZIndex(int zIndex) {
 		this.zIndex = zIndex;
 	}
 

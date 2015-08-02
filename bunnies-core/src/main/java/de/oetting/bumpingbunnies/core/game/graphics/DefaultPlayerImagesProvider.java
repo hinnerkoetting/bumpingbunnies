@@ -4,8 +4,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.image.Image;
-import de.oetting.bumpingbunnies.core.game.graphics.calculation.ImagesColorer;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.PlayerImagesProvider;
 import de.oetting.bumpingbunnies.core.game.graphics.factory.StreamImageLoader;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;

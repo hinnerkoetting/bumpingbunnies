@@ -49,10 +49,6 @@ import de.oetting.bumpingbunnies.core.networking.client.SetupConnectionWithServe
 import de.oetting.bumpingbunnies.core.networking.client.factory.ListenforBroadCastsThreadFactory;
 import de.oetting.bumpingbunnies.core.networking.init.DeviceDiscovery;
 import de.oetting.bumpingbunnies.core.networking.receive.PlayerDisconnectedCallback;
-import de.oetting.bumpingbunnies.core.networking.sender.GameSettingSender;
-import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSender;
-import de.oetting.bumpingbunnies.core.networking.sender.SimpleNetworkSenderFactory;
-import de.oetting.bumpingbunnies.core.networking.sender.StartGameSender;
 import de.oetting.bumpingbunnies.core.threads.ThreadErrorCallback;
 import de.oetting.bumpingbunnies.logger.Logger;
 import de.oetting.bumpingbunnies.logger.LoggerFactory;
@@ -74,9 +70,9 @@ import de.oetting.bumpingbunnies.usecases.start.sql.DummySettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsDao;
 import de.oetting.bumpingbunnies.usecases.start.sql.SettingsStorage;
 
-public class RoomActivity extends Activity implements ConnectToServerCallback, ConnectionToServerSuccesfullCallback,
-		OnBroadcastReceived, ConnectsToServer, DisplaysConnectedServers, PlayerDisconnectedCallback,
-		ThreadErrorCallback, OnDatabaseCreation {
+public class RoomActivity extends Activity
+		implements ConnectToServerCallback, ConnectionToServerSuccesfullCallback, OnBroadcastReceived, ConnectsToServer,
+		DisplaysConnectedServers, PlayerDisconnectedCallback, ThreadErrorCallback, OnDatabaseCreation {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomActivity.class);
 	public final static int REQUEST_BT_ENABLE_ID = 1000;
@@ -312,8 +308,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		if (socket.getConnectionIdentifier().isDirectlyConnected() || socket.getConnectionIdentifier().isLocalPlayer())
 			return new RoomEntry(playerProperties, socket.getConnectionIdentifier());
 		else
-			return new RoomEntry(playerProperties, ConnectionIdentifierFactory.createJoinedPlayer(
-					playerProperties.getPlayerName(), playerProperties.getPlayerId()));
+			return new RoomEntry(playerProperties, ConnectionIdentifierFactory
+					.createJoinedPlayer(playerProperties.getPlayerName(), playerProperties.getPlayerId()));
 	}
 
 	private void addPlayerEntry(final RoomEntry entry) {
@@ -333,8 +329,8 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(getBaseContext(), getResources()
-						.getString(R.string.connection_unsuccesful), Toast.LENGTH_LONG);
+				Toast toast = Toast.makeText(getBaseContext(),
+						getResources().getString(R.string.connection_unsuccesful), Toast.LENGTH_LONG);
 				toast.show();
 				onConnectionError();
 			}
@@ -414,7 +410,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		progressDialog.setContentView(R.layout.progress_dialog);
 	}
 
-
 	@Override
 	public synchronized void launchGame(ServerSettings generalSettings, boolean asHost) {
 		this.generalSettings = generalSettings;
@@ -463,13 +458,6 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 
 	private SettingsEntity readSettingsFromDb() {
 		return settingsDao.readStoredSettings();
-	}
-
-	private void sleep() {
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
 	}
 
 	@Override
@@ -539,7 +527,7 @@ public class RoomActivity extends Activity implements ConnectToServerCallback, C
 		super.onResume();
 		enableButtons(true);
 		playersAA.clear();
-		canLaunchGame =false;
+		canLaunchGame = false;
 		generalSettings = null;
 		addMyPlayerRoomEntry(0);
 	}

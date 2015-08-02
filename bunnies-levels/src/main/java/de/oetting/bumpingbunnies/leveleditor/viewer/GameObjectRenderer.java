@@ -23,7 +23,7 @@ public class GameObjectRenderer implements ListCellRenderer<GameObjectWithImage>
 		this.label
 				.setText(value.id()
 						+ String.format(": [%.2f, %.2f] - [%.2f, %.2f], (%d)", toFloat(value.minX()), toFloat(value.minY()), toFloat(value.maxX()),
-								toFloat(value.maxY()), value.getzIndex()));
+								toFloat(value.maxY()), value.getZIndex()));
 		if (isSelected) {
 			this.label.setBackground(list.getSelectionBackground());
 		} else {

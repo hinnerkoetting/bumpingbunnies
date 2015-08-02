@@ -23,7 +23,6 @@ import de.oetting.bumpingbunnies.model.configuration.Configuration;
 import de.oetting.bumpingbunnies.model.configuration.PlayerProperties;
 import de.oetting.bumpingbunnies.model.configuration.ServerSettings;
 import de.oetting.bumpingbunnies.model.game.objects.Bunny;
-import de.oetting.bumpingbunnies.model.game.world.World;
 
 /**
  * Controls logic which a host must fulfill. Sends Broadcast messages to send

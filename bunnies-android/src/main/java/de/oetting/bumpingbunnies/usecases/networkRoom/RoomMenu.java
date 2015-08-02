@@ -1,9 +1,6 @@
 package de.oetting.bumpingbunnies.usecases.networkRoom;
 
-import java.util.Collection;
-
 import android.view.Menu;
-import de.oetting.bumpingbunnies.model.configuration.NetworkType;
 
 public class RoomMenu {
 

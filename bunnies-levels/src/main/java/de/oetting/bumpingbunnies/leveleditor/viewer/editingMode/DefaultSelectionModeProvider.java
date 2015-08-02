@@ -97,7 +97,7 @@ public class DefaultSelectionModeProvider implements SelectionModeProvider {
 		List<GameObjectWithImage> allDrawingObjects = model.getCurrentState().getAllDrawingObjects();
 		for (GameObjectWithImage go : allDrawingObjects) {
 			if (go instanceof FixedWorldObject) {
-				max = Math.max(((FixedWorldObject) go).getzIndex(), max);
+				max = Math.max(((FixedWorldObject) go).getZIndex(), max);
 			}
 		}
 		return max;

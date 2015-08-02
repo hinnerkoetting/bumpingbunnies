@@ -94,12 +94,12 @@ public class NullObject implements GameObjectWithImage {
 	}
 
 	@Override
-	public int getzIndex() {
+	public int getZIndex() {
 		return 0;
 	}
 
 	@Override
-	public void setzIndex(int index) {
+	public void setZIndex(int index) {
 	}
 
 	@Override

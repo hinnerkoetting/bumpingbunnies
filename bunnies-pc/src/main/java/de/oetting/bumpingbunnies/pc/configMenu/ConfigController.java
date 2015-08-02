@@ -3,6 +3,13 @@ package de.oetting.bumpingbunnies.pc.configMenu;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.oetting.bumpingbunnies.logger.Logger;
+import de.oetting.bumpingbunnies.logger.LoggerFactory;
+import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
+import de.oetting.bumpingbunnies.pc.ApplicationStarter;
+import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
+import de.oetting.bumpingbunnies.pc.error.ErrorHandler;
+import de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,14 +21,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import de.oetting.bumpingbunnies.core.configuration.ConfigurationConstants;
-import de.oetting.bumpingbunnies.logger.Logger;
-import de.oetting.bumpingbunnies.logger.LoggerFactory;
-import de.oetting.bumpingbunnies.model.configuration.SpeedMode;
-import de.oetting.bumpingbunnies.pc.ApplicationStarter;
-import de.oetting.bumpingbunnies.pc.configuration.ConfigAccess;
-import de.oetting.bumpingbunnies.pc.error.ErrorHandler;
-import de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication;
 
 public class ConfigController implements Initializable {
 

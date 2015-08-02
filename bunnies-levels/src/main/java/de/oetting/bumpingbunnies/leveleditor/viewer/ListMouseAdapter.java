@@ -8,18 +8,23 @@ import javax.swing.SwingUtilities;
 
 import de.oetting.bumpingbunnies.model.game.objects.GameObjectWithImage;
 
-public class ListMouseAdapter extends MouseAdapter {
+public class ListMouseAdapter<S extends GameObjectWithImage> extends MouseAdapter {
 
 	private final ViewerPanel panel;
+	private JList<S> list;
 
 	public ListMouseAdapter(ViewerPanel panel) {
 		this.panel = panel;
 	}
 
+	public ListMouseAdapter(ViewerPanel viewerPanel, JList<S> list) {
+		panel = viewerPanel;
+		this.list = list;
+	}
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getClickCount() > 1) {
-			JList<? extends GameObjectWithImage> list = (JList<? extends GameObjectWithImage>) e.getSource();
 			GameObjectWithImage object = list.getSelectedValue();
 			PropertyEditorDialog dialog = new PropertyEditorDialog(panel.getFrame(), object, panel);
 			SwingUtilities.invokeLater(() -> showDialog(dialog));

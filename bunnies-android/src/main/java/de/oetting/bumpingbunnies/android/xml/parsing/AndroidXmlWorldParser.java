@@ -110,9 +110,9 @@ public class AndroidXmlWorldParser implements WorldObjectsParser, XmlConstants {
 	private void applyZIndex(FixedWorldObject object, XmlPullParser parser) {
 		String zIndex = parser.getAttributeValue(null, ZINDEX);
 		if (zIndex != null)
-			object.setzIndex(Integer.parseInt(zIndex));
+			object.setZIndex(Integer.parseInt(zIndex));
 		else
-			object.setzIndex(currentZIndex++);
+			object.setZIndex(currentZIndex++);
 	}
 
 	private void readWater(XmlPullParser parser) {

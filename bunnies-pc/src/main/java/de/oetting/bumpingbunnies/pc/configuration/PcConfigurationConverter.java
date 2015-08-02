@@ -1,6 +1,5 @@
 package de.oetting.bumpingbunnies.pc.configuration;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import de.oetting.bumpingbunnies.model.configuration.LocalPlayerSettings;

@@ -6,9 +6,9 @@ public interface GameObjectWithImage extends GameObjectWithColor, ImageContainer
 
 	void applyImage(ImageWrapper wrapper);
 	
-	int getzIndex();
+	int getZIndex();
 	
-	void setzIndex(int index);
+	void setZIndex(int index);
 	
 	boolean isMirroredHorizontally();
 	

@@ -37,7 +37,7 @@ public class LevelStorer {
 		Collections.sort(world.getAllDrawingObjects(), new ZIndexComparator());
 		int currentIndex = 0;
 		for (GameObjectWithImage go: world.getAllDrawingObjects()) {
-			go.setzIndex(currentIndex++);
+			go.setZIndex(currentIndex++);
 		}
 	}
 

@@ -1,10 +1,7 @@
 package de.oetting.bumpingbunnies.model.configuration;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
-
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 
 /**
  * Settings which are valid for all players.

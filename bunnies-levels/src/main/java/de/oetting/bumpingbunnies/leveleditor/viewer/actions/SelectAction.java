@@ -160,9 +160,9 @@ public class SelectAction implements MouseAction {
 	}
 
 	private <S extends GameObjectWithImage> void switchIndex(GameObjectWithImage object, List<S> list, int index) {
-		int tempIndex = list.get(index).getzIndex();
-		list.get(index).setzIndex(object.getzIndex());
-		object.setzIndex(tempIndex);
+		int tempIndex = list.get(index).getZIndex();
+		list.get(index).setZIndex(object.getZIndex());
+		object.setZIndex(tempIndex);
 	}
 
 	private void itemToFront(MouseEvent event) {
@@ -173,22 +173,24 @@ public class SelectAction implements MouseAction {
 		move(event, (object, list) -> moveToBack(object, list));
 	}
 
+	@SuppressWarnings("unchecked")
 	private <S extends GameObjectWithImage> void moveToBack(GameObjectWithImage object, List<S> list) {
 		if (list.indexOf(object) != 0) {
 			list.remove(object);
 			list.add(0, (S) object);
-			provider.getAllDrawingObjects().stream().forEach((element) -> element.setzIndex(element.getzIndex() + 1));
-			object.setzIndex(0);
+			provider.getAllDrawingObjects().stream().forEach((element) -> element.setZIndex(element.getZIndex() + 1));
+			object.setZIndex(0);
 			applyZIndexByListOrder(list);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private <S> void moveToFront(GameObjectWithImage object, List<S> list) {
 		if (list.indexOf(object) != list.size() - 1) {
 			list.remove(object);
 			list.add(list.size(), (S) object);
-			provider.getAllDrawingObjects().stream().forEach((element) -> element.setzIndex(element.getzIndex() - 1));
-			object.setzIndex(provider.getAllDrawingObjects().size() - 1);
+			provider.getAllDrawingObjects().stream().forEach((element) -> element.setZIndex(element.getZIndex() - 1));
+			object.setZIndex(provider.getAllDrawingObjects().size() - 1);
 			applyZIndexByListOrder(list);
 		}
 	}
@@ -196,7 +198,7 @@ public class SelectAction implements MouseAction {
 	private <S> void applyZIndexByListOrder(List<S> list) {
 		for (int i = 0; i < list.size(); i++) {
 			GameObjectWithImage object = (GameObjectWithImage) list.get(i);
-			object.setzIndex(i);
+			object.setZIndex(i);
 		}
 	}
 
