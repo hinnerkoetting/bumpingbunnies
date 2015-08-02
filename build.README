@@ -32,3 +32,6 @@ A: build bunnies-core-resources manually with gradle build. Add bunnies-core-res
 
 P: Error when building bunnies-core-resource because a task cannot be found
 A: Follow description in build.gradle in bunnies-core-resources
+
+P: failed to find Build Tools revision 22.0.1
+A: Update Build Tools in Android SDK Manager

@@ -28,7 +28,7 @@ buildscript {
 	}
 
 	dependencies {
-	        classpath project(':bunnies-worldcreator-gradle-plugin')
+	        classpath 'de.oetting.bumping-bunnies:bunnies-worldcreator-gradle-plugin:1.0.0-SNAPSHOT'
 	}
 }
 

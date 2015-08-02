@@ -9,5 +9,5 @@ include 'bunnies-common',
 		'bunnies-pc',
 		'bunnies-worldcreator-gradle-plugin',
 		'bunnies-android',
-		'bunnies-network-tester',
-		'bunnies-test'
+		'bunnies-network-tester'
+	//bunnies-test'
