@@ -1,10 +1,11 @@
+//Check local.properties to adjust the path to the android sdk
 buildscript {
 
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:1.1.+'
         'de.oetting.bumping-bunnies:Bunnies-Model:0.0.1-SNAPSHOT'
     }
 }
@@ -12,8 +13,8 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.0"
 
     defaultConfig {
         minSdkVersion 10
