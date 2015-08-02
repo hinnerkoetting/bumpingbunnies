@@ -1,3 +1,6 @@
+//In Eclipse build this project with gradle build
+//Then add build/generated to the build path, so that the world.zip is included
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'create-world'

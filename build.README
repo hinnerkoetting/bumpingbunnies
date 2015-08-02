@@ -1,0 +1,28 @@
+How to build this project with the command-line and Eclipse.
+
+The Android-SDK is required. It targets Android 22.
+
+-Maven
+
+It works under Windows and Linux.
+--Command line:
+See README.md
+You might need to change android.sdk.path in bunnies-android.
+
+--Eclipse
+All projects should world in eclipse with the maven build system. Simply import all projects as maven projects.
+
+-Gradle
+
+I am currently in the process of migrating this project to gradle. This is my first bigger project which uses gradle so not everything might work as intended.
+Problems I encounter during the build process are:
+
+--Bunnies-PC
+
+---Resources can not be found
+P: When starting BunniesMenu no Window is shown and there is a stacktract in the console.
+A: Remove src/main/resources from the build path. Press OK. Add it to the build path.
+
+--world.zip can not be found
+P: The menu can be launched but when opening the game, it crashes.
+A: build bunnies-core-resources manually with gradle build. Add bunnies-core-resources/target/generated to the build path.
