@@ -3,6 +3,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
+compileJava.options.bootClasspath = "$JDK6_HOME/jre/lib/rt.jar"
 
 version = '1.0.0-SNAPSHOT'
 group='de.oetting.bumping-bunnies'

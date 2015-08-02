@@ -27,7 +27,7 @@ public class LoggerFactory {
 			InputStream inputStream = LoggerFactory.class.getResourceAsStream("/de/oetting/bumpingbunnies/log/logging.properties");
 			if (inputStream == null) {
 				System.err.println("Konnte Logger nicht lesen.");
-				bridge = new TestLoggerFactoryBridge();
+				bridge = new SysoutLoggerFactoryBridge();
 				return;
 			}
 			properties.load(inputStream);

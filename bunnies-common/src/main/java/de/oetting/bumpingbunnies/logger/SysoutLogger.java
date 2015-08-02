@@ -1,6 +1,11 @@
 package de.oetting.bumpingbunnies.logger;
 
-public class TestLogger implements de.oetting.bumpingbunnies.logger.Logger {
+/**
+ * Prints Logging to Sysout.<br>
+ * It is used when we do want to use log4j.<br>
+ * Logger which is used for tests and build plugins.
+ */
+public class SysoutLogger implements de.oetting.bumpingbunnies.logger.Logger {
 
 	private final Class<?> clazz;
 
@@ -9,7 +14,7 @@ public class TestLogger implements de.oetting.bumpingbunnies.logger.Logger {
 		System.out.println("Info " + String.format(log, params));
 	}
 
-	public TestLogger(Class<?> clazz) {
+	public SysoutLogger(Class<?> clazz) {
 		super();
 		this.clazz = clazz;
 	}
