@@ -2,7 +2,5 @@
 <lint>
     <issue id="MissingRegistered" severity="ignore" />
     <issue id="OnClick" severity="ignore" />
-    <issue id="UnusedAttribute">
-        <ignore path="res/menu/game.xml" />
-    </issue>
+    <issue id="ClickableViewAccessibility" severity="ignore" />    
 </lint>

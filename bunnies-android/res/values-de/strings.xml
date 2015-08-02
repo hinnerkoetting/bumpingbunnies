@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Bumping Bunnies</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="app_name">Bumping Bunnies</string>    
     <string name="app_name_solo">Bumping Bunnies Solo</string>
     <string name="singleplayer">Quickstart</string>
     <string name="multiplayer">Angepasst / Multiplayer</string>
@@ -12,23 +11,11 @@
     <string name="room_start">Start</string>
     <string name="distributed_keyboard">Touch</string>
     <string name="speed">Geschwindigkeit</string>
-    <string name="result">Ergebnis</string>
-    <string name="placeholder">Platzhalter</string>
-    <string name="placeholder_int">123</string>
+    <string name="result">Ergebnis</string>    
     <string name="settings">Einstellungen</string>
-    <string name="name">Name</string>
-    <string name="enable_wlan">Aktiviere WLAN</string>
-    <string name="wlan_enabled">WLAN wurde aktiviert</string>
-    <string name="enable_bluetooth">Aktiviere Bluetooth</string>
+    <string name="name">Name</string>        
     <string name="connection_unsuccesful">Konnte keine Verbindung zum Server aufbauen. Bitte die Anwendung neustarten oder einen anderen Server verwenden.</string>
     <string name="menu">Menu</string>
-
-    <!-- do not change -->
-    <string name="arrow_up">\u2191</string>
-    <string name="arrow_down">\u2193</string>
-    <string name="arrow_left">\u2190</string>
-    <string name="arrow_right">\u2192</string>
-    <!-- until here -->
 
     <string name="address_in_use">Adresse wird bereits verwendet. Konnte nicht nach Server suchen. Bitte Anwendung neu starten.</string>
     <string name="unknown_error">Unbekannter Fehler</string>

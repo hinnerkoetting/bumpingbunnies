@@ -8,8 +8,7 @@
     <dimen name="button_margin">5dp</dimen>
     <dimen name="button_height">120dp</dimen>
     <dimen name="button_width">120dp</dimen>
-    <dimen name="room_button_padding">50dp</dimen>
-    <dimen name="start_button_padding">40dp</dimen>
+    <dimen name="room_button_padding">50dp</dimen>    
     <dimen name="start_button_text_size">50sp</dimen>
     <dimen name="start_button_radius">25sp</dimen>
 
