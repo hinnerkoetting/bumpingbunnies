@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'create-world'
 
 repositories {
     mavenCentral()
@@ -28,7 +29,6 @@ buildscript {
 	}
 }
 
-apply plugin: 'create-world'
 
 def generatedResourcesFolder = "$projectDir/build/generated"
 def srcWorldsDirectory = "$projectDir/src/main/worlds/";
@@ -40,8 +40,7 @@ task buildWorld(type: de.oetting.bumpingbunnies.worldcreator.gradle.CreateWorldT
 }
 
 sourceSets {
-    main {
-            output.dir(generatedResourcesFolder, builtBy: 'buildWorld')
-            resources.srcDirs generatedResourcesFolder
-        }
+	main {
+		output.dir(generatedResourcesFolder, builtBy: 'buildWorld')           
+	}
 }
