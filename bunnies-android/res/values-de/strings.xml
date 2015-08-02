@@ -16,20 +16,15 @@
     <string name="name">Name</string>        
     <string name="connection_unsuccesful">Konnte keine Verbindung zum Server aufbauen. Bitte die Anwendung neustarten oder einen anderen Server verwenden.</string>
     <string name="menu">Menu</string>
-
-    <string name="address_in_use">Adresse wird bereits verwendet. Konnte nicht nach Server suchen. Bitte Anwendung neu starten.</string>
-    <string name="unknown_error">Unbekannter Fehler</string>
-    <string name="could_not_connect">Konnte keine Verbindung zum Server aufbauen</string>
+    
+    <string name="unknown_error">Unbekannter Fehler</string>    
     <string name="room_add_ai">+Bot</string>
     <string name="remove_ai">Entferne</string>
     <string name="players_table_header">Spieler</string>
     <string name="hosts_table_header">Aktive Spiele</string>
     <string name="result_player_name_header">Name</string>
     <string name="result_player_score_header">Punkte</string>
-    <string name="result_player_image">Bild des Spielers</string>
-    <string name="host_bluetooth_game_question">Modus wählen</string>
-    <string name="host_bluetooth_game">Start</string>
-    <string name="client_bluetooth_game">Spiele suchen</string>
+    <string name="result_player_image">Bild des Spielers</string>       
     <string name="menu_sound">Sound</string>
     <string name="menu_music">Musik</string>
     <string name="please_wait">Bitte warten&#8230;</string>
@@ -40,8 +35,7 @@
     <string name="victory_limit">Sieglimit</string>
     <string name="no_multitouch">Dein Gerät unterstützt keinen Multitouch. Zwei Buttons können nicht gleichzeitig gedrückt werden!</string>
     <string name="searching">Suchen&#8230;</string>
-    <string name="result_player_place">Platz</string>
-    <string name="room_search">Spiele suchen</string>
+    <string name="result_player_place">Platz</string>    
     <string name="room_bluetooth">Bluetooth</string>
     <string name="out_of_memory">Zuwenig Speicher. Bitte die Zoom-Einstellung erhöhen.</string>
 	<string name="play">Weiter</string>
