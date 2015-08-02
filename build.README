@@ -15,6 +15,11 @@ All projects should world in eclipse with the maven build system. Simply import 
 -Gradle
 
 I am currently in the process of migrating this project to gradle. This is my first bigger project which uses gradle so not everything might work as intended.
+You might have to change local.properties in bunnies-android to change the android sdk.path.
+
+To install game with gradle on your android device
+gradle installDebug
+
 Problems I encounter during the build process are:
 
 --Bunnies-PC

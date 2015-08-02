@@ -8,4 +8,5 @@ include 'bunnies-common',
 		'bunnies-levels',
 		'bunnies-pc',
 		'bunnies-worldcreator-gradle-plugin',
-		'bunnies-android'
+		'bunnies-android',
+		'bunnies-network-tester'
