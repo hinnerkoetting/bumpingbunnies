@@ -31,17 +31,17 @@ configurations {
 }
 
 dependencies {
-	     compile "javazoom:jlayer:1.0.1"
-	     compile "log4j:log4j:1.2.17"
-	     testCompile "org.hamcrest:hamcrest-library:1.3"
-	     testCompile "org.mockito:mockito-core:1.9.5"
-	     compile "de.oetting.bumping-bunnies:bunnies-worldcreator-pc:1.0.0-SNAPSHOT"
-	     optional "de.oetting.bumping-bunnies:bunnies-core-resources:1.0.0-SNAPSHOT"
-	     optional "de.oetting.bumping-bunnies:bunnies-pc-resources:1.0.0-SNAPSHOT"
-	     testCompile name: 'bunnies-model', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT',classifier: 'tests'
-	     compile "de.oetting.bumping-bunnies:bunnies-model:1.0.0-SNAPSHOT"
-	     compile "de.oetting.bumping-bunnies:bunnies-core:1.0.0-SNAPSHOT"
-	     testCompile "junit:junit:4.12"
-	}
+     compile "javazoom:jlayer:1.0.1"
+     compile "log4j:log4j:1.2.17"
+     testCompile "org.hamcrest:hamcrest-library:1.3"
+     testCompile "org.mockito:mockito-core:1.9.5"
+     compile project(":bunnies-worldcreator-pc")
+     optional project(":bunnies-core-resources")
+     optional project(":bunnies-pc-resources")
+     testCompile project(path: ":bunnies-model",  configuration: 'tests')
+     compile project(":bunnies-model")
+     compile project(":bunnies-core")
+     testCompile "junit:junit:4.12"
+}
 	
 	

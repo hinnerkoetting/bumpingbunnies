@@ -2,7 +2,9 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 version = '1.0.0-SNAPSHOT'
+group='de.oetting.bumping-bunnies'
 
 repositories {
     mavenCentral()
@@ -11,7 +13,6 @@ repositories {
 
 dependencies {
      compile gradleApi()
-     compile group: 'de.oetting.bumping-bunnies', name: 'bunnies-worldcreator-pc', version: '1.0.0-SNAPSHOT'
+     compile project(':bunnies-worldcreator-pc')     
 }
 
-group='de.oetting.bumping-bunnies'

@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 version = '1.0.0-SNAPSHOT'
 group='de.oetting.bumping-bunnies'
 
@@ -11,7 +12,7 @@ repositories {
 }
 
 dependencies {
-	compile group: 'de.oetting.bumping-bunnies', name: 'bunnies-worldcreator', version: '1.0.0-SNAPSHOT'
+	compile project(':bunnies-worldcreator')
 	compile group: 'org.apache.maven', name: 'maven-plugin-api', version: '3.3.3'
 	compile group: 'org.apache.maven.plugin-tools', name: 'maven-plugin-annotations', version: '3.4'
 }

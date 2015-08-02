@@ -10,6 +10,8 @@ repositories {
 group='de.oetting.bumping-bunnies'
 version='1.0.0-SNAPSHOT'
 sourceCompatibility = 1.6
+targetCompatibility = 1.6
+compileJava.options.bootClasspath = "$JDK6_HOME/jre/lib/rt.jar"
 
 description="Contains resources which are used for all platform. These are at the moment animations and the game world."
 
@@ -31,10 +33,11 @@ buildscript {
 apply plugin: 'create-world'
 
 def generatedResourcesFolder = "$projectDir/build/generated"
+def srcWorldsDirectory = "$projectDir/src/main/worlds/";
 
 task buildWorld(type: de.oetting.bumpingbunnies.worldcreator.gradle.CreateWorldTask) {	
-	sourceImageDirectory ='src/main/worlds/images/';
-    sourceWorld ='src/main/worlds/classic.xml';
+	sourceImageDirectory = srcWorldsDirectory + 'images/';
+    sourceWorld = srcWorldsDirectory + 'classic.xml';
 	targetFilename = generatedResourcesFolder + '/worlds/classic.zip';
 }
 

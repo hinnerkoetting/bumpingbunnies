@@ -14,13 +14,15 @@ configurations {
 group='de.oetting.bumping-bunnies'
 version='1.0.0-SNAPSHOT'
 sourceCompatibility = 1.6
+targetCompatibility = 1.6
+compileJava.options.bootClasspath = "$JDK6_HOME/jre/lib/rt.jar"
 
 dependencies {
-	compile name: 'bunnies-model', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT'
-	optional name: 'bunnies-core-resources', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT'
-	testCompile name: 'bunnies-model', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT',classifier: 'tests'
-	compile name: 'bunnies-common', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT'
-	compile name: 'bunnies-worldcreator', group: 'de.oetting.bumping-bunnies', version: '1.0.0-SNAPSHOT'
+	compile project(':bunnies-model')
+	optional project(':bunnies-core-resources')
+	testCompile project (path: ":bunnies-model", configuration: 'tests')
+	compile project(':bunnies-common')
+	compile project(':bunnies-worldcreator')
 	testCompile name: 'junit', group: 'junit', version: '4.12'
 	testCompile name: 'mockito-core', group: 'org.mockito', version: '1.9.5'
 	testCompile name: 'hamcrest-library', group: 'org.hamcrest', version: '1.3'

@@ -1,0 +1,10 @@
+include 'bunnies-common',
+		'bunnies-model',
+		'bunnies-core',
+		'bunnies-core-resources',
+		'bunnies-pc-resources',
+		'bunnies-worldcreator',
+		'bunnies-worldcreator-pc',
+		'bunnies-levels',
+		'bunnies-pc',
+		'bunnies-worldcreator-gradle-plugin'
