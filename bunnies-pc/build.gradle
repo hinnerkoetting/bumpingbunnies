@@ -45,7 +45,7 @@ dependencies {
 }
 	
 jar {
-	//We exlcuce some unnecessary files from META-INF.
+	//We excluce some unnecessary files from META-INF.
 	//Also we exclude some optional dependencies. Is there a better way to do this?
 	from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) 	}) {
 			exclude "META-INF/*.SF"
@@ -61,7 +61,7 @@ jar {
 		}
 		
 		manifest {
-			attributes 'Implementation-Title': 'FooBar',
+			attributes 'Implementation-Title': 'Bumping Bunnies',
 					'Implementation-Version': version,
 					'Build-By': 'Hinnerk Oetting',
 					'Main-Class': 'de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication' 

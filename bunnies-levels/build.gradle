@@ -23,6 +23,35 @@ buildscript {
 
 dependencies {
         compile project(':bunnies-core')
-        compile project(':bunnies-pc')	       
+        compile project(':bunnies-worldcreator-pc')
+}
+
+	
+jar {
+	//We excluce some unnecessary files from META-INF.
+	//Also we exclude some optional dependencies. Is there a better way to do this?
+	from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) 	}) {
+			exclude "META-INF/*.SF"
+			exclude "META-INF/*.DSA"
+			exclude "META-INF/*.RSA"
+			exclude "META-INF/LICENSE"
+			exclude "META-INF/DEPENDENCIES"
+			exclude "META-INF/NOTICE"
+			exclude "org/eclipse/**"
+			exclude "org/apache/maven/**"
+			exclude "org/sonatype/**"
+			exclude "javax/**"
+			exclude "audio/**"
+			exclude "*.png"
+			exclude "worlds/*"
+		}
+		
+		manifest {
+			attributes 'Implementation-Title': 'LevelEditor',
+					'Implementation-Version': version,
+					'Build-By': 'Hinnerk Oetting',
+					'Main-Class': 'de.oetting.bumpingbunnies.leveleditor.Main' 
+		}
+	
 }
 	
