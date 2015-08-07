@@ -11,10 +11,23 @@ repositories {
     mavenLocal()
 }
 
+
+configurations {
+  optional
+  compile.extendsFrom optional
+  provided
+}
+
+sourceSets {
+	main {
+		compileClasspath += configurations.provided
+	}
+}
+
 dependencies {
 	compile project(':bunnies-worldcreator')
-	compile group: 'org.apache.maven', name: 'maven-plugin-api', version: '3.3.3'
-	compile group: 'org.apache.maven.plugin-tools', name: 'maven-plugin-annotations', version: '3.4'
+	optional group: 'org.apache.maven', name: 'maven-plugin-api', version: '3.3.3'
+	provided group: 'org.apache.maven.plugin-tools', name: 'maven-plugin-annotations', version: '3.4'
 }
 
 description="Contains classes with are only used by the PC version, especially if Java is required. This must not be included in the android version. This also contains a Maven plugin which can create the level during the build process."
