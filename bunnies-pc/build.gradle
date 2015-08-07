@@ -44,4 +44,21 @@ dependencies {
      testCompile "junit:junit:4.12"
 }
 	
+jar {
+	from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) 	}) {
+			exclude "META-INF/*.SF"
+			exclude "META-INF/*.DSA"
+			exclude "META-INF/*.RSA"
+			exclude "META-INF/LICENSE"
+			exclude "META-INF/DEPENDENCIES"
+			exclude "META-INF/NOTICE"
+		}
+		
+		manifest {
+			attributes 'Implementation-Title': 'FooBar',
+					'Implementation-Version': version,
+					'Build-By': 'Hinnerk Oetting',
+					'Main-Class': 'de.oetting.bumpingbunnies.pc.mainMenu.MainMenuApplication' 
+		}
 	
+}

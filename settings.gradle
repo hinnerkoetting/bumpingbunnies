@@ -10,4 +10,3 @@ include 'bunnies-common',
 		'bunnies-worldcreator-gradle-plugin',
 		'bunnies-android',
 		'bunnies-network-tester'
-	//bunnies-test'
