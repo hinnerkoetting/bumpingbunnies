@@ -1,0 +1,11 @@
+#editorCanvas {
+  position: absolute;
+  left: 10%;
+  top: 0%;
+  width: 90%;
+  height: 100%;
+}
+
+#tools {
+  display: inline;
+}

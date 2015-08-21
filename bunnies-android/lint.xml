@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="ClickableViewAccessibility" severity="ignore" />
     <issue id="MissingRegistered" severity="ignore" />
     <issue id="OnClick" severity="ignore" />
-    <issue id="ClickableViewAccessibility" severity="ignore" />    
 </lint>
