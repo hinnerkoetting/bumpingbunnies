@@ -7,6 +7,7 @@
 }
 
 #tools {
+  margin-top: 10px;
   width: 5%;
 
 }
@@ -17,4 +18,20 @@
   margin-left: 10px;
   top: 0%;
   left: 5%;
+  width: 5%;
+}
+
+.toolButton {
+  width: 100%;
+  height: 20px;
+  margin-bottom: 5px;
+}
+
+.colorButton {
+  width: 30px;
+  height: 30px;
+}
+
+svg {
+  background-color: rgb(245, 245, 245);
 }

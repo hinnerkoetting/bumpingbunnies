@@ -8,13 +8,11 @@
 </head>
 <body>
   <div id="tools">
-    <button onclick="setRectangleEditingMode();">Rectangle</button>
-    <button onclick="setCircleEditingMode();">Circle</button>
-    <button>Oval</button>
+    <button onclick="setRectangleEditingMode();" class="toolButton">Rectangle</button>
+    <button onclick="setCircleEditingMode();"  class="toolButton">Circle</button>
+    <button  class="toolButton">Oval</button>
   </div>
   <div id="colors">
-    <button style="background: red" color="red" onclick="changeColor(this);">&nbsp;</button>
-    <button style="background: blue" color="blue"  onclick="changeColor(this);">&nbsp;</button>
   </div>
   <div>
     <svg id="editorCanvas" >

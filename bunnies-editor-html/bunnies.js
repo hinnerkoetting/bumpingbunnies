@@ -105,8 +105,34 @@ function changeColor(button) {
 }
 
 $( document ).ready(function() {
-	 var canvas = document.getElementById("editorCanvas");
-	 canvas.addEventListener('mousemove', function(event) {
-    	 onMouseMoveCanvas(event);
-    	 });
+	registerMouseListener();
+  generateColors();
 });
+
+function registerMouseListener() {
+  var canvas = document.getElementById("editorCanvas");
+  canvas.addEventListener('mousemove', function(event) {
+      onMouseMoveCanvas(event);
+      });
+}
+
+function generateColors() {
+  for (var red = 0; red <= 256; red += 128) {
+    for (var green = 0; green <= 256; green += 128) {
+      for (var blue = 0; blue <= 256; blue += 128) {
+        createButton(red == 256 ? 255 : red, green == 256 ? 255 : green, blue == 256 ? 255 : blue);
+      }
+    }
+  }
+}
+
+function createButton(red, green, blue) {
+  var button = document.createElement("button");
+  button.innerHTML = "&nbsp;";
+  var color = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+  $(button).attr('color', color);
+  $(button).css('background', color);
+  $(button).attr('onclick', 'changeColor(this);');
+  $(button).attr('class', "colorButton");
+  $("#colors").append(button);
+}
