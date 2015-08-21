@@ -1,13 +1,33 @@
 //Select  objects
 
+var lastX;
+var lastY;
 
-function activateSelectionMode() {
-  changeCurrentMouseListener(function(){}, selectElement);
+function resetDrag() {
+  lastX = -1;
+  lastY = -1;
 }
 
-function onSelectionMouseMove(event) {
+function activateSelectionMode() {
+  changeCurrentMouseListener(moveSelectedElements, selectElement);
+}
+
+function moveSelectedElements(event) {
   if (event.buttons == 1) {
-    selectElement(event);
+    if (lastX != -1 && lastY != -1) {
+      $("circle.selected").each(function() {
+        $(this).attr('cx', Number.parseInt($(this).attr('cx')) + event.offsetX - lastX);
+        $(this).attr('cy', Number.parseInt($(this).attr('cy')) + event.offsetY - lastY);
+      });
+      $("rect.selected").each(function() {
+        $(this).attr('x', Number.parseInt($(this).attr('x')) + event.offsetX - lastX);
+        $(this).attr('y', Number.parseInt($(this).attr('y')) + event.offsetY - lastY);
+      });
+    }
+    lastX = event.offsetX;
+    lastY = event.offsetY;
+  } else {
+    resetDrag();
   }
 }
 
@@ -18,7 +38,7 @@ function selectElement(event) {
 }
 
 function resetSelection() {
-    $("#editorCanvas").children().css('stroke', '');
+    $("#editorCanvas").children().attr('class', '');
 }
 
 function selectCircles(event) {
@@ -27,7 +47,7 @@ function selectCircles(event) {
 		var diffY = Number.parseInt($(this).attr('cy')) - event.offsetY;
     return Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)) < $(this).attr('r');
   }).each(function (child) {
-    $(this).css('stroke', 'black');
+    $(this).attr('class', 'selected');
   });
 }
 
@@ -39,6 +59,6 @@ function selectRectangles(event) {
     var yFits = tY < event.offsetY && tY +  Number.parseInt($(this).attr('height')) > event.offsetY;
     return xFits && yFits;
   }).each(function (child) {
-    $(this).css('stroke', 'black');
+    $(this).attr('class', 'selected');
   });
 }

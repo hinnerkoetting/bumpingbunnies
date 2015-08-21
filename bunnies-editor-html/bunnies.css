@@ -35,3 +35,8 @@
 svg {
   background-color: rgb(245, 245, 245);
 }
+
+.selected {
+  stroke: black;
+  stroke-width: 3px;
+}
