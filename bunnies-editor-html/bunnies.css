@@ -7,6 +7,14 @@
 }
 
 #tools {
-  display: inline;
-  width: 10%;
+  width: 5%;
+
+}
+
+#colors {
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 10px;
+  top: 0%;
+  left: 5%;
 }

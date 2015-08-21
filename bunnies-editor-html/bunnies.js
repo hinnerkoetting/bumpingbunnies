@@ -4,6 +4,7 @@ var startX;
 var startY;
 
 var currentEditMode;
+var currentColor = "black";
 
 function setRectangleEditingMode() {
   currentEditMode = {
@@ -40,6 +41,7 @@ setCircleEditingMode();
 function createObject(event) {
   d3.select("#editorCanvas")
     .append(currentEditMode.element)
+    .style('fill', currentColor)
     .attr('class', 'editedObject');
   currentEditMode.init(event);
 }
@@ -98,6 +100,9 @@ function getCanvas() {
   return $("#editorCanvas");
 }
 
+function changeColor(button) {
+  currentColor = $(button).attr('color');
+}
 
 $( document ).ready(function() {
 	 var canvas = document.getElementById("editorCanvas");
