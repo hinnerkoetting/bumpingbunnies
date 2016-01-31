@@ -28,7 +28,7 @@ buildscript {
 	}
 
 	dependencies {
-	        classpath 'de.oetting.bumping-bunnies:bunnies-worldcreator-gradle-plugin:1.0.0-SNAPSHOT'
+	 //       classpath 'de.oetting.bumping-bunnies:bunnies-worldcreator-gradle-plugin:1.0.0-SNAPSHOT'
 	}
 }
 
@@ -41,17 +41,17 @@ def srcWorldsDirectory = "$projectDir/src/main/worlds/";
 //2. Run gradle build on the parent directory (we do not need the world.zip so that we can compile all projects)
 //3. Uncomment those lines
 //4. It should work now
-apply plugin: 'create-world'
+//apply plugin: 'create-world'
 
-task buildWorld(type: de.oetting.bumpingbunnies.worldcreator.gradle.CreateWorldTask) {	
-	sourceImageDirectory = srcWorldsDirectory + 'images/';
-    sourceWorld = srcWorldsDirectory + 'classic.xml';
-	targetFilename = generatedResourcesFolder + '/worlds/classic.zip';
-}
+//task buildWorld(type: de.oetting.bumpingbunnies.worldcreator.gradle.CreateWorldTask) {	
+//	sourceImageDirectory = srcWorldsDirectory + 'images/';
+    //sourceWorld = srcWorldsDirectory + 'classic.xml';
+	//targetFilename = generatedResourcesFolder + '/worlds/classic.zip';
+//}
 
 
 sourceSets {
 	main {
-		output.dir(generatedResourcesFolder, builtBy: 'buildWorld')           
+//		output.dir(generatedResourcesFolder, builtBy: 'buildWorld')           
 	}
 }

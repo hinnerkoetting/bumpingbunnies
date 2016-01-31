@@ -27,7 +27,8 @@
 				<version>3.8.2</version>
 				<configuration>
 					<sdk>
-						<platform>20</platform>
+						<path>E:\develop\Android\android-sdk</path>
+						<platform>22</platform>
 					</sdk>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					<extractDuplicates>true</extractDuplicates>

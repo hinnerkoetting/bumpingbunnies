@@ -24,7 +24,7 @@ import de.oetting.bumpingbunnies.tests.IntegrationTests;
 
 @Category(IntegrationTests.class)
 @RunWith(RobolectricTestRunner.class)
-@Config(emulateSdk = 18)
+@Config(sdk = 18)
 public class StrictNetworkToGameDispatcherTest {
 
 	private NetworkToGameDispatcher fixture;
